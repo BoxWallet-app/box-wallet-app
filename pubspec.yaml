@@ -56,8 +56,16 @@ flutter:
     - images/nav_profile_active.png
     - images/profile_lines.png
     - images/profile_network.png
+    - images/profile_connect.png
+    - images/profile_wallet.png
+    - images/profile_backups.png
     - images/profile_banner.png
     - images/profile_display_currency.png
+    - images/profile_account_permissions.png
+    - images/profile_lanuge.png
+    - images/profile_info.png
+    - images/profile_reset_password.png
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -43,13 +43,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       buildHeaderItem("连接网络", "images/profile_network.png", () {
                         print("连接网络");
                       }),
-                      buildHeaderItem("连接网络", "images/profile_network.png", () {
+                      buildHeaderItem("连接网络", "images/profile_connect.png", () {
                         print("连接网络");
                       }),
-                      buildHeaderItem("连接网络", "images/profile_network.png", () {
+                      buildHeaderItem("连接网络", "images/profile_wallet.png", () {
                         print("连接网络");
                       }),
-                      buildHeaderItem("连接网络", "images/profile_network.png", () {
+                      buildHeaderItem("连接网络", "images/profile_backups.png", () {
                         print("连接网络");
                       }),
                     ],
@@ -72,27 +72,31 @@ class _ProfilePageState extends State<ProfilePage> {
                               borderRadius: BorderRadius.only(
                                   topLeft: new Radius.circular(20.0),
                                   topRight: new Radius.circular(20.0))
-                              //设置四周边框
+                               //设置四周边框
                               ),
                           padding: const EdgeInsets.all(18),
                           child: Image(
                             image: AssetImage('images/profile_banner.png'),
                           ),
                         ),
-                        buildItem(context, "123",
+                        buildItem(context, "显示的货币",
                             "images/profile_display_currency.png", () {
                           print("123");
                         }),
-                        buildItem(context, "123",
-                            "images/profile_display_currency.png", () {
+                        buildItem(context, "账户权限",
+                            "images/profile_account_permissions.png", () {
                           print("123");
                         }),
-                        buildItem(context, "123",
-                            "images/profile_display_currency.png", () {
+                        buildItem(context, "语言",
+                            "images/profile_lanuge.png", () {
                           print("123");
                         }),
-                        buildItem(context, "123",
-                            "images/profile_display_currency.png", () {
+                        buildItem(context, "关于",
+                            "images/profile_info.png", () {
+                              print("123");
+                            }),
+                        buildItem(context, "重置密钥",
+                            "images/profile_reset_password.png", () {
                           print("123");
                         }, isLine: false),
                       ],
@@ -140,6 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 right: 28,
                 child: Icon(
                   Icons.arrow_forward_ios,
+                  size: 15,
                   color: Color(0xFFEEEEEE),
                 ),
               ),
