@@ -28,22 +28,23 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                  bottom: 125,
-                  child: MaterialButton(
-                    child: Text(
-                      "登 录",
-                      style:
-                          new TextStyle(fontSize: 17, color: Color(0xFFE71766)),
-                    ),
-                    color: Colors.white,
-                    height: 50,
-                    minWidth: 320,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, "home");
-                    },
-                  )),
+                bottom: 125,
+                child: MaterialButton(
+                  child: Text(
+                    "登 录",
+                    style:
+                        new TextStyle(fontSize: 17, color: Color(0xFFE71766)),
+                  ),
+                  color: Colors.white,
+                  height: 50,
+                  minWidth: 320,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25))),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "home");
+                  },
+                ),
+              ),
               Positioned(
                   bottom: 70,
                   child: Row(
@@ -84,8 +85,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-
     );
-
   }
 }

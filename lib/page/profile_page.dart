@@ -14,97 +14,104 @@ class _ProfilePageState extends State<ProfilePage> {
       value: SystemUiOverlayStyle.light,
       child: Material(
         child: Scaffold(
+
             backgroundColor: Color(0xFFEEEEEE),
-            body: Stack(
-              children: <Widget>[
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(color: Color(0xFFE71766)),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Image(
-                    width: 91,
-                    height: 96,
-                    image: AssetImage('images/profile_lines.png'),
-                  ),
-                ),
-                Positioned(
-                  top: 92,
-                  left: 0,
-                  right: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      buildHeaderItem("连接网络", "images/profile_network.png", () {
-                        print("连接网络");
-                      }),
-                      buildHeaderItem("连接网络", "images/profile_connect.png", () {
-                        print("连接网络");
-                      }),
-                      buildHeaderItem("连接网络", "images/profile_wallet.png", () {
-                        print("连接网络");
-                      }),
-                      buildHeaderItem("连接网络", "images/profile_backups.png", () {
-                        print("连接网络");
-                      }),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  top: 182,
-                  child: Container(
+            body:SingleChildScrollView(
+
+              child: Container(
+                height: 700,
+                child:  Stack(
+
+                children: <Widget>[
+                  Positioned(
+
+                    top: 0,
+                    right: 0,
+                    height: 220,
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 182,
-                    alignment: Alignment(0, 0),
-                    color: Color(0x00FFFFFF),
-                    child: Column(
+                    child: Container(color: Color(0xFFE71766)),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Image(
+                      width: 91,
+                      height: 96,
+                      image: AssetImage('images/profile_lines.png'),
+                    ),
+                  ),
+                  Positioned(
+                    top: 92,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Container(
-                          decoration: new BoxDecoration(
-                              color: Colors.white,
-                              //设置四周圆角 角度
-//                        borderRadius: BorderRadius.all(topRadius.circular(20.0)),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: new Radius.circular(20.0),
-                                  topRight: new Radius.circular(20.0))
-                               //设置四周边框
-                              ),
-                          padding: const EdgeInsets.all(18),
-                          child: Image(
-                            image: AssetImage('images/profile_banner.png'),
-                          ),
-                        ),
-                        buildItem(context, "显示的货币",
-                            "images/profile_display_currency.png", () {
-                          print("123");
+                        buildHeaderItem("连接网络", "images/profile_network.png", () {
+                          print("连接网络");
                         }),
-                        buildItem(context, "账户权限",
-                            "images/profile_account_permissions.png", () {
-                          print("123");
+                        buildHeaderItem("远程连接", "images/profile_connect.png", () {
+                          print("连接网络");
                         }),
-                        buildItem(context, "语言",
-                            "images/profile_lanuge.png", () {
-                          print("123");
+                        buildHeaderItem("钱包认证", "images/profile_wallet.png", () {
+                          print("连接网络");
                         }),
-                        buildItem(context, "关于",
-                            "images/profile_info.png", () {
-                              print("123");
-                            }),
-                        buildItem(context, "重置密钥",
-                            "images/profile_reset_password.png", () {
-                          print("123");
-                        }, isLine: false),
+                        buildHeaderItem("备份助记词", "images/profile_backups.png", () {
+                          print("连接网络");
+                        }),
                       ],
                     ),
                   ),
-                ),
-              ],
-            )),
+                  Positioned(
+                    top: 192,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 182,
+                      alignment: Alignment(0, 0),
+                      color: Color(0x00FFFFFF),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            decoration: new BoxDecoration(
+                                color: Colors.white,
+                                //设置四周圆角 角度
+//                        borderRadius: BorderRadius.all(topRadius.circular(20.0)),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: new Radius.circular(20.0),
+                                    topRight: new Radius.circular(20.0))
+                              //设置四周边框
+                            ),
+                            padding: const EdgeInsets.all(18),
+                            child: Image(
+                              image: AssetImage('images/profile_banner.png'),
+                            ),
+                          ),
+                          buildItem(context, "显示的货币",
+                              "images/profile_display_currency.png", () {
+                                print("123");
+                              }),
+                          buildItem(context, "账户权限",
+                              "images/profile_account_permissions.png", () {
+                                print("123");
+                              }),
+                          buildItem(context, "语言",
+                              "images/profile_lanuge.png", () {
+                                print("123");
+                              }),
+                          buildItem(context, "关于",
+                              "images/profile_info.png", () {
+                                print("123");
+                              }),
+                          buildItem(context, "重置密钥",
+                              "images/profile_reset_password.png", () {
+                                print("123");
+                              }, isLine: false),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),),)),
       ),
     );
   }
