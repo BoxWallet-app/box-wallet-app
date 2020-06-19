@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import 'package:box/widget/loading_container.dart';
+import 'package:box/dao/aens_page_dao.dart';
+import 'package:box/model/aens_page_model.dart';
+import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -8,30 +10,38 @@ import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 
 class AensListPage extends StatefulWidget {
+  final AensPageType aensPageType;
+
+  const AensListPage({Key key, this.aensPageType}) : super(key: key);
+
   @override
   _AensListPageState createState() => _AensListPageState();
 }
 
 class _AensListPageState extends State<AensListPage> {
-  // listview的控制器
-  EasyRefreshController _controller = EasyRefreshController();
 
-  var _isLoading = true;
+  EasyRefreshController _controller = EasyRefreshController();
+  LoadingType _loadingType = LoadingType.loading;
+  AensPageModel _aensPageModel;
 
   @override
   Future<void> initState() {
     super.initState();
-//    getData();
-
     _controller.callRefresh();
     _controller.callLoad();
     netData();
   }
 
   Future<void> netData() async {
-    await Future.delayed(Duration(seconds: 3), () {
+    AensPageDao.fetch(widget.aensPageType).then((AensPageModel model) {
+      print("sucess");
       setState(() {
-        _isLoading = false;
+        _aensPageModel = model;
+        _loadingType = LoadingType.finish;
+      });
+    }).catchError((e) {
+      setState(() {
+        _loadingType = LoadingType.error;
       });
     });
   }
@@ -44,19 +54,24 @@ class _AensListPageState extends State<AensListPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: LoadingContainer(
-            child: EasyRefresh(
-              onRefresh: _onRefresh,
-              onLoad: _onLoad,
-              header: MaterialHeader(),
-              footer: MaterialFooter(),
-              controller: _controller,
-              child: ListView.builder(
-                itemBuilder: _renderRow,
-                itemCount: 20,
-              ),
-            ),
-            isLoading: _isLoading));
+      body: LoadingWidget(
+        child: EasyRefresh(
+          onRefresh: _onRefresh,
+          onLoad: _onLoad,
+          header: MaterialHeader(),
+          footer: MaterialFooter(),
+          controller: _controller,
+          child: ListView.builder(
+            itemBuilder: _renderRow,
+            itemCount: _aensPageModel == null ? 0 : _aensPageModel.data.length,
+          ),
+        ),
+        type: _loadingType,
+        onPressedError: () {
+          netData();
+        },
+      ),
+    );
   }
 
   Widget _renderRow(BuildContext context, int index) {
@@ -88,7 +103,9 @@ class _AensListPageState extends State<AensListPage> {
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                'baidu.chain',
+                                _aensPageModel.data[position].name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -122,8 +139,7 @@ class _AensListPageState extends State<AensListPage> {
                             ),
                             Text(
                               '地址: ak****qZdS',
-                              style: TextStyle(
-                                  color: Colors.black54, fontSize: 14),
+                              style: TextStyle(color: Colors.black54, fontSize: 14),
                             ),
                           ],
                         ),
@@ -136,11 +152,10 @@ class _AensListPageState extends State<AensListPage> {
             ),
           ),
         ),
-        Container(
-            margin: const EdgeInsets.only(left: 18),
-            height: 1.0,
-            width: MediaQuery.of(context).size.width - 18,
-            color: Color(0xFFEEEEEE)),
+        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery
+            .of(context)
+            .size
+            .width - 18, color: Color(0xFFEEEEEE)),
       ],
     );
   }

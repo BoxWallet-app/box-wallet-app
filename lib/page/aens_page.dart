@@ -1,10 +1,12 @@
+import 'package:box/dao/aens_page_dao.dart';
+import 'package:box/dao/block_top_dao.dart';
+import 'package:box/model/block_top_model.dart';
 import 'package:box/page/aens_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 
-import 'DropDownRefresh.dart';
 import 'aens_list_page.dart';
 import 'aens_my_page.dart';
 
@@ -26,7 +28,6 @@ class _AensPageState extends State<AensPage> {
               icon: Icon(
                 Icons.arrow_back_ios,
                 size: 17,
-
               ),
               tooltip: 'Navigreation',
               onPressed: () => Navigator.pop(context),
@@ -41,8 +42,7 @@ class _AensPageState extends State<AensPage> {
                 minWidth: 10,
                 child: new Text('我的'),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AensMyPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
                 },
               ),
             ],
@@ -69,24 +69,31 @@ class _AensPageState extends State<AensPage> {
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(
               children: <Widget>[
-                AensListPage(),
-                AensListPage(),
-                AensListPage(),
+                AensListPage(aensPageType: AensPageType.auction),
+                AensListPage(aensPageType: AensPageType.price),
+                AensListPage(aensPageType: AensPageType.over),
               ],
             ),
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AensRegister()));
+//              Navigator.push(context,
+//                  MaterialPageRoute(builder: (context) => AensRegister()));
+//              BlockTopDao.fetch().then((BlockTopModel model) {
+//                print(model.toJson());
+//
+//              }).catchError((e) {
+//                print(e.toString() + "123123");
+//
+//              });
+
             },
             child: new Icon(Icons.add),
             elevation: 3.0,
             highlightElevation: 2.0,
             backgroundColor: Color(0xFFE71766),
           ),
-          floatingActionButtonLocation: CustomFloatingActionButtonLocation(
-              FloatingActionButtonLocation.endFloat, -20, -50)),
+          floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50)),
     );
   }
 }
