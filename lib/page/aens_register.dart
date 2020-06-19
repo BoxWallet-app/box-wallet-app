@@ -1,6 +1,8 @@
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AensRegister extends StatefulWidget {
   @override
@@ -61,7 +63,7 @@ class _AensRegisterState extends State<AensRegister> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.only(left: 20,top: 10),
+                        margin: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           "注册一个你想要的永恒区块链域名",
                           style: TextStyle(
@@ -159,19 +161,35 @@ class _AensRegisterState extends State<AensRegister> {
               ],
             ),
             Container(
-              margin: const EdgeInsets.only(
-                 top: 30),
-              child: MaterialButton(
+              margin: const EdgeInsets.only(top: 30),
+              child: ArgonButton(
+                height: 50,
+                roundLoadingShape: true,
+                width: MediaQuery.of(context).size.width * 0.8,
+                onTap: (startLoading, stopLoading, btnState) {
+                  if (btnState == ButtonState.Idle) {
+                    startLoading();
+                  } else {
+                    stopLoading();
+                  }
+                },
                 child: Text(
                   "创 建",
-                  style: new TextStyle(fontSize: 17, color: Colors.white),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
                 ),
+                loader: Container(
+                  padding: EdgeInsets.all(10),
+                  child: SpinKitRing(
+                    lineWidth: 4,
+                    color: Colors.white,
+                    // size: loaderWidth ,
+                  ),
+                ),
+                borderRadius: 30.0,
                 color: Color(0xFFE71766),
-                height: 50,
-                minWidth: 320,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                onPressed: () {},
               ),
             )
           ],

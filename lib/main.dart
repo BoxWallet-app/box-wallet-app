@@ -4,6 +4,7 @@ import 'package:box/page/aens_register.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', 'US'), // English
+          const Locale('zh', 'CH'), // Hebrew
+          // ... other locales the app supports
+        ],
+
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -27,6 +39,7 @@ class MyApp extends StatelessWidget {
           'aens_my': (BuildContext context) => AensMyPage(),
           'aens_register': (BuildContext context) => AensRegister(),
         });
+
   }
 }
 

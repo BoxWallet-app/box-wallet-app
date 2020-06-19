@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:underline_indicator/underline_indicator.dart';
 
 import 'DropDownRefresh.dart';
 import 'aens_list_page.dart';
@@ -34,12 +35,17 @@ class _AensMyPageState extends State<AensMyPage> {
           ),
           centerTitle: true,
 
-          bottom: TabBar(
+          bottom:TabBar(
             unselectedLabelColor: Colors.black54,
-            indicatorColor: Color(0xFFE71766),
             indicatorSize: TabBarIndicatorSize.label,
-            indicatorWeight: 2.0,
             dragStartBehavior: DragStartBehavior.down,
+            indicator: UnderlineIndicator(
+                strokeCap: StrokeCap.round,
+                borderSide: BorderSide(
+                  color: Color(0xFFE71766),
+                  width: 2,
+                ),
+                insets: EdgeInsets.only(bottom: 5)),
             tabs: <Widget>[
               Tab(icon: Text("正在竞拍")),
               Tab(icon: Text("已经注册")),
