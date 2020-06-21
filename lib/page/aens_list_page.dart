@@ -18,28 +18,39 @@ class AensListPage extends StatefulWidget {
   _AensListPageState createState() => _AensListPageState();
 }
 
-class _AensListPageState extends State<AensListPage> {
-
+class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
   AensPageModel _aensPageModel;
+  int page = 1;
 
   @override
   Future<void> initState() {
     super.initState();
     _controller.callRefresh();
     _controller.callLoad();
-    netData();
+    _onLoad();
   }
 
   Future<void> netData() async {
-    AensPageDao.fetch(widget.aensPageType).then((AensPageModel model) {
-      print("sucess");
-      setState(() {
-        _aensPageModel = model;
-        _loadingType = LoadingType.finish;
-      });
+    AensPageDao.fetch(widget.aensPageType, page).then((AensPageModel model) {
+      _loadingType = LoadingType.finish;
+      if (model.code == 200) {
+        if (page == 1) {
+          _aensPageModel = model;
+        } else {
+          _aensPageModel.data.addAll(model.data);
+        }
+      }
+      page++;
+      _controller.finishRefresh();
+      _controller.finishLoad();
+      if (model.data.length < 20) {
+        _controller.finishLoad(noMore: true);
+      }
+      setState(() {});
     }).catchError((e) {
+      print("error");
       setState(() {
         _loadingType = LoadingType.error;
       });
@@ -58,8 +69,8 @@ class _AensListPageState extends State<AensListPage> {
         child: EasyRefresh(
           onRefresh: _onRefresh,
           onLoad: _onLoad,
-          header: MaterialHeader(),
-          footer: MaterialFooter(),
+          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+          footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
           controller: _controller,
           child: ListView.builder(
             itemBuilder: _renderRow,
@@ -67,9 +78,7 @@ class _AensListPageState extends State<AensListPage> {
           ),
         ),
         type: _loadingType,
-        onPressedError: () {
-          netData();
-        },
+        onPressedError: _onRefresh,
       ),
     );
   }
@@ -152,28 +161,25 @@ class _AensListPageState extends State<AensListPage> {
             ),
           ),
         ),
-        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery
-            .of(context)
-            .size
-            .width - 18, color: Color(0xFFEEEEEE)),
+        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery.of(context).size.width - 18, color: Color(0xFFEEEEEE)),
       ],
     );
   }
 
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(seconds: 1), () {
-      print('refresh');
-      setState(() {});
+      page = 1;
+      netData();
     });
   }
 
   Future<void> _onLoad() async {
     await Future.delayed(Duration(seconds: 1), () {
-      print('refresh');
-      setState(() {
-        _controller.finishRefresh(success: true);
-        _controller.finishLoad(success: true, noMore: false);
-      });
+      netData();
     });
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

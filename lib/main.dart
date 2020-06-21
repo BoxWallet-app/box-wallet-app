@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(BoxApp());
 }
 
-class MyApp extends StatelessWidget {
+class BoxApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
           const Locale('zh', 'CH'), // Hebrew
           // ... other locales the app supports
         ],
-
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -39,7 +38,14 @@ class MyApp extends StatelessWidget {
           'aens_my': (BuildContext context) => AensMyPage(),
           'aens_register': (BuildContext context) => AensRegister(),
         });
+  }
 
+  static setSigningKey(String signingKey) {}
+
+  static getSigningKey() {}
+
+  static String getAddress() {
+    return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
   }
 }
 

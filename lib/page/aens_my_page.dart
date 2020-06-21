@@ -1,3 +1,4 @@
+import 'package:box/dao/aens_page_dao.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +54,8 @@ class _AensMyPageState extends State<AensMyPage> {
         ),
         body: TabBarView(
           children: <Widget>[
-            AensListPage(),
-            AensListPage(),
+            AensListPage(aensPageType: AensPageType.my_auction),
+            AensListPage(aensPageType: AensPageType.my_over),
           ],
         ),
       ),

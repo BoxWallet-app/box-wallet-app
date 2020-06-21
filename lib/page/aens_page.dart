@@ -77,8 +77,8 @@ class _AensPageState extends State<AensPage> {
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-//              Navigator.push(context,
-//                  MaterialPageRoute(builder: (context) => AensRegister()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AensRegister()));
 //              BlockTopDao.fetch().then((BlockTopModel model) {
 //                print(model.toJson());
 //

@@ -1,16 +1,20 @@
 import 'dart:convert';
 
 import 'package:box/dao/urls.dart';
+import 'package:box/main.dart';
 import 'package:box/model/aens_page_model.dart';
 import 'package:box/model/block_top_model.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 enum AensPageType { auction, price, over, my_auction, my_over }
 
 class AensPageDao {
-  static Future<AensPageModel> fetch(AensPageType aensPageType) async {
+  static Future<AensPageModel> fetch(AensPageType aensPageType, int page) async {
+    Map<String, String> params = new Map();
+    var address = BoxApp.getAddress();
     var url = "";
-    switch(aensPageType){
+    switch (aensPageType) {
       case AensPageType.auction:
         url = NAME_AUCTIONS;
         break;
@@ -21,15 +25,23 @@ class AensPageDao {
         url = NAME_OVER;
         break;
       case AensPageType.my_auction:
+        url = NAME_MY_OVER;
+        params["address"] = address;
         break;
       case AensPageType.my_over:
+        url = NAME_MY_REGISTER;
+        params["address"] = address;
         break;
     }
-    final response = await http.post(url);
+    params["page"] = page.toString();
+    print("\n" + url);
+    Response response = await Dio().post(url, queryParameters: params);
+    print(response.toString());
+    print("\n" + jsonEncode(params) + "\n" + response.toString());
+
     if (response.statusCode == 200) {
-      Utf8Decoder utf8decoder = Utf8Decoder();
-      var result = json.decode(utf8decoder.convert(response.bodyBytes));
-      AensPageModel model = AensPageModel.fromJson(result);
+      var data = jsonDecode(response.toString());
+      AensPageModel model = AensPageModel.fromJson(data);
       return model;
     } else {
       throw Exception('Failed to load AensPageModel.json');
