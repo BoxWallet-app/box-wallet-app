@@ -1,8 +1,13 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/model/aens_register_model.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AensRegister extends StatefulWidget {
   @override
@@ -10,6 +15,9 @@ class AensRegister extends StatefulWidget {
 }
 
 class _AensRegisterState extends State<AensRegister> {
+  Flushbar flush;
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,12 +54,10 @@ class _AensRegisterState extends State<AensRegister> {
                       ),
                       Container(
                         decoration: new BoxDecoration(
-                          gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              colors: [
-                                Color(0xFFE71766),
-                                Color(0xFFFAFAFA),
-                              ]),
+                          gradient: const LinearGradient(begin: Alignment.topRight, colors: [
+                            Color(0xFFE71766),
+                            Color(0xFFFAFAFA),
+                          ]),
                         ),
                         height: 100,
                       ),
@@ -65,7 +71,7 @@ class _AensRegisterState extends State<AensRegister> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
-                          "注册一个你想要的永恒区块链域名",
+                          "注册一个你想要的永恒区块链域名2",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 19,
@@ -80,8 +86,7 @@ class _AensRegisterState extends State<AensRegister> {
                         decoration: new BoxDecoration(
                             color: Color(0xE6FFFFFF),
                             //设置四周圆角 角度
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.black12,
@@ -107,14 +112,13 @@ class _AensRegisterState extends State<AensRegister> {
                             ),
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(
-                                  left: 18, top: 5, right: 18),
+                              margin: const EdgeInsets.only(left: 18, top: 5, right: 18),
                               child: Stack(
                                 children: <Widget>[
                                   TextField(
+                                    controller: _textEditingController,
                                     inputFormatters: [
-                                      WhitelistingTextInputFormatter(
-                                          RegExp("[a-zA-Z0-9]")), //只允许输入字母
+                                      WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9]")), //只允许输入字母
                                     ],
                                     maxLines: 1,
                                     maxLength: 13,
@@ -124,13 +128,11 @@ class _AensRegisterState extends State<AensRegister> {
                                     ),
                                     decoration: InputDecoration(
                                       enabledBorder: new UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFFF6F6F6)),
+                                        borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                       ),
 // and:
                                       focusedBorder: new UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFFE71766)),
+                                        borderSide: BorderSide(color: Color(0xFFE71766)),
                                       ),
                                       hintStyle: TextStyle(
                                         fontSize: 19,
@@ -146,8 +148,7 @@ class _AensRegisterState extends State<AensRegister> {
                                       top: 12,
                                       child: Text(
                                         ".chain",
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 19),
+                                        style: TextStyle(color: Colors.black, fontSize: 19),
                                       )),
                                 ],
                               ),
@@ -167,18 +168,11 @@ class _AensRegisterState extends State<AensRegister> {
                 roundLoadingShape: true,
                 width: MediaQuery.of(context).size.width * 0.8,
                 onTap: (startLoading, stopLoading, btnState) {
-                  if (btnState == ButtonState.Idle) {
-                    startLoading();
-                  } else {
-                    stopLoading();
-                  }
+                  netRegister(context, startLoading, stopLoading);
                 },
                 child: Text(
                   "创 建",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
+                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 loader: Container(
                   padding: EdgeInsets.all(10),
@@ -194,5 +188,67 @@ class _AensRegisterState extends State<AensRegister> {
             )
           ],
         ));
+  }
+
+  void netRegister(BuildContext context, Function startLoading, Function stopLoading) {
+    //隐藏键盘
+    FocusScope.of(context).requestFocus(FocusNode());
+    startLoading();
+    AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
+      stopLoading();
+      if (model.code == 200) {
+        showFlush(context);
+      } else {
+        showPlatformDialog(
+          context: context,
+          builder: (_) => BasicDialogAlert(
+            title: Text("注册失败"),
+            content: Text(model.msg),
+            actions: <Widget>[
+              BasicDialogAction(
+                title: Text("确定"),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    }).catchError((e) {
+      stopLoading();
+      Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  void showFlush(BuildContext context) {
+    flush = Flushbar<bool>(
+      title: "广播成功",
+      message: "正在同步节点信息,预计5分钟后同步成功!",
+      backgroundGradient: LinearGradient(colors: [Color(0xFFE71766), Color(0xFFE71766)]),
+      backgroundColor: Color(0xFFE71766),
+      blockBackgroundInteraction: true,
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      //                        flushbarStyle: FlushbarStyle.GROUNDED,
+
+      mainButton: FlatButton(
+        onPressed: () {
+          flush.dismiss(true); // result = true
+        },
+        child: Text(
+          "确定",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Color(0x88000000),
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+    )..show(context).then((result) {
+        Navigator.pop(context);
+      });
   }
 }

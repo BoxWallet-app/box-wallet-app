@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:box/dao/urls.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aens_page_model.dart';
-import 'package:box/model/block_top_model.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 
 enum AensPageType { auction, price, over, my_auction, my_over }
 

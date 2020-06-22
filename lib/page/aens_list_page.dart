@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:box/dao/aens_page_dao.dart';
 import 'package:box/model/aens_page_model.dart';
+import 'package:box/page/aens_detail_page.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AensListPage extends StatefulWidget {
   final AensPageType aensPageType;
@@ -50,10 +53,11 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
       }
       setState(() {});
     }).catchError((e) {
-      print("error");
-      setState(() {
-        _loadingType = LoadingType.error;
-      });
+      if (page == 1 && _aensPageModel.data == null)
+        setState(() {
+          _loadingType = LoadingType.error;
+        });
+      Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -78,7 +82,12 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
           ),
         ),
         type: _loadingType,
-        onPressedError: _onRefresh,
+        onPressedError: () {
+          setState(() {
+            _loadingType = LoadingType.loading;
+          });
+          _onRefresh();
+        },
       ),
     );
   }
@@ -95,7 +104,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
           color: Colors.white,
           child: InkWell(
             onTap: () {
-              print("item 点击");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AensDetailPage()));
             },
             child: Container(
               padding: const EdgeInsets.all(18),
@@ -122,7 +131,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                               ),
                             ),
                             Text(
-                              '距离结束8天',
+                              setNameTime(position),
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
@@ -139,7 +148,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                '800AE',
+                                Utils.formatPrice(_aensPageModel.data[position].currentPrice) + "AE",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -147,7 +156,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                               ),
                             ),
                             Text(
-                              '地址: ak****qZdS',
+                              "地址: " + Utils.formatAddress(_aensPageModel.data[position].owner),
                               style: TextStyle(color: Colors.black54, fontSize: 14),
                             ),
                           ],
@@ -164,6 +173,18 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
         Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery.of(context).size.width - 18, color: Color(0xFFEEEEEE)),
       ],
     );
+  }
+
+  String setNameTime(int position) {
+    switch (widget.aensPageType) {
+      case AensPageType.auction:
+      case AensPageType.price:
+      case AensPageType.my_auction:
+        return '距离结束: ' + Utils.formatHeight(_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].endHeight);
+      case AensPageType.over:
+      case AensPageType.my_over:
+        return '距离到期 :' + Utils.formatHeight(_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].overHeight);
+    }
   }
 
   Future<void> _onRefresh() async {

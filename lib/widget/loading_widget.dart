@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-enum LoadingType { loading, error, finish }
+enum LoadingType { loading, error, finish, no_data }
 
 class LoadingWidget extends StatefulWidget {
   final Widget child;
@@ -15,12 +15,9 @@ class LoadingWidget extends StatefulWidget {
 }
 
 class _LoadingWidgetState extends State<LoadingWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     switch (widget.type) {
-
       case LoadingType.loading:
         return _loadingView;
         break;
@@ -28,8 +25,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         return _error;
         break;
       case LoadingType.finish:
-
-       return widget.child;
+        return widget.child;
+      case LoadingType.no_data:
+        return _noData;
+        break;
     }
   }
 
@@ -67,5 +66,9 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         ],
       ),
     ));
+  }
+
+  Widget get _noData {
+    return Center(child: Text("暂无数据"));
   }
 }

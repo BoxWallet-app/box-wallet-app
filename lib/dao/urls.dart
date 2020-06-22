@@ -19,4 +19,7 @@ const NAME_OVER = BASE_HOST + '/api/names/over';
 const NAME_MY_REGISTER = BASE_HOST + '/api/names/my/register';
 
 //获取我的已注册域名
-const NAME_MY_OVER= BASE_HOST + '/api/names/my/over';
+const NAME_MY_OVER = BASE_HOST + '/api/names/my/over';
+
+//注册域名
+const NAME_ADD = BASE_HOST + '/api/names/add';
