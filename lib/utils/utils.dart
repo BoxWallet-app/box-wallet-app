@@ -11,16 +11,17 @@ class Utils {
 
   static String formatHeight(int startHeight, int endHeight) {
     var height = endHeight - startHeight;
+    if (height < 1) {
+      return "3分钟";
+    }
     //秒
     var time = height * 3;
-    if (time > 60  * 24) {
-      return (time / (60  * 24)).toInt().toString() + "天";
+    if (time > 60 * 24) {
+      return (time / (60 * 24)).toInt().toString() + "天";
     }
     if (time > 60) {
-      return (time / ( 60)).toInt().toString()+ "小时";
+      return (time / (60)).toInt().toString() + "小时";
     }
-    if (time > 60) {
-      return (time).toInt().toString() + "分钟";
-    }
+    return (time).toInt().toString() + "分钟";
   }
 }

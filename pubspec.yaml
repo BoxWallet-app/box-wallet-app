@@ -39,6 +39,11 @@ dependencies:
   flushbar: ^1.10.4
   fluttertoast: ^4.0.0
   flutter_dialogs: ^1.0.4
+  flutter_qr_reader: ^1.0.3
+  permission_handler: ^3.0.0
+  image_picker: ^0.6.7+2
+  pin_code_fields: ^3.1.2
+  modal_bottom_sheet: ^0.1.6+1
 
 dev_dependencies:
   flutter_test:

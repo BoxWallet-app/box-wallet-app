@@ -9,6 +9,8 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+
 class AensRegister extends StatefulWidget {
   @override
   _AensRegisterState createState() => _AensRegisterState();
@@ -190,34 +192,43 @@ class _AensRegisterState extends State<AensRegister> {
         ));
   }
 
-  void netRegister(BuildContext context, Function startLoading, Function stopLoading) {
+  Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
+
+
+
     //隐藏键盘
-    FocusScope.of(context).requestFocus(FocusNode());
     startLoading();
-    AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
-      stopLoading();
-      if (model.code == 200) {
-        showFlush(context);
-      } else {
-        showPlatformDialog(
-          context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text("注册失败"),
-            content: Text(model.msg),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text("确定"),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      }
-    }).catchError((e) {
-      stopLoading();
-      Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    FocusScope.of(context).requestFocus(FocusNode());
+    await Future.delayed(Duration(seconds: 1), () {
+      AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
+        stopLoading();
+        if (model.code == 200) {
+          showFlush(context);
+        } else {
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text("注册失败"),
+              content: Text(model.msg),
+              actions: <Widget>[
+                BasicDialogAction(
+
+                  title: Text(
+                    "确定",
+                    style: TextStyle(color: Color(0xFFE71766)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }).catchError((e) {
+        stopLoading();
+        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      });
     });
   }
 

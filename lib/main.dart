@@ -1,12 +1,21 @@
+import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/aens_my_page.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/aens_register.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
+import 'package:box/page/scan_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  // 强制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+
   runApp(BoxApp());
 }
 
@@ -37,12 +46,16 @@ class BoxApp extends StatelessWidget {
           'aens': (BuildContext context) => AensPage(),
           'aens_my': (BuildContext context) => AensMyPage(),
           'aens_register': (BuildContext context) => AensRegister(),
+          'aens_detail': (BuildContext context) => AensDetailPage(),
+          'scan_page': (BuildContext context) => ScanPage(),
         });
   }
 
   static setSigningKey(String signingKey) {}
 
-  static getSigningKey() {}
+  static String getSigningKey() {
+    return "d03826de64d010f683b4aee0ac67e074e01725bb6f94c6d26942ab5a5671886a5e88d722246295cefec3143d2cf2212347aac960d0b3ea4abe03fba86ce0dc2e";
+  }
 
   static String getAddress() {
     return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
