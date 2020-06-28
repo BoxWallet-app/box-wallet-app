@@ -53,10 +53,11 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
       }
       setState(() {});
     }).catchError((e) {
-      if (page == 1 && _aensPageModel.data == null)
+      if (page == 1 && (_aensPageModel == null || _aensPageModel.data == null))
         setState(() {
           _loadingType = LoadingType.error;
         });
+      print("error:" + e);
       Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -104,7 +105,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
           color: Colors.white,
           child: InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AensDetailPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AensDetailPage(name: _aensPageModel.data[position].name,)));
             },
             child: Container(
               padding: const EdgeInsets.all(18),

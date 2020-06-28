@@ -73,7 +73,7 @@ class _AensRegisterState extends State<AensRegister> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
-                          "注册一个你想要的永恒区块链域名2",
+                          "注册一个你想要的永恒区块链域名",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 19,

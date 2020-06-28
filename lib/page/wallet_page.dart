@@ -1,3 +1,4 @@
+import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -30,16 +31,22 @@ class _WalletPageState extends State<WalletPage> {
             child: Column(
               children: <Widget>[
                 Container(
-                  width: 378,
-                  height: 160,
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 18, left: 18, right: 18,bottom: 30),
+                  width: 414,
+                  height: 200,
+                  alignment: Alignment.centerLeft,
+//                  margin: const EdgeInsets.only(left: 18, right: 18),
+                  padding: const EdgeInsets.only(top:10,left: 18, right: 18),
                   decoration: new BoxDecoration(
-                      color: Color(0xFFE71766),
-                      //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))
-                      //设置四周边框
-                      ),
+                    image: DecorationImage(
+                      image: AssetImage("images/wallet_card.png"),
+                      fit: BoxFit.fitWidth,
+                    ),
+//                    color: Color(0xFFE71766),
+                    //设置四周圆角 角度
+//                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+
+                    //设置四周边框
+                  ),
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -73,20 +80,20 @@ class _WalletPageState extends State<WalletPage> {
                       Container(
                         margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
                         child: Text(
-                          "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",
+                          BoxApp.getAddress(),
                           style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),
                         ),
                       ),
                     ],
                   ),
                 ),
-                buildItem(context, "发送代", "images/profile_info.png", () {
+                buildItem(context, "发送币", "images/profile_display_currency.png", () {
                   print("123");
                 }),
-                buildItem(context, "接受代", "images/profile_info.png", () {
+                buildItem(context, "接收币", "images/profile_account_permissions.png", () {
                   print("123");
                 }),
-                buildItem(context, "转账记录", "images/profile_info.png", () {
+                buildItem(context, "转账记录", "images/profile_lanuge.png", () {
                   print("123");
                 }),
                 buildItem(context, "扫一扫", "images/profile_info.png", () {

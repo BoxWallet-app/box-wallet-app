@@ -24,3 +24,7 @@ const NAME_MY_OVER = BASE_HOST + '/api/names/my/over';
 
 //注册域名
 const NAME_ADD = BASE_HOST + '/api/names/add';
+
+//域名详情
+const NAME_INFO = BASE_HOST + '/api/names/info';
+
