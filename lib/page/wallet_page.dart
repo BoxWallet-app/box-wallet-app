@@ -145,7 +145,7 @@ class _WalletPageState extends State<WalletPage> {
               if (isLine)
                 Positioned(
                   bottom: 0,
-                  left: 30,
+                  left: 20,
                   child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
                 )
             ],

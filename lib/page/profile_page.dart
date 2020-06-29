@@ -3,6 +3,8 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,8 +24,11 @@ class _ProfilePageState extends State<ProfilePage> {
       value: SystemUiOverlayStyle.light,
       child: Material(
         child: Scaffold(
-            backgroundColor: Color(0xFFEEEEEE),
-            body: SingleChildScrollView(
+            backgroundColor: Color(0xFFFFFFFF),
+//            backgroundColor: Color(0xFFEEEEEE),
+            body: EasyRefresh(
+              onRefresh: (){},
+              header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
               child: Container(
                 height: 700,
                 child: Stack(
@@ -134,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             }),
                             buildItem(context, "重置密钥", "images/profile_reset_password.png", () {
                               print("123");
-                            }, isLine: false),
+                            }, isLine: true),
                           ],
                         ),
                       ),
@@ -187,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
               if (isLine)
                 Positioned(
                   bottom: 0,
-                  left: 30,
+                  left: 20,
                   child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
                 )
             ],
