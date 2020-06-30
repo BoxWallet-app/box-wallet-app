@@ -24,6 +24,7 @@ class BoxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
         localizationsDelegates: [
           // ... app-specific localization delegate[s] here
           GlobalMaterialLocalizations.delegate,
@@ -35,6 +36,7 @@ class BoxApp extends StatelessWidget {
           // ... other locales the app supports
         ],
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,

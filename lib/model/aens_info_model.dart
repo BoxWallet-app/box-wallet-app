@@ -38,7 +38,18 @@ class Data {
   int startHeight;
   String thHash;
 
-  Data({this.claim, this.currentHeight, this.currentPrice, this.endHeight, this.length, this.name, this.overHeight, this.owner, this.price, this.startHeight, this.thHash});
+  Data(
+      {this.claim,
+        this.currentHeight,
+        this.currentPrice,
+        this.endHeight,
+        this.length,
+        this.name,
+        this.overHeight,
+        this.owner,
+        this.price,
+        this.startHeight,
+        this.thHash});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['claim'] != null) {
@@ -85,13 +96,26 @@ class Claim {
   String hash;
   String name;
   String nameFee;
-  int nameSalt;
+  num nameSalt;
   int nonce;
   int time;
+  int ttl;
   String type;
   int version;
 
-  Claim({this.accountId, this.blockHeight, this.fee, this.hash, this.name, this.nameFee, this.nameSalt, this.nonce, this.time, this.type, this.version});
+  Claim(
+      {this.accountId,
+        this.blockHeight,
+        this.fee,
+        this.hash,
+        this.name,
+        this.nameFee,
+        this.nameSalt,
+        this.nonce,
+        this.time,
+        this.ttl,
+        this.type,
+        this.version});
 
   Claim.fromJson(Map<String, dynamic> json) {
     accountId = json['account_id'];
@@ -103,6 +127,7 @@ class Claim {
     nameSalt = json['name_salt'];
     nonce = json['nonce'];
     time = json['time'];
+    ttl = json['ttl'];
     type = json['type'];
     version = json['version'];
   }
@@ -118,6 +143,7 @@ class Claim {
     data['name_salt'] = this.nameSalt;
     data['nonce'] = this.nonce;
     data['time'] = this.time;
+    data['ttl'] = this.ttl;
     data['type'] = this.type;
     data['version'] = this.version;
     return data;

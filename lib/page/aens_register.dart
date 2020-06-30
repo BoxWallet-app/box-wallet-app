@@ -193,9 +193,6 @@ class _AensRegisterState extends State<AensRegister> {
   }
 
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
-
-
-
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());

@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,7 +36,7 @@ class _WalletPageState extends State<WalletPage> {
                   height: 200,
                   alignment: Alignment.centerLeft,
 //                  margin: const EdgeInsets.only(left: 18, right: 18),
-                  padding: const EdgeInsets.only(top:10,left: 18, right: 18),
+                  padding: const EdgeInsets.only(top: 10, left: 18, right: 18),
                   decoration: new BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("images/wallet_card.png"),
@@ -62,14 +63,27 @@ class _WalletPageState extends State<WalletPage> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18),
+                        margin: const EdgeInsets.only(top: 8, left: 18),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              "603.2134",
-                              style: TextStyle(fontSize: 30, color: Colors.white),
-                            ),
+                            TypewriterAnimatedTextKit(
+                                totalRepeatCount: 1,
+                                speed: Duration(milliseconds: 300),
+                                onTap: () {
+                                  print("Tap Event");
+                                },
+                                text: [
+                                  "10.2132",
+                                ],
+                                textStyle: TextStyle(fontSize: 35, color: Colors.white),
+                                textAlign: TextAlign.start,
+                                alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                                ),
+//                            Text(
+//                              "603.2134",
+//                              style: TextStyle(fontSize: 30, color: Colors.white),
+//                            ),
                             Text(
                               "",
                               style: TextStyle(fontSize: 13, color: Colors.white70),
@@ -78,7 +92,7 @@ class _WalletPageState extends State<WalletPage> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                        margin: const EdgeInsets.only(top: 8, left: 18, right: 18),
                         child: Text(
                           BoxApp.getAddress(),
                           style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),

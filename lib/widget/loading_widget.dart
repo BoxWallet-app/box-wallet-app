@@ -22,7 +22,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         return _loadingView;
         break;
       case LoadingType.error:
-        return _error;
+        return _error(widget.onPressedError);
         break;
       case LoadingType.finish:
         return widget.child;
@@ -40,7 +40,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     );
   }
 
-  Widget get _error {
+  Widget  _error (onPressedError)  {
+    if(onPressedError == null){
+      print("onPressedError null");
+    }
     return Center(
         child: Container(
       height: 120,
@@ -59,7 +62,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               minWidth: 120,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
               onPressed: () {
-                widget.onPressedError.call();
+                onPressedError.call();
               },
             ),
           )
