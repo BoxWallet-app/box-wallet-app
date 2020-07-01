@@ -1,9 +1,11 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/dao/aens_update_dao.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
+import 'package:box/model/aens_update_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flushbar/flushbar.dart';
@@ -50,7 +52,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
         // 隐藏阴影
         elevation: 0,
@@ -62,7 +64,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'AENS详情',
+          _aensInfoModel.data == null ? "" : _aensInfoModel.data.name,
           style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
@@ -83,20 +85,13 @@ class _AensDetailPageState extends State<AensDetailPage> {
             buildItem("价格(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
 
-            buildItem("距离过期", _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
 
             buildItem("当前高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-//
-//            buildItem("创建高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.startHeight.toString()),
-//            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-//
-//            buildItem("结束高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.endHeight.toString()),
-//            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-//
-//            buildItem("到期高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.overHeight.toString()),
-//            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
+
+            buildItem(getTypeKey(), getTypeValue()),
+            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
+
 
             buildItem("所有者", _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
@@ -110,12 +105,48 @@ class _AensDetailPageState extends State<AensDetailPage> {
     );
   }
 
+  String getTypeValue(){
+    if (_aensInfoModel.data == null) {
+      return "-";
+    }
+
+    if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
+      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+    }
+
+    if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
+      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
+    }
+
+    return "-";
+  }
+
+  String getTypeKey() {
+    if (_aensInfoModel.data == null) {
+      return "距离过期";
+    }
+
+    if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
+      return "距离过期";
+    }
+
+    if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
+      return "距离结束";
+    }
+
+    return "距离过期";
+  }
+
   Container buildBtnUpdate(BuildContext context) {
     if (_aensInfoModel.data == null) {
       return Container();
     }
 
     if (_aensInfoModel.data.owner != BoxApp.getAddress()) {
+      return Container();
+    }
+
+    if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
       return Container();
     }
 
@@ -126,7 +157,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
         roundLoadingShape: true,
         width: MediaQuery.of(context).size.width * 0.8,
         onTap: (startLoading, stopLoading, btnState) {
-//                  netRegister(context, startLoading, stopLoading);
+          netUpdate(context, startLoading, stopLoading);
         },
         child: Text(
           "更 新",
@@ -144,6 +175,42 @@ class _AensDetailPageState extends State<AensDetailPage> {
         color: Color(0xff6F53A1),
       ),
     );
+  }
+
+  Future<void> netUpdate(BuildContext context, Function startLoading, Function stopLoading) async {
+    //隐藏键盘
+    startLoading();
+    FocusScope.of(context).requestFocus(FocusNode());
+    await Future.delayed(Duration(seconds: 1), () {
+      AensUpdaterDao.fetch(_aensInfoModel.data.name).then((AensUpdateModel model) {
+        stopLoading();
+        if (model.code == 200) {
+          showFlush(context);
+        } else {
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text("更新失败"),
+              content: Text(model.msg),
+              actions: <Widget>[
+                BasicDialogAction(
+                  title: Text(
+                    "确定",
+                    style: TextStyle(color: Color(0xFFE71766)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }).catchError((e) {
+        stopLoading();
+        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      });
+    });
   }
 
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
