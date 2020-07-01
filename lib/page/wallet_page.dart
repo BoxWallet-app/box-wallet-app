@@ -1,16 +1,38 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:box/dao/account_info_dao.dart';
 import 'package:box/main.dart';
+import 'package:box/model/account_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class WalletPage extends StatefulWidget {
   @override
   _WalletPageState createState() => _WalletPageState();
 }
 
-class _WalletPageState extends State<WalletPage> {
+class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMixin  {
+  String token = "-";
+
+  @override
+  void initState() {
+    super.initState();
+    netAccountInfo();
+//    Timer.periodic(Duration(milliseconds: 3000), (timer) {
+////      if (timer.tick == 5) {
+////        timer.cancel();
+////        print("finish");
+////      }
+//      netAccountInfo();
+//    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,27 +89,16 @@ class _WalletPageState extends State<WalletPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            TypewriterAnimatedTextKit(
-                                totalRepeatCount: 1,
-                                speed: Duration(milliseconds: 300),
-                                onTap: () {
-                                  print("Tap Event");
-                                },
-                                text: [
-                                  "10.2132",
-                                ],
-                                textStyle: TextStyle(fontSize: 35, color: Colors.white),
-                                textAlign: TextAlign.start,
-                                alignment: AlignmentDirectional.topStart // or Alignment.topLeft
-                                ),
-//                            Text(
-//                              "603.2134",
-//                              style: TextStyle(fontSize: 30, color: Colors.white),
-//                            ),
+//                            buildTypewriterAnimatedTextKit(),
                             Text(
-                              "",
-                              style: TextStyle(fontSize: 13, color: Colors.white70),
-                            )
+                              token,
+                              style: TextStyle(fontSize: 35, color: Colors.white),
+                            ),
+//
+//                            Text(
+//                              token,
+//                              style: TextStyle(fontSize: 35, color: Colors.white),
+//                            )
                           ],
                         ),
                       ),
@@ -117,6 +128,40 @@ class _WalletPageState extends State<WalletPage> {
             ),
           ),
         ));
+  }
+
+  Widget buildTypewriterAnimatedTextKit() {
+    List<String> text = new List();
+    text.add(token);
+//    if (token == "-") {
+//      return Text(
+//        token,
+//        style: TextStyle(fontSize: 35, color: Colors.white),
+//      );
+//    } else {
+//      return TypewriterAnimatedTextKit(
+//          totalRepeatCount: 1,
+//          speed: Duration(milliseconds: 300),
+//          onTap: () {
+//            print("Tap Event22");
+//          },
+//          text:text,
+//          textStyle: TextStyle(fontSize: 35, color: Colors.white),
+//          textAlign: TextAlign.start,
+//          alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+//          );
+//    }
+    return TypewriterAnimatedTextKit(
+        totalRepeatCount: 1,
+        speed: Duration(milliseconds: 300),
+        onTap: () {
+          print("Tap Event22");
+        },
+        text: text,
+        textStyle: TextStyle(fontSize: 35, color: Colors.white),
+        textAlign: TextAlign.start,
+        alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+        );
   }
 
   Material buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
@@ -170,6 +215,25 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   Future<void> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1), () {});
+    await Future.delayed(Duration(seconds: 1), () {
+      netAccountInfo();
+    });
   }
+
+  void netAccountInfo() {
+    AccountInfoDao.fetch().then((AccountInfoModel model) {
+      if (model.code == 200) {
+        print(model.data.balance);
+        setState(() {
+          token = model.data.balance;
+        });
+      } else {}
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

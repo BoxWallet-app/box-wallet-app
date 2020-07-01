@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
@@ -76,19 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           }),
                           buildHeaderItem("备份助记词", "images/profile_backups.png", () {
-                            showBarModalBottomSheet(
+                            showCupertinoModalBottomSheet(
                               context: context,
                                 barrierColor:Colors.black38,
                               // ignore: missing_return
                               builder: (context, scrollController) => PayPasswordWidget(title: "请输入临时密码",passwordCallBackFuture: (value){
                                 print(value);
-                                showBarModalBottomSheet(
-                                  context: context,
-                                  // ignore: missing_return
-                                  builder: (context, scrollController) => PayPasswordWidget(title: "456",passwordCallBackFuture: (value){
-                                    print(value);
-                                  }),
-                                );
+
                               }),
                             );
 //                            showModalBottomSheet(
@@ -231,4 +225,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ));
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

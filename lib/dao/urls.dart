@@ -28,3 +28,6 @@ const NAME_ADD = BASE_HOST + '/api/names/add';
 //域名详情
 const NAME_INFO = BASE_HOST + '/api/names/info';
 
+//域名详情
+const ACCOUNT_INFO = BASE_HOST + '/api/user/info';
+

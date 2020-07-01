@@ -44,7 +44,10 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 margin: const EdgeInsets.only(bottom: 20),
                 child: PinCodeTextField(
                   length: 4,
-                  obsecureText: false,
+//                  enabled: false,
+
+                  obsecureText: true,
+
                   animationType: AnimationType.fade,
                   validator: (v) {
                     if (v.length < 3) {
@@ -67,6 +70,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                     activeFillColor: Colors.white,
                     //选中后内框颜色
                     selectedFillColor: Colors.white,
+                    disabledColor: Colors.purple,
                     borderRadius: BorderRadius.circular(2),
                     fieldHeight: 50,
                     fieldWidth: 50,
