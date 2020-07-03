@@ -224,12 +224,13 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
+        token = model.data.balance;
         setState(() {
-          token = model.data.balance;
+
         });
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 

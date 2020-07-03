@@ -12,20 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    BoxApp.getLanguage().then((String value) {
-      if (value == "en") {
-        S.load(Locale("en", "US"));
-      } else {
-        S.load(Locale("cn", "CN"));
-      }
-      setState(() {
 
-      });
-    });
   }
 
   @override

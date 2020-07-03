@@ -45,6 +45,9 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
           _aensPageModel.data.addAll(model.data);
         }
       }
+      if(_aensPageModel.data.length ==0){
+        _loadingType = LoadingType.no_data;
+      }
       page++;
       _controller.finishRefresh();
       _controller.finishLoad();

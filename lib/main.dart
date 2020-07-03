@@ -7,6 +7,7 @@ import 'package:box/page/language_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/main_page.dart';
 import 'package:box/page/scan_page.dart';
+import 'package:box/page/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,7 +34,7 @@ class BoxApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.white,
       ),
-      home: HomePage(),
+      home: SplashPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{
@@ -115,9 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Text(S.of(context).title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   Text(""),
-                  Text(S.of(context).pageHomeSamplePlaceholder("John"), style: TextStyle(fontSize: 20)),
-                  Text(S.of(context).pageHomeSamplePlaceholdersOrdered("John", "Doe"), style: TextStyle(fontSize: 20)),
-                  Text(S.of(context).pageHomeSamplePlural(2), style: TextStyle(fontSize: 20)),
+//                  Text(S.of(context).pageHomeSamplePlaceholder("John"), style: TextStyle(fontSize: 20)),
+//                  Text(S.of(context).pageHomeSamplePlaceholdersOrdered("John", "Doe"), style: TextStyle(fontSize: 20)),
+//                  Text(S.of(context).pageHomeSamplePlural(2), style: TextStyle(fontSize: 20)),
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,
               ))

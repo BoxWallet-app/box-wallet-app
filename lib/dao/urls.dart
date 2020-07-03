@@ -1,6 +1,6 @@
 //域名
-const BASE_HOST = 'http://192.168.0.101:8080';
-//const BASE_HOST = 'http://10.53.7.120:8080';
+//const BASE_HOST = 'http://192.168.0.101:8080';
+const BASE_HOST = 'http://10.53.5.102:8080';
 //const BASE_HOST = 'http://localhost:8080';
 //const BASE_HOST = 'https://aeasy.io';
 

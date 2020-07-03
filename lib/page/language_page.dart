@@ -16,7 +16,6 @@ class _LanguagePageState extends State<LanguagePage> {
     // TODO: implement initState
     super.initState();
     BoxApp.getLanguage().then((String value) {
-
       setState(() {
         currentLanguage = value;
       });
@@ -68,11 +67,89 @@ class _LanguagePageState extends State<LanguagePage> {
                 color: Colors.white,
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
-              buildItem("英文", getLanguageStatus("en", currentLanguage), () {
+              buildItem("English", getLanguageStatus("en", currentLanguage), () {
                 BoxApp.setLanguage("en");
                 setState(() {
                   currentLanguage = "en";
-                  S.load(Locale('en', 'US'));
+                  S.load(Locale('en', 'EN'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("Français", getLanguageStatus("fr", currentLanguage), () {
+                BoxApp.setLanguage("fr");
+                setState(() {
+                  currentLanguage = "fr";
+                  S.load(Locale('fr', 'FR'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("한국어", getLanguageStatus("ko", currentLanguage), () {
+                BoxApp.setLanguage("ko");
+                setState(() {
+                  currentLanguage = "ko";
+                  S.load(Locale('ko', 'KO'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("にほんご", getLanguageStatus("ja", currentLanguage), () {
+                BoxApp.setLanguage("ja");
+                setState(() {
+                  currentLanguage = "ja";
+                  S.load(Locale('ja', 'JA'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("Русский", getLanguageStatus("py", currentLanguage), () {
+                BoxApp.setLanguage("py");
+                setState(() {
+                  currentLanguage = "py";
+                  S.load(Locale('py', 'PY'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("Español", getLanguageStatus("es", currentLanguage), () {
+                BoxApp.setLanguage("es");
+                setState(() {
+                  currentLanguage = "es";
+                  S.load(Locale('es', 'ES'));
+                });
+              }),
+              Container(
+                height: 1.0,
+                padding: EdgeInsets.only(left: 18, right: 18),
+                color: Colors.white,
+                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+              ),
+              buildItem("الأمم المتحدة[العربية", getLanguageStatus("ar", currentLanguage), () {
+                BoxApp.setLanguage("ar");
+                setState(() {
+                  currentLanguage = "ar";
+                  S.load(Locale('ar', 'AR'));
                 });
               }),
               Container(

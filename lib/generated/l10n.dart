@@ -33,45 +33,23 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `english`
+  /// `中文`
   String get title {
     return Intl.message(
-      'english',
+      '中文',
       name: 'title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Welcome {name}`
-  String pageHomeSamplePlaceholder(Object name) {
+  /// `语言`
+  String get language {
     return Intl.message(
-      'Welcome $name',
-      name: 'pageHomeSamplePlaceholder',
+      '语言',
+      name: 'language',
       desc: '',
-      args: [name],
-    );
-  }
-
-  /// `My name is {lastName}, {firstName} {lastName}`
-  String pageHomeSamplePlaceholdersOrdered(Object firstName, Object lastName) {
-    return Intl.message(
-      'My name is $lastName, $firstName $lastName',
-      name: 'pageHomeSamplePlaceholdersOrdered',
-      desc: '',
-      args: [firstName, lastName],
-    );
-  }
-
-  /// `{howMany, plural, one{You have 1 message} other{You have {howMany} messages}}`
-  String pageHomeSamplePlural(num howMany) {
-    return Intl.plural(
-      howMany,
-      one: 'You have 1 message',
-      other: 'You have $howMany messages',
-      name: 'pageHomeSamplePlural',
-      desc: '',
-      args: [howMany],
+      args: [],
     );
   }
 }
@@ -81,8 +59,14 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'cn'),
+      Locale.fromSubtags(languageCode: 'ar'),
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'es'),
+      Locale.fromSubtags(languageCode: 'fr'),
+      Locale.fromSubtags(languageCode: 'ja'),
+      Locale.fromSubtags(languageCode: 'ko'),
+      Locale.fromSubtags(languageCode: 'py'),
     ];
   }
 

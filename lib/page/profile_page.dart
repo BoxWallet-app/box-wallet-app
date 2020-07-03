@@ -1,3 +1,4 @@
+import 'package:box/generated/l10n.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -126,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             buildItem(context, "账户权限", "images/profile_account_permissions.png", () {
                               print("123");
                             }),
-                            buildItem(context, "语言", "images/profile_lanuge.png", () {
+                            buildItem(context, S.of(context).language, "images/profile_lanuge.png", () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
                             }),
                             buildItem(context, "关于", "images/profile_info.png", () {
