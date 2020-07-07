@@ -1,4 +1,5 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,9 @@ import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 
 class MainPage extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState(){
+    return _MainPageState();
+  }
 }
 
 class _MainPageState extends State<MainPage> {
@@ -16,6 +19,11 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {
+
+      });
+    });
   }
 
   @override

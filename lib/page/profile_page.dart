@@ -1,3 +1,4 @@
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
@@ -18,7 +19,18 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClientMixin{
+class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {
+
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             backgroundColor: Color(0xFFFFFFFF),
 //            backgroundColor: Color(0xFFEEEEEE),
             body: EasyRefresh(
-              onRefresh: (){},
+              onRefresh: () {},
               header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
               child: Container(
                 height: 700,
@@ -80,12 +92,13 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                           buildHeaderItem("备份助记词", "images/profile_backups.png", () {
                             showCupertinoModalBottomSheet(
                               context: context,
-                                barrierColor:Colors.black38,
+                              barrierColor: Colors.black38,
                               // ignore: missing_return
-                              builder: (context, scrollController) => PayPasswordWidget(title: "请输入临时密码",passwordCallBackFuture: (value){
-                                print(value);
-
-                              }),
+                              builder: (context, scrollController) => PayPasswordWidget(
+                                  title: "请输入临时密码",
+                                  passwordCallBackFuture: (value) {
+                                    print(value);
+                                  }),
                             );
 //                            showModalBottomSheet(
 //                              context: context,

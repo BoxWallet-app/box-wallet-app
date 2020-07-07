@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "language" : MessageLookupByLibrary.simpleMessage("语言"),
+    "language" : MessageLookupByLibrary.simpleMessage("لغوي"),
     "title" : MessageLookupByLibrary.simpleMessage("الأمم المتحدة[العربية")
   };
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:box/dao/account_info_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/main.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +23,11 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
     netAccountInfo();
-//    Timer.periodic(Duration(milliseconds: 3000), (timer) {
-////      if (timer.tick == 5) {
-////        timer.cancel();
-////        print("finish");
-////      }
-//      netAccountInfo();
-//    });
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {
+
+      });
+    });
   }
 
 

@@ -1,3 +1,4 @@
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
@@ -55,11 +56,7 @@ class _LanguagePageState extends State<LanguagePage> {
           child: Column(
             children: <Widget>[
               buildItem("中文", getLanguageStatus("cn", currentLanguage), () {
-                BoxApp.setLanguage("cn");
-                setState(() {
-                  currentLanguage = "cn";
-                  S.load(Locale('cn', 'CN'));
-                });
+                languageClick("cn");
               }),
               Container(
                 height: 1.0,
@@ -68,11 +65,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("English", getLanguageStatus("en", currentLanguage), () {
-                BoxApp.setLanguage("en");
-                setState(() {
-                  currentLanguage = "en";
-                  S.load(Locale('en', 'EN'));
-                });
+                languageClick("en");
               }),
               Container(
                 height: 1.0,
@@ -81,11 +74,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("Français", getLanguageStatus("fr", currentLanguage), () {
-                BoxApp.setLanguage("fr");
-                setState(() {
-                  currentLanguage = "fr";
-                  S.load(Locale('fr', 'FR'));
-                });
+                languageClick("fr");
               }),
               Container(
                 height: 1.0,
@@ -94,11 +83,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("한국어", getLanguageStatus("ko", currentLanguage), () {
-                BoxApp.setLanguage("ko");
-                setState(() {
-                  currentLanguage = "ko";
-                  S.load(Locale('ko', 'KO'));
-                });
+                languageClick("ko");
               }),
               Container(
                 height: 1.0,
@@ -107,11 +92,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("にほんご", getLanguageStatus("ja", currentLanguage), () {
-                BoxApp.setLanguage("ja");
-                setState(() {
-                  currentLanguage = "ja";
-                  S.load(Locale('ja', 'JA'));
-                });
+                languageClick("ja");
               }),
               Container(
                 height: 1.0,
@@ -120,11 +101,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("Русский", getLanguageStatus("py", currentLanguage), () {
-                BoxApp.setLanguage("py");
-                setState(() {
-                  currentLanguage = "py";
-                  S.load(Locale('py', 'PY'));
-                });
+                languageClick("py");
               }),
               Container(
                 height: 1.0,
@@ -133,11 +110,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("Español", getLanguageStatus("es", currentLanguage), () {
-                BoxApp.setLanguage("es");
-                setState(() {
-                  currentLanguage = "es";
-                  S.load(Locale('es', 'ES'));
-                });
+                languageClick("es");
               }),
               Container(
                 height: 1.0,
@@ -146,11 +119,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
               buildItem("الأمم المتحدة[العربية", getLanguageStatus("ar", currentLanguage), () {
-                BoxApp.setLanguage("ar");
-                setState(() {
-                  currentLanguage = "ar";
-                  S.load(Locale('ar', 'AR'));
-                });
+                languageClick("ar");
               }),
               Container(
                 height: 1.0,
@@ -162,6 +131,16 @@ class _LanguagePageState extends State<LanguagePage> {
         )),
       ),
     );
+  }
+
+  void languageClick(String language) {
+    BoxApp.setLanguage(language);
+    eventBus.fire(LanguageEvent());
+    //通知将第一页背景色变成红色
+    setState(() {
+      currentLanguage = language;
+      S.load(Locale(language, language.toUpperCase()));
+    });
   }
 
   Material buildItem(String key, bool isSelect, GestureTapCallback tab) {

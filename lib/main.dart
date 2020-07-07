@@ -1,3 +1,4 @@
+import 'package:box/page/account_register_page.dart';
 import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/aens_my_page.dart';
 import 'package:box/page/aens_page.dart';
@@ -34,7 +35,8 @@ class BoxApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.white,
       ),
-      home: SplashPage(),
+//      home: SplashPage(),
+      home: AccountRegisterConfirmPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{

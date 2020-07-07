@@ -12,21 +12,22 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 //  final _BottomNavigationColor = Colors.blue;
   int _currentIndex = 0;
   List<StatefulWidget> list = List();
+  MainPage mainPage = MainPage() ;
 
   @override
   void initState() {
-    list..add(MainPage())..add(WalletPage())..add(ProfilePage());
+    list..add(mainPage)..add(WalletPage())..add(ProfilePage());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: list[_currentIndex],
-//      body: IndexedStack(
-//        index: this._currentIndex,
-//        children: this.list,
-//      ),
+//      body: list[_currentIndex],
+      body: IndexedStack(
+        index: this._currentIndex,
+        children: this.list,
+      ),
       bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
@@ -59,8 +60,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   }
 
   void update() {
+
     setState(() {
 
     });
+   
   }
 }
