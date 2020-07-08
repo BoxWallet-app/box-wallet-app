@@ -1,4 +1,4 @@
-import 'package:box/page/account_register_page.dart';
+import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/aens_my_page.dart';
 import 'package:box/page/aens_page.dart';
@@ -7,6 +7,7 @@ import 'package:box/page/home_page.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/main_page.dart';
+import 'package:box/page/mnemonic_copy_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class BoxApp extends StatelessWidget {
         primaryColor: Colors.white,
       ),
 //      home: SplashPage(),
-      home: AccountRegisterConfirmPage(),
+      home: MnemonicCopyPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{
