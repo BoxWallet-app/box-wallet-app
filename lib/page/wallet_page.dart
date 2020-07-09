@@ -53,7 +53,7 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
             child: Column(
               children: <Widget>[
                 Container(
-                  width: 414,
+//                  width: 414,
                   height: 200,
                   alignment: Alignment.centerLeft,
 //                  margin: const EdgeInsets.only(left: 18, right: 18),

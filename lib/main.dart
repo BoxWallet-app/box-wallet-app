@@ -19,7 +19,7 @@ import 'generated/l10n.dart';
 
 void main() {
   // 强制竖屏
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ignore: unrelated_type_equality_checks
 
 
@@ -37,7 +37,7 @@ class BoxApp extends StatelessWidget {
         primaryColor: Colors.white,
       ),
 //      home: SplashPage(),
-      home: MnemonicCopyPage(),
+      home: SplashPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{
@@ -51,6 +51,7 @@ class BoxApp extends StatelessWidget {
         'language_page': (BuildContext context) => LanguagePage(),
       },
     );
+
   }
 
   static setSigningKey(String signingKey) {}

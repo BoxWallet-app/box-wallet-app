@@ -1,4 +1,5 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,10 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
                   height: 50,
                   roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {},
+                  onTap: (startLoading, stopLoading, btnState) {
+                    print("123");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage()));
+                  },
                   child: Text(
                     "我已安全保存",
                     style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),

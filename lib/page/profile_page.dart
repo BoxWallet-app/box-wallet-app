@@ -14,6 +14,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'mnemonic_copy_page.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -90,16 +92,17 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             }
                           }),
                           buildHeaderItem("备份助记词", "images/profile_backups.png", () {
-                            showCupertinoModalBottomSheet(
-                              context: context,
-                              barrierColor: Colors.black38,
-                              // ignore: missing_return
-                              builder: (context, scrollController) => PayPasswordWidget(
-                                  title: "请输入临时密码",
-                                  passwordCallBackFuture: (value) {
-                                    print(value);
-                                  }),
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage()));
+//                            showCupertinoModalBottomSheet(
+//                              context: context,
+//                              barrierColor: Colors.black38,
+//                              // ignore: missing_return
+//                              builder: (context, scrollController) => PayPasswordWidget(
+//                                  title: "请输入临时密码",
+//                                  passwordCallBackFuture: (value) {
+//                                    print(value);
+//                                  }),
+//                            );
 //                            showModalBottomSheet(
 //                              context: context,
 //                              builder: (BuildContext context) {
@@ -142,6 +145,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             }),
                             buildItem(context, S.of(context).language, "images/profile_lanuge.png", () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
+
                             }),
                             buildItem(context, "关于", "images/profile_info.png", () {
                               print("123");
