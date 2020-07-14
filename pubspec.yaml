@@ -85,6 +85,9 @@ flutter:
     - images/wallet_card.png
     - images/check_box_normal.png
     - images/check_box_select.png
+    - images/main_know_icon_1.png
+    - images/main_know_icon_2.png
+    - images/main_know_icon_3.png
 
 
   #   - images/a_dot_ham.jpeg

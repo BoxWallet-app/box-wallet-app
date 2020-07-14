@@ -28,9 +28,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
     super.initState();
 
     eventBus.on<LanguageEvent>().listen((event) {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -145,7 +143,6 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             }),
                             buildItem(context, S.of(context).language, "images/profile_lanuge.png", () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
-
                             }),
                             buildItem(context, "关于", "images/profile_info.png", () {
                               print("123");
@@ -206,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
                 )
             ],
           ),

@@ -56,18 +56,12 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
 //                  width: 414,
                   height: 200,
                   alignment: Alignment.centerLeft,
-//                  margin: const EdgeInsets.only(left: 18, right: 18),
                   padding: const EdgeInsets.only(top: 10, left: 18, right: 18),
                   decoration: new BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("images/wallet_card.png"),
                       fit: BoxFit.fitWidth,
                     ),
-//                    color: Color(0xFFE71766),
-                    //设置四周圆角 角度
-//                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-
-                    //设置四周边框
                   ),
                   child: Column(
                     children: <Widget>[
@@ -204,7 +198,7 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
                 )
             ],
           ),

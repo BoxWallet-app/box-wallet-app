@@ -3,7 +3,6 @@ import 'package:box/page/profile_page.dart';
 import 'package:box/page/wallet_page.dart';
 import 'package:flutter/material.dart';
 
-
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
@@ -12,11 +11,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 //  final _BottomNavigationColor = Colors.blue;
   int _currentIndex = 0;
   List<StatefulWidget> list = List();
-  MainPage mainPage = MainPage() ;
 
   @override
   void initState() {
-    list..add(mainPage)..add(WalletPage())..add(ProfilePage());
+    list..add(MainPage())..add(WalletPage())..add(ProfilePage());
     super.initState();
   }
 
@@ -30,22 +28,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: [
-            BottomNavigationBarItem(
-                icon: Image(height: 25, width: 25, image: AssetImage('images/nav_home.png')),
-                activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_home_active.png')),
-                title: Container()),
-
-
-            BottomNavigationBarItem(
-                icon: Image(height: 25, width: 25, image: AssetImage('images/nav_wallet.png')),
-                activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_wallet_active.png')),
-                title: Container()),
-
-
-            BottomNavigationBarItem(
-                icon: Image(height: 25, width: 25, image: AssetImage('images/nav_profile.png')),
-                activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_profile_active.png')),
-                title: Container()),
+            BottomNavigationBarItem(icon: Image(height: 25, width: 25, image: AssetImage('images/nav_home.png')), activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_home_active.png')), title: Container()),
+            BottomNavigationBarItem(icon: Image(height: 25, width: 25, image: AssetImage('images/nav_wallet.png')), activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_wallet_active.png')), title: Container()),
+            BottomNavigationBarItem(icon: Image(height: 25, width: 25, image: AssetImage('images/nav_profile.png')), activeIcon: Image(height: 25, width: 25, image: AssetImage('images/nav_profile_active.png')), title: Container()),
           ],
           currentIndex: _currentIndex,
           onTap: (int index) {
@@ -54,16 +39,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           },
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white,
-          type: BottomNavigationBarType.fixed
-      ),
+          type: BottomNavigationBarType.fixed),
     );
   }
 
   void update() {
-
-    setState(() {
-
-    });
-   
+    setState(() {});
   }
 }
