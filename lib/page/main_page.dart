@@ -33,11 +33,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("123->" + MediaQueryData
-        .fromWindow(window)
-        .padding
-        .top
-        .toString());
+    print("123->" + MediaQueryData.fromWindow(window).padding.top.toString());
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Material(
@@ -59,10 +55,7 @@ class _MainPageState extends State<MainPage> {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
+                                  width: MediaQuery.of(context).size.width,
                                   height: 270,
                                   color: Color(0xFFE71766),
                                 ),
@@ -80,35 +73,29 @@ class _MainPageState extends State<MainPage> {
                           ),
                           Container(
                             child: Container(
-                              margin: EdgeInsets.only(top: MediaQueryData
-                                  .fromWindow(window)
-                                  .padding
-                                  .top),
+                              margin: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top),
                               child: Column(
                                 children: <Widget>[
                                   //价格-高度
                                   Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width - 40,
+                                    width: MediaQuery.of(context).size.width - 40,
                                     margin: const EdgeInsets.only(top: 210, left: 20, right: 20),
                                     height: 100,
                                     //边框设置
                                     decoration: new BoxDecoration(
-                                        color: Color(0x88FFFFFF),
+                                        color: Color(0xFFFFFFFF).withAlpha(200),
                                         //设置四周圆角 角度
                                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Colors.black12,
+                                              color: Colors.black.withAlpha(20),
                                               offset: Offset(0.0, 15.0), //阴影xy轴偏移量
                                               blurRadius: 15.0, //阴影模糊程度
                                               spreadRadius: 1.0 //阴影扩散程度
-                                          )
+                                              )
                                         ]
-                                      //设置四周边框
-                                    ),
+                                        //设置四周边框
+                                        ),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -189,10 +176,7 @@ class _MainPageState extends State<MainPage> {
                                         //知道
                                         Container(
                                           margin: const EdgeInsets.only(top: 20, left: 20),
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width - 20,
+                                          width: MediaQuery.of(context).size.width - 20,
                                           child: Text(
                                             "知道",
                                             style: TextStyle(
@@ -211,102 +195,102 @@ class _MainPageState extends State<MainPage> {
                                             children: <Widget>[
                                               Expanded(
                                                   child: InkWell(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                    onTap: () {
-                                                      print("123");
-                                                    },
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          margin: const EdgeInsets.only(top: 6),
-                                                          width: 55,
-                                                          height: 55,
-                                                          child: Image(
-                                                            image: AssetImage("images/main_know_icon_1.png"),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 0, left: 5),
-                                                                child: Text(
-                                                                  "钱包排行榜",
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Color(0xFF000000),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 2, left: 5),
-                                                                child: Text(
-                                                                  "看看谁才是庄家",
-                                                                  style: TextStyle(
-                                                                    fontSize: 12,
-                                                                    //词间距
-                                                                    color: Color(0xFF666666),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                onTap: () {
+                                                  print("123");
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 6),
+                                                      width: 55,
+                                                      height: 55,
+                                                      child: Image(
+                                                        image: AssetImage("images/main_know_icon_1.png"),
+                                                      ),
                                                     ),
-                                                  )),
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 0, left: 5),
+                                                            child: Text(
+                                                              "钱包排行榜",
+                                                              style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Color(0xFF000000),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 2, left: 5),
+                                                            child: Text(
+                                                              "看看谁才是庄家",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                //词间距
+                                                                color: Color(0xFF666666),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                               Expanded(
                                                   child: InkWell(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                    onTap: () {
-                                                      print("123");
-                                                    },
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          margin: const EdgeInsets.only(top: 6),
-                                                          width: 55,
-                                                          height: 55,
-                                                          child: Image(
-                                                            image: AssetImage("images/main_know_icon_2.png"),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 0, left: 5),
-                                                                child: Text(
-                                                                  "挖矿曲线",
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Color(0xFF000000),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 2, left: 5),
-                                                                child: Text(
-                                                                  "多劳多得 共同富裕",
-                                                                  style: TextStyle(
-                                                                    fontSize: 12,
-                                                                    //词间距
-                                                                    color: Color(0xFF666666),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                onTap: () {
+                                                  print("123");
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 6),
+                                                      width: 55,
+                                                      height: 55,
+                                                      child: Image(
+                                                        image: AssetImage("images/main_know_icon_2.png"),
+                                                      ),
                                                     ),
-                                                  )),
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 0, left: 5),
+                                                            child: Text(
+                                                              "挖矿曲线",
+                                                              style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Color(0xFF000000),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 2, left: 5),
+                                                            child: Text(
+                                                              "多劳多得 共同富裕",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                //词间距
+                                                                color: Color(0xFF666666),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                             ],
                                           ),
                                         ),
@@ -316,102 +300,102 @@ class _MainPageState extends State<MainPage> {
                                             children: <Widget>[
                                               Expanded(
                                                   child: InkWell(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                    onTap: () {
-                                                      print("123");
-                                                    },
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          margin: const EdgeInsets.only(top: 6),
-                                                          width: 55,
-                                                          height: 55,
-                                                          child: Image(
-                                                            image: AssetImage("images/main_know_icon_3.png"),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 0, left: 5),
-                                                                child: Text(
-                                                                  "实时算力",
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Color(0xFF000000),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 2, left: 5),
-                                                                child: Text(
-                                                                  "哪位大佬在挖矿",
-                                                                  style: TextStyle(
-                                                                    fontSize: 12,
-                                                                    //词间距
-                                                                    color: Color(0xFF666666),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                onTap: () {
+                                                  print("123");
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 6),
+                                                      width: 55,
+                                                      height: 55,
+                                                      child: Image(
+                                                        image: AssetImage("images/main_know_icon_3.png"),
+                                                      ),
                                                     ),
-                                                  )),
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 0, left: 5),
+                                                            child: Text(
+                                                              "实时算力",
+                                                              style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Color(0xFF000000),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 2, left: 5),
+                                                            child: Text(
+                                                              "哪位大佬在挖矿",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                //词间距
+                                                                color: Color(0xFF666666),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                               Expanded(
                                                   child: InkWell(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                    onTap: () {
-                                                      print("123");
-                                                    },
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          margin: const EdgeInsets.only(top: 6),
-                                                          width: 55,
-                                                          height: 55,
-                                                          child: Image(
-                                                            image: AssetImage("images/main_know_icon_1.png"),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 0, left: 5),
-                                                                child: Text(
-                                                                  "链上消息",
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Color(0xFF000000),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                alignment: Alignment.topLeft,
-                                                                margin: const EdgeInsets.only(top: 2, left: 5),
-                                                                child: Text(
-                                                                  "查看最新交易信息",
-                                                                  style: TextStyle(
-                                                                    fontSize: 12,
-                                                                    //词间距
-                                                                    color: Color(0xFF666666),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                onTap: () {
+                                                  print("123");
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 6),
+                                                      width: 55,
+                                                      height: 55,
+                                                      child: Image(
+                                                        image: AssetImage("images/main_know_icon_1.png"),
+                                                      ),
                                                     ),
-                                                  )),
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 0, left: 5),
+                                                            child: Text(
+                                                              "链上消息",
+                                                              style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Color(0xFF000000),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 2, left: 5),
+                                                            child: Text(
+                                                              "查看最新交易信息",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                //词间距
+                                                                color: Color(0xFF666666),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                             ],
                                           ),
                                         ),
@@ -419,10 +403,7 @@ class _MainPageState extends State<MainPage> {
                                     ),
                                   ),
 
-                                  Container(margin: const EdgeInsets.only(top: 15), height: 1.0, width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width - 30, color: Color(0xFFF5F5F5)),
+                                  Container(margin: const EdgeInsets.only(top: 15), height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
 
                                   Container(
                                     child: Column(
@@ -430,10 +411,7 @@ class _MainPageState extends State<MainPage> {
                                         //知道
                                         Container(
                                           margin: const EdgeInsets.only(top: 15, left: 20),
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width - 20,
+                                          width: MediaQuery.of(context).size.width - 20,
                                           child: Text(
                                             "域名",
                                             style: TextStyle(
@@ -448,10 +426,7 @@ class _MainPageState extends State<MainPage> {
                                         ),
 
                                         Container(
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width - 40,
+                                          width: MediaQuery.of(context).size.width - 40,
                                           margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                                           height: 80,
                                           //边框设置
@@ -540,26 +515,23 @@ class _MainPageState extends State<MainPage> {
                                                 ),
                                               ),
                                               Container(
+                                                width: 66,
+                                                height: 30,
                                                 margin: const EdgeInsets.only(left: 50, right: 30),
-                                                child: ArgonButton(
-                                                  height: 30,
-                                                  roundLoadingShape: true,
-                                                  width: 66,
-                                                  onTap: (startLoading, stopLoading, btnState) {},
+                                                child: FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(context, "aens");
+                                                  },
                                                   child: Text(
-                                                    "去注册",
-                                                    style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700),
+                                                    "注册",
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontSize: 13,color: Color(0xFFF22B79)),
                                                   ),
-                                                  loader: Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: SpinKitRing(
-                                                      lineWidth: 4,
-                                                      color: Colors.white,
-                                                      // size: loaderWidth ,
-                                                    ),
-                                                  ),
-                                                  borderRadius: 30.0,
-                                                  color: Color(0xFFE71766),
+                                                  color: Color(0xFFE61665).withAlpha(16),
+                                                  textColor: Colors.black,
+                                                  shape: RoundedRectangleBorder(
+
+                                                      borderRadius: BorderRadius.circular(30)),
                                                 ),
                                               ),
                                             ],
@@ -574,10 +546,7 @@ class _MainPageState extends State<MainPage> {
                                       children: <Widget>[
                                         Container(
                                           margin: const EdgeInsets.only(top: 20),
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
+                                          width: MediaQuery.of(context).size.width,
                                           height: 80,
                                           //边框设置
                                           decoration: new BoxDecoration(
@@ -639,13 +608,10 @@ class _MainPageState extends State<MainPage> {
                     ),
                     Positioned(
                       child: //搜索
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width - 40,
+                          Container(
+                        width: MediaQuery.of(context).size.width - 40,
                         height: 40,
-                        margin:  EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top+20, left: 20, right: 20),
+                        margin: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 20, left: 20, right: 20),
                         //边框设置
                         decoration: new BoxDecoration(
                             color: Color(0xE6FFFFFF),
@@ -657,10 +623,10 @@ class _MainPageState extends State<MainPage> {
                                   offset: Offset(0.0, 15.0), //阴影xy轴偏移量
                                   blurRadius: 15.0, //阴影模糊程度
                                   spreadRadius: 1.0 //阴影扩散程度
-                              )
+                                  )
                             ]
-                          //设置四周边框
-                        ),
+                            //设置四周边框
+                            ),
                         child: Row(
                           children: <Widget>[
                             Container(
@@ -668,31 +634,45 @@ class _MainPageState extends State<MainPage> {
                               height: 40,
                               child: Icon(Icons.search),
                             ),
+//                            Container(
+//                              alignment: Alignment.topLeft,
+//                              padding: const EdgeInsets.only(right: 18),
+//                              width: MediaQuery
+//                                  .of(context)
+//                                  .size
+//                                  .width - 40 - 40 - 40,
+//                              child: TextField(
+//                                controller: _textEditingController,
+//                                maxLines: 1,
+//                                style: TextStyle(
+//                                  fontSize: 14,
+//                                  color: Colors.black,
+//                                ),
+//                                decoration: InputDecoration(
+//                                  hintText: "搜索地址、区块、记录、哈希...",
+//                                  focusedBorder: new UnderlineInputBorder(
+//                                    borderSide: BorderSide(color: Color(0x00000000)),
+//                                  ),
+//                                  hintStyle: TextStyle(
+//                                    fontSize: 14,
+//                                  ),
+//                                ),
+//                                cursorColor: Color(0xFFE71766),
+//                                cursorWidth: 2,
+////                                cursorRadius: Radius.elliptical(20, 8),
+//                              ),
+//                            ),
                             Container(
-                              alignment: Alignment.topLeft,
+                              alignment: Alignment.centerLeft,
                               padding: const EdgeInsets.only(right: 18),
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width - 40 - 40 - 40,
-                              child: TextField(
-                                controller: _textEditingController,
-                                maxLines: 1,
+                              width: MediaQuery.of(context).size.width - 40 - 40 - 40,
+                              child: Text(
+                                "搜索地址、区块、记录、哈希...",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.black,
+                                  color: Color(0xFF666666),
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: "搜索地址、区块、记录、哈希...",
-                                  focusedBorder: new UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0x00000000)),
-                                  ),
-                                  hintStyle: TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                cursorColor: Color(0xFFE71766),
-                                cursorWidth: 2,
+
 //                                cursorRadius: Radius.elliptical(20, 8),
                               ),
                             ),
@@ -708,6 +688,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
 class AppBarSearch extends StatefulWidget implements PreferredSizeWidget {
   AppBarSearch({@required this.child}) : assert(child != null);
   final Widget child;

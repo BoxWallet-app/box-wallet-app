@@ -1,6 +1,6 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.101:8080';
-const BASE_HOST = 'http://192.168.0.103:8080';
+const BASE_HOST = 'http://192.168.0.105:8080';
 //const BASE_HOST = 'http://10.53.5.159:8080';
 //const BASE_HOST = 'http://localhost:8080';
 //const BASE_HOST = 'https://aeasy.io';
@@ -34,4 +34,7 @@ const NAME_INFO = BASE_HOST + '/api/names/info';
 
 //域名详情
 const ACCOUNT_INFO = BASE_HOST + '/api/user/info';
+
+//基础数据
+const BASE_DATA = BASE_HOST + '/api/base/data';
 
