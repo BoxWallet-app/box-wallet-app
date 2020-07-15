@@ -43,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
             body: EasyRefresh(
               onRefresh: () {},
               header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+              bottomBouncing: false,
               child: Container(
                 height: 700,
                 child: Stack(
