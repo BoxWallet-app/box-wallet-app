@@ -63,7 +63,11 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
           });
         }
       });
-    _animationController.forward(from: 0.0);
+    Future.delayed(Duration(milliseconds: 500), (){
+
+      _animationController.forward(from: 0.0);
+    });
+
   }
 
   void _clearAnimation() {
