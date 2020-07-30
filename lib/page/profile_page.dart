@@ -91,17 +91,17 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                             }
                           }),
                           buildHeaderItem("备份助记词", "images/profile_backups.png", () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage()));
-//                            showCupertinoModalBottomSheet(
-//                              context: context,
-//                              barrierColor: Colors.black38,
-//                              // ignore: missing_return
-//                              builder: (context, scrollController) => PayPasswordWidget(
-//                                  title: "请输入临时密码",
-//                                  passwordCallBackFuture: (value) {
-//                                    print(value);
-//                                  }),
-//                            );
+//                            Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage()));
+                            showCupertinoModalBottomSheet(
+                              context: context,
+                              barrierColor: Colors.black38,
+                              // ignore: missing_return
+                              builder: (context, scrollController) => PayPasswordWidget(
+                                  title: "请输入临时密码",
+                                  passwordCallBackFuture: (value) {
+                                    print(value);
+                                  }),
+                            );
 //                            showModalBottomSheet(
 //                              context: context,
 //                              builder: (BuildContext context) {

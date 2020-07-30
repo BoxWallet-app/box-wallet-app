@@ -1,7 +1,7 @@
+import 'package:box/widget/qrcode_reader_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_qr_reader/qrcode_reader_view.dart';
 
 class ScanPage extends StatefulWidget {
 
@@ -52,22 +52,23 @@ class _ScanPageState extends State<ScanPage> {
       print(data);
       return;
     }
-
-    await showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text("扫码结果"),
-          content: Text(data),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text("确认"),
-              onPressed: () => Navigator.pop(context),
-            )
-          ],
-        );
-      },
-    );
+    Navigator.pop(context,data);
+//    await showCupertinoDialog(
+//      context: context,
+//      builder: (context) {
+//
+//        return CupertinoAlertDialog(
+//          title: Text("扫码结果"),
+//          content: Text(data),
+//          actions: <Widget>[
+//            CupertinoDialogAction(
+//              child: Text("确认"),
+//              onPressed: () => Navigator.pop(context),
+//            )
+//          ],
+//        );
+//      },
+//    );
 //    _key.currentState.startScan();
   }
 }

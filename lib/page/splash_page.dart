@@ -25,7 +25,6 @@ class _SplashPageState extends State<SplashPage> {
         S.load(Locale(value, value.toUpperCase()));
         Navigator.pushReplacementNamed(context, "login");
       });
-
     });
   }
 
