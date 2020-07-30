@@ -36,10 +36,12 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   AnimationController _animationController;
   bool openFlashlight;
   Timer _timer;
+  bool isWait;
   @override
   void initState() {
     super.initState();
     openFlashlight = false;
+    isWait = false;
     _initAnimation();
   }
 
@@ -147,11 +149,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
             SizedBox(
               width: constraints.maxWidth,
               height: constraints.maxHeight,
-              child: QrReaderView(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
-                callback: _onCreateController,
-              ),
+              child: getQrView(constraints),
             ),
             if (widget.headerWidget != null) widget.headerWidget,
             Positioned(
@@ -247,6 +245,30 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
         );
       }),
     );
+  }
+
+  Widget getQrView(BoxConstraints constraints) {
+    // 延时1s执行返回
+    Future.delayed(Duration(milliseconds: 500), (){
+
+      setState(() {
+        isWait = true;
+      });
+    });
+    if(isWait){
+      final qrView =  QrReaderView(
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
+        callback: _onCreateController,
+      );
+      return qrView;
+
+    }else{
+      return Text("");
+    }
+
+
+
   }
 
   @override
