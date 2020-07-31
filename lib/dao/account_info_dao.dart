@@ -19,7 +19,7 @@ class AccountInfoDao {
       AccountInfoModel model = AccountInfoModel.fromJson(data);
       return model;
     } else {
-      throw Exception('Failed to load BlockTopModel.json');
+      throw Exception('Failed to load AccountInfoModel.json');
     }
   }
 }

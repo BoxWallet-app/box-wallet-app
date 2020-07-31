@@ -1,8 +1,10 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/model/account_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/page/scan_page.dart';
-import 'package:box/page/token_send_two_page.dart';
+import 'package:box/utils/utils.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,14 +16,39 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class TokenSendOnePage extends StatefulWidget {
+import '../main.dart';
+
+class TokenSendTwoPage extends StatefulWidget {
+  final String address;
+
+  TokenSendTwoPage({Key key, @required this.address}) : super(key: key);
+
   @override
-  _TokenSendOnePageState createState() => _TokenSendOnePageState();
+  _TokenSendTwoPageState createState() => _TokenSendTwoPageState();
 }
 
-class _TokenSendOnePageState extends State<TokenSendOnePage> {
+class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
+  String token = "-";
+
+  @override
+  void initState() {
+    super.initState();
+    netAccountInfo();
+  }
+
+  void netAccountInfo() {
+    AccountInfoDao.fetch().then((AccountInfoModel model) {
+      if (model.code == 200) {
+        print(model.data.balance);
+        token = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +97,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                   Color(0xFFFAFAFA),
                                 ]),
                               ),
-                              height: 100,
+                              height: 200,
                             ),
                           ],
                         ),
@@ -82,17 +109,69 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 20, top: 10),
                               child: Text(
-                                "1/2 请输入接收地址",
+                                "2/2 请输入发送数量",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
                                 ),
                               ),
                             ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: const EdgeInsets.only(left: 20, top: 10),
+                                  child: Text(
+                                    "从",
+                                    style: TextStyle(
+                                      color: Colors.white.withAlpha(200),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: const EdgeInsets.only(left: 10, top: 10),
+                                  child: Text(
+                                    getSendAddress(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: const EdgeInsets.only(left: 20, top: 10),
+                                  child: Text(
+                                    "到",
+                                    style: TextStyle(
+                                      color: Colors.white.withAlpha(200),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: const EdgeInsets.only(left: 10, top: 10),
+                                  child: Text(
+                                    getReceiveAddress(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
-                              height: 172,
+                              height: 152,
                               //边框设置
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
@@ -117,52 +196,11 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "地址",
+                                            "转账数量",
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontSize: 19,
                                             ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 10, right: 10),
-                                          child: Material(
-                                            color: Color(0x00000000),
-                                            child: InkWell(
-                                                borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                onTap: () async {
-                                                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                                                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                                    final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                                                    print(data);
-                                                    _textEditingController.text = data;
-                                                  } else {
-                                                    Fluttertoast.showToast(msg: "没有相机权限", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                                  }
-                                                },
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(left: 10, right: 10),
-                                                  height: 30,
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      new Icon(
-                                                        Icons.photo_camera,
-                                                        size: 18,
-                                                        color: Color(0xFF666666),
-                                                      ),
-                                                      Container(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "扫码",
-                                                        style: TextStyle(
-                                                          color: Color(0xFF666666),
-                                                          fontSize: 17,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )),
                                           ),
                                         ),
                                       ],
@@ -174,19 +212,23 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                     child: Stack(
                                       children: <Widget>[
                                         TextField(
+//                                          autofocus: true,
+                                          keyboardType: TextInputType.number,
                                           controller: _textEditingController,
+                                          inputFormatters: [
+                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                          ],
 
-                                          maxLines: 3,
+                                          maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: 'ak_idkx6m3bgRr7WiKXuB8EBYBoRq ...',
+                                            hintText: '',
                                             enabledBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
-// and:
                                             focusedBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xFFE71766)),
                                             ),
@@ -199,8 +241,85 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
+                                        Positioned(
+                                          right: 0,
+                                          top: 12,
+                                          child: Container(
+                                            margin: const EdgeInsets.only(left: 10, right: 0),
+                                            child: Material(
+                                              color: Color(0x00000000),
+                                              child: InkWell(
+                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                  onTap: () {
+                                                    _textEditingController.text = token;
+                                                    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(left: 10, right: 10),
+                                                    height: 30,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          "全部",
+                                                          style: TextStyle(
+                                                            color: Color(0xFFE71766),
+                                                            fontSize: 17,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
+                                  ),
+                                  Container(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: const EdgeInsets.only(left: 18),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Text(
+                                                  "余额",
+                                                  style: TextStyle(
+                                                    color: Color(0xFF666666),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(left: 10, right: 10),
+                                          child: Container(
+                                            margin: const EdgeInsets.only(left: 10, right: 10),
+                                            height: 30,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  token + " AE",
+                                                  style: TextStyle(
+                                                    color: Color(0xFF666666),
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -211,17 +330,16 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30),
+                    margin: const EdgeInsets.only(top: 30, bottom: 30),
                     child: ArgonButton(
                       height: 50,
                       roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
-//                  netRegister(context, startLoading, stopLoading);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
+                        netRegister(context, startLoading, stopLoading);
                       },
                       child: Text(
-                        "下一步",
+                        "确 认",
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
@@ -241,6 +359,15 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
             ),
           ),
         ));
+//
+  }
+
+  String getReceiveAddress(){
+    return Utils.formatAddress(widget.address);
+  }
+
+  String getSendAddress(){
+    return Utils.formatAddress(BoxApp.getAddress());
   }
 
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
