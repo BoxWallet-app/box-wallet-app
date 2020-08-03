@@ -5,6 +5,11 @@ class Utils {
     return "ak_***" + address.substring(address.length - 4, address.length);
   }
 
+  static formatHomeAddress(String address) {
+    address
+    return "ak_" + address.substring(3, 8)+"...."+ address.substring(address.length - 8, address.length);
+  }
+
   static formatPrice(String price) {
     return price.substring(0, price.length - 3);
   }

@@ -1,9 +1,10 @@
+import 'package:box/page/home_page.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/aens_my_page.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/aens_register.dart';
-import 'package:box/page/home_page.dart';
+import 'package:box/page/home_page_lod.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/main_page.dart';
@@ -37,12 +38,12 @@ class BoxApp extends StatelessWidget {
         primaryColor: Colors.white,
       ),
 //      home: SplashPage(),
-      home: SplashPage(),
+      home: HomePage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{
         'login': (BuildContext context) => LoginPage(),
-        'home': (BuildContext context) => HomePage(),
+        'home': (BuildContext context) => HomePageOld(),
         'aens': (BuildContext context) => AensPage(),
         'aens_my': (BuildContext context) => AensMyPage(),
         'aens_register': (BuildContext context) => AensRegister(),

@@ -88,6 +88,8 @@ flutter:
     - images/main_know_icon_1.png
     - images/main_know_icon_2.png
     - images/main_know_icon_3.png
+    - images/home_bg.png
+    - images/home_send.png
 
 
   #   - images/a_dot_ham.jpeg
