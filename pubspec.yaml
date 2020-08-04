@@ -61,7 +61,18 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/Ubuntu-Regular.ttf
+        - asset: assets/fonts/Ubuntu-Bold.ttf
+        - asset: assets/fonts/Ubuntu-BoldItalic.ttf
+        - asset: assets/fonts/Ubuntu-Italic.ttf
+        - asset: assets/fonts/Ubuntu-Light.ttf
+        - asset: assets/fonts/Ubuntu-LightItalic.ttf
+        - asset: assets/fonts/Ubuntu-Medium.ttf
+        - asset: assets/fonts/Ubuntu-MediumItalic.ttf
+        - asset: assets/fonts/Ubuntu-Regular.ttf
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/login_logo.png
@@ -90,6 +101,12 @@ flutter:
     - images/main_know_icon_3.png
     - images/home_bg.png
     - images/home_send.png
+    - images/home_aens.png
+    - images/home_game.png
+    - images/home_receive.png
+    - images/home_settings.png
+    - images/home_logo.png
+    - images/home_search.png
 
 
   #   - images/a_dot_ham.jpeg

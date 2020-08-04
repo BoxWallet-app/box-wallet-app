@@ -6,7 +6,6 @@ class Utils {
   }
 
   static formatHomeAddress(String address) {
-    address
     return "ak_" + address.substring(3, 8)+"...."+ address.substring(address.length - 8, address.length);
   }
 

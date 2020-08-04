@@ -33,7 +33,8 @@ class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
-  var _top = 330.00;
+  var _top = 400.00;
+  var _top_y = 0;
 
   @override
   void initState() {
@@ -43,31 +44,29 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
-    _top = 310.00;
+//    _top = 380.00;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Material(
         child: Scaffold(
-            floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50),
-          floatingActionButton: new FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AensRegister()));
-//              BlockTopDao.fetch().then((BlockTopModel model) {
-//                print(model.toJson());
-//
-//              }).catchError((e) {
-//                print(e.toString() + "123123");
-//
-//              });
-
-            },
-
-            child: new Icon(Icons.search),
-            elevation: 10.0,
-            highlightElevation: 10.0,
-            backgroundColor: Color(0xFFE71766),
+//          floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50),
+          floatingActionButton: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(100)),
+              onTap: () {
+                print("123");
+              },
+              child: Container(
+                child: Image(
+                  width: 100,
+                  height: 100,
+                  image: AssetImage('images/home_search.png'),
+                ),
+              ),
+            ),
           ),
+
           backgroundColor: Color(0xFFFC2764).withAlpha(220),
 //            backgroundColor: Color(0xFFEEEEEE),
           body: Container(
@@ -90,7 +89,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                       ),
                     ),
                     Positioned(
-                        top: 0,
+                        top: 10,
                         left: 0,
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -101,9 +100,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   Expanded(
                                     child: Container(
                                       padding: EdgeInsets.only(left: 18),
-                                      child: Text(
-                                        "Box aepp",
-                                        style: TextStyle(fontSize: 28, color: Colors.white),
+                                      alignment: Alignment.topLeft,
+                                      child: Image(
+                                        width: 153,
+                                        height: 36,
+                                        image: AssetImage('images/home_logo.png'),
                                       ),
                                     ),
                                   ),
@@ -115,17 +116,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                         print("123");
                                       },
                                       child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: Icon(
-                                          Icons.settings,
-                                          color: Colors.white,
+                                        height: 55,
+                                        width: 55,
+                                        padding: EdgeInsets.all(15),
+                                        child: Image(
+                                          width: 36,
+                                          height: 36,
+                                          image: AssetImage('images/home_settings.png'),
                                         ),
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    width: 10,
+                                    width: 3,
                                   ),
                                 ],
                               ),
@@ -233,6 +236,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //                                  )),
                               Container(
 //                  width: 414,
+                                height: 150,
                                 alignment: Alignment.centerLeft,
 //                                padding: const EdgeInsets.only(top: 10, left: 18, right: 18),
 
@@ -251,20 +255,24 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //                                      ),
 //                                    ),
                                     Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 18),
+                                      margin: const EdgeInsets.only(top: 35, left: 18),
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
-                                          Text(
-                                            "619.29349",
-                                            style: TextStyle(fontSize: 35, color: Colors.white),
+                                          Container(
+                                            child: Text(
+                                              "619.29349",
+                                              style: TextStyle(fontSize: 35, color: Colors.white),
+                                            ),
+                                            alignment: Alignment.center,
                                           ),
+
                                           Container(
                                             margin: const EdgeInsets.only(bottom: 5),
-                                            child:  Text(
+                                            child: Text(
                                               "  AE",
-                                              style: TextStyle(fontSize: 13, color: Colors.white70),
+                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
                                             ),
                                           ),
 
@@ -277,10 +285,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 18, right: 18),
+                                      margin: const EdgeInsets.only(top: 18, left: 18, right: 18),
                                       child: Text(
-                                        "ak_ idk x6m 3bg Rr7 WiK XuB 8EB YBo RqV saS c6q o4d sd2 3HK gj3 qiC F",
-                                        style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),
+                                        "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",
+                                        style: TextStyle(fontSize: 18, color: Colors.white70, height: 1.3, letterSpacing: 1.0, fontFamily: "Ubuntu"),
                                       ),
                                     ),
                                   ],
@@ -290,110 +298,132 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                 alignment: Alignment.centerLeft,
                                 margin: EdgeInsets.only(left: 18, top: 20),
                                 child: Text(
-                                  "常用功能",
-                                  style: TextStyle(fontSize: 18, color: Colors.white),
+                                  "Function",
+                                  style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "Ubuntu"),
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
+                                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                                 child: Row(
                                   children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      width: (MediaQuery.of(context).size.width - 20) / 4,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            child: Image(
-                                              width: 65,
-                                              height: 65,
-                                              image: AssetImage('images/home_send.png'),
-                                            ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {},
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                                          width: (MediaQuery.of(context).size.width - 20) / 4,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Image(
+                                                  width: 65,
+                                                  height: 65,
+                                                  image: AssetImage('images/home_send.png'),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "Send",
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "发送币",
-                                              style: TextStyle(fontSize: 16, color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      width: (MediaQuery.of(context).size.width - 20) / 4,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            width: 65,
-                                            height: 65,
-                                            child: Image(
-                                              width: 65,
-                                              height: 65,
-                                              image: AssetImage('images/home_send.png'),
-                                            ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {},
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                                          width: (MediaQuery.of(context).size.width - 20) / 4,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Image(
+                                                  width: 65,
+                                                  height: 65,
+                                                  image: AssetImage('images/home_receive.png'),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "Receive",
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "接收币",
-                                              style: TextStyle(fontSize: 16, color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      width: (MediaQuery.of(context).size.width - 20) / 4,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            width: 65,
-                                            height: 65,
-                                            child: Image(
-                                              width: 65,
-                                              height: 65,
-                                              image: AssetImage('images/home_send.png'),
-                                            ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {},
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                                          width: (MediaQuery.of(context).size.width - 20) / 4,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Image(
+                                                  width: 65,
+                                                  height: 65,
+                                                  image: AssetImage('images/home_aens.png'),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "Names",
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "域名",
-                                              style: TextStyle(fontSize: 16, color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20),
-                                      width: (MediaQuery.of(context).size.width - 20) / 4,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            width: 65,
-                                            height: 65,
-                                            child: Image(
-                                              width: 65,
-                                              height: 65,
-                                              image: AssetImage('images/home_send.png'),
-                                            ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {},
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                                          width: (MediaQuery.of(context).size.width - 20) / 4,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Image(
+                                                  width: 65,
+                                                  height: 65,
+                                                  image: AssetImage('images/home_game.png'),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "Games",
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "游戏",
-                                              style: TextStyle(fontSize: 16, color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -413,8 +443,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 20),
-                            height: MediaQuery.of(context).size.height,
+
                             width: MediaQuery.of(context).size.width,
+
                             //边框设置
                             decoration: new BoxDecoration(
                               color: Colors.white,
@@ -442,85 +473,108 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   height: 23,
                                   padding: EdgeInsets.only(left: 8, right: 8),
                                 ),
-                                Container(
+                                NotificationListener<ScrollNotification>(
+                                  // 添加 NotificationListener 作为父容器
+                                  // ignore: missing_return
+                                  onNotification: (scrollNotification) {
+                                    // 注册通知回调
+                                    if (scrollNotification is ScrollStartNotification) {
+                                      // 滚动开始
+                                    } else if (scrollNotification is ScrollUpdateNotification) {
+                                      // 滚动位置更新
+                                      ScrollMetrics metrics = scrollNotification.metrics;
+                                      _top = 380 - metrics.pixels / 3;
+                                      if (_top > MediaQueryData.fromWindow(window).padding.top + 150) setState(() {});
+                                      return true;
+                                    } else if (scrollNotification is ScrollEndNotification) {
+                                      // 滚动结束
+                                      ScrollMetrics metrics = scrollNotification.metrics;
+                                      _top = 380 - metrics.pixels / 3;
+                                      if (_top > MediaQueryData.fromWindow(window).padding.top + 150) setState(() {});
+                                    }
+                                    return true;
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(left: 18, right: 18),
+                                      height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 100,
+                                      child: EasyRefresh(
+                                        onRefresh: () {},
+                                        header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+                                        child: ListView.builder(
+                                          itemCount: 30,
+                                          shrinkWrap: true,
 
-                                  margin: EdgeInsets.only(left: 18, right: 18),
-                                  child: ListView.builder(
-                                    itemCount: 3,
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.only(top: 10, bottom: 50),
-                                    physics: new NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      if(index == 0){
-                                        return Container(
-                                          margin: EdgeInsets.only(bottom: 20),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                //边框设置
-                                                decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                    color: Color(0xFFFB156E),
-                                                    //设置四周圆角 角度
-                                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Color(0xFFFB156E).withAlpha(20),
-                                                          offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                          blurRadius: 5.0, //阴影模糊程度
-                                                          spreadRadius: 1.0 //阴影扩散程度
-                                                      )
-                                                    ]
-                                                  //设置四周边框
-                                                ),
-
-                                                child: Text(
-                                                  "1",
-                                                  style: TextStyle(color: Colors.white, fontSize: 14),
-                                                ),
-                                                alignment: Alignment.center,
-                                                height: 23,
-                                                width: 65,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(left: 18),
-                                                child: Column(
+                                          padding: const EdgeInsets.only(top: 10, bottom: 50),
+//                                    physics: new NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            if (index == 0) {
+                                              return Container(
+                                                margin: EdgeInsets.only(bottom: 20),
+                                                child: Row(
                                                   children: <Widget>[
                                                     Container(
+                                                      //边框设置
+                                                      decoration: new BoxDecoration(
+//                                                  color:Colors.green,
+                                                          color: Color(0xFFFB156E),
+                                                          //设置四周圆角 角度
+                                                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                color: Color(0xFFFB156E).withAlpha(20),
+                                                                offset: Offset(0.0, 3.0), //阴影xy轴偏移量
+                                                                blurRadius: 5.0, //阴影模糊程度
+                                                                spreadRadius: 1.0 //阴影扩散程度
+                                                                )
+                                                          ]
+                                                          //设置四周边框
+                                                          ),
+
                                                       child: Text(
-                                                        "Spend",
-                                                        style: TextStyle(color: Colors.black, fontSize: 18),
+                                                        "18",
+                                                        style: TextStyle(color: Colors.white, fontSize: 14),
                                                       ),
+                                                      alignment: Alignment.center,
+                                                      height: 23,
+                                                      width: 65,
                                                     ),
                                                     Container(
-
-                                                      margin: EdgeInsets.only(top: 8),
-                                                      child: Text(
-                                                        "th_ 22F VTz DED 19s YhK UnM V2r DvF C4f PzN ndN gPq YRf bo5 i8X 3mZ SB",
-                                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1),
-                                                        style: TextStyle(
-                                                          color:Colors.black.withAlpha(80),
-                                                          fontSize: 13,
-
-                                                        ),
-
+                                                      margin: EdgeInsets.only(left: 18),
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            child: Text(
+                                                              "Spend",
+                                                              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 8),
+                                                            child: Text(
+                                                              "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
+                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                              style: TextStyle(
+                                                                color: Colors.black.withAlpha(80),
+                                                                letterSpacing: 1.0,
+                                                                fontSize: 13,
+                                                              ),
+                                                            ),
+                                                            width: 250,
+                                                          ),
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 6),
+                                                            child: Text(
+                                                              "2020-08-03 16:15:05",
+                                                              style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                       ),
-                                                      width: 250,
                                                     ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(top: 6),
-                                                      child: Text(
-                                                        "2020-08-03 16:15:05",
-                                                        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13),
-                                                      ),
+                                                    Expanded(
+                                                      child: Text(""),
                                                     ),
-                                                  ],
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(""),
-                                              ),
 //                                            Row(
 //                                              children: <Widget>[
 //                                                Container(
@@ -543,80 +597,78 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //                                                ),
 //                                              ],
 //                                            ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                      if(index == 1){
-                                        return Container(
-                                          margin: EdgeInsets.only(bottom: 20),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                //边框设置
-                                                decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                    color: Color(0xFFFB156E),
-                                                    //设置四周圆角 角度
-                                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Color(0xFFFB156E).withAlpha(20),
-                                                          offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                          blurRadius: 5.0, //阴影模糊程度
-                                                          spreadRadius: 1.0 //阴影扩散程度
-                                                      )
-                                                    ]
-                                                  //设置四周边框
+                                                  ],
                                                 ),
-
-                                                child: Text(
-                                                  "103",
-                                                  style: TextStyle(color: Colors.white, fontSize: 14),
-                                                ),
-                                                alignment: Alignment.center,
-                                                height: 23,
-                                                width: 65,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(left: 18),
-                                                child: Column(
+                                              );
+                                            }
+                                            if (index == 1) {
+                                              return Container(
+                                                margin: EdgeInsets.only(bottom: 20),
+                                                child: Row(
                                                   children: <Widget>[
                                                     Container(
+                                                      //边框设置
+                                                      decoration: new BoxDecoration(
+//                                                  color:Colors.green,
+                                                          color: Color(0xFFFB156E),
+                                                          //设置四周圆角 角度
+                                                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                color: Color(0xFFFB156E).withAlpha(20),
+                                                                offset: Offset(0.0, 3.0), //阴影xy轴偏移量
+                                                                blurRadius: 5.0, //阴影模糊程度
+                                                                spreadRadius: 1.0 //阴影扩散程度
+                                                                )
+                                                          ]
+                                                          //设置四周边框
+                                                          ),
+
                                                       child: Text(
-                                                        "Spend",
-                                                        style: TextStyle(color: Colors.black, fontSize: 18),
+                                                        "103",
+                                                        style: TextStyle(color: Colors.white, fontSize: 14),
                                                       ),
+                                                      alignment: Alignment.center,
+                                                      height: 23,
+                                                      width: 65,
                                                     ),
                                                     Container(
-
-                                                      margin: EdgeInsets.only(top: 8),
-                                                      child: Text(
-                                                        "th_ 22F VTz DED 19s YhK UnM V2r DvF C4f PzN ndN gPq YRf bo5 i8X 3mZ SB",
-                                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1),
-                                                        style: TextStyle(
-                                                          color:Colors.black.withAlpha(80),
-                                                          fontSize: 13,
-
-                                                        ),
-
+                                                      margin: EdgeInsets.only(left: 18),
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Container(
+                                                            child: Text(
+                                                              "Update name",
+                                                              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 8),
+                                                            child: Text(
+                                                              "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
+                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                              style: TextStyle(
+                                                                color: Colors.black.withAlpha(80),
+                                                                fontSize: 13,
+                                                                letterSpacing: 1.0,
+                                                              ),
+                                                            ),
+                                                            width: 250,
+                                                          ),
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 6),
+                                                            child: Text(
+                                                              "2020-08-03 16:15:05",
+                                                              style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                       ),
-                                                      width: 250,
                                                     ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(top: 6),
-                                                      child: Text(
-                                                        "2020-08-03 16:15:05",
-                                                        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13),
-                                                      ),
+                                                    Expanded(
+                                                      child: Text(""),
                                                     ),
-                                                  ],
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(""),
-                                              ),
 //                                            Row(
 //                                              children: <Widget>[
 //                                                Container(
@@ -639,79 +691,77 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //                                                ),
 //                                              ],
 //                                            ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                      return Container(
-                                        margin: EdgeInsets.only(bottom: 20),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              //边框设置
-                                              decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                  color: Color(0xFFFB156E),
-                                                  //设置四周圆角 角度
-                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Color(0xFFFB156E).withAlpha(20),
-                                                        offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                        blurRadius: 5.0, //阴影模糊程度
-                                                        spreadRadius: 1.0 //阴影扩散程度
-                                                        )
-                                                  ]
-                                                  //设置四周边框
-                                                  ),
-
-                                              child: Text(
-                                                "42332",
-                                                style: TextStyle(color: Colors.white, fontSize: 14),
-                                              ),
-                                              alignment: Alignment.center,
-                                              height: 23,
-                                              padding: EdgeInsets.only(left: 8, right: 8),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(left: 18),
-                                              child: Column(
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                            return Container(
+                                              margin: EdgeInsets.only(bottom: 20),
+                                              child: Row(
                                                 children: <Widget>[
                                                   Container(
+                                                    //边框设置
+                                                    decoration: new BoxDecoration(
+//                                                  color:Colors.green,
+                                                        color: Color(0xFFFB156E),
+                                                        //设置四周圆角 角度
+                                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Color(0xFFFB156E).withAlpha(20),
+                                                              offset: Offset(0.0, 3.0), //阴影xy轴偏移量
+                                                              blurRadius: 5.0, //阴影模糊程度
+                                                              spreadRadius: 1.0 //阴影扩散程度
+                                                              )
+                                                        ]
+                                                        //设置四周边框
+                                                        ),
+
                                                     child: Text(
-                                                      "Spend",
-                                                      style: TextStyle(color: Colors.black, fontSize: 18),
+                                                      "42332",
+                                                      style: TextStyle(color: Colors.white, fontSize: 14),
                                                     ),
+                                                    alignment: Alignment.center,
+                                                    height: 23,
+                                                    padding: EdgeInsets.only(left: 8, right: 8),
                                                   ),
                                                   Container(
-
-                                                    margin: EdgeInsets.only(top: 8),
-                                                    child: Text(
-                                                      "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
-                                                      strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1),
-                                                      style: TextStyle(
-                                                        color:Colors.black.withAlpha(80),
-                                                        fontSize: 14,
-
-                                                      ),
-
+                                                    margin: EdgeInsets.only(left: 18),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Text(
+                                                            "Spend",
+                                                            style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(top: 8),
+                                                          child: Text(
+                                                            "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
+                                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                            style: TextStyle(
+                                                              color: Colors.black.withAlpha(80),
+                                                              letterSpacing: 1.0,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                          width: 250,
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(top: 6),
+                                                          child: Text(
+                                                            "2020-08-03 16:06:13",
+                                                            style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                     ),
-                                                    width: 250,
                                                   ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(top: 6),
-                                                    child: Text(
-                                                      "2020-08-03 16:06:13",
-                                                      style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14),
-                                                    ),
+                                                  Expanded(
+                                                    child: Text(""),
                                                   ),
-                                                ],
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Text(""),
-                                            ),
 //                                            Row(
 //                                              children: <Widget>[
 //                                                Container(
@@ -734,11 +784,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //                                                ),
 //                                              ],
 //                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      )),
                                 ),
                               ],
                             ),
