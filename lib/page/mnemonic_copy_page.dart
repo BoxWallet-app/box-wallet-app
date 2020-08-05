@@ -155,7 +155,7 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
                     ),
                   ),
                   borderRadius: 30.0,
-                  color: Color(0xFFE71766),
+                  color: Color(0xFFFC2365),
                 ),
               )
             ],

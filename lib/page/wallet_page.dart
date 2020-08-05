@@ -48,7 +48,7 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
         ),
         body: EasyRefresh(
           onRefresh: _onRefresh,
-          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           bottomBouncing: false,
           child: Container(
             child: Column(

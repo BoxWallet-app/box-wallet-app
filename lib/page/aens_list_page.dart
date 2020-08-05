@@ -79,8 +79,8 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
         child: EasyRefresh(
           onRefresh: _onRefresh,
           onLoad: _onLoad,
-          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
-          footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
+          footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,
           child: ListView.builder(
             itemBuilder: _renderRow,

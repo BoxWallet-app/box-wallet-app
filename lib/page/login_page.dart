@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 
+import 'home_page.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -15,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE71766),
+      backgroundColor: Color(0xFFFC2365),
       body: Container(
         child: SafeArea(
           child: Stack(
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     "登 录",
                     style:
-                        new TextStyle(fontSize: 17, color: Color(0xFFE71766)),
+                        new TextStyle(fontSize: 17, color: Color(0xFFFC2365)),
                   ),
                   color: Colors.white,
                   height: 50,
@@ -97,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 //                      Navigator.pushReplacementNamed(context, "home");
                     },
                   ),)

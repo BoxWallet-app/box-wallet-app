@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
 //            backgroundColor: Color(0xFFEEEEEE),
             body: EasyRefresh(
               onRefresh: () {},
-              header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+              header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
               bottomBouncing: false,
               child: Container(
                 height: 700,
@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
                       right: 0,
                       height: 220,
                       width: MediaQuery.of(context).size.width,
-                      child: Container(color: Color(0xFFE71766)),
+                      child: Container(color: Color(0xFFFC2365)),
                     ),
                     Positioned(
                       top: 0,
@@ -215,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
 
   Widget buildHeaderItem(String content, String image, GestureTapCallback tapCallback) {
     return Material(
-        color: Color(0xFFE71766),
+        color: Color(0xFFFC2365),
         child: Ink(
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(10)),

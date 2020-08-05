@@ -46,6 +46,7 @@ dependencies:
   modal_bottom_sheet: ^0.1.6+1
   animated_text_kit: ^2.1.0
   event_bus: ^1.1.0
+  qr_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:

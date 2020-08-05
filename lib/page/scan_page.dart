@@ -21,7 +21,7 @@ class _ScanPageState extends State<ScanPage> {
       body: QrcodeReaderView(
         key: _key,
         onScan: onScan,
-        boxLineColor:Color(0xFFE71766),
+        boxLineColor:Color(0xFFFC2365),
         headerWidget: Container(
           child: AppBar(
             backgroundColor: Color(0x22000000),

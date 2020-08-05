@@ -54,7 +54,7 @@ class _AensPageState extends State<AensPage> {
               indicator: UnderlineIndicator(
                   strokeCap: StrokeCap.round,
                   borderSide: BorderSide(
-                    color: Color(0xFFE71766),
+                    color: Color(0xFFFC2365),
                     width: 2,
                   ),
                   insets: EdgeInsets.only(bottom: 5)),
@@ -91,7 +91,7 @@ class _AensPageState extends State<AensPage> {
             child: new Icon(Icons.add),
             elevation: 3.0,
             highlightElevation: 2.0,
-            backgroundColor: Color(0xFFE71766),
+            backgroundColor: Color(0xFFFC2365),
           ),
           floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50)),
     );

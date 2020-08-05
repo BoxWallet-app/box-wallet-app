@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'home_page.dart';
+
 class AccountLoginPage extends StatefulWidget {
   @override
   _AccountLoginPageState createState() => _AccountLoginPageState();
@@ -91,7 +93,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                             color: Colors.black.withAlpha(80),
                           ),
                         ),
-                        cursorColor: Color(0xFFE71766),
+                        cursorColor: Color(0xFFFC2365),
                         cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                       ),
@@ -114,7 +116,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
                         print("123");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       child: Text(
                         "确 认",
@@ -129,7 +131,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                         ),
                       ),
                       borderRadius: 30.0,
-                      color: Color(0xFFE71766),
+                      color: Color(0xFFFC2365),
                     ),
                   )
                 ],

@@ -37,8 +37,8 @@ class BoxApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.white,
       ),
-//      home: SplashPage(),
-      home: HomePage(),
+      home: SplashPage(),
+//      home: HomePage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
       routes: <String, WidgetBuilder>{

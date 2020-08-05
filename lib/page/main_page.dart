@@ -41,14 +41,14 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: Color(0xFFFFFFFF),
             body: Container(
 //              onRefresh: () {},
-//              header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+//              header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
               child: Container(
                 child: Stack(
                   children: <Widget>[
                     EasyRefresh(
                       topBouncing: false,
                       bottomBouncing: false,
-                      header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+                      header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
                       child: Stack(
                         children: <Widget>[
                           Positioned(
@@ -57,12 +57,12 @@ class _MainPageState extends State<MainPage> {
                                 Container(
                                   width: MediaQuery.of(context).size.width,
                                   height: 270,
-                                  color: Color(0xFFE71766),
+                                  color: Color(0xFFFC2365),
                                 ),
                                 Container(
                                   decoration: new BoxDecoration(
                                     gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                      Color(0xFFE71766),
+                                      Color(0xFFFC2365),
                                       Color(0xFFFFFFFF),
                                     ]),
                                   ),
@@ -657,7 +657,7 @@ class _MainPageState extends State<MainPage> {
 //                                    fontSize: 14,
 //                                  ),
 //                                ),
-//                                cursorColor: Color(0xFFE71766),
+//                                cursorColor: Color(0xFFFC2365),
 //                                cursorWidth: 2,
 ////                                cursorRadius: Radius.elliptical(20, 8),
 //                              ),

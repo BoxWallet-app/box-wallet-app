@@ -196,7 +196,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                 BasicDialogAction(
                   title: Text(
                     "确定",
-                    style: TextStyle(color: Color(0xFFE71766)),
+                    style: TextStyle(color: Color(0xFFFC2365)),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -232,7 +232,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                 BasicDialogAction(
                   title: Text(
                     "确定",
-                    style: TextStyle(color: Color(0xFFE71766)),
+                    style: TextStyle(color: Color(0xFFFC2365)),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -253,8 +253,8 @@ class _AensDetailPageState extends State<AensDetailPage> {
     flush = Flushbar<bool>(
       title: "广播成功",
       message: "正在同步节点信息,预计5分钟后同步成功!",
-      backgroundGradient: LinearGradient(colors: [Color(0xFFE71766), Color(0xFFE71766)]),
-      backgroundColor: Color(0xFFE71766),
+      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,
@@ -311,7 +311,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           ),
         ),
         borderRadius: 30.0,
-        color: Color(0xFFE71766),
+        color: Color(0xFFFC2365),
       ),
     );
   }

@@ -42,7 +42,7 @@ class _AensMyPageState extends State<AensMyPage> {
             indicator: UnderlineIndicator(
                 strokeCap: StrokeCap.round,
                 borderSide: BorderSide(
-                  color: Color(0xFFE71766),
+                  color: Color(0xFFFC2365),
                   width: 2,
                 ),
                 insets: EdgeInsets.only(bottom: 5)),

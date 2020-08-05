@@ -35,7 +35,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   Widget get _loadingView {
     return Center(
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(Color(0xFFE71766)),
+        valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365)),
       ),
     );
   }
@@ -57,7 +57,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                 "重 试",
                 style: new TextStyle(fontSize: 17, color: Colors.white),
               ),
-              color: Color(0xFFE71766),
+              color: Color(0xFFFC2365),
               height: 40,
               minWidth: 120,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),

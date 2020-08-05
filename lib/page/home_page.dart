@@ -2,16 +2,19 @@ import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/aens_page.dart';
+import 'package:box/page/search_page.dart';
+import 'package:box/page/settings_page.dart';
+import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
+import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_easyrefresh/taurus_header.dart';
 
 import '../main.dart';
 import 'aens_register.dart';
@@ -42,8 +45,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   AnimationController _controller;
   Animation _curve;
 
-  ScrollController _scrollController = new ScrollController();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     //动画插值器
     _curve = CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
     //动画变化范围
-    _animation = RelativeRectTween(begin: RelativeRect.fromLTRB(0.0, 380.0, 0.0, -100), end: RelativeRect.fromLTRB(0.0, 210.0, 0.0, -100)).animate(_curve);
+    _animation = RelativeRectTween(begin: RelativeRect.fromLTRB(0.0, 380.0, 0.0, -300), end: RelativeRect.fromLTRB(0.0, 210.0, 0.0, -300)).animate(_curve);
     //启动动画
 //    _controller.forward();
   }
@@ -74,7 +75,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(100)),
               onTap: () {
-                print("123");
+//    Navigator.push(context, PageRouteBuilder(pageBuilder:(BuildContext context, Animation animation,Animation secondaryAnimation) { ScaleTransition(scale: animation,alignment: Alignment.bottomRight,child: SearchPage());
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
               },
               child: Container(
                 child: Image(
@@ -93,7 +95,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
             child: EasyRefresh(
               onRefresh: () async {},
               bottomBouncing: false,
-              header: TaurusHeader(backgroundColor: Color(0xFFFB156E)),
+              header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
               child: Container(
                 height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
                 child: Stack(
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     child: InkWell(
                                       borderRadius: BorderRadius.all(Radius.circular(30)),
                                       onTap: () {
-                                        print("123");
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
                                       },
                                       child: Container(
                                         height: 55,
@@ -331,6 +333,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: InkWell(
                                         onTap: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
+
                                         },
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         child: Container(
@@ -361,7 +364,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                        },
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         child: Container(
                                           margin: EdgeInsets.only(top: 10, bottom: 10),
@@ -478,6 +483,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                               borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                               //设置四周边框
                             ),
+
                             child: Column(
                               children: <Widget>[
                                 Container(
@@ -518,12 +524,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       _top = metrics.pixels;
 
                                       return true;
-                                    } else if (scrollNotification is ScrollEndNotification) {
-                                      // 滚动结束
-                                      ScrollMetrics metrics = scrollNotification.metrics;
-                                      _top = 380 - metrics.pixels / 3;
-                                      if (_top > MediaQueryData.fromWindow(window).padding.top + 150) setState(() {});
-                                    }
+                                    } else if (scrollNotification is ScrollEndNotification) {}
 
                                     return true;
                                   },
@@ -532,7 +533,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 100,
                                       child: EasyRefresh(
 //                                        scrollController: _scrollController,
-                                        header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFE71766))),
+                                        header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
                                         child: ListView.builder(
                                           itemCount: 30,
                                           shrinkWrap: true,
@@ -550,12 +551,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                       //边框设置
                                                       decoration: new BoxDecoration(
 //                                                  color:Colors.green,
-                                                          color: Color(0xFFFB156E),
+                                                          color: Color(0xFFFC2365),
                                                           //设置四周圆角 角度
                                                           borderRadius: BorderRadius.all(Radius.circular(30)),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                                color: Color(0xFFFB156E).withAlpha(20),
+                                                                color: Color(0xFFFC2365).withAlpha(20),
                                                                 offset: Offset(0.0, 3.0), //阴影xy轴偏移量
                                                                 blurRadius: 5.0, //阴影模糊程度
                                                                 spreadRadius: 1.0 //阴影扩散程度
@@ -576,33 +577,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                       margin: EdgeInsets.only(left: 18),
                                                       child: Column(
                                                         children: <Widget>[
-
-                                                         Container(
-                                                           width: MediaQuery.of(context).size.width-65-18-40,
-                                                           child: Row(
-                                                             children: <Widget>[
-                                                               Expanded(
-
-                                                                 child:    Container(
-
-                                                                   child: Text(
-                                                                     "Update name",
-                                                                     style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
-                                                                   ),
-                                                                 ),
-                                                               ),
-
-                                                               Container(
-                                                                 child: Text(
-                                                                   "-0.00001788AE",
-                                                                   style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
-                                                                 ),
-
-                                                               ),
-                                                             ],
-                                                           ),
-                                                         ),
-
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width - 65 - 18 - 40,
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      "Update name",
+                                                                      style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  child: Text(
+                                                                    "-0.00001788 AE",
+                                                                    style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
                                                           Container(
                                                             margin: EdgeInsets.only(top: 8),
                                                             child: Text(
@@ -665,19 +660,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                       //边框设置
                                                       decoration: new BoxDecoration(
 //                                                  color:Colors.green,
-                                                          color: Color(0xFFFB156E),
+                                                          color: Color(0xFFFC2365),
                                                           //设置四周圆角 角度
                                                           borderRadius: BorderRadius.all(Radius.circular(30)),
                                                           boxShadow: [
                                                             BoxShadow(
-                                                                color: Color(0xFFFB156E).withAlpha(20),
+                                                                color: Color(0xFFFC2365).withAlpha(20),
                                                                 offset: Offset(0.0, 3.0), //阴影xy轴偏移量
                                                                 blurRadius: 5.0, //阴影模糊程度
                                                                 spreadRadius: 1.0 //阴影扩散程度
-                                                            )
+                                                                )
                                                           ]
-                                                        //设置四周边框
-                                                      ),
+                                                          //设置四周边框
+                                                          ),
 
                                                       child: Text(
                                                         "18",
@@ -691,33 +686,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                       margin: EdgeInsets.only(left: 18),
                                                       child: Column(
                                                         children: <Widget>[
-
                                                           Container(
-                                                            width: MediaQuery.of(context).size.width-65-18-40,
+                                                            width: MediaQuery.of(context).size.width - 65 - 18 - 40,
                                                             child: Row(
                                                               children: <Widget>[
                                                                 Expanded(
-
-                                                                  child:    Container(
-
+                                                                  child: Container(
                                                                     child: Text(
                                                                       "Spend",
                                                                       style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
                                                                     ),
                                                                   ),
                                                                 ),
-
                                                                 Container(
                                                                   child: Text(
-                                                                    "+1AE",
+                                                                    "-110 AE",
                                                                     style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
                                                                   ),
-
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
-
                                                           Container(
                                                             margin: EdgeInsets.only(top: 8),
                                                             child: Text(
@@ -779,19 +768,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     //边框设置
                                                     decoration: new BoxDecoration(
 //                                                  color:Colors.green,
-                                                        color: Color(0xFFFB156E),
+                                                        color: Color(0xFFFC2365),
                                                         //设置四周圆角 角度
                                                         borderRadius: BorderRadius.all(Radius.circular(30)),
                                                         boxShadow: [
                                                           BoxShadow(
-                                                              color: Color(0xFFFB156E).withAlpha(20),
+                                                              color: Color(0xFFFC2365).withAlpha(20),
                                                               offset: Offset(0.0, 3.0), //阴影xy轴偏移量
                                                               blurRadius: 5.0, //阴影模糊程度
                                                               spreadRadius: 1.0 //阴影扩散程度
-                                                          )
+                                                              )
                                                         ]
-                                                      //设置四周边框
-                                                    ),
+                                                        //设置四周边框
+                                                        ),
 
                                                     child: Text(
                                                       "18",
@@ -805,33 +794,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     margin: EdgeInsets.only(left: 18),
                                                     child: Column(
                                                       children: <Widget>[
-
                                                         Container(
-                                                          width: MediaQuery.of(context).size.width-65-18-40,
+                                                          width: MediaQuery.of(context).size.width - 65 - 18 - 40,
                                                           child: Row(
                                                             children: <Widget>[
                                                               Expanded(
-
-                                                                child:    Container(
-
+                                                                child: Container(
                                                                   child: Text(
                                                                     "Spend",
                                                                     style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
                                                                   ),
                                                                 ),
                                                               ),
-
                                                               Container(
                                                                 child: Text(
-                                                                  "+1AE",
+                                                                  "+1 AE",
                                                                   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
                                                                 ),
-
                                                               ),
                                                             ],
                                                           ),
                                                         ),
-
                                                         Container(
                                                           margin: EdgeInsets.only(top: 8),
                                                           child: Text(

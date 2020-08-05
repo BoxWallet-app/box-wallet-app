@@ -30,12 +30,12 @@ class TokenSendTwoPage extends StatefulWidget {
 class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-  String token = "-";
+  String token = "0";
 
   @override
   void initState() {
     super.initState();
-    netAccountInfo();
+//    netAccountInfo();
   }
 
   void netAccountInfo() {
@@ -57,7 +57,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xFFE71766),
+          backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -88,12 +88,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: 100,
-                              color: Color(0xFFE71766),
+                              color: Color(0xFFFC2365),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xFFE71766),
+                                  Color(0xFFFC2365),
                                   Color(0xFFFAFAFA),
                                 ]),
                               ),
@@ -230,14 +230,14 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFE71766)),
+                                              borderSide: BorderSide(color: Color(0xFFFC2365)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
-                                          cursorColor: Color(0xFFE71766),
+                                          cursorColor: Color(0xFFFC2365),
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
@@ -265,7 +265,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                         Text(
                                                           "全部",
                                                           style: TextStyle(
-                                                            color: Color(0xFFE71766),
+                                                            color: Color(0xFFFC2365),
                                                             fontSize: 17,
                                                           ),
                                                         ),
@@ -303,7 +303,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                         ),
                                       ),
                                       Container(
-                                          margin: const EdgeInsets.only(left: 10, right: 10),
+                                          margin: const EdgeInsets.only(left: 10, right: 18),
                                           child: Container(
                                             margin: const EdgeInsets.only(left: 10, right: 10),
                                             height: 30,
@@ -351,7 +351,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         ),
                       ),
                       borderRadius: 30.0,
-                      color: Color(0xFFE71766),
+                      color: Color(0xFFFC2365),
                     ),
                   )
                 ],
@@ -371,47 +371,48 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
+    showFlush(context);
     //隐藏键盘
-    startLoading();
-    FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("注册失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFE71766)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
-    });
+//    startLoading();
+//    FocusScope.of(context).requestFocus(FocusNode());
+//    await Future.delayed(Duration(seconds: 1), () {
+//      AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
+//        stopLoading();
+//        if (model.code == 200) {
+//          showFlush(context);
+//        } else {
+//          showPlatformDialog(
+//            context: context,
+//            builder: (_) => BasicDialogAlert(
+//              title: Text("注册失败"),
+//              content: Text(model.msg),
+//              actions: <Widget>[
+//                BasicDialogAction(
+//                  title: Text(
+//                    "确定",
+//                    style: TextStyle(color: Color(0xFFFC2365)),
+//                  ),
+//                  onPressed: () {
+//                    Navigator.of(context, rootNavigator: true).pop();
+//                  },
+//                ),
+//              ],
+//            ),
+//          );
+//        }
+//      }).catchError((e) {
+//        stopLoading();
+//        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      });
+//    });
   }
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
       title: "广播成功",
       message: "正在同步节点信息,预计5分钟后同步成功!",
-      backgroundGradient: LinearGradient(colors: [Color(0xFFE71766), Color(0xFFE71766)]),
-      backgroundColor: Color(0xFFE71766),
+      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,
@@ -427,9 +428,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
       ),
       boxShadows: [
         BoxShadow(
-          color: Color(0x88000000),
+          color: Colors.black.withAlpha(80),
           offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
+          blurRadius: 13.0,
         )
       ],
     )..show(context).then((result) {

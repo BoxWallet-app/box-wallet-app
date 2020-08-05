@@ -27,7 +27,7 @@ class _AensRegisterState extends State<AensRegister> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xFFE71766),
+          backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -52,12 +52,12 @@ class _AensRegisterState extends State<AensRegister> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 100,
-                        color: Color(0xFFE71766),
+                        color: Color(0xFFFC2365),
                       ),
                       Container(
                         decoration: new BoxDecoration(
                           gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                            Color(0xFFE71766),
+                            Color(0xFFFC2365),
                             Color(0xFFFAFAFA),
                           ]),
                         ),
@@ -134,14 +134,14 @@ class _AensRegisterState extends State<AensRegister> {
                                       ),
 // and:
                                       focusedBorder: new UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Color(0xFFE71766)),
+                                        borderSide: BorderSide(color: Color(0xFFFC2365)),
                                       ),
                                       hintStyle: TextStyle(
                                         fontSize: 19,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    cursorColor: Color(0xFFE71766),
+                                    cursorColor: Color(0xFFFC2365),
                                     cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                   ),
@@ -185,7 +185,7 @@ class _AensRegisterState extends State<AensRegister> {
                   ),
                 ),
                 borderRadius: 30.0,
-                color: Color(0xFFE71766),
+                color: Color(0xFFFC2365),
               ),
             )
           ],
@@ -212,7 +212,7 @@ class _AensRegisterState extends State<AensRegister> {
 
                   title: Text(
                     "确定",
-                    style: TextStyle(color: Color(0xFFE71766)),
+                    style: TextStyle(color: Color(0xFFFC2365)),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -233,8 +233,8 @@ class _AensRegisterState extends State<AensRegister> {
     flush = Flushbar<bool>(
       title: "广播成功",
       message: "正在同步节点信息,预计5分钟后同步成功!",
-      backgroundGradient: LinearGradient(colors: [Color(0xFFE71766), Color(0xFFE71766)]),
-      backgroundColor: Color(0xFFE71766),
+      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,
