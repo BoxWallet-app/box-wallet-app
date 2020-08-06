@@ -9,10 +9,12 @@ class BaseDataDao {
   static Future<BaseDataModel> fetch() async {
     Response response = await Dio().post(BASE_DATA);
     if (response.statusCode == 200) {
+      print(response.toString());
       var data = jsonDecode(response.toString());
       BaseDataModel model = BaseDataModel.fromJson(data);
       return model;
     } else {
+      print("object");
       throw Exception('Failed to load BaseDataModel.json');
     }
   }

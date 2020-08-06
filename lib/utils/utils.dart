@@ -6,12 +6,14 @@ class Utils {
   }
 
   static formatHomeAddress(String address) {
-    return "ak_" + address.substring(3, 8)+"...."+ address.substring(address.length - 8, address.length);
+    return "ak_" + address.substring(3, 8) + "...." + address.substring(address.length - 8, address.length);
   }
 
   static formatPrice(String price) {
     return price.substring(0, price.length - 3);
   }
+
+
 
   static String formatHeight(int startHeight, int endHeight) {
     var height = endHeight - startHeight;

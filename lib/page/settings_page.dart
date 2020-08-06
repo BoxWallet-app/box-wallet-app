@@ -63,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
             children: <Widget>[
 
               buildItem(context, "备份助记词", "images/profile_display_currency.png", () {
-                print("123");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage()));
               }),
               buildItem(context, "私钥密码", "images/profile_account_permissions.png", () {
                 print("123");

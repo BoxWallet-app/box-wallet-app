@@ -42,7 +42,8 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
               Icons.arrow_back_ios,
               size: 17,
             ),
-//            onPressed: () => Navigator.pop(context),
+            tooltip: 'Navigreation',
+            onPressed: () => Navigator.pop(context),
           ),
         ),
         body: Container(

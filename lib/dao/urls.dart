@@ -38,3 +38,9 @@ const ACCOUNT_INFO = BASE_HOST + '/api/user/info';
 //基础数据
 const BASE_DATA = BASE_HOST + '/api/base/data';
 
+//交易记录
+const WALLET_RECORD = BASE_HOST + '/api/wallet/transfer/record';
+
+//交易
+const WALLET_TRANSFER = BASE_HOST + '/api/wallet/transfer';
+

@@ -1,13 +1,21 @@
 import 'dart:ui';
 
+import 'package:box/dao/account_info_dao.dart';
+import 'package:box/dao/base_data_dao.dart';
+import 'package:box/dao/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/account_info_model.dart';
+import 'package:box/model/base_data_model.dart';
+import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/search_page.dart';
 import 'package:box/page/settings_page.dart';
 import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';
+import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
+import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +47,12 @@ class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   var _top = 400.00;
-  var _top_y = 0;
+  var token = "loading...";
+  var page = 1;
+  var loadingType = LoadingType.loading;
+
+  WalletTransferRecordModel walletRecordModel;
+  BaseDataModel baseDataModel;
 
   Animation<RelativeRect> _animation;
   AnimationController _controller;
@@ -49,6 +62,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   void initState() {
     // TODO: implement initState
     super.initState();
+    initAnimation();
+    netAccountInfo();
+    netBaseData();
+  }
+
+  void initAnimation() {
     //动画控制器
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
@@ -59,12 +78,53 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     //动画变化范围
     _animation = RelativeRectTween(begin: RelativeRect.fromLTRB(0.0, 380.0, 0.0, -300), end: RelativeRect.fromLTRB(0.0, 210.0, 0.0, -300)).animate(_curve);
     //启动动画
-//    _controller.forward();
+    //    _controller.forward();
+  }
+
+  void netAccountInfo() {
+    AccountInfoDao.fetch().then((AccountInfoModel model) {
+      if (model.code == 200) {
+        print(model.data.balance);
+        token = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  void netWalletRecord() {
+
+    WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
+      loadingType = LoadingType.finish;
+      if (model.code == 200) {
+        walletRecordModel = model;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+      loadingType = LoadingType.error;
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  void netBaseData() {
+
+    BaseDataDao.fetch().then((BaseDataModel model) {
+      if (model.code == 200) {
+        baseDataModel = model;
+//        setState(() {});
+        netWalletRecord();
+      } else {}
+    }).catchError((e) {
+      print(e.toString());
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 //    _top = 380.00;
+//    netWalletRecord();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Material(
@@ -93,7 +153,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
           body: Container(
             margin: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top),
             child: EasyRefresh(
-              onRefresh: () async {},
+              onRefresh: _onRefresh,
               bottomBouncing: false,
               header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
               child: Container(
@@ -283,7 +343,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                            buildTypewriterAnimatedTextKit(),
                                           Container(
                                             child: Text(
-                                              "619.29349",
+                                              token,
                                               style: TextStyle(fontSize: 35, color: Colors.white),
                                             ),
                                             alignment: Alignment.center,
@@ -333,7 +393,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: InkWell(
                                         onTap: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
-
                                         },
                                         borderRadius: BorderRadius.all(Radius.circular(10)),
                                         child: Container(
@@ -529,345 +588,115 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     return true;
                                   },
                                   child: Container(
-                                      margin: EdgeInsets.only(left: 18, right: 18),
-                                      height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 100,
-                                      child: EasyRefresh(
+                                      padding: const EdgeInsets.only(top: 10, bottom: 80),
+//                                      height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 400,
+                                      height: getListWidgetHeight(context),
+                                      child: LoadingWidget(
+                                        type: loadingType,
+                                        child: EasyRefresh(
 //                                        scrollController: _scrollController,
-                                        header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
-                                        child: ListView.builder(
-                                          itemCount: 30,
-                                          shrinkWrap: true,
+                                          onLoad: _onLoad,
+                                          header: MaterialHeader(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
+                                          child: ListView.builder(
+                                            itemCount: walletRecordModel == null ? 0 : walletRecordModel.data.length,
+                                            shrinkWrap: true,
 
-                                          padding: const EdgeInsets.only(top: 10, bottom: 80),
+
 //                                    physics: new NeverScrollableScrollPhysics(),
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            if (index == 0) {
-                                              return Container(
-                                                margin: EdgeInsets.only(bottom: 20),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      //边框设置
-                                                      decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                          color: Color(0xFFFC2365),
-                                                          //设置四周圆角 角度
-                                                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Color(0xFFFC2365).withAlpha(20),
-                                                                offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                                blurRadius: 5.0, //阴影模糊程度
-                                                                spreadRadius: 1.0 //阴影扩散程度
-                                                                )
-                                                          ]
-                                                          //设置四周边框
-                                                          ),
-
-                                                      child: Text(
-                                                        "18",
-                                                        style: TextStyle(color: Colors.white, fontSize: 14),
-                                                      ),
-                                                      alignment: Alignment.center,
-                                                      height: 23,
-                                                      width: 65,
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(left: 18),
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width: MediaQuery.of(context).size.width - 65 - 18 - 40,
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Expanded(
-                                                                  child: Container(
-                                                                    child: Text(
-                                                                      "Update name",
-                                                                      style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  child: Text(
-                                                                    "-0.00001788 AE",
-                                                                    style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 8),
-                                                            child: Text(
-                                                              "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
-                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                              style: TextStyle(
-                                                                color: Colors.black.withAlpha(80),
-                                                                letterSpacing: 1.0,
-                                                                fontSize: 13,
-                                                              ),
-                                                            ),
-                                                            width: 250,
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 6),
-                                                            child: Text(
-                                                              "2020-08-03 16:15:05",
-                                                              style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(""),
-                                                    ),
-//                                            Row(
-//                                              children: <Widget>[
-//                                                Container(
-//                                                  child: Text(
-//                                                    "+",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                                Container(
-//                                                  child: Text(
-//                                                    "0.00001AE",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ],
-//                                            ),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            if (index == 1) {
-                                              return Container(
-                                                margin: EdgeInsets.only(bottom: 20),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      //边框设置
-                                                      decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                          color: Color(0xFFFC2365),
-                                                          //设置四周圆角 角度
-                                                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Color(0xFFFC2365).withAlpha(20),
-                                                                offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                                blurRadius: 5.0, //阴影模糊程度
-                                                                spreadRadius: 1.0 //阴影扩散程度
-                                                                )
-                                                          ]
-                                                          //设置四周边框
-                                                          ),
-
-                                                      child: Text(
-                                                        "18",
-                                                        style: TextStyle(color: Colors.white, fontSize: 14),
-                                                      ),
-                                                      alignment: Alignment.center,
-                                                      height: 23,
-                                                      width: 65,
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(left: 18),
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width: MediaQuery.of(context).size.width - 65 - 18 - 40,
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Expanded(
-                                                                  child: Container(
-                                                                    child: Text(
-                                                                      "Spend",
-                                                                      style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  child: Text(
-                                                                    "-110 AE",
-                                                                    style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 8),
-                                                            child: Text(
-                                                              "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
-                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                              style: TextStyle(
-                                                                color: Colors.black.withAlpha(80),
-                                                                letterSpacing: 1.0,
-                                                                fontSize: 13,
-                                                              ),
-                                                            ),
-                                                            width: 250,
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(top: 6),
-                                                            child: Text(
-                                                              "2020-08-03 16:15:05",
-                                                              style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(""),
-                                                    ),
-//                                            Row(
-//                                              children: <Widget>[
-//                                                Container(
-//                                                  child: Text(
-//                                                    "+",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                                Container(
-//                                                  child: Text(
-//                                                    "0.00001AE",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ],
-//                                            ),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            return Container(
-                                              margin: EdgeInsets.only(bottom: 20),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    //边框设置
-                                                    decoration: new BoxDecoration(
-//                                                  color:Colors.green,
-                                                        color: Color(0xFFFC2365),
-                                                        //设置四周圆角 角度
-                                                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              color: Color(0xFFFC2365).withAlpha(20),
-                                                              offset: Offset(0.0, 3.0), //阴影xy轴偏移量
-                                                              blurRadius: 5.0, //阴影模糊程度
-                                                              spreadRadius: 1.0 //阴影扩散程度
-                                                              )
-                                                        ]
-                                                        //设置四周边框
-                                                        ),
-
-                                                    child: Text(
-                                                      "18",
-                                                      style: TextStyle(color: Colors.white, fontSize: 14),
-                                                    ),
-                                                    alignment: Alignment.center,
-                                                    height: 23,
-                                                    width: 65,
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: 18),
-                                                    child: Column(
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              return Material(
+                                                color: Colors.white,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage()));
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(left: 18, right: 18, bottom: 20, top: 10),
+                                                    child: Row(
                                                       children: <Widget>[
                                                         Container(
-                                                          width: MediaQuery.of(context).size.width - 65 - 18 - 40,
-                                                          child: Row(
+                                                          //边框设置
+                                                          decoration: new BoxDecoration(
+//                                                  color:Colors.green,
+                                                              color: Color(0xFFFC2365),
+                                                              //设置四周圆角 角度
+                                                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Color(0xFFFC2365).withAlpha(20),
+                                                                    offset: Offset(0.0, 3.0), //阴影xy轴偏移量
+                                                                    blurRadius: 5.0, //阴影模糊程度
+                                                                    spreadRadius: 1.0 //阴影扩散程度
+                                                                    )
+                                                              ]
+                                                              //设置四周边框
+                                                              ),
+
+                                                          child: Text(
+                                                            (int.parse(baseDataModel.data.blockHeight) - walletRecordModel.data[index].blockHeight).toString(),
+                                                            style: TextStyle(color: Colors.white, fontSize: 14),
+                                                          ),
+                                                          alignment: Alignment.center,
+                                                          height: 23,
+                                                          width: 65,
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(left: 18),
+                                                          child: Column(
                                                             children: <Widget>[
-                                                              Expanded(
-                                                                child: Container(
-                                                                  child: Text(
-                                                                    "Spend",
-                                                                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
-                                                                  ),
+                                                              Container(
+                                                                width: MediaQuery.of(context).size.width - 65 - 18 - 40,
+                                                                child: Row(
+                                                                  children: <Widget>[
+                                                                    Expanded(
+                                                                      child: Container(
+                                                                        child: Text(
+                                                                          walletRecordModel.data[index].tx.type,
+                                                                          style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      child: getFeeWidget(index),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                               Container(
+                                                                margin: EdgeInsets.only(top: 8),
                                                                 child: Text(
-                                                                  "+1 AE",
-                                                                  style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+                                                                  walletRecordModel.data[index].hash,
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                                  style: TextStyle(
+                                                                    color: Colors.black.withAlpha(80),
+                                                                    letterSpacing: 1.0,
+                                                                    fontSize: 13,
+                                                                  ),
+                                                                ),
+                                                                width: 250,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(top: 6),
+                                                                child: Text(
+                                                                  DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
+                                                                  style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
                                                                 ),
                                                               ),
                                                             ],
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                           ),
                                                         ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 8),
-                                                          child: Text(
-                                                            "th_2HX1PAWSWFJ3eF1YxycdvxPfF7ZrKD6rVT4VxiUfnCBgsCpbKr",
-                                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                            style: TextStyle(
-                                                              color: Colors.black.withAlpha(80),
-                                                              letterSpacing: 1.0,
-                                                              fontSize: 13,
-                                                            ),
-                                                          ),
-                                                          width: 250,
-                                                        ),
-                                                        Container(
-                                                          margin: EdgeInsets.only(top: 6),
-                                                          child: Text(
-                                                            "2020-08-03 16:15:05",
-                                                            style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                          ),
+                                                        Expanded(
+                                                          child: Text(""),
                                                         ),
                                                       ],
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                     ),
                                                   ),
-                                                  Expanded(
-                                                    child: Text(""),
-                                                  ),
-//                                            Row(
-//                                              children: <Widget>[
-//                                                Container(
-//                                                  child: Text(
-//                                                    "+",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                                Container(
-//                                                  child: Text(
-//                                                    "0.00001AE",
-//                                                    style: TextStyle(
-//                                                      color: Colors.green,
-//                                                      fontSize: 18,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ],
-//                                            ),
-                                                ],
-                                              ),
-                                            );
-                                          },
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
                                       )),
                                 ),
@@ -883,6 +712,59 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         ),
       ),
     );
+  }
+
+  Future<void> _onLoad() async {
+    await Future.delayed(Duration(seconds: 1), () {
+      page++;
+      netWalletRecord();
+    });
+  }
+
+  Future<void> _onRefresh() async {
+    page =1;
+    if (page == 1) {
+      loadingType = LoadingType.loading;
+    }
+    setState(() {
+
+    });
+    await Future.delayed(Duration(seconds: 1), () {
+
+     netAccountInfo();
+     netBaseData();
+    });
+  }
+
+
+
+  double getListWidgetHeight(BuildContext context) {
+    if (loadingType != LoadingType.loading) {
+      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 100;
+    } else {
+      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 100 - 400;
+    }
+  }
+
+  Text getFeeWidget(int index) {
+    if (walletRecordModel.data[index].tx.type == "SpendTx") {
+      if (walletRecordModel.data[index].tx.recipientId == BoxApp.getAddress()) {
+        return Text(
+          "+" + (walletRecordModel.data[index].tx.amount.toDouble() / 1000000000000000000).toString()+" AE",
+          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+        );
+      } else {
+        return Text(
+          "-" + (walletRecordModel.data[index].tx.amount.toDouble() / 1000000000000000000).toString()+" AE",
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+        );
+      }
+    } else {
+      return Text(
+        "-" + (walletRecordModel.data[index].tx.fee.toDouble() / 1000000000000000000).toString()+" AE",
+        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
+      );
+    }
   }
 
   @override
