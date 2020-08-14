@@ -32,8 +32,14 @@ const NAME_UPDATE = BASE_HOST + '/api/names/update';
 //域名详情
 const NAME_INFO = BASE_HOST + '/api/names/info';
 
-//域名详情
+//用户详情
 const ACCOUNT_INFO = BASE_HOST + '/api/user/info';
+
+//生成账户
+const USER_REGISTER = BASE_HOST + '/api/user/register';
+
+//登录账户
+const USER_LOGIN = BASE_HOST + '/api/user/login';
 
 //基础数据
 const BASE_DATA = BASE_HOST + '/api/base/data';

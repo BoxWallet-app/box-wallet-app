@@ -77,7 +77,7 @@ class Tx {
   QueryTtl oracleTtl;
   String queryFormat;
   String responseFormat;
-  int amount;
+  String amount;
   String payload;
   String recipientId;
 
@@ -125,7 +125,7 @@ class Tx {
         : null;
     queryFormat = json['query_format'];
     responseFormat = json['response_format'];
-    amount = json['amount'];
+    amount = json['amount'].toString();
     payload = json['payload'];
     recipientId = json['recipient_id'];
   }

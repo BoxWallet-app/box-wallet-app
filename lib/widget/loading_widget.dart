@@ -40,8 +40,8 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     );
   }
 
-  Widget  _error (onPressedError)  {
-    if(onPressedError == null){
+  Widget _error(onPressedError) {
+    if (onPressedError == null) {
       print("onPressedError null");
     }
     return Center(
@@ -49,12 +49,12 @@ class _LoadingWidgetState extends State<LoadingWidget> {
       height: 120,
       child: Column(
         children: <Widget>[
-          Text("网络异常,请点击重试"),
+          Text("Network is abnormal. Please try again"),
           Container(
             margin: EdgeInsets.only(top: 20),
             child: MaterialButton(
               child: Text(
-                "重 试",
+                "Retry",
                 style: new TextStyle(fontSize: 17, color: Colors.white),
               ),
               color: Color(0xFFFC2365),
@@ -72,6 +72,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   }
 
   Widget get _noData {
-    return Center(child: Text("暂无数据"));
+    return Center(child: Text("Temporarily no data"));
   }
 }

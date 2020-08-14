@@ -33,20 +33,20 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `中文`
+  /// `English`
   String get title {
     return Intl.message(
-      '中文',
+      'English',
       name: 'title',
       desc: '',
       args: [],
     );
   }
 
-  /// `语言`
+  /// `Language`
   String get language {
     return Intl.message(
-      '语言',
+      'Language',
       name: 'language',
       desc: '',
       args: [],
@@ -59,9 +59,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'cn'),
-      Locale.fromSubtags(languageCode: 'ar'),
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ar'),
+      Locale.fromSubtags(languageCode: 'cn'),
       Locale.fromSubtags(languageCode: 'es'),
       Locale.fromSubtags(languageCode: 'fr'),
       Locale.fromSubtags(languageCode: 'ja'),

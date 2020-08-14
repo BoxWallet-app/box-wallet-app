@@ -37,6 +37,9 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
 
   Future<void> netData() async {
     AensPageDao.fetch(widget.aensPageType, page).then((AensPageModel model) {
+      if (!mounted) {
+        return;
+      }
       _loadingType = LoadingType.finish;
       if (model.code == 200) {
         if (page == 1) {

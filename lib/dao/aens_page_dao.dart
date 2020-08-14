@@ -10,7 +10,7 @@ enum AensPageType { auction, price, over, my_auction, my_over }
 class AensPageDao {
   static Future<AensPageModel> fetch(AensPageType aensPageType, int page) async {
     Map<String, String> params = new Map();
-    var address = BoxApp.getAddress();
+    var address =await  BoxApp.getAddress();
     var url = "";
     switch (aensPageType) {
       case AensPageType.auction:

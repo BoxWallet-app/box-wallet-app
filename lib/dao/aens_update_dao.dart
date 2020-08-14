@@ -11,7 +11,7 @@ class AensUpdaterDao {
   static Future<AensUpdateModel> fetch(String name) async {
     Map<String, String> params = new Map();
     params['name'] = name;
-    params['signingKey'] = BoxApp.getSigningKey();
+    params['signingKey'] = await BoxApp.getSigningKey();
     Response response = await Dio().post(NAME_UPDATE, queryParameters: params);
     print(response.toString());
     print("\n" + jsonEncode(params) + "\n" + response.toString());

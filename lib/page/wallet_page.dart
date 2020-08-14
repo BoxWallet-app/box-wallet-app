@@ -98,10 +98,10 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 8, left: 18, right: 18),
-                        child: Text(
-                          BoxApp.getAddress(),
-                          style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),
-                        ),
+//                        child: Text(
+//                          BoxApp.getAddress(),
+//                          style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),
+//                        ),
                       ),
                     ],
                   ),

@@ -12,7 +12,7 @@ class TokenSendDao {
     Map<String, String> params = new Map();
     params['amount'] = amount;
     params['address'] = address;
-    params['signingKey'] = BoxApp.getSigningKey();
+    params['signingKey'] = await BoxApp.getSigningKey();
     Response response = await Dio().post(WALLET_TRANSFER, queryParameters: params);
     print(response.toString());
     print("\n" + jsonEncode(params) + "\n" + response.toString());

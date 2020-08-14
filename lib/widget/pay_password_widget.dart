@@ -11,7 +11,7 @@ class PayPasswordWidget extends StatefulWidget {
   final String title;
   final PayPasswordCallBackFuture passwordCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的临时密码", this.passwordCallBackFuture}) : super(key: key);
+  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() => _PayPasswordWidgetState();
@@ -19,111 +19,106 @@ class PayPasswordWidget extends StatefulWidget {
 
 class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   String text = '';
-  TextEditingController _textEditingController = new TextEditingController();
+  TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Material(
-      child: Container(
-        height: 400,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: Text(
-                widget.title,
-                style: TextStyle(fontSize: 18),
+      type: MaterialType.transparency, //透明类型
+      child: Center(
+        child: Container(
+          height: 190,
+          width: MediaQuery.of(context).size.width - 40,
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          decoration: ShapeDecoration(
+            color: Color(0xffffffff),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
               ),
             ),
+          ),
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width - 40,
+                alignment: Alignment.topLeft,
+                child: Material(
 
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 35),
-                margin: const EdgeInsets.only(bottom: 20),
-                child: PinCodeTextField(
-                  length: 4,
-//                  enabled: false,
-
-                  obsecureText: true,
-
-                  animationType: AnimationType.fade,
-                  validator: (v) {
-                    if (v.length < 3) {
-                      return "I'm from validator";
-                    } else {
-                      return null;
-                    }
-                  },
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.underline,
-                    //内框颜色
-                    inactiveFillColor: Colors.white,
-                    //边框颜色
-                    inactiveColor: Colors.black,
-                    //输入后边框颜色
-                    activeColor: Colors.black,
-                    //选中后边框颜色
-                    selectedColor: Colors.purple,
-                    //输入后内框颜色
-                    activeFillColor: Colors.white,
-                    //选中后内框颜色
-                    selectedFillColor: Colors.white,
-                    disabledColor: Colors.purple,
-                    borderRadius: BorderRadius.circular(2),
-                    fieldHeight: 50,
-                    fieldWidth: 50,
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.all(Radius.circular(60)),
+                    onTap: () {
+                      Navigator.pop(context); //关闭对话框
+                    },
+                    child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
-                  animationDuration: Duration(milliseconds: 300),
-//                backgroundColor: Colors.red.shade50,
-                  enableActiveFill: true,
-//                errorAnimationController: errorController,
-                  controller: _textEditingController,
-                  onCompleted: (v) {
-                    if (context != null) {}
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      text = value;
-                    });
-                    if (value != null && value.length >= 4) {
-                      Navigator.pop(context);
-                      widget.passwordCallBackFuture(value);
-                    }
-                  },
-                  textStyle: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black,
-                  ),
-                  beforeTextPaste: (text) {
-                    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                    //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                    return true;
-                  },
-                )),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+
+              Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                padding: EdgeInsets.only(left: 15, right: 15),
+                decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            autofocus: true, //是否自动获取焦点
+                            controller: _textEditingController,
+                            keyboardType: TextInputType.multiline,
+                            style: TextStyle(
+                              textBaseline: TextBaseline.alphabetic,
+                              fontSize: 19,
+                              color: Colors.black,
+                            ),
+                            maxLines: 1,
+                            maxLength: 20,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: '安全码',
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(color: Color(0x00000000)),
+                              ),
+// and:
+                              focusedBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(color: Color(0x00000000)),
+                              ),
+                              hintStyle: TextStyle(
+                                fontSize: 19,
+                                textBaseline: TextBaseline.alphabetic,
+                                color: Colors.black.withAlpha(80),
+                              ),
+                            ),
+                            cursorColor: Color(0xFFFC2365),
+                            cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
 //          Text(text),
-            Container(
-              child: NumericKeyboard(
-                onKeyboardTap: _onKeyboardTap,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                rightButtonFn: () {
-                  if (text.isEmpty) {
-                    return;
-                  }
-                  setState(() {
-                    text = text.substring(0, text.length - 1);
-                    _textEditingController.text = text;
-                  });
-                },
-                rightIcon: Icon(
-                  Icons.backspace,
-                ),
-                leftButtonFn: () {},
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     ));

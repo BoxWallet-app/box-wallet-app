@@ -34,6 +34,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   TextEditingController _textEditingController = TextEditingController();
   String token = "0";
 
+  String address = '';
+
   @override
   void initState() {
     super.initState();
@@ -135,7 +137,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    getSendAddress(),
+                                    address,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -364,13 +366,20 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
 //
   }
 
+  Future<String> getAddress() {
+    BoxApp.getAddress().then((String address){
+      setState(() {
+        this.address = address;
+      });
+
+    });
+  }
+
   String getReceiveAddress(){
     return Utils.formatAddress(widget.address);
   }
 
-  String getSendAddress(){
-    return Utils.formatAddress(BoxApp.getAddress());
-  }
+
 
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘

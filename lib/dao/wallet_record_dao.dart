@@ -9,10 +9,11 @@ import 'package:dio/dio.dart';
 class WalletRecordDao {
   static Future<WalletTransferRecordModel> fetch(int page) async {
     Map<String, String> params = new Map();
-    var address = BoxApp.getAddress();
+    var address = await BoxApp.getAddress();
 
     params["address"] = address;
     params["page"] = page.toString();
+    print(WALLET_RECORD);
     Response response = await Dio().post(WALLET_RECORD, queryParameters: params);
     print(response.toString());
 

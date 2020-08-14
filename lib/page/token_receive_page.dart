@@ -24,7 +24,14 @@ class TokenReceivePage extends StatefulWidget {
 class _TokenReceivePageState extends State<TokenReceivePage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-  var contentText =  "复制地址";
+  var contentText = "复制地址";
+  var address = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getAddress();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,10 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               height: 100,
                               color: Color(0xFFFC2365),
                             ),
@@ -93,7 +103,10 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.all(20),
                               //边框设置
                               decoration: new BoxDecoration(
@@ -106,16 +119,16 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                         offset: Offset(0.0, 15.0), //阴影xy轴偏移量
                                         blurRadius: 15.0, //阴影模糊程度
                                         spreadRadius: 1.0 //阴影扩散程度
-                                        )
+                                    )
                                   ]
-                                  //设置四周边框
-                                  ),
+                                //设置四周边框
+                              ),
                               child: Column(
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(top: 40),
                                     child: QrImage(
-                                      data: BoxApp.getAddress(),
+                                      data: address,
                                       version: QrVersions.auto,
                                       size: 200.0,
                                     ),
@@ -124,28 +137,38 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                     alignment: Alignment.center,
                                     margin: const EdgeInsets.only(top: 18, left: 22, right: 22),
                                     child: Text(
-                                      BoxApp.getAddress(),
+                                      address,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                      style: TextStyle(fontSize: 15,
+                                          color: Colors.black.withAlpha(200),
+                                          height: 1.3,
+                                          letterSpacing: 1.0,
+                                          fontFamily: "Ubuntu"),
                                     ),
                                   ),
 
                                   Container(
                                     width: 100,
                                     height: 30,
-                                    margin: const EdgeInsets.only(top: 20,bottom: 40),
+                                    margin: const EdgeInsets.only(top: 20, bottom: 40),
                                     child: FlatButton(
                                       onPressed: () {
-                                        Clipboard.setData(ClipboardData(text: BoxApp.getAddress()));
+                                        Clipboard.setData(ClipboardData(text: address));
                                         setState(() {
                                           contentText = "复制成功✅️";
                                         });
-                                        Fluttertoast.showToast(msg: "复制成功", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                        Fluttertoast.showToast(msg: "复制成功",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.black,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
                                       },
                                       child: Text(
                                         contentText,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 13,color: Color(0xFFF22B79)),
+                                        style: TextStyle(fontSize: 13, color: Color(0xFFF22B79)),
                                       ),
                                       color: Color(0xFFE61665).withAlpha(16),
                                       textColor: Colors.black,
@@ -172,6 +195,15 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
         ));
   }
 
+  Future<String> getAddress() {
+    BoxApp.getAddress().then((String address){
+      setState(() {
+        this.address = address;
+      });
+
+    });
+  }
+
   Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
@@ -184,26 +216,33 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
         } else {
           showPlatformDialog(
             context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("注册失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
+            builder: (_) =>
+                BasicDialogAlert(
+                  title: Text("注册失败"),
+                  content: Text(model.msg),
+                  actions: <Widget>[
+                    BasicDialogAction(
+                      title: Text(
+                        "确定",
+                        style: TextStyle(color: Color(0xFFFC2365)),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
           );
         }
       }).catchError((e) {
         stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        Fluttertoast.showToast(msg: "网络错误",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
       });
     });
   }
@@ -234,7 +273,8 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
           blurRadius: 3.0,
         )
       ],
-    )..show(context).then((result) {
+    )
+      ..show(context).then((result) {
         Navigator.pop(context);
       });
   }

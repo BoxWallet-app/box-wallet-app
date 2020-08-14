@@ -1,11 +1,16 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/user_login_dao.dart';
+import 'package:box/model/user_model.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../main.dart';
 import 'home_page.dart';
 
 class AccountLoginPage extends StatefulWidget {
@@ -115,8 +120,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
-                        print("123");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                       netLogin(context, startLoading, stopLoading);
                       },
                       child: Text(
                         "确 认",
@@ -139,5 +143,44 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
             )
           ),
         ));
+  }
+
+  Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
+    //隐藏键盘
+    startLoading();
+    FocusScope.of(context).requestFocus(FocusNode());
+    await Future.delayed(Duration(seconds: 1), () {
+      UserLoginDao.fetch(_textEditingController.text).then((UserModel model) {
+        stopLoading();
+        if (model.code == 200) {
+          BoxApp.setSigningKey(model.data.signingKey);
+          BoxApp.setAddress(model.data.address);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else {
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text("Login Error"),
+              content: Text(model.msg),
+              actions: <Widget>[
+                BasicDialogAction(
+
+                  title: Text(
+                    "确定",
+                    style: TextStyle(color: Color(0xFFFC2365)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }).catchError((e) {
+        stopLoading();
+        EasyLoading.showToast('网络错误: '+e.toString(), duration: Duration(seconds: 2));
+      });
+    });
   }
 }
