@@ -2,6 +2,8 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/user_login_dao.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -151,11 +153,37 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     FocusScope.of(context).requestFocus(FocusNode());
     await Future.delayed(Duration(seconds: 1), () {
       UserLoginDao.fetch(_textEditingController.text).then((UserModel model) {
+        if (!mounted) {
+          return;
+        }
         stopLoading();
         if (model.code == 200) {
-          BoxApp.setSigningKey(model.data.signingKey);
-          BoxApp.setAddress(model.data.address);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          showGeneralDialog(
+              context: context,
+              pageBuilder: (context, anim1, anim2) {},
+              barrierColor: Colors.grey.withOpacity(.4),
+              barrierDismissible: true,
+              barrierLabel: "",
+              transitionDuration: Duration(milliseconds: 400),
+              transitionBuilder: (context, anim1, anim2, child) {
+                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                return Transform(
+                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                    child: Opacity(
+                      opacity: anim1.value,
+                      // ignore: missing_return
+                      child: PayPasswordWidget(
+                          title: "设置安全密码",
+                          passwordCallBackFuture: (String password) async {
+                            final key = Utils.generateMd5Int(password + model.data.address);
+                            var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
+                            BoxApp.setSigningKey(signingKeyAesEncode);
+                            BoxApp.setAddress(model.data.address);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                "/home", ModalRoute.withName("/home"));
+                          }),
+                    ));
+              });
         } else {
           showPlatformDialog(
             context: context,

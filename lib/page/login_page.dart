@@ -3,8 +3,12 @@ import 'package:box/main.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/page/account_login_page.dart';
 import 'package:box/page/token_send_one_page.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFFC2365),
       body: Container(
         child: SafeArea(
@@ -118,9 +123,36 @@ class _LoginPageState extends State<LoginPage> {
     UserRegisterDao.fetch().then((UserModel model) {
       EasyLoading.dismiss(animation: true);
       if (model.code == 200) {
-        BoxApp.setSigningKey(model.data.signingKey);
-        BoxApp.setAddress(model.data.address);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        showGeneralDialog(
+            context: context,
+            pageBuilder: (context, anim1, anim2) {},
+            barrierColor: Colors.grey.withOpacity(.4),
+            barrierDismissible: true,
+            barrierLabel: "",
+            transitionDuration: Duration(milliseconds: 400),
+            transitionBuilder: (context, anim1, anim2, child) {
+              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+              return Transform(
+                  transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                  child: Opacity(
+                    opacity: anim1.value,
+                    // ignore: missing_return
+                    child: PayPasswordWidget(
+                        title: "设置安全密码",
+                        passwordCallBackFuture: (String password) async {
+                          final key = Utils.generateMd5Int(password + model.data.address);
+
+                          var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
+                          var mnemonicAesEncode = Utils.aesEncode(model.data.mnemonic, key);
+
+                          BoxApp.setSigningKey(signingKeyAesEncode);
+                          BoxApp.setMnemonic(mnemonicAesEncode);
+                          BoxApp.setAddress(model.data.address);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/home", ModalRoute.withName("/home"));
+                        }),
+                  ));
+            });
       } else {}
     }).catchError((e) {
       EasyLoading.dismiss(animation: true);

@@ -204,48 +204,6 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
     });
   }
 
-  Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
-    //隐藏键盘
-    startLoading();
-    FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) =>
-                BasicDialogAlert(
-                  title: Text("注册失败"),
-                  content: Text(model.msg),
-                  actions: <Widget>[
-                    BasicDialogAction(
-                      title: Text(
-                        "确定",
-                        style: TextStyle(color: Color(0xFFFC2365)),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                      },
-                    ),
-                  ],
-                ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      });
-    });
-  }
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(

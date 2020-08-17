@@ -7,6 +7,7 @@ import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   void initState() {
     super.initState();
     netAccountInfo();
+    getAddress();
   }
 
   void netAccountInfo() {
@@ -57,6 +59,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFFAFAFA),
         appBar: AppBar(
           elevation: 0,
@@ -340,7 +343,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
-                        netRegister(context, startLoading, stopLoading);
+                        netSend(context, startLoading, stopLoading);
                       },
                       child: Text(
                         "确 认",
@@ -367,53 +370,102 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   Future<String> getAddress() {
-    BoxApp.getAddress().then((String address){
+    BoxApp.getAddress().then((String address) {
       setState(() {
-        this.address = address;
+        this.address = Utils.formatAddress(address);
       });
-
     });
   }
 
-  String getReceiveAddress(){
+  String getReceiveAddress() {
     return Utils.formatAddress(widget.address);
   }
 
-
-
-  Future<void> netRegister(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netSend(BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
     await Future.delayed(Duration(seconds: 1), () {
-      TokenSendDao.fetch(_textEditingController.text ,widget.address).then((TokenSendModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("发送失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: "输入安全密码",
+                      dismissCallBackFuture: (String password){
+                        stopLoading();
+                        return;
+                      },
+                      passwordCallBackFuture: (String password) async {
+                        var signingKey = await BoxApp.getSigningKey();
+                        var address = await BoxApp.getAddress();
+                        final key = Utils.generateMd5Int(password + address);
+                        var aesDecode = Utils.aesDecode(signingKey, key);
+
+                        if (aesDecode == "") {
+                          showPlatformDialog(
+                            context: context,
+                            builder: (_) => BasicDialogAlert(
+                              title: Text("校验失败"),
+                              content: Text("安全密码不正确"),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    "确定",
+                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                  ),
+                                  onPressed: () {
+                                    stopLoading();
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        TokenSendDao.fetch(_textEditingController.text, widget.address, aesDecode).then((TokenSendModel model) {
+                          stopLoading();
+                          if (model.code == 200) {
+                            showFlush(context);
+                          } else {
+                            showPlatformDialog(
+                              context: context,
+                              builder: (_) => BasicDialogAlert(
+                                title: Text("发送失败"),
+                                content: Text(model.msg),
+                                actions: <Widget>[
+                                  BasicDialogAction(
+                                    title: Text(
+                                      "确定",
+                                      style: TextStyle(color: Color(0xFFFC2365)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }).catchError((e) {
+                          stopLoading();
+                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                        });
+                      }),
+                ));
+          });
     });
   }
 

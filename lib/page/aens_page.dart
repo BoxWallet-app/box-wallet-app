@@ -19,9 +19,12 @@ class _AensPageState extends State<AensPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+
       length: 3,
       child: Scaffold(
+
           appBar: AppBar(
+
             elevation: 0,
             // 隐藏阴影
             leading: IconButton(

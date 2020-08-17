@@ -1,6 +1,8 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/model/aens_register_model.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+
+import '../main.dart';
 
 class AensRegister extends StatefulWidget {
   @override
@@ -23,6 +27,7 @@ class _AensRegisterState extends State<AensRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFFAFAFA),
         appBar: AppBar(
           elevation: 0,
@@ -196,37 +201,98 @@ class _AensRegisterState extends State<AensRegister> {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      AensRegisterDao.fetch(_textEditingController.text + ".chain").then((AensRegisterModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("注册失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
 
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
+
+
+    await Future.delayed(Duration(seconds: 1), () {
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: "输入安全密码",
+                      passwordCallBackFuture: (String password) async {
+                        var signingKey = await BoxApp.getSigningKey();
+                        var address = await BoxApp.getAddress();
+                        final key = Utils.generateMd5Int(password + address);
+                        var aesDecode = Utils.aesDecode(signingKey, key);
+
+                        if (aesDecode == "") {
+                          showPlatformDialog(
+                            context: context,
+                            builder: (_) => BasicDialogAlert(
+                              title: Text("校验失败"),
+                              content: Text("安全密码不正确"),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    "确定",
+                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                  ),
+                                  onPressed: () {
+                                    stopLoading();
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        AensRegisterDao.fetch(_textEditingController.text + ".chain",aesDecode).then((AensRegisterModel model) {
+                          stopLoading();
+                          if (model.code == 200) {
+                            showFlush(context);
+                          } else {
+                            showPlatformDialog(
+                              context: context,
+                              builder: (_) => BasicDialogAlert(
+                                title: Text("注册失败"),
+                                content: Text(model.msg),
+                                actions: <Widget>[
+                                  BasicDialogAction(
+
+                                    title: Text(
+                                      "确定",
+                                      style: TextStyle(color: Color(0xFFFC2365)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }).catchError((e) {
+                          stopLoading();
+                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                        });
+                      }),
+                ));
+          });
     });
+
+
+
+
+
+
+
+
+
+
   }
 
   void showFlush(BuildContext context) {

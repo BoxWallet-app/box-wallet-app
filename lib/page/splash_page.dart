@@ -1,4 +1,5 @@
 import 'package:box/generated/l10n.dart';
+import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    EasyLoading.instance.userInteractions = false;
-    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.ring;
 
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
@@ -33,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
       ..progressColor=Colors.red
       ..loadingStyle = EasyLoadingStyle.custom
       ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true;
+      ..userInteractions = false;
     BoxApp.getLanguage().then((String value) {
       print("getLanguage->" + value);
       S.load(Locale(value, value.toUpperCase()));
@@ -43,7 +42,15 @@ class _SplashPageState extends State<SplashPage> {
       Future.delayed(Duration(seconds: 1), () {
         S.load(Locale(value, value.toUpperCase()));
 //        Navigator.pushReplacement(context,LoginPage());
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        BoxApp.getAddress().then((value) {
+          if(value.length>0){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+          }else{
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          }
+
+        });
+
       });
     });
   }

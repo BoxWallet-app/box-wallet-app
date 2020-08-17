@@ -1,6 +1,7 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/main.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -16,6 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'login_page.dart';
 import 'mnemonic_copy_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -82,7 +84,11 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
                   onTap: (startLoading, stopLoading, btnState) {
-                    print("123");
+                    BoxApp.setAddress("");
+                    BoxApp.setSigningKey("");
+                    BoxApp.setMnemonic("");
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        "/login", ModalRoute.withName("/login"));
                   },
                   child: Text(
                     "退 出",

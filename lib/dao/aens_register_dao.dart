@@ -7,10 +7,10 @@ import 'package:box/model/block_top_model.dart';
 import 'package:dio/dio.dart';
 
 class AensRegisterDao {
-  static Future<AensRegisterModel> fetch(String name) async {
+  static Future<AensRegisterModel> fetch(String name, String signingKey) async {
     Map<String, String> params = new Map();
     params['name'] = name;
-    params['signingKey'] =await  BoxApp.getSigningKey();
+    params['signingKey'] = signingKey;
     Response response = await Dio().post(NAME_ADD, queryParameters: params);
     print(response.toString());
     print("\n" + jsonEncode(params) + "\n" + response.toString());

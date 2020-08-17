@@ -8,11 +8,11 @@ import 'package:box/model/token_send_model.dart';
 import 'package:dio/dio.dart';
 
 class TokenSendDao {
-  static Future<TokenSendModel> fetch(String amount, String address) async {
+  static Future<TokenSendModel> fetch(String amount, String address,String signingKey) async {
     Map<String, String> params = new Map();
     params['amount'] = amount;
     params['address'] = address;
-    params['signingKey'] = await BoxApp.getSigningKey();
+    params['signingKey'] = signingKey;
     Response response = await Dio().post(WALLET_TRANSFER, queryParameters: params);
     print(response.toString());
     print("\n" + jsonEncode(params) + "\n" + response.toString());

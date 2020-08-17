@@ -8,6 +8,7 @@ import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/aens_update_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,15 @@ class _AensDetailPageState extends State<AensDetailPage> {
   LoadingType _loadingType = LoadingType.loading;
   Flushbar flush;
 
+  String address = '';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     netAensInfo();
+    getAddress();
   }
 
   void netAensInfo() {
@@ -52,6 +56,8 @@ class _AensDetailPageState extends State<AensDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
         // 隐藏阴影
@@ -78,26 +84,17 @@ class _AensDetailPageState extends State<AensDetailPage> {
           children: <Widget>[
             buildItem("域名", _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
             buildItem("TxHash", _aensInfoModel.data == null ? "" : _aensInfoModel.data.thHash),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
             buildItem("价格(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-
             buildItem("当前高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
             buildItem(getTypeKey(), getTypeValue()),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-
             buildItem("所有者", _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
             buildBtnAdd(context),
-
             buildBtnUpdate(context)
           ],
         ),
@@ -105,7 +102,15 @@ class _AensDetailPageState extends State<AensDetailPage> {
     );
   }
 
-  String getTypeValue(){
+  Future<String> getAddress() {
+    BoxApp.getAddress().then((String address) {
+      setState(() {
+        this.address = address;
+      });
+    });
+  }
+
+  String getTypeValue() {
     if (_aensInfoModel.data == null) {
       return "-";
     }
@@ -142,7 +147,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
       return Container();
     }
 
-    if (_aensInfoModel.data.owner != BoxApp.getAddress()) {
+    if (_aensInfoModel.data.owner != address) {
       return Container();
     }
 
@@ -181,35 +186,88 @@ class _AensDetailPageState extends State<AensDetailPage> {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
+
     await Future.delayed(Duration(seconds: 1), () {
-      AensUpdaterDao.fetch(_aensInfoModel.data.name).then((AensUpdateModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("更新失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: "输入安全密码",
+                      dismissCallBackFuture: (String password){
+                        stopLoading();
+                        return;
+                      },
+                      passwordCallBackFuture: (String password) async {
+                        var signingKey = await BoxApp.getSigningKey();
+                        var address = await BoxApp.getAddress();
+                        final key = Utils.generateMd5Int(password + address);
+                        var aesDecode = Utils.aesDecode(signingKey, key);
+
+                        if (aesDecode == "") {
+                          showPlatformDialog(
+                            context: context,
+                            builder: (_) => BasicDialogAlert(
+                              title: Text("校验失败"),
+                              content: Text("安全密码不正确"),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    "确定",
+                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                  ),
+                                  onPressed: () {
+                                    stopLoading();
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        AensUpdaterDao.fetch(_aensInfoModel.data.name, aesDecode).then((AensUpdateModel model) {
+                          stopLoading();
+                          if (model.code == 200) {
+                            showFlush(context);
+                          } else {
+                            showPlatformDialog(
+                              context: context,
+                              builder: (_) => BasicDialogAlert(
+                                title: Text("更新失败"),
+                                content: Text(model.msg),
+                                actions: <Widget>[
+                                  BasicDialogAction(
+                                    title: Text(
+                                      "确定",
+                                      style: TextStyle(color: Color(0xFFFC2365)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }).catchError((e) {
+                          stopLoading();
+                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                        });
+                      }),
+                ));
+          });
     });
   }
 
@@ -218,34 +276,86 @@ class _AensDetailPageState extends State<AensDetailPage> {
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
     await Future.delayed(Duration(seconds: 1), () {
-      AensRegisterDao.fetch(_aensInfoModel.data.name).then((AensRegisterModel model) {
-        stopLoading();
-        if (model.code == 200) {
-          showFlush(context);
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("加价失败"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: "输入安全密码",
+                      dismissCallBackFuture: (String password){
+                        stopLoading();
+                        return;
+                      },
+                      passwordCallBackFuture: (String password) async {
+                        var signingKey = await BoxApp.getSigningKey();
+                        var address = await BoxApp.getAddress();
+                        final key = Utils.generateMd5Int(password + address);
+                        var aesDecode = Utils.aesDecode(signingKey, key);
+
+                        if (aesDecode == "") {
+                          showPlatformDialog(
+                            context: context,
+                            builder: (_) => BasicDialogAlert(
+                              title: Text("校验失败"),
+                              content: Text("安全密码不正确"),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    "确定",
+                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                  ),
+                                  onPressed: () {
+                                    stopLoading();
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        AensRegisterDao.fetch(_aensInfoModel.data.name, aesDecode).then((AensRegisterModel model) {
+                          stopLoading();
+                          if (model.code == 200) {
+                            showFlush(context);
+                          } else {
+                            showPlatformDialog(
+                              context: context,
+                              builder: (_) => BasicDialogAlert(
+                                title: Text("加价失败"),
+                                content: Text(model.msg),
+                                actions: <Widget>[
+                                  BasicDialogAction(
+                                    title: Text(
+                                      "确定",
+                                      style: TextStyle(color: Color(0xFFFC2365)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }).catchError((e) {
+                          stopLoading();
+                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                        });
+                      }),
+                ));
+          });
     });
   }
 

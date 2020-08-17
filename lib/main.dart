@@ -34,33 +34,43 @@ class BoxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
+      supportedLocales: S.delegate.supportedLocales,
+      theme: new ThemeData(
+        primaryColor: Colors.white,
+      ),
+      routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginPage(),
+        '/home': (BuildContext context) => HomePage(),
+      },
       home: FlutterEasyLoading(
-
         child: MaterialApp(
-          title: 'Box aepp',
+
+          home: SplashPage(),
+
+          localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
+          supportedLocales: S.delegate.supportedLocales,
           theme: new ThemeData(
             primaryColor: Colors.white,
-
           ),
-          home: SplashPage(),
-//      home: HomePage(),
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
-
-        supportedLocales: S.delegate.supportedLocales,
-//      routes: <String, WidgetBuilder>{
-//        'login': (BuildContext context) => LoginPage(),
-//        'AccountLoginPage': (BuildContext context) => AccountLoginPage(),
-//        'home': (BuildContext context) => HomePageOld(),
-//        'aens': (BuildContext context) => AensPage(),
-//        'aens_my': (BuildContext context) => AensMyPage(),
-//        'aens_register': (BuildContext context) => AensRegister(),
-//        'aens_detail': (BuildContext context) => AensDetailPage(),
-//        'scan_page': (BuildContext context) => ScanPage(),
-//        'language_page': (BuildContext context) => LanguagePage(),
-//      },
+          routes: <String, WidgetBuilder>{
+            '/login': (BuildContext context) => LoginPage(),
+            '/home': (BuildContext context) => HomePage(),
+          },
         ),
       ),
     );
+  }
+
+  static setMnemonic(String mnemonic) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('mnemonic', mnemonic);
+  }
+
+  static Future<String> getMnemonic() async {
+    var prefs = await SharedPreferences.getInstance();
+    var mnemonic = prefs.getString('mnemonic');
+    return mnemonic;
   }
 
   static setSigningKey(String signingKey) async {
@@ -82,7 +92,7 @@ class BoxApp extends StatelessWidget {
   static Future<String> getAddress() async {
     var prefs = await SharedPreferences.getInstance();
     var address = prefs.getString('address');
-    if(address == null){
+    if (address == null) {
       return "-";
     }
     return address;
@@ -99,4 +109,3 @@ class BoxApp extends StatelessWidget {
     return language == null ? "en" : language;
   }
 }
-

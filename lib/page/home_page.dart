@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       loadingType = LoadingType.finish;
       if (model.code == 200) {
         if (page == 1) {
-          if(model.data == null || model.data.length  == 0){
+          if (model.data == null || model.data.length == 0) {
             loadingType = LoadingType.no_data;
             _easyRefreshController.finishRefresh();
             _easyRefreshController.finishLoad();
@@ -120,7 +120,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         }
 
         setState(() {});
-
       } else {}
     }).catchError((e) {
       loadingType = LoadingType.error;
@@ -157,26 +156,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                 onTap: () {
-//                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
-
-                  showGeneralDialog(
-                      context: context,
-                      pageBuilder: (context, anim1, anim2) {},
-                      barrierColor: Colors.grey.withOpacity(.4),
-                      barrierDismissible: true,
-                      barrierLabel: "",
-                      transitionDuration: Duration(milliseconds: 400),
-                      transitionBuilder: (context, anim1, anim2, child) {
-                        final curvedValue =
-                            Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                        return Transform(
-                            transform: Matrix4.translationValues(
-                                0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              child: PayPasswordWidget(),
-                            ));
-                      });
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
                 },
                 child: Container(
                   child: Image(
@@ -187,7 +167,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 ),
               ),
             ),
-
             backgroundColor: Color(0xFFFC2764).withAlpha(220),
             body: Container(
               margin: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top),
@@ -642,11 +621,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
 
   Future<String> getAddress() {
-    BoxApp.getAddress().then((String address){
+    BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
       });
-
     });
   }
 
@@ -666,9 +644,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   double getListWidgetHeight(BuildContext context) {
     if (loadingType == LoadingType.finish) {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 220 ;
+      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 230;
     } else {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 150 -200;
+      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 150 - 200;
     }
   }
 

@@ -1,17 +1,21 @@
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
 typedef PayPasswordCallBackFuture = Future Function(String password);
+typedef PayDismissCallBackFuture = Future Function(String password);
 
 class PayPasswordWidget extends StatefulWidget {
   final String title;
   final PayPasswordCallBackFuture passwordCallBackFuture;
+  final PayPasswordCallBackFuture dismissCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture}) : super(key: key);
+  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() => _PayPasswordWidgetState();
@@ -28,7 +32,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
       type: MaterialType.transparency, //透明类型
       child: Center(
         child: Container(
-          height: 190,
+          height: 250,
           width: MediaQuery.of(context).size.width - 40,
           margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           decoration: ShapeDecoration(
@@ -51,6 +55,8 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
                       Navigator.pop(context); //关闭对话框
+                      // ignore: unnecessary_statements
+                      widget.dismissCallBackFuture("");
                     },
                     child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
@@ -91,7 +97,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                             maxLength: 20,
                             decoration: InputDecoration(
                               counterText: '',
-                              hintText: '安全码',
+                              hintText: '',
                               enabledBorder: new UnderlineInputBorder(
                                 borderSide: BorderSide(color: Color(0x00000000)),
                               ),
@@ -115,6 +121,33 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   ],
                 ),
               ),
+
+        Container(
+          margin: const EdgeInsets.only(top: 30,bottom: 20),
+          child: ArgonButton(
+            height: 40,
+            roundLoadingShape: true,
+            width: 120,
+            onTap: (startLoading, stopLoading, btnState) {
+              Navigator.pop(context); //关闭对话框
+              widget.passwordCallBackFuture(_textEditingController.text);
+            },
+            child: Text(
+              "确 认",
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+            loader: Container(
+              padding: EdgeInsets.all(10),
+              child: SpinKitRing(
+                lineWidth: 4,
+                color: Colors.white,
+                // size: loaderWidth ,
+              ),
+            ),
+            borderRadius: 30.0,
+            color: Color(0xFFFC2365),
+          ),
+        ) ,
 
 //          Text(text),
             ],
