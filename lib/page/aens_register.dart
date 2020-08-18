@@ -1,5 +1,6 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -39,7 +40,6 @@ class _AensRegisterState extends State<AensRegister> {
               size: 17,
               color: Colors.white,
             ),
-            tooltip: 'Navigreation',
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
@@ -76,9 +76,9 @@ class _AensRegisterState extends State<AensRegister> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.only(left: 20, top: 10),
+                        margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
                         child: Text(
-                          "注册一个你想要的永恒区块链域名",
+                          S.of(context).aens_register_page_title,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 19,
@@ -110,7 +110,7 @@ class _AensRegisterState extends State<AensRegister> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 18, top: 20),
                               child: Text(
-                                "名称",
+                                S.of(context).aens_register_page_name,
                                 style: TextStyle(
                                   color: Color(0xFF666666),
                                   fontSize: 19,
@@ -178,7 +178,7 @@ class _AensRegisterState extends State<AensRegister> {
                   netRegister(context, startLoading, stopLoading);
                 },
                 child: Text(
-                  "创 建",
+                  S.of(context).aens_register_page_create,
                   style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 loader: Container(
@@ -202,8 +202,6 @@ class _AensRegisterState extends State<AensRegister> {
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
 
-
-
     await Future.delayed(Duration(seconds: 1), () {
       showGeneralDialog(
           context: context,
@@ -220,7 +218,7 @@ class _AensRegisterState extends State<AensRegister> {
                   opacity: anim1.value,
                   // ignore: missing_return
                   child: PayPasswordWidget(
-                      title: "输入安全密码",
+                      title: S.of(context).password_widget_input_password,
                       passwordCallBackFuture: (String password) async {
                         var signingKey = await BoxApp.getSigningKey();
                         var address = await BoxApp.getAddress();
@@ -231,12 +229,16 @@ class _AensRegisterState extends State<AensRegister> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text("校验失败"),
-                              content: Text("安全密码不正确"),
+                              title: Text(
+                                S.of(context).dialog_hint_check_error,
+                              ),
+                              content: Text(
+                                S.of(context).dialog_hint_check_error_content,
+                              ),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
-                                    "确定",
+                                    S.of(context).dialog_conform,
                                     style: TextStyle(color: Color(0xFFFC2365)),
                                   ),
                                   onPressed: () {
@@ -250,7 +252,7 @@ class _AensRegisterState extends State<AensRegister> {
                           return;
                         }
 
-                        AensRegisterDao.fetch(_textEditingController.text + ".chain",aesDecode).then((AensRegisterModel model) {
+                        AensRegisterDao.fetch(_textEditingController.text + ".chain", aesDecode).then((AensRegisterModel model) {
                           stopLoading();
                           if (model.code == 200) {
                             showFlush(context);
@@ -258,13 +260,14 @@ class _AensRegisterState extends State<AensRegister> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text("注册失败"),
+                                title: Text(
+                                  S.of(context).dialog_hint_register_error,
+                                ),
                                 content: Text(model.msg),
                                 actions: <Widget>[
                                   BasicDialogAction(
-
                                     title: Text(
-                                      "确定",
+                                      S.of(context).dialog_conform,
                                       style: TextStyle(color: Color(0xFFFC2365)),
                                     ),
                                     onPressed: () {
@@ -277,28 +280,18 @@ class _AensRegisterState extends State<AensRegister> {
                           }
                         }).catchError((e) {
                           stopLoading();
-                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                         });
                       }),
                 ));
           });
     });
-
-
-
-
-
-
-
-
-
-
   }
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
-      title: "广播成功",
-      message: "正在同步节点信息,预计5分钟后同步成功!",
+      title: S.of(context).hint_broadcast_sucess,
+      message: S.of(context).hint_broadcast_sucess_hint,
       backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
@@ -310,7 +303,7 @@ class _AensRegisterState extends State<AensRegister> {
           flush.dismiss(true); // result = true
         },
         child: Text(
-          "确定",
+          S.of(context).dialog_conform,
           style: TextStyle(color: Colors.white),
         ),
       ),

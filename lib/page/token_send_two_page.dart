@@ -2,6 +2,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/token_send_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/token_send_model.dart';
@@ -52,7 +53,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -114,9 +115,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10),
+                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
                               child: Text(
-                                "2/2 请输入发送数量",
+                                S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
@@ -129,7 +130,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
-                                    "从",
+                                    S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
                                       fontSize: 14,
@@ -155,7 +156,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
-                                    "到",
+                                    S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
                                       fontSize: 14,
@@ -203,7 +204,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "转账数量",
+                                            S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontSize: 19,
@@ -270,7 +271,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                           width: 5,
                                                         ),
                                                         Text(
-                                                          "全部",
+                                                          S.of(context).token_send_two_page_all,
                                                           style: TextStyle(
                                                             color: Color(0xFFFC2365),
                                                             fontSize: 17,
@@ -298,7 +299,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  "余额",
+                                                  S.of(context).token_send_two_page_balance,
                                                   style: TextStyle(
                                                     color: Color(0xFF666666),
                                                     fontSize: 16,
@@ -346,7 +347,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         netSend(context, startLoading, stopLoading);
                       },
                       child: Text(
-                        "确 认",
+                        S.of(context).token_send_two_page_conform,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
@@ -401,8 +402,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                   opacity: anim1.value,
                   // ignore: missing_return
                   child: PayPasswordWidget(
-                      title: "输入安全密码",
-                      dismissCallBackFuture: (String password){
+                      title: S.of(context).password_widget_input_password,
+                      dismissCallBackFuture: (String password) {
                         stopLoading();
                         return;
                       },
@@ -416,12 +417,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text("校验失败"),
-                              content: Text("安全密码不正确"),
+                              title: Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S.of(context).dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
-                                    "确定",
+                                    S.of(context).dialog_conform,
                                     style: TextStyle(color: Color(0xFFFC2365)),
                                   ),
                                   onPressed: () {
@@ -443,12 +444,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text("发送失败"),
+                                title: Text( S.of(context).dialog_hint_send_error,),
                                 content: Text(model.msg),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
-                                      "确定",
+                                      S.of(context).dialog_conform,
                                       style: TextStyle(color: Color(0xFFFC2365)),
                                     ),
                                     onPressed: () {
@@ -461,7 +462,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           }
                         }).catchError((e) {
                           stopLoading();
-                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                         });
                       }),
                 ));
@@ -471,8 +472,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
-      title: "广播成功",
-      message: "正在同步节点信息,预计5分钟后同步成功!",
+      title:  S.of(context).hint_broadcast_sucess,
+      message:  S.of(context).hint_broadcast_sucess_hint,
       backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
@@ -484,7 +485,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           flush.dismiss(true); // result = true
         },
         child: Text(
-          "确定",
+          S.of(context).dialog_conform,
           style: TextStyle(color: Colors.white),
         ),
       ),

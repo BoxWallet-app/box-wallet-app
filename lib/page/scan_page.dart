@@ -1,3 +1,4 @@
+import 'package:box/generated/l10n.dart';
 import 'package:box/widget/qrcode_reader_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class _ScanPageState extends State<ScanPage> {
                 size: 17,
                 color: Colors.white,
               ),
-              tooltip: 'Navigreation',
               onPressed: () => Navigator.pop(context),
             ),
 
@@ -41,7 +41,7 @@ class _ScanPageState extends State<ScanPage> {
           ),
         ),
         helpWidget: Text(
-"扫二维码进行付款 / 授权登录"
+          S.of(context).scan_page_content,
         ),
       ),
     );

@@ -45,7 +45,7 @@ class _LanguagePageState extends State<LanguagePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          S.of(context).title,
+          S.of(context).setting_page_item_language,
           style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
@@ -73,59 +73,59 @@ class _LanguagePageState extends State<LanguagePage> {
                 color: Colors.white,
                 child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
               ),
-              buildItem("Français", getLanguageStatus("fr", currentLanguage), () {
-                languageClick("fr");
-              }),
-              Container(
-                height: 1.0,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
-              ),
-              buildItem("한국어", getLanguageStatus("ko", currentLanguage), () {
-                languageClick("ko");
-              }),
-              Container(
-                height: 1.0,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
-              ),
-              buildItem("にほんご", getLanguageStatus("ja", currentLanguage), () {
-                languageClick("ja");
-              }),
-              Container(
-                height: 1.0,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
-              ),
-              buildItem("Русский", getLanguageStatus("py", currentLanguage), () {
-                languageClick("py");
-              }),
-              Container(
-                height: 1.0,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
-              ),
-              buildItem("Español", getLanguageStatus("es", currentLanguage), () {
-                languageClick("es");
-              }),
-              Container(
-                height: 1.0,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
-              ),
-              buildItem("الأمم المتحدة[العربية", getLanguageStatus("ar", currentLanguage), () {
-                languageClick("ar");
-              }),
-              Container(
-                height: 1.0,
-                color: Colors.white,
-                child: Container(width: MediaQuery.of(context).size.width, color: Color(0xFFEEEEEE)),
-              ),
+//              buildItem("Français", getLanguageStatus("fr", currentLanguage), () {
+//                languageClick("fr");
+//              }),
+//              Container(
+//                height: 1.0,
+//                padding: EdgeInsets.only(left: 18, right: 18),
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+//              ),
+//              buildItem("한국어", getLanguageStatus("ko", currentLanguage), () {
+//                languageClick("ko");
+//              }),
+//              Container(
+//                height: 1.0,
+//                padding: EdgeInsets.only(left: 18, right: 18),
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+//              ),
+//              buildItem("にほんご", getLanguageStatus("ja", currentLanguage), () {
+//                languageClick("ja");
+//              }),
+//              Container(
+//                height: 1.0,
+//                padding: EdgeInsets.only(left: 18, right: 18),
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+//              ),
+//              buildItem("Русский", getLanguageStatus("py", currentLanguage), () {
+//                languageClick("py");
+//              }),
+//              Container(
+//                height: 1.0,
+//                padding: EdgeInsets.only(left: 18, right: 18),
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+//              ),
+//              buildItem("Español", getLanguageStatus("es", currentLanguage), () {
+//                languageClick("es");
+//              }),
+//              Container(
+//                height: 1.0,
+//                padding: EdgeInsets.only(left: 18, right: 18),
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
+//              ),
+//              buildItem("الأمم المتحدة[العربية", getLanguageStatus("ar", currentLanguage), () {
+//                languageClick("ar");
+//              }),
+//              Container(
+//                height: 1.0,
+//                color: Colors.white,
+//                child: Container(width: MediaQuery.of(context).size.width, color: Color(0xFFEEEEEE)),
+//              ),
             ],
           ),
         )),

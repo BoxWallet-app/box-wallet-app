@@ -1,9 +1,17 @@
+import 'dart:convert';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MnemonicConfirmPage extends StatefulWidget {
+  final String mnemonic;
+
+  const MnemonicConfirmPage({Key key, this.mnemonic}) : super(key: key);
+
   @override
   _AccountRegisterPageState createState() => _AccountRegisterPageState();
 }
@@ -14,13 +22,16 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
   var childrenTrue = List<Widget>();
   var childrenWordTrue = List<String>();
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity";
-    List mnemonicList = mnemonic.split(" ");
+    List mnemonicList = widget.mnemonic.split(" ");
+    mnemonicList.shuffle();
+//    mnemonicList.sort((left,right)=>left.compareTo(right));
     for (String item in mnemonicList) {
       mnemonicWord[item] = false;
     }
@@ -92,7 +103,62 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   height: 50,
                   roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {},
+                  onTap: (startLoading, stopLoading, btnState) {
+
+                    print(childrenWordTrue.toString());
+                    print(widget.mnemonic.split(" ").toString());
+                    if(childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()){
+                      print("111");
+
+
+                      showPlatformDialog(
+                        context: context,
+                        builder: (_) => BasicDialogAlert(
+                          title: Text("备份成功"),
+                          content: Text("您已经成功备份助记词,请妥善保管,我们为了您的账号更加安全,将本地助记词进行删除."),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                "确定",
+                                style: TextStyle(color: Color(0xFFFC2365)),
+                              ),
+                              onPressed: () {
+                                BoxApp.setMnemonic("");
+                                Navigator.of(context, rootNavigator: true).pop();
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    "/home", ModalRoute.withName("/home"));
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+
+                    }
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text("备份失败"),
+                        content: Text("请按照正常顺序输入助记词."),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              "确定",
+                              style: TextStyle(color: Color(0xFFFC2365)),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+//                    testList6.forEach((item) => print(item));
+//                    String s = JsonEncoder().convert(childrenWordTrue);
+//                    print(s);
+
+                  },
                   child: Text(
                     "确 认",
                     style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),

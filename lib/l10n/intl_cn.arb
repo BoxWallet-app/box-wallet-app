@@ -1,5 +1,102 @@
 {
-  "title": "中文",
-  "language": "语言"
+  "login_page_login": "登录",
+  "login_page_create": "创建新账户",
+
+  "account_login_page_input_mnemonic": "请输入助记词",
+  "account_login_page_input_hint": "助记词用于登录钱包,按照顺序将12个单词进行填写,单词之间使用空格填充",
+  "account_login_page_conform": "确认",
+
+  "password_widget_set_password": "设置安全密码",
+  "password_widget_input_password": "输入安全密码",
+  "password_widget_conform": "确 认",
+
+  "home_page_function": "常用功能",
+  "home_page_function_send": "发送",
+  "home_page_function_receive": "接收",
+  "home_page_function_names": "名称",
+  "home_page_function_games": "游戏",
+  "home_page_transaction": "交易记录",
+  "home_page_transaction_conform": "确认数",
+
+  "token_send_one_page_title": "1/2请输入接收地址",
+  "token_send_one_page_address": "地址",
+  "token_send_one_page_qr": "扫码",
+  "token_send_one_page_next": "下一步",
+
+  "token_send_two_page_title": "2/2请输入发送数量",
+  "token_send_two_page_from": "从",
+  "token_send_two_page_to": "到",
+  "token_send_two_page_number": "转账数量",
+  "token_send_two_page_all": "全部",
+  "token_send_two_page_balance": "余额",
+  "token_send_two_page_conform": "确认",
+
+  "hint_broadcast_sucess": "广播成功",
+  "hint_broadcast_sucess_hint": "正在同步节点信息,预计5分钟后同步成功",
+
+  "token_receive_page_title": "分享你的地址给接收者",
+  "token_receive_page_copy": "复制地址",
+  "token_receive_page_copy_sucess": "复制成功️",
+
+  "aens_page_title": "域名系统",
+  "aens_page_title_my": "我的",
+  "aens_page_title_tab_1": "正在竞拍",
+  "aens_page_title_tab_2": "顶级域名",
+  "aens_page_title_tab_3": "即将过期",
+
+  "aens_my_page_title": "我的域名",
+  "aens_my_page_title_tab_1": "正在竞拍",
+  "aens_my_page_title_tab_2": "已经注册",
+
+  "aens_list_page_item_time_end": "距离到期",
+  "aens_list_page_item_time_over": "距离结束",
+  "aens_list_page_item_address": "地址",
+
+  "aens_register_page_title": "注册一个你想要的永恒区块链域名",
+  "aens_register_page_name": "名称",
+  "aens_register_page_create": "创建",
+
+  "aens_detail_page_name": "名称",
+  "aens_detail_page_balance": "价格",
+  "aens_detail_page_height": "当前高度",
+  "aens_detail_page_over": "距离结束",
+  "aens_detail_page_owner": "所有者",
+  "aens_detail_page_add": "加价",
+  "aens_detail_page_update": "更新",
+
+  "setting_page_title": "设置",
+  "setting_page_item_save": "保存助记词",
+  "setting_page_item_language": "语言",
+  "setting_page_item_logout": "退出",
+
+  "scan_page_content": "扫二维码进行付款",
+
+
+
+  "dialog_hint": "提示",
+  "dialog_hint_send_error": "发送失败",
+  "dialog_hint_update_error": "更新失败",
+  "dialog_hint_add_error": "加价失败",
+  "dialog_hint_register_error": "注册失败",
+  "dialog_conform": "确认",
+  "dialog_login_user_no_save": "登录用户不提供助记词备份",
+  "dialog_hint_check_error": "校验失败",
+  "dialog_hint_check_error_content": "安全密码不正确",
+
+
+  "hint_error_address": "地址错误",
+  "hint_error_camera_permissions": "没有相机权限",
+
+  "loading_widget_no_data": "暂无数据",
+  "loading_widget_no_net": "网络错误,请确认重试",
+  "loading_widget_no_net_try": "重试",
+
+
+  "common_points": "分钟",
+  "common_hours": "小时",
+  "common_day": "天"
+
+
+
 
 }

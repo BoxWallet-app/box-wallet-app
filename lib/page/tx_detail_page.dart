@@ -6,6 +6,7 @@ import 'package:box/main.dart';
 import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/aens_update_model.dart';
+import 'package:box/model/wallet_record_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flushbar/flushbar.dart';
@@ -16,9 +17,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TxDetailPage extends StatefulWidget {
-  final String name;
+  final RecordData recordData;
 
-  const TxDetailPage({Key key, this.name}) : super(key: key);
+  const TxDetailPage({Key key, this.recordData}) : super(key: key);
 
   @override
   _TxDetailPageState createState() => _TxDetailPageState();
@@ -28,6 +29,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
   AensInfoModel _aensInfoModel = AensInfoModel();
   LoadingType _loadingType = LoadingType.loading;
   Flushbar flush;
+  List<Widget> items = []; //先建一个数组用于存放循环生成的widget
 
   @override
   void initState() {
@@ -35,17 +37,44 @@ class _TxDetailPageState extends State<TxDetailPage> {
     super.initState();
     _loadingType = LoadingType.finish;
 //    netAensInfo();
-  }
+    var item = buildItem("tx", widget.recordData.hash);
+    items.add(item);
+    items.add(
+      Container(
+          child: Container(
+            color: Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 18, right: 18),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+    widget.recordData.tx.forEach((key, value) {
+      var payload = widget.recordData.tx['payload'].toString();
+      if (payload != "" && payload != null && payload.length>=11) {
+        print("substring->"+payload);
+        var substring = payload.substring(3);
+        print("substring->"+substring);
+        var base64decode = Utils.base64Decode(substring);
+//
+//        print("substring->"+substring);
+//        var base64decode = Utils.base64Decode(substring);
+        print("base64decode->"+base64decode);
+        substring = base64decode.substring(0,base64decode.length-4);
+        widget.recordData.tx['payload'] = substring;
+      }
 
-  void netAensInfo() {
-    AensInfoDao.fetch(widget.name).then((AensInfoModel model) {
-      _aensInfoModel = model;
-      _loadingType = LoadingType.finish;
-      setState(() {});
-    }).catchError((e) {
-      print(e.toString());
-      _loadingType = LoadingType.error;
-      setState(() {});
+
+      var item = buildItem(key.toString(), value.toString());
+      items.add(item);
+      items.add(
+        Container(
+            child: Container(
+              color: Color(0xFFEEEEEE),
+            ),
+            padding: EdgeInsets.only(left: 18, right: 18),
+            height: 1.0,
+            color: Color(0xFFFFFFFF)),
+      );
     });
   }
 
@@ -67,63 +96,32 @@ class _TxDetailPageState extends State<TxDetailPage> {
           MaterialButton(
             minWidth: 10,
             child: new Text(''),
-            onPressed: () {
-            },
+            onPressed: () {},
           ),
         ],
         title: Text(
-          "th_2hjndcgPXGUv8GbgtxiR9o7PfG7rZVNaxrgfcqgBMjnj2xvsyu",
+          widget.recordData.hash.toString(),
           style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
       ),
-      body: LoadingWidget(
-        type: _loadingType,
-        onPressedError: () {
-          netAensInfo();
-        },
-        child: Column(
-          children: <Widget>[
-            buildItem("时间", "2020-08-05 17:51:02"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-            buildItem("类型", "Spend"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-            buildItem("确认数","2391"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-
-            buildItem("数量", "+5AE"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-            buildItem("发送者", "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-
-            buildItem("接收者","ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-            buildItem("TxHash","th_2hjndcgPXGUv8GbgtxiR9o7PfG7rZVNaxrgfcqgBMjnj2xvsyu"),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: Column(children: items),
       ),
     );
   }
 
-  String getTypeValue(){
+  String getTypeValue() {
     if (_aensInfoModel.data == null) {
       return "-";
     }
 
     if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
     }
 
     if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
+      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
     }
 
     return "-";
@@ -144,11 +142,6 @@ class _TxDetailPageState extends State<TxDetailPage> {
 
     return "距离过期";
   }
-
-
-
-
-
 
   Container buildItem(String key, String value) {
     return Container(

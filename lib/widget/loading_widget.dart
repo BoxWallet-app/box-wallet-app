@@ -1,3 +1,4 @@
+import 'package:box/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -42,19 +43,18 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
   Widget _error(onPressedError) {
     if (onPressedError == null) {
-      print("onPressedError null");
     }
     return Center(
         child: Container(
       height: 120,
       child: Column(
         children: <Widget>[
-          Text("Network is abnormal. Please try again"),
+          Text(  S.of(context).loading_widget_no_net,),
           Container(
             margin: EdgeInsets.only(top: 20),
             child: MaterialButton(
               child: Text(
-                "Retry",
+                S.of(context).loading_widget_no_net_try,
                 style: new TextStyle(fontSize: 17, color: Colors.white),
               ),
               color: Color(0xFFFC2365),
@@ -72,6 +72,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   }
 
   Widget get _noData {
-    return Center(child: Text("Temporarily no data"));
+    return Center(child: Text(S.of(context).loading_widget_no_data));
   }
 }

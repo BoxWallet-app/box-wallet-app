@@ -1,4 +1,5 @@
 import 'package:box/dao/user_register_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/page/account_login_page.dart';
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 bottom: 125,
                 child: MaterialButton(
                   child: Text(
-                    "登 录",
+                    S.of(context).login_page_login,
                     style: new TextStyle(fontSize: 17, color: Color(0xFFFC2365)),
                   ),
                   color: Colors.white,
@@ -58,47 +59,11 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ),
-//              Positioned(
-//                  bottom: 70,
-//                  child: Row(
-//                    children: <Widget>[
-//                      Center(
-//                        child: InkWell(
-//                          onTap: () {
-//                            setState(() {
-//                              _value = !_value;
-//                            });
-//                          },
-//                          child: Container(
-//                            child: Padding(
-//                              padding: const EdgeInsets.all(10.0),
-//                              child: _value
-//                                  ? Icon(
-//                                      Icons.check_circle,
-//                                      size: 15.0,
-//                                      color: Colors.white,
-//                                    )
-//                                  : Icon(
-//                                      Icons.check_circle_outline,
-//                                      size: 15.0,
-//                                      color: Colors.white,
-//                                    ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                      Text(
-//                        " 我已同意《服务条款》《隐私政策》内容",
-//                        style: new TextStyle(
-//                            color: Color(0xEEFFFFFF), fontSize: 15),
-//                      )
-//                    ],
-//                  ))
               Positioned(
                 bottom: 60,
                 child: MaterialButton(
                   child: Text(
-                    "创建新账户",
+                    S.of(context).login_page_create,
                     style: new TextStyle(fontSize: 17, color: Color(0xFFFFFFFF)),
                   ),
                   height: 50,
@@ -138,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                     opacity: anim1.value,
                     // ignore: missing_return
                     child: PayPasswordWidget(
-                        title: "设置安全密码",
+                        title: S.of(context).password_widget_set_password,
                         passwordCallBackFuture: (String password) async {
                           final key = Utils.generateMd5Int(password + model.data.address);
 
@@ -148,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                           BoxApp.setSigningKey(signingKeyAesEncode);
                           BoxApp.setMnemonic(mnemonicAesEncode);
                           BoxApp.setAddress(model.data.address);
-                          Navigator.of(context).pushNamedAndRemoveUntil(
+                          Navigator.of(super.context).pushNamedAndRemoveUntil(
                               "/home", ModalRoute.withName("/home"));
                         }),
                   ));
@@ -156,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {}
     }).catchError((e) {
       EasyLoading.dismiss(animation: true);
-      EasyLoading.showToast('网络错误', duration: Duration(seconds: 2));
+      EasyLoading.showToast('ERROR', duration: Duration(seconds: 2));
     });
   }
 }

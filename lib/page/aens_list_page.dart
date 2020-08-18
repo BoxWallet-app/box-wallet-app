@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:box/dao/aens_page_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_page_model.dart';
 import 'package:box/page/aens_detail_page.dart';
 import 'package:box/utils/utils.dart';
@@ -64,7 +65,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
           _loadingType = LoadingType.error;
         });
       } else {
-        Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       }
       print("error:" + e.toString());
     });
@@ -140,7 +141,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+//                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -165,12 +166,12 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                                 Utils.formatPrice(_aensPageModel.data[position].currentPrice) + "AE",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+//                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             Text(
-                              "地址: " + Utils.formatAddress(_aensPageModel.data[position].owner),
+                                S.of(context).aens_list_page_item_address+": " + Utils.formatAddress(_aensPageModel.data[position].owner),
                               style: TextStyle(color: Colors.black54, fontSize: 14),
                             ),
                           ],
@@ -194,10 +195,10 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
       case AensPageType.auction:
       case AensPageType.price:
       case AensPageType.my_auction:
-        return '距离结束: ' + Utils.formatHeight(_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].endHeight);
+        return S.of(context).aens_list_page_item_time_end+': ' + Utils.formatHeight(context,_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].endHeight);
       case AensPageType.over:
       case AensPageType.my_over:
-        return '距离到期 :' + Utils.formatHeight(_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].overHeight);
+        return S.of(context).aens_list_page_item_time_over+' :' + Utils.formatHeight(context,_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].overHeight);
     }
   }
 

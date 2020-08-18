@@ -1,5 +1,6 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/page/scan_page.dart';
@@ -24,13 +25,16 @@ class TokenReceivePage extends StatefulWidget {
 class _TokenReceivePageState extends State<TokenReceivePage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-  var contentText = "复制地址";
+  var contentText = "";
   var address = "";
 
   @override
   void initState() {
+
     super.initState();
+
     getAddress();
+
   }
 
   @override
@@ -93,9 +97,9 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10),
+                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
                               child: Text(
-                                "分享你的地址给接受者",
+                                S.of(context).token_receive_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
@@ -148,16 +152,15 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                   ),
 
                                   Container(
-                                    width: 100,
                                     height: 30,
                                     margin: const EdgeInsets.only(top: 20, bottom: 40),
                                     child: FlatButton(
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(text: address));
                                         setState(() {
-                                          contentText = "复制成功✅️";
+                                          contentText =  S.of(context).token_receive_page_copy_sucess;
                                         });
-                                        Fluttertoast.showToast(msg: "复制成功",
+                                        Fluttertoast.showToast(msg:  S.of(context).token_receive_page_copy_sucess,
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 1,
@@ -166,7 +169,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                             fontSize: 16.0);
                                       },
                                       child: Text(
-                                        contentText,
+                                        contentText == "" ?S.of(context).token_receive_page_copy:S.of(context).token_receive_page_copy_sucess,
                                         maxLines: 1,
                                         style: TextStyle(fontSize: 13, color: Color(0xFFF22B79)),
                                       ),
@@ -205,35 +208,4 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
   }
 
 
-  void showFlush(BuildContext context) {
-    flush = Flushbar<bool>(
-      title: "广播成功",
-      message: "正在同步节点信息,预计5分钟后同步成功!",
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
-      blockBackgroundInteraction: true,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      //                        flushbarStyle: FlushbarStyle.GROUNDED,
-
-      mainButton: FlatButton(
-        onPressed: () {
-          flush.dismiss(true); // result = true
-        },
-        child: Text(
-          "确定",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Color(0x88000000),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-    )
-      ..show(context).then((result) {
-        Navigator.pop(context);
-      });
-  }
 }

@@ -1,5 +1,6 @@
 import 'package:box/dao/aens_page_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/page/aens_register.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,12 +20,9 @@ class _AensPageState extends State<AensPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-
       length: 3,
       child: Scaffold(
-
           appBar: AppBar(
-
             elevation: 0,
             // 隐藏阴影
             leading: IconButton(
@@ -32,18 +30,19 @@ class _AensPageState extends State<AensPage> {
                 Icons.arrow_back_ios,
                 size: 17,
               ),
-              tooltip: 'Navigreation',
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
-              'AENS域名',
+              S.of(context).aens_page_title,
               style: TextStyle(fontSize: 18),
             ),
             centerTitle: true,
             actions: <Widget>[
               MaterialButton(
                 minWidth: 10,
-                child: new Text('我的'),
+                child: new Text(
+                  S.of(context).aens_page_title_my,
+                ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
                 },
@@ -62,9 +61,9 @@ class _AensPageState extends State<AensPage> {
                   ),
                   insets: EdgeInsets.only(bottom: 5)),
               tabs: <Widget>[
-                Tab(icon: Text("正在竞拍")),
-                Tab(icon: Text("顶级域名")),
-                Tab(icon: Text("即将过期")),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_1)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_2)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_3)),
               ],
             ),
           ),
@@ -80,8 +79,7 @@ class _AensPageState extends State<AensPage> {
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AensRegister()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AensRegister()));
 //              BlockTopDao.fetch().then((BlockTopModel model) {
 //                print(model.toJson());
 //
@@ -89,7 +87,6 @@ class _AensPageState extends State<AensPage> {
 //                print(e.toString() + "123123");
 //
 //              });
-
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

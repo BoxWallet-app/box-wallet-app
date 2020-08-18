@@ -1,4 +1,5 @@
 import 'package:box/dao/aens_page_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +31,12 @@ class _AensMyPageState extends State<AensMyPage> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            '我的域名',
+            S.of(context).aens_my_page_title,
             style: TextStyle(fontSize: 18),
           ),
           centerTitle: true,
 
-          bottom:TabBar(
+          bottom: TabBar(
             unselectedLabelColor: Colors.black54,
             indicatorSize: TabBarIndicatorSize.label,
             dragStartBehavior: DragStartBehavior.down,
@@ -47,8 +48,8 @@ class _AensMyPageState extends State<AensMyPage> {
                 ),
                 insets: EdgeInsets.only(bottom: 5)),
             tabs: <Widget>[
-              Tab(icon: Text("正在竞拍")),
-              Tab(icon: Text("已经注册")),
+              Tab(icon: Text(S.of(context).aens_my_page_title_tab_1)),
+              Tab(icon: Text(S.of(context).aens_my_page_title_tab_2)),
             ],
           ),
         ),

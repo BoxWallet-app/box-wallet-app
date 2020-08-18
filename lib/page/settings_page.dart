@@ -4,10 +4,12 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -26,20 +28,33 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClientMixin {
+  var mnemonic = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     eventBus.on<LanguageEvent>().listen((event) {
-      setState(() {});
+      setState(() {
+
+      });
+    });
+    getMnemonic();
+  }
+
+  Future<String> getMnemonic() {
+    BoxApp.getAddress().then((String mnemonic) {
+      setState(() {
+        this.mnemonic = mnemonic;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         // 隐藏阴影
@@ -48,67 +63,132 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
             Icons.arrow_back_ios,
             size: 17,
           ),
-          tooltip: 'Navigreation',
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          '设置',
+          S.of(context).setting_page_title,
           style: TextStyle(fontSize: 18),
         ),
         centerTitle: true,
-
-
-
       ),
-        body:Container(
-          child: Column(
-            children: <Widget>[
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            if (mnemonic != "" && mnemonic != null)
+              buildItem(context, S.of(context).setting_page_item_save, "images/profile_display_currency.png", () {
+                showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, anim1, anim2) {},
+                    barrierColor: Colors.grey.withOpacity(.4),
+                    barrierDismissible: true,
+                    barrierLabel: "",
+                    transitionDuration: Duration(milliseconds: 400),
+                    transitionBuilder: (_, anim1, anim2, child) {
+                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                      return Transform(
+                        transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                        child: Opacity(
+                          opacity: anim1.value,
+                          // ignore: missing_return
+                          child: PayPasswordWidget(
+                            title: S.of(context).password_widget_input_password,
+                            dismissCallBackFuture: (String password) {
+                              return;
+                            },
+                            passwordCallBackFuture: (String password) async {
+                              var mnemonic = await BoxApp.getMnemonic();
+                              if (mnemonic == "") {
+                                showPlatformDialog(
+                                  context: context,
+                                  builder: (_) => BasicDialogAlert(
+                                    title: Text( S.of(context).dialog_hint),
+                                    content: Text( S.of(context).dialog_login_user_no_save),
+                                    actions: <Widget>[
+                                      BasicDialogAction(
+                                        title: Text(
+                                          S.of(context).dialog_conform,
+                                          style: TextStyle(color: Color(0xFFFC2365)),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context, rootNavigator: true).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                return;
+                              }
+                              var address = await BoxApp.getAddress();
+                              final key = Utils.generateMd5Int(password + address);
+                              var aesDecode = Utils.aesDecode(mnemonic, key);
 
-              buildItem(context, "备份助记词", "images/profile_display_currency.png", () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage()));
+                              if (aesDecode == "") {
+                                showPlatformDialog(
+                                  context: context,
+                                  builder: (_) => BasicDialogAlert(
+                                    title: Text("校验失败"),
+                                    content: Text("安全密码不正确"),
+                                    actions: <Widget>[
+                                      BasicDialogAction(
+                                        title: Text(
+                                          "确定",
+                                          style: TextStyle(color: Color(0xFFFC2365)),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context, rootNavigator: true).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                return;
+                              }
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                            },
+                          ),
+                        ),
+                      );
+                    });
               }),
-              buildItem(context, "私钥密码", "images/profile_account_permissions.png", () {
-                print("123");
-              }),
-              buildItem(context, S.of(context).language, "images/profile_lanuge.png", () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
-              }),
-              buildItem(context, "关于", "images/profile_info.png", () {
-                print("123");
-              },isLine: true),
 
-              Container(
-                margin: const EdgeInsets.only(top: 80,bottom: 50),
-                child: ArgonButton(
-                  height: 50,
-                  roundLoadingShape: true,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {
-                    BoxApp.setAddress("");
-                    BoxApp.setSigningKey("");
-                    BoxApp.setMnemonic("");
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        "/login", ModalRoute.withName("/login"));
-                  },
-                  child: Text(
-                    "退 出",
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  loader: Container(
-                    padding: EdgeInsets.all(10),
-                    child: SpinKitRing(
-                      lineWidth: 4,
-                      color: Colors.white,
-                      // size: loaderWidth ,
-                    ),
-                  ),
-                  borderRadius: 30.0,
-                  color: Color(0xFFFC2365),
+            buildItem(context, S.of(context).setting_page_item_language, "images/profile_lanuge.png", () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
+            },isLine: true),
+//            buildItem(context, "关于", "images/profile_info.png", () {
+//              print("123");
+//            }, isLine: true),
+            Container(
+              margin: const EdgeInsets.only(top: 80, bottom: 50),
+              child: ArgonButton(
+                height: 50,
+                roundLoadingShape: true,
+                width: MediaQuery.of(context).size.width * 0.8,
+                onTap: (startLoading, stopLoading, btnState) {
+                  BoxApp.setAddress("");
+                  BoxApp.setSigningKey("");
+                  BoxApp.setMnemonic("");
+                  Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
+                },
+                child: Text(
+                  S.of(context).setting_page_item_logout,
+                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-              )
-            ],
-          ),
-        ),);
+                loader: Container(
+                  padding: EdgeInsets.all(10),
+                  child: SpinKitRing(
+                    lineWidth: 4,
+                    color: Colors.white,
+                    // size: loaderWidth ,
+                  ),
+                ),
+                borderRadius: 30.0,
+                color: Color(0xFFFC2365),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Material buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {

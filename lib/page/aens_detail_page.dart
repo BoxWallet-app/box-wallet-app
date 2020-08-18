@@ -2,6 +2,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/aens_update_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
@@ -56,7 +57,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
@@ -82,17 +82,17 @@ class _AensDetailPageState extends State<AensDetailPage> {
         },
         child: Column(
           children: <Widget>[
-            buildItem("域名", _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
+            buildItem(S.of(context).aens_detail_page_name, _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem("TxHash", _aensInfoModel.data == null ? "" : _aensInfoModel.data.thHash),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-            buildItem("价格(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
+            buildItem(S.of(context).aens_detail_page_balance + "(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-            buildItem("当前高度", _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
+            buildItem(S.of(context).aens_detail_page_height, _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(getTypeKey(), getTypeValue()),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-            buildItem("所有者", _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
+            buildItem(S.of(context).aens_detail_page_owner, _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildBtnAdd(context),
             buildBtnUpdate(context)
@@ -116,11 +116,11 @@ class _AensDetailPageState extends State<AensDetailPage> {
     }
 
     if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
     }
 
     if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
+      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
     }
 
     return "-";
@@ -128,18 +128,18 @@ class _AensDetailPageState extends State<AensDetailPage> {
 
   String getTypeKey() {
     if (_aensInfoModel.data == null) {
-      return "距离过期";
+      return S.of(context).aens_list_page_item_time_end;
     }
 
     if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return "距离过期";
+      return S.of(context).aens_list_page_item_time_end;
     }
 
     if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return "距离结束";
+      return S.of(context).aens_list_page_item_time_over;
     }
 
-    return "距离过期";
+    return S.of(context).aens_list_page_item_time_over;
   }
 
   Container buildBtnUpdate(BuildContext context) {
@@ -165,7 +165,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           netUpdate(context, startLoading, stopLoading);
         },
         child: Text(
-          "更 新",
+          S.of(context).aens_detail_page_update,
           style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
         ),
         loader: Container(
@@ -203,8 +203,8 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   opacity: anim1.value,
                   // ignore: missing_return
                   child: PayPasswordWidget(
-                      title: "输入安全密码",
-                      dismissCallBackFuture: (String password){
+                      title: S.of(context).password_widget_input_password,
+                      dismissCallBackFuture: (String password) {
                         stopLoading();
                         return;
                       },
@@ -218,12 +218,12 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text("校验失败"),
-                              content: Text("安全密码不正确"),
+                              title: Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S.of(context).dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
-                                    "确定",
+                                    S.of(context).dialog_conform,
                                     style: TextStyle(color: Color(0xFFFC2365)),
                                   ),
                                   onPressed: () {
@@ -245,12 +245,14 @@ class _AensDetailPageState extends State<AensDetailPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text("更新失败"),
+                                title: Text(
+                                  S.of(context).dialog_hint_update_error,
+                                ),
                                 content: Text(model.msg),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
-                                      "确定",
+                                      S.of(context).dialog_conform,
                                       style: TextStyle(color: Color(0xFFFC2365)),
                                     ),
                                     onPressed: () {
@@ -263,7 +265,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           }
                         }).catchError((e) {
                           stopLoading();
-                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                         });
                       }),
                 ));
@@ -291,8 +293,8 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   opacity: anim1.value,
                   // ignore: missing_return
                   child: PayPasswordWidget(
-                      title: "输入安全密码",
-                      dismissCallBackFuture: (String password){
+                      title: S.of(context).password_widget_input_password,
+                      dismissCallBackFuture: (String password) {
                         stopLoading();
                         return;
                       },
@@ -306,12 +308,12 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text("校验失败"),
-                              content: Text("安全密码不正确"),
+                              title: Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S.of(context).dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
-                                    "确定",
+                                    S.of(context).dialog_conform,
                                     style: TextStyle(color: Color(0xFFFC2365)),
                                   ),
                                   onPressed: () {
@@ -333,12 +335,12 @@ class _AensDetailPageState extends State<AensDetailPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text("加价失败"),
+                                title: Text(S.of(context).dialog_hint_add_error),
                                 content: Text(model.msg),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
-                                      "确定",
+                                      S.of(context).dialog_conform,
                                       style: TextStyle(color: Color(0xFFFC2365)),
                                     ),
                                     onPressed: () {
@@ -351,7 +353,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           }
                         }).catchError((e) {
                           stopLoading();
-                          Fluttertoast.showToast(msg: "网络错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                         });
                       }),
                 ));
@@ -361,8 +363,8 @@ class _AensDetailPageState extends State<AensDetailPage> {
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
-      title: "广播成功",
-      message: "正在同步节点信息,预计5分钟后同步成功!",
+      title: S.of(context).hint_broadcast_sucess,
+      message: S.of(context).hint_broadcast_sucess_hint,
       backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
@@ -374,7 +376,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           flush.dismiss(true); // result = true
         },
         child: Text(
-          "确定",
+          S.of(context).dialog_conform,
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -409,7 +411,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           netRegister(context, startLoading, stopLoading);
         },
         child: Text(
-          "加 价",
+          S.of(context).aens_detail_page_add,
           style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
         ),
         loader: Container(

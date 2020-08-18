@@ -2,7 +2,7 @@ class WalletTransferRecordModel {
   int code;
   String msg;
   int time;
-  List<Data> data;
+  List<RecordData> data;
 
   WalletTransferRecordModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class WalletTransferRecordModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<RecordData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new RecordData.fromJson(v));
       });
     }
   }
@@ -30,21 +30,21 @@ class WalletTransferRecordModel {
   }
 }
 
-class Data {
+class RecordData {
   String blockHash;
   int blockHeight;
   String hash;
   int time;
-  Tx tx;
+  Map<String,dynamic>  tx;
 
-  Data({this.blockHash, this.blockHeight, this.hash, this.time, this.tx});
+  RecordData({this.blockHash, this.blockHeight, this.hash, this.time, this.tx});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  RecordData.fromJson(Map<String, dynamic> json) {
     blockHash = json['block_hash'];
     blockHeight = json['block_height'];
     hash = json['hash'];
     time = json['time'];
-    tx = json['tx'] != null ? new Tx.fromJson(json['tx']) : null;
+    tx = json['tx'] != null ? json['tx'] : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -54,7 +54,7 @@ class Data {
     data['hash'] = this.hash;
     data['time'] = this.time;
     if (this.tx != null) {
-      data['tx'] = this.tx.toJson();
+//      data['tx'] = this.tx.toJson();
     }
     return data;
   }

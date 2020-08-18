@@ -5,12 +5,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+// ignore: must_be_immutable
 class MnemonicCopyPage extends StatefulWidget {
+
+  final String mnemonic;
+
+  const MnemonicCopyPage({Key key, this.mnemonic}) : super(key: key);
+
   @override
-  _AccountRegisterPageState createState() => _AccountRegisterPageState();
+  _MnemonicCopyPagePageState createState() => _MnemonicCopyPagePageState();
 }
 
-class _AccountRegisterPageState extends State<MnemonicCopyPage> {
+class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
   var mnemonicWord = Map<String, bool>();
   var childrenFalse = List<Widget>();
   var childrenTrue = List<Widget>();
@@ -21,12 +27,11 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
     // TODO: implement initState
     super.initState();
 
-    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity";
-    List mnemonicList = mnemonic.split(" ");
+//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+    List mnemonicList = widget.mnemonic.split(" ");
     for (String item in mnemonicList) {
       mnemonicWord[item] = false;
     }
-
     updateData();
   }
 
@@ -73,21 +78,18 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
                 child: Row(
                   children: <Widget>[
                     Container(
-                      width: 50,
+                        width: 50,
                         height: 50,
-                      color: Color(0xFF000000),
-//                      child: Image(
-//                        width: 50,
-//                        height: 50,
-//                        color: Color(0xffff0000),
-//                        image: AssetImage("images/profile_info.png"),
-//                      ),
-                    ),
+//                      color: Color(0xFF000000),
+                        child: const Icon(
+                          Icons.report,
+                          size: 50,
+                          color: Colors.red,
+                        )),
                     Container(
                       width: 10,
                     ),
                     Container(
-
                       child: Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -141,7 +143,7 @@ class _AccountRegisterPageState extends State<MnemonicCopyPage> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   onTap: (startLoading, stopLoading, btnState) {
                     print("123");
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage(mnemonic:widget.mnemonic)));
                   },
                   child: Text(
                     "我已安全保存",

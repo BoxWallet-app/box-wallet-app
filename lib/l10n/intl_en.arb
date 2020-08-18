@@ -1,4 +1,96 @@
 {
-  "title": "English",
-  "language": "Language"
+  "login_page_login": "Login",
+  "login_page_create": "Create a new account",
+
+  "account_login_page_input_mnemonic": "Please enter the mnemonic phrase",
+  "account_login_page_input_hint": "Mnemonic phrase is used to log in to the wallet, fill in 12 words in order, and use spaces to fill in between the words",
+  "account_login_page_conform": "Confirm",
+
+  "password_widget_set_password": "Set a secure password",
+  "password_widget_input_password": "Enter a secure password",
+  "password_widget_conform": "Confirm",
+
+  "home_page_function": "Common Functions",
+  "home_page_function_send": "Send",
+  "home_page_function_receive": "Receive",
+  "home_page_function_names": "Name",
+  "home_page_function_games": "Games",
+  "home_page_transaction": "Transaction History",
+  "home_page_transaction_conform": "Confirmation Number",
+
+  "token_send_one_page_title": "1/2 Please enter the receiving address",
+  "token_send_one_page_address": "Address",
+  "token_send_one_page_qr": "Scan Code",
+  "token_send_one_page_next": "Next",
+
+  "token_send_two_page_title": "2/2 please enter the number to send",
+  "token_send_two_page_from": "From",
+  "token_send_two_page_to": "To",
+  "token_send_two_page_number": "Transfer amount",
+  "token_send_two_page_all": "All",
+  "token_send_two_page_balance": "Balance",
+  "token_send_two_page_conform": "Confirm",
+
+  "hint_broadcast_sucess": "Broadcast successful",
+  "hint_broadcast_sucess_hint": "Synchronizing node information, it is estimated that the synchronization will be successful in 5 minutes",
+
+  "token_receive_page_title": "Share your address with the recipient",
+  "token_receive_page_copy": "Copy Address",
+  "token_receive_page_copy_sucess": "Copy successful",
+
+  "aens_page_title": "Domain Name System",
+  "aens_page_title_my": "My",
+  "aens_page_title_tab_1": "Bid now",
+  "aens_page_title_tab_2": "Top Level Domain",
+  "aens_page_title_tab_3": "Expiration soon",
+
+  "aens_my_page_title": "My domain name",
+  "aens_my_page_title_tab_1": "Bidding in progress",
+  "aens_my_page_title_tab_2": "Already registered",
+
+  "aens_list_page_item_time_end": "Distance expires",
+  "aens_list_page_item_time_over": "Distance end",
+  "aens_list_page_item_address": "Address",
+
+  "aens_register_page_title": "Register an eternal blockchain domain name you want",
+  "aens_register_page_name": "Name",
+  "aens_register_page_create": "Create",
+
+  "aens_detail_page_name": "Name",
+  "aens_detail_page_balance": "Price",
+  "aens_detail_page_height": "Current Height",
+  "aens_detail_page_over": "Distance end",
+  "aens_detail_page_owner": "Owner",
+  "aens_detail_page_add": "Price Increase",
+  "aens_detail_page_update": "Update",
+
+  "setting_page_title": "Settings",
+  "setting_page_item_save": "Save mnemonic phrase",
+  "setting_page_item_language": "Language",
+  "setting_page_item_logout": "Logout",
+
+  "scan_page_content": "扫二维码进行付款",
+
+  "dialog_hint": "Hint",
+  "dialog_hint_send_error": "Send failed",
+  "dialog_hint_update_error": "Update failed",
+  "dialog_hint_add_error": "Fare increase failed",
+  "dialog_hint_register_error": "Register failed",
+  "dialog_conform": "Confirm",
+  "dialog_login_user_no_save": "Login user does not provide mnemonic backup",
+  "dialog_hint_check_error": "Verification failed",
+  "dialog_hint_check_error_content": "The security password is incorrect",
+
+
+  "hint_error_address": "Address Error",
+  "hint_error_camera_permissions": "No camera permission",
+
+  "loading_widget_no_data": "No data yet",
+  "loading_widget_no_net": "Network error, please confirm and try again",
+  "loading_widget_no_net_try": "Retry",
+
+  "common_points": "分钟",
+  "common_hours": "小时",
+  "common_day": "天"
+
 }

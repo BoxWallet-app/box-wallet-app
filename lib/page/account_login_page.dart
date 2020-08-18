@@ -1,5 +1,6 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/user_login_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/utils/utils.dart';
@@ -26,6 +27,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
   @override
   void initState() {
     super.initState();
+    _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
   }
 
   @override
@@ -57,7 +59,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Text(
-                      "请输入助记词",
+                      S.of(context).account_login_page_input_mnemonic,
                       style: TextStyle(color: Color(0xFF000000), fontSize: 24),
                     ),
                   ),
@@ -65,7 +67,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     child: Text(
-                      "助记词用于登录钱包,按照顺序将下方12个单词进行填写,单词之间使用空格填充",
+                      S.of(context).account_login_page_input_hint,
                       style: TextStyle(color: Color(0xFF000000), fontSize: 14),
                     ),
                   ),
@@ -86,7 +88,9 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                           color: Colors.black,
                         ),
                         maxLines: 10,
+
                         decoration: InputDecoration(
+
                           hintText: 'memory pool equip lesson limb naive endorse advice lift ...',
                           enabledBorder: new UnderlineInputBorder(
                             borderSide: BorderSide(color: Color(0x00000000)),
@@ -125,7 +129,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                        netLogin(context, startLoading, stopLoading);
                       },
                       child: Text(
-                        "确 认",
+                        S.of(context).account_login_page_conform,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
@@ -179,7 +183,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                             var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setAddress(model.data.address);
-                            Navigator.of(context).pushNamedAndRemoveUntil(
+                            Navigator.of(super.context).pushNamedAndRemoveUntil(
                                 "/home", ModalRoute.withName("/home"));
                           }),
                     ));

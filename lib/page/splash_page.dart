@@ -20,19 +20,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
 
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.ring
-      ..loadingStyle = EasyLoadingStyle.light
-      ..indicatorSize = 35.0
-      ..radius = 10.0
-      ..backgroundColor = Colors.white
-      ..indicatorColor = Color(0xFFFC2365)
-      ..textColor = Colors.black
-      ..progressColor=Colors.red
-      ..loadingStyle = EasyLoadingStyle.custom
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = false;
+
     BoxApp.getLanguage().then((String value) {
       print("getLanguage->" + value);
       S.load(Locale(value, value.toUpperCase()));

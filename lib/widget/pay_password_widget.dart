@@ -1,4 +1,5 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -133,7 +134,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
               widget.passwordCallBackFuture(_textEditingController.text);
             },
             child: Text(
-              "确 认",
+              S.of(context).password_widget_conform,
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
             ),
             loader: Container(

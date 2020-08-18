@@ -1,5 +1,6 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/token_send_two_page.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -80,9 +82,9 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10),
+                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
                               child: Text(
-                                "1/2 请输入接收地址",
+                                S.of(context).token_send_one_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
@@ -117,7 +119,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "地址",
+                                            S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontSize: 19,
@@ -137,7 +139,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                     print(data);
                                                     _textEditingController.text = data;
                                                   } else {
-                                                    Fluttertoast.showToast(msg: "没有相机权限", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                                    EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
                                                   }
                                                 },
                                                 child: Container(
@@ -154,7 +156,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        "扫码",
+                                                        S.of(context).token_send_one_page_qr,
                                                         style: TextStyle(
                                                           color: Color(0xFF666666),
                                                           fontSize: 17,
@@ -218,15 +220,15 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
 //                  netRegister(context, startLoading, stopLoading);
-//                        if (_textEditingController.text.length < 10) {
-//                          Fluttertoast.showToast(msg: "地址错误", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-//                          return;
-//                        }
-//                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address:"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")));
+                        if (_textEditingController.text.length < 10) {
+                          EasyLoading.showToast(S.of(context).hint_error_address);
+                          return;
+                        }
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
+//                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address:"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")));
                       },
                       child: Text(
-                        "下一步",
+                        S.of(context).token_send_one_page_next,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
@@ -247,6 +249,4 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
           ),
         ));
   }
-
-
 }

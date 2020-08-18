@@ -24,15 +24,32 @@ void main() {
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ignore: unrelated_type_equality_checks
-
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.ring
+    ..loadingStyle = EasyLoadingStyle.light
+    ..indicatorSize = 35.0
+    ..radius = 10.0
+    ..backgroundColor = Colors.white
+    ..indicatorColor = Color(0xFFFC2365)
+    ..textColor = Colors.black
+    ..progressColor=Colors.red
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = false;
   runApp(BoxApp());
 }
 
 class BoxApp extends StatelessWidget {
+  static var context;
+
   // This widget is the root of your application.
+
+
 
   @override
   Widget build(BuildContext context) {
+    BoxApp.context = context;
     return MaterialApp(
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
       supportedLocales: S.delegate.supportedLocales,
@@ -66,6 +83,7 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('mnemonic', mnemonic);
   }
+
 
   static Future<String> getMnemonic() async {
     var prefs = await SharedPreferences.getInstance();
