@@ -177,7 +177,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       opacity: anim1.value,
                       // ignore: missing_return
                       child: PayPasswordWidget(
-                          title: "设置安全密码",
+                          title:   S.of(context).password_widget_input_password,
                           passwordCallBackFuture: (String password) async {
                             final key = Utils.generateMd5Int(password + model.data.address);
                             var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);

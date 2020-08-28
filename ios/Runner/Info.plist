@@ -10,6 +10,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de_DE</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>Box æpp</string>
 	<key>CFBundlePackageType</key>
@@ -19,15 +24,29 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>boxaepp</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>boxaepp</string>
 	<key>NSCameraUsageDescription</key>
-	<string>XXX需要获取相机权限</string>
+	<string>Box aepp需要获取相机权限</string>
+	<key>NSContactsUsageDescription</key>
+	<string>boxaepp</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>boxaepp</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>boxaepp</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>XXX需要获取麦克风权限</string>
+	<string>Box aepp需要获取麦克风权限</string>
+	<key>NSMotionUsageDescription</key>
+	<string>boxaepp</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>XXX需要获取相册权限</string>
+	<string>Box aepp需要获取相册权限</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>boxaepp</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -49,11 +68,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-
-	<key>CFBundleLocalizations</key>
-    <array>
-        <string>en</string>
-        <string>de_DE</string>
-    </array>
 </dict>
 </plist>

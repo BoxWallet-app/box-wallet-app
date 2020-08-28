@@ -111,6 +111,11 @@ flutter:
     - images/home_settings.png
     - images/home_logo.png
     - images/home_search.png
+    - images/home_send_token.png
+    - images/home_receive_token.png
+    - images/home_names.png
+    - images/home_record.png
+    - images/home_logo_left.png
 
 
   #   - images/a_dot_ham.jpeg

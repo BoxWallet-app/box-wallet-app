@@ -39,7 +39,14 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
         appBar: AppBar(
           elevation: 0,
           // 隐藏阴影
-
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 17,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: Text(
             '钱包',
             style: TextStyle(fontSize: 18),

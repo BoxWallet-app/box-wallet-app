@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
         S.load(Locale(value, value.toUpperCase()));
 //        Navigator.pushReplacement(context,LoginPage());
         BoxApp.getAddress().then((value) {
-          if(value.length>0){
+          if(value.length > 10){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
           }else{
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
