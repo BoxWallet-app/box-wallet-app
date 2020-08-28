@@ -11,12 +11,17 @@
   "password_widget_conform": "确 认",
 
   "home_page_function": "常用功能",
-  "home_page_function_send": "发送",
-  "home_page_function_receive": "接收",
-  "home_page_function_names": "名称",
+  "home_page_my_count": "我的资产",
+  "home_page_function_send": "发送币",
+  "home_page_function_receive": "接收币",
+  "home_page_function_names": "域名系统",
+  "home_page_function_name": "域名",
+  "home_page_function_name_count": "燃烧",
+  "home_page_function_name_count_number": "",
   "home_page_function_games": "游戏",
   "home_page_transaction": "交易记录",
   "home_page_transaction_conform": "确认数",
+
 
   "token_send_one_page_title": "1/2请输入接收地址",
   "token_send_one_page_address": "地址",

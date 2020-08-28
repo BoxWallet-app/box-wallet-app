@@ -11,12 +11,16 @@
   "password_widget_conform": "Confirm",
 
   "home_page_function": "Common Functions",
+  "home_page_my_count": "My Assets",
   "home_page_function_send": "Send",
   "home_page_function_receive": "Receive",
-  "home_page_function_names": "Name",
+  "home_page_function_names": "Name System",
+  "home_page_function_name": "Name",
+  "home_page_function_name_count": "Burning",
+  "home_page_function_name_count_number": "",
   "home_page_function_games": "Games",
-  "home_page_transaction": "Transaction History",
-  "home_page_transaction_conform": "Confirmation Number",
+  "home_page_transaction": "Transaction",
+  "home_page_transaction_conform": "Confirmation",
 
   "token_send_one_page_title": "1/2 Please enter the receiving address",
   "token_send_one_page_address": "Address",
@@ -35,18 +39,18 @@
   "hint_broadcast_sucess_hint": "Synchronizing node information, it is estimated that the synchronization will be successful in 5 minutes",
 
   "token_receive_page_title": "Share your address with the recipient",
-  "token_receive_page_copy": "Copy Address",
-  "token_receive_page_copy_sucess": "Copy successful",
+  "token_receive_page_copy": "Copy",
+  "token_receive_page_copy_sucess": "Successful",
 
-  "aens_page_title": "Domain Name System",
+  "aens_page_title": "Name System",
   "aens_page_title_my": "My",
-  "aens_page_title_tab_1": "Bid now",
-  "aens_page_title_tab_2": "Top Level Domain",
-  "aens_page_title_tab_3": "Expiration soon",
+  "aens_page_title_tab_1": "Bidding",
+  "aens_page_title_tab_2": "Top Price",
+  "aens_page_title_tab_3": "Expiration",
 
-  "aens_my_page_title": "My domain name",
-  "aens_my_page_title_tab_1": "Bidding in progress",
-  "aens_my_page_title_tab_2": "Already registered",
+  "aens_my_page_title": "My Name",
+  "aens_my_page_title_tab_1": "Bidding",
+  "aens_my_page_title_tab_2": "Registered",
 
   "aens_list_page_item_time_end": "Distance expires",
   "aens_list_page_item_time_over": "Distance end",
@@ -69,7 +73,7 @@
   "setting_page_item_language": "Language",
   "setting_page_item_logout": "Logout",
 
-  "scan_page_content": "扫二维码进行付款",
+  "scan_page_content": "Scan the QR code for payment",
 
   "dialog_hint": "Hint",
   "dialog_hint_send_error": "Send failed",
@@ -89,8 +93,8 @@
   "loading_widget_no_net": "Network error, please confirm and try again",
   "loading_widget_no_net_try": "Retry",
 
-  "common_points": "分钟",
-  "common_hours": "小时",
-  "common_day": "天"
+  "common_points": "Minutes",
+  "common_hours": "Hours",
+  "common_day": "day"
 
 }

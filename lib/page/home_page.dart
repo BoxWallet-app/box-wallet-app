@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/base_data_dao.dart';
 import 'package:box/dao/wallet_record_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/base_data_model.dart';
@@ -38,7 +39,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   TextEditingController _textEditingController = TextEditingController();
   var loadingType = LoadingType.loading;
   EasyRefreshController _easyRefreshController = EasyRefreshController();
@@ -54,6 +56,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   void initState() {
     // TODO: implement initState
     super.initState();
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {});
+    });
     getAddress();
     netAccountInfo();
     netBaseData();
@@ -93,7 +98,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -107,13 +119,20 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-//    _top = 380.00;
+//    _top = 356.00;
 //    netWalletRecord();
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
@@ -145,7 +164,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       child: InkWell(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SettingsPage()));
                         },
                         child: Container(
                           height: 55,
@@ -169,9 +191,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height - 55 -  MediaQueryData.fromWindow(window).padding.top,
+            height: MediaQuery.of(context).size.height -
+                55 -
+                MediaQueryData.fromWindow(window).padding.top,
             width: MediaQuery.of(context).size.width,
             child: EasyRefresh(
+              header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
               onRefresh: _onRefresh,
               child: Container(
 //                height: MediaQuery.of(context).size.height,
@@ -181,7 +206,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                     Container(
                       height: 200,
                       alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, right: 15),
                       margin: const EdgeInsets.only(top: 0, bottom: 0),
                       decoration: new BoxDecoration(
                         image: DecorationImage(
@@ -196,8 +222,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  "我的资产 (AE)",
-                                  style: TextStyle(fontSize: 13, color: Colors.white70),
+                                  S.of(context).home_page_my_count + " (AE)",
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.white70,fontFamily: "Ubuntu"),
                                 ),
                                 Text("")
                               ],
@@ -211,16 +238,23 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                            buildTypewriterAnimatedTextKit(),
                                 Text(
                                   token,
-                                  style: TextStyle(fontSize: 35, color: Colors.white),
+                                  style: TextStyle(
+                                      fontSize: 35, color: Colors.white,fontFamily: "Ubuntu"),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                            margin: const EdgeInsets.only(
+                                top: 8, left: 15, right: 15),
                             child: Text(
                               address,
-                              style: TextStyle(fontSize: 13, color: Colors.white70, height: 1.3),
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  letterSpacing: 1.0,
+                                  color: Colors.white70,
+                                  fontFamily: "Ubuntu",
+                                  height: 1.3),
                             ),
                           ),
                         ],
@@ -229,7 +263,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                     Container(
                       height: 90,
                       alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                      margin:
+                          const EdgeInsets.only(top: 12, left: 15, right: 15),
                       //边框设置
                       decoration: new BoxDecoration(
                         color: Color(0xE6FFFFFF),
@@ -242,7 +277,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TokenSendOnePage()));
                           },
                           child: Container(
                             child: Stack(
@@ -257,14 +295,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         child: Image(
                                           width: 56,
                                           height: 56,
-                                          image: AssetImage("images/home_send_token.png"),
+                                          image: AssetImage(
+                                              "images/home_send_token.png"),
                                         ),
                                       ),
                                       Container(
                                         padding: const EdgeInsets.only(left: 0),
                                         child: Text(
-                                          "发送币",
-                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                                          S.of(context).home_page_function_send,
+                                          style: new TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "Ubuntu",
+                                              color: Colors.black),
                                         ),
                                       )
                                     ],
@@ -280,7 +323,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     decoration: new BoxDecoration(
                                       color: Color(0xFFF5F5F5),
                                       //设置四周圆角 角度
-                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0)),
                                     ),
                                     child: Icon(
                                       Icons.arrow_forward_ios,
@@ -296,9 +340,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       ),
                     ),
                     Container(
-                      height: 140,
+                      height: 156,
                       alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                      margin:
+                          const EdgeInsets.only(top: 12, left: 15, right: 15),
                       //边框设置
                       decoration: new BoxDecoration(
                         color: Color(0xE6FFFFFF),
@@ -311,7 +356,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TokenReceivePage()));
                           },
                           child: Column(
                             children: [
@@ -325,18 +373,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: Row(
                                         children: <Widget>[
                                           Container(
-                                            margin: const EdgeInsets.only(top: 10),
+                                            margin:
+                                                const EdgeInsets.only(top: 10),
                                             child: Image(
-                                              width: 80,
-                                              height: 80,
-                                              image: AssetImage("images/home_receive_token.png"),
+                                              width: 56,
+                                              height: 56,
+                                              image: AssetImage(
+                                                  "images/home_receive_token.png"),
                                             ),
                                           ),
                                           Container(
-                                            padding: const EdgeInsets.only(left: 0),
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
                                             child: Text(
-                                              "接收币",
-                                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                                              S
+                                                  .of(context)
+                                                  .home_page_function_receive,
+                                              style: new TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "Ubuntu",
+                                                  color: Colors.black),
                                             ),
                                           )
                                         ],
@@ -346,23 +403,47 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       right: 18,
                                       child: Container(
                                         height: 30,
-                                        margin: const EdgeInsets.only(top: 30),
+                                        margin: const EdgeInsets.only(top: 20),
                                         child: FlatButton(
                                           onPressed: () {
-                                            Clipboard.setData(ClipboardData(text: address));
+                                            Clipboard.setData(
+                                                ClipboardData(text: address));
                                             setState(() {
-                                              contentText = S.of(context).token_receive_page_copy_sucess;
+                                              contentText = S
+                                                  .of(context)
+                                                  .token_receive_page_copy_sucess;
                                             });
-                                            Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                            Fluttertoast.showToast(
+                                                msg: S
+                                                    .of(context)
+                                                    .token_receive_page_copy_sucess,
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.black,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
                                           },
                                           child: Text(
-                                            contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
+                                            contentText == ""
+                                                ? S
+                                                    .of(context)
+                                                    .token_receive_page_copy
+                                                : S
+                                                    .of(context)
+                                                    .token_receive_page_copy_sucess,
                                             maxLines: 1,
-                                            style: TextStyle(fontSize: 13, color: Color(0xFFF22B79)),
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                fontFamily: "Ubuntu",
+                                                color: Color(0xFFF22B79)),
                                           ),
-                                          color: Color(0xFFE61665).withAlpha(16),
+                                          color:
+                                              Color(0xFFE61665).withAlpha(16),
                                           textColor: Colors.black,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
                                         ),
                                       ),
                                     ),
@@ -374,19 +455,25 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      margin: const EdgeInsets.only(top: 5, left: 18, right: 5),
+                                      margin: const EdgeInsets.only(
+                                          top: 5, left: 18, right: 5),
                                       child: Text(
                                         address,
-                                        style: TextStyle(fontSize: 14, color: Color(0xFF999999), height: 1.3),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFF999999),
+                                            letterSpacing: 1.0,
+                                            fontFamily: "Ubuntu",
+                                            height: 1.3),
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 0, right: 18),
+                                    margin: EdgeInsets.only(top: 0, right: 23),
                                     child: QrImage(
                                       data: address,
                                       version: QrVersions.auto,
-                                      size: 90.0,
+                                      size: 80.0,
                                     ),
                                   ),
                                 ],
@@ -397,9 +484,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       ),
                     ),
                     Container(
-                      height: 160,
+                      height: 130,
                       alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                      margin:
+                          const EdgeInsets.only(top: 12, left: 15, right: 15),
                       //边框设置
                       decoration: new BoxDecoration(
                         color: Color(0xE6FFFFFF),
@@ -412,7 +500,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AensPage()));
                           },
                           child: Column(
                             children: [
@@ -426,18 +517,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: Row(
                                         children: <Widget>[
                                           Container(
-                                            margin: const EdgeInsets.only(top: 10),
+                                            margin:
+                                                const EdgeInsets.only(top: 10),
                                             child: Image(
-                                              width: 80,
-                                              height: 80,
-                                              image: AssetImage("images/home_names.png"),
+                                              width: 56,
+                                              height: 56,
+                                              image: AssetImage(
+                                                  "images/home_names.png"),
                                             ),
                                           ),
                                           Container(
-                                            padding: const EdgeInsets.only(left: 0),
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
                                             child: Text(
-                                              "域名系统",
-                                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                                              S
+                                                  .of(context)
+                                                  .home_page_function_names,
+                                              style: new TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "Ubuntu",
+                                                  color: Colors.black),
                                             ),
                                           )
                                         ],
@@ -448,13 +548,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: Container(
                                         width: 25,
                                         height: 25,
-                                        margin: const EdgeInsets.only(top: 30),
+                                        margin: const EdgeInsets.only(top: 23),
                                         padding: const EdgeInsets.only(left: 0),
                                         //边框设置
                                         decoration: new BoxDecoration(
                                           color: Color(0xFFF5F5F5),
                                           //设置四周圆角 角度
-                                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(25.0)),
                                         ),
                                         child: Icon(
                                           Icons.arrow_forward_ios,
@@ -473,21 +574,29 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       children: <Widget>[
                                         Container(
                                           alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 0, left: 20),
+                                          margin: const EdgeInsets.only(
+                                              top: 0, left: 20),
                                           child: Text(
-                                            "域名",
+                                            S
+                                                .of(context)
+                                                .home_page_function_name,
                                             style: TextStyle(
                                               fontSize: 14,
                                               wordSpacing: 30.0, //词间距
                                               color: Color(0xFF666666),
+                                                fontFamily: "Ubuntu",
                                             ),
                                           ),
                                         ),
                                         Container(
                                           alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 0, left: 20),
+                                          margin: const EdgeInsets.only(
+                                              top: 0, left: 20),
                                           child: Text(
-                                            "1593个",
+                                            "1593" +
+                                                S
+                                                    .of(context)
+                                                    .home_page_function_name_count_number,
                                             style: TextStyle(
                                               fontSize: 19,
                                               letterSpacing: -1,
@@ -496,6 +605,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
                                               //词间距
                                               color: Color(0xFF000000),
+                                                fontFamily: "Ubuntu",
                                             ),
                                           ),
                                         ),
@@ -507,21 +617,30 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       children: <Widget>[
                                         Container(
                                           alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 0, left: 20),
+                                          margin: const EdgeInsets.only(
+                                              top: 0, left: 20),
                                           child: Text(
-                                            "燃烧(ae)",
+                                            S
+                                                    .of(context)
+                                                    .home_page_function_name_count +
+                                                "(ae)",
                                             style: TextStyle(
                                               fontSize: 14,
                                               wordSpacing: 30.0, //词间距
                                               color: Color(0xFF666666),
+                                                fontFamily: "Ubuntu",
                                             ),
                                           ),
                                         ),
                                         Container(
                                           alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 0, left: 20),
+                                          margin: const EdgeInsets.only(
+                                              top: 0, left: 20),
                                           child: Text(
-                                            "102932个",
+                                            "102932" +
+                                                S
+                                                    .of(context)
+                                                    .home_page_function_name_count_number,
                                             style: TextStyle(
                                               fontSize: 19,
                                               letterSpacing: -1,
@@ -530,6 +649,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
                                               //词间距
                                               color: Color(0xFF000000),
+                                                fontFamily: "Ubuntu"
                                             ),
                                           ),
                                         ),
@@ -547,7 +667,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         ),
                       ),
                     ),
-                    
                     getRecordContainer(context),
                   ],
                 ),
@@ -560,112 +679,118 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
 
   Container getRecordContainer(BuildContext context) {
-    if(walletRecordModel == null  || walletRecordModel.data.length == 0){
+    if (walletRecordModel == null || walletRecordModel.data.length == 0) {
       return Container();
     }
     return Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(top: 12, left: 15, right: 15, bottom: 40),
-                    //边框设置
-                    decoration: new BoxDecoration(
-                      color: Color(0xE6FFFFFF),
-                      //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15, bottom: 40),
+      //边框设置
+      decoration: new BoxDecoration(
+        color: Color(0xE6FFFFFF),
+        //设置四周圆角 角度
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          onTap: () {},
+          child: Column(
+            children: [
+              Container(
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topCenter,
+                      padding: const EdgeInsets.only(left: 0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            child: Image(
+                              width: 56,
+                              height: 56,
+                              image: AssetImage("images/home_record.png"),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Text(
+                              S.of(context).home_page_transaction,
+                              style: new TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Ubuntu",
+                                  color: Colors.black),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    child: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: Colors.white,
-                      child: InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        onTap: () {},
-                        child: Column(
-                          children: [
-                            Container
-                              (
-                              child: Stack(
-                                alignment: Alignment.topCenter,
-                                children: <Widget>[
-                                  Container(
-                                    alignment: Alignment.topCenter,
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 10),
-                                          child: Image(
-                                            width: 80,
-                                            height: 80,
-                                            image: AssetImage("images/home_record.png"),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.only(left: 0),
-                                          child: Text(
-                                            "交易记录",
-                                            style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 23,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      margin: const EdgeInsets.only(top: 30),
-                                      padding: const EdgeInsets.only(left: 0),
-                                      //边框设置
-                                      decoration: new BoxDecoration(
-                                        color: Color(0xFFF5F5F5),
-                                        //设置四周圆角 角度
-                                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 15,
-                                        color: Color(0xFFCCCCCC),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(left: 18, top: 0),
-                              child: Text(
-                                S.of(context).home_page_transaction_conform,
-                                style: TextStyle(fontSize: 14, color: Color(0xFF666666)),
-                              ),
-                              height: 23,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only( bottom: 10),
-                              child: Column(
-                                children: [
-                                  getItem(context, 0),
-                                  getItem(context, 1),
-                                ],
-                              ),
-                            ),
-
-                          ],
+                    Positioned(
+                      right: 23,
+                      child: Container(
+                        width: 25,
+                        height: 25,
+                        margin: const EdgeInsets.only(top: 23),
+                        padding: const EdgeInsets.only(left: 0),
+                        //边框设置
+                        decoration: new BoxDecoration(
+                          color: Color(0xFFF5F5F5),
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
+                          color: Color(0xFFCCCCCC),
                         ),
                       ),
                     ),
-                  );
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 15, top: 0),
+                child: Text(
+                  S.of(context).home_page_transaction_conform,
+                  style: TextStyle(fontSize: 14, color: Color(0xFF666666),fontFamily: "Ubuntu"),
+                ),
+                height: 23,
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Column(
+                  children: [
+                    getItem(context, 0),
+                    getItem(context, 1),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget getItem(BuildContext context, int index) {
-    if(walletRecordModel == null  || walletRecordModel.data.length < index ){
+    if (walletRecordModel == null || walletRecordModel.data.length < index) {
       return Container();
     }
-     return Material(
+    return Material(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: walletRecordModel.data[index])));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      TxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
@@ -674,10 +799,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
             children: <Widget>[
               Container(
                 //边框设置
-    
+
                 child: Text(
-                  (int.parse(baseDataModel.data.blockHeight) - walletRecordModel.data[index].blockHeight).toString(),
-                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14),
+                  (int.parse(baseDataModel.data.blockHeight) -
+                          walletRecordModel.data[index].blockHeight)
+                      .toString(),
+                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14,fontFamily: "Ubuntu"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -687,14 +814,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 child: Column(
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
+                      width:
+                          MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                       child: Row(
                         children: <Widget>[
                           Expanded(
                             child: Container(
                               child: Text(
                                 walletRecordModel.data[index].tx['type'],
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontFamily: "Ubuntu"),
                               ),
                             ),
                           ),
@@ -708,11 +839,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         walletRecordModel.data[index].hash,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                        strutStyle: StrutStyle(
+                            forceStrutHeight: true,
+                            height: 0.8,
+                            leading: 1,
+                            fontFamily: "Ubuntu"),
                         style: TextStyle(
-                          color: Colors.black.withAlpha(80),
+                          color: Colors.black.withAlpha(56),
                           letterSpacing: 1.0,
                           fontSize: 13,
+                            fontFamily: "Ubuntu"
                         ),
                       ),
                       width: 250,
@@ -720,8 +856,15 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                        DateTime.fromMicrosecondsSinceEpoch(
+                                walletRecordModel.data[index].time * 1000)
+                            .toLocal()
+                            .toString(),
+                        style: TextStyle(
+                            color: Colors.black.withAlpha(56),
+                            fontSize: 13,
+                            letterSpacing: 1.0,
+                            fontFamily: "Ubuntu"),
                       ),
                     ),
                   ],
@@ -768,9 +911,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   double getListWidgetHeight(BuildContext context) {
     if (loadingType == LoadingType.finish) {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 200;
+      return MediaQuery.of(context).size.height -
+          MediaQueryData.fromWindow(window).padding.top -
+          50 -
+          200;
     } else {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 150 - 200;
+      return MediaQuery.of(context).size.height -
+          MediaQueryData.fromWindow(window).padding.top -
+          50 -
+          150 -
+          200;
     }
   }
 
@@ -778,21 +928,39 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (walletRecordModel.data[index].tx['recipient_id'].toString() == address) {
+      if (walletRecordModel.data[index].tx['recipient_id'].toString() ==
+          address) {
         return Text(
-          "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+          "+" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                      1000000000000000000)
+                  .toString() +
+              " AE",
+          style:
+              TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
         );
       } else {
         return Text(
-          "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+          "-" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                      1000000000000000000)
+                  .toString() +
+              " AE",
+          style: TextStyle(
+              color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
         );
       }
     } else {
       return Text(
-        "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
+        "-" +
+            (walletRecordModel.data[index].tx['fee'].toDouble() /
+                    1000000000000000000)
+                .toString() +
+            " AE",
+        style: TextStyle(
+            color: Colors.black.withAlpha(56),
+            fontSize: 14,
+            fontFamily: "Ubuntu"),
       );
     }
   }

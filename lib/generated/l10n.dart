@@ -123,6 +123,16 @@ class S {
     );
   }
 
+  /// `My Assets`
+  String get home_page_my_count {
+    return Intl.message(
+      'My Assets',
+      name: 'home_page_my_count',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send`
   String get home_page_function_send {
     return Intl.message(
@@ -143,11 +153,41 @@ class S {
     );
   }
 
-  /// `Name`
+  /// `Name System`
   String get home_page_function_names {
     return Intl.message(
-      'Name',
+      'Name System',
       name: 'home_page_function_names',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get home_page_function_name {
+    return Intl.message(
+      'Name',
+      name: 'home_page_function_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Burning`
+  String get home_page_function_name_count {
+    return Intl.message(
+      'Burning',
+      name: 'home_page_function_name_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ``
+  String get home_page_function_name_count_number {
+    return Intl.message(
+      '',
+      name: 'home_page_function_name_count_number',
       desc: '',
       args: [],
     );
@@ -163,20 +203,20 @@ class S {
     );
   }
 
-  /// `Transaction History`
+  /// `Transaction`
   String get home_page_transaction {
     return Intl.message(
-      'Transaction History',
+      'Transaction',
       name: 'home_page_transaction',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirmation Number`
+  /// `Confirmation`
   String get home_page_transaction_conform {
     return Intl.message(
-      'Confirmation Number',
+      'Confirmation',
       name: 'home_page_transaction_conform',
       desc: '',
       args: [],
@@ -323,30 +363,30 @@ class S {
     );
   }
 
-  /// `Copy Address`
+  /// `Copy`
   String get token_receive_page_copy {
     return Intl.message(
-      'Copy Address',
+      'Copy',
       name: 'token_receive_page_copy',
       desc: '',
       args: [],
     );
   }
 
-  /// `Copy successful`
+  /// `Successful`
   String get token_receive_page_copy_sucess {
     return Intl.message(
-      'Copy successful',
+      'Successful',
       name: 'token_receive_page_copy_sucess',
       desc: '',
       args: [],
     );
   }
 
-  /// `Domain Name System`
+  /// `Name System`
   String get aens_page_title {
     return Intl.message(
-      'Domain Name System',
+      'Name System',
       name: 'aens_page_title',
       desc: '',
       args: [],
@@ -363,60 +403,60 @@ class S {
     );
   }
 
-  /// `Bid now`
+  /// `Bidding`
   String get aens_page_title_tab_1 {
     return Intl.message(
-      'Bid now',
+      'Bidding',
       name: 'aens_page_title_tab_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Top Level Domain`
+  /// `Top Price`
   String get aens_page_title_tab_2 {
     return Intl.message(
-      'Top Level Domain',
+      'Top Price',
       name: 'aens_page_title_tab_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Expiration soon`
+  /// `Expiration`
   String get aens_page_title_tab_3 {
     return Intl.message(
-      'Expiration soon',
+      'Expiration',
       name: 'aens_page_title_tab_3',
       desc: '',
       args: [],
     );
   }
 
-  /// `My domain name`
+  /// `My Name`
   String get aens_my_page_title {
     return Intl.message(
-      'My domain name',
+      'My Name',
       name: 'aens_my_page_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Bidding in progress`
+  /// `Bidding`
   String get aens_my_page_title_tab_1 {
     return Intl.message(
-      'Bidding in progress',
+      'Bidding',
       name: 'aens_my_page_title_tab_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Already registered`
+  /// `Registered`
   String get aens_my_page_title_tab_2 {
     return Intl.message(
-      'Already registered',
+      'Registered',
       name: 'aens_my_page_title_tab_2',
       desc: '',
       args: [],
@@ -593,10 +633,10 @@ class S {
     );
   }
 
-  /// `扫二维码进行付款`
+  /// `Scan the QR code for payment`
   String get scan_page_content {
     return Intl.message(
-      '扫二维码进行付款',
+      'Scan the QR code for payment',
       name: 'scan_page_content',
       desc: '',
       args: [],
@@ -743,30 +783,30 @@ class S {
     );
   }
 
-  /// `分钟`
+  /// `Minutes`
   String get common_points {
     return Intl.message(
-      '分钟',
+      'Minutes',
       name: 'common_points',
       desc: '',
       args: [],
     );
   }
 
-  /// `小时`
+  /// `Hours`
   String get common_hours {
     return Intl.message(
-      '小时',
+      'Hours',
       name: 'common_hours',
       desc: '',
       args: [],
     );
   }
 
-  /// `天`
+  /// `day`
   String get common_day {
     return Intl.message(
-      '天',
+      'day',
       name: 'common_day',
       desc: '',
       args: [],
