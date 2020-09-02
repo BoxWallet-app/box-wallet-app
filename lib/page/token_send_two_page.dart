@@ -53,7 +53,14 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -100,10 +107,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             ),
                             Container(
                               decoration: new BoxDecoration(
-                                gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xFFFC2365),
-                                  Color(0xFFFAFAFA),
-                                ]),
+                                gradient: const LinearGradient(
+                                    begin: Alignment.topRight,
+                                    colors: [
+                                      Color(0xFFFC2365),
+                                      Color(0xFFFAFAFA),
+                                    ]),
                               ),
                               height: 200,
                             ),
@@ -115,7 +124,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
+                              margin: const EdgeInsets.only(
+                                  left: 20, top: 10, right: 20),
                               child: Text(
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
@@ -128,7 +138,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               children: <Widget>[
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(left: 20, top: 10),
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
@@ -139,7 +150,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(left: 10, top: 10),
+                                  margin:
+                                      const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
                                     address,
                                     style: TextStyle(
@@ -154,7 +166,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               children: <Widget>[
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(left: 20, top: 10),
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
@@ -165,7 +178,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(left: 10, top: 10),
+                                  margin:
+                                      const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
                                     getReceiveAddress(),
                                     style: TextStyle(
@@ -184,7 +198,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.black12,
@@ -199,12 +214,15 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 children: <Widget>[
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(left: 18, top: 20),
+                                    margin: const EdgeInsets.only(
+                                        left: 18, top: 20),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            S.of(context).token_send_two_page_number,
+                                            S
+                                                .of(context)
+                                                .token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontSize: 19,
@@ -216,15 +234,17 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(left: 18, top: 0, right: 18),
+                                    margin: const EdgeInsets.only(
+                                        left: 18, top: 0, right: 18),
                                     child: Stack(
                                       children: <Widget>[
                                         TextField(
 //                                          autofocus: true,
-                                          keyboardType: TextInputType.number,
+
                                           controller: _textEditingController,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                            WhitelistingTextInputFormatter(
+                                                RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -234,11 +254,15 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           ),
                                           decoration: InputDecoration(
                                             hintText: '',
-                                            enabledBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFF6F6F6)),
+                                            enabledBorder:
+                                                new UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFF6F6F6)),
                                             ),
-                                            focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFC2365)),
+                                            focusedBorder:
+                                                new UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFFC2365)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
@@ -253,17 +277,34 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           right: 0,
                                           top: 12,
                                           child: Container(
-                                            margin: const EdgeInsets.only(left: 10, right: 0),
+                                            margin: const EdgeInsets.only(
+                                                left: 10, right: 0),
                                             child: Material(
                                               color: Color(0x00000000),
                                               child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30)),
                                                   onTap: () {
-                                                    _textEditingController.text = token;
-                                                    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+                                                    _textEditingController
+                                                        .text = token;
+                                                    _textEditingController
+                                                            .selection =
+                                                        TextSelection.fromPosition(
+                                                            TextPosition(
+                                                                affinity:
+                                                                    TextAffinity
+                                                                        .downstream,
+                                                                offset:
+                                                                    _textEditingController
+                                                                        .text
+                                                                        .length));
                                                   },
                                                   child: Container(
-                                                    margin: const EdgeInsets.only(left: 10, right: 10),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10),
                                                     height: 30,
                                                     child: Row(
                                                       children: <Widget>[
@@ -271,9 +312,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                           width: 5,
                                                         ),
                                                         Text(
-                                                          S.of(context).token_send_two_page_all,
+                                                          S
+                                                              .of(context)
+                                                              .token_send_two_page_all,
                                                           style: TextStyle(
-                                                            color: Color(0xFFFC2365),
+                                                            color: Color(
+                                                                0xFFFC2365),
                                                             fontSize: 17,
                                                           ),
                                                         ),
@@ -294,12 +338,15 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(left: 18),
+                                          margin:
+                                              const EdgeInsets.only(left: 18),
                                           child: Row(
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  S.of(context).token_send_two_page_balance,
+                                                  S
+                                                      .of(context)
+                                                      .token_send_two_page_balance,
                                                   style: TextStyle(
                                                     color: Color(0xFF666666),
                                                     fontSize: 16,
@@ -311,9 +358,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                         ),
                                       ),
                                       Container(
-                                          margin: const EdgeInsets.only(left: 10, right: 18),
+                                          margin: const EdgeInsets.only(
+                                              left: 10, right: 18),
                                           child: Container(
-                                            margin: const EdgeInsets.only(left: 10, right: 10),
+                                            margin: const EdgeInsets.only(
+                                                left: 10, right: 10),
                                             height: 30,
                                             child: Row(
                                               children: <Widget>[
@@ -348,7 +397,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       },
                       child: Text(
                         S.of(context).token_send_two_page_conform,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
                         padding: EdgeInsets.all(10),
@@ -382,7 +434,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     return Utils.formatAddress(widget.address);
   }
 
-  Future<void> netSend(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netSend(
+      BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -395,9 +448,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 400),
           transitionBuilder: (_, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            final curvedValue =
+                Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                transform:
+                    Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
                 child: Opacity(
                   opacity: anim1.value,
                   // ignore: missing_return
@@ -417,8 +472,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text(S.of(context).dialog_hint_check_error),
-                              content: Text(S.of(context).dialog_hint_check_error_content),
+                              title:
+                                  Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S
+                                  .of(context)
+                                  .dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
@@ -427,7 +485,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   ),
                                   onPressed: () {
                                     stopLoading();
-                                    Navigator.of(context, rootNavigator: true).pop();
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                   },
                                 ),
                               ],
@@ -436,7 +495,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           return;
                         }
 
-                        TokenSendDao.fetch(_textEditingController.text, widget.address, aesDecode).then((TokenSendModel model) {
+                        TokenSendDao.fetch(_textEditingController.text,
+                                widget.address, aesDecode)
+                            .then((TokenSendModel model) {
                           stopLoading();
                           if (model.code == 200) {
                             showFlush(context);
@@ -444,16 +505,20 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text( S.of(context).dialog_hint_send_error,),
+                                title: Text(
+                                  S.of(context).dialog_hint_send_error,
+                                ),
                                 content: Text(model.msg),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
                                       S.of(context).dialog_conform,
-                                      style: TextStyle(color: Color(0xFFFC2365)),
+                                      style:
+                                          TextStyle(color: Color(0xFFFC2365)),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                     },
                                   ),
                                 ],
@@ -462,7 +527,14 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           }
                         }).catchError((e) {
                           stopLoading();
-                          Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          Fluttertoast.showToast(
+                              msg: "error",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                         });
                       }),
                 ));
@@ -472,9 +544,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
-      title:  S.of(context).hint_broadcast_sucess,
-      message:  S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      title: S.of(context).hint_broadcast_sucess,
+      message: S.of(context).hint_broadcast_sucess_hint,
+      backgroundGradient:
+          LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
