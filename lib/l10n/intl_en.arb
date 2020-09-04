@@ -12,6 +12,8 @@
 
   "home_page_function": "Common Functions",
   "home_page_my_count": "My Assets",
+  "home_page_function_defi": "Defi",
+  "home_page_function_defi_go": "GO",
   "home_page_function_send": "Send",
   "home_page_function_receive": "Receive",
   "home_page_function_names": "Name System",

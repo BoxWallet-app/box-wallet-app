@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint_error_address" : MessageLookupByLibrary.simpleMessage("Address Error"),
     "hint_error_camera_permissions" : MessageLookupByLibrary.simpleMessage("No camera permission"),
     "home_page_function" : MessageLookupByLibrary.simpleMessage("Common Functions"),
+    "home_page_function_defi" : MessageLookupByLibrary.simpleMessage("Defi"),
+    "home_page_function_defi_go" : MessageLookupByLibrary.simpleMessage("GO"),
     "home_page_function_games" : MessageLookupByLibrary.simpleMessage("Games"),
     "home_page_function_name" : MessageLookupByLibrary.simpleMessage("Name"),
     "home_page_function_name_count" : MessageLookupByLibrary.simpleMessage("Burning"),

@@ -1,7 +1,7 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.101:8080';
-//const BASE_HOST = 'http://192.168.0.105:8080';
-const BASE_HOST = 'http://box.aeasy.io';
+const BASE_HOST = 'http://10.53.5.159:8080';
+// const BASE_HOST = 'http://box.aeasy.io';
 //const BASE_HOST = 'http://localhost:8080';
 //const BASE_HOST = 'https://aeasy.io';
 
@@ -44,9 +44,11 @@ const USER_LOGIN = BASE_HOST + '/api/user/login';
 //基础数据
 const BASE_DATA = BASE_HOST + '/api/base/data';
 
+//基础Name数据
+const BASE_NAME_DATA = BASE_HOST + '/api/names/base';
+
 //交易记录
 const WALLET_RECORD = BASE_HOST + '/api/wallet/transfer/record';
 
 //交易
 const WALLET_TRANSFER = BASE_HOST + '/api/wallet/transfer';
-

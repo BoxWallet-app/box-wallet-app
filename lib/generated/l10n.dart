@@ -133,6 +133,26 @@ class S {
     );
   }
 
+  /// `Defi`
+  String get home_page_function_defi {
+    return Intl.message(
+      'Defi',
+      name: 'home_page_function_defi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GO`
+  String get home_page_function_defi_go {
+    return Intl.message(
+      'GO',
+      name: 'home_page_function_defi_go',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send`
   String get home_page_function_send {
     return Intl.message(

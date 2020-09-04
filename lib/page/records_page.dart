@@ -40,47 +40,54 @@ class _RecordsPageState extends State<RecordsPage>
   }
 
   Future<void> netData() async {
-    WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
-      if (!mounted) {
-        return;
-      }
-      _loadingType = LoadingType.finish;
-      if (model.code == 200) {
-        if (page == 1) {
-          walletRecordModel = model;
-        } else {
-          walletRecordModel.data.addAll(model.data);
-        }
-      }
-      if (walletRecordModel.data.length == 0) {
-        _loadingType = LoadingType.no_data;
-      }
-      page++;
+    WalletTransferRecordModel model = await WalletRecordDao.fetch(page);
+    if (!mounted) {
+      return;
+    }
+    _loadingType = LoadingType.finish;
+    if (page == 1) {
+      walletRecordModel = model;
+    } else {
+      walletRecordModel.data.addAll(model.data);
+    }
+    setState(() {});
+    if (walletRecordModel.data.length == 0) {
+      _loadingType = LoadingType.no_data;
+    }
+    page++;
 
-      if (model.data.length < 20) {
-        // _controller.finishLoad(noMore: true);
-      }
-      setState(() {});
-      // _controller.finishRefresh();
-      // _controller.finishLoad();
-    }).catchError((e) {
-      if (page == 1 &&
-          (walletRecordModel == null || walletRecordModel.data == null)) {
-        setState(() {
-          _loadingType = LoadingType.error;
-        });
-      } else {
-        Fluttertoast.showToast(
-            msg: "error",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      }
-      print("error:" + e.toString());
-    });
+    if (model.data.length < 20) {
+      _controller.finishLoad(noMore: true);
+    }
+
+//    WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
+//
+//
+//      if (model.code == 200) {
+//
+//      }
+//
+
+//      _controller.finishRefresh();
+//      _controller.finishLoad();
+//    }).catchError((e) {
+//      if (page == 1 &&
+//          (walletRecordModel == null || walletRecordModel.data == null)) {
+//        setState(() {
+//          _loadingType = LoadingType.error;
+//        });
+//      } else {
+//        Fluttertoast.showToast(
+//            msg: "error",
+//            toastLength: Toast.LENGTH_SHORT,
+//            gravity: ToastGravity.CENTER,
+//            timeInSecForIosWeb: 1,
+//            backgroundColor: Colors.black,
+//            textColor: Colors.white,
+//            fontSize: 16.0);
+//      }
+//      print("error:" + e.toString());
+//    });
   }
 
   @override
@@ -119,10 +126,10 @@ class _RecordsPageState extends State<RecordsPage>
       body: LoadingWidget(
         child: EasyRefresh(
           onRefresh: _onRefresh,
-          onLoad: _onLoad,
-          header: MaterialHeader(
-              valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
-          // controller: _controller,
+          onLoad: netData,
+          // header: MaterialHeader(
+          // valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
+//          controller: _controller,
           child: ListView.builder(
             itemBuilder: buildColumn,
             itemCount:
@@ -161,7 +168,7 @@ class _RecordsPageState extends State<RecordsPage>
                       TxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
+          margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -169,7 +176,7 @@ class _RecordsPageState extends State<RecordsPage>
                 child: Column(
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width - 30,
+                      width: MediaQuery.of(context).size.width - 40,
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -204,7 +211,7 @@ class _RecordsPageState extends State<RecordsPage>
                             fontSize: 13,
                             fontFamily: "Ubuntu"),
                       ),
-                      width: MediaQuery.of(context).size.width - 30,
+                      width: MediaQuery.of(context).size.width - 40,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 6),
@@ -276,15 +283,12 @@ class _RecordsPageState extends State<RecordsPage>
   }
 
   Future<void> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 0), () {
-      page = 1;
-      netData();
-    });
+    page = 1;
+    await netData();
   }
 
   Future<void> _onLoad() async {
-    _controller.resetLoadState();
-    netData();
+    await netData();
   }
 
   @override

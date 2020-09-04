@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint_error_address" : MessageLookupByLibrary.simpleMessage("地址错误"),
     "hint_error_camera_permissions" : MessageLookupByLibrary.simpleMessage("没有相机权限"),
     "home_page_function" : MessageLookupByLibrary.simpleMessage("常用功能"),
+    "home_page_function_defi" : MessageLookupByLibrary.simpleMessage("质押"),
+    "home_page_function_defi_go" : MessageLookupByLibrary.simpleMessage("去质押"),
     "home_page_function_games" : MessageLookupByLibrary.simpleMessage("游戏"),
     "home_page_function_name" : MessageLookupByLibrary.simpleMessage("域名"),
     "home_page_function_name_count" : MessageLookupByLibrary.simpleMessage("燃烧"),
