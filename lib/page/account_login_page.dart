@@ -60,7 +60,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Text(
                       S.of(context).account_login_page_input_mnemonic,
-                      style: TextStyle(color: Color(0xFF000000), fontSize: 24),
+                      style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
                     ),
                   ),
                   Container(
@@ -68,7 +68,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     child: Text(
                       S.of(context).account_login_page_input_hint,
-                      style: TextStyle(color: Color(0xFF000000), fontSize: 14),
+                      style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
                     ),
                   ),
 
@@ -101,6 +101,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                           ),
                           hintStyle: TextStyle(
                             fontSize: 19,
+                            fontFamily: "Ubuntu",
                             color: Colors.black.withAlpha(80),
                           ),
                         ),

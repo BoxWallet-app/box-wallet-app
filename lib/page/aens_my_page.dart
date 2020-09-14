@@ -27,12 +27,11 @@ class _AensMyPageState extends State<AensMyPage> {
               Icons.arrow_back_ios,
               size: 17,
             ),
-            tooltip: 'Navigreation',
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
             S.of(context).aens_my_page_title,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
           ),
           centerTitle: true,
 
@@ -48,8 +47,8 @@ class _AensMyPageState extends State<AensMyPage> {
                 ),
                 insets: EdgeInsets.only(bottom: 5)),
             tabs: <Widget>[
-              Tab(icon: Text(S.of(context).aens_my_page_title_tab_1)),
-              Tab(icon: Text(S.of(context).aens_my_page_title_tab_2)),
+              Tab(icon: Text(S.of(context).aens_my_page_title_tab_1 ,style: TextStyle(fontFamily: "Ubuntu",),)),
+              Tab(icon: Text(S.of(context).aens_my_page_title_tab_2,style: TextStyle(fontFamily: "Ubuntu",),)),
             ],
           ),
         ),

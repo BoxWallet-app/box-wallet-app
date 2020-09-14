@@ -1,4 +1,5 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -47,7 +48,6 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
               Icons.arrow_back_ios,
               size: 17,
             ),
-            tooltip: 'Navigreation',
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -58,16 +58,16 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                 child: Text(
-                  "请抄写助记词",
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 24),
+                  S.of(context).mnemonic_copy_title,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
                 ),
               ),
               Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
-                  "助记词用于恢复钱包,按照顺序将下方12个单词抄写纸上,并保存到安全的地方",
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14),
+                  S.of(context).mnemonic_copy_content,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
                 ),
               ),
 
@@ -95,10 +95,10 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                           text: TextSpan(
                             style: TextStyle(color: Color(0xffff0000), fontSize: 14.0),
                             children: <TextSpan>[
-                              TextSpan(text: '请勿截图! '),
+                              TextSpan(text: S.of(context).mnemonic_copy_hint1),
                               TextSpan(
-                                  text: '如果有人获取了你的助记词将直接获取你的资产!',
-                                  style: TextStyle(color: Color(0xFF000000)),
+                                  text: S.of(context).mnemonic_copy_hint2,
+                                  style: TextStyle(color: Color(0xFF000000),fontFamily: "Ubuntu",),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
 //                        }
@@ -142,12 +142,11 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                   roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
                   onTap: (startLoading, stopLoading, btnState) {
-                    print("123");
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage(mnemonic:widget.mnemonic)));
                   },
                   child: Text(
-                    "我已安全保存",
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                      S.of(context).mnemonic_copy_confrom,
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
                   ),
                   loader: Container(
                     padding: EdgeInsets.all(10),
@@ -194,7 +193,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
               margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
               child: Text(
                 item,
-                style: TextStyle(color: Color(0xFF000000)),
+                style: TextStyle(color: Color(0xFF000000),fontFamily: "Ubuntu",),
               ),
             ),
           ),

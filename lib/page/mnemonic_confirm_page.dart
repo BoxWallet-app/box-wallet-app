@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,6 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
               Icons.arrow_back_ios,
               size: 17,
             ),
-            tooltip: 'Navigreation',
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -62,16 +62,16 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                 child: Text(
-                  "请确认助记词",
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 24),
+                  S.of(context).mnemonic_confirm_title,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
                 ),
               ),
               Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
-                  "为了确认您的助记词正确抄写,请按照对应的顺序点击助记词",
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14),
+                  S.of(context).mnemonic_confirm_content,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
                 ),
               ),
               Center(
@@ -108,19 +108,18 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                     print(childrenWordTrue.toString());
                     print(widget.mnemonic.split(" ").toString());
                     if(childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()){
-                      print("111");
 
 
                       showPlatformDialog(
                         context: context,
                         builder: (_) => BasicDialogAlert(
-                          title: Text("备份成功"),
-                          content: Text("您已经成功备份助记词,请妥善保管,我们为了您的账号更加安全,将本地助记词进行删除."),
+                          title: Text(S.of(context).dialog_save_sucess),
+                          content: Text(S.of(context).dialog_save_sucess_hint),
                           actions: <Widget>[
                             BasicDialogAction(
                               title: Text(
-                                "确定",
-                                style: TextStyle(color: Color(0xFFFC2365)),
+                                S.of(context).dialog_conform,
+                                style: TextStyle(color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 BoxApp.setMnemonic("");
@@ -138,13 +137,13 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(
-                        title: Text("备份失败"),
-                        content: Text("请按照正常顺序输入助记词."),
+                        title: Text(S.of(context).dialog_save_error),
+                        content: Text(S.of(context).dialog_save_error_hint),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
-                              "确定",
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -160,8 +159,8 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 
                   },
                   child: Text(
-                    "确 认",
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                    S.of(context).dialog_conform,
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
                   ),
                   loader: Container(
                     padding: EdgeInsets.all(10),

@@ -48,34 +48,44 @@ class _TxDetailPageState extends State<TxDetailPage> {
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
-    widget.recordData.tx.forEach((key, value) {
-      var payload = widget.recordData.tx['payload'].toString();
-      if (payload != "" && payload != null && payload.length>=11) {
-        print("substring->"+payload);
-        var substring = payload.substring(3);
-        print("substring->"+substring);
-        var base64decode = Utils.base64Decode(substring);
+
+    widget.recordData.tx.forEach(
+      (key, value) {
+        var payload = widget.recordData.tx['payload'].toString();
+        if (payload != "" && payload != null && payload.length >= 11) {
+          print("substring->" + payload);
+          var substring = payload.substring(3);
+          print("substring->" + substring);
+          var base64decode = Utils.base64Decode(substring);
 //
 //        print("substring->"+substring);
 //        var base64decode = Utils.base64Decode(substring);
-        print("base64decode->"+base64decode);
-        substring = base64decode.substring(0,base64decode.length-4);
-        widget.recordData.tx['payload'] = substring;
-      }
+          print("base64decode->" + base64decode);
+          substring = base64decode.substring(0, base64decode.length - 4);
+          widget.recordData.tx['payload'] = substring;
+        }
 
+        var item = buildItem(key.toString(), value.toString());
+        items.add(item);
+        items.add(
+          Container(
+              child: Container(
+                color: Color(0xFFEEEEEE),
+              ),
+              padding: EdgeInsets.only(left: 18, right: 18),
+              height: 1.0,
+              color: Color(0xFFFFFFFF)),
+        );
 
-      var item = buildItem(key.toString(), value.toString());
-      items.add(item);
-      items.add(
-        Container(
-            child: Container(
-              color: Color(0xFFEEEEEE),
-            ),
-            padding: EdgeInsets.only(left: 18, right: 18),
-            height: 1.0,
-            color: Color(0xFFFFFFFF)),
-      );
-    });
+      },
+
+    );
+    items.add(
+      Container(
+
+        height: 50.0,
+      ),
+    );
   }
 
   @override
@@ -101,7 +111,10 @@ class _TxDetailPageState extends State<TxDetailPage> {
         ],
         title: Text(
           widget.recordData.hash.toString(),
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(
+            fontSize: 18,
+            fontFamily: "Ubuntu",
+          ),
         ),
         centerTitle: true,
       ),
@@ -117,11 +130,11 @@ class _TxDetailPageState extends State<TxDetailPage> {
     }
 
     if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
     }
 
     if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context,_aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
+      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
     }
 
     return "-";
@@ -159,6 +172,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
                   key,
                   style: TextStyle(
                     fontSize: 14,
+                    fontFamily: "Ubuntu",
                   ),
                 ),
               ),
@@ -173,6 +187,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
+                  fontFamily: "Ubuntu",
                 ),
               ),
               margin: const EdgeInsets.only(left: 30.0),

@@ -87,6 +87,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                 S.of(context).token_send_one_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
+                                  fontFamily: "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -122,6 +123,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
+                                              fontFamily: "Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -159,6 +161,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                         S.of(context).token_send_one_page_qr,
                                                         style: TextStyle(
                                                           color: Color(0xFF666666),
+                                                          fontFamily: "Ubuntu",
                                                           fontSize: 17,
                                                         ),
                                                       ),
@@ -194,6 +197,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
+                                              fontFamily: "Ubuntu",
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
@@ -229,7 +233,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                       },
                       child: Text(
                         S.of(context).token_send_one_page_next,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
                       ),
                       loader: Container(
                         padding: EdgeInsets.all(10),

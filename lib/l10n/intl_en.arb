@@ -56,7 +56,7 @@
 
   "aens_list_page_item_time_end": "Distance expires",
   "aens_list_page_item_time_over": "Distance end",
-  "aens_list_page_item_address": "Address",
+  "aens_list_page_item_address": "address",
 
   "aens_register_page_title": "Register an eternal blockchain domain name you want",
   "aens_register_page_name": "Name",
@@ -97,6 +97,21 @@
 
   "common_points": "Minutes",
   "common_hours": "Hours",
-  "common_day": "day"
+  "common_day": "day",
+
+  "mnemonic_copy_title": "Please copy the mnemonic phrase",
+  "mnemonic_copy_content": "The mnemonic phrase is used to restore the wallet. Copy the following 12 words on the paper in order and save them in a safe place",
+  "mnemonic_copy_hint1": "Don't take a screenshot!",
+  "mnemonic_copy_hint2": "If someone gets your mnemonic phrase, they will get your assets directly!",
+  "mnemonic_copy_confrom": "I have saved it safely",
+
+  "mnemonic_confirm_title": "Please confirm the mnemonic phrase",
+  "mnemonic_confirm_content": "In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order",
+
+
+  "dialog_save_sucess": "Backup successful",
+  "dialog_save_sucess_hint": "You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.",
+  "dialog_save_error": "Backup failed",
+  "dialog_save_error_hint": "Please enter the mnemonic phrase in the normal order."
 
 }

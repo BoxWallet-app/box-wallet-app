@@ -118,8 +118,8 @@ class _RecordsPageState extends State<RecordsPage>
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "交易记录",
-          style: TextStyle(fontSize: 18),
+          S.of(context).home_page_transaction,
+          style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
         ),
         centerTitle: true,
       ),

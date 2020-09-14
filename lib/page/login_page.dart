@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   child: Text(
                     S.of(context).login_page_login,
-                    style: new TextStyle(fontSize: 17, color: Color(0xFFFC2365)),
+                    style: new TextStyle(fontSize: 17, color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
                   ),
                   color: Colors.white,
                   height: 50,
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   child: Text(
                     S.of(context).login_page_create,
-                    style: new TextStyle(fontSize: 17, color: Color(0xFFFFFFFF)),
+                    style: new TextStyle(fontSize: 17, color: Color(0xFFFFFFFF),fontFamily: "Ubuntu",),
                   ),
                   height: 50,
                   minWidth: 120,

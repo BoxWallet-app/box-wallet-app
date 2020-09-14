@@ -130,6 +130,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
+                                  fontFamily: "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -144,6 +145,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
+                                      fontFamily: "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -156,6 +158,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     address,
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontFamily: "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -172,6 +175,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
+                                      fontFamily: "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -184,6 +188,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     getReceiveAddress(),
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontFamily: "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -225,6 +230,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                 .token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
+                                              fontFamily: "Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -250,6 +256,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
+                                            fontFamily: "Ubuntu",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -349,6 +356,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                       .token_send_two_page_balance,
                                                   style: TextStyle(
                                                     color: Color(0xFF666666),
+                                                    fontFamily: "Ubuntu",
                                                     fontSize: 16,
                                                   ),
                                                 ),
@@ -370,6 +378,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                   token + " AE",
                                                   style: TextStyle(
                                                     color: Color(0xFF666666),
+                                                    fontFamily: "Ubuntu",
                                                     fontSize: 14,
                                                   ),
                                                 ),
@@ -400,6 +409,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontFamily: "Ubuntu",
                             fontWeight: FontWeight.w700),
                       ),
                       loader: Container(

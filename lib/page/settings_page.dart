@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
         ),
         title: Text(
           S.of(context).setting_page_title,
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
         ),
         centerTitle: true,
       ),
@@ -126,12 +126,12 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                                 showPlatformDialog(
                                   context: context,
                                   builder: (_) => BasicDialogAlert(
-                                    title: Text("校验失败"),
-                                    content: Text("安全密码不正确"),
+                                    title: Text(S.of(context).dialog_hint_check_error),
+                                    content: Text(S.of(context).dialog_hint_check_error_content),
                                     actions: <Widget>[
                                       BasicDialogAction(
                                         title: Text(
-                                          "确定",
+                                          S.of(context).dialog_conform,
                                           style: TextStyle(color: Color(0xFFFC2365)),
                                         ),
                                         onPressed: () {
@@ -214,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                       padding: const EdgeInsets.only(left: 7),
                       child: Text(
                         content,
-                        style: new TextStyle(fontSize: 15, color: Colors.black),
+                        style: new TextStyle(fontSize: 15, color: Colors.black,fontFamily: "Ubuntu",),
                       ),
                     )
                   ],
@@ -262,7 +262,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   ),
                   Text(
                     content,
-                    style: new TextStyle(fontSize: 13, color: Colors.white),
+                    style: new TextStyle(fontSize: 13, color: Colors.white,fontFamily: "Ubuntu",),
                   )
                 ],
               ),

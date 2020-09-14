@@ -503,10 +503,10 @@ class S {
     );
   }
 
-  /// `Address`
+  /// `address`
   String get aens_list_page_item_address {
     return Intl.message(
-      'Address',
+      'address',
       name: 'aens_list_page_item_address',
       desc: '',
       args: [],
@@ -828,6 +828,116 @@ class S {
     return Intl.message(
       'day',
       name: 'common_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please copy the mnemonic phrase`
+  String get mnemonic_copy_title {
+    return Intl.message(
+      'Please copy the mnemonic phrase',
+      name: 'mnemonic_copy_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mnemonic phrase is used to restore the wallet. Copy the following 12 words on the paper in order and save them in a safe place`
+  String get mnemonic_copy_content {
+    return Intl.message(
+      'The mnemonic phrase is used to restore the wallet. Copy the following 12 words on the paper in order and save them in a safe place',
+      name: 'mnemonic_copy_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't take a screenshot!`
+  String get mnemonic_copy_hint1 {
+    return Intl.message(
+      'Don\'t take a screenshot!',
+      name: 'mnemonic_copy_hint1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If someone gets your mnemonic phrase, they will get your assets directly!`
+  String get mnemonic_copy_hint2 {
+    return Intl.message(
+      'If someone gets your mnemonic phrase, they will get your assets directly!',
+      name: 'mnemonic_copy_hint2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I have saved it safely`
+  String get mnemonic_copy_confrom {
+    return Intl.message(
+      'I have saved it safely',
+      name: 'mnemonic_copy_confrom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm the mnemonic phrase`
+  String get mnemonic_confirm_title {
+    return Intl.message(
+      'Please confirm the mnemonic phrase',
+      name: 'mnemonic_confirm_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order`
+  String get mnemonic_confirm_content {
+    return Intl.message(
+      'In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order',
+      name: 'mnemonic_confirm_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup successful`
+  String get dialog_save_sucess {
+    return Intl.message(
+      'Backup successful',
+      name: 'dialog_save_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.`
+  String get dialog_save_sucess_hint {
+    return Intl.message(
+      'You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.',
+      name: 'dialog_save_sucess_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup failed`
+  String get dialog_save_error {
+    return Intl.message(
+      'Backup failed',
+      name: 'dialog_save_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the mnemonic phrase in the normal order.`
+  String get dialog_save_error_hint {
+    return Intl.message(
+      'Please enter the mnemonic phrase in the normal order.',
+      name: 'dialog_save_error_hint',
       desc: '',
       args: [],
     );

@@ -81,6 +81,7 @@ class _AensRegisterState extends State<AensRegister> {
                           S.of(context).aens_register_page_title,
                           style: TextStyle(
                             color: Colors.white,
+                            fontFamily: "Ubuntu",
                             fontSize: 19,
                           ),
                         ),
@@ -113,6 +114,7 @@ class _AensRegisterState extends State<AensRegister> {
                                 S.of(context).aens_register_page_name,
                                 style: TextStyle(
                                   color: Color(0xFF666666),
+                                  fontFamily: "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -155,7 +157,7 @@ class _AensRegisterState extends State<AensRegister> {
                                       top: 12,
                                       child: Text(
                                         ".chain",
-                                        style: TextStyle(color: Colors.black, fontSize: 19),
+                                        style: TextStyle(color: Colors.black, fontSize: 19,fontFamily: "Ubuntu",),
                                       )),
                                 ],
                               ),
@@ -219,7 +221,12 @@ class _AensRegisterState extends State<AensRegister> {
                   // ignore: missing_return
                   child: PayPasswordWidget(
                       title: S.of(context).password_widget_input_password,
+                      dismissCallBackFuture: (String password) {
+                        stopLoading();
+                        return;
+                      },
                       passwordCallBackFuture: (String password) async {
+
                         var signingKey = await BoxApp.getSigningKey();
                         var address = await BoxApp.getAddress();
                         final key = Utils.generateMd5Int(password + address);
@@ -239,7 +246,7 @@ class _AensRegisterState extends State<AensRegister> {
                                 BasicDialogAction(
                                   title: Text(
                                     S.of(context).dialog_conform,
-                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                    style: TextStyle(color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
                                   ),
                                   onPressed: () {
                                     stopLoading();

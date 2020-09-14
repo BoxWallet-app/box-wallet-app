@@ -141,6 +141,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
+                                  fontFamily: "Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -149,6 +150,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                               setNameTime(position),
                               style: TextStyle(
                                 color: Colors.black54,
+                                fontFamily: "Ubuntu",
                               ),
                             ),
                           ],
@@ -163,16 +165,17 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                Utils.formatPrice(_aensPageModel.data[position].currentPrice) + "AE",
+                                Utils.formatPrice(_aensPageModel.data[position].currentPrice) + " AE",
                                 style: TextStyle(
                                   fontSize: 18,
+                                  fontFamily: "Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             Text(
                                 S.of(context).aens_list_page_item_address+": " + Utils.formatAddress(_aensPageModel.data[position].owner),
-                              style: TextStyle(color: Colors.black54, fontSize: 14),
+                              style: TextStyle(color: Colors.black54, fontSize: 14,fontFamily: "Ubuntu",),
                             ),
                           ],
                         ),
@@ -185,7 +188,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
             ),
           ),
         ),
-        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery.of(context).size.width - 18, color: Color(0xFFEEEEEE)),
+        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery.of(context).size.width - 18, color: Color(0xFFEEEEEE),),
       ],
     );
   }

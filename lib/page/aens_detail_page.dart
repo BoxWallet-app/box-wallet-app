@@ -166,7 +166,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
         },
         child: Text(
           S.of(context).aens_detail_page_update,
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
         ),
         loader: Container(
           padding: EdgeInsets.all(10),
@@ -412,13 +412,15 @@ class _AensDetailPageState extends State<AensDetailPage> {
         },
         child: Text(
           S.of(context).aens_detail_page_add,
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
         ),
         loader: Container(
           padding: EdgeInsets.all(10),
           child: SpinKitRing(
             lineWidth: 4,
+
             color: Colors.white,
+
             // size: loaderWidth ,
           ),
         ),
@@ -444,6 +446,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   key,
                   style: TextStyle(
                     fontSize: 14,
+                    fontFamily: "Ubuntu",
                   ),
                 ),
               ),
@@ -458,6 +461,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
+                  fontFamily: "Ubuntu",
                 ),
               ),
               margin: const EdgeInsets.only(left: 30.0),

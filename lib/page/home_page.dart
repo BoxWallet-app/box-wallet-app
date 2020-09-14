@@ -16,8 +16,8 @@ import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/records_page.dart';
-import 'package:box/page/search_page.dart';
 import 'package:box/page/settings_page.dart';
+import 'package:box/page/token_defi_page.dart';
 import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';
 import 'package:box/page/tx_detail_page.dart';
@@ -36,6 +36,7 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../main.dart';
 import 'aens_register.dart';
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   TextEditingController _textEditingController = TextEditingController();
   var loadingType = LoadingType.loading;
   EasyRefreshController _easyRefreshController = EasyRefreshController();
+  final pageController = PageController(viewportFraction: 1);
   WalletTransferRecordModel walletRecordModel;
   BlockTopModel baseDataModel;
   BaseNameDataModel baseNameDataModel;
@@ -206,50 +208,111 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                   child: Stack(
                     children: [
                       Positioned(
-                        child: Container(
+                        child: SizedBox(
                           height: 200,
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                          margin: const EdgeInsets.only(top: 0, bottom: 0),
-                          decoration: new BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("images/wallet_card.png"),
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          child: Column(
-                            children: <Widget>[
+                          child: PageView(
+                            controller: pageController,
+                            children: [
                               Container(
-                                margin: const EdgeInsets.only(top: 28, left: 18),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      S.of(context).home_page_my_count + " (AE)",
-                                      style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                    ),
-                                    Text("")
-                                  ],
+                                height: 200,
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                                margin: const EdgeInsets.only(top: 0, bottom: 0),
+                                decoration: new BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("images/wallet_card.png"),
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 8, left: 18),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                child: Column(
                                   children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 28, left: 18),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            S.of(context).home_page_my_count + " (AE)",
+                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                          ),
+                                          Text("")
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8, left: 18),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
-                                    Text(
-                                      token,
-                                      style: TextStyle(fontSize: 35, color: Colors.white, fontFamily: "Ubuntu"),
+                                          Text(
+                                            token,
+                                            style: TextStyle(fontSize: 35, color: Colors.white, fontFamily: "Ubuntu"),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                      child: Text(
+                                        address,
+                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                child: Text(
-                                  address,
-                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                  style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                height: 200,
+
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+//                                margin: const EdgeInsets.only(top: 0, bottom: 0),
+
+                                decoration: new BoxDecoration(
+
+                                  image: DecorationImage(
+                                    image: AssetImage("images/wallet_card_blue.png"),
+
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 28, left: 18),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            S.of(context).home_page_my_count + " (BOX)",
+                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                          ),
+                                          Text("")
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8, left: 18),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                          Text(
+                                            "3542.02",
+                                            style: TextStyle(fontSize: 35, color: Colors.white, fontFamily: "Ubuntu"),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                      child: Text(
+                                        address,
+                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -260,7 +323,22 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Column(
                           children: <Widget>[
                             Container(
-                              height: 167,
+                              height: 177,
+                            ),
+                            Container(
+                              child: SmoothPageIndicator(
+                                controller: pageController,
+                                count: 2,
+
+                                effect: ExpandingDotsEffect(
+                                  dotHeight: 5,
+                                  spacing: 5,
+                                  strokeWidth: 5,
+                                  dotWidth: 10,
+                                  activeDotColor : Color(0xFFFC2365),
+                                  expansionFactor: 2,
+                                ),
+                              ),
                             ),
                             Container(
                               height: 90,
@@ -278,7 +356,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
                                   },
                                   child: Column(
                                     children: [
@@ -681,10 +759,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     if (walletRecordModel == null && page == 1 && baseDataModel == null) {
       return Container(
         width: MediaQuery.of(context).size.width,
-        height: 300,
-        child: LoadingWidget(
-          type: LoadingType.loading,
-        ),
+        height: 50,
+
       );
     }
     if( walletRecordModel== null){

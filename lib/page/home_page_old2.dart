@@ -9,7 +9,6 @@ import 'package:box/model/account_info_model.dart';
 import 'package:box/model/base_data_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
-import 'package:box/page/search_page.dart';
 import 'package:box/page/settings_page.dart';
 import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';

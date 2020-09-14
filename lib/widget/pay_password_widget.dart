@@ -67,7 +67,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
                 ),
               ),
 
@@ -135,7 +135,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
             },
             child: Text(
               S.of(context).password_widget_conform,
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
             ),
             loader: Container(
               padding: EdgeInsets.all(10),

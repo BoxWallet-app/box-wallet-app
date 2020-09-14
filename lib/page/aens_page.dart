@@ -28,13 +28,14 @@ class _AensPageState extends State<AensPage> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
+
                 size: 17,
               ),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
               S.of(context).aens_page_title,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
             ),
             centerTitle: true,
             actions: <Widget>[
@@ -42,6 +43,7 @@ class _AensPageState extends State<AensPage> {
                 minWidth: 10,
                 child: new Text(
                   S.of(context).aens_page_title_my,
+                  style: TextStyle(fontFamily: "Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
@@ -57,13 +59,14 @@ class _AensPageState extends State<AensPage> {
                   strokeCap: StrokeCap.round,
                   borderSide: BorderSide(
                     color: Color(0xFFFC2365),
+
                     width: 2,
                   ),
                   insets: EdgeInsets.only(bottom: 5)),
               tabs: <Widget>[
-                Tab(icon: Text(S.of(context).aens_page_title_tab_1)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_2)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_3)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_1, style: TextStyle(fontFamily: "Ubuntu",),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_2, style: TextStyle(fontFamily: "Ubuntu",),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_3 ,style: TextStyle(fontFamily: "Ubuntu",),)),
               ],
             ),
           ),
