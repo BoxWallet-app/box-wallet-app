@@ -5,6 +5,7 @@ import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/base_data_dao.dart';
 import 'package:box/dao/base_name_data_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
+import 'package:box/dao/contract_balance_dao.dart';
 import 'package:box/dao/wallet_record_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -12,6 +13,7 @@ import 'package:box/model/account_info_model.dart';
 import 'package:box/model/base_data_model.dart';
 import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/block_top_model.dart';
+import 'package:box/model/contract_balance_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/login_page.dart';
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   BlockTopModel baseDataModel;
   BaseNameDataModel baseNameDataModel;
   var token = "loading...";
+  var tokenABC = "loading...";
   var address = '';
   var page = 1;
 
@@ -68,9 +71,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       setState(() {});
     });
     getAddress();
+    netContractBalance();
     netAccountInfo();
     netBaseData();
     netBaseNameData();
+
   }
 
   void netAccountInfo() {
@@ -78,6 +83,17 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       if (model.code == 200) {
         print(model.data.balance);
         token = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  void netContractBalance() {
+    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+      if (model.code == 200) {
+        tokenABC = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -115,9 +131,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   void netBaseNameData() {
     BaseNameDataDao.fetch().then((BaseNameDataModel model) {
       baseNameDataModel = model;
-      setState(() {
-
-      });
+      setState(() {});
     }).catchError((e) {
       print(e.toString());
     });
@@ -246,7 +260,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
                                             token,
-                                            style: TextStyle(fontSize: 35, color: Colors.white, fontFamily: "Ubuntu"),
+                                            style: TextStyle(fontSize: 35, color: Colors.white,  letterSpacing: 1.3,fontFamily: "Ubuntu"),
                                           ),
                                         ],
                                       ),
@@ -270,10 +284,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                                margin: const EdgeInsets.only(top: 0, bottom: 0),
 
                                 decoration: new BoxDecoration(
-
                                   image: DecorationImage(
                                     image: AssetImage("images/wallet_card_blue.png"),
-
                                     fit: BoxFit.fitWidth,
                                   ),
                                 ),
@@ -284,7 +296,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       child: Row(
                                         children: <Widget>[
                                           Text(
-                                            S.of(context).home_page_my_count + " (BOX)",
+                                            S.of(context).home_page_my_count + " (ABC)",
                                             style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
                                           ),
                                           Text("")
@@ -298,8 +310,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                            "3542.02",
-                                            style: TextStyle(fontSize: 35, color: Colors.white, fontFamily: "Ubuntu"),
+                                            tokenABC,
+                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3,fontFamily: "Ubuntu"),
                                           ),
                                         ],
                                       ),
@@ -323,27 +335,30 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Column(
                           children: <Widget>[
                             Container(
-                              height: 177,
+                              height:  180,
+                              padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+//                                margin: const EdgeInsets.only(top: 0, bottom: 0),
+
                             ),
+
                             Container(
                               child: SmoothPageIndicator(
                                 controller: pageController,
                                 count: 2,
-
                                 effect: ExpandingDotsEffect(
                                   dotHeight: 5,
                                   spacing: 5,
                                   strokeWidth: 5,
-                                  dotWidth: 10,
-                                  activeDotColor : Color(0xFFFC2365),
-                                  expansionFactor: 2,
+                                  dotWidth: 5,
+                                  activeDotColor: Color(0xFFFC2365),
+                                  expansionFactor: 5,
                                 ),
                               ),
                             ),
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                              margin: const EdgeInsets.only(top: 7, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
@@ -382,7 +397,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     padding: const EdgeInsets.only(left: 5),
                                                     child: Text(
                                                       S.of(context).home_page_function_defi,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black),
+                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -394,7 +409,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 height: 30,
                                                 margin: const EdgeInsets.only(top: 0),
                                                 child: FlatButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                                  },
                                                   child: Text(
                                                     S.of(context).home_page_function_defi_go,
                                                     maxLines: 1,
@@ -453,7 +470,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 padding: const EdgeInsets.only(left: 5),
                                                 child: Text(
                                                   S.of(context).home_page_function_send,
-                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black),
+                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                 ),
                                               )
                                             ],
@@ -525,7 +542,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     padding: const EdgeInsets.only(left: 0),
                                                     child: Text(
                                                       S.of(context).home_page_function_receive,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black),
+                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -627,7 +644,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     padding: const EdgeInsets.only(left: 0),
                                                     child: Text(
                                                       S.of(context).home_page_function_names,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black),
+                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -678,12 +695,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                   alignment: Alignment.topLeft,
                                                   margin: const EdgeInsets.only(top: 5, left: 20),
                                                   child: Text(
-                                                    baseNameDataModel == null ? "-" :baseNameDataModel.data.sum.toString()  + S.of(context).home_page_function_name_count_number,
+                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
                                                     style: TextStyle(
                                                       fontSize: 19,
                                                       letterSpacing: -1,
                                                       //字体间距
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight: FontWeight.w600,
 
                                                       //词间距
                                                       color: Color(0xFF000000),
@@ -714,12 +731,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                   alignment: Alignment.topLeft,
                                                   margin: const EdgeInsets.only(top: 5, left: 20),
                                                   child: Text(
-                                                    baseNameDataModel == null ? "-" :baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
+                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
                                                     style: TextStyle(
                                                         fontSize: 19,
                                                         letterSpacing: -1,
                                                         //字体间距
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight: FontWeight.w600,
 
                                                         //词间距
                                                         color: Color(0xFF000000),
@@ -760,14 +777,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
-
       );
     }
-    if( walletRecordModel== null){
+    if (walletRecordModel == null) {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
-
       );
     }
     return Container(
@@ -810,7 +825,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               S.of(context).home_page_transaction,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                             ),
                           )
                         ],
@@ -944,7 +959,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   Future<void> _onLoad() async {
     await Future.delayed(Duration(seconds: 1), () {
-
       netWalletRecord();
     });
   }
@@ -967,6 +981,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       netAccountInfo();
       netBaseData();
       getAddress();
+      netContractBalance();
       netBaseNameData();
     });
   }

@@ -71,6 +71,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.14.13"
+  concentric_transition:
+    dependency: "direct main"
+    description:
+      name: concentric_transition
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.1"
   convert:
     dependency: transitive
     description:
@@ -357,6 +364,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.2+7"
+  skeleton_text:
+    dependency: "direct main"
+    description:
+      name: skeleton_text
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

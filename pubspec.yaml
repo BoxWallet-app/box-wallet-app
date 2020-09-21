@@ -53,6 +53,8 @@ dependencies:
   encrypt: ^4.0.2
   smooth_page_indicator: ^0.2.0
   flutter_keyboard_visibility: ^3.2.2
+  concentric_transition: ^0.1.1
+  skeleton_text: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -117,6 +117,64 @@
   "mnemonic_confirm_content" : "为了确认您的助记词正确抄写,请按照对应的顺序点击助记词",
 
 
+
+
+  "defi_title" : "锁仓AE参与挖矿 \n赚取 ABC",
+  "defi_title_record" : "质押记录",
+  "defi_head_card_all_token" : "总锁仓 (AE)",
+  "defi_head_card_my_token" : "你已锁定 (AE)",
+  "defi_card_time" : "请选择质押时间",
+  "defi_card_time_day" : "天",
+  "defi_card_count" : "请选择质押数量",
+  "defi_card_balance" : "余额 (AE)",
+  "defi_card_mine" : "确认挖矿",
+  "defi_card_hint" : "挖矿规则",
+
+  "defi_card_hint_base" : "基本介绍",
+  "defi_card_hint_base_content" : "是基于AE区块链AEX9协议扩展编写的质押挖矿,整个过程公开透明,用户可以通过质押AE 换取ABC , ABC用户Box aepp 生态的唯一通行证. 是后面生态重要的组成部分, ABC 的价值与质押AE的数量强关联",
+
+  "defi_card_hint_day" : "周期-倍数",
+  "defi_card_hint_day_content1" : "数量(AE)",
+  "defi_card_hint_day_content2" : "周期(天)",
+  "defi_card_hint_day_content3" : "日收益(ABC)",
+
+  "defi_card_hint_mine" : "质押总数-倍数",
+  "defi_card_hint_mine_content1" : "质押总数量 (AE)",
+  "defi_card_hint_mine_content2" : "倍数",
+
+  "defi_card_hint_out" : "挖矿产出-倍数",
+  "defi_card_hint_out_content1" : "挖矿总数量",
+  "defi_card_hint_out_content2" : "倍数",
+
+  "defi_card_hint_info" : "发放算法",
+  "defi_card_hint_info_content" : "(质押数量 *周期  * 周期日收益 * 质押倍数 * 挖矿倍数) / 1000 = 收益\\n举例前期创世挖矿收益\\n(1000ae * 30(天) * 1.5(周期倍数) * 1.8(质押倍数) * 2(日收益倍数)) / 1000 ≈ 162个ABC",
+
+
+
+
+
+
+
+  "defi_record_title" : "正在质押",
+  "defi_record_item_lock_number" : "锁仓数量 (AE)",
+  "defi_record_item_mine_number" : "挖矿数量 (ABC)",
+  "defi_record_item_time" : "解锁倒计时",
+  "defi_record_item_status" : "状态",
+  "defi_record_item_status_lock" : "挖矿中",
+  "defi_record_item_status_continue" : "可续期",
+  "defi_record_item_status_unlock" : "可解锁",
+  "defi_record_item_btn_continue" : "续期",
+  "defi_record_item_btn_unlock" : "解锁",
+  "defi_record_item_lock_time" : "锁仓",
+  "defi_record_item_lock_time_day" : "天",
+
+
+
+  "dialog_defi_unlock_sucess" : "解锁成功",
+  "dialog_defi_lock_sucess" : "质押成功",
+  "dialog_defi_continue_sucess" : "续期成功",
+
+
   "dialog_save_sucess" : "备份成功",
   "dialog_save_sucess_hint" : "您已经成功备份助记词,请妥善保管,我们为了您的账号更加安全,将本地助记词进行删除.",
   "dialog_save_error" : "备份失败",

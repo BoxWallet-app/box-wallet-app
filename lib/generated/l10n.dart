@@ -903,6 +903,396 @@ class S {
     );
   }
 
+  /// `Lock AE to in mining \nEarn ABC`
+  String get defi_title {
+    return Intl.message(
+      'Lock AE to in mining \nEarn ABC',
+      name: 'defi_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record`
+  String get defi_title_record {
+    return Intl.message(
+      'Record',
+      name: 'defi_title_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Lockup (AE)`
+  String get defi_head_card_all_token {
+    return Intl.message(
+      'Total Lockup (AE)',
+      name: 'defi_head_card_all_token',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are locked (AE)`
+  String get defi_head_card_my_token {
+    return Intl.message(
+      'You are locked (AE)',
+      name: 'defi_head_card_my_token',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pledge time`
+  String get defi_card_time {
+    return Intl.message(
+      'pledge time',
+      name: 'defi_card_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day`
+  String get defi_card_time_day {
+    return Intl.message(
+      'Day',
+      name: 'defi_card_time_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pledge amount`
+  String get defi_card_count {
+    return Intl.message(
+      'pledge amount',
+      name: 'defi_card_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance (AE)`
+  String get defi_card_balance {
+    return Intl.message(
+      'Balance (AE)',
+      name: 'defi_card_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm mining`
+  String get defi_card_mine {
+    return Intl.message(
+      'Confirm mining',
+      name: 'defi_card_mine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mining Rules`
+  String get defi_card_hint {
+    return Intl.message(
+      'Mining Rules',
+      name: 'defi_card_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basic introduction`
+  String get defi_card_hint_base {
+    return Intl.message(
+      'Basic introduction',
+      name: 'defi_card_hint_base',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It is pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly related to the number of pledged AE`
+  String get defi_card_hint_base_content {
+    return Intl.message(
+      'It is pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly related to the number of pledged AE',
+      name: 'defi_card_hint_base_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period-Multiple`
+  String get defi_card_hint_day {
+    return Intl.message(
+      'Period-Multiple',
+      name: 'defi_card_hint_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quantity`
+  String get defi_card_hint_day_content1 {
+    return Intl.message(
+      'Quantity',
+      name: 'defi_card_hint_day_content1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period`
+  String get defi_card_hint_day_content2 {
+    return Intl.message(
+      'Period',
+      name: 'defi_card_hint_day_content2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Income`
+  String get defi_card_hint_day_content3 {
+    return Intl.message(
+      'Income',
+      name: 'defi_card_hint_day_content3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total pledge-multiple`
+  String get defi_card_hint_mine {
+    return Intl.message(
+      'Total pledge-multiple',
+      name: 'defi_card_hint_mine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total pledge amount (AE)`
+  String get defi_card_hint_mine_content1 {
+    return Intl.message(
+      'Total pledge amount (AE)',
+      name: 'defi_card_hint_mine_content1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Multiple`
+  String get defi_card_hint_mine_content2 {
+    return Intl.message(
+      'Multiple',
+      name: 'defi_card_hint_mine_content2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mining output-multiple`
+  String get defi_card_hint_out {
+    return Intl.message(
+      'Mining output-multiple',
+      name: 'defi_card_hint_out',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total number of mining`
+  String get defi_card_hint_out_content1 {
+    return Intl.message(
+      'Total number of mining',
+      name: 'defi_card_hint_out_content1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Multiple`
+  String get defi_card_hint_out_content2 {
+    return Intl.message(
+      'Multiple',
+      name: 'defi_card_hint_out_content2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Issuance Algorithm`
+  String get defi_card_hint_info {
+    return Intl.message(
+      'Issuance Algorithm',
+      name: 'defi_card_hint_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income\nFor example, early-stage genesis mining income\n(1000ae * 30(days) * 1.5(period) Multiple) * 1.8 (Pledge multiple) * 2 (Daily income multiple)) / 1000 ≈ 162 ABC`
+  String get defi_card_hint_info_content {
+    return Intl.message(
+      '(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income\nFor example, early-stage genesis mining income\n(1000ae * 30(days) * 1.5(period) Multiple) * 1.8 (Pledge multiple) * 2 (Daily income multiple)) / 1000 ≈ 162 ABC',
+      name: 'defi_card_hint_info_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Being pledged`
+  String get defi_record_title {
+    return Intl.message(
+      'Being pledged',
+      name: 'defi_record_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Locked position (AE)`
+  String get defi_record_item_lock_number {
+    return Intl.message(
+      'Locked position (AE)',
+      name: 'defi_record_item_lock_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mining Quantity (ABC)`
+  String get defi_record_item_mine_number {
+    return Intl.message(
+      'Mining Quantity (ABC)',
+      name: 'defi_record_item_mine_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock Countdown`
+  String get defi_record_item_time {
+    return Intl.message(
+      'Unlock Countdown',
+      name: 'defi_record_item_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get defi_record_item_status {
+    return Intl.message(
+      'Status',
+      name: 'defi_record_item_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mining`
+  String get defi_record_item_status_lock {
+    return Intl.message(
+      'Mining',
+      name: 'defi_record_item_status_lock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renewable`
+  String get defi_record_item_status_continue {
+    return Intl.message(
+      'Renewable',
+      name: 'defi_record_item_status_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlockable`
+  String get defi_record_item_status_unlock {
+    return Intl.message(
+      'Unlockable',
+      name: 'defi_record_item_status_unlock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renew`
+  String get defi_record_item_btn_continue {
+    return Intl.message(
+      'Renew',
+      name: 'defi_record_item_btn_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock`
+  String get defi_record_item_btn_unlock {
+    return Intl.message(
+      'Unlock',
+      name: 'defi_record_item_btn_unlock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lock`
+  String get defi_record_item_lock_time {
+    return Intl.message(
+      'Lock',
+      name: 'defi_record_item_lock_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day`
+  String get defi_record_item_lock_time_day {
+    return Intl.message(
+      'day',
+      name: 'defi_record_item_lock_time_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlocked successfully`
+  String get dialog_defi_unlock_sucess {
+    return Intl.message(
+      'Unlocked successfully',
+      name: 'dialog_defi_unlock_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Locked successfully`
+  String get dialog_defi_lock_sucess {
+    return Intl.message(
+      'Locked successfully',
+      name: 'dialog_defi_lock_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful renewal`
+  String get dialog_defi_continue_sucess {
+    return Intl.message(
+      'Successful renewal',
+      name: 'dialog_defi_continue_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Backup successful`
   String get dialog_save_sucess {
     return Intl.message(

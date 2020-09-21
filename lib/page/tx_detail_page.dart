@@ -53,16 +53,21 @@ class _TxDetailPageState extends State<TxDetailPage> {
       (key, value) {
         var payload = widget.recordData.tx['payload'].toString();
         if (payload != "" && payload != null && payload.length >= 11) {
-          print("substring->" + payload);
-          var substring = payload.substring(3);
-          print("substring->" + substring);
-          var base64decode = Utils.base64Decode(substring);
+          try{
+            print("substring->" + payload);
+            var substring = payload.substring(3);
+            print("substring->" + substring);
+            var base64decode = Utils.base64Decode(substring);
 //
 //        print("substring->"+substring);
 //        var base64decode = Utils.base64Decode(substring);
-          print("base64decode->" + base64decode);
-          substring = base64decode.substring(0, base64decode.length - 4);
-          widget.recordData.tx['payload'] = substring;
+            print("base64decode->" + base64decode);
+            substring = base64decode.substring(0, base64decode.length - 4);
+            widget.recordData.tx['payload'] = substring;
+          }catch(e){
+            widget.recordData.tx['payload'] = payload;
+          }
+
         }
 
         var item = buildItem(key.toString(), value.toString());

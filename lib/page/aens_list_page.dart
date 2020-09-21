@@ -213,9 +213,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
   }
 
   Future<void> _onLoad() async {
-    await Future.delayed(Duration(seconds: 1), () {
-      netData();
-    });
+    netData();
   }
 
   @override

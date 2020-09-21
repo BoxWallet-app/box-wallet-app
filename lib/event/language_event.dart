@@ -5,3 +5,6 @@ EventBus eventBus = EventBus();
 class LanguageEvent {
   LanguageEvent();
 }
+class DefiEvent {
+  DefiEvent();
+}

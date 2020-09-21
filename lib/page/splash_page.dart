@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,9 +34,9 @@ class _SplashPageState extends State<SplashPage> {
 //        Navigator.pushReplacement(context,LoginPage());
         BoxApp.getAddress().then((value) {
           if (value.length > 10) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.pushReplacement(context, CustomRoute( HomePage()));
           } else {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            Navigator.pushReplacement(context, CustomRoute( LoginPage()));
           }
         });
       });
@@ -47,6 +48,7 @@ class _SplashPageState extends State<SplashPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        backgroundColor: Color(0xFFFFFFFFF),
         body: Container(
           child: Stack(
             alignment: Alignment.center,
@@ -63,7 +65,7 @@ class _SplashPageState extends State<SplashPage> {
                       decoration: new BoxDecoration(
                         gradient: const LinearGradient(begin: Alignment.topRight, colors: [
 //                        Color(0x1AFC2365),
-                          Color(0xFFFAFAFA),
+                          Color(0xFFFFFFFFF),
                         ]),
                       ),
                       height: 600,

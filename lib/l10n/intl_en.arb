@@ -109,6 +109,63 @@
   "mnemonic_confirm_content": "In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order",
 
 
+
+  "defi_title": "Lock AE to in mining \nEarn ABC",
+  "defi_title_record": "Record",
+  "defi_head_card_all_token": "Total Lockup (AE)",
+  "defi_head_card_my_token": "You are locked (AE)",
+  "defi_card_time": "pledge time",
+  "defi_card_time_day": "Day",
+  "defi_card_count": "pledge amount",
+  "defi_card_balance": "Balance (AE)",
+  "defi_card_mine": "Confirm mining",
+  "defi_card_hint": "Mining Rules",
+
+  "defi_card_hint_base": "Basic introduction",
+  "defi_card_hint_base_content": "It is pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly related to the number of pledged AE",
+
+  "defi_card_hint_day": "Period-Multiple",
+  "defi_card_hint_day_content1": "Quantity",
+  "defi_card_hint_day_content2": "Period",
+  "defi_card_hint_day_content3": "Income",
+
+  "defi_card_hint_mine": "Total pledge-multiple",
+  "defi_card_hint_mine_content1": "Total pledge amount (AE)",
+  "defi_card_hint_mine_content2": "Multiple",
+
+  "defi_card_hint_out": "Mining output-multiple",
+  "defi_card_hint_out_content1": "Total number of mining",
+  "defi_card_hint_out_content2": "Multiple",
+
+  "defi_card_hint_info": "Issuance Algorithm",
+  "defi_card_hint_info_content": "(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income\\nFor example, early-stage genesis mining income\\n(1000ae * 30(days) * 1.5(period) Multiple) * 1.8 (Pledge multiple) * 2 (Daily income multiple)) / 1000 ≈ 162 ABC",
+
+
+
+
+  "defi_record_title": "Being pledged",
+  "defi_record_item_lock_number": "Locked position (AE)",
+  "defi_record_item_mine_number": "Mining Quantity (ABC)",
+  "defi_record_item_time": "Unlock Countdown",
+  "defi_record_item_status": "Status",
+  "defi_record_item_status_lock": "Mining",
+  "defi_record_item_status_continue": "Renewable",
+  "defi_record_item_status_unlock": "Unlockable",
+  "defi_record_item_btn_continue": "Renew",
+  "defi_record_item_btn_unlock": "Unlock",
+  "defi_record_item_lock_time" : "Lock",
+  "defi_record_item_lock_time_day" : "day",
+
+
+  "dialog_defi_unlock_sucess": "Unlocked successfully",
+  "dialog_defi_lock_sucess": "Locked successfully",
+  "dialog_defi_continue_sucess": "Successful renewal",
+
+
+
+
+
+
   "dialog_save_sucess": "Backup successful",
   "dialog_save_sucess_hint": "You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.",
   "dialog_save_error": "Backup failed",

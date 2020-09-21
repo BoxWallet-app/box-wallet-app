@@ -34,7 +34,7 @@ void main() {
     ..indicatorColor = Color(0xFFFC2365)
     ..textColor = Colors.black
     ..progressColor=Colors.red
-    ..loadingStyle = EasyLoadingStyle.custom
+    ..loadingStyle = EasyLoadingStyle.dark
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false;
   runApp(BoxApp());

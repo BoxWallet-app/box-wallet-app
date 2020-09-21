@@ -13,10 +13,11 @@ typedef PayDismissCallBackFuture = Future Function(String password);
 
 class PayPasswordWidget extends StatefulWidget {
   final String title;
+  final int color;
   final PayPasswordCallBackFuture passwordCallBackFuture;
   final PayPasswordCallBackFuture dismissCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture}) : super(key: key);
+  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() => _PayPasswordWidgetState();
@@ -112,7 +113,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                                 color: Colors.black.withAlpha(80),
                               ),
                             ),
-                            cursorColor: Color(0xFFFC2365),
+                            cursorColor: Color(widget.color),
                             cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                           ),
@@ -146,7 +147,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
               ),
             ),
             borderRadius: 30.0,
-            color: Color(0xFFFC2365),
+            color: Color(widget.color),
           ),
         ) ,
 

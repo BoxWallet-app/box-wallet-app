@@ -27,7 +27,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
   @override
   void initState() {
     super.initState();
-    _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+    _textEditingController.text = "";
+//    _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
   }
 
   @override

@@ -34,7 +34,7 @@ class TokenSendTwoPage extends StatefulWidget {
 class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-  String token = "0";
+  String token = "-";
 
   String address = '';
 

@@ -4,7 +4,9 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
+import 'package:box/page/token_defi_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -167,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   BoxApp.setAddress("");
                   BoxApp.setSigningKey("");
                   BoxApp.setMnemonic("");
+                  TokenDefiPage.model = null;
                   Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
                 },
                 child: Text(
