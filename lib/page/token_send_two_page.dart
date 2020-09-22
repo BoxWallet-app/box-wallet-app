@@ -1,10 +1,14 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/contract_transfer_call_dao.dart';
 import 'package:box/dao/token_send_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
+import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/contract_call_model.dart';
 import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
@@ -18,9 +22,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
+import 'home_page.dart';
 
 class TokenSendTwoPage extends StatefulWidget {
   final String address;
@@ -34,33 +40,38 @@ class TokenSendTwoPage extends StatefulWidget {
 class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-  String token = "-";
 
   String address = '';
+  String currentCoinName = 'AE';
 
   @override
   void initState() {
     super.initState();
     netAccountInfo();
+    netContractBalance();
     getAddress();
+  }
+
+  void netContractBalance() {
+    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+      if (model.code == 200) {
+        HomePage.tokenABC = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
   }
 
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
-        token = model.data.balance;
+        HomePage.token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(
-          msg: "error" + e.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -107,12 +118,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             ),
                             Container(
                               decoration: new BoxDecoration(
-                                gradient: const LinearGradient(
-                                    begin: Alignment.topRight,
-                                    colors: [
-                                      Color(0xFFFC2365),
-                                      Color(0xFFFAFAFA),
-                                    ]),
+                                gradient: const LinearGradient(begin: Alignment.topRight, colors: [
+                                  Color(0xFFFC2365),
+                                  Color(0xFFFAFAFA),
+                                ]),
                               ),
                               height: 200,
                             ),
@@ -124,8 +133,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(
-                                  left: 20, top: 10, right: 20),
+                              margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
@@ -139,8 +147,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               children: <Widget>[
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin:
-                                      const EdgeInsets.only(left: 20, top: 10),
+                                  margin: const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
@@ -152,8 +159,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin:
-                                      const EdgeInsets.only(left: 10, top: 10),
+                                  margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
                                     address,
                                     style: TextStyle(
@@ -169,8 +175,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               children: <Widget>[
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin:
-                                      const EdgeInsets.only(left: 20, top: 10),
+                                  margin: const EdgeInsets.only(left: 20, top: 10),
                                   child: Text(
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
@@ -182,8 +187,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 ),
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  margin:
-                                      const EdgeInsets.only(left: 10, top: 10),
+                                  margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
                                     getReceiveAddress(),
                                     style: TextStyle(
@@ -198,13 +202,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
-                              height: 152,
+                              height: 172,
                               //边框设置
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.black12,
@@ -219,15 +222,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 children: <Widget>[
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(
-                                        left: 18, top: 20),
+                                    margin: const EdgeInsets.only(left: 18, top: 20),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            S
-                                                .of(context)
-                                                .token_send_two_page_number,
+                                            S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontFamily: "Ubuntu",
@@ -240,8 +240,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(
-                                        left: 18, top: 0, right: 18),
+                                    margin: const EdgeInsets.only(left: 18, top: 0, right: 18),
                                     child: Stack(
                                       children: <Widget>[
                                         TextField(
@@ -249,8 +248,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
 
                                           controller: _textEditingController,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(
-                                                RegExp("[0-9.]")), //只允许输入字母
+                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -261,15 +259,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           ),
                                           decoration: InputDecoration(
                                             hintText: '',
-                                            enabledBorder:
-                                                new UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xFFF6F6F6)),
+                                            enabledBorder: new UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
-                                            focusedBorder:
-                                                new UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xFFFC2365)),
+                                            focusedBorder: new UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Color(0xFFFC2365)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
@@ -284,34 +278,17 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           right: 0,
                                           top: 12,
                                           child: Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 10, right: 0),
+                                            margin: const EdgeInsets.only(left: 10, right: 0),
                                             child: Material(
                                               color: Color(0x00000000),
                                               child: InkWell(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(30)),
+                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
                                                   onTap: () {
-                                                    _textEditingController
-                                                        .text = token;
-                                                    _textEditingController
-                                                            .selection =
-                                                        TextSelection.fromPosition(
-                                                            TextPosition(
-                                                                affinity:
-                                                                    TextAffinity
-                                                                        .downstream,
-                                                                offset:
-                                                                    _textEditingController
-                                                                        .text
-                                                                        .length));
+                                                    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
+                                                    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
                                                   },
                                                   child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10),
+                                                    margin: const EdgeInsets.only(left: 10, right: 10),
                                                     height: 30,
                                                     child: Row(
                                                       children: <Widget>[
@@ -319,12 +296,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                           width: 5,
                                                         ),
                                                         Text(
-                                                          S
-                                                              .of(context)
-                                                              .token_send_two_page_all,
+                                                          S.of(context).token_send_two_page_all,
                                                           style: TextStyle(
-                                                            color: Color(
-                                                                0xFFFC2365),
+                                                            color: Color(0xFFFC2365),
                                                             fontSize: 17,
                                                           ),
                                                         ),
@@ -340,52 +314,262 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   Container(
                                     height: 10,
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topLeft,
-                                          margin:
-                                              const EdgeInsets.only(left: 18),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  S
-                                                      .of(context)
-                                                      .token_send_two_page_balance,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF666666),
-                                                    fontFamily: "Ubuntu",
-                                                    fontSize: 16,
+                                  Material(
+                                    child: InkWell(
+                                      onTap: () {
+                                        showMaterialModalBottomSheet(
+                                            context: context,
+                                            backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
+                                            builder: (context, scrollController) => Container(
+                                                  height: 250,
+                                                  decoration: new BoxDecoration(
+                                                      color: Color(0xFFFFFFFF),
+                                                      //设置四周圆角 角度
+                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                                                      boxShadow: []),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(children: [
+                                                      Container(
+                                                        height: 20,
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 20),
+                                                        alignment: Alignment.topLeft,
+                                                        child: Text(
+                                                          S.of(context).token_send_two_page_coin,
+                                                          style: TextStyle(
+                                                            color: Color(0xFF666666),
+                                                            fontFamily: "Ubuntu",
+                                                            fontSize: 19,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 20,
+                                                      ),
+                                                      Material(
+                                                        color: Colors.white,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                            setState(() {
+                                                              currentCoinName = "AE";
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            height: 70,
+                                                            margin: EdgeInsets.only(left: 20, right: 20),
+                                                            child: Stack(
+                                                              alignment: Alignment.center,
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  child: Row(
+                                                                    children: <Widget>[
+                                                                      Container(
+                                                                        width: 36.0,
+                                                                        height: 36.0,
+                                                                        decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                                                                          borderRadius: BorderRadius.circular(36.0),
+                                                                          image: DecorationImage(
+                                                                            image: AssetImage("images/apple-touch-icon.png"),
+//                                                        image: AssetImage("images/apple-touch-icon.png"),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        padding: const EdgeInsets.only(left: 17),
+                                                                        child: Text(
+                                                                          "AE",
+                                                                          style: new TextStyle(
+                                                                            fontSize: 15,
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            fontFamily: "Ubuntu",
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Positioned(
+                                                                  right: 10,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        HomePage.token + " ",
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF666666),
+                                                                          fontFamily: "Ubuntu",
+                                                                          fontSize: 14,
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons.arrow_forward_ios,
+                                                                        size: 15,
+                                                                        color: Color(0xFF666666),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 20),
+                                                        height: 1,
+                                                        color: Color(0xFFEEEEEE),
+                                                        width: MediaQuery.of(context).size.width,
+                                                      ),
+                                                      Material(
+                                                        color: Colors.white,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                            setState(() {
+                                                              currentCoinName = "ABC";
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            height: 70,
+                                                            margin: EdgeInsets.only(left: 20, right: 20),
+                                                            child: Stack(
+                                                              alignment: Alignment.center,
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  child: Row(
+                                                                    children: <Widget>[
+                                                                      Container(
+                                                                        width: 36.0,
+                                                                        height: 36.0,
+                                                                        decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                                              right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                                                                          borderRadius: BorderRadius.circular(36.0),
+                                                                          image: DecorationImage(
+                                                                            image: AssetImage("images/logo.png"),
+//                                                        image: AssetImage("images/apple-touch-icon.png"),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        padding: const EdgeInsets.only(left: 17),
+                                                                        child: Text(
+                                                                          "ABC",
+                                                                          style: new TextStyle(
+                                                                            fontSize: 15,
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            fontFamily: "Ubuntu",
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Positioned(
+                                                                  right: 10,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        HomePage.tokenABC + " ",
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF666666),
+                                                                          fontFamily: "Ubuntu",
+                                                                          fontSize: 14,
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons.arrow_forward_ios,
+                                                                        size: 15,
+                                                                        color: Color(0xFF666666),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
                                                   ),
-                                                ),
+                                                )
+//
+                                            );
+                                      },
+                                      child: Container(
+                                        height: 60,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: const EdgeInsets.only(left: 18),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 36.0,
+                                                    height: 36.0,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                                                      borderRadius: BorderRadius.circular(36.0),
+                                                      image: DecorationImage(
+                                                        image: AssetImage(currentCoinName == "AE" ? "images/apple-touch-icon.png" : "images/logo.png"),
+//                                                        image: AssetImage("images/apple-touch-icon.png"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.only(left: 15),
+                                                    child: Text(
+                                                      currentCoinName,
+                                                      style: new TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.w600,
+                                                        fontFamily: "Ubuntu",
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Positioned(
+                                              right: 28,
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    currentCoinName == "AE" ? HomePage.token + " " : HomePage.tokenABC + " ",
+                                                    style: TextStyle(
+                                                      color: Color(0xFF666666),
+                                                      fontFamily: "Ubuntu",
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 15,
+                                                    color: Color(0xFF666666),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 10, right: 18),
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            height: 30,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  token + " AE",
-                                                  style: TextStyle(
-                                                    color: Color(0xFF666666),
-                                                    fontFamily: "Ubuntu",
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -403,14 +587,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
                         netSend(context, startLoading, stopLoading);
+
                       },
                       child: Text(
                         S.of(context).token_send_two_page_conform,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: "Ubuntu",
-                            fontWeight: FontWeight.w700),
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Ubuntu", fontWeight: FontWeight.w700),
                       ),
                       loader: Container(
                         padding: EdgeInsets.all(10),
@@ -444,8 +625,11 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     return Utils.formatAddress(widget.address);
   }
 
-  Future<void> netSend(
-      BuildContext context, Function startLoading, Function stopLoading) async {
+
+
+
+
+  Future<void> netSend(BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -458,11 +642,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 400),
           transitionBuilder: (_, anim1, anim2, child) {
-            final curvedValue =
-                Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-                transform:
-                    Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
                 child: Opacity(
                   opacity: anim1.value,
                   // ignore: missing_return
@@ -482,11 +664,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title:
-                                  Text(S.of(context).dialog_hint_check_error),
-                              content: Text(S
-                                  .of(context)
-                                  .dialog_hint_check_error_content),
+                              title: Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S.of(context).dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
@@ -495,8 +674,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   ),
                                   onPressed: () {
                                     stopLoading();
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
+                                    Navigator.of(context, rootNavigator: true).pop();
                                   },
                                 ),
                               ],
@@ -504,48 +682,70 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           );
                           return;
                         }
-
-                        TokenSendDao.fetch(_textEditingController.text,
-                                widget.address, aesDecode)
-                            .then((TokenSendModel model) {
-                          stopLoading();
-                          if (model.code == 200) {
-                            showFlush(context);
-                          } else {
-                            showPlatformDialog(
-                              context: context,
-                              builder: (_) => BasicDialogAlert(
-                                title: Text(
-                                  S.of(context).dialog_hint_send_error,
-                                ),
-                                content: Text(model.msg),
-                                actions: <Widget>[
-                                  BasicDialogAction(
-                                    title: Text(
-                                      S.of(context).dialog_conform,
-                                      style:
-                                          TextStyle(color: Color(0xFFFC2365)),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
+                        if(currentCoinName == "AE"){
+                          TokenSendDao.fetch(_textEditingController.text, widget.address, aesDecode).then((TokenSendModel model) {
+                            stopLoading();
+                            if (model.code == 200) {
+                              showFlush(context);
+                            } else {
+                              showPlatformDialog(
+                                context: context,
+                                builder: (_) => BasicDialogAlert(
+                                  title: Text(
+                                    S.of(context).dialog_hint_send_error,
                                   ),
-                                ],
-                              ),
-                            );
-                          }
-                        }).catchError((e) {
-                          stopLoading();
-                          Fluttertoast.showToast(
-                              msg: "error",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.black,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                        });
+                                  content: Text(model.msg),
+                                  actions: <Widget>[
+                                    BasicDialogAction(
+                                      title: Text(
+                                        S.of(context).dialog_conform,
+                                        style: TextStyle(color: Color(0xFFFC2365)),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }).catchError((e) {
+                            stopLoading();
+                            Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          });
+                        }else{
+                          ContractTransferCallDao.fetch(widget.address,aesDecode,_textEditingController.text ).then((ContractCallModel model) {
+                            stopLoading();
+                            if (model.code == 200) {
+                              showFlush(context);
+                            } else {
+                              showPlatformDialog(
+                                context: context,
+                                builder: (_) => BasicDialogAlert(
+                                  title: Text(
+                                    S.of(context).dialog_hint_send_error,
+                                  ),
+                                  content: Text(model.msg),
+                                  actions: <Widget>[
+                                    BasicDialogAction(
+                                      title: Text(
+                                        S.of(context).dialog_conform,
+                                        style: TextStyle(color: Color(0xFFFC2365)),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }).catchError((e) {
+                            stopLoading();
+                            Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                          });
+                        }
+
                       }),
                 ));
           });
@@ -556,8 +756,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient:
-          LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,

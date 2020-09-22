@@ -14,6 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class TokenSendOnePage extends StatefulWidget {
@@ -47,6 +48,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
           ),
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -82,7 +84,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
+                              margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
                                 S.of(context).token_send_one_page_title,
                                 style: TextStyle(
@@ -95,7 +97,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
-                              height: 172,
+                              height: 170,
                               //边框设置
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
@@ -208,6 +210,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                       ],
                                     ),
                                   ),
+
                                 ],
                               ),
                             ),
@@ -233,7 +236,12 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                       },
                       child: Text(
                         S.of(context).token_send_one_page_next,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Ubuntu",
+                        ),
                       ),
                       loader: Container(
                         padding: EdgeInsets.all(10),

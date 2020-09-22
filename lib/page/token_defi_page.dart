@@ -463,7 +463,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                   decoration: new BoxDecoration(
                                                       color: Color(0xFFFFFFFF),
                                                       //设置四周圆角 角度
-                                                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),topRight: Radius.circular(20.0)),
                                                       boxShadow: []),
                                                   child: SingleChildScrollView(
                                                     child: Column(

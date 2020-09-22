@@ -35,6 +35,7 @@
   "token_send_two_page_from": "从",
   "token_send_two_page_to": "到",
   "token_send_two_page_number": "转账数量",
+  "token_send_two_page_coin": "转账币种",
   "token_send_two_page_all": "全部",
   "token_send_two_page_balance": "余额",
   "token_send_two_page_conform": "确认",

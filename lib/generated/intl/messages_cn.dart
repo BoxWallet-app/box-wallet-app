@@ -146,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_one_page_title" : MessageLookupByLibrary.simpleMessage("1/2请输入接收地址"),
     "token_send_two_page_all" : MessageLookupByLibrary.simpleMessage("全部"),
     "token_send_two_page_balance" : MessageLookupByLibrary.simpleMessage("余额"),
+    "token_send_two_page_coin" : MessageLookupByLibrary.simpleMessage("转账币种"),
     "token_send_two_page_conform" : MessageLookupByLibrary.simpleMessage("确认"),
     "token_send_two_page_from" : MessageLookupByLibrary.simpleMessage("从"),
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("转账数量"),

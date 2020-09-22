@@ -1,7 +1,7 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.101:8080';
-//const BASE_HOST = 'http://10.53.5.159:8080';
- const BASE_HOST = 'http://box.aeasy.io';
+const BASE_HOST = 'http://10.53.5.159:8080';
+// const BASE_HOST = 'http://box.aeasy.io';
 //const BASE_HOST = 'http://localhost:8080';
 //const BASE_HOST = 'https://aeasy.io';
 
@@ -64,6 +64,9 @@ const CONTRACT_RECORD = BASE_HOST + '/api/contract/record';
 
 //调用合约
 const CONTRACT_CALL = BASE_HOST + '/api/contract/call';
+
+//调用合约转账
+const CONTRACT_TRANSFER = BASE_HOST + '/api/contract/transfer';
 
 //查看合约结果
 const CONTRACT_DECODE = BASE_HOST + '/api/contract/decode';

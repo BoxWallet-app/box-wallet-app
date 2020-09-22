@@ -44,6 +44,10 @@ import '../main.dart';
 import 'aens_register.dart';
 
 class HomePage extends StatefulWidget {
+  static var token = "loading...";
+  static var tokenABC = "loading...";
+  static var height = 0;
+  static var address = "";
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -56,8 +60,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   WalletTransferRecordModel walletRecordModel;
   BlockTopModel baseDataModel;
   BaseNameDataModel baseNameDataModel;
-  var token = "loading...";
-  var tokenABC = "loading...";
+
   var address = '';
   var page = 1;
 
@@ -82,7 +85,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
-        token = model.data.balance;
+        HomePage.token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -93,7 +96,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   void netContractBalance() {
     ContractBalanceDao.fetch().then((ContractBalanceModel model) {
       if (model.code == 200) {
-        tokenABC = model.data.balance;
+        HomePage.tokenABC = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -142,6 +145,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       if (model.code == 200) {
         baseDataModel = model;
 //        setState(() {});
+        HomePage.height = baseDataModel.data.height;
         netWalletRecord();
       } else {}
     }).catchError((e) {
@@ -259,7 +263,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                            token,
+                                            HomePage.token,
                                             style: TextStyle(fontSize: 35, color: Colors.white,  letterSpacing: 1.3,fontFamily: "Ubuntu"),
                                           ),
                                         ],
@@ -310,7 +314,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                            tokenABC,
+                                            HomePage.tokenABC,
                                             style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3,fontFamily: "Ubuntu"),
                                           ),
                                         ],
@@ -966,6 +970,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   Future<String> getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
+        HomePage.address = address;
         this.address = address;
       });
     });

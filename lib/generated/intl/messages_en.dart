@@ -146,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_one_page_title" : MessageLookupByLibrary.simpleMessage("1/2 Please enter the receiving address"),
     "token_send_two_page_all" : MessageLookupByLibrary.simpleMessage("All"),
     "token_send_two_page_balance" : MessageLookupByLibrary.simpleMessage("Balance"),
+    "token_send_two_page_coin" : MessageLookupByLibrary.simpleMessage("Transfer Coin"),
     "token_send_two_page_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "token_send_two_page_from" : MessageLookupByLibrary.simpleMessage("From"),
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("Transfer amount"),

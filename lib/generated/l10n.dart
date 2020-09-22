@@ -323,6 +323,16 @@ class S {
     );
   }
 
+  /// `Transfer Coin`
+  String get token_send_two_page_coin {
+    return Intl.message(
+      'Transfer Coin',
+      name: 'token_send_two_page_coin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All`
   String get token_send_two_page_all {
     return Intl.message(

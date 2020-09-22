@@ -33,6 +33,7 @@
   "token_send_two_page_from": "From",
   "token_send_two_page_to": "To",
   "token_send_two_page_number": "Transfer amount",
+  "token_send_two_page_coin": "Transfer Coin",
   "token_send_two_page_all": "All",
   "token_send_two_page_balance": "Balance",
   "token_send_two_page_conform": "Confirm",

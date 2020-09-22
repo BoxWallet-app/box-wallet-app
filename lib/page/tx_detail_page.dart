@@ -2,6 +2,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/aens_update_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
@@ -12,9 +13,12 @@ import 'package:box/widget/loading_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'home_page.dart';
 
 class TxDetailPage extends StatefulWidget {
   final RecordData recordData;
@@ -36,8 +40,32 @@ class _TxDetailPageState extends State<TxDetailPage> {
     // TODO: implement initState
     super.initState();
     _loadingType = LoadingType.finish;
+    items.add(
+      Container(
+        height: 20.0,
+      ),
+    );
+
+    items.add(new Container(
+      alignment: Alignment.topLeft,
+      margin: EdgeInsets.only(left: 18,bottom: 20),
+      child: Text("Basic data", style: TextStyle(
+        fontSize: 20,
+        fontFamily: "Ubuntu",
+      ),),
+    ));
 //    netAensInfo();
-    var item = buildItem("tx", widget.recordData.hash);
+    items.add(
+      Container(
+          child: Container(
+            color:Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 0, right: 0),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+    var item = buildItem("Tx", widget.recordData.hash);
+
     items.add(item);
     items.add(
       Container(
@@ -48,12 +76,76 @@ class _TxDetailPageState extends State<TxDetailPage> {
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
+    var itemType = buildItem("Type", widget.recordData.tx["type"]);
 
+    items.add(itemType);
+    items.add(
+      Container(
+          child: Container(
+            color: Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 18, right: 18),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+
+    var itemFee = buildItem2("Fee + Amount", getFeeWidget());
+
+    items.add(itemFee);
+    items.add(
+      Container(
+          child: Container(
+            color: Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 18, right: 18),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+
+    var item2 = buildItem("Conform Height", (HomePage.height - widget.recordData.blockHeight).toString());
+    items.add(item2);
+    items.add(
+      Container(
+          child: Container(
+            color:Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 0, right: 0),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+    items.add(
+      Container(
+          child: Container(
+            color:Color(0xFFFAFAFA),
+          ),
+          padding: EdgeInsets.only(left: 0, right: 0),
+          height: 30.0,
+          color: Color(0xFFFFFFFF)),
+    );
+
+
+    items.add(new Container(
+      alignment: Alignment.topLeft,
+      margin: EdgeInsets.only(left: 18,bottom: 20),
+      child: Text("All the data", style: TextStyle(
+        fontSize: 20,
+        fontFamily: "Ubuntu",
+      ),),
+    ));
+    items.add(
+      Container(
+          child: Container(
+            color:Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 0, right: 0),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
     widget.recordData.tx.forEach(
       (key, value) {
         var payload = widget.recordData.tx['payload'].toString();
         if (payload != "" && payload != null && payload.length >= 11) {
-          try{
+          try {
             print("substring->" + payload);
             var substring = payload.substring(3);
             print("substring->" + substring);
@@ -64,10 +156,9 @@ class _TxDetailPageState extends State<TxDetailPage> {
             print("base64decode->" + base64decode);
             substring = base64decode.substring(0, base64decode.length - 4);
             widget.recordData.tx['payload'] = substring;
-          }catch(e){
+          } catch (e) {
             widget.recordData.tx['payload'] = payload;
           }
-
         }
 
         var item = buildItem(key.toString(), value.toString());
@@ -81,13 +172,20 @@ class _TxDetailPageState extends State<TxDetailPage> {
               height: 1.0,
               color: Color(0xFFFFFFFF)),
         );
-
       },
-
     );
     items.add(
       Container(
-
+          child: Container(
+            color:Color(0xFFEEEEEE),
+          ),
+          padding: EdgeInsets.only(left: 0, right: 0),
+          height: 1.0,
+          color: Color(0xFFFFFFFF)),
+    );
+    items.add(
+      Container(
+        color:Color(0xFFFAFAFA),
         height: 50.0,
       ),
     );
@@ -129,76 +227,111 @@ class _TxDetailPageState extends State<TxDetailPage> {
     );
   }
 
-  String getTypeValue() {
-    if (_aensInfoModel.data == null) {
-      return "-";
-    }
+  Text getFeeWidget() {
+    if (widget.recordData.tx['type'].toString() == "SpendTx") {
+      // ignore: unrelated_type_equality_checks
 
-    if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+      if (widget.recordData.tx['recipient_id'].toString() == HomePage.address) {
+        return Text(
+          "+" + ((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
+          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+        );
+      } else {
+        return Text(
+          "-" + (((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000)).toString() + " AE",
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+        );
+      }
+    } else {
+      return Text(
+        "-" + (widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+      );
     }
-
-    if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
-    }
-
-    return "-";
   }
 
-  String getTypeKey() {
-    if (_aensInfoModel.data == null) {
-      return "距离过期";
-    }
-
-    if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return "距离过期";
-    }
-
-    if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return "距离结束";
-    }
-
-    return "距离过期";
-  }
-
-  Container buildItem(String key, String value) {
-    return Container(
+  Widget buildItem(String key, String value) {
+    return Material(
       color: Colors.white,
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: [
-          /*1*/
-          Column(
+      child: InkWell(
+        onTap: () {
+          Clipboard.setData(ClipboardData(text: value));
+
+          Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        },
+        child: Container(
+          padding: EdgeInsets.all(18),
+          child: Row(
             children: [
-              /*2*/
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  key,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: "Ubuntu",
+              /*1*/
+              Column(
+                children: [
+                  /*2*/
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      key,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
                   ),
+                ],
+              ),
+              /*3*/
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: new Text(
+                    value,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Ubuntu",
+                    ),
+                  ),
+                  margin: const EdgeInsets.only(left: 30.0),
                 ),
               ),
             ],
           ),
-          /*3*/
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: new Text(
-                value,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Ubuntu",
-                ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildItem2(String key, Widget text) {
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.all(18),
+          child: Row(
+            children: [
+              /*1*/
+              Column(
+                children: [
+                  /*2*/
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      key,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              margin: const EdgeInsets.only(left: 30.0),
-            ),
+              /*3*/
+              Expanded(
+                child: Container(alignment: Alignment.centerRight, child: text),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
