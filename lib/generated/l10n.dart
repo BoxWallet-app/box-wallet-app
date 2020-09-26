@@ -1023,10 +1023,10 @@ class S {
     );
   }
 
-  /// `It is pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly related to the number of pledged AE`
+  /// `It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 500 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually`
   String get defi_card_hint_base_content {
     return Intl.message(
-      'It is pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly related to the number of pledged AE',
+      'It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 500 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually',
       name: 'defi_card_hint_base_content',
       desc: '',
       args: [],
@@ -1143,10 +1143,10 @@ class S {
     );
   }
 
-  /// `(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income\nFor example, early-stage genesis mining income\n(1000ae * 30(days) * 1.5(period) Multiple) * 1.8 (Pledge multiple) * 2 (Daily income multiple)) / 1000 ≈ 162 ABC`
+  /// `(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income`
   String get defi_card_hint_info_content {
     return Intl.message(
-      '(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income\nFor example, early-stage genesis mining income\n(1000ae * 30(days) * 1.5(period) Multiple) * 1.8 (Pledge multiple) * 2 (Daily income multiple)) / 1000 ≈ 162 ABC',
+      '(Pledge quantity*period*period daily income* pledge multiple*mining multiple) / 1000 = income',
       name: 'defi_card_hint_info_content',
       desc: '',
       args: [],
@@ -1338,6 +1338,36 @@ class S {
     return Intl.message(
       'Please enter the mnemonic phrase in the normal order.',
       name: 'dialog_save_error_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disclaimer`
+  String get dialog_statement_title {
+    return Intl.message(
+      'Disclaimer',
+      name: 'dialog_statement_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Box aepp code is completely open source, it complies with the open source agreement, and the ecological project initiated by the Chinese community is non-profit. So please confirm the risk yourself! Box aepp will not collect your private key, but does not guarantee special circumstances (Such as bugs, hacker attacks), we will not make any compensation if the wallet is lost or locked. Please take your own risk. Agree means that you approve the disclaimer. If you disagree, please uninstall by yourself`
+  String get dialog_statement_content {
+    return Intl.message(
+      'Box aepp code is completely open source, it complies with the open source agreement, and the ecological project initiated by the Chinese community is non-profit. So please confirm the risk yourself! Box aepp will not collect your private key, but does not guarantee special circumstances (Such as bugs, hacker attacks), we will not make any compensation if the wallet is lost or locked. Please take your own risk. Agree means that you approve the disclaimer. If you disagree, please uninstall by yourself',
+      name: 'dialog_statement_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Agree`
+  String get dialog_statement_btn {
+    return Intl.message(
+      'Agree',
+      name: 'dialog_statement_btn',
       desc: '',
       args: [],
     );

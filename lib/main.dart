@@ -65,7 +65,6 @@ class BoxApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: SplashPage(),
-
           localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
           supportedLocales: S.delegate.supportedLocales,
           theme: new ThemeData(

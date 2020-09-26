@@ -884,7 +884,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
 
   Widget getItem(BuildContext context, int index) {
-    if (walletRecordModel == null || walletRecordModel.data.length < index) {
+    if (walletRecordModel == null || walletRecordModel.data.length <= index) {
       return Container();
     }
     return Material(

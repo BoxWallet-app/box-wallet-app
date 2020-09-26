@@ -511,7 +511,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                             padding: EdgeInsets.all(16),
                                                             width: MediaQuery.of(context).size.width,
                                                             child: DataTable(columns: [
-                                                              DataColumn(label: Text(S.of(context).defi_card_hint_day_content1 + '(AE)')),
+                                                              DataColumn(label: Text(S.of(context).defi_card_hint_day_content1)),
                                                               DataColumn(label: Text(S.of(context).defi_card_hint_day_content2)),
                                                               DataColumn(label: Text(S.of(context).defi_card_hint_day_content3)),
                                                             ], rows: [
@@ -872,6 +872,31 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
   }
 
   void netUnLock() {
+    var text = _textEditingController.text;
+    var doubleInput = double.parse(text);
+    if(100>doubleInput){
+      showPlatformDialog(
+        context: context,
+        builder: (_) => BasicDialogAlert(
+          title: Text(
+            S.of(context).dialog_hint,
+          ),
+          content: Text("质押最低需要100 AE"),
+          actions: <Widget>[
+            BasicDialogAction(
+              title: Text(
+                S.of(context).dialog_conform,
+                style: TextStyle(color: Color(0xFFFC2365)),
+              ),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+        ),
+      );
+      return;
+    }
     showGeneralDialog(
         context: context,
         pageBuilder: (context, anim1, anim2) {},

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../main.dart';
 
@@ -41,6 +43,10 @@ class _SplashPageState extends State<SplashPage> {
         });
       });
     });
+
+
+
+
   }
 
   @override
@@ -65,7 +71,7 @@ class _SplashPageState extends State<SplashPage> {
                       decoration: new BoxDecoration(
                         gradient: const LinearGradient(begin: Alignment.topRight, colors: [
 //                        Color(0x1AFC2365),
-                          Color(0xFFFFFFFFF),
+                          Color(0xFFFFFFFF),
                         ]),
                       ),
                       height: 600,

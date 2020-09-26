@@ -603,7 +603,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
   }
 
   Container buildContainerExpanded(int index) {
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight && contractRecordModel.data[index].height < contractRecordModel.data[index].continueHeight) {
+    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight && contractRecordModel.data[index].height < contractRecordModel.data[index].unlockHeight) {
       return Container(
         width: 0,
       );

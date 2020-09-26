@@ -18,7 +18,7 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.0'
 }
 
 apply plugin: 'com.android.application'
@@ -63,6 +63,13 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    //应用名称
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${packageName(defaultConfig.applicationId)}_release_v${variant.versionName}_${releaseTime()}.apk"
+        }
+    }
 }
 
 flutter {
@@ -72,6 +79,19 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+def releaseTime() {
+    return new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT+08:00"))
+}
+
+static def packageName(String applicationId) {
+//    int last = applicationId.lastIndexOf(".")
+//    if (last!=-1){
+//        return applicationId.substring(++last)
+//    }
+    return applicationId
+
+}
+
 
 
 configurations.all {

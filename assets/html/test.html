@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
+</head>
+<body>
+<p><br /></p>
+<p>测试一下 &nbsp;</p>
+
+<p id="flutter"><br /></p>
+
+<button type="button" onclick="toFlutter()">调用 Flutter中的内容</button>
+<p><br /></p>
+<p><br /></p>
+
+<script>
+			var getHeight = function() {
+				Ae.Node({
+					url: 'https://sdk-testnet.aepps.com'
+				}).then(node => {
+					Ae.Universal({
+						nodes: [{
+							name: 'local',
+							instance: node
+						}]
+					}).then(aeInstance => {
+						aeInstance.height().then(height => {
+							console.log("Current Block Height:" + height)
+							toFlutter(JSON.stringify(height))
+						})
+					})
+				})
+			}
+
+
+
+			//JS调用Flutter中的方法
+			function toFlutter(json) {
+				///根据不同的手机加载不同的方法
+				var sys = checkSystem();
+				if (sys === 'android') {
+					controll.otherJsMethodCall(json);
+				} else {
+					otherJsMethodCall(json);
+				}
+			}
+
+			//判断是安卓还是IOS
+			function checkSystem() {
+				var u = window.navigator.userAgent,
+					app = window.navigator.appVersion;
+				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+				var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+				if (isAndroid) {
+					return 'android';
+				}
+				if (isIOS) {
+					return 'ios';
+				}
+			}
+		</script>
+
+</body>
+</html>

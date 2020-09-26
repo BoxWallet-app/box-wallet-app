@@ -1,3 +1,4 @@
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/user_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -12,7 +13,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -23,6 +26,132 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _value = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+    SharedPreferences.getInstance().then((value) {
+        String isShow = value.getString("is_show");
+        print("123123"+isShow.toString());
+        if (isShow == null || isShow == "")
+          showGeneralDialog(
+              context: context,
+              pageBuilder: (context, anim1, anim2) {},
+              barrierColor: Colors.grey.withOpacity(.4),
+              barrierDismissible: true,
+              barrierLabel: "",
+              transitionDuration: Duration(milliseconds: 400),
+              transitionBuilder: (context, anim1, anim2, child) {
+                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                return Transform(
+                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                    child: Opacity(
+                        opacity: anim1.value,
+                        // ignore: missing_return
+                        child: Material(
+                          type: MaterialType.transparency, //透明类型
+                          child: Center(
+                            child: Container(
+                              height: 470,
+                              width: MediaQuery.of(context).size.width - 40,
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              decoration: ShapeDecoration(
+                                color: Color(0xffffffff),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width - 40,
+                                    alignment: Alignment.topLeft,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                                        onTap: () {
+                                          Navigator.pop(context); //关闭对话框
+                                          // ignore: unnecessary_statements
+//                                  widget.dismissCallBackFuture("");
+                                        },
+                                        child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20, right: 20),
+                                    child: Text(
+                                      S.of(context).dialog_statement_title,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 270,
+                                    margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                    child: SingleChildScrollView(
+                                      child: Container(
+                                        child: Text(
+                                          S.of(context).dialog_statement_content,
+                                          style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", letterSpacing: 2, height: 2),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                    child: ArgonButton(
+                                      height: 40,
+                                      roundLoadingShape: true,
+                                      width: 120,
+                                      onTap: (startLoading, stopLoading, btnState) async {
+
+                                        var prefs = await SharedPreferences.getInstance();
+                                        prefs.setString('is_show', "true");
+                                        Navigator.pop(context); //关闭对话框
+                                      },
+                                      child: Text(
+                                        S.of(context).dialog_statement_btn,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: "Ubuntu",
+                                        ),
+                                      ),
+                                      loader: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: SpinKitRing(
+                                          lineWidth: 4,
+                                          color: Colors.white,
+                                          // size: loaderWidth ,
+                                        ),
+                                      ),
+                                      borderRadius: 30.0,
+                                      color: Color(0xFFFC2365),
+                                    ),
+                                  ),
+
+//          Text(text),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )));
+              });
+
+      });
+
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +176,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   child: Text(
                     S.of(context).login_page_login,
-                    style: new TextStyle(fontSize: 17, color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
+                    style: new TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFFFC2365),
+                      fontFamily: "Ubuntu",
+                    ),
                   ),
                   color: Colors.white,
                   height: 50,
@@ -64,7 +197,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   child: Text(
                     S.of(context).login_page_create,
-                    style: new TextStyle(fontSize: 17, color: Color(0xFFFFFFFF),fontFamily: "Ubuntu",),
+                    style: new TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFFFFFFFF),
+                      fontFamily: "Ubuntu",
+                    ),
                   ),
                   height: 50,
                   minWidth: 120,
@@ -113,8 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                           BoxApp.setSigningKey(signingKeyAesEncode);
                           BoxApp.setMnemonic(mnemonicAesEncode);
                           BoxApp.setAddress(model.data.address);
-                          Navigator.of(super.context).pushNamedAndRemoveUntil(
-                              "/home", ModalRoute.withName("/home"));
+                          Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
                         }),
                   ));
             });

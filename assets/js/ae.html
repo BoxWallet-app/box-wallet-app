@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+
+
+<p>打发打发斯蒂芬</p>
+
+
+
+
+
+
+<!-- include latest SDK version -->
+<script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
+<script type="text/javascript">
+		var getHeight = function (){
+			Ae.Node({ url: 'https://sdk-testnet.aepps.com' }).then(node => {
+			        Ae.Universal({
+			              nodes: [{ name: 'local', instance: node }]
+			            }).then(aeInstance => {
+			              aeInstance.height().then(height => {
+			                console.log("Current Block Height:" + height)
+			              })
+			            })
+			    })
+		}
+
+
+		</script>
+</body>
+
+
+</html>

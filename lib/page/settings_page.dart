@@ -152,13 +152,56 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                       );
                     });
               }),
-
-            buildItem(context, S.of(context).setting_page_item_language, "images/profile_lanuge.png", () {
+            buildItem(context,S.of(context).setting_page_item_language, "images/profile_lanuge.png", () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
             },isLine: true),
+        Material(
+          color: Colors.white,
+          child: InkWell(
+            child: Container(
+              height: 60,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(left: 13),
+                    child: Row(
+                      children: <Widget>[
+//                    Image(
+//                      width: 40,
+//                      height: 40,
+//                      image: AssetImage(assetImage),
+//                    ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 7),
+                          child: Text(
+                            "版本号",
+                            style: new TextStyle(fontSize: 15, color: Colors.black,fontFamily: "Ubuntu",),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 28,
+                    child:Text("v1.0.0"),
+                  ),
+                  if (true)
+                    Positioned(
+                      bottom: 0,
+                      left: 20,
+                      child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                    )
+                ],
+              ),
+            ),
+          ),
+        ),
 //            buildItem(context, "关于", "images/profile_info.png", () {
 //              print("123");
 //            }, isLine: true),
+
+
             Container(
               margin: const EdgeInsets.only(top: 80, bottom: 50),
               child: ArgonButton(
