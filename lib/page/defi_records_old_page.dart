@@ -31,18 +31,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../main.dart';
-import 'defi_records_old_page.dart';
 
-class DefiRecordsPage extends StatefulWidget {
+class DefiRecordsOldPage extends StatefulWidget {
   final bool isShowTitle;
 
-  const DefiRecordsPage({Key key, this.isShowTitle = true}) : super(key: key);
+  const DefiRecordsOldPage({Key key, this.isShowTitle = true}) : super(key: key);
 
   @override
-  _DefiRecordsPageState createState() => _DefiRecordsPageState();
+  _DefiRecordsOldPageState createState() => _DefiRecordsOldPageState();
 }
 
-class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAliveClientMixin {
+class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
   ContractRecordModel contractRecordModel;
@@ -180,7 +179,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                         return;
                       }
                       EasyLoading.show();
-                      ContractCallDao.fetch("continue_lock", contractRecordModel.data[index].unlockHeight.toString() + "," + day.toString(), aesDecode, "").then((ContractCallModel model) {
+                      ContractCallDao.fetchCtID("continue_lock", contractRecordModel.data[index].unlockHeight.toString() + "," + day.toString(), aesDecode, "").then((ContractCallModel model) {
                         if (model.code == 200) {
                           errorCount = 0;
                           netContractTx(model.data.tx, model.data.function);
@@ -292,7 +291,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                         return;
                       }
                       EasyLoading.show();
-                      ContractCallDao.fetch("unlock", contractRecordModel.data[index].unlockHeight.toString(), aesDecode, "").then((ContractCallModel model) {
+                      ContractCallDao.fetchCtID("unlock", contractRecordModel.data[index].unlockHeight.toString(), aesDecode, "").then((ContractCallModel model) {
                         if (model.code == 200) {
                           errorCount = 0;
                           netContractTx(model.data.tx, model.data.function);
@@ -350,7 +349,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
 
   Future<void> netData() async {
     page = 1;
-    ContractRecordModel model = await ContractRecordDao.fetch();
+    ContractRecordModel model = await ContractRecordDao.fetchCtID();
     if (!mounted) {
       return;
     }
@@ -402,7 +401,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          S.of(context).defi_record_title,
+          "正在质押 - 旧合约",
           style: TextStyle(
             fontSize: 18,
             fontFamily: "Ubuntu",
@@ -548,28 +547,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: MediaQuery.of(context).size.width - 18 * 4,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  "锁仓倒计时",
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                getContinueTime(context, index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
                       Container(
                         margin: EdgeInsets.only(top: 12),
                         width: MediaQuery.of(context).size.width - 18 * 4,
@@ -622,7 +600,6 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                             Expanded(
                               child: Container(),
                             ),
-                            buildUpdate(context, index),
                             buildContainerExpanded(index),
                             buildUnlock(context, index),
                           ],
@@ -949,7 +926,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
   }
 
   Container buildLine(BuildContext context, index) {
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight) {
+    if (contractRecordModel.data[index].height > contractRecordModel.data[index].unlockHeight) {
       return Container(
         color: Color(0xFFEEEEEE),
         margin: EdgeInsets.only(top: 12),
@@ -968,7 +945,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
       return S.of(context).defi_record_item_status_unlock;
     }
     if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight) {
-      return S.of(context).defi_record_item_status_continue;
+      return "解锁中";
     }
   }
 

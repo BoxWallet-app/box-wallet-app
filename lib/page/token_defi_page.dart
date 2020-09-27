@@ -426,7 +426,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                             roundLoadingShape: true,
                                             width: 260,
                                             onTap: (startLoading, stopLoading, btnState) {
-                                              netUnLock();
+                                              netLock();
                                             },
                                             child: Text(
                                               S.of(context).defi_card_mine,
@@ -703,6 +703,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               ),
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage()));
+//                                Navigator.push(context, MaterialPageRoute(builder: (context) => DefiSwitchRecordPage()));
                               },
                             ),
                           ),
@@ -831,6 +832,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                   onPressed: () {
                     EasyLoading.show();
                     netContractBalance();
+                    netAccountInfo();
                     Navigator.of(context, rootNavigator: true).pop();
                   },
                 ),
@@ -871,10 +873,10 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     });
   }
 
-  void netUnLock() {
+  void netLock() {
     var text = _textEditingController.text;
     var doubleInput = double.parse(text);
-    if(100>doubleInput){
+    if(1>doubleInput){
       showPlatformDialog(
         context: context,
         builder: (_) => BasicDialogAlert(

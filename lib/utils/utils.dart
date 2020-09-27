@@ -69,7 +69,7 @@ class Utils {
       return "-";
     }
     if (height < 1) {
-      return "3"+ S.of(context).common_points;
+      return "-";
     }
     //秒
     var time = height * 3;
