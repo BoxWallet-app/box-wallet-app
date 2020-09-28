@@ -401,7 +401,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "正在质押 - 旧合约",
+          S.of(context).defi_record_old_title,
           style: TextStyle(
             fontSize: 18,
             fontFamily: "Ubuntu",
@@ -938,15 +938,16 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
   }
 
   String getType(int index) {
-    if (contractRecordModel.data[index].height < contractRecordModel.data[index].continueHeight) {
+    if (contractRecordModel.data[index].height <= contractRecordModel.data[index].continueHeight) {
       return S.of(context).defi_record_item_status_lock;
     }
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].unlockHeight) {
+    if (contractRecordModel.data[index].height >= contractRecordModel.data[index].unlockHeight) {
       return S.of(context).defi_record_item_status_unlock;
     }
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight) {
-      return "解锁中";
+    if (contractRecordModel.data[index].height >= contractRecordModel.data[index].continueHeight) {
+      return S.of(context).defi_record_item_status_unlock_waiting;
     }
+    return "-";
   }
 
   Future<void> _onRefresh() async {

@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/block_top_dao.dart';
 import 'package:box/dao/user_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/model/block_top_model.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/page/account_login_page.dart';
 import 'package:box/page/token_send_one_page.dart';
@@ -27,13 +31,21 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _value = false;
 
+  void netBaseData() {
+    BlockTopDao.fetch().then((BlockTopModel model) {
+      if (model.code == 200) {
+        HomePage.height = model.data.height;
+      } else {}
+    }).catchError((e) {
+    });
+  }
   @override
   void initState() {
     super.initState();
+    netBaseData();
     Future.delayed(Duration.zero, () {
-    SharedPreferences.getInstance().then((value) {
-        String isShow = value.getString("is_show");
-        print("123123"+isShow.toString());
+      SharedPreferences.getInstance().then((value) {
+        String isShow = value.getString("is_show_hint_hint");
         if (isShow == null || isShow == "")
           showGeneralDialog(
               context: context,
@@ -75,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                                         borderRadius: BorderRadius.all(Radius.circular(60)),
                                         onTap: () {
                                           Navigator.pop(context); //关闭对话框
+                                          exit(0);
                                           // ignore: unnecessary_statements
 //                                  widget.dismissCallBackFuture("");
                                         },
@@ -112,9 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                                       roundLoadingShape: true,
                                       width: 120,
                                       onTap: (startLoading, stopLoading, btnState) async {
-
                                         var prefs = await SharedPreferences.getInstance();
-                                        prefs.setString('is_show', "true");
+                                        prefs.setString('is_show_hint_hint', "true");
                                         Navigator.pop(context); //关闭对话框
                                       },
                                       child: Text(
@@ -146,10 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         )));
               });
-
       });
-
-
     });
   }
 

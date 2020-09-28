@@ -13,6 +13,7 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,7 +49,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
       _loadingType = LoadingType.finish;
       setState(() {});
     }).catchError((e) {
-      print(e.toString());
       _loadingType = LoadingType.error;
       setState(() {});
     });
@@ -430,44 +430,52 @@ class _AensDetailPageState extends State<AensDetailPage> {
     );
   }
 
-  Container buildItem(String key, String value) {
-    return Container(
+  Widget buildItem(String key, String value) {
+    return Material(
       color: Colors.white,
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: [
-          /*1*/
-          Column(
+      child: InkWell(
+        onTap: (){
+          Clipboard.setData(ClipboardData(text: value));
+          Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          child: Row(
             children: [
-              /*2*/
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  key,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: "Ubuntu",
+              /*1*/
+              Column(
+                children: [
+                  /*2*/
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      key,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
                   ),
+                ],
+              ),
+              /*3*/
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: new Text(
+                    value,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Ubuntu",
+                    ),
+                  ),
+                  margin: const EdgeInsets.only(left: 30.0),
                 ),
               ),
             ],
           ),
-          /*3*/
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: new Text(
-                value,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Ubuntu",
-                ),
-              ),
-              margin: const EdgeInsets.only(left: 30.0),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

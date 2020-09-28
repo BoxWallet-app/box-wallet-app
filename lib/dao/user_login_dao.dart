@@ -11,11 +11,9 @@ import '../main.dart';
 class UserLoginDao {
   static Future<UserModel> fetch(String mnemonic) async {
     Map<String, String> params = new Map();
-
     params["mnemonic"] = mnemonic;
     Response response = await Dio().post(USER_LOGIN, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       UserModel model = UserModel.fromJson(data);
       return model;

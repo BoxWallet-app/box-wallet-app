@@ -65,11 +65,11 @@ class Utils {
 
   static String formatHeight(BuildContext context,int startHeight, int endHeight) {
     var height = endHeight - startHeight;
-    if (height < -1) {
+    if (height <= 0) {
       return "-";
     }
-    if (height < 1) {
-      return "-";
+    if (height <= 1) {
+      return "3" + S.of(context).common_points;
     }
     //秒
     var time = height * 3;

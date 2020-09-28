@@ -13,6 +13,7 @@ import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/contract_call_model.dart';
 import 'package:box/model/contract_decode_model.dart';
 import 'package:box/model/contract_info_model.dart';
+import 'package:box/page/home_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/token_send_two_page.dart';
 import 'package:box/utils/utils.dart';
@@ -201,7 +202,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                         //设置四周圆角 角度
                                                         borderRadius: BorderRadius.all(Radius.circular(40.0)),
                                                         boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width/5.5,
+                                                    width: MediaQuery.of(context).size.width / 5.5,
                                                     height: 40,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -243,7 +244,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                         //设置四周圆角 角度
                                                         borderRadius: BorderRadius.all(Radius.circular(40.0)),
                                                         boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width/5.5,
+                                                    width: MediaQuery.of(context).size.width / 5.5,
                                                     height: 40,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -285,7 +286,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                         //设置四周圆角 角度
                                                         borderRadius: BorderRadius.all(Radius.circular(40.0)),
                                                         boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width/5.5,
+                                                    width: MediaQuery.of(context).size.width / 5.5,
                                                     height: 40,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -327,7 +328,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                         //设置四周圆角 角度
                                                         borderRadius: BorderRadius.all(Radius.circular(40.0)),
                                                         boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width/5.5,
+                                                    width: MediaQuery.of(context).size.width / 5.5,
                                                     height: 40,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -463,7 +464,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                   decoration: new BoxDecoration(
                                                       color: Color(0xFFFFFFFF),
                                                       //设置四周圆角 角度
-                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),topRight: Radius.circular(20.0)),
+                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
                                                       boxShadow: []),
                                                   child: SingleChildScrollView(
                                                     child: Column(
@@ -544,31 +545,31 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                               )),
                                                             ], rows: [
                                                               DataRow(cells: [
-                                                                DataCell(Text('0-100w')),
+                                                                DataCell(Text('0-1m')),
                                                                 DataCell(Text('1.8')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('100w-500w')),
+                                                                DataCell(Text('1m-5m')),
                                                                 DataCell(Text('1.5')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('500w-1000w')),
+                                                                DataCell(Text('5m-10m')),
                                                                 DataCell(Text('1.3')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('1000w-2000w')),
+                                                                DataCell(Text('10m-20m')),
                                                                 DataCell(Text('1')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('2000w-2500w')),
+                                                                DataCell(Text('20m-25m')),
                                                                 DataCell(Text('0.8')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('2500w-3000w')),
+                                                                DataCell(Text('25m-30m')),
                                                                 DataCell(Text('0.5')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('>3000w')),
+                                                                DataCell(Text('>30m')),
                                                                 DataCell(Text('0.3')),
                                                               ])
                                                             ])),
@@ -595,27 +596,27 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                               )),
                                                             ], rows: [
                                                               DataRow(cells: [
-                                                                DataCell(Text('0-1000w')),
+                                                                DataCell(Text('0-10m')),
                                                                 DataCell(Text('2')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('1000w-1b')),
+                                                                DataCell(Text('10m-100m')),
                                                                 DataCell(Text('1.5')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('1-2b')),
+                                                                DataCell(Text('100m-200m')),
                                                                 DataCell(Text('1')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('2-3b')),
+                                                                DataCell(Text('200m-300m')),
                                                                 DataCell(Text('0.7')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('3-4b')),
+                                                                DataCell(Text('300m-400m')),
                                                                 DataCell(Text('0.3')),
                                                               ]),
                                                               DataRow(cells: [
-                                                                DataCell(Text('4-5b')),
+                                                                DataCell(Text('400m-500m')),
                                                                 DataCell(Text('0.1')),
                                                               ]),
                                                             ])),
@@ -702,7 +703,13 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                 style: new TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.white),
                               ),
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage()));
+                                if ("ak_2g2yq6RniwW1cjKRu4HdVVQXa5GQZkBaXiaVogQXnRxUKpmhS\",270824000000000000000],	[\"ak_3i4bwAbXBRHBqTDYFVLUSa8byQUeBAFzEgjfYk6rSyjWEXL3i\",259200000000000000000],	[\"ak_9XhfcrCtEyPFWPM3GVPC2BCFqetcYV3fDv3EjPpVdR9juAofA\",129600000000000000000],	[\"ak_ELsVMRbBe4LWEuqNU1pn2UCNpnNfdpHjRJjDFjT4R4yzRTeXt\",1390979520000000015854],	[\"ak_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv\",499977516107119999999972654],	[\"ak_GUpbJyXiKTZB1zRM8Z8r2xFq26sKcNNtz6i83fvPUpKgEAgjH\",0],	[\"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx\",321088000000000000000],	[\"ak_V9SApNmgDGNLQcZWTzYb3PKtmFuwRn8ENdAg7WjZUdiwgkyUP\",84384000000000000000],	[\"ak_XtJGJrJuvxduT1HFMye4PuEkfUnU9L5rUE5CQ2F9MkqYQVr3f\",648000000000000000000],	[\"ak_fGPGYbqkEyWMV8R4tvQZznpzt28jb54EinF84TRSVCi997kiJ\",2448000000000000000],	[\"ak_o27hkgCTN2WZBkHd4vPcbfJPM2tzddv8xy1yaQnoyFEvqpZQK\",3596400000000000000],	[\"ak_tM5FE5HZSxUvDNAcBKMpSM9iXdsLviJ6tXffiH3BNpFrvgRoR\",383304960000000000000],	[\"ak_22HBW4s8HoCSa6ZKkd7CtFhs7vdBQ5Sgahi7FbRhp7xQ429WG2\",301216320000000007927],	[\"ak_25rsqRgVpcaD3fSZxCQVcyi4VNK3CTqf8CbzsnGtHCeu3ivrM1\",842670000000000000000],	[\"ak_281fyU5kV5yG6ZEgV9nnprLxRznSUKzxmgn2ZnxBhfD8ryWcuk\",128952000000000000000],	[\"ak_28LuZ8CG4LF6LvL47seA2GuCtaNEdXKiVMZP46ykYW8bEcuoVg\",13219200000000000000000],	[\"ak_294D9LQa95ckuJi5z7Who4TzKZWwEGimsyv1ZKM7osPE9c8Bx7\",521424000000000000000],	[\"ak_2JJNMYcnqPaABiSY5omockmv4cCoZefv4XzStAxKe9gM2xYz2r\",582912000000000000000],	[\"ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6\",977560560000000001188],	[\"ak_2UCUD59aWZyyhZzZbUdxoyP94r3mz9GvkH49HzJjsfC8MYqVPn\",81000000000000000000],	[\"ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK\",1955121120000000002377],	[\"ak_2gEL91xaQwvdN7psiCcGpSwcEMctTX1CVMT2g8f6NEp48tkvAr\",133164000000000000000],	[\"ak_2j2iyGwDnmiDZC9Dc2T8W371MYD9CQxDGSZ2Ne7WT2thY6q888\",213984000000000000000],	[\"ak_2mhBmzVv82SvtKATNBxfD1JhbLBrRNZZmah3QMqRkcK1SP3Bka\",33264000000000000000]"
+                                    .contains(HomePage.address)) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: true)));
+                                } else {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: false)));
+                                }
+
 //                                Navigator.push(context, MaterialPageRoute(builder: (context) => DefiSwitchRecordPage()));
                               },
                             ),
@@ -813,7 +820,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     EasyLoading.show();
     Future.delayed(Duration(seconds: 3), () {
       ContractDecodeDao.fetch(tx, function).then((ContractDecodeModel model) {
-
         if (model.code == 200) {
           EasyLoading.dismiss(animation: true);
           showPlatformDialog(
@@ -876,7 +882,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
   void netLock() {
     var text = _textEditingController.text;
     var doubleInput = double.parse(text);
-    if(1>doubleInput){
+    if (1 > doubleInput) {
       showPlatformDialog(
         context: context,
         builder: (_) => BasicDialogAlert(

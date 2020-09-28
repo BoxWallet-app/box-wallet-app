@@ -653,6 +653,16 @@ class S {
     );
   }
 
+  /// `Version`
+  String get setting_page_item_version {
+    return Intl.message(
+      'Version',
+      name: 'setting_page_item_version',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Logout`
   String get setting_page_item_logout {
     return Intl.message(
@@ -728,6 +738,16 @@ class S {
     return Intl.message(
       'Confirm',
       name: 'dialog_conform',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get dialog_cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'dialog_cancel',
       desc: '',
       args: [],
     );
@@ -1153,11 +1173,31 @@ class S {
     );
   }
 
+  /// `Being pledged - Old`
+  String get defi_record_old_title {
+    return Intl.message(
+      'Being pledged - Old',
+      name: 'defi_record_old_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Being pledged`
   String get defi_record_title {
     return Intl.message(
       'Being pledged',
       name: 'defi_record_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old contract`
+  String get defi_record_title_right {
+    return Intl.message(
+      'Old contract',
+      name: 'defi_record_title_right',
       desc: '',
       args: [],
     );
@@ -1193,6 +1233,16 @@ class S {
     );
   }
 
+  /// `Renewal countdown`
+  String get defi_record_item_day_time {
+    return Intl.message(
+      'Renewal countdown',
+      name: 'defi_record_item_day_time',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Status`
   String get defi_record_item_status {
     return Intl.message(
@@ -1223,11 +1273,21 @@ class S {
     );
   }
 
-  /// `Unlockable`
+  /// `UnLockable`
   String get defi_record_item_status_unlock {
     return Intl.message(
-      'Unlockable',
+      'UnLockable',
       name: 'defi_record_item_status_unlock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock Waiting`
+  String get defi_record_item_status_unlock_waiting {
+    return Intl.message(
+      'Unlock Waiting',
+      name: 'defi_record_item_status_unlock_waiting',
       desc: '',
       args: [],
     );
@@ -1368,6 +1428,26 @@ class S {
     return Intl.message(
       'Agree',
       name: 'dialog_statement_btn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover new version`
+  String get dialog_update_title {
+    return Intl.message(
+      'Discover new version',
+      name: 'dialog_update_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A new version is available, please download the update`
+  String get dialog_update_content {
+    return Intl.message(
+      'A new version is available, please download the update',
+      name: 'dialog_update_content',
       desc: '',
       args: [],
     );

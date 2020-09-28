@@ -13,7 +13,6 @@ class UserRegisterDao {
     Map<String, String> params = new Map();
     Response response = await Dio().post(USER_REGISTER, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       UserModel model = UserModel.fromJson(data);
       return model;

@@ -15,7 +15,6 @@ class ContractBalanceDao {
     params["address"] = address;
     Response response = await Dio().post(CONTRACT_BALANCE,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractBalanceModel model = ContractBalanceModel.fromJson(data);
       return model;

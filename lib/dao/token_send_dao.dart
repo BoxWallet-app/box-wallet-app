@@ -16,11 +16,8 @@ class TokenSendDao {
 //    params['data'] = "AEX9#ABC-TEST-TOKEN#ABC-TEST#18#ct_hM2PJEB66Sqx2mkyCixbh3z9hLMaK8N1Sa8v5kaWRqXwPYgkQ";
     params['data'] = "Box aepp";
     Response response = await Dio().post(WALLET_TRANSFER, queryParameters: params);
-    print(response.toString());
-    print("\n" + jsonEncode(params) + "\n" + response.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(data);
       TokenSendModel model = TokenSendModel.fromJson(data);
       return model;
     } else {

@@ -13,9 +13,7 @@ class WalletRecordDao {
 
     params["address"] = address;
     params["page"] = page.toString();
-    print(WALLET_RECORD);
     Response response = await Dio().post(WALLET_RECORD, queryParameters: params);
-    print(response.toString());
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

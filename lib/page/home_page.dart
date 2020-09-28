@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:io';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/base_data_dao.dart';
 import 'package:box/dao/base_name_data_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/version_dao.dart';
 import 'package:box/dao/wallet_record_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -14,6 +17,7 @@ import 'package:box/model/base_data_model.dart';
 import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/version_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/login_page.dart';
@@ -33,12 +37,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'aens_register.dart';
@@ -48,6 +57,7 @@ class HomePage extends StatefulWidget {
   static var tokenABC = "loading...";
   static var height = 0;
   static var address = "";
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -73,12 +83,133 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     eventBus.on<LanguageEvent>().listen((event) {
       setState(() {});
     });
+    showHint();
     getAddress();
     netContractBalance();
     netAccountInfo();
     netBaseData();
     netBaseNameData();
+    netVersion();
+  }
 
+  void showHint(){
+    Future.delayed(Duration.zero, () {
+      SharedPreferences.getInstance().then((value) {
+        String isShow = value.getString("is_show_hint");
+        if (isShow == null || isShow == "")
+          showGeneralDialog(
+              context: context,
+              pageBuilder: (context, anim1, anim2) {},
+              barrierColor: Colors.grey.withOpacity(.4),
+              barrierDismissible: true,
+              barrierLabel: "",
+              transitionDuration: Duration(milliseconds: 400),
+              transitionBuilder: (context, anim1, anim2, child) {
+                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                return Transform(
+                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                    child: Opacity(
+                        opacity: anim1.value,
+                        // ignore: missing_return
+                        child: Material(
+                          type: MaterialType.transparency, //透明类型
+                          child: Center(
+                            child: Container(
+                              height: 470,
+                              width: MediaQuery.of(context).size.width - 40,
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              decoration: ShapeDecoration(
+                                color: Color(0xffffffff),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width - 40,
+                                    alignment: Alignment.topLeft,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                                        onTap: () {
+                                          Navigator.pop(context); //关闭对话框
+                                          exit(0);
+                                          // ignore: unnecessary_statements
+//                                  widget.dismissCallBackFuture("");
+                                        },
+                                        child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20, right: 20),
+                                    child: Text(
+                                      S.of(context).dialog_statement_title,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 270,
+                                    margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                    child: SingleChildScrollView(
+                                      child: Container(
+                                        child: Text(
+                                          S.of(context).dialog_statement_content,
+                                          style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", letterSpacing: 2, height: 2),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                    child: ArgonButton(
+                                      height: 40,
+                                      roundLoadingShape: true,
+                                      width: 120,
+                                      onTap: (startLoading, stopLoading, btnState) async {
+                                        var prefs = await SharedPreferences.getInstance();
+                                        prefs.setString('is_show_hint', "true");
+                                        Navigator.pop(context); //关闭对话框
+                                      },
+                                      child: Text(
+                                        S.of(context).dialog_statement_btn,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: "Ubuntu",
+                                        ),
+                                      ),
+                                      loader: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: SpinKitRing(
+                                          lineWidth: 4,
+                                          color: Colors.white,
+                                          // size: loaderWidth ,
+                                        ),
+                                      ),
+                                      borderRadius: 30.0,
+                                      color: Color(0xFFFC2365),
+                                    ),
+                                  ),
+
+//          Text(text),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )));
+              });
+      });
+    });
   }
 
   void netAccountInfo() {
@@ -135,6 +266,113 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     BaseNameDataDao.fetch().then((BaseNameDataModel model) {
       baseNameDataModel = model;
       setState(() {});
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void netVersion() {
+    VersionDao.fetch().then((VersionModel model) {
+      print(model.code);
+      if (model.code == 200) {
+        print(model.data.version);
+        PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+          print(model.data.version);
+          print(packageInfo.version);
+          if (model.data.version != packageInfo.version) {
+            Future.delayed(Duration.zero, () {
+
+            model.data.isMandatory == "1"?  showPlatformDialog(
+                context: context,
+                builder: (_) => BasicDialogAlert(
+                  title: Text(
+                    S.of(context).dialog_update_title,
+                  ),
+                  content: Text(
+                    S.of(context).dialog_update_content,
+                  ),
+                  actions: <Widget>[
+                    BasicDialogAction(
+                      title: Text(
+                       S.of(context).dialog_conform,
+                        style: TextStyle(
+                          color: Color(0xFFFC2365),
+                          fontFamily: "Ubuntu",
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        if (Platform.isIOS) {
+                          _launchURL(model.data.urlIos);
+                        } else if (Platform.isAndroid) {
+                          _launchURL(model.data.urlAndroid);
+                        }
+                      },
+                    ),
+
+                  ],
+                ),
+              ):showPlatformDialog(
+              context: context,
+              builder: (_) => BasicDialogAlert(
+                title: Text(
+                  S.of(context).dialog_update_title,
+                ),
+                content: Text(
+                  S.of(context).dialog_update_content,
+                ),
+                actions: <Widget>[
+                  BasicDialogAction(
+                    title: Text(
+                      S.of(context).dialog_conform,
+                      style: TextStyle(
+                        color: Color(0xFFFC2365),
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      if (Platform.isIOS) {
+                        _launchURL(model.data.urlIos);
+                      } else if (Platform.isAndroid) {
+                        _launchURL(model.data.urlAndroid);
+                      }
+                    },
+                  ),
+                  BasicDialogAction(
+                    title: Text(
+                      S.of(context).dialog_cancel,
+                      style: TextStyle(
+                        color: Color(0xFFFC2365),
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+
+
+
+            });
+          }
+
+//          String appName = packageInfo.appName;
+//          String packageName = packageInfo.packageName;
+//          String version = packageInfo.version;
+//          String buildNumber = packageInfo.buildNumber;
+        });
+      } else {}
     }).catchError((e) {
       print(e.toString());
     });
@@ -264,7 +502,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
                                             HomePage.token,
-                                            style: TextStyle(fontSize: 35, color: Colors.white,  letterSpacing: 1.3,fontFamily: "Ubuntu"),
+                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                           ),
                                         ],
                                       ),
@@ -315,7 +553,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
                                             HomePage.tokenABC,
-                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3,fontFamily: "Ubuntu"),
+                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                           ),
                                         ],
                                       ),
@@ -339,12 +577,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Column(
                           children: <Widget>[
                             Container(
-                              height:  180,
+                              height: 180,
                               padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
 //                                margin: const EdgeInsets.only(top: 0, bottom: 0),
-
                             ),
-
                             Container(
                               child: SmoothPageIndicator(
                                 controller: pageController,

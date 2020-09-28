@@ -259,6 +259,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.16.1"
+  io:
+    dependency: "direct main"
+    description:
+      name: io
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.4"
   matcher:
     dependency: transitive
     description:
@@ -280,6 +287,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.6+1"
+  package_info:
+    dependency: "direct main"
+    description:
+      name: package_info
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.3"
   path:
     dependency: transitive
     description:
@@ -439,6 +453,48 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.2"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.7.2"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+1"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+8"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.8"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.4+1"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+1"
   vector_math:
     dependency: transitive
     description:

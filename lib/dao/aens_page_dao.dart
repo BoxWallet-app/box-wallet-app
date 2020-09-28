@@ -34,7 +34,6 @@ class AensPageDao {
     params["page"] = page.toString();
 //    print("\n" + url);
     Response response = await Dio().post(url, queryParameters: params);
-    print(response.toString());
 //    print("\n" + jsonEncode(params) + "\n" + response.toString());
 
     if (response.statusCode == 200) {

@@ -142,6 +142,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                 // ignore: missing_return
                 child: PayPasswordWidget(
                     title: S.of(context).password_widget_input_password,
+                    color: 0xff3460ee,
                     dismissCallBackFuture: (String password) {
                       return;
                     },
@@ -354,6 +355,9 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
     if (!mounted) {
       return;
     }
+    if(model.data == null){
+      return;
+    }
     _loadingType = LoadingType.finish;
     if (page == 1) {
       contractRecordModel = model;
@@ -414,7 +418,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
               ? MaterialButton(
                   minWidth: 10,
                   child: new Text(
-                    "旧合约",
+                    S.of(context).defi_record_title_right,
                     style: TextStyle(
                       fontFamily: "Ubuntu",
                     ),
@@ -556,7 +560,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  "锁仓倒计时",
+                                  S.of(context).defi_record_item_day_time,
                                   style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
                                 ),
                               ),
@@ -644,7 +648,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
   }
 
   Container buildContainerExpanded(int index) {
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight && contractRecordModel.data[index].height < contractRecordModel.data[index].unlockHeight) {
+    if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight && contractRecordModel.data[index].height <= contractRecordModel.data[index].unlockHeight) {
       return Container(
         width: 0,
       );
@@ -970,6 +974,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
     if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight) {
       return S.of(context).defi_record_item_status_continue;
     }
+    return "-";
   }
 
   Future<void> _onRefresh() async {

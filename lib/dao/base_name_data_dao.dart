@@ -10,7 +10,6 @@ class BaseNameDataDao {
   static Future<BaseNameDataModel> fetch() async {
     Response response = await Dio().post(BASE_NAME_DATA);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       BaseNameDataModel model = BaseNameDataModel.fromJson(data);
       return model;

@@ -74,6 +74,7 @@
   "setting_page_title": "Settings",
   "setting_page_item_save": "Save mnemonic phrase",
   "setting_page_item_language": "Language",
+  "setting_page_item_version": "Version",
   "setting_page_item_logout": "Logout",
 
   "scan_page_content": "Scan the QR code for payment",
@@ -84,6 +85,7 @@
   "dialog_hint_add_error": "Fare increase failed",
   "dialog_hint_register_error": "Register failed",
   "dialog_conform": "Confirm",
+  "dialog_cancel": "Cancel",
   "dialog_login_user_no_save": "Login user does not provide mnemonic backup",
   "dialog_hint_check_error": "Verification failed",
   "dialog_hint_check_error_content": "The security password is incorrect",
@@ -145,15 +147,18 @@
 
 
 
-
+  "defi_record_old_title" : "Being pledged - Old",
   "defi_record_title": "Being pledged",
+  "defi_record_title_right": "Old contract",
   "defi_record_item_lock_number": "Locked position (AE)",
   "defi_record_item_mine_number": "Mining Quantity (ABC)",
   "defi_record_item_time": "Unlock Countdown",
+  "defi_record_item_day_time" : "Renewal countdown",
   "defi_record_item_status": "Status",
   "defi_record_item_status_lock": "Mining",
   "defi_record_item_status_continue": "Renewable",
-  "defi_record_item_status_unlock": "Unlockable",
+  "defi_record_item_status_unlock": "UnLockable",
+  "defi_record_item_status_unlock_waiting": "Unlock Waiting",
   "defi_record_item_btn_continue": "Renew",
   "defi_record_item_btn_unlock": "Unlock",
   "defi_record_item_lock_time" : "Lock",
@@ -178,6 +183,9 @@
 
   "dialog_statement_title": "Disclaimer",
   "dialog_statement_content": "Box aepp code is completely open source, it complies with the open source agreement, and the ecological project initiated by the Chinese community is non-profit. So please confirm the risk yourself! Box aepp will not collect your private key, but does not guarantee special circumstances (Such as bugs, hacker attacks), we will not make any compensation if the wallet is lost or locked. Please take your own risk. Agree means that you approve the disclaimer. If you disagree, please uninstall by yourself",
-  "dialog_statement_btn": "Agree"
+  "dialog_statement_btn": "Agree",
+
+  "dialog_update_title" : "Discover new version",
+  "dialog_update_content" : "A new version is available, please download the update"
 
 }

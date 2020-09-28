@@ -19,6 +19,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'login_page.dart';
@@ -31,6 +32,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
+  var version = "";
 
   @override
   void initState() {
@@ -40,6 +42,12 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
       setState(() {
 
       });
+    });
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        version = packageInfo.version;
+      });
+
     });
     getMnemonic();
   }
@@ -175,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                         Container(
                           padding: const EdgeInsets.only(left: 7),
                           child: Text(
-                            "版本号",
+                            S.of(context).setting_page_item_version,
                             style: new TextStyle(fontSize: 15, color: Colors.black,fontFamily: "Ubuntu",),
                           ),
                         )
@@ -184,7 +192,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   ),
                   Positioned(
                     right: 28,
-                    child:Text("v1.0.0"),
+                    child:Text("v"+version),
                   ),
                   if (true)
                     Positioned(
