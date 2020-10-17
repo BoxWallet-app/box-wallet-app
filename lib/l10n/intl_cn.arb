@@ -179,6 +179,9 @@
   "defi_record_item_lock_time_day" : "天",
 
 
+  "defi_ranking_content" : "已产出 (ABC)",
+
+
 
   "dialog_defi_unlock_sucess" : "解锁成功",
   "dialog_defi_lock_sucess" : "质押成功",
@@ -196,5 +199,6 @@
   "dialog_statement_btn" : "同意",
 
   "dialog_update_title" : "发现新版本",
-  "dialog_update_content" : "有新版本使用,请下载更新"
+  "dialog_update_content" : "有新版本使用,请下载更新",
+  "dialog_defi_token_low" : "质押最低需要100 AE"
 }

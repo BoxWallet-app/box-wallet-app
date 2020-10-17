@@ -165,6 +165,8 @@
   "defi_record_item_lock_time_day" : "day",
 
 
+  "defi_ranking_content" : "Is the output (ABC)",
+
   "dialog_defi_unlock_sucess": "Unlocked successfully",
   "dialog_defi_lock_sucess": "Locked successfully",
   "dialog_defi_continue_sucess": "Successful renewal",
@@ -186,6 +188,6 @@
   "dialog_statement_btn": "Agree",
 
   "dialog_update_title" : "Discover new version",
-  "dialog_update_content" : "A new version is available, please download the update"
-
+  "dialog_update_content" : "A new version is available, please download the update",
+  "dialog_defi_token_low" : "A pledge requires a minimum of 100 AE"
 }

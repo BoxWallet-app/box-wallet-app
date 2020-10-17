@@ -286,7 +286,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
           print(model.data.version);
           print(packageInfo.version);
-          if (model.data.version != packageInfo.version) {
+          var newVersion = int.parse(model.data.version.replaceAll(".", ""));
+          var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
+
+
+
+
+          if (newVersion > oldVersion) {
             Future.delayed(Duration.zero, () {
 
             model.data.isMandatory == "1"?  showPlatformDialog(

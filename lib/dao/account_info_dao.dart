@@ -14,7 +14,6 @@ class AccountInfoDao {
     params["address"] = address;
     Response response = await Dio().post(ACCOUNT_INFO,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       AccountInfoModel model = AccountInfoModel.fromJson(data);
       return model;

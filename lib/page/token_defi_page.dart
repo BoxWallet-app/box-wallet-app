@@ -15,6 +15,7 @@ import 'package:box/model/contract_decode_model.dart';
 import 'package:box/model/contract_info_model.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/scan_page.dart';
+import 'package:box/page/settings_page.dart';
 import 'package:box/page/token_send_two_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -34,6 +35,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
 import 'aens_my_page.dart';
+import 'defi_ranking_page.dart';
 import 'defi_records_page.dart';
 
 class TokenDefiPage extends StatefulWidget {
@@ -666,53 +668,187 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     ),
                   ),
                   Positioned(
-                    top: MediaQueryData.fromWindow(window).padding.top,
+                    top: 0,
+                    child: ClipRect(
+
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: MediaQueryData.fromWindow(window).padding.top,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          height: 55,
+                                          width: 55,
+                                          padding: EdgeInsets.all(15),
+                                          child: Icon(
+                                            Icons.arrow_back_ios,
+                                            size: 17,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+                                        },
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          padding: EdgeInsets.all(15),
+                                          child: Image(
+                                            width: 36,
+                                            height: 36,
+                                            color: Colors.white,
+                                            image: AssetImage('images/defi_info.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        onTap: () {
+                                          if ("ak_2g2yq6RniwW1cjKRu4HdVVQXa5GQZkBaXiaVogQXnRxUKpmhS\",270824000000000000000],	[\"ak_3i4bwAbXBRHBqTDYFVLUSa8byQUeBAFzEgjfYk6rSyjWEXL3i\",259200000000000000000],	[\"ak_9XhfcrCtEyPFWPM3GVPC2BCFqetcYV3fDv3EjPpVdR9juAofA\",129600000000000000000],	[\"ak_ELsVMRbBe4LWEuqNU1pn2UCNpnNfdpHjRJjDFjT4R4yzRTeXt\",1390979520000000015854],	[\"ak_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv\",499977516107119999999972654],	[\"ak_GUpbJyXiKTZB1zRM8Z8r2xFq26sKcNNtz6i83fvPUpKgEAgjH\",0],	[\"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx\",321088000000000000000],	[\"ak_V9SApNmgDGNLQcZWTzYb3PKtmFuwRn8ENdAg7WjZUdiwgkyUP\",84384000000000000000],	[\"ak_XtJGJrJuvxduT1HFMye4PuEkfUnU9L5rUE5CQ2F9MkqYQVr3f\",648000000000000000000],	[\"ak_fGPGYbqkEyWMV8R4tvQZznpzt28jb54EinF84TRSVCi997kiJ\",2448000000000000000],	[\"ak_o27hkgCTN2WZBkHd4vPcbfJPM2tzddv8xy1yaQnoyFEvqpZQK\",3596400000000000000],	[\"ak_tM5FE5HZSxUvDNAcBKMpSM9iXdsLviJ6tXffiH3BNpFrvgRoR\",383304960000000000000],	[\"ak_22HBW4s8HoCSa6ZKkd7CtFhs7vdBQ5Sgahi7FbRhp7xQ429WG2\",301216320000000007927],	[\"ak_25rsqRgVpcaD3fSZxCQVcyi4VNK3CTqf8CbzsnGtHCeu3ivrM1\",842670000000000000000],	[\"ak_281fyU5kV5yG6ZEgV9nnprLxRznSUKzxmgn2ZnxBhfD8ryWcuk\",128952000000000000000],	[\"ak_28LuZ8CG4LF6LvL47seA2GuCtaNEdXKiVMZP46ykYW8bEcuoVg\",13219200000000000000000],	[\"ak_294D9LQa95ckuJi5z7Who4TzKZWwEGimsyv1ZKM7osPE9c8Bx7\",521424000000000000000],	[\"ak_2JJNMYcnqPaABiSY5omockmv4cCoZefv4XzStAxKe9gM2xYz2r\",582912000000000000000],	[\"ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6\",977560560000000001188],	[\"ak_2UCUD59aWZyyhZzZbUdxoyP94r3mz9GvkH49HzJjsfC8MYqVPn\",81000000000000000000],	[\"ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK\",1955121120000000002377],	[\"ak_2gEL91xaQwvdN7psiCcGpSwcEMctTX1CVMT2g8f6NEp48tkvAr\",133164000000000000000],	[\"ak_2j2iyGwDnmiDZC9Dc2T8W371MYD9CQxDGSZ2Ne7WT2thY6q888\",213984000000000000000],	[\"ak_2mhBmzVv82SvtKATNBxfD1JhbLBrRNZZmah3QMqRkcK1SP3Bka\",33264000000000000000]"
+                                              .contains(HomePage.address)) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: true)));
+                                          } else {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: false)));
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          padding: EdgeInsets.all(15),
+                                          child: Image(
+                                            width: 36,
+                                            height: 36,
+                                            color: Colors.white,
+                                            image: AssetImage('images/defi_list.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: <Widget>[
+                      child: Column(
+                        children: [
                           Container(
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                                onTap: () {},
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    size: 17,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
+                            height: MediaQueryData.fromWindow(window).padding.top,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  onTap: () {
                                     Navigator.pop(context);
                                   },
+                                  child: Container(
+                                    height: 55,
+                                    width: 55,
+                                    padding: EdgeInsets.all(15),
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      size: 17,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            width: 55,
-                            height: 55,
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Container(
-                            child: MaterialButton(
-                              minWidth: 10,
-                              child: new Text(
-                                S.of(context).defi_title_record,
-                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.white),
-                              ),
-                              onPressed: () {
-                                if ("ak_2g2yq6RniwW1cjKRu4HdVVQXa5GQZkBaXiaVogQXnRxUKpmhS\",270824000000000000000],	[\"ak_3i4bwAbXBRHBqTDYFVLUSa8byQUeBAFzEgjfYk6rSyjWEXL3i\",259200000000000000000],	[\"ak_9XhfcrCtEyPFWPM3GVPC2BCFqetcYV3fDv3EjPpVdR9juAofA\",129600000000000000000],	[\"ak_ELsVMRbBe4LWEuqNU1pn2UCNpnNfdpHjRJjDFjT4R4yzRTeXt\",1390979520000000015854],	[\"ak_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv\",499977516107119999999972654],	[\"ak_GUpbJyXiKTZB1zRM8Z8r2xFq26sKcNNtz6i83fvPUpKgEAgjH\",0],	[\"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx\",321088000000000000000],	[\"ak_V9SApNmgDGNLQcZWTzYb3PKtmFuwRn8ENdAg7WjZUdiwgkyUP\",84384000000000000000],	[\"ak_XtJGJrJuvxduT1HFMye4PuEkfUnU9L5rUE5CQ2F9MkqYQVr3f\",648000000000000000000],	[\"ak_fGPGYbqkEyWMV8R4tvQZznpzt28jb54EinF84TRSVCi997kiJ\",2448000000000000000],	[\"ak_o27hkgCTN2WZBkHd4vPcbfJPM2tzddv8xy1yaQnoyFEvqpZQK\",3596400000000000000],	[\"ak_tM5FE5HZSxUvDNAcBKMpSM9iXdsLviJ6tXffiH3BNpFrvgRoR\",383304960000000000000],	[\"ak_22HBW4s8HoCSa6ZKkd7CtFhs7vdBQ5Sgahi7FbRhp7xQ429WG2\",301216320000000007927],	[\"ak_25rsqRgVpcaD3fSZxCQVcyi4VNK3CTqf8CbzsnGtHCeu3ivrM1\",842670000000000000000],	[\"ak_281fyU5kV5yG6ZEgV9nnprLxRznSUKzxmgn2ZnxBhfD8ryWcuk\",128952000000000000000],	[\"ak_28LuZ8CG4LF6LvL47seA2GuCtaNEdXKiVMZP46ykYW8bEcuoVg\",13219200000000000000000],	[\"ak_294D9LQa95ckuJi5z7Who4TzKZWwEGimsyv1ZKM7osPE9c8Bx7\",521424000000000000000],	[\"ak_2JJNMYcnqPaABiSY5omockmv4cCoZefv4XzStAxKe9gM2xYz2r\",582912000000000000000],	[\"ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6\",977560560000000001188],	[\"ak_2UCUD59aWZyyhZzZbUdxoyP94r3mz9GvkH49HzJjsfC8MYqVPn\",81000000000000000000],	[\"ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK\",1955121120000000002377],	[\"ak_2gEL91xaQwvdN7psiCcGpSwcEMctTX1CVMT2g8f6NEp48tkvAr\",133164000000000000000],	[\"ak_2j2iyGwDnmiDZC9Dc2T8W371MYD9CQxDGSZ2Ne7WT2thY6q888\",213984000000000000000],	[\"ak_2mhBmzVv82SvtKATNBxfD1JhbLBrRNZZmah3QMqRkcK1SP3Bka\",33264000000000000000]"
-                                    .contains(HomePage.address)) {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: true)));
-                                } else {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: false)));
-                                }
 
-//                                Navigator.push(context, MaterialPageRoute(builder: (context) => DefiSwitchRecordPage()));
-                              },
-                            ),
+
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRankingPage()));
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    padding: EdgeInsets.all(15),
+                                    child: Image(
+                                      width: 36,
+                                      height: 36,
+                                      color: Colors.white,
+                                      image: AssetImage('images/defi_info.png'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  onTap: () {
+                                    if ("ak_2g2yq6RniwW1cjKRu4HdVVQXa5GQZkBaXiaVogQXnRxUKpmhS\",270824000000000000000],	[\"ak_3i4bwAbXBRHBqTDYFVLUSa8byQUeBAFzEgjfYk6rSyjWEXL3i\",259200000000000000000],	[\"ak_9XhfcrCtEyPFWPM3GVPC2BCFqetcYV3fDv3EjPpVdR9juAofA\",129600000000000000000],	[\"ak_ELsVMRbBe4LWEuqNU1pn2UCNpnNfdpHjRJjDFjT4R4yzRTeXt\",1390979520000000015854],	[\"ak_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv\",499977516107119999999972654],	[\"ak_GUpbJyXiKTZB1zRM8Z8r2xFq26sKcNNtz6i83fvPUpKgEAgjH\",0],	[\"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx\",321088000000000000000],	[\"ak_V9SApNmgDGNLQcZWTzYb3PKtmFuwRn8ENdAg7WjZUdiwgkyUP\",84384000000000000000],	[\"ak_XtJGJrJuvxduT1HFMye4PuEkfUnU9L5rUE5CQ2F9MkqYQVr3f\",648000000000000000000],	[\"ak_fGPGYbqkEyWMV8R4tvQZznpzt28jb54EinF84TRSVCi997kiJ\",2448000000000000000],	[\"ak_o27hkgCTN2WZBkHd4vPcbfJPM2tzddv8xy1yaQnoyFEvqpZQK\",3596400000000000000],	[\"ak_tM5FE5HZSxUvDNAcBKMpSM9iXdsLviJ6tXffiH3BNpFrvgRoR\",383304960000000000000],	[\"ak_22HBW4s8HoCSa6ZKkd7CtFhs7vdBQ5Sgahi7FbRhp7xQ429WG2\",301216320000000007927],	[\"ak_25rsqRgVpcaD3fSZxCQVcyi4VNK3CTqf8CbzsnGtHCeu3ivrM1\",842670000000000000000],	[\"ak_281fyU5kV5yG6ZEgV9nnprLxRznSUKzxmgn2ZnxBhfD8ryWcuk\",128952000000000000000],	[\"ak_28LuZ8CG4LF6LvL47seA2GuCtaNEdXKiVMZP46ykYW8bEcuoVg\",13219200000000000000000],	[\"ak_294D9LQa95ckuJi5z7Who4TzKZWwEGimsyv1ZKM7osPE9c8Bx7\",521424000000000000000],	[\"ak_2JJNMYcnqPaABiSY5omockmv4cCoZefv4XzStAxKe9gM2xYz2r\",582912000000000000000],	[\"ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6\",977560560000000001188],	[\"ak_2UCUD59aWZyyhZzZbUdxoyP94r3mz9GvkH49HzJjsfC8MYqVPn\",81000000000000000000],	[\"ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK\",1955121120000000002377],	[\"ak_2gEL91xaQwvdN7psiCcGpSwcEMctTX1CVMT2g8f6NEp48tkvAr\",133164000000000000000],	[\"ak_2j2iyGwDnmiDZC9Dc2T8W371MYD9CQxDGSZ2Ne7WT2thY6q888\",213984000000000000000],	[\"ak_2mhBmzVv82SvtKATNBxfD1JhbLBrRNZZmah3QMqRkcK1SP3Bka\",33264000000000000000]"
+                                        .contains(HomePage.address)) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: true)));
+                                    } else {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRecordsPage(isShowTitle: false)));
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    padding: EdgeInsets.all(15),
+                                    child: Image(
+                                      width: 36,
+                                      height: 36,
+                                      color: Colors.white,
+                                      image: AssetImage('images/defi_list.png'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 10,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -882,14 +1018,14 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
   void netLock() {
     var text = _textEditingController.text;
     var doubleInput = double.parse(text);
-    if (1 > doubleInput) {
+    if (100 > doubleInput) {
       showPlatformDialog(
         context: context,
         builder: (_) => BasicDialogAlert(
           title: Text(
             S.of(context).dialog_hint,
           ),
-          content: Text("质押最低需要100 AE"),
+          content: Text(S.of(context).dialog_defi_token_low),
           actions: <Widget>[
             BasicDialogAction(
               title: Text(

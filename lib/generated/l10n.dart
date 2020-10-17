@@ -1333,6 +1333,16 @@ class S {
     );
   }
 
+  /// `Is the output (ABC)`
+  String get defi_ranking_content {
+    return Intl.message(
+      'Is the output (ABC)',
+      name: 'defi_ranking_content',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unlocked successfully`
   String get dialog_defi_unlock_sucess {
     return Intl.message(
@@ -1448,6 +1458,16 @@ class S {
     return Intl.message(
       'A new version is available, please download the update',
       name: 'dialog_update_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A pledge requires a minimum of 100 AE`
+  String get dialog_defi_token_low {
+    return Intl.message(
+      'A pledge requires a minimum of 100 AE',
+      name: 'dialog_defi_token_low',
       desc: '',
       args: [],
     );

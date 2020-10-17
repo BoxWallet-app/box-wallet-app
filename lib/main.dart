@@ -37,6 +37,12 @@ void main() {
     ..loadingStyle = EasyLoadingStyle.dark
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false;
+  // 强制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+
   runApp(BoxApp());
 }
 

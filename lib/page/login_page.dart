@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     netBaseData();
     Future.delayed(Duration.zero, () {
       SharedPreferences.getInstance().then((value) {
-        String isShow = value.getString("is_show_hint_hint");
+        String isShow = value.getString("is_show_hint");
         if (isShow == null || isShow == "")
           showGeneralDialog(
               context: context,
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                                       width: 120,
                                       onTap: (startLoading, stopLoading, btnState) async {
                                         var prefs = await SharedPreferences.getInstance();
-                                        prefs.setString('is_show_hint_hint', "true");
+                                        prefs.setString('is_show_hint', "true");
                                         Navigator.pop(context); //关闭对话框
                                       },
                                       child: Text(
