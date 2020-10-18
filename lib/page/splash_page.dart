@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-
+    BoxApp.showOverlay(context);
     BoxApp.getLanguage().then((String value) {
 //      print("getLanguage->" + value);
 //      S.load(Locale(value, value.toUpperCase()));

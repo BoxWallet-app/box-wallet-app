@@ -22,8 +22,8 @@ class AccountLoginPage extends StatefulWidget {
 }
 
 class _AccountLoginPageState extends State<AccountLoginPage> {
-
   TextEditingController _textEditingController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -48,70 +48,75 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         ),
         body: Container(
           child: SingleChildScrollView(
-
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: (){
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.topLeft,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                    child: Text(
-                      S.of(context).account_login_page_input_mnemonic,
-                      style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
+              child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                  child: Text(
+                    S.of(context).account_login_page_input_mnemonic,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 24,
+                      fontFamily: "Ubuntu",
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  child: Text(
+                    S.of(context).account_login_page_input_hint,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 14,
+                      fontFamily: "Ubuntu",
+                    ),
+                  ),
+                ),
+
+                Center(
+                  child: Container(
+                    height: 170,
+                    width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                    child: Text(
-                      S.of(context).account_login_page_input_hint,
-                      style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
-                    ),
-                  ),
+                    padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: TextField(
+                      controller: _textEditingController,
 
-
-                  Center(
-                    child: Container(
-                      height: 170,
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                      decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: TextField(
-                        controller: _textEditingController,
-
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.black,
-                        ),
-                        maxLines: 10,
-
-                        decoration: InputDecoration(
-
-                          hintText: 'memory pool equip lesson limb naive endorse advice lift ...',
-                          enabledBorder: new UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0x00000000)),
-                          ),
-// and:
-                          focusedBorder: new UnderlineInputBorder(
-                            borderSide: BorderSide(color: Color(0x00000000)),
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 19,
-                            fontFamily: "Ubuntu",
-                            color: Colors.black.withAlpha(80),
-                          ),
-                        ),
-                        cursorColor: Color(0xFFFC2365),
-                        cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
+                      style: TextStyle(
+                        fontSize: 19,
+                        color: Colors.black,
                       ),
+                      maxLines: 10,
+
+                      decoration: InputDecoration(
+                        hintText: 'memory pool equip lesson limb naive endorse advice lift ...',
+                        enabledBorder: new UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0x00000000)),
+                        ),
+// and:
+                        focusedBorder: new UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0x00000000)),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 19,
+                          fontFamily: "Ubuntu",
+                          color: Colors.black.withAlpha(80),
+                        ),
+                      ),
+                      cursorColor: Color(0xFFFC2365),
+                      cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
                     ),
                   ),
+                ),
 //              Container(
 //                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
 //                width: MediaQuery.of(context).size.width,
@@ -121,35 +126,39 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
 //                  children: childrenFalse,
 //                ),
 //              ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 30,bottom: 50),
-                    child: ArgonButton(
-                      height: 50,
-                      roundLoadingShape: true,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      onTap: (startLoading, stopLoading, btnState) {
-                       netLogin(context, startLoading, stopLoading);
-                      },
-                      child: Text(
-                        S.of(context).account_login_page_conform,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                      ),
-                      loader: Container(
-                        padding: EdgeInsets.all(10),
-                        child: SpinKitRing(
-                          lineWidth: 4,
-                          color: Colors.white,
-                          // size: loaderWidth ,
-                        ),
-                      ),
-                      borderRadius: 30.0,
-                      color: Color(0xFFFC2365),
+                Container(
+                  margin: const EdgeInsets.only(top: 30, bottom: 50),
+                  child: ArgonButton(
+                    height: 50,
+                    roundLoadingShape: true,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    onTap: (startLoading, stopLoading, btnState) {
+//                       netLogin(context, startLoading, stopLoading);
+
+                      // ignore: missing_return
+                      BoxApp.getSecretKey((content) {
+                        print("content->" + content);
+                      }, "edge input extra small april flip draft resist enlist card million steak");
+                    },
+                    child: Text(
+                      S.of(context).account_login_page_conform,
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                  )
-                ],
-              ),
-            )
-          ),
+                    loader: Container(
+                      padding: EdgeInsets.all(10),
+                      child: SpinKitRing(
+                        lineWidth: 4,
+                        color: Colors.white,
+                        // size: loaderWidth ,
+                      ),
+                    ),
+                    borderRadius: 30.0,
+                    color: Color(0xFFFC2365),
+                  ),
+                )
+              ],
+            ),
+          )),
         ));
   }
 
@@ -179,14 +188,13 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       opacity: anim1.value,
                       // ignore: missing_return
                       child: PayPasswordWidget(
-                          title:   S.of(context).password_widget_input_password,
+                          title: S.of(context).password_widget_input_password,
                           passwordCallBackFuture: (String password) async {
                             final key = Utils.generateMd5Int(password + model.data.address);
                             var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setAddress(model.data.address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil(
-                                "/home", ModalRoute.withName("/home"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
                           }),
                     ));
               });
@@ -198,7 +206,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
               content: Text(model.msg),
               actions: <Widget>[
                 BasicDialogAction(
-
                   title: Text(
                     "确定",
                     style: TextStyle(color: Color(0xFFFC2365)),
@@ -213,7 +220,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         }
       }).catchError((e) {
         stopLoading();
-        EasyLoading.showToast('网络错误: '+e.toString(), duration: Duration(seconds: 2));
+        EasyLoading.showToast('网络错误: ' + e.toString(), duration: Duration(seconds: 2));
       });
     });
   }
