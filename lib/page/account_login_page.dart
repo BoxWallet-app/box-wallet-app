@@ -135,10 +135,67 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     onTap: (startLoading, stopLoading, btnState) {
 //                       netLogin(context, startLoading, stopLoading);
 
+                      if (_textEditingController.text == null || _textEditingController.text == "") {
+                        return;
+                      }
+
+
                       // ignore: missing_return
-                      BoxApp.getSecretKey((content) {
-                        print("content->" + content);
-                      }, "edge input extra small april flip draft resist enlist card million steak");
+                      BoxApp.getValidationMnemonic((isSucess) {
+
+                        if(isSucess){
+
+                          // ignore: missing_return
+                          BoxApp.getSecretKey((address, signingKey) {
+                            showGeneralDialog(
+                                context: context,
+                                pageBuilder: (context, anim1, anim2) {},
+                                barrierColor: Colors.grey.withOpacity(.4),
+                                barrierDismissible: true,
+                                barrierLabel: "",
+                                transitionDuration: Duration(milliseconds: 400),
+                                transitionBuilder: (context, anim1, anim2, child) {
+                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                  return Transform(
+                                      transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                      child: Opacity(
+                                        opacity: anim1.value,
+                                        // ignore: missing_return
+                                        child: PayPasswordWidget(
+                                            title: S.of(context).password_widget_input_password,
+                                            passwordCallBackFuture: (String password) async {
+                                              final key = Utils.generateMd5Int(password + address);
+                                              var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                                              BoxApp.setSigningKey(signingKeyAesEncode);
+                                              BoxApp.setAddress(address);
+                                              Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                                            }),
+                                      ));
+                                });
+                          }, _textEditingController.text);
+                        }else{
+                          showPlatformDialog(
+                            context: context,
+                            builder: (_) => BasicDialogAlert(
+                              title: Text("Login Error"),
+                              content: Text("mnemonic error"),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    "Conform",
+                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },  _textEditingController.text);
+
+
                     },
                     child: Text(
                       S.of(context).account_login_page_conform,

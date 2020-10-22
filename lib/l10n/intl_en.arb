@@ -189,5 +189,7 @@
 
   "dialog_update_title" : "Discover new version",
   "dialog_update_content" : "A new version is available, please download the update",
-  "dialog_defi_token_low" : "A pledge requires a minimum of 100 AE"
+  "dialog_defi_token_low" : "A pledge requires a minimum of 100 AE",
+
+  "dialog_tx_title" : "Please confirm the information."
 }

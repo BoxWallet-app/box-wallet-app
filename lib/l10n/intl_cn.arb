@@ -200,5 +200,7 @@
 
   "dialog_update_title" : "发现新版本",
   "dialog_update_content" : "有新版本使用,请下载更新",
-  "dialog_defi_token_low" : "质押最低需要100 AE"
+  "dialog_defi_token_low" : "质押最低需要100 AE",
+
+  "dialog_tx_title" : "请确认信息"
 }

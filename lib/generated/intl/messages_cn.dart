@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_statement_btn" : MessageLookupByLibrary.simpleMessage("同意"),
     "dialog_statement_content" : MessageLookupByLibrary.simpleMessage("Box aepp是由中国社区自主发起的非盈利性生态项目，遵守开源协议，代码完全开源。我们不会收集您的私钥，并力尽所能保护您的资金安全，但无法保证不会出现诸如bug或黑客攻击等所导致的钱包丢失或者锁币等问题，且我们不会也无能力进行任何赔偿。请您风险自担。同意表示您准许该免责声明，不同意请您自行卸载本Box aepp。"),
     "dialog_statement_title" : MessageLookupByLibrary.simpleMessage("免责声明"),
+    "dialog_tx_title" : MessageLookupByLibrary.simpleMessage("请确认信息"),
     "dialog_update_content" : MessageLookupByLibrary.simpleMessage("有新版本使用,请下载更新"),
     "dialog_update_title" : MessageLookupByLibrary.simpleMessage("发现新版本"),
     "hint_broadcast_sucess" : MessageLookupByLibrary.simpleMessage("广播成功"),

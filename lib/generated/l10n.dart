@@ -1472,6 +1472,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please confirm the information.`
+  String get dialog_tx_title {
+    return Intl.message(
+      'Please confirm the information.',
+      name: 'dialog_tx_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

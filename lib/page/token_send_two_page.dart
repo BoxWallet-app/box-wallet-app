@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
 import 'package:box/dao/contract_transfer_call_dao.dart';
 import 'package:box/dao/token_send_dao.dart';
+import 'package:box/dao/tx_broadcast_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/msg_sign_model.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/contract_balance_model.dart';
@@ -13,7 +17,10 @@ import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
+import 'package:box/widget/tx_conform_widget.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -586,8 +593,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
                       onTap: (startLoading, stopLoading, btnState) {
-                        netSend(context, startLoading, stopLoading);
-
+                        netSendV2(context, startLoading, stopLoading);
                       },
                       child: Text(
                         S.of(context).token_send_two_page_conform,
@@ -625,134 +631,201 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     return Utils.formatAddress(widget.address);
   }
 
-
-
-
-
-  Future<void> netSend(BuildContext context, Function startLoading, Function stopLoading) async {
-    //隐藏键盘
-    startLoading();
-    FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      showGeneralDialog(
-          context: context,
-          pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 400),
-          transitionBuilder: (_, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
+  Future<void> netSendV2(BuildContext context, Function startLoading, Function stopLoading) async {
+    var senderID = await BoxApp.getAddress();
+    if (currentCoinName == "AE") {
+      TokenSendDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
+        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
+        Navigator.of(context).push(new MaterialPageRoute<Null>(
+            builder: (BuildContext naContext) {
+              // ignore: missing_return
+              return TxConformWidget(
+                  tx: tx,
                   // ignore: missing_return
-                  child: PayPasswordWidget(
-                      title: S.of(context).password_widget_input_password,
-                      dismissCallBackFuture: (String password) {
-                        stopLoading();
-                        return;
-                      },
-                      passwordCallBackFuture: (String password) async {
-                        var signingKey = await BoxApp.getSigningKey();
-                        var address = await BoxApp.getAddress();
-                        final key = Utils.generateMd5Int(password + address);
-                        var aesDecode = Utils.aesDecode(signingKey, key);
+                  conformCallBackFuture: () {
+                    // ignore: missing_return
+                    showGeneralDialog(
+                        context: context,
+                        // ignore: missing_return
+                        pageBuilder: (context, anim1, anim2) {},
+                        barrierColor: Colors.grey.withOpacity(.4),
+                        barrierDismissible: true,
+                        barrierLabel: "",
+                        transitionDuration: Duration(milliseconds: 400),
+                        transitionBuilder: (_, anim1, anim2, child) {
+                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                          return Transform(
+                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            child: Opacity(
+                              opacity: anim1.value,
+                              // ignore: missing_return
+                              child: PayPasswordWidget(
+                                title: S.of(context).password_widget_input_password,
+                                dismissCallBackFuture: (String password) {
+                                  return;
+                                },
+                                passwordCallBackFuture: (String password) async {
+                                  var signingKey = await BoxApp.getSigningKey();
+                                  var address = await BoxApp.getAddress();
+                                  final key = Utils.generateMd5Int(password + address);
+                                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-                        if (aesDecode == "") {
-                          showPlatformDialog(
-                            context: context,
-                            builder: (_) => BasicDialogAlert(
-                              title: Text(S.of(context).dialog_hint_check_error),
-                              content: Text(S.of(context).dialog_hint_check_error_content),
-                              actions: <Widget>[
-                                BasicDialogAction(
-                                  title: Text(
-                                    S.of(context).dialog_conform,
-                                    style: TextStyle(color: Color(0xFFFC2365)),
-                                  ),
-                                  onPressed: () {
+                                  if (aesDecode == "") {
+                                    showPlatformDialog(
+                                      context: context,
+                                      builder: (_) => BasicDialogAlert(
+                                        title: Text(S.of(context).dialog_hint_check_error),
+                                        content: Text(S.of(context).dialog_hint_check_error_content),
+                                        actions: <Widget>[
+                                          BasicDialogAction(
+                                            title: Text(
+                                              S.of(context).dialog_conform,
+                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                            ),
+                                            onPressed: () {
+                                              stopLoading();
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
+                                  TxBroadcastDao.fetch(signMsg, model.data.tx).then((model) {
+                                    if (model.code == 200) {
+                                      showFlushSucess(context);
+                                      print(model.data.hash);
+                                    }
+                                  }).catchError((e) {
                                     stopLoading();
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                  },
-                                ),
-                              ],
+                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                  });
+                                },
+                              ),
                             ),
                           );
-                          return;
-                        }
-                        if(currentCoinName == "AE"){
-                          TokenSendDao.fetch(_textEditingController.text, widget.address, aesDecode).then((TokenSendModel model) {
-                            stopLoading();
-                            if (model.code == 200) {
-                              showFlush(context);
-                            } else {
-                              showPlatformDialog(
-                                context: context,
-                                builder: (_) => BasicDialogAlert(
-                                  title: Text(
-                                    S.of(context).dialog_hint_send_error,
-                                  ),
-                                  content: Text(model.msg),
-                                  actions: <Widget>[
-                                    BasicDialogAction(
-                                      title: Text(
-                                        S.of(context).dialog_conform,
-                                        style: TextStyle(color: Color(0xFFFC2365)),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context, rootNavigator: true).pop();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }).catchError((e) {
-                            stopLoading();
-                            Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                          });
-                        }else{
-                          ContractTransferCallDao.fetch(widget.address,aesDecode,_textEditingController.text ).then((ContractCallModel model) {
-                            stopLoading();
-                            if (model.code == 200) {
-                              showFlush(context);
-                            } else {
-                              showPlatformDialog(
-                                context: context,
-                                builder: (_) => BasicDialogAlert(
-                                  title: Text(
-                                    S.of(context).dialog_hint_send_error,
-                                  ),
-                                  content: Text(model.msg),
-                                  actions: <Widget>[
-                                    BasicDialogAction(
-                                      title: Text(
-                                        S.of(context).dialog_conform,
-                                        style: TextStyle(color: Color(0xFFFC2365)),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context, rootNavigator: true).pop();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }).catchError((e) {
-                            stopLoading();
-                            Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                          });
-                        }
+                        });
+                  });
+            },
+            fullscreenDialog: true));
+      }).catchError((e) {
+        stopLoading();
+        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      });
+    } else {
+      ContractTransferCallDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
+        stopLoading();
+        if (model.code == 200) {
+          Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
+          Navigator.of(context).push(new MaterialPageRoute<Null>(
+              builder: (BuildContext naContext) {
+                // ignore: missing_return
+                return TxConformWidget(
+                    tx: tx,
+                    // ignore: missing_return
+                    conformCallBackFuture: () {
+                      // ignore: missing_return
+                      showGeneralDialog(
+                          context: context,
+                          // ignore: missing_return
+                          pageBuilder: (context, anim1, anim2) {},
+                          barrierColor: Colors.grey.withOpacity(.4),
+                          barrierDismissible: true,
+                          barrierLabel: "",
+                          transitionDuration: Duration(milliseconds: 400),
+                          transitionBuilder: (_, anim1, anim2, child) {
+                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                            return Transform(
+                              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                              child: Opacity(
+                                opacity: anim1.value,
+                                // ignore: missing_return
+                                child: PayPasswordWidget(
+                                  title: S.of(context).password_widget_input_password,
+                                  dismissCallBackFuture: (String password) {
+                                    return;
+                                  },
+                                  passwordCallBackFuture: (String password) async {
+                                    var signingKey = await BoxApp.getSigningKey();
+                                    var address = await BoxApp.getAddress();
+                                    final key = Utils.generateMd5Int(password + address);
+                                    var aesDecode = Utils.aesDecode(signingKey, key);
 
-                      }),
-                ));
-          });
-    });
+                                    if (aesDecode == "") {
+                                      showPlatformDialog(
+                                        context: context,
+                                        builder: (_) => BasicDialogAlert(
+                                          title: Text(S.of(context).dialog_hint_check_error),
+                                          content: Text(S.of(context).dialog_hint_check_error_content),
+                                          actions: <Widget>[
+                                            BasicDialogAction(
+                                              title: Text(
+                                                S.of(context).dialog_conform,
+                                                style: TextStyle(color: Color(0xFFFC2365)),
+                                              ),
+                                              onPressed: () {
+                                                stopLoading();
+                                                Navigator.of(context, rootNavigator: true).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                      return;
+                                    }
+
+                                    var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
+                                    TxBroadcastDao.fetch(signMsg, model.data.tx).then((model) {
+                                      if (model.code == 200) {
+                                        showFlushSucess(context);
+                                        print(model.data.hash);
+                                      }
+                                    }).catchError((e) {
+                                      stopLoading();
+                                      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                    });
+                                  },
+                                ),
+                              ),
+                            );
+                          });
+                    });
+              },
+              fullscreenDialog: true));
+        } else {
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text(
+                S.of(context).dialog_hint_send_error,
+              ),
+              content: Text(model.msg),
+              actions: <Widget>[
+                BasicDialogAction(
+                  title: Text(
+                    S.of(context).dialog_conform,
+                    style: TextStyle(color: Color(0xFFFC2365)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }).catchError((e) {
+        stopLoading();
+        Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      });
+    }
   }
 
-  void showFlush(BuildContext context) {
+
+  void showFlushSucess(BuildContext context) {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,

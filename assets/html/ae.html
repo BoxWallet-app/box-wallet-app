@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-	</head>
-	<script type="text/javascript">
+<head>
+    <meta charset="utf-8">
+</head>
+<script type="text/javascript">
         ! function(e, t) {
 	"object" == typeof exports && "object" == typeof module ? module.exports = t() : "function" == typeof define && define
 		.amd ? define([], t) : "object" == typeof exports ? exports.Ae = t() : e.Ae = t()
@@ -53494,12 +53494,14 @@
 	}])
 }));
 
-    </script>
-	<body>
-		<p id="show_info">打发打发斯蒂芬</p>
-		
-		<!-- <script type="text/javascript" src="https://wetrue.io/assets/scripts/aepp-sdk.browser-script-770.js"></script> -->
-		<script type="text/javascript">
+
+
+</script>
+<body>
+<p id="show_info">打发打发斯蒂芬</p>
+
+<!-- <script type="text/javascript" src="https://wetrue.io/assets/scripts/aepp-sdk.browser-script-770.js"></script> -->
+<script type="text/javascript">
 			var getHeight = function() {
 				document.getElementById("show_info").innerText = "getHeight";
 				Ae.Node({
@@ -53521,9 +53523,14 @@
 			
 			var getMnemonic = function() {
 				document.getElementById("show_info").innerText = "getMnemonic";
-				const words = Ae.HdWallet.generateMnemonic();
-				document.getElementById("show_info").innerText = words;
-				getMnemonic_JS.postMessage(words);
+				const mnemonic = Ae.HdWallet.generateMnemonic();
+				document.getElementById("show_info").innerText = mnemonic;
+
+				const publicKeyInsecretKey = Ae.HdWallet.getHdWalletAccountFromMnemonic(mnemonic, 0);
+                const publicKey = publicKeyInsecretKey.publicKey;
+                const secretKey = publicKeyInsecretKey.secretKey;
+
+				getMnemonic_JS.postMessage(publicKey + "#"+ secretKey+"#"+mnemonic);
 			}
 
 
@@ -53536,10 +53543,27 @@
 				getSecretKey_JS.postMessage( publicKey + "#"+ secretKey);
 			}
 
+
+            var validationMnemonic = function(mnemonic) {
+				try {
+					Ae.HdWallet.generateSaveHDWallet(mnemonic, 0);
+					validationMnemonic_JS.postMessage("sucess");
+					return true;
+				} catch (err) {
+					validationMnemonic_JS.postMessage("error");
+					return err.message
+				}
+			}
+
+
+
+
 <!--			getSecretKey("edge input extra small april flip draft resist enlist card million steak");-->
 
-		</script>
-	</body>
+
+
+</script>
+</body>
 
 
 </html>

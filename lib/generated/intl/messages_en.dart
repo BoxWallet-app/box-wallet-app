@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_statement_btn" : MessageLookupByLibrary.simpleMessage("Agree"),
     "dialog_statement_content" : MessageLookupByLibrary.simpleMessage("Box aepp code is completely open source, it complies with the open source agreement, and the ecological project initiated by the Chinese community is non-profit. So please confirm the risk yourself! Box aepp will not collect your private key, but does not guarantee special circumstances (Such as bugs, hacker attacks), we will not make any compensation if the wallet is lost or locked. Please take your own risk. Agree means that you approve the disclaimer. If you disagree, please uninstall by yourself"),
     "dialog_statement_title" : MessageLookupByLibrary.simpleMessage("Disclaimer"),
+    "dialog_tx_title" : MessageLookupByLibrary.simpleMessage("Please confirm the information."),
     "dialog_update_content" : MessageLookupByLibrary.simpleMessage("A new version is available, please download the update"),
     "dialog_update_title" : MessageLookupByLibrary.simpleMessage("Discover new version"),
     "hint_broadcast_sucess" : MessageLookupByLibrary.simpleMessage("Broadcast successful"),

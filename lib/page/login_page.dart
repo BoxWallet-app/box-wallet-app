@@ -216,8 +216,39 @@ class _LoginPageState extends State<LoginPage> {
                   minWidth: 120,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
                   onPressed: () {
-                    netUserRegisterData();
+//                    netUserRegisterData();
+                    // ignore: missing_return
+                    BoxApp.getGenerateSecretKey((address,signingKey,mnemonic) {
+                      showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, anim1, anim2) {},
+                          barrierColor: Colors.grey.withOpacity(.4),
+                          barrierDismissible: true,
+                          barrierLabel: "",
+                          transitionDuration: Duration(milliseconds: 400),
+                          transitionBuilder: (context, anim1, anim2, child) {
+                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                            return Transform(
+                                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                child: Opacity(
+                                  opacity: anim1.value,
+                                  // ignore: missing_return
+                                  child: PayPasswordWidget(
+                                      title: S.of(context).password_widget_set_password,
+                                      passwordCallBackFuture: (String password) async {
+                                        final key = Utils.generateMd5Int(password + address);
 
+                                        var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                                        var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+
+                                        BoxApp.setSigningKey(signingKeyAesEncode);
+                                        BoxApp.setMnemonic(mnemonicAesEncode);
+                                        BoxApp.setAddress(address);
+                                        Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                                      }),
+                                ));
+                          });
+                    });
 //                      Navigator.pushReplacementNamed(context, "home");
                   },
                 ),
