@@ -78,6 +78,9 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       } else {
         isInput = true;
       }
+      if (!mounted) {
+        return;
+      }
       setState(() {});
     });
     eventBus.on<DefiEvent>().listen((event) {

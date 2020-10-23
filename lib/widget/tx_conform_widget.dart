@@ -33,6 +33,13 @@ class TxConformWidget extends StatefulWidget {
 class _TxConformWidgetWidgetState extends State<TxConformWidget> {
   String text = '';
   List<Widget> items = [];
+  @override
+  void dispose() {
+    super.reassemble();
+    if (widget.dismissCallBackFuture != null) {
+      widget.dismissCallBackFuture();
+    }
+  }
 
   @override
   void initState() {
@@ -54,6 +61,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
       items.add(buildItems(key, value));
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +96,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
-                      if (widget.dismissCallBackFuture != null) {
-                        widget.dismissCallBackFuture();
-                      }
+
                       Navigator.pop(context); //关闭对话框
                       // ignore: unnecessary_statements
                     },

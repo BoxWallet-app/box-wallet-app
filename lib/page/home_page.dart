@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     getAddress();
     netContractBalance();
     netAccountInfo();
+    netBaseData();
     netTopHeightData();
     netBaseNameData();
     netVersion();
@@ -416,6 +417,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFF5F5F5),
         body: Container(
             child: Column(
@@ -516,7 +518,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                      double.parse(HomePage.token).toStringAsFixed(3),
+                                      HomePage.token,
                                             style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                           ),
                                           baseDataModel == null

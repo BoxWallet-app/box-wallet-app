@@ -423,6 +423,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
         );
       }
     }).catchError((e) {
+      print(e.toString());
       stopLoading();
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
