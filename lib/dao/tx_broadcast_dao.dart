@@ -10,10 +10,11 @@ import 'package:box/model/tx_broadcast_model.dart';
 import 'package:dio/dio.dart';
 
 class TxBroadcastDao {
-  static Future<TxBroadcastModel> fetch(String signature, String tx) async {
+  static Future<TxBroadcastModel> fetch(String signature, String tx, String type) async {
     Map<String, String> params = new Map();
     params['signature'] = signature;
     params['tx'] = tx;
+    params['type'] = type;
     Response response = await Dio().post(TX_BROADCAST, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

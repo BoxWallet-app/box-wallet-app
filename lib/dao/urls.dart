@@ -24,10 +24,13 @@ const NAME_MY_REGISTER = BASE_HOST + '/api/names/my/register';
 const NAME_MY_OVER = BASE_HOST + '/api/names/my/over';
 
 //注册域名
-const NAME_ADD = BASE_HOST + '/api/names/add';
+const NAME_ADD = BASE_HOST + '/api/names/claim';
 
 //更新域名
 const NAME_UPDATE = BASE_HOST + '/api/names/update';
+
+//声明域名
+const NAME_PRECLAI = BASE_HOST + '/api/names/preclaim';
 
 //域名详情
 const NAME_INFO = BASE_HOST + '/api/names/info';
@@ -64,6 +67,9 @@ const CONTRACT_RECORD = BASE_HOST + '/api/contract/record';
 
 //调用合约
 const CONTRACT_CALL = BASE_HOST + '/api/contract/call';
+
+//获取hash
+const TH_HASH = BASE_HOST + '/api/ae/th_hash';
 
 //调用合约转账
 const CONTRACT_TRANSFER = BASE_HOST + '/api/contract/transfer';

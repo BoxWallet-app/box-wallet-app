@@ -634,7 +634,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Future<void> netSendV2(BuildContext context, Function startLoading, Function stopLoading) async {
     var senderID = await BoxApp.getAddress();
     if (currentCoinName == "AE") {
+      startLoading();
       TokenSendDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
+
         Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
         Navigator.of(context).push(new MaterialPageRoute<Null>(
             builder: (BuildContext naContext) {
@@ -642,8 +644,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
               return TxConformWidget(
                   tx: tx,
                   // ignore: missing_return
+                  dismissCallBackFuture: (){
+                    stopLoading();
+                  },
+                  // ignore: missing_return
                   conformCallBackFuture: () {
-                    // ignore: missing_return
+                    // ignore: missing_return, missing_return
                     showGeneralDialog(
                         context: context,
                         // ignore: missing_return
@@ -662,6 +668,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               child: PayPasswordWidget(
                                 title: S.of(context).password_widget_input_password,
                                 dismissCallBackFuture: (String password) {
+                                  stopLoading();
                                   return;
                                 },
                                 passwordCallBackFuture: (String password) async {
@@ -694,8 +701,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   }
 
                                   var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx).then((model) {
+                                  TxBroadcastDao.fetch(signMsg, model.data.tx,"SpendTx").then((model) {
+                                    stopLoading();
                                     if (model.code == 200) {
+
                                       showFlushSucess(context);
                                       print(model.data.hash);
                                     }
@@ -716,8 +725,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       });
     } else {
+      startLoading();
       ContractTransferCallDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
-        stopLoading();
         if (model.code == 200) {
           Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
           Navigator.of(context).push(new MaterialPageRoute<Null>(
@@ -725,6 +734,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                 // ignore: missing_return
                 return TxConformWidget(
                     tx: tx,
+                    // ignore: missing_return
+                    dismissCallBackFuture: (){
+                      stopLoading();
+                    },
                     // ignore: missing_return
                     conformCallBackFuture: () {
                       // ignore: missing_return
@@ -746,6 +759,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 child: PayPasswordWidget(
                                   title: S.of(context).password_widget_input_password,
                                   dismissCallBackFuture: (String password) {
+                                    stopLoading();
                                     return;
                                   },
                                   passwordCallBackFuture: (String password) async {
@@ -778,7 +792,8 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     }
 
                                     var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                    TxBroadcastDao.fetch(signMsg, model.data.tx).then((model) {
+                                    TxBroadcastDao.fetch(signMsg, model.data.tx,"ContractCallTx").then((model) {
+                                      stopLoading();
                                       if (model.code == 200) {
                                         showFlushSucess(context);
                                         print(model.data.hash);
@@ -819,7 +834,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         }
       }).catchError((e) {
         stopLoading();
-        Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       });
     }
   }

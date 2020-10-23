@@ -1,12 +1,12 @@
-class MsgSignModel {
+class ThHashModel {
   int code;
   String msg;
   int time;
   Data data;
 
-  MsgSignModel({this.code, this.msg, this.time, this.data});
+  ThHashModel({this.code, this.msg, this.time, this.data});
 
-  MsgSignModel.fromJson(Map<String, dynamic> json) {
+  ThHashModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     msg = json['msg'];
     time = json['time'];
@@ -26,23 +26,17 @@ class MsgSignModel {
 }
 
 class Data {
-  String msg;
-  String tx;
-  double salt;
+  int blockHeight;
 
-  Data({this.msg, this.tx});
+  Data({this.blockHeight});
 
   Data.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    tx = json['tx'];
-    salt = json['salt'];
+    blockHeight = json['block_height'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['msg'] = this.msg;
-    data['tx'] = this.tx;
-    data['salt'] = this.salt;
+    data['block_height'] = this.blockHeight;
     return data;
   }
 }

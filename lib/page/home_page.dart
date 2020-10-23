@@ -68,7 +68,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   EasyRefreshController _easyRefreshController = EasyRefreshController();
   final pageController = PageController(viewportFraction: 1);
   WalletTransferRecordModel walletRecordModel;
-  BlockTopModel baseDataModel;
+  BlockTopModel blockTopModel;
+  BaseDataModel baseDataModel;
   BaseNameDataModel baseNameDataModel;
 
   var address = '';
@@ -87,12 +88,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     getAddress();
     netContractBalance();
     netAccountInfo();
-    netBaseData();
+    netTopHeightData();
     netBaseNameData();
     netVersion();
   }
 
-  void showHint(){
+  void showHint() {
     Future.delayed(Duration.zero, () {
       SharedPreferences.getInstance().then((value) {
         String isShow = value.getString("is_show_hint");
@@ -270,6 +271,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       print(e.toString());
     });
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -289,87 +291,81 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
           var newVersion = int.parse(model.data.version.replaceAll(".", ""));
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
 
-
-
-
           if (newVersion > oldVersion) {
             Future.delayed(Duration.zero, () {
-
-            model.data.isMandatory == "1"?  showPlatformDialog(
-                context: context,
-                builder: (_) => BasicDialogAlert(
-                  title: Text(
-                    S.of(context).dialog_update_title,
-                  ),
-                  content: Text(
-                    S.of(context).dialog_update_content,
-                  ),
-                  actions: <Widget>[
-                    BasicDialogAction(
-                      title: Text(
-                       S.of(context).dialog_conform,
-                        style: TextStyle(
-                          color: Color(0xFFFC2365),
-                          fontFamily: "Ubuntu",
+              model.data.isMandatory == "1"
+                  ? showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_update_title,
                         ),
+                        content: Text(
+                          S.of(context).dialog_update_content,
+                        ),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                              if (Platform.isIOS) {
+                                _launchURL(model.data.urlIos);
+                              } else if (Platform.isAndroid) {
+                                _launchURL(model.data.urlAndroid);
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                        if (Platform.isIOS) {
-                          _launchURL(model.data.urlIos);
-                        } else if (Platform.isAndroid) {
-                          _launchURL(model.data.urlAndroid);
-                        }
-                      },
-                    ),
-
-                  ],
-                ),
-              ):showPlatformDialog(
-              context: context,
-              builder: (_) => BasicDialogAlert(
-                title: Text(
-                  S.of(context).dialog_update_title,
-                ),
-                content: Text(
-                  S.of(context).dialog_update_content,
-                ),
-                actions: <Widget>[
-                  BasicDialogAction(
-                    title: Text(
-                      S.of(context).dialog_conform,
-                      style: TextStyle(
-                        color: Color(0xFFFC2365),
-                        fontFamily: "Ubuntu",
+                    )
+                  : showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_update_title,
+                        ),
+                        content: Text(
+                          S.of(context).dialog_update_content,
+                        ),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                              if (Platform.isIOS) {
+                                _launchURL(model.data.urlIos);
+                              } else if (Platform.isAndroid) {
+                                _launchURL(model.data.urlAndroid);
+                              }
+                            },
+                          ),
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_cancel,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                      if (Platform.isIOS) {
-                        _launchURL(model.data.urlIos);
-                      } else if (Platform.isAndroid) {
-                        _launchURL(model.data.urlAndroid);
-                      }
-                    },
-                  ),
-                  BasicDialogAction(
-                    title: Text(
-                      S.of(context).dialog_cancel,
-                      style: TextStyle(
-                        color: Color(0xFFFC2365),
-                        fontFamily: "Ubuntu",
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                ],
-              ),
-            );
-
-
-
+                    );
             });
           }
 
@@ -384,13 +380,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     });
   }
 
-  void netBaseData() {
+  void netTopHeightData() {
     BlockTopDao.fetch().then((BlockTopModel model) {
       if (model.code == 200) {
-        baseDataModel = model;
+        blockTopModel = model;
 //        setState(() {});
-        HomePage.height = baseDataModel.data.height;
+        HomePage.height = blockTopModel.data.height;
         netWalletRecord();
+      } else {}
+    }).catchError((e) {
+      loadingType = LoadingType.error;
+      setState(() {});
+      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  void netBaseData() {
+    BaseDataDao.fetch().then((BaseDataModel model) {
+      if (model.code == 200) {
+        baseDataModel = model;
+        print(baseDataModel.toJson());
+        setState(() {});
       } else {}
     }).catchError((e) {
       loadingType = LoadingType.error;
@@ -496,7 +506,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             S.of(context).home_page_my_count + " (AE)",
                                             style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
                                           ),
-                                          Text("")
                                         ],
                                       ),
                                     ),
@@ -507,9 +516,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                            HomePage.token,
+                                      double.parse(HomePage.token).toStringAsFixed(3),
                                             style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                           ),
+                                          baseDataModel == null
+                                              ? Container()
+                                              : Container(
+                                                  margin: const EdgeInsets.only(bottom: 5, left: 2),
+                                                  child: Text(
+//                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
+                                                    "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2)+" (USD)",
+                                                    style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                  ),
+                                                ),
                                         ],
                                       ),
                                     ),
@@ -1019,7 +1038,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
 
   Container getRecordContainer(BuildContext context) {
-    if (walletRecordModel == null && page == 1 && baseDataModel == null) {
+    if (walletRecordModel == null && page == 1 && blockTopModel == null) {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
@@ -1144,7 +1163,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 //边框设置
 
                 child: Text(
-                  (baseDataModel.data.height - walletRecordModel.data[index].blockHeight).toString(),
+                  (blockTopModel.data.height - walletRecordModel.data[index].blockHeight).toString(),
                   style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: "Ubuntu"),
                 ),
                 alignment: Alignment.center,
@@ -1226,6 +1245,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     setState(() {});
     await Future.delayed(Duration(seconds: 1), () {
       netAccountInfo();
+      netTopHeightData();
       netBaseData();
       getAddress();
       netContractBalance();

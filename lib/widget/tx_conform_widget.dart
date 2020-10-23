@@ -10,16 +10,19 @@ import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
 typedef ConformCallBackFuture = Future Function();
+typedef DismissCallBackFuture = Future Function();
 
 class TxConformWidget extends StatefulWidget {
   final int color;
   final ConformCallBackFuture conformCallBackFuture;
+  final DismissCallBackFuture dismissCallBackFuture;
   final Map<String, dynamic> tx;
 
   const TxConformWidget({
     Key key,
     this.tx,
     this.conformCallBackFuture,
+    this.dismissCallBackFuture,
     this.color = 0xFFFC2365,
   }) : super(key: key);
 
@@ -45,9 +48,9 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
         if (value > 10000000000) value = value / 1000000000000000000;
       }
       value = value.toString();
-      if (value.contains('ak_') || value.contains('ct_') || value.contains('nm_')) {
-        value = Utils.formatAddress(value);
-      }
+//      if (value.contains('ak_') || value.contains('ct_') || value.contains('nm_')) {
+//        value = Utils.formatAddress(value);
+//      }
       items.add(buildItems(key, value));
     });
   }
@@ -55,8 +58,11 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+
         child: Material(
+
       type: MaterialType.transparency, //透明类型
+          color: Colors.white,
       child: Center(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -65,7 +71,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
             color: Color(0xffffffff),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(8.0),
+                Radius.circular(18.0),
               ),
             ),
           ),
@@ -82,16 +88,19 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
+                      if (widget.dismissCallBackFuture != null) {
+                        widget.dismissCallBackFuture();
+                      }
                       Navigator.pop(context); //关闭对话框
                       // ignore: unnecessary_statements
                     },
-                    child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                    child: Container(width: 50, height: 40, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
                 ),
               ),
               Container(
 //                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20,top: 10),
+                margin: EdgeInsets.only(left: 20, right: 20, top: 0),
                 child: Text(
                   S.of(context).dialog_tx_title,
                   style: TextStyle(
@@ -122,7 +131,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   onTap: (startLoading, stopLoading, btnState) {
                     Navigator.pop(context); //关闭对话框
-                    widget.conformCallBackFuture();
+                    if (widget.conformCallBackFuture != null) widget.conformCallBackFuture();
                   },
                   child: Text(
                     S.of(context).password_widget_conform,
@@ -168,6 +177,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   key,
                   style: TextStyle(
                     fontSize: 14,
+                    fontWeight: FontWeight.w700,
                     fontFamily: "Ubuntu",
                   ),
                 ),
@@ -175,9 +185,19 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
             ],
           ),
           /*3*/
-          Expanded(
-            child: Container(margin: EdgeInsets.only(left: 20), alignment: Alignment.centerRight, child: Text(value)),
-          ),
+          Expanded(child:  Container(
+              margin: EdgeInsets.only(left: 50),
+              alignment: Alignment.topRight,
+              child: Text(
+                value,
+                textAlign:TextAlign.right,
+//                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: "Ubuntu",
+                ),
+              )),),
+
         ],
       ),
     );
