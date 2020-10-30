@@ -30,71 +30,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-//    var base64Decode = EncryptUtil.decodeBase64(
-//        "eyJTZW5kZXJJRCI6ImFrX2lka3g2bTNiZ1JyN1dpS1h1QjhFQllCb1JxVnNhU2M2cW80ZHNkMjNIS2dqM3FpQ0YiLCJSZWNpcGllbnRJRCI6ImFrX0NOY2Yyb3l3cWJnbVZnM0ZmS2RiSFFKZkI5NTl3clZ3cWZ6U3BkV1ZLWm5lcDduajQiLCJBbW91bnQiOjEwMDAwMDAwMDAwMDAwMDAwMCwiRmVlIjoxNjkyMDAwMDAwMDAwMCwiUGF5bG9hZCI6IiIsIlRUTCI6MzMxOTkzLCJOb25jZSI6NzAyfQ==");
-//    Map<String, dynamic> tx = jsonDecode(base64Decode);
-//    Future.delayed(Duration(seconds: 2), ()
-//    {
-//      BoxApp.getLanguage().then((String value) {});
-//
-//      Navigator.of(context).push(new MaterialPageRoute<Null>(
-//          builder: (BuildContext naContext) {
-//            // ignore: missing_return
-//            return TxConformWidget(tx: tx, conformCallBackFuture: ()  {
-//
-//              showGeneralDialog(
-//                  context: context,
-//                  pageBuilder: (context, anim1, anim2) {},
-//                  barrierColor: Colors.grey.withOpacity(.4),
-//                  barrierDismissible: true,
-//                  barrierLabel: "",
-//                  transitionDuration: Duration(milliseconds: 400),
-//                  transitionBuilder: (_, anim1, anim2, child) {
-//                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-//                    return Transform(
-//                      transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-//                      child: Opacity(
-//                        opacity: anim1.value,
-//                        // ignore: missing_return
-//                        child: PayPasswordWidget(
-//                          title: S.of(context).password_widget_input_password,
-//                          dismissCallBackFuture: (String password) {
-//                            return;
-//                          },
-//                          passwordCallBackFuture: (String password) async {
-//
-//
-//
-//                          },
-//                        ),
-//                      ),
-//                    );
-//                  });
-//
-//
-//            });
-//          },
-//          fullscreenDialog: true
-//      ));
-
-//      showGeneralDialog(
-//          context: context,
-//          pageBuilder: (context, anim1, anim2) {},
-//          barrierColor: Colors.grey.withOpacity(.4),
-//          barrierDismissible: true,
-//          barrierLabel: "",
-//          transitionDuration: Duration(milliseconds: 400),
-//          transitionBuilder: (context, anim1, anim2, child) {
-//            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-//            return Transform(
-//                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-//                child: Opacity(
-//                  opacity: anim1.value,
-//                  // ignore: missing_return
-//                  child:
-//                ));
-//          });
-//    });
 
     // ignore: missing_return
     BoxApp.showOverlay(context, () {
@@ -108,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
             setState(() {
               _value = value;
             });
-            Future.delayed(Duration(seconds: 0), () {
+            Future.delayed(Duration(seconds: 2), () {
               S.load(Locale(value, value.toUpperCase()));
               goHome();
             });
@@ -193,13 +128,33 @@ class _SplashPageState extends State<SplashPage> {
             alignment: Alignment.center,
             children: [
               Positioned(
-                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
+                top:0,
+                bottom: 100,
+                left:0,
                 child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   alignment: Alignment.center,
-                  child: Image(
-                    width: 153,
-                    height: 36,
-                    image: AssetImage('images/home_logo_left.png'),
+                  child: Center(
+                    child: Image(
+                      width: 280,
+                      height: 280,
+                      image: AssetImage('images/splasn_logo.png'),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: MediaQueryData.fromWindow(window).padding.bottom +50,
+                child: Container(
+
+                  alignment: Alignment.center,
+                  child:  Text(
+                    "· Infinite possibility ·",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Ubuntu",
+                    ),
                   ),
                 ),
               ),

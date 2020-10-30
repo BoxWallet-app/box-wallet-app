@@ -270,7 +270,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                                     stopLoading();
                                     if (model.code == 200) {
                                       showFlush(context);
-//                                      print(model.data.hash);
+                                      print(model.data.hash);
 
                                     }
                                   }).catchError((e) {

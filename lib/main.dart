@@ -276,7 +276,6 @@ class BoxApp extends StatelessWidget {
               },
               onWebViewCreated: (WebViewController webViewController) {
                 BoxApp.webViewController = webViewController;
-                print("初始化成功2");
               },
               javascriptChannels: [
                 JavascriptChannel(

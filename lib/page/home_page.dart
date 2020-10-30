@@ -518,19 +518,24 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
                                           Text(
-                                      HomePage.token,
+                                            HomePage.token,
+//                                      "9999999.00000",
+                                            overflow: TextOverflow.ellipsis,
+
                                             style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                           ),
-                                          baseDataModel == null
-                                              ? Container()
-                                              : Container(
-                                                  margin: const EdgeInsets.only(bottom: 5, left: 2),
-                                                  child: Text(
-//                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                    "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2)+" (USD)",
-                                                    style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                  ),
-                                                ),
+//                                          baseDataModel == null
+//                                              ? Container()
+//                                              : Container(
+//                                                  margin: const EdgeInsets.only(bottom: 5, left: 2),
+//                                                  child: Text(
+//
+////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
+//                                                    "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2)+" (USD)",
+//                                                    overflow: TextOverflow.ellipsis,
+//                                                    style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+//                                                  ),
+//                                                ),
                                         ],
                                       ),
                                     ),

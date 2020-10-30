@@ -14,7 +14,6 @@ class BaseNameDataDao {
       BaseNameDataModel model = BaseNameDataModel.fromJson(data);
       return model;
     } else {
-      print("object");
       throw Exception('Failed to load BaseNameDataModel.json');
     }
   }

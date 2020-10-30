@@ -38,10 +38,77 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
       body: Stack(
         children: [
           Positioned(
-            top: 200,
+            top: 0,
+            child: ClipRect(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 50),
+                height: 650,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    colors: [Color(0xff2453DF), Colors.blueAccent, Colors.blue, Colors.white],
+                  ),
+                ),
+//                color: Color(0xff2453DF),
+                width: MediaQuery.of(context).size.width,
+                child: Container(),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            child: Container(
+              margin: const EdgeInsets.only(left: 30),
+              child: Column(
+                children: [
+                  Container(
+                    child: Image(
+                      width: 349,
+                      height: 308,
+                      image: AssetImage("images/ranking_logo.png"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 130,
+            child: Container(
+              margin: const EdgeInsets.only(left: 30),
+              child: Column(
+                children: [
+                  Container(
+                    child: Image(
+                      width: 144,
+                      height: 48,
+                      image: AssetImage("images/ranking_text.png"),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "数据更新于 2020年10月30日",
+                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: "Ubuntu"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 320,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 200,
+              child: getItemTitle(context),
+            ),
+          ),
+          Positioned(
+            top: 370,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 370,
               child: LoadingWidget(
                 type: _loadingType,
                 onPressedError: () {
@@ -65,52 +132,52 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Positioned(
-            top: 0,
+            top: 260,
             child: ClipRect(
               child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [ Color(0xff2453DF), Colors.blueAccent,Colors.blue,],
-                  ),
-                ),
-//                color: Color(0xff2453DF),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 200,
-                    ),
+                margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
+                alignment: Alignment.center,
+                //边框设置
+                decoration: new BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(0.0, 5.0), //阴影xy轴偏移量
+                        blurRadius: 15.0, //阴影模糊程度
+                        spreadRadius: 1.0 //阴影扩散程度
+                        )
                   ],
                 ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 110,
-            child: ClipRect(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
+
+                width: MediaQuery.of(context).size.width - 20,
                 child: Column(
                   children: [
                     Container(
+                      alignment: Alignment.center,
 //                        margin: EdgeInsets.only(top: 20, bottom: 50),
-                      alignment: Alignment.topLeft,
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 18),
+                            margin: EdgeInsets.only(left: 20),
+                            height: 60,
+                            alignment: Alignment.center,
                             child: Text(
                               S.of(context).defi_ranking_content,
-                              style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
                             ),
                           ),
+                          Expanded(child: Container()),
                           Container(
-                            margin: EdgeInsets.only(top: 8, left: 18),
-                            alignment: Alignment.topLeft,
+                            margin: EdgeInsets.only(right: 20),
+                            height: 60,
+                            alignment: Alignment.center,
                             child: Text(
                               rankingModel == null ? "loading..." : rankingModel.data.outCount,
-                              style: new TextStyle(fontSize: 30, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Colors.white),
+                              style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0, fontFamily: "Ubuntu", color: Colors.black),
                             ),
                           ),
                         ],
@@ -175,13 +242,19 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
     return Container(
       color: index % 2 == 1 ? Colors.white : Color(0x66eeeeee),
       height: 50,
-      padding: EdgeInsets.only(left: 18, right: 18),
+      padding: EdgeInsets.only(left: 18,right: 18),
       child: Row(
         children: [
           Container(
-            child: Text(
+            alignment: Alignment.center,
+            width: 30,
+            child:index != 0 ? Text(
               (index + 1).toString(),
               style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: "Ubuntu"),
+            ):Image(
+              width: 30,
+              height: 30,
+              image: AssetImage("images/ranking_one.png"),
             ),
           ),
           Container(
@@ -209,6 +282,52 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             alignment: Alignment.centerRight,
             child: Text(
               rankingModel.data.ranking[index].count,
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getItemTitle(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      height: 50,
+      padding: EdgeInsets.only(left: 18, right: 18),
+      child: Row(
+        children: [
+          Container(
+            child: Text(
+              "排名",
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+            ),
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Container(
+              child: Text(
+                "地址",
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              ),
+            ),
+          ),
+          Container(
+            child: Text(
+              "百分比",
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+            ),
+          ),
+          Container(
+            width: 10,
+          ),
+          Container(
+            width: 130,
+            alignment: Alignment.centerRight,
+            child: Text(
+              "数量(ABC)",
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
             ),
           ),

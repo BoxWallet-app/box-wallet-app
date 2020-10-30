@@ -35,7 +35,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
   List<Widget> items = [];
   @override
   void dispose() {
-    super.reassemble();
+    super.dispose();
     if (widget.dismissCallBackFuture != null) {
       widget.dismissCallBackFuture();
     }

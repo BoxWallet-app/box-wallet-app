@@ -15,6 +15,7 @@ import 'package:box/page/token_send_one_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
+import 'package:box/widget/custom_b_t_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/password_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -212,6 +213,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       borderRadius: BorderRadius.all(Radius.circular(30)),
                                       onTap: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+//                                        Navigator.push(context, CustomBTRoute( SettingsPage()));
                                       },
                                       child: Container(
                                         height: 55,

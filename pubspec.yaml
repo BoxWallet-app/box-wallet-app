@@ -144,6 +144,11 @@ flutter:
     - images/logo.png
     - images/defi_list.png
     - images/defi_info.png
+    - images/splasn_logo.png
+    - images/ranking_text.png
+    - images/ranking_logo.png
+    - images/ranking_one.png
+    - images/splasn_logo.png
 
   #   - images/a_dot_ham.jpeg
 
