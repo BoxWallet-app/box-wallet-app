@@ -23,7 +23,7 @@ import 'package:box/page/aens_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/records_page.dart';
 import 'package:box/page/settings_page.dart';
-import 'package:box/page/token_defi_page.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';
 import 'package:box/page/tx_detail_page.dart';

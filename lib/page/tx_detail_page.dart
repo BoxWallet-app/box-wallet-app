@@ -48,17 +48,20 @@ class _TxDetailPageState extends State<TxDetailPage> {
 
     items.add(new Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 18,bottom: 20),
-      child: Text("Basic data", style: TextStyle(
-        fontSize: 20,
-        fontFamily: "Ubuntu",
-      ),),
+      margin: EdgeInsets.only(left: 18, bottom: 20),
+      child: Text(
+        "Basic data",
+        style: TextStyle(
+          fontSize: 20,
+          fontFamily: "Ubuntu",
+        ),
+      ),
     ));
 //    netAensInfo();
     items.add(
       Container(
           child: Container(
-            color:Color(0xFFEEEEEE),
+            color: Color(0xFFEEEEEE),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 1.0,
@@ -107,7 +110,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     items.add(
       Container(
           child: Container(
-            color:Color(0xFFEEEEEE),
+            color: Color(0xFFEEEEEE),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 1.0,
@@ -116,26 +119,28 @@ class _TxDetailPageState extends State<TxDetailPage> {
     items.add(
       Container(
           child: Container(
-            color:Color(0xFFFAFAFA),
+            color: Color(0xFFFAFAFA),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 30.0,
           color: Color(0xFFFFFFFF)),
     );
 
-
     items.add(new Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 18,bottom: 20),
-      child: Text("All the data", style: TextStyle(
-        fontSize: 20,
-        fontFamily: "Ubuntu",
-      ),),
+      margin: EdgeInsets.only(left: 18, bottom: 20),
+      child: Text(
+        "All the data",
+        style: TextStyle(
+          fontSize: 20,
+          fontFamily: "Ubuntu",
+        ),
+      ),
     ));
     items.add(
       Container(
           child: Container(
-            color:Color(0xFFEEEEEE),
+            color: Color(0xFFEEEEEE),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 1.0,
@@ -144,18 +149,9 @@ class _TxDetailPageState extends State<TxDetailPage> {
     widget.recordData.tx.forEach(
       (key, value) {
         var payload = widget.recordData.tx['payload'].toString();
-        if (payload != "" && payload != null && payload.length >= 11) {
+        if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
           try {
-            print("substring->" + payload);
-            var substring = payload.substring(3);
-            print("substring->" + substring);
-            var base64decode = Utils.base64Decode(substring);
-//
-//        print("substring->"+substring);
-//        var base64decode = Utils.base64Decode(substring);
-            print("base64decode->" + base64decode);
-            substring = base64decode.substring(0, base64decode.length - 4);
-            widget.recordData.tx['payload'] = substring;
+            widget.recordData.tx['payload'] = Utils.formatPayload(payload);
           } catch (e) {
             widget.recordData.tx['payload'] = payload;
           }
@@ -177,7 +173,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     items.add(
       Container(
           child: Container(
-            color:Color(0xFFEEEEEE),
+            color: Color(0xFFEEEEEE),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 1.0,
@@ -185,7 +181,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     );
     items.add(
       Container(
-        color:Color(0xFFFAFAFA),
+        color: Color(0xFFFAFAFA),
         height: 50.0,
       ),
     );

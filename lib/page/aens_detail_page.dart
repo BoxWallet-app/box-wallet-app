@@ -16,6 +16,7 @@ import 'package:box/model/aens_update_model.dart';
 import 'package:box/model/contract_decode_model.dart';
 import 'package:box/model/msg_sign_model.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
@@ -199,234 +200,192 @@ class _AensDetailPageState extends State<AensDetailPage> {
   }
 
   Future<void> netUpdateV2(BuildContext context, Function startLoading, Function stopLoading) async {
-    AensUpdaterDao.fetch(_aensInfoModel.data.name, this.address).then((MsgSignModel model) {
-      stopLoading();
-      if (model.code == 200) {
-        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-            builder: (BuildContext naContext) {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            child: Opacity(
+              opacity: anim1.value,
               // ignore: missing_return
-              return TxConformWidget(
-                  tx: tx,
-                  // ignore: missing_return
-                  dismissCallBackFuture: () {
-                    stopLoading();
-                  },
-                  // ignore: missing_return
-                  conformCallBackFuture: () {
-                    // ignore: missing_return
-                    showGeneralDialog(
-                        context: context,
-                        // ignore: missing_return
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  stopLoading();
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var signingKey = await BoxApp.getSigningKey();
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(signingKey, key);
+              child: PayPasswordWidget(
+                title: S.of(context).password_widget_input_password,
+                dismissCallBackFuture: (String password) {
+                  stopLoading();
+                  return;
+                },
+                passwordCallBackFuture: (String password) async {
+                  var signingKey = await BoxApp.getSigningKey();
+                  var address = await BoxApp.getAddress();
+                  final key = Utils.generateMd5Int(password + address);
+                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              stopLoading();
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx, "NameUpdateTx").then((model) {
-                                    stopLoading();
-                                    if (model.code == 200) {
-                                      showFlush(context);
-                                      print(model.data.hash);
-
-                                    }
-                                  }).catchError((e) {
-                                    stopLoading();
-                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                  });
-                                },
-                              ),
+                  if (aesDecode == "") {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
                             ),
-                          );
-                        });
-                  });
-            },
-            fullscreenDialog: true));
-      } else {
-        showPlatformDialog(
-          context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text(
-              S.of(context).dialog_hint_send_error,
-            ),
-            content: Text(model.msg),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text(
-                  S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365)),
-                ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
+                            onPressed: () {
+                              stopLoading();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  // ignore: missing_return
+                  BoxApp.updateName((tx) {
+                    print(tx);
+                    showFlush(context);
+                    stopLoading();
+                    // ignore: missing_return
+                  }, (error) {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(error),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
+                            ),
+                            onPressed: () {
+                              stopLoading();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    stopLoading();
+                    // ignore: missing_return
+                  }, aesDecode, address, _aensInfoModel.data.name);
+                  showChainLoading();
                 },
               ),
-            ],
-          ),
-        );
-      }
-    }).catchError((e) {
-      stopLoading();
-      Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+            ),
+          );
+        });
+  }
+
+  void showChainLoading() {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return ChainLoadingWidget();
+        });
   }
 
   Future<void> netPreclaimV2(BuildContext context, Function startLoading, Function stopLoading) async {
-    AensPreclaimDao.fetch(_aensInfoModel.data.name, this.address).then((MsgSignModel modelPre) {
-      stopLoading();
-      if (modelPre.code == 200) {
-        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(modelPre.data.tx));
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-            builder: (BuildContext naContext) {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            child: Opacity(
+              opacity: anim1.value,
               // ignore: missing_return
-              return TxConformWidget(
-                  tx: tx,
-                  // ignore: missing_return
-                  dismissCallBackFuture: () {
-                    stopLoading();
-                  },
-                  // ignore: missing_return
-                  conformCallBackFuture: () {
-                    // ignore: missing_return
-                    showGeneralDialog(
-                        context: context,
-                        // ignore: missing_return
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  stopLoading();
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var signingKey = await BoxApp.getSigningKey();
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(signingKey, key);
+              child: PayPasswordWidget(
+                title: S.of(context).password_widget_input_password,
+                dismissCallBackFuture: (String password) {
+                  stopLoading();
+                  return;
+                },
+                passwordCallBackFuture: (String password) async {
+                  var signingKey = await BoxApp.getSigningKey();
+                  var address = await BoxApp.getAddress();
+                  final key = Utils.generateMd5Int(password + address);
+                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              stopLoading();
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  var signMsg = BoxApp.signMsg(modelPre.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, modelPre.data.tx, "NamePreclaimTx").then((model) {
-                                    stopLoading();
-                                    if (model.code == 200) {
-//                                      showFlush(context);
-                                      netTh(context, startLoading, stopLoading, _aensInfoModel.data.name, modelPre.data.salt.toString(), model.data.hash);
-                                      print(model.data.hash);
-                                    }
-                                  }).catchError((e) {
-                                    stopLoading();
-                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                  });
-                                },
-                              ),
+                  if (aesDecode == "") {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
                             ),
-                          );
-                        });
-                  });
-            },
-            fullscreenDialog: true));
-      } else {
-        showPlatformDialog(
-          context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text(
-              S.of(context).dialog_hint_send_error,
-            ),
-            content: Text(modelPre.msg),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text(
-                  S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365)),
-                ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
+                            onPressed: () {
+                              stopLoading();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  // ignore: missing_return
+                  BoxApp.bidName((tx) {
+                    print(tx);
+                    showFlush(context);
+                    stopLoading();
+                    // ignore: missing_return
+                  }, (error) {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(error),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
+                            ),
+                            onPressed: () {
+                              stopLoading();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    stopLoading();
+                    // ignore: missing_return
+                  }, aesDecode, address, _aensInfoModel.data.name,(double.parse(_aensInfoModel.data.currentPrice)+double.parse(_aensInfoModel.data.currentPrice)*0.1).toString());
+                  showChainLoading();
                 },
               ),
-            ],
-          ),
-        );
-      }
-    }).catchError((e) {
-      print(e.toString());
-      stopLoading();
-      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+            ),
+          );
+        });
   }
 
   Future<void> netClaimV2(BuildContext context, Function startLoading, Function stopLoading, String name, String nameSalt) async {
@@ -555,7 +514,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
     EasyLoading.show();
     Future.delayed(Duration(seconds: 2), () {
       ThHashDao.fetch(th).then((model) {
-
         print(model.data.blockHeight);
         if (model.code == 200) {
           if (model.data.blockHeight == -1) {

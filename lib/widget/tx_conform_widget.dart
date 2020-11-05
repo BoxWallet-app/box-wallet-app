@@ -33,6 +33,7 @@ class TxConformWidget extends StatefulWidget {
 class _TxConformWidgetWidgetState extends State<TxConformWidget> {
   String text = '';
   List<Widget> items = [];
+
   @override
   void dispose() {
     super.dispose();
@@ -55,22 +56,19 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
         if (value > 10000000000) value = value / 1000000000000000000;
       }
       value = value.toString();
-//      if (value.contains('ak_') || value.contains('ct_') || value.contains('nm_')) {
-//        value = Utils.formatAddress(value);
-//      }
+      if (key == "Payload") {
+        value = Utils.formatPayload(value);
+      }
       items.add(buildItems(key, value));
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
         child: Material(
-
       type: MaterialType.transparency, //透明类型
-          color: Colors.white,
+      color: Colors.white,
       child: Center(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -96,7 +94,6 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
-
                       Navigator.pop(context); //关闭对话框
                       // ignore: unnecessary_statements
                     },
@@ -191,19 +188,20 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
             ],
           ),
           /*3*/
-          Expanded(child:  Container(
-              margin: EdgeInsets.only(left: 50),
-              alignment: Alignment.topRight,
-              child: Text(
-                value,
-                textAlign:TextAlign.right,
+          Expanded(
+            child: Container(
+                margin: EdgeInsets.only(left: 50),
+                alignment: Alignment.topRight,
+                child: Text(
+                  value,
+                  textAlign: TextAlign.right,
 //                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Ubuntu",
-                ),
-              )),),
-
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: "Ubuntu",
+                  ),
+                )),
+          ),
         ],
       ),
     );

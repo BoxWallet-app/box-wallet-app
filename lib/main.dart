@@ -155,79 +155,57 @@ class _TestState extends State<Test> {
   }
 }
 
-//class Test extends StatefulWidget {
-//  @override
-//  _TestState createState() => _TestState();
-//}
-//
-//class _TestState extends State<Test> {
-//  @override
-//  void initState() {
-//    super.initState();
-//    _showOverlay(context);
-//  }
-
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//      home: Scaffold(
-//        body: Container(
-//          child: Column(
-//            children: [
-//              MaterialButton(
-//                onPressed: () {
-//                  _webViewController.evaluateJavascript("getHeight();");
-//                },
-//                child: Text("Flutter js - HEIGHT"),
-//              ),
-//              MaterialButton(
-//                onPressed: () {
-//                  _webViewController.evaluateJavascript("getMnemonic();");
-//                },
-//                child: Text("Flutter js - WORD"),
-//              ),
-//              MaterialButton(
-//                onPressed: () {
-//                  _webViewController.evaluateJavascript("getSecretKey('edge input extra small april flip draft resist enlist card million steak');");
-//                },
-//                child: Text("Flutter js - getSecretKey"),
-//              ),
-//            ],
-//          ),
-//        ),
-//        floatingActionButton: Builder(builder: (context) {
-//          return FloatingActionButton(child: Icon(Icons.fiber_smart_record), onPressed: () => _showOverlay(context));
-//        }),
-//      ),
-//    );
-//  }
-//}
 typedef FlutterJsSecretKeyCallBack = Future Function(String signingKey, String address);
 typedef FlutterJsGenerateSecretKeyCallBack = Future Function(String signingKey, String address, String mnemonic);
 typedef FlutterJsValidationMnemonicCallBack = Future Function(bool isSucess);
+typedef FlutterJsSpendCallBack = Future Function(String tx);
+typedef FlutterJsContractTransferCallBack = Future Function(String data);
+typedef FlutterJsContractDefiUnLockV1CallBack = Future Function(String data);
+typedef FlutterJsErrorCallBack = Future Function(String error);
+typedef FlutterJsStatusCallBack = Future Function(String status);
+typedef FlutterJsClaimNameCallBack = Future Function(String status);
+typedef FlutterJsUpdateNameCallBack = Future Function(String status);
+typedef FlutterJsBidNameCallBack = Future Function(String status);
 
 typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
-  static bool isInitJs;
-
   static WebViewController webViewController;
 
-  static String filePath = 'assets/js/ae2.html';
-
+  //助记词换取私钥
   static FlutterJsSecretKeyCallBack flutterJsSecretKeyCallBack;
+
+  //生成助记词和私钥
   static FlutterJsGenerateSecretKeyCallBack flutterJsGenerateSecretKeyCallBack;
+
+  //验证助记词是否合法
   static FlutterJsValidationMnemonicCallBack flutterJsValidationMnemonicCallBack;
 
-  static loadHtmlFromAssets() async {
-    String fileHtmlContents = await rootBundle.loadString(filePath);
-    BoxApp.webViewController.loadUrl(Uri.dataFromString(fileHtmlContents, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString());
-    isInitJs = true;
-    print("初始化成功");
-  }
+  //转账
+  static FlutterJsSpendCallBack flutterJsSpendCallBack;
 
-  static String signMsg(String msg,String signingKey){
+  //注册域名
+  static FlutterJsClaimNameCallBack flutterJsClaimNameCallBack;
+
+  //更新域名
+  static FlutterJsUpdateNameCallBack flutterJsUpdateNameCallBack;
+
+  //加价域名
+  static FlutterJsBidNameCallBack flutterJsBidNameCallBack;
+
+  //合约转账
+  static FlutterJsContractTransferCallBack flutterJsContractTransferCallBack;
+
+  //V1合约解锁
+  static FlutterJsContractDefiUnLockV1CallBack flutterJsContractDefiUnLockV1CallBack;
+
+  //错误
+  static FlutterJsStatusCallBack flutterJsStatusCallBack;
+
+  //错误
+  static FlutterJsErrorCallBack flutterJsErrorCallBack;
+
+  static String signMsg(String msg, String signingKey) {
     var privateKeyHex = HEX.decode(signingKey);
     PrivateKey privateKey = new PrivateKey(privateKeyHex);
     var message = HEX.decode(msg);
@@ -251,14 +229,51 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("validationMnemonic('" + mnemonic + "');");
   }
 
+  static spend(FlutterJsSpendCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String amount) {
+    BoxApp.flutterJsSpendCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("spend('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + amount + "');");
+  }
+
+  static contractTransfer(FlutterJsContractTransferCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String ctID, String amount) {
+    BoxApp.flutterJsContractTransferCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractTransfer('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + ctID + "','" + amount + "');");
+  }
+
+  static contractDefiUnLockV1(FlutterJsContractDefiUnLockV1CallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String ctID, String height) {
+    BoxApp.flutterJsContractDefiUnLockV1CallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractDefiUnLockV1('" + secretKey + "','" + publicKey + "','" + ctID + "','" + height + "');");
+  }
+
+  static claimName(FlutterJsClaimNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name) {
+    BoxApp.flutterJsClaimNameCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("claimName('" + secretKey + "','" + publicKey + "','" + name + "');");
+  }
+
+  static updateName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name) {
+    BoxApp.flutterJsUpdateNameCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("updateName('" + secretKey + "','" + publicKey + "','" + name + "');");
+  }
+
+  static bidName(FlutterJsBidNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name, String nameFee) {
+    BoxApp.flutterJsBidNameCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("bidName('" + secretKey + "','" + publicKey + "','" + name + "','" + nameFee + "');");
+  }
+
+  static getStatus(FlutterJsStatusCallBack statusCallBack) {
+    BoxApp.flutterJsStatusCallBack = statusCallBack;
+  }
+
   // *** dome1 同时显示俩盒子。
-  static showOverlay(BuildContext context, FlutterJsInitCallBack callBack) async {
+  static startAeService(BuildContext context, FlutterJsInitCallBack callBack) async {
     final server = Jaguar(address: "127.0.0.1", port: 9000);
     server.addRoute(serveFlutterAssets());
     await server.serve(logRequests: true);
-    server.log.onRecord.listen((r) => debugPrint("==serve-log：$r"));
-//    String fileHtmlContents = await rootBundle.loadString(filePath);
-//    print(fileHtmlContents);
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Container(
@@ -267,7 +282,6 @@ class BoxApp extends StatelessWidget {
             width: 1,
             height: 1,
             child: WebView(
-//              initialUrl: Uri.dataFromString(fileHtmlContents, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
               initialUrl: "http://127.0.0.1:9000/html/ae.html",
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (String url) {
@@ -279,9 +293,60 @@ class BoxApp extends StatelessWidget {
               },
               javascriptChannels: [
                 JavascriptChannel(
-                    name: 'getHeight_JS',
+                    name: 'error_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      print("get message from JS, message is: ${message.message}");
+                      if (BoxApp.flutterJsErrorCallBack != null) {
+                        BoxApp.flutterJsErrorCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'spend_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsSpendCallBack != null) {
+                        BoxApp.flutterJsSpendCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'claimName_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsClaimNameCallBack != null) {
+                        BoxApp.flutterJsClaimNameCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'updateName_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsUpdateNameCallBack != null) {
+                        BoxApp.flutterJsUpdateNameCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'bidName_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsBidNameCallBack != null) {
+                        BoxApp.flutterJsBidNameCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractTransfer_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractTransferCallBack != null) {
+                        BoxApp.flutterJsContractTransferCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractDefiUnLockV1_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractDefiUnLockV1CallBack != null) {
+                        BoxApp.flutterJsContractDefiUnLockV1CallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'status_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsStatusCallBack != null) {
+                        BoxApp.flutterJsStatusCallBack(message.message);
+                      }
                     }),
                 JavascriptChannel(
                     name: 'getMnemonic_JS',

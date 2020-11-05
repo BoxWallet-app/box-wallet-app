@@ -16,6 +16,7 @@ import 'package:box/model/contract_call_model.dart';
 import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
 import 'package:common_utils/common_utils.dart';
@@ -47,7 +48,7 @@ class TokenSendTwoPage extends StatefulWidget {
 class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
-
+  final FocusNode focusNode = FocusNode();
   String address = '';
   String currentCoinName = 'AE';
 
@@ -168,7 +169,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    address,
+                                    Utils.formatAddress(address),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Ubuntu",
@@ -254,6 +255,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
 //                                          autofocus: true,
 
                                           controller: _textEditingController,
+                                          focusNode: focusNode,
                                           inputFormatters: [
                                             WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                                           ],
@@ -622,7 +624,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Future<String> getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
-        this.address = Utils.formatAddress(address);
+        this.address = address;
       });
     });
   }
@@ -632,213 +634,195 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   Future<void> netSendV2(BuildContext context, Function startLoading, Function stopLoading) async {
+    focusNode.unfocus();
     var senderID = await BoxApp.getAddress();
     if (currentCoinName == "AE") {
-      startLoading();
-      TokenSendDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
-
-        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-            builder: (BuildContext naContext) {
-              // ignore: missing_return
-              return TxConformWidget(
-                  tx: tx,
-                  // ignore: missing_return
-                  dismissCallBackFuture: (){
-                    stopLoading();
-                  },
-                  // ignore: missing_return
-                  conformCallBackFuture: () {
-                    // ignore: missing_return, missing_return
-                    showGeneralDialog(
-                        context: context,
-                        // ignore: missing_return
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  stopLoading();
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var signingKey = await BoxApp.getSigningKey();
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              stopLoading();
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx,"SpendTx").then((model) {
-                                    stopLoading();
-                                    if (model.code == 200) {
-
-                                      showFlushSucess(context);
-                                      print(model.data.hash);
-                                    }
-                                  }).catchError((e) {
-                                    stopLoading();
-                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                  });
-                                },
-                              ),
-                            ),
-                          );
-                        });
-                  });
-            },
-            fullscreenDialog: true));
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
-    } else {
-      startLoading();
-      ContractTransferCallDao.fetch(_textEditingController.text, senderID, widget.address).then((MsgSignModel model) {
-        if (model.code == 200) {
-          Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
-          Navigator.of(context).push(new MaterialPageRoute<Null>(
-              builder: (BuildContext naContext) {
+//      startLoading();
+      showGeneralDialog(
+          context: context,
+          // ignore: missing_return
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              child: Opacity(
+                opacity: anim1.value,
                 // ignore: missing_return
-                return TxConformWidget(
-                    tx: tx,
-                    // ignore: missing_return
-                    dismissCallBackFuture: (){
-                      stopLoading();
-                    },
-                    // ignore: missing_return
-                    conformCallBackFuture: () {
-                      // ignore: missing_return
-                      showGeneralDialog(
-                          context: context,
-                          // ignore: missing_return
-                          pageBuilder: (context, anim1, anim2) {},
-                          barrierColor: Colors.grey.withOpacity(.4),
-                          barrierDismissible: true,
-                          barrierLabel: "",
-                          transitionDuration: Duration(milliseconds: 400),
-                          transitionBuilder: (_, anim1, anim2, child) {
-                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                            return Transform(
-                              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                              child: Opacity(
-                                opacity: anim1.value,
-                                // ignore: missing_return
-                                child: PayPasswordWidget(
-                                  title: S.of(context).password_widget_input_password,
-                                  dismissCallBackFuture: (String password) {
-                                    stopLoading();
-                                    return;
-                                  },
-                                  passwordCallBackFuture: (String password) async {
-                                    var signingKey = await BoxApp.getSigningKey();
-                                    var address = await BoxApp.getAddress();
-                                    final key = Utils.generateMd5Int(password + address);
-                                    var aesDecode = Utils.aesDecode(signingKey, key);
+                child: PayPasswordWidget(
+                  title: S.of(context).password_widget_input_password,
+                  dismissCallBackFuture: (String password) {
+                    stopLoading();
+                    return;
+                  },
+                  passwordCallBackFuture: (String password) async {
+                    var signingKey = await BoxApp.getSigningKey();
+                    var address = await BoxApp.getAddress();
+                    final key = Utils.generateMd5Int(password + address);
+                    var aesDecode = Utils.aesDecode(signingKey, key);
 
-                                    if (aesDecode == "") {
-                                      showPlatformDialog(
-                                        context: context,
-                                        builder: (_) => BasicDialogAlert(
-                                          title: Text(S.of(context).dialog_hint_check_error),
-                                          content: Text(S.of(context).dialog_hint_check_error_content),
-                                          actions: <Widget>[
-                                            BasicDialogAction(
-                                              title: Text(
-                                                S.of(context).dialog_conform,
-                                                style: TextStyle(color: Color(0xFFFC2365)),
-                                              ),
-                                              onPressed: () {
-                                                stopLoading();
-                                                Navigator.of(context, rootNavigator: true).pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                      return;
-                                    }
-
-                                    var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                    TxBroadcastDao.fetch(signMsg, model.data.tx,"ContractCallTx").then((model) {
-                                      stopLoading();
-                                      if (model.code == 200) {
-                                        showFlushSucess(context);
-                                        print(model.data.hash);
-                                      }
-                                    }).catchError((e) {
-                                      stopLoading();
-                                      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                    });
-                                  },
-                                ),
+                    if (aesDecode == "") {
+                      showPlatformDialog(
+                        context: context,
+                        builder: (_) => BasicDialogAlert(
+                          title: Text(S.of(context).dialog_hint_check_error),
+                          content: Text(S.of(context).dialog_hint_check_error_content),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_conform,
+                                style: TextStyle(color: Color(0xFFFC2365)),
                               ),
-                            );
-                          });
-                    });
-              },
-              fullscreenDialog: true));
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text(
-                S.of(context).dialog_hint_send_error,
-              ),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
+                              onPressed: () {
+                                stopLoading();
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+                    // ignore: missing_return
+                    BoxApp.spend((tx) {
+                      showFlushSucess(context);
+                      stopLoading();
+                      // ignore: missing_return
+                    }, (error) {
+                      showPlatformDialog(
+                        context: context,
+                        builder: (_) => BasicDialogAlert(
+                          title: Text(S.of(context).dialog_hint_check_error),
+                          content: Text(error),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_conform,
+                                style: TextStyle(color: Color(0xFFFC2365)),
+                              ),
+                              onPressed: () {
+                                stopLoading();
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                      stopLoading();
+                    }, aesDecode, address, widget.address, _textEditingController.text);
+                    showChainLoading();
                   },
                 ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      });
+              ),
+            );
+          });
+
+    } else {
+//      startLoading();
+      showGeneralDialog(
+          context: context,
+          // ignore: missing_return
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (_, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              child: Opacity(
+                opacity: anim1.value,
+                // ignore: missing_return
+                child: PayPasswordWidget(
+                  title: S.of(context).password_widget_input_password,
+                  dismissCallBackFuture: (String password) {
+                    stopLoading();
+                    return;
+                  },
+                  passwordCallBackFuture: (String password) async {
+                    var signingKey = await BoxApp.getSigningKey();
+                    var address = await BoxApp.getAddress();
+                    final key = Utils.generateMd5Int(password + address);
+                    var aesDecode = Utils.aesDecode(signingKey, key);
+
+                    if (aesDecode == "") {
+                      showPlatformDialog(
+                        context: context,
+                        builder: (_) => BasicDialogAlert(
+                          title: Text(S.of(context).dialog_hint_check_error),
+                          content: Text(S.of(context).dialog_hint_check_error_content),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_conform,
+                                style: TextStyle(color: Color(0xFFFC2365)),
+                              ),
+                              onPressed: () {
+                                stopLoading();
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+                    // ignore: missing_return
+                    BoxApp.contractTransfer((tx) {
+                      showFlushSucess(context);
+                      stopLoading();
+                      // ignore: missing_return
+                    }, (error) {
+                      showPlatformDialog(
+                        context: context,
+                        builder: (_) => BasicDialogAlert(
+                          title: Text(S.of(context).dialog_hint_check_error),
+                          content: Text(error),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_conform,
+                                style: TextStyle(color: Color(0xFFFC2365)),
+                              ),
+                              onPressed: () {
+                                stopLoading();
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                      stopLoading();
+                      // ignore: missing_return
+                    }, aesDecode, address, "ct_ypGRSB6gEy8koLg6a4WRdShTfRsh9HfkMkxsE2SMCBk3JdkNP", widget.address, _textEditingController.text);
+                    showChainLoading();
+                  },
+                ),
+              ),
+            );
+          });
     }
   }
 
+  void showChainLoading() {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return ChainLoadingWidget();
+        });
+  }
 
   void showFlushSucess(BuildContext context) {
     flush = Flushbar<bool>(

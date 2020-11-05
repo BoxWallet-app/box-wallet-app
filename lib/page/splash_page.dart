@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     // ignore: missing_return
-    BoxApp.showOverlay(context, () {
+    BoxApp.startAeService(context, () {
       SharedPreferences.getInstance().then((sp) {
         // ignore: missing_return
         var isLanguage = sp.getString('is_language');

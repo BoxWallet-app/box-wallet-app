@@ -20,6 +20,7 @@ import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/token_defi_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
@@ -253,117 +254,99 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
   }
 
   void netUnLockV2(int index) {
-    EasyLoading.show();
-    ContractCallDao.fetch("unlock", contractRecordModel.data[index].unlockHeight.toString(), address, "").then((MsgSignModel model) {
-      EasyLoading.dismiss();
-      if (model.code == 200) {
-        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-            builder: (BuildContext naContext) {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            child: Opacity(
+              opacity: anim1.value,
               // ignore: missing_return
-              return TxConformWidget(
-                  tx: tx,
-                  // ignore: missing_return
-                  dismissCallBackFuture: () {
-//                    stopLoading();
-                  },
-                  // ignore: missing_return
-                  conformCallBackFuture: () {
-                    // ignore: missing_return
-                    showGeneralDialog(
-                        context: context,
-                        // ignore: missing_return
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  EasyLoading.dismiss();
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var signingKey = await BoxApp.getSigningKey();
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(signingKey, key);
+              child: PayPasswordWidget(
+                title: S.of(context).password_widget_input_password,
+                dismissCallBackFuture: (String password) {
+                  return;
+                },
+                passwordCallBackFuture: (String password) async {
+                  var signingKey = await BoxApp.getSigningKey();
+                  var address = await BoxApp.getAddress();
+                  final key = Utils.generateMd5Int(password + address);
+                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              EasyLoading.dismiss();
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx, "ContractCallTx").then((model) {
-                                    print(model.toJson());
-                                    if (model.code == 200) {
-                                      print(model.data.hash);
-                                      netContractTx(model.data.hash, "lock");
-                                    }
-                                  }).catchError((e) {
-                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                  });
-                                },
-                              ),
+                  if (aesDecode == "") {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
                             ),
-                          );
-                        });
-                  });
-            },
-            fullscreenDialog: true));
-      } else {
-        showPlatformDialog(
-          context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text(
-              S.of(context).dialog_hint_send_error,
-            ),
-            content: Text(model.msg),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text(
-                  S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365)),
-                ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  // ignore: missing_return
+                  BoxApp.contractDefiUnLockV1((tx) {
+                    // ignore: missing_return
+                  }, (error) {
+                    print(error);
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(error),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365)),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    // ignore: missing_return
+                  }, aesDecode, address, "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T",contractRecordModel.data[index].unlockHeight.toString());
+                  showChainLoading();
                 },
               ),
-            ],
-          ),
-        );
-      }
-    }).catchError((e) {
-      EasyLoading.dismiss(animation: true);
-      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+            ),
+          );
+        });
+  }
+
+  void showChainLoading() {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return ChainLoadingWidget();
+        });
   }
 
   Future<void> netData() async {
@@ -643,7 +626,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                             Expanded(
                               child: Container(),
                             ),
-                            buildUpdate(context, index),
+//                            buildUpdate(context, index),
                             buildContainerExpanded(index),
                             buildUnlock(context, index),
                           ],
@@ -684,8 +667,8 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
   }
 
   Container buildUnlock(BuildContext context, int index) {
-//    if (true) {
-    if (contractRecordModel.data[index].height > contractRecordModel.data[index].unlockHeight) {
+    if (true) {
+//    if (contractRecordModel.data[index].height > contractRecordModel.data[index].unlockHeight) {
       return Container(
         height: 30,
         width: (MediaQuery.of(context).size.width - 18 * 4) / 2 - 10,
@@ -991,7 +974,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
       return S.of(context).defi_record_item_status_unlock;
     }
     if (contractRecordModel.data[index].height > contractRecordModel.data[index].continueHeight) {
-      return S.of(context).defi_record_item_status_continue;
+      return S.of(context).defi_record_item_status_lock;
     }
     return "-";
   }

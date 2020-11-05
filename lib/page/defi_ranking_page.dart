@@ -42,11 +42,11 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             child: ClipRect(
               child: Container(
                 margin: EdgeInsets.only(bottom: 50),
-                height: 650,
+                height: 600,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
-                    colors: [Color(0xff2453DF), Colors.blueAccent, Colors.blue, Colors.white],
+                    colors: [Colors.blue,Colors.blueAccent, Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
                   ),
                 ),
 //                color: Color(0xff2453DF),
@@ -98,14 +98,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Positioned(
-            top: 320,
+            top: 315,
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: getItemTitle(context),
             ),
           ),
           Positioned(
-            top: 370,
+            top: 365,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 370,
@@ -132,7 +132,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Positioned(
-            top: 260,
+            top: 255,
             child: ClipRect(
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
@@ -146,8 +146,8 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                     BoxShadow(
                         color: Colors.black12,
                         offset: Offset(0.0, 5.0), //阴影xy轴偏移量
-                        blurRadius: 15.0, //阴影模糊程度
-                        spreadRadius: 1.0 //阴影扩散程度
+                        blurRadius: 10.0, //阴影模糊程度
+                        spreadRadius: 0.5 //阴影扩散程度
                         )
                   ],
                 ),
@@ -242,20 +242,22 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
     return Container(
       color: index % 2 == 1 ? Colors.white : Color(0x66eeeeee),
       height: 50,
-      padding: EdgeInsets.only(left: 18,right: 18),
+      padding: EdgeInsets.only(left: 18, right: 18),
       child: Row(
         children: [
           Container(
             alignment: Alignment.center,
             width: 30,
-            child:index != 0 ? Text(
-              (index + 1).toString(),
-              style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: "Ubuntu"),
-            ):Image(
-              width: 30,
-              height: 30,
-              image: AssetImage("images/ranking_one.png"),
-            ),
+            child: index != 0
+                ? Text(
+                    (index + 1).toString(),
+                    style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: "Ubuntu"),
+                  )
+                : Image(
+                    width: 30,
+                    height: 30,
+                    image: AssetImage("images/ranking_one.png"),
+                  ),
           ),
           Container(
             width: 15,
@@ -304,7 +306,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Container(
-            width: 15,
+            width: 35,
           ),
           Expanded(
             child: Container(
