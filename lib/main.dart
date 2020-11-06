@@ -176,8 +176,7 @@ typedef FlutterJsBidNameCallBack = Future Function(String status);
 typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
-
-  static String language ="";
+  static String language = "";
 
   static WebViewController webViewController;
 
@@ -296,6 +295,10 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("bidName('" + secretKey + "','" + publicKey + "','" + name + "','" + nameFee + "');");
   }
 
+  static setNodeCompilerUrl(String node, String compiler) {
+    BoxApp.webViewController.evaluateJavascript("setNodeCompilerUrl('" + node + "','" + compiler + "');");
+  }
+
   static getStatus(FlutterJsStatusCallBack statusCallBack) {
     BoxApp.flutterJsStatusCallBack = statusCallBack;
   }
@@ -340,23 +343,21 @@ class BoxApp extends StatelessWidget {
                 JavascriptChannel(
                     name: 'contractDefiV2Lock_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      if (BoxApp.flutterJsContractDefiLockV2CallBack!= null) {
+                      if (BoxApp.flutterJsContractDefiLockV2CallBack != null) {
                         BoxApp.flutterJsContractDefiLockV2CallBack(message.message);
                       }
                     }),
-
                 JavascriptChannel(
                     name: 'contractDefiV2UnLock_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      if (BoxApp.flutterJsContractDefiUnLockV2CallBack!= null) {
+                      if (BoxApp.flutterJsContractDefiUnLockV2CallBack != null) {
                         BoxApp.flutterJsContractDefiUnLockV2CallBack(message.message);
                       }
                     }),
-
                 JavascriptChannel(
                     name: 'contractDefiV2Benefits_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      if (BoxApp.flutterJsContractDefiBenefitsV2CallBack!= null) {
+                      if (BoxApp.flutterJsContractDefiBenefitsV2CallBack != null) {
                         BoxApp.flutterJsContractDefiBenefitsV2CallBack(message.message);
                       }
                     }),
@@ -475,15 +476,37 @@ class BoxApp extends StatelessWidget {
     );
   }
 
-  static setMnemonic(String mnemonic) async {
+  static setNodeUrl(String nodeUrl) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('mnemonic', mnemonic);
+    prefs.setString('nodeUrl', nodeUrl);
+  }
+
+  static Future<String> getNodeUrl() async {
+    var prefs = await SharedPreferences.getInstance();
+    var nodeUrl = prefs.getString('nodeUrl');
+    return nodeUrl;
+  }
+
+  static setCompilerUrl(String compilerUrl) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('compilerUrl', compilerUrl);
+  }
+
+  static Future<String> getCompilerUrl() async {
+    var prefs = await SharedPreferences.getInstance();
+    var compilerUrl = prefs.getString('compilerUrl');
+    return compilerUrl;
   }
 
   static Future<String> getMnemonic() async {
     var prefs = await SharedPreferences.getInstance();
     var mnemonic = prefs.getString('mnemonic');
     return mnemonic;
+  }
+
+  static setMnemonic(String mnemonic) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('mnemonic', mnemonic);
   }
 
   static setSigningKey(String signingKey) async {

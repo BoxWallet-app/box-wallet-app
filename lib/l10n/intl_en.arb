@@ -77,6 +77,12 @@
   "setting_page_item_version": "Version",
   "setting_page_item_logout": "Logout",
 
+  "setting_page_node_set": "Node Configuration",
+  "setting_page_node_url": "Node Address",
+  "setting_page_compiler_url": "Editor Address",
+  "setting_page_node_save": "Save",
+  "setting_page_node_reset": "Reset",
+
   "scan_page_content": "Scan the QR code for payment",
 
   "dialog_hint": "Hint",
@@ -124,6 +130,8 @@
   "defi_card_mine": "The pledge",
   "defi_card_hint": "Mining Rules",
 
+  "defi_card_in_title_content": "The amount of pledge",
+  "defi_card_out_title_content": "Retrieve quantity",
   "defi_card_my_get_hint": "My Earnings (ABC)",
   "defi_card_get": "Receive",
   "defi_card_out": "Extract",
@@ -182,7 +190,8 @@
   "dialog_defi_continue_sucess": "Successful renewal",
 
 
-
+  "dialog_node_set_error": "Node address or compiler address is not available",
+  "dialog_node_set_sucess": "Save successfully",
 
 
 

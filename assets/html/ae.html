@@ -1125,10 +1125,21 @@ payable contract ABCLockContractV2 =
 
 	`
 
+
+    let nodeUrl = 'https://node.aeasy.io';
+    let compilerUrl = 'https://compiler.aeasy.io';
+
+
+    const setNodeCompilerUrl = function (node, compiler) {
+        nodeUrl  = node;
+        compilerUrl  = compiler;
+    }
+
+
     const contractDefiV2Lock = function (secretKey, publicKey, ctId, amount) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
-                compilerUrl: 'https://compiler.aeasy.io',
+                compilerUrl: compilerUrl,
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
                     keypair: {
@@ -1174,9 +1185,9 @@ payable contract ABCLockContractV2 =
     };
 
     const contractDefiV2UnLock = function (secretKey, publicKey, ctId, amount) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
-                compilerUrl: 'https://compiler.aeasy.io',
+                compilerUrl: compilerUrl,
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
                     keypair: {
@@ -1219,9 +1230,9 @@ payable contract ABCLockContractV2 =
         });
     };
     const contractDefiV2Benefits = function (secretKey, publicKey, ctId) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
-                compilerUrl: 'https://compiler.aeasy.io',
+                compilerUrl: compilerUrl,
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
                     keypair: {
@@ -1267,9 +1278,9 @@ payable contract ABCLockContractV2 =
 
 
     const contractTransfer = function (secretKey, publicKey, ctId, receiveID, amount) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
-                compilerUrl: 'https://compiler.aeasy.io',
+                compilerUrl: compilerUrl,
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
                     keypair: {
@@ -1314,9 +1325,9 @@ payable contract ABCLockContractV2 =
     };
 
     const contractDefiUnLockV1 = function (secretKey, publicKey, ctId, height) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
-                compilerUrl: 'https://compiler.aeasy.io',
+                compilerUrl: compilerUrl,
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
                     keypair: {
@@ -1368,7 +1379,7 @@ payable contract ABCLockContractV2 =
     };
 
     const spend = function (secretKey, publicKey, receiveID, amount) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
                 nodes: [{name: 'local', instance: node}],
                 accounts: [Ae.MemoryAccount({
@@ -1408,7 +1419,7 @@ payable contract ABCLockContractV2 =
 
 
     const claimName = function (signingKey, publicKey, name) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
                 nodes: [{name: 'local', instance: node}],
                 accounts: [
@@ -1446,7 +1457,7 @@ payable contract ABCLockContractV2 =
     }
 
     const updateName = function (signingKey, publicKey, name) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
                 nodes: [{name: 'local', instance: node}],
                 accounts: [
@@ -1483,7 +1494,7 @@ payable contract ABCLockContractV2 =
 
 
     const bidName = function (signingKey, publicKey, name, nameFee) {
-        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+        Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
                 nodes: [{name: 'local', instance: node}],
                 accounts: [

@@ -240,7 +240,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "提取数量",
+                                            S.of(context).defi_card_out_title_content,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontFamily: "Ubuntu",

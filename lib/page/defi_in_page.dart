@@ -235,7 +235,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            "质押数量",
+                                            S.of(context).defi_card_in_title_content,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
                                               fontFamily: "Ubuntu",

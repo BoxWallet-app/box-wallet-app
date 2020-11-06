@@ -673,6 +673,56 @@ class S {
     );
   }
 
+  /// `Node Configuration`
+  String get setting_page_node_set {
+    return Intl.message(
+      'Node Configuration',
+      name: 'setting_page_node_set',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Node Address`
+  String get setting_page_node_url {
+    return Intl.message(
+      'Node Address',
+      name: 'setting_page_node_url',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Editor Address`
+  String get setting_page_compiler_url {
+    return Intl.message(
+      'Editor Address',
+      name: 'setting_page_compiler_url',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get setting_page_node_save {
+    return Intl.message(
+      'Save',
+      name: 'setting_page_node_save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get setting_page_node_reset {
+    return Intl.message(
+      'Reset',
+      name: 'setting_page_node_reset',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Scan the QR code for payment`
   String get scan_page_content {
     return Intl.message(
@@ -1028,6 +1078,26 @@ class S {
     return Intl.message(
       'Mining Rules',
       name: 'defi_card_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount of pledge`
+  String get defi_card_in_title_content {
+    return Intl.message(
+      'The amount of pledge',
+      name: 'defi_card_in_title_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retrieve quantity`
+  String get defi_card_out_title_content {
+    return Intl.message(
+      'Retrieve quantity',
+      name: 'defi_card_out_title_content',
       desc: '',
       args: [],
     );
@@ -1458,6 +1528,26 @@ class S {
     return Intl.message(
       'Successful renewal',
       name: 'dialog_defi_continue_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Node address or compiler address is not available`
+  String get dialog_node_set_error {
+    return Intl.message(
+      'Node address or compiler address is not available',
+      name: 'dialog_node_set_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save successfully`
+  String get dialog_node_set_sucess {
+    return Intl.message(
+      'Save successfully',
+      name: 'dialog_node_set_sucess',
       desc: '',
       args: [],
     );

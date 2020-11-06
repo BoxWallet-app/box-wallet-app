@@ -79,6 +79,16 @@
   "setting_page_item_version": "版本",
   "setting_page_item_logout": "退出",
 
+
+  "setting_page_node_set": "节点配置",
+  "setting_page_node_url": "节点地址",
+  "setting_page_compiler_url": "编辑器地址",
+  "setting_page_node_save": "保存",
+  "setting_page_node_reset": "重置",
+
+
+
+
   "scan_page_content": "扫二维码进行付款",
 
 
@@ -133,6 +143,9 @@
   "defi_card_mine" : "质押",
   "defi_card_hint" : "挖矿规则",
 
+
+  "defi_card_in_title_content" : "质押数量",
+  "defi_card_out_title_content" : "提取数量",
   "defi_card_my_get_hint" : "我的收益(ABC)",
   "defi_card_get" : "收取",
   "defi_card_out" : "提取",
@@ -197,6 +210,9 @@
   "defi_ranking_content" : "已产出 (ABC)",
 
 
+
+  "dialog_node_set_error" : "节点地址或编译器地址不可用",
+  "dialog_node_set_sucess" : "保存成功",
 
   "dialog_defi_unlock_sucess" : "解锁成功",
   "dialog_defi_lock_sucess" : "质押成功",

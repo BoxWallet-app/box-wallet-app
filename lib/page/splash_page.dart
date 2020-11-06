@@ -101,19 +101,26 @@ class _SplashPageState extends State<SplashPage> {
         }
       });
     });
-
   }
 
   void goHome() {
-    // ignore: missing_return
-    BoxApp.getAddress().then((value) {
-      SharedPreferences.getInstance().then((sp) {
-        sp.setString('is_language', "true");
-        if (value.length > 10) {
-          Navigator.pushReplacement(context, CustomRoute(HomePage()));
-        } else {
-          Navigator.pushReplacement(context, CustomRoute(LoginPage()));
+    BoxApp.getNodeUrl().then((nodeUrl) {
+      BoxApp.getCompilerUrl().then((compilerUrl) {
+        if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
+          BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
         }
+
+        // ignore: missing_return
+        BoxApp.getAddress().then((value) {
+          SharedPreferences.getInstance().then((sp) {
+            sp.setString('is_language', "true");
+            if (value.length > 10) {
+              Navigator.pushReplacement(context, CustomRoute(HomePage()));
+            } else {
+              Navigator.pushReplacement(context, CustomRoute(LoginPage()));
+            }
+          });
+        });
       });
     });
   }
@@ -129,9 +136,9 @@ class _SplashPageState extends State<SplashPage> {
             alignment: Alignment.center,
             children: [
               Positioned(
-                top:0,
+                top: 0,
                 bottom: 100,
-                left:0,
+                left: 0,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -146,11 +153,10 @@ class _SplashPageState extends State<SplashPage> {
                 ),
               ),
               Positioned(
-                bottom: MediaQueryData.fromWindow(window).padding.bottom +50,
+                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
                 child: Container(
-
                   alignment: Alignment.center,
-                  child:  Text(
+                  child: Text(
                     "· Infinite possibility ·",
                     style: TextStyle(
                       fontSize: 20,
