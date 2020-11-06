@@ -1,20 +1,32 @@
 import 'dart:convert';
 
 import 'package:box/generated/l10n.dart';
-import 'package:box/main.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
-
+import 'package:date_time_format/date_time_format.dart';
 class Utils {
   static formatAddress(String address) {
-    if(address == ""|| address.length<=4){
+    if (address == "" || address.length <= 4) {
       return "";
     }
 //    print(address);
     return "ak_***" + address.substring(address.length - 4, address.length);
+  }
+
+  static getCurrentDate() {
+    final dateTime = DateTime.now();
+    return dateTime.format('D, M j, H:i');
+  }
+
+  static formatCTAddress(String address) {
+    if (address == "" || address.length <= 4) {
+      return "";
+    }
+//    print(address);
+    return "ct_***" + address.substring(address.length - 4, address.length);
   }
 
   static formatHomeAddress(String address) {
@@ -22,7 +34,6 @@ class Utils {
   }
 
   static formatPayload(String payload) {
-
     if (payload != "" && payload != null && payload != "null") {
       try {
         if (payload.contains("ba_")) {
@@ -30,11 +41,10 @@ class Utils {
           var base64decode = Utils.base64Decode(substring);
           substring = base64decode.substring(0, base64decode.length - 4);
           return substring;
-        }else{
+        } else {
           var base64decode = Utils.base64Decode(payload);
           return base64decode;
         }
-
       } catch (e) {
         return payload;
       }

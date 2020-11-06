@@ -46,7 +46,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
-                    colors: [Colors.blue,Colors.blueAccent, Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
+                    colors: [Colors.blue, Colors.blueAccent, Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
                   ),
                 ),
 //                color: Color(0xff2453DF),
@@ -78,18 +78,25 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
               margin: const EdgeInsets.only(left: 30),
               child: Column(
                 children: [
-                  Container(
-                    child: Image(
-                      width: 144,
-                      height: 48,
-                      image: AssetImage("images/ranking_text.png"),
-                    ),
-                  ),
+                  BoxApp.language == "cn"
+                      ? Container(
+                          child: Image(
+                            width: 144,
+                            height: 48,
+                            image: AssetImage("images/ranking_text.png"),
+                          ),
+                        )
+                      : Container(
+                          child: Text(
+                            "Ranking",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: "Ubuntu"),
+                          ),
+                        ),
                   Container(
                     margin: const EdgeInsets.only(top: 10),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "数据更新于 2020年10月30日",
+                      "Update Time: " + Utils.getCurrentDate(),
                       style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: "Ubuntu"),
                     ),
                   ),
@@ -301,7 +308,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
         children: [
           Container(
             child: Text(
-              "排名",
+              S.of(context).defi_raking_1,
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
             ),
           ),
@@ -311,14 +318,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           Expanded(
             child: Container(
               child: Text(
-                "地址",
+                S.of(context).defi_raking_2,
                 style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
-              "百分比",
+              S.of(context).defi_raking_3,
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
             ),
           ),
@@ -329,7 +336,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             width: 130,
             alignment: Alignment.centerRight,
             child: Text(
-              "数量(ABC)",
+              S.of(context).defi_raking_4,
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
             ),
           ),

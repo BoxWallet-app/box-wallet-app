@@ -21,6 +21,7 @@ import 'package:box/page/scan_page.dart';
 import 'package:box/page/settings_page.dart';
 import 'package:box/page/token_send_two_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
 import 'package:common_utils/common_utils.dart';
@@ -40,6 +41,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
 import 'aens_my_page.dart';
+import 'defi_in_page.dart';
+import 'defi_out_page.dart';
 import 'defi_ranking_page.dart';
 import 'defi_records_page.dart';
 
@@ -73,11 +76,11 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     super.initState();
     // Subscribe
     KeyboardVisibility.onChange.listen((bool visible) {
-      if (visible) {
-        isInput = false;
-      } else {
-        isInput = true;
-      }
+//      if (visible) {
+//        isInput = false;
+//      } else {
+//        isInput = true;
+//      }
       if (!mounted) {
         return;
       }
@@ -98,7 +101,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      print(e.toString());
+      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -110,6 +114,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
+      print(e.toString());
       EasyLoading.dismiss(animation: true);
 //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
@@ -143,6 +148,21 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     ),
                   ),
                   Positioned(
+                    right: 20,
+                    top: MediaQueryData.fromWindow(window).padding.top + 55,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: Image(
+                            image: AssetImage('images/defi_logo.png'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
                     child: SingleChildScrollView(
                       controller: _scrollController,
                       child: Container(
@@ -150,7 +170,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 18, top: 120, right: 18),
+                              margin: const EdgeInsets.only(left: 18, top: 140, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
                                 strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: "Ubuntu"),
@@ -159,514 +179,24 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             ),
                             buildContainerCount(context),
                             Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.only(top: 9, left: 18, right: 20),
-                              //边框设置
-//                              height: MediaQuery.of(context).size.height,
-                              decoration: new BoxDecoration(
-                                  color: Color(0xFFFFFFFF),
-//                                  color: Color(0xE6FFFFFF),
-                                  //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: []),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: const EdgeInsets.all(0),
-                                    //边框设置
-                                    decoration: new BoxDecoration(
-//                                      color: Color(0xFFEEEEEE),
-                                      //设置四周圆角 角度
-                                      borderRadius: BorderRadius.all(Radius.circular(0.0)),
-
-                                      //设置四周边框
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            S.of(context).defi_card_time,
-                                            style: new TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Ubuntu", color: Color(0xFF000000)),
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: 18, top: 32),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 18, right: 18, top: 10),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Material(
-                                                color: Colors.transparent,
-                                                child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      day = 1;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: new BoxDecoration(
-                                                        color: Color(day == 1 ? dayCheckColor : dayUnCheckColor),
-                                                        //设置四周圆角 角度
-                                                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                                        boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width / 5.5,
-                                                    height: 40,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Container(
-                                                          child: Text(
-                                                            "1",
-                                                            style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 40,
-                                                          margin: EdgeInsets.only(top: 17),
-                                                          child: Text(
-                                                            S.of(context).defi_card_time_day,
-                                                            style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Container(),
-                                              ),
-                                              Material(
-                                                color: Colors.transparent,
-                                                child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      day = 7;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: new BoxDecoration(
-                                                        color: Color(day == 7 ? dayCheckColor : dayUnCheckColor),
-                                                        //设置四周圆角 角度
-                                                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                                        boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width / 5.5,
-                                                    height: 40,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Container(
-                                                          child: Text(
-                                                            "7",
-                                                            style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 40,
-                                                          margin: EdgeInsets.only(top: 17),
-                                                          child: Text(
-                                                            S.of(context).defi_card_time_day,
-                                                            style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Container(),
-                                              ),
-                                              Material(
-                                                color: Colors.transparent,
-                                                child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      day = 30;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: new BoxDecoration(
-                                                        color: Color(day == 30 ? dayCheckColor : dayUnCheckColor),
-                                                        //设置四周圆角 角度
-                                                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                                        boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width / 5.5,
-                                                    height: 40,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Container(
-                                                          child: Text(
-                                                            "30",
-                                                            style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 40,
-                                                          margin: EdgeInsets.only(top: 17),
-                                                          child: Text(
-                                                            S.of(context).defi_card_time_day,
-                                                            style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Container(),
-                                              ),
-                                              Material(
-                                                color: Colors.transparent,
-                                                child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      day = 90;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: new BoxDecoration(
-                                                        color: Color(day == 90 ? dayCheckColor : dayUnCheckColor),
-                                                        //设置四周圆角 角度
-                                                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                                        boxShadow: []),
-                                                    width: MediaQuery.of(context).size.width / 5.5,
-                                                    height: 40,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Container(
-                                                          child: Text(
-                                                            "90",
-                                                            style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 40,
-                                                          margin: EdgeInsets.only(top: 17),
-                                                          child: Text(
-                                                            S.of(context).defi_card_time_day,
-                                                            style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            S.of(context).defi_card_count,
-                                            style: new TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Ubuntu", color: Color(0xFF000000)),
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: 18, top: 25),
-                                        ),
-                                        Center(
-                                          child: Container(
-                                            height: 50,
-                                            width: MediaQuery.of(context).size.width,
-                                            margin: EdgeInsets.only(left: 18, right: 18, top: 10),
-                                            padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                                            decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
-                                            child: TextField(
-                                              controller: _textEditingController,
-                                              inputFormatters: [
-                                                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
-                                              ],
-                                              style: TextStyle(
-                                                fontSize: 19,
-                                                color: Colors.black,
-                                              ),
-                                              maxLines: 1,
-
-                                              decoration: InputDecoration(
-                                                hintText: '',
-                                                enabledBorder: new UnderlineInputBorder(
-                                                  borderSide: BorderSide(color: Color(0x00000000)),
-                                                ),
-// and:
-                                                focusedBorder: new UnderlineInputBorder(
-                                                  borderSide: BorderSide(color: Color(0x00000000)),
-                                                ),
-                                                hintStyle: TextStyle(
-                                                  fontSize: 19,
-                                                  color: Colors.black.withAlpha(80),
-                                                ),
-                                              ),
-                                              cursorColor: Color(0xFFFC2365),
-                                              cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                S.of(context).defi_card_balance,
-                                                style: new TextStyle(fontSize: 12, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
-                                              ),
-                                              Expanded(
-                                                child: Container(),
-                                              ),
-                                              Text(
-                                                token,
-                                                style: new TextStyle(fontSize: 12, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
-                                              ),
-                                            ],
-                                          ),
-                                          alignment: Alignment.topLeft,
-                                          margin: EdgeInsets.only(left: 18, top: 5, right: 18),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 30, bottom: 10),
-                                          child: ArgonButton(
-                                            height: 50,
-                                            roundLoadingShape: true,
-                                            width: 260,
-                                            onTap: (startLoading, stopLoading, btnState) {
-//                                              netLock();
-                                            netLockV2();
-                                            },
-                                            child: Text(
-                                              S.of(context).defi_card_mine,
-                                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Colors.white),
-                                            ),
-                                            loader: Container(
-                                              padding: EdgeInsets.all(10),
-                                              child: SpinKitRing(
-                                                lineWidth: 4,
-                                                color: Color(0xFF0072FF),
-                                                // size: loaderWidth ,
-                                              ),
-                                            ),
-                                            borderRadius: 30.0,
-                                            color: Color(0xFF0072FF),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 0, bottom: 20),
-                                          child: MaterialButton(
-                                            child: Text(
-                                              S.of(context).defi_card_hint,
-                                              style: new TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: "Ubuntu"),
-                                            ),
-                                            height: 50,
-                                            minWidth: 120,
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                                            onPressed: () {
-                                              showMaterialModalBottomSheet(
-                                                context: context,
-                                                backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
-                                                builder: (context, scrollController) => Container(
-                                                  height: 600,
-                                                  decoration: new BoxDecoration(
-                                                      color: Color(0xFFFFFFFF),
-                                                      //设置四周圆角 角度
-                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                                                      boxShadow: []),
-                                                  child: SingleChildScrollView(
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          height: 30,
-                                                        ),
-//
-//                        Container(
-//                          child: Text(
-//                            "全称 : AE MONEY BOX\n总量 : 5亿\n团队 :  2%  锁仓 \n运营 :  5%  锁仓\n寓意 : AE 的资金盒子\n中文名 : 按摩棒\n初衷 : 用于刺激AE 价格实现锁仓收益, 产生的代币 , 不割韭菜不",
-//                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-//                            style: TextStyle(fontSize: 14, letterSpacing: 1.0, color: Colors.black.withAlpha(200), fontFamily: "Ubuntu", height: 1.5),
-//                          ),
-//                          alignment: Alignment.topLeft,
-//                          margin: EdgeInsets.only(left: 18, top: 5,right: 18),
-//                        ),
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_base,
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 10),
-                                                        ),
-
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_base_content,
-                                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                            style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 15, right: 18),
-                                                        ),
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_day,
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 10),
-                                                        ),
-                                                        Container(
-                                                            padding: EdgeInsets.all(16),
-                                                            width: MediaQuery.of(context).size.width,
-                                                            child: DataTable(columns: [
-                                                              DataColumn(label: Text(S.of(context).defi_card_hint_day_content1)),
-                                                              DataColumn(label: Text(S.of(context).defi_card_hint_day_content2)),
-                                                              DataColumn(label: Text(S.of(context).defi_card_hint_day_content3)),
-                                                            ], rows: [
-                                                              DataRow(cells: [DataCell(Text('1000')), DataCell(Text('1')), DataCell(Text('1'))]),
-                                                              DataRow(cells: [DataCell(Text('1000')), DataCell(Text('7')), DataCell(Text('1.2'))]),
-                                                              DataRow(cells: [DataCell(Text('1000')), DataCell(Text('30')), DataCell(Text('1.5'))]),
-                                                              DataRow(cells: [DataCell(Text('1000')), DataCell(Text('90')), DataCell(Text('2'))])
-                                                            ])),
-
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_mine,
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 10),
-                                                        ),
-
-                                                        Container(
-                                                            padding: EdgeInsets.all(16),
-                                                            width: MediaQuery.of(context).size.width,
-                                                            child: DataTable(columns: [
-                                                              DataColumn(
-                                                                  label: Text(
-                                                                S.of(context).defi_card_hint_mine_content1,
-                                                              )),
-                                                              DataColumn(
-                                                                  label: Text(
-                                                                S.of(context).defi_card_hint_mine_content2,
-                                                              )),
-                                                            ], rows: [
-                                                              DataRow(cells: [
-                                                                DataCell(Text('0-1m')),
-                                                                DataCell(Text('1.8')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('1m-5m')),
-                                                                DataCell(Text('1.5')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('5m-10m')),
-                                                                DataCell(Text('1.3')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('10m-20m')),
-                                                                DataCell(Text('1')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('20m-25m')),
-                                                                DataCell(Text('0.8')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('25m-30m')),
-                                                                DataCell(Text('0.5')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('>30m')),
-                                                                DataCell(Text('0.3')),
-                                                              ])
-                                                            ])),
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_out,
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 10),
-                                                        ),
-
-                                                        Container(
-                                                            padding: EdgeInsets.all(16),
-                                                            width: MediaQuery.of(context).size.width,
-                                                            child: DataTable(columns: [
-                                                              DataColumn(
-                                                                  label: Text(
-                                                                S.of(context).defi_card_hint_out_content1,
-                                                              )),
-                                                              DataColumn(
-                                                                  label: Text(
-                                                                S.of(context).defi_card_hint_out_content2,
-                                                              )),
-                                                            ], rows: [
-                                                              DataRow(cells: [
-                                                                DataCell(Text('0-10m')),
-                                                                DataCell(Text('2')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('10m-100m')),
-                                                                DataCell(Text('1.5')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('100m-200m')),
-                                                                DataCell(Text('1')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('200m-300m')),
-                                                                DataCell(Text('0.7')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('300m-400m')),
-                                                                DataCell(Text('0.3')),
-                                                              ]),
-                                                              DataRow(cells: [
-                                                                DataCell(Text('400m-500m')),
-                                                                DataCell(Text('0.1')),
-                                                              ]),
-                                                            ])),
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_info,
-                                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 10),
-                                                        ),
-
-                                                        Container(
-                                                          child: Text(
-                                                            S.of(context).defi_card_hint_info_content,
-                                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                            style: TextStyle(fontSize: 14, letterSpacing: 1.0, color: Colors.black.withAlpha(200), fontFamily: "Ubuntu", height: 1.5),
-                                                          ),
-                                                          alignment: Alignment.topLeft,
-                                                          margin: EdgeInsets.only(left: 18, top: 15, right: 18),
-                                                        ),
-                                                        Container(
-                                                          height: MediaQueryData.fromWindow(window).padding.bottom,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-
-//                      Navigator.pushReplacementNamed(context, "home");
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              height: 10,
+                            ),
+                            Container(
+                              child: Text(
+                                S.of(context).defi_card_hint_base,
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
+                            ),
+                            Container(
+                              child: Text(
+                                S.of(context).defi_card_hint_base_content,
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5),
+                              ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 22, top: 15, right: 22),
                             ),
                             Container(
                               height: 50,
@@ -679,9 +209,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                   Positioned(
                     top: 0,
                     child: ClipRect(
-
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
                         child: Opacity(
                           opacity: 0.5,
                           child: Container(
@@ -712,8 +241,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                         ),
                                       ),
                                     ),
-
-
                                     Expanded(
                                       child: Container(),
                                     ),
@@ -804,8 +331,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                   ),
                                 ),
                               ),
-
-
                               Expanded(
                                 child: Container(),
                               ),
@@ -876,7 +401,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     }
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 155,
+//      height: 355,
       margin: const EdgeInsets.only(top: 38, left: 18, right: 18),
       //边框设置
 //                              height: MediaQuery.of(context).size.height,
@@ -889,52 +414,263 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       child: Column(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: 155,
-            margin: const EdgeInsets.all(0),
-            //边框设置
-            decoration: new BoxDecoration(
-//                                      color: Color(0xFFEEEEEE),
-              //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(0.0)),
-
-              //设置四周边框
-            ),
+//            width: MediaQuery.of(context).size.width,
+//            height: 155,
+//            margin: const EdgeInsets.all(0),
+//            //边框设置
+//            decoration: new BoxDecoration(
+////                                      color: Color(0xFFEEEEEE),
+//              //设置四周圆角 角度
+//              borderRadius: BorderRadius.all(Radius.circular(0.0)),
+//
+//              //设置四周边框
+//            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   child: Text(
-                    S.of(context).defi_head_card_all_token,
+                    S.of(context).defi_card_my_get_hint,
                     style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
                   ),
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 18),
+                  margin: EdgeInsets.only(left: 20, top: 18),
                 ),
                 Container(
-                  child: Text(
-                    TokenDefiPage.model == null ? "loading..." : TokenDefiPage.model.data.contractBalance,
-                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Colors.black),
+                  margin: EdgeInsets.only(top: 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Text(
+                          TokenDefiPage.model == null ? "loading..." : "≈"+TokenDefiPage.model.data.accountInfo.earnings,
+                          style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+//                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Colors.black),
+                        ),
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(left: 18, top: 5),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        height: 30,
+                        margin: const EdgeInsets.only(right: 20, top: 5),
+                        child: FlatButton(
+                          onPressed: () {
+                            showGeneralDialog(
+                                context: context,
+                                // ignore: missing_return
+                                pageBuilder: (context, anim1, anim2) {},
+                                barrierColor: Colors.grey.withOpacity(.4),
+                                barrierDismissible: true,
+                                barrierLabel: "",
+                                transitionDuration: Duration(milliseconds: 400),
+                                transitionBuilder: (_, anim1, anim2, child) {
+                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                  return Transform(
+                                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                    child: Opacity(
+                                      opacity: anim1.value,
+                                      // ignore: missing_return
+                                      child: PayPasswordWidget(
+                                        title: S.of(context).password_widget_input_password,
+                                        dismissCallBackFuture: (String password) {
+                                          return;
+                                        },
+                                        passwordCallBackFuture: (String password) async {
+                                          var signingKey = await BoxApp.getSigningKey();
+                                          var address = await BoxApp.getAddress();
+                                          final key = Utils.generateMd5Int(password + address);
+                                          var aesDecode = Utils.aesDecode(signingKey, key);
+
+                                          if (aesDecode == "") {
+                                            showPlatformDialog(
+                                              context: context,
+                                              builder: (_) => BasicDialogAlert(
+                                                title: Text(S.of(context).dialog_hint_check_error),
+                                                content: Text(S.of(context).dialog_hint_check_error_content),
+                                                actions: <Widget>[
+                                                  BasicDialogAction(
+                                                    title: Text(
+                                                      S.of(context).dialog_conform,
+                                                      style: TextStyle(color: Color(0xff3460ee)),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context, rootNavigator: true).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                            return;
+                                          }
+                                          // ignore: missing_return
+                                          BoxApp.contractDefiV2Benefits((tx) {
+                                            netContractBalance();
+                                            eventBus.fire(DefiEvent());
+                                            showPlatformDialog(
+                                              context: context,
+                                              builder: (_) => BasicDialogAlert(
+                                                title: Text(S.of(context).dialog_defi_get),
+                                                content: Text(S.of(context).dialog_defi_get_msg + (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
+                                                actions: <Widget>[
+                                                  BasicDialogAction(
+                                                    title: Text(
+                                                      S.of(context).dialog_conform,
+                                                      style: TextStyle(color: Color(0xff3460ee)),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context, rootNavigator: true).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                            // ignore: missing_return
+                                          }, (error) {
+                                            showPlatformDialog(
+                                              context: context,
+                                              builder: (_) => BasicDialogAlert(
+                                                title: Text(S.of(context).dialog_hint_check_error),
+                                                content: Text(error),
+                                                actions: <Widget>[
+                                                  BasicDialogAction(
+                                                    title: Text(
+                                                      S.of(context).dialog_conform,
+                                                      style: TextStyle(color: Color(0xff3460ee)),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context, rootNavigator: true).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }, aesDecode, address, "ct_SNM68L9pEym92bBf3ZJjzzuB9eyCtVhouHB3Qq5SpyU9Ccn2F");
+
+                                          showChainLoading();
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text(
+                            S.of(context).defi_card_get,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                          ),
+                          color: Color(0xff3460ee).withAlpha(40),
+                          textColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ),
+                    ],
                   ),
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 18, top: 5),
+                ),
+
+                Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Container(
+                      color: Color(0xFFEEEEEE),
+                    ),
+                    padding: EdgeInsets.only(left: 18, right: 18),
+                    height: 1.0,
+                    color: Color(0xFFFFFFFF)),
+
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 40,
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Text(
+                                S.of(context).defi_head_card_my_token,
+                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                              ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 18, top: 10),
+                            ),
+                            Container(
+                              child: Text(
+                                TokenDefiPage.model == null ? "loading..." : double.parse(TokenDefiPage.model.data.myBalance).toStringAsFixed(2),
+                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff000000)),
+                              ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 18, top: 5),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 40,
+                        margin: EdgeInsets.only(right: 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text(
+                                S.of(context).defi_head_card_all_token,
+                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                              ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 18, top: 10),
+                            ),
+                            Container(
+                              child: Text(
+                                TokenDefiPage.model == null ? "loading..." : double.parse(TokenDefiPage.model.data.contractBalance).toStringAsFixed(0),
+                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff000000)),
+                              ),
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 18, top: 5),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 48,
+                  width: 260,
+                  margin: EdgeInsets.only(top: 40),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DefiInPage()));
+                    },
+                    child: Text(
+                      S.of(context).defi_card_mine,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                    ),
+                    color: Color(0xff3460ee),
+                    textColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  ),
                 ),
                 Container(
-                  child: Text(
-                    S.of(context).defi_head_card_my_token,
-                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                  height: 48,
+                  width: 260,
+                  margin: EdgeInsets.only(top: 15, bottom: 30),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DefiOutPage()));
+                    },
+                    child: Text(
+                      S.of(context).defi_card_out,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                    ),
+                    color: Color(0xff3460ee).withAlpha(40),
+                    textColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 18, top: 10),
                 ),
-                Container(
-                  child: Text(
-                    TokenDefiPage.model == null ? "loading..." : TokenDefiPage.model.data.myBalance,
-                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
-                  ),
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 18, top: 5),
-                ),
+
 //                                        Container(
 //                                          child: Text(
 //                                            "Been locked (ae)",
@@ -957,6 +693,21 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         ],
       ),
     );
+  }
+
+  void showChainLoading() {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return ChainLoadingWidget();
+        });
   }
 
   void netContractTx(String tx, String function) {
@@ -1030,8 +781,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     });
   }
 
-  void netLockV2(){
-
+  void netLockV2() {
     EasyLoading.show();
     ContractCallDao.fetch("lock", day.toString(), HomePage.address, _textEditingController.text).then((MsgSignModel model) {
       EasyLoading.dismiss();
@@ -1043,9 +793,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
               return TxConformWidget(
                   tx: tx,
                   // ignore: missing_return
-                  dismissCallBackFuture: (){
+                  dismissCallBackFuture: () {
 //                    stopLoading();
-
                   },
                   // ignore: missing_return
                   conformCallBackFuture: () {
@@ -1101,7 +850,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                   }
 
                                   var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx,"ContractCallTx").then((model) {
+                                  TxBroadcastDao.fetch(signMsg, model.data.tx, "ContractCallTx").then((model) {
                                     print(model.toJson());
                                     if (model.code == 200) {
                                       print(model.data.hash);

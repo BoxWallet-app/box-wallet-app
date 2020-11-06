@@ -67,6 +67,7 @@ dependencies:
   ed25519_edwards: ^0.0.4
   common_utils: ^1.2.1
   jaguar_flutter_asset: ^2.2.0
+  date_time_format: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -149,6 +150,8 @@ flutter:
     - images/ranking_logo.png
     - images/ranking_one.png
     - images/splasn_logo.png
+    - images/defi_bg.png
+    - images/defi_logo.png
 
   #   - images/a_dot_ham.jpeg
 

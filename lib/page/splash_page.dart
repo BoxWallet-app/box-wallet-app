@@ -38,6 +38,7 @@ class _SplashPageState extends State<SplashPage> {
         var isLanguage = sp.getString('is_language');
         if (isLanguage == "true") {
           BoxApp.getLanguage().then((String value) {
+            BoxApp.language = value;
             print("getLanguage->" + value);
             S.load(Locale(value, value.toUpperCase()));
             setState(() {

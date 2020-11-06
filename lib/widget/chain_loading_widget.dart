@@ -43,28 +43,28 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> {
       }
       switch (status) {
         case "broadcast":
-          text = "Is being Broadcast";
+          text = S.of(context).ae_status_broadcast;
           break;
         case "aensPreclaim":
-          text = "Declaring domain name";
+          text = S.of(context).ae_status_aensPreclaim;
           break;
-          case "aensBid":
-          text = "Bid domain name";
+        case "aensBid":
+          text = S.of(context).ae_status_aensBid;
           break;
         case "aensUpdate":
-          text = "Update domain name";
+          text = S.of(context).ae_status_aensUpdate;
           break;
         case "aensClaim":
-          text = "Binding domain name";
+          text = S.of(context).ae_status_aensClaim;
           break;
         case "contractEncodeCall":
-          text = "Compiling the contract";
+          text = S.of(context).ae_status_contractEncodeCall;
           break;
         case "contractCall":
-          text = "Contract in progress";
+          text = S.of(context).ae_status_contractCall;
           break;
         case "decode":
-          text = "Decoding contract information";
+          text = S.of(context).ae_status_decode;
           break;
       }
 

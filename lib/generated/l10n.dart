@@ -1013,10 +1013,10 @@ class S {
     );
   }
 
-  /// `Confirm mining`
+  /// `The pledge`
   String get defi_card_mine {
     return Intl.message(
-      'Confirm mining',
+      'The pledge',
       name: 'defi_card_mine',
       desc: '',
       args: [],
@@ -1033,6 +1033,96 @@ class S {
     );
   }
 
+  /// `My Earnings (ABC)`
+  String get defi_card_my_get_hint {
+    return Intl.message(
+      'My Earnings (ABC)',
+      name: 'defi_card_my_get_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive`
+  String get defi_card_get {
+    return Intl.message(
+      'Receive',
+      name: 'defi_card_get',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extract`
+  String get defi_card_out {
+    return Intl.message(
+      'Extract',
+      name: 'defi_card_out',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the amount you want to pledge`
+  String get defi_card_in_title {
+    return Intl.message(
+      'Enter the amount you want to pledge',
+      name: 'defi_card_in_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the amount you want to withdraw`
+  String get defi_card_out_title {
+    return Intl.message(
+      'Enter the amount you want to withdraw',
+      name: 'defi_card_out_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rank`
+  String get defi_raking_1 {
+    return Intl.message(
+      'Rank',
+      name: 'defi_raking_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get defi_raking_2 {
+    return Intl.message(
+      'Address',
+      name: 'defi_raking_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scale`
+  String get defi_raking_3 {
+    return Intl.message(
+      'Scale',
+      name: 'defi_raking_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount (ABC)`
+  String get defi_raking_4 {
+    return Intl.message(
+      'Amount (ABC)',
+      name: 'defi_raking_4',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Basic introduction`
   String get defi_card_hint_base {
     return Intl.message(
@@ -1043,10 +1133,10 @@ class S {
     );
   }
 
-  /// `It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 500 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually`
+  /// `It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 50 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually`
   String get defi_card_hint_base_content {
     return Intl.message(
-      'It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 500 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually',
+      'It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 50 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually',
       name: 'defi_card_hint_base_content',
       desc: '',
       args: [],
@@ -1478,6 +1568,106 @@ class S {
     return Intl.message(
       'Please confirm the information.',
       name: 'dialog_tx_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully received`
+  String get dialog_defi_get_msg {
+    return Intl.message(
+      'Successfully received',
+      name: 'dialog_defi_get_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received successfully`
+  String get dialog_defi_get {
+    return Intl.message(
+      'Received successfully',
+      name: 'dialog_defi_get',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Broadcasting`
+  String get ae_status_broadcast {
+    return Intl.message(
+      'Broadcasting',
+      name: 'ae_status_broadcast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain is being claimed`
+  String get ae_status_aensPreclaim {
+    return Intl.message(
+      'Domain is being claimed',
+      name: 'ae_status_aensPreclaim',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain is being bound`
+  String get ae_status_aensBid {
+    return Intl.message(
+      'Domain is being bound',
+      name: 'ae_status_aensBid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The domain name is being updated`
+  String get ae_status_aensUpdate {
+    return Intl.message(
+      'The domain name is being updated',
+      name: 'ae_status_aensUpdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain is being auctioned`
+  String get ae_status_aensClaim {
+    return Intl.message(
+      'Domain is being auctioned',
+      name: 'ae_status_aensClaim',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract is being compiled`
+  String get ae_status_contractEncodeCall {
+    return Intl.message(
+      'Contract is being compiled',
+      name: 'ae_status_contractEncodeCall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract Calling`
+  String get ae_status_contractCall {
+    return Intl.message(
+      'Contract Calling',
+      name: 'ae_status_contractCall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Analyzing results`
+  String get ae_status_decode {
+    return Intl.message(
+      'Analyzing results',
+      name: 'ae_status_decode',
       desc: '',
       args: [],
     );

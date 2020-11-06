@@ -139,6 +139,7 @@ class _LanguagePageState extends State<LanguagePage> {
     //通知将第一页背景色变成红色
     setState(() {
       currentLanguage = language;
+      BoxApp.language = language;
       S.load(Locale(language, language.toUpperCase()));
     });
   }

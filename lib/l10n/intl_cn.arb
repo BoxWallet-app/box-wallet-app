@@ -130,11 +130,26 @@
   "defi_card_time_day" : "天",
   "defi_card_count" : "请选择质押数量",
   "defi_card_balance" : "余额 (AE)",
-  "defi_card_mine" : "确认挖矿",
+  "defi_card_mine" : "质押",
   "defi_card_hint" : "挖矿规则",
 
+  "defi_card_my_get_hint" : "我的收益(ABC)",
+  "defi_card_get" : "收取",
+  "defi_card_out" : "提取",
+  "defi_card_in_title" : "输入你要质押的数量",
+  "defi_card_out_title" : "输入你要提取的数量",
+  "defi_raking_1" : "排名",
+  "defi_raking_2" : "地址",
+  "defi_raking_3" : "百分比",
+  "defi_raking_4" : "数量(ABC)",
+
+
+
+
+
+
   "defi_card_hint_base" : "基本介绍",
-  "defi_card_hint_base_content" : "是基于AE区块链AEX9协议扩展编写的质押挖矿,整个过程公开透明,用户可以通过质押AE 换取ABC , ABC用户Box aepp 生态的唯一通行证. 是后面生态重要的组成部分, ABC 的价值与质押AE的数量强关联 \nABC总量为5亿, 所有ABC全部用于挖矿产出,团队和生态基金将分配总量的15%并锁仓,解锁随着挖矿产出而而逐步解锁",
+  "defi_card_hint_base_content" : "是基于AE区块链AEX9协议扩展编写的质押挖矿,整个过程公开透明,用户可以通过质押AE 换取ABC , ABC用户Box aepp 生态的唯一通行证. 是后面生态重要的组成部分, ABC 的价值与质押AE的数量强关联 \nABC总量为5千万, 所有ABC全部用于挖矿产出,团队和生态基金将分配总量的15%并锁仓,解锁随着挖矿产出而而逐步解锁",
 
   "defi_card_hint_day" : "周期-倍数",
   "defi_card_hint_day_content1" : "数量(AE)",
@@ -161,8 +176,8 @@
 
 
 
-  "defi_record_old_title" : "正在质押-旧合约",
-  "defi_record_title" : "正在质押",
+  "defi_record_old_title" : "正在质押-V1-旧合约",
+  "defi_record_title" : "正在质押-V1",
   "defi_record_title_right": "旧合约",
   "defi_record_item_lock_number" : "锁仓数量 (AE)",
   "defi_record_item_mine_number" : "挖矿数量 (ABC)",
@@ -202,5 +217,17 @@
   "dialog_update_content" : "有新版本使用,请下载更新",
   "dialog_defi_token_low" : "质押最低需要100 AE",
 
-  "dialog_tx_title" : "请确认信息"
+  "dialog_tx_title" : "请确认信息",
+
+  "dialog_defi_get_msg" : "成功领取",
+  "dialog_defi_get" : "领取成功",
+
+  "ae_status_broadcast" : "正在广播",
+  "ae_status_aensPreclaim" : "正在声明域名",
+  "ae_status_aensBid" : "正在绑定域名",
+  "ae_status_aensUpdate" : "正在更新域名",
+  "ae_status_aensClaim" : "正在拍卖域名",
+  "ae_status_contractEncodeCall" : "正在编译合约",
+  "ae_status_contractCall" : "合约调用中",
+  "ae_status_decode" : "正在解析结果"
 }

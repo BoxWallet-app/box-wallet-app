@@ -1022,24 +1022,248 @@ payable contract ABCLockContract =
 
 
 		`
-    // var getHeight = function () {
-    //     document.getElementById("show_info").innerText = "getHeight";
-    //     Ae.Node({
-    //         url: 'http://localhost:3013'
-    //     }).then(node => {
-    //         Ae.Universal({
-    //             nodes: [{
-    //                 name: 'local',
-    //                 instance: node
-    //             }]
-    //         }).then(aeInstance => {
-    //             aeInstance.height().then(height => {
-    //                 document.getElementById("show_info").innerText = height;
-    //                 getHeight_JS.postMessage(height);
-    //             })
-    //         })
-    //     });
-    // }
+
+
+    const sourceCodeDefiV2 = `
+contract FungibleTokenInterface =
+  entrypoint total_supply                  : ()                      => int
+  entrypoint balance                       : (address)               => option(int)
+  stateful entrypoint transfer             : (address, int)          => unit
+
+include "Option.aes"
+include "List.aes"
+
+payable contract ABCLockContractV2 =
+
+  record account = {
+      account: address,
+      count: int,
+      height: int}
+
+  record state = {
+    token: FungibleTokenInterface,
+    accounts: map(address, account),
+    all_count: int,
+    decimals: int}
+
+  stateful entrypoint init(token: FungibleTokenInterface) = {
+    token = token,
+    accounts = {},
+    all_count = 0,
+    decimals = 1000000000000000000}
+
+  stateful entrypoint getContractBalance() =
+    Contract.balance
+
+  stateful entrypoint getContractAddress() =
+    Contract.address
+
+  stateful entrypoint getCallCaller() =
+    Call.caller
+
+  stateful entrypoint getAccounts() : map(address, account) =
+    state.accounts
+
+  entrypoint getABCoutputCount(): int =
+    switch(state.token.balance(Contract.address))
+      Some(balance) =>
+        state.token.total_supply()-balance
+      None => 0
+
+  private function getAccount(addr: address): account =
+    switch(Map.lookup(addr, state.accounts))
+      Some(account) => account
+      None => {account = addr,count = 0, height = 0 }
+
+  private function isAccountExist(addr: address): bool =
+    switch(Map.lookup(addr, state.accounts))
+      Some(account) => true
+      None => false
+
+  payable stateful entrypoint lock() =
+    if(Call.value < 1 * state.decimals)
+      require(2 == 1, "AMOUNT_LOW ")
+    benefitsAddress()
+    let account_data = getAccount(Call.caller)
+    let account = {account = Call.caller , count = account_data.count + Call.value , height = Chain.block_height}
+    put(state{accounts[Call.caller] = account, all_count = state.all_count + Call.value})
+    Call.value
+
+  stateful entrypoint benefits() =
+    if(!isAccountExist(Call.caller))
+      abort("ACCOUNT_NOT_EXIST")
+    let account_data = getAccount(Call.caller)
+    if(Chain.block_height - account_data.height =< 0)
+      abort("ACCOUNT_HEIGHT_0")
+    let token_number = 300000000000 * (account_data.count / state.decimals) * (Chain.block_height - account_data.height)
+    state.token.transfer(Call.caller, token_number)
+    state.token.transfer(ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK, token_number * 10 / 100)
+    state.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, token_number * 5 / 100)
+    let account = {account = account_data.account ,count = account_data.count , height = Chain.block_height}
+    put(state{accounts[Call.caller] = account})
+    token_number
+
+  private stateful function benefitsAddress() =
+    let account_data = getAccount(Call.caller)
+    if(Chain.block_height - account_data.height > 0 && account_data.height > 0)
+      let token_number = 300000000000 * (account_data.count / state.decimals) * (Chain.block_height - account_data.height)
+      state.token.transfer(Call.caller, token_number)
+      state.token.transfer(ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK, token_number * 10 / 100)
+      state.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, token_number * 5 / 100)
+
+  stateful entrypoint unLock(count : int) =
+    if(!isAccountExist(Call.caller))
+      abort("ACCOUNT_NOT_EXIST")
+    let accountData = getAccount(Call.caller)
+    if(accountData.count < count)
+      abort("ACCOUNT_COUNT_ERROR")
+    benefitsAddress()
+    let account = {account = accountData.account , count = accountData.count - count , height = Chain.block_height}
+    Chain.spend(accountData.account, count)
+    put(state{accounts[accountData.account] = account,all_count = state.all_count - count})
+    count
+
+	`
+
+    const contractDefiV2Lock = function (secretKey, publicKey, ctId, amount) {
+        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+            Ae.Universal({
+                compilerUrl: 'https://compiler.aeasy.io',
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.contractEncodeCall(sourceCodeDefiV2, 'lock', []).then(callDataCall => {
+                    status_JS.postMessage("contractCall");
+                    client.contractCall(sourceCodeDefiV2, ctId, "lock", callDataCall, {amount: Ae.AmountFormatter.toAettos(amount)}).then(callResult => {
+                        status_JS.postMessage("decode");
+                        callResult.decode().then(callResultDecode => {
+                            status_JS.postMessage("sucess");
+                            contractDefiV2Lock_JS.postMessage(callResultDecode);
+
+                        }).catch(err => {
+                            status_JS.postMessage("error");
+                            error_JS.postMessage(err.toString());
+                        })
+                    }).catch(err => {
+
+                        status_JS.postMessage("error");
+                        var decode = err.toString().split('Decoded: ')
+                        var msg = decode[1].substring(1, decode[1].length - 4)
+                        error_JS.postMessage(msg);
+
+                    })
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+    const contractDefiV2UnLock = function (secretKey, publicKey, ctId, amount) {
+        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+            Ae.Universal({
+                compilerUrl: 'https://compiler.aeasy.io',
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.contractEncodeCall(sourceCodeDefiV2, 'unLock', [Ae.AmountFormatter.toAettos(amount)]).then(callDataCall => {
+                    status_JS.postMessage("contractCall");
+                    client.contractCall(sourceCodeDefiV2, ctId, "unLock", callDataCall, {}).then(callResult => {
+                        status_JS.postMessage("decode");
+                        callResult.decode().then(callResultDecode => {
+                            status_JS.postMessage("sucess");
+                            contractDefiV2UnLock_JS.postMessage(callResultDecode);
+                        }).catch(err => {
+                            status_JS.postMessage("error");
+                            error_JS.postMessage(err.toString());
+                        })
+                    }).catch(err => {
+                        status_JS.postMessage("error");
+                        var decode = err.toString().split('Decoded: ')
+                        var msg = decode[1].substring(1, decode[1].length - 4)
+                        error_JS.postMessage(msg);
+
+                    })
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+    const contractDefiV2Benefits = function (secretKey, publicKey, ctId) {
+        Ae.Node({url: 'https://node.aeasy.io'}).then(node => {
+            Ae.Universal({
+                compilerUrl: 'https://compiler.aeasy.io',
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.contractEncodeCall(sourceCodeDefiV2, 'benefits', []).then(callDataCall => {
+                    status_JS.postMessage("contractCall");
+                    client.contractCall(sourceCodeDefiV2, ctId, "benefits", callDataCall, {}).then(callResult => {
+                        status_JS.postMessage("decode");
+                        callResult.decode().then(callResultDecode => {
+                            status_JS.postMessage("sucess");
+                            contractDefiV2Benefits_JS.postMessage(callResultDecode);
+                        }).catch(err => {
+                            status_JS.postMessage("error");
+                            error_JS.postMessage(err.toString());
+                        })
+                    }).catch(err => {
+                        status_JS.postMessage("error");
+                        var decode = err.toString().split('Decoded: ')
+                        var msg = decode[1].substring(1, decode[1].length - 4)
+                        error_JS.postMessage(msg);
+
+
+                    })
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
 
 
     const contractTransfer = function (secretKey, publicKey, ctId, receiveID, amount) {
@@ -1104,9 +1328,9 @@ payable contract ABCLockContract =
             }).then(client => {
                 status_JS.postMessage("contractEncodeCall");
                 var source;
-                if(ctId == 'ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv'){
+                if (ctId == 'ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv') {
                     source = sourceCodeDefiV1;
-                }else{
+                } else {
                     source = sourceCodeDefiV1Fix;
                 }
 

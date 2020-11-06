@@ -121,11 +121,21 @@
   "defi_card_time_day": "Day",
   "defi_card_count": "pledge amount",
   "defi_card_balance": "Balance (AE)",
-  "defi_card_mine": "Confirm mining",
+  "defi_card_mine": "The pledge",
   "defi_card_hint": "Mining Rules",
 
+  "defi_card_my_get_hint": "My Earnings (ABC)",
+  "defi_card_get": "Receive",
+  "defi_card_out": "Extract",
+  "defi_card_in_title": "Enter the amount you want to pledge",
+  "defi_card_out_title": "Enter the amount you want to withdraw",
+  "defi_raking_1": "Rank",
+  "defi_raking_2": "Address",
+  "defi_raking_3": "Scale",
+  "defi_raking_4": "Amount (ABC)",
+
   "defi_card_hint_base": "Basic introduction",
-  "defi_card_hint_base_content": "It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 500 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually",
+  "defi_card_hint_base_content": "It is a pledged mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent. Users can exchange AE for ABC, the only pass for ABC user Box aepp ecology. It is an important part of the ecology behind, The value of ABC is strongly correlated with the number of pledged AEs\nThe total amount of ABC is 50 million, and all ABC is used for mining output. The team and ecological fund will allocate 15% of the total and lock the warehouse, and the unlocking will increase with the mining output. Unlock gradually",
   "defi_card_hint_day": "Period-Multiple",
   "defi_card_hint_day_content1": "Quantity",
   "defi_card_hint_day_content2": "Period",
@@ -191,5 +201,18 @@
   "dialog_update_content" : "A new version is available, please download the update",
   "dialog_defi_token_low" : "A pledge requires a minimum of 100 AE",
 
-  "dialog_tx_title" : "Please confirm the information."
+  "dialog_tx_title" : "Please confirm the information.",
+
+
+  "dialog_defi_get_msg": "Successfully received",
+  "dialog_defi_get": "Received successfully",
+
+  "ae_status_broadcast": "Broadcasting",
+  "ae_status_aensPreclaim": "Domain is being claimed",
+  "ae_status_aensBid": "Domain is being bound",
+  "ae_status_aensUpdate": "The domain name is being updated",
+  "ae_status_aensClaim": "Domain is being auctioned",
+  "ae_status_contractEncodeCall": "Contract is being compiled",
+  "ae_status_contractCall": "Contract Calling",
+  "ae_status_decode": "Analyzing results"
 }
