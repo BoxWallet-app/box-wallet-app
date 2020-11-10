@@ -63,11 +63,13 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   TextEditingController _textEditingController = TextEditingController();
   var loadingType = LoadingType.loading;
   EasyRefreshController _easyRefreshController = EasyRefreshController();
   final pageController = PageController(viewportFraction: 1);
+  final pageControllerBg = PageController(viewportFraction: 1);
   WalletTransferRecordModel walletRecordModel;
   BlockTopModel blockTopModel;
   BaseDataModel baseDataModel;
@@ -147,33 +149,43 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         barrierLabel: "",
                         transitionDuration: Duration(milliseconds: 400),
                         transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                          final curvedValue =
+                              Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            transform: Matrix4.translationValues(
+                                0.0, curvedValue * 200, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
                               child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
+                                title: S
+                                    .of(context)
+                                    .password_widget_input_password,
                                 dismissCallBackFuture: (String password) {
                                   return;
                                 },
-                                passwordCallBackFuture: (String password) async {
+                                passwordCallBackFuture:
+                                    (String password) async {
                                   var mnemonic = await BoxApp.getMnemonic();
                                   if (mnemonic == "") {
                                     showPlatformDialog(
                                       context: context,
                                       builder: (_) => BasicDialogAlert(
                                         title: Text(S.of(context).dialog_hint),
-                                        content: Text(S.of(context).dialog_login_user_no_save),
+                                        content: Text(S
+                                            .of(context)
+                                            .dialog_login_user_no_save),
                                         actions: <Widget>[
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFFC2365)),
                                             ),
                                             onPressed: () {
-                                              Navigator.of(context, rootNavigator: true).pop();
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
                                             },
                                           ),
                                         ],
@@ -182,23 +194,32 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     return;
                                   }
                                   var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(mnemonic, key);
+                                  final key =
+                                      Utils.generateMd5Int(password + address);
+                                  var aesDecode =
+                                      Utils.aesDecode(mnemonic, key);
 
                                   if (aesDecode == "") {
                                     showPlatformDialog(
                                       context: context,
                                       builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
+                                        title: Text(S
+                                            .of(context)
+                                            .dialog_hint_check_error),
+                                        content: Text(S
+                                            .of(context)
+                                            .dialog_hint_check_error_content),
                                         actions: <Widget>[
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFFC2365)),
                                             ),
                                             onPressed: () {
-                                              Navigator.of(context, rootNavigator: true).pop();
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
                                             },
                                           ),
                                         ],
@@ -206,17 +227,19 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                     );
                                     return;
                                   }
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
-                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MnemonicCopyPage(
+                                                  mnemonic: aesDecode)));
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
                                 },
                               ),
                             ),
                           );
                         });
-
-
-
-
                   },
                 ),
               ],
@@ -274,7 +297,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -406,7 +436,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -420,7 +457,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -461,7 +505,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SettingsPage()));
                           },
                           child: Container(
                             height: 55,
@@ -485,7 +532,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height - 55 - MediaQueryData.fromWindow(window).padding.top,
+              height: MediaQuery.of(context).size.height -
+                  55 -
+                  MediaQueryData.fromWindow(window).padding.top,
               width: MediaQuery.of(context).size.width,
               child: EasyRefresh(
                 header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
@@ -510,94 +559,24 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             ],
                           ),
                           child: PageView(
-                            controller: pageController,
+                            controller: pageControllerBg,
                             children: [
                               Column(
                                 children: [
                                   Container(
                                     height: 160,
-                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                    margin: const EdgeInsets.only(
+                                        left: 16, right: 16),
                                     decoration: new BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("images/wallet_card.png"),
-                                        fit: BoxFit.fitWidth,
-                                      ),
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Color(0xFFFC2365).withAlpha(20),
-                                            offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+                                            color:
+                                                Color(0xFFFC2365).withAlpha(20),
+                                            offset:
+                                                Offset(0.0, 55.0), //阴影xy轴偏移量
                                             blurRadius: 50.0, //阴影模糊程度
                                             spreadRadius: 0.1 //阴影扩散程度
                                             )
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 18),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                S.of(context).home_page_my_count + " (AE)",
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                              ),
-//                                              Expanded(child: Container()),
-//                                              baseDataModel == null
-//                                                  ? Container()
-//                                                  : Container(
-//                                                      margin: const EdgeInsets.only(left: 2,right: 15),
-//                                                      child: Text(
-////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-//                                                        " ≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
-//                                                        overflow: TextOverflow.ellipsis,
-//                                                        style: TextStyle(fontSize: 13, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-//                                                      ),
-//                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 8, left: 15),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                              Text(
-                                                HomePage.token == "loading..."
-                                                    ? "loading..."
-                                                    : double.parse(HomePage.token) > 1000
-                                                        ? double.parse(HomePage.token).toStringAsFixed(2)
-                                                        : double.parse(HomePage.token).toStringAsFixed(5),
-//                                      "9999999.00000",
-                                                overflow: TextOverflow.ellipsis,
-
-                                                style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                              ),
-                                              baseDataModel == null
-                                                  ? Container()
-                                                  : Container(
-                                                      margin: const EdgeInsets.only(bottom: 5, left: 2),
-                                                      child: Text(
-//                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                        "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                      ),
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                          child: Text(
-                                            address,
-                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                            style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -608,59 +587,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                   Container(
                                     height: 160,
                                     alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                    margin: const EdgeInsets.only(
+                                        left: 16, right: 16),
                                     decoration: new BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("images/wallet_card_blue.png"),
-                                        fit: BoxFit.fitWidth,
-                                      ),
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Color(0xFF3D7BF6).withAlpha(20),
-                                            offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+                                            color:
+                                                Color(0xFF3D7BF6).withAlpha(20),
+                                            offset:
+                                                Offset(0.0, 55.0), //阴影xy轴偏移量
                                             blurRadius: 50.0, //阴影模糊程度
                                             spreadRadius: 0.1 //阴影扩散程度
                                             )
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 18),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                S.of(context).home_page_my_count + " (ABC)",
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                              ),
-                                              Text("")
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 8, left: 15),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                              Text(
-                                                HomePage.tokenABC,
-                                                style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                          child: Text(
-                                            address,
-                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                            style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -674,43 +612,337 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Column(
                           children: <Widget>[
                             Container(
-                              height: 140,
+                              margin: const EdgeInsets.only(top: 12),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    child: Container(
+                                      height: 146,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(80.0),
+                                        boxShadow: [
+//                                BoxShadow(
+//                                    color: Color(0xFFFC2365).withAlpha(20),
+//                                    offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+//                                    blurRadius: 50.0, //阴影模糊程度
+//                                    spreadRadius: 0.1 //阴影扩散程度
+//                                    )
+                                        ],
+                                      ),
+                                      child: PageView(
+                                        controller: pageController,
+                                        onPageChanged: (value) {
+                                          pageControllerBg.animateToPage(value,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.ease);
+                                        },
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 146,
+                                                margin: const EdgeInsets.only(
+                                                    left: 16, right: 16),
+                                                decoration: new BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "images/wallet_card.png"),
+                                                    fit: BoxFit.fitWidth,
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 18),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            S
+                                                                    .of(context)
+                                                                    .home_page_my_count +
+                                                                " (AE)",
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: Colors
+                                                                    .white70,
+                                                                fontFamily:
+                                                                    "Ubuntu"),
+                                                          ),
+//                                              Expanded(child: Container()),
+//                                              baseDataModel == null
+//                                                  ? Container()
+//                                                  : Container(
+//                                                      margin: const EdgeInsets.only(left: 2,right: 15),
+//                                                      child: Text(
+////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
+//                                                        " ≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+//                                                        overflow: TextOverflow.ellipsis,
+//                                                        style: TextStyle(fontSize: 13, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+//                                                      ),
+//                                                    ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 8, left: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                                          Text(
+                                                            HomePage.token ==
+                                                                    "loading..."
+                                                                ? "loading..."
+                                                                : double.parse(HomePage
+                                                                            .token) >
+                                                                        1000
+                                                                    ? double.parse(HomePage
+                                                                            .token)
+                                                                        .toStringAsFixed(
+                                                                            2)
+                                                                    : double.parse(HomePage
+                                                                            .token)
+                                                                        .toStringAsFixed(
+                                                                            5),
+//                                      "9999999.00000",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
 
-                              padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-//                                margin: const EdgeInsets.only(top: 0, bottom: 0),
-                            ),
-                            Container(
-                              child: SmoothPageIndicator(
-                                controller: pageController,
-                                count: 2,
-                                effect: ExpandingDotsEffect(
-                                  dotHeight: 4,
-                                  spacing: 3,
-                                  strokeWidth: 3,
-                                  dotWidth: 5,
-                                  activeDotColor: Color(0xFFFFFFFF),
-                                  dotColor: Color(0xFFcccccc),
-                                  expansionFactor: 3,
-                                ),
+                                                            style: TextStyle(
+                                                                fontSize: 35,
+                                                                color: Colors
+                                                                    .white,
+                                                                letterSpacing:
+                                                                    1.3,
+                                                                fontFamily:
+                                                                    "Ubuntu"),
+                                                          ),
+                                                          baseDataModel == null
+                                                              ? Container()
+                                                              : Container(
+                                                                  margin: const EdgeInsets
+                                                                          .only(
+                                                                      bottom: 5,
+                                                                      left: 2),
+                                                                  child: Text(
+//                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
+                                                                    "≈ " +
+                                                                        (double.parse(baseDataModel.data.priceUsdt) *
+                                                                                double.parse(HomePage.token))
+                                                                            .toStringAsFixed(2) +
+                                                                        " (USD)",
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        letterSpacing:
+                                                                            1.0,
+                                                                        fontFamily:
+                                                                            "Ubuntu"),
+                                                                  ),
+                                                                ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 8,
+                                                              left: 15,
+                                                              right: 15),
+                                                      child: Text(
+                                                        address,
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight:
+                                                                true,
+                                                            height: 0.5,
+                                                            leading: 1,
+                                                            fontFamily:
+                                                                "Ubuntu"),
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            letterSpacing: 1.0,
+                                                            color:
+                                                                Colors.white70,
+                                                            fontFamily:
+                                                                "Ubuntu",
+                                                            height: 1.3),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 146,
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(
+                                                    left: 16, right: 16),
+                                                decoration: new BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "images/wallet_card_blue.png"),
+                                                    fit: BoxFit.fitWidth,
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 18),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            S
+                                                                    .of(context)
+                                                                    .home_page_my_count +
+                                                                " (ABC)",
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: Colors
+                                                                    .white70,
+                                                                fontFamily:
+                                                                    "Ubuntu"),
+                                                          ),
+                                                          Text("")
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 8, left: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                                          Text(
+                                                            HomePage.tokenABC,
+                                                            style: TextStyle(
+                                                                fontSize: 35,
+                                                                color: Colors
+                                                                    .white,
+                                                                letterSpacing:
+                                                                    1.3,
+                                                                fontFamily:
+                                                                    "Ubuntu"),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 8,
+                                                              left: 15,
+                                                              right: 15),
+                                                      child: Text(
+                                                        address,
+                                                        strutStyle: StrutStyle(
+                                                            forceStrutHeight:
+                                                                true,
+                                                            height: 0.5,
+                                                            leading: 1,
+                                                            fontFamily:
+                                                                "Ubuntu"),
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            letterSpacing: 1.0,
+                                                            color:
+                                                                Colors.white70,
+                                                            fontFamily:
+                                                                "Ubuntu",
+                                                            height: 1.3),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 7,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.center,
+                                      child: SmoothPageIndicator(
+                                        controller: pageController,
+                                        count: 2,
+                                        effect: ExpandingDotsEffect(
+                                          dotHeight: 4,
+                                          spacing: 3,
+                                          strokeWidth: 3,
+                                          dotWidth: 5,
+                                          activeDotColor: Color(0xFFFFFFFF),
+                                          dotColor: Color(0xFFcccccc),
+                                          expansionFactor: 3,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 21, left: 15, right: 15),
+                              margin: const EdgeInsets.only(
+                                  top: 12, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
                               ),
                               child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
                                 color: Colors.white,
                                 child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TokenDefiPage()));
                                   },
                                   child: Column(
                                     children: [
@@ -721,22 +953,35 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             Container(
                                               height: 90,
                                               alignment: Alignment.center,
-                                              padding: const EdgeInsets.only(left: 5),
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
                                               child: Row(
                                                 children: <Widget>[
                                                   Container(
-                                                    margin: const EdgeInsets.only(top: 10),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
                                                     child: Image(
                                                       width: 56,
                                                       height: 56,
-                                                      image: AssetImage("images/home_financial.png"),
+                                                      image: AssetImage(
+                                                          "images/home_financial.png"),
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: const EdgeInsets.only(left: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 5),
                                                     child: Text(
-                                                      S.of(context).home_page_function_defi,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                      S
+                                                          .of(context)
+                                                          .home_page_function_defi,
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: "Ubuntu",
+                                                          color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -746,19 +991,34 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               right: 18,
                                               child: Container(
                                                 height: 30,
-                                                margin: const EdgeInsets.only(top: 0),
+                                                margin: const EdgeInsets.only(
+                                                    top: 0),
                                                 child: FlatButton(
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TokenDefiPage()));
                                                   },
                                                   child: Text(
-                                                    S.of(context).home_page_function_defi_go,
+                                                    S
+                                                        .of(context)
+                                                        .home_page_function_defi_go,
                                                     maxLines: 1,
-                                                    style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontFamily: "Ubuntu",
+                                                        color:
+                                                            Color(0xFFF22B79)),
                                                   ),
-                                                  color: Color(0xFFE61665).withAlpha(16),
+                                                  color: Color(0xFFE61665)
+                                                      .withAlpha(16),
                                                   textColor: Colors.black,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
                                                 ),
                                               ),
                                             ),
@@ -773,20 +1033,28 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                              margin: const EdgeInsets.only(
+                                  top: 12, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
                               ),
                               child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
                                 color: Colors.white,
                                 child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TokenSendOnePage()));
                                   },
                                   child: Container(
                                     height: 90,
@@ -794,22 +1062,33 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       alignment: Alignment.center,
                                       children: <Widget>[
                                         Container(
-                                          padding: const EdgeInsets.only(left: 5),
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
                                           child: Row(
                                             children: <Widget>[
                                               Container(
-                                                margin: const EdgeInsets.only(top: 10),
+                                                margin: const EdgeInsets.only(
+                                                    top: 10),
                                                 child: Image(
                                                   width: 56,
                                                   height: 56,
-                                                  image: AssetImage("images/home_send_token.png"),
+                                                  image: AssetImage(
+                                                      "images/home_send_token.png"),
                                                 ),
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.only(left: 5),
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
                                                 child: Text(
-                                                  S.of(context).home_page_function_send,
-                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                  S
+                                                      .of(context)
+                                                      .home_page_function_send,
+                                                  style: new TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: "Ubuntu",
+                                                      color: Colors.black),
                                                 ),
                                               )
                                             ],
@@ -820,12 +1099,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                           child: Container(
                                             width: 25,
                                             height: 25,
-                                            padding: const EdgeInsets.only(left: 0),
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
                                             //边框设置
                                             decoration: new BoxDecoration(
                                               color: Color(0xFFF5F5F5),
                                               //设置四周圆角 角度
-                                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(25.0)),
                                             ),
                                             child: Icon(
                                               Icons.arrow_forward_ios,
@@ -843,20 +1124,28 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             Container(
                               height: 160,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                              margin: const EdgeInsets.only(
+                                  top: 12, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
                               ),
                               child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
                                 color: Colors.white,
                                 child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TokenReceivePage()));
                                   },
                                   child: Column(
                                     children: [
@@ -866,22 +1155,35 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.topCenter,
-                                              padding: const EdgeInsets.only(left: 5),
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
                                               child: Row(
                                                 children: <Widget>[
                                                   Container(
-                                                    margin: const EdgeInsets.only(top: 10),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
                                                     child: Image(
                                                       width: 56,
                                                       height: 56,
-                                                      image: AssetImage("images/home_receive_token.png"),
+                                                      image: AssetImage(
+                                                          "images/home_receive_token.png"),
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: const EdgeInsets.only(left: 0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 0),
                                                     child: Text(
-                                                      S.of(context).home_page_function_receive,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                      S
+                                                          .of(context)
+                                                          .home_page_function_receive,
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: "Ubuntu",
+                                                          color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -891,23 +1193,54 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               right: 18,
                                               child: Container(
                                                 height: 30,
-                                                margin: const EdgeInsets.only(top: 20),
+                                                margin: const EdgeInsets.only(
+                                                    top: 20),
                                                 child: FlatButton(
                                                   onPressed: () {
-                                                    Clipboard.setData(ClipboardData(text: address));
+                                                    Clipboard.setData(
+                                                        ClipboardData(
+                                                            text: address));
                                                     setState(() {
-                                                      contentText = S.of(context).token_receive_page_copy_sucess;
+                                                      contentText = S
+                                                          .of(context)
+                                                          .token_receive_page_copy_sucess;
                                                     });
-                                                    Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                                    Fluttertoast.showToast(
+                                                        msg: S
+                                                            .of(context)
+                                                            .token_receive_page_copy_sucess,
+                                                        toastLength:
+                                                            Toast.LENGTH_SHORT,
+                                                        gravity:
+                                                            ToastGravity.CENTER,
+                                                        timeInSecForIosWeb: 1,
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0);
                                                   },
                                                   child: Text(
-                                                    contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
+                                                    contentText == ""
+                                                        ? S
+                                                            .of(context)
+                                                            .token_receive_page_copy
+                                                        : S
+                                                            .of(context)
+                                                            .token_receive_page_copy_sucess,
                                                     maxLines: 1,
-                                                    style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontFamily: "Ubuntu",
+                                                        color:
+                                                            Color(0xFFF22B79)),
                                                   ),
-                                                  color: Color(0xFFE61665).withAlpha(16),
+                                                  color: Color(0xFFE61665)
+                                                      .withAlpha(16),
                                                   textColor: Colors.black,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
                                                 ),
                                               ),
                                             ),
@@ -915,20 +1248,32 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                         ),
                                       ),
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              margin: const EdgeInsets.only(top: 5, left: 18, right: 5),
+                                              margin: const EdgeInsets.only(
+                                                  top: 5, left: 18, right: 5),
                                               child: Text(
                                                 address,
-                                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                style: TextStyle(fontSize: 14, color: Color(0xFF999999), letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.3),
+                                                strutStyle: StrutStyle(
+                                                    forceStrutHeight: true,
+                                                    height: 0.8,
+                                                    leading: 1,
+                                                    fontFamily: "Ubuntu"),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xFF999999),
+                                                    letterSpacing: 1.0,
+                                                    fontFamily: "Ubuntu",
+                                                    height: 1.3),
                                               ),
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(top: 0, right: 23),
+                                            margin: EdgeInsets.only(
+                                                top: 0, right: 23),
                                             child: QrImage(
                                               data: address,
                                               version: QrVersions.auto,
@@ -945,20 +1290,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             Container(
                               height: 130,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                              margin: const EdgeInsets.only(
+                                  top: 12, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
                               ),
                               child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
                                 color: Colors.white,
                                 child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AensPage()));
                                   },
                                   child: Column(
                                     children: [
@@ -968,22 +1320,35 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                           children: <Widget>[
                                             Container(
                                               alignment: Alignment.topCenter,
-                                              padding: const EdgeInsets.only(left: 5),
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
                                               child: Row(
                                                 children: <Widget>[
                                                   Container(
-                                                    margin: const EdgeInsets.only(top: 10),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
                                                     child: Image(
                                                       width: 56,
                                                       height: 56,
-                                                      image: AssetImage("images/home_names.png"),
+                                                      image: AssetImage(
+                                                          "images/home_names.png"),
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: const EdgeInsets.only(left: 0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 0),
                                                     child: Text(
-                                                      S.of(context).home_page_function_names,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                      S
+                                                          .of(context)
+                                                          .home_page_function_names,
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: "Ubuntu",
+                                                          color: Colors.black),
                                                     ),
                                                   )
                                                 ],
@@ -994,13 +1359,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               child: Container(
                                                 width: 25,
                                                 height: 25,
-                                                margin: const EdgeInsets.only(top: 23),
-                                                padding: const EdgeInsets.only(left: 0),
+                                                margin: const EdgeInsets.only(
+                                                    top: 23),
+                                                padding: const EdgeInsets.only(
+                                                    left: 0),
                                                 //边框设置
                                                 decoration: new BoxDecoration(
                                                   color: Color(0xFFF5F5F5),
                                                   //设置四周圆角 角度
-                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0)),
                                                 ),
                                                 child: Icon(
                                                   Icons.arrow_forward_ios,
@@ -1019,9 +1389,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               children: <Widget>[
                                                 Container(
                                                   alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 0, left: 20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 0, left: 20),
                                                   child: Text(
-                                                    S.of(context).home_page_function_name,
+                                                    S
+                                                        .of(context)
+                                                        .home_page_function_name,
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       wordSpacing: 30.0, //词间距
@@ -1032,14 +1405,23 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 ),
                                                 Container(
                                                   alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 5, left: 20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 5, left: 20),
                                                   child: Text(
-                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
+                                                    baseNameDataModel == null
+                                                        ? "-"
+                                                        : baseNameDataModel
+                                                                .data.sum
+                                                                .toString() +
+                                                            S
+                                                                .of(context)
+                                                                .home_page_function_name_count_number,
                                                     style: TextStyle(
                                                       fontSize: 19,
                                                       letterSpacing: -1,
                                                       //字体间距
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
 
                                                       //词间距
                                                       color: Color(0xFF000000),
@@ -1055,9 +1437,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               children: <Widget>[
                                                 Container(
                                                   alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 0, left: 20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 0, left: 20),
                                                   child: Text(
-                                                    S.of(context).home_page_function_name_count + "(ae)",
+                                                    S
+                                                            .of(context)
+                                                            .home_page_function_name_count +
+                                                        "(ae)",
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       wordSpacing: 30.0, //词间距
@@ -1068,17 +1454,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 ),
                                                 Container(
                                                   alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 5, left: 20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 5, left: 20),
                                                   child: Text(
-                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
+                                                    baseNameDataModel == null
+                                                        ? "-"
+                                                        : baseNameDataModel
+                                                                .data.sumPrice
+                                                                .toString() +
+                                                            S
+                                                                .of(context)
+                                                                .home_page_function_name_count_number,
                                                     style: TextStyle(
                                                         fontSize: 19,
                                                         letterSpacing: -1,
                                                         //字体间距
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
 
                                                         //词间距
-                                                        color: Color(0xFF000000),
+                                                        color:
+                                                            Color(0xFF000000),
                                                         fontFamily: "Ubuntu"),
                                                   ),
                                                 ),
@@ -1139,7 +1535,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => RecordsPage()));
           },
           child: Column(
             children: [
@@ -1164,7 +1561,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               S.of(context).home_page_transaction,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                              style: new TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Ubuntu",
+                                  color: Colors.black),
                             ),
                           )
                         ],
@@ -1198,7 +1599,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 margin: EdgeInsets.only(left: 15, top: 0),
                 child: Text(
                   S.of(context).home_page_transaction_conform,
-                  style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: "Ubuntu"),
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF666666),
+                      fontFamily: "Ubuntu"),
                 ),
                 height: 23,
               ),
@@ -1226,7 +1630,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: walletRecordModel.data[index])));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      TxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
@@ -1237,8 +1645,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 //边框设置
 
                 child: Text(
-                  (blockTopModel.data.height - walletRecordModel.data[index].blockHeight).toString(),
-                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: "Ubuntu"),
+                  (blockTopModel.data.height -
+                          walletRecordModel.data[index].blockHeight)
+                      .toString(),
+                  style: TextStyle(
+                      color: Color(0xFFFC2365),
+                      fontSize: 14,
+                      fontFamily: "Ubuntu"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -1249,14 +1662,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                 child: Column(
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
+                      width:
+                          MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                       child: Row(
                         children: <Widget>[
                           Expanded(
                             child: Container(
                               child: Text(
                                 walletRecordModel.data[index].tx['type'],
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontFamily: "Ubuntu"),
                               ),
                             ),
                           ),
@@ -1270,16 +1687,31 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         walletRecordModel.data[index].hash,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: "Ubuntu"),
+                        strutStyle: StrutStyle(
+                            forceStrutHeight: true,
+                            height: 0.8,
+                            leading: 1,
+                            fontFamily: "Ubuntu"),
+                        style: TextStyle(
+                            color: Colors.black.withAlpha(56),
+                            letterSpacing: 1.0,
+                            fontSize: 13,
+                            fontFamily: "Ubuntu"),
                       ),
                       width: 250,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                        DateTime.fromMicrosecondsSinceEpoch(
+                                walletRecordModel.data[index].time * 1000)
+                            .toLocal()
+                            .toString(),
+                        style: TextStyle(
+                            color: Colors.black.withAlpha(56),
+                            fontSize: 13,
+                            letterSpacing: 1.0,
+                            fontFamily: "Ubuntu"),
                       ),
                     ),
                   ],
@@ -1329,9 +1761,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   double getListWidgetHeight(BuildContext context) {
     if (loadingType == LoadingType.finish) {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 200;
+      return MediaQuery.of(context).size.height -
+          MediaQueryData.fromWindow(window).padding.top -
+          50 -
+          200;
     } else {
-      return MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - 50 - 150 - 200;
+      return MediaQuery.of(context).size.height -
+          MediaQueryData.fromWindow(window).padding.top -
+          50 -
+          150 -
+          200;
     }
   }
 
@@ -1339,21 +1778,39 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (walletRecordModel.data[index].tx['recipient_id'].toString() == address) {
+      if (walletRecordModel.data[index].tx['recipient_id'].toString() ==
+          address) {
         return Text(
-          "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+          "+" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                      1000000000000000000)
+                  .toString() +
+              " AE",
+          style:
+              TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
         );
       } else {
         return Text(
-          "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+          "-" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                      1000000000000000000)
+                  .toString() +
+              " AE",
+          style: TextStyle(
+              color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
         );
       }
     } else {
       return Text(
-        "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 14, fontFamily: "Ubuntu"),
+        "-" +
+            (walletRecordModel.data[index].tx['fee'].toDouble() /
+                    1000000000000000000)
+                .toString() +
+            " AE",
+        style: TextStyle(
+            color: Colors.black.withAlpha(56),
+            fontSize: 14,
+            fontFamily: "Ubuntu"),
       );
     }
   }
