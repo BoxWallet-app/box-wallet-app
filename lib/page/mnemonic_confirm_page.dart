@@ -23,8 +23,6 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
   var childrenTrue = List<Widget>();
   var childrenWordTrue = List<String>();
 
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -63,7 +61,11 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                 child: Text(
                   S.of(context).mnemonic_confirm_title,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 24,
+                    fontFamily: "Ubuntu",
+                  ),
                 ),
               ),
               Container(
@@ -71,7 +73,11 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   S.of(context).mnemonic_confirm_content,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 14,
+                    fontFamily: "Ubuntu",
+                  ),
                 ),
               ),
               Center(
@@ -104,12 +110,9 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
                   onTap: (startLoading, stopLoading, btnState) {
-
                     print(childrenWordTrue.toString());
                     print(widget.mnemonic.split(" ").toString());
-                    if(childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()){
-
-
+                    if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
                       showPlatformDialog(
                         context: context,
                         builder: (_) => BasicDialogAlert(
@@ -119,20 +122,21 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
                                 BoxApp.setMnemonic("");
                                 Navigator.of(context, rootNavigator: true).pop();
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    "/home", ModalRoute.withName("/home"));
+                                Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
                               },
                             ),
                           ],
                         ),
                       );
                       return;
-
                     }
                     showPlatformDialog(
                       context: context,
@@ -143,7 +147,10 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365),fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -156,11 +163,15 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 //                    testList6.forEach((item) => print(item));
 //                    String s = JsonEncoder().convert(childrenWordTrue);
 //                    print(s);
-
                   },
                   child: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Ubuntu",
+                    ),
                   ),
                   loader: Container(
                     padding: EdgeInsets.all(10),
@@ -197,7 +208,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     return Material(
       color: Color(0x00000000),
       child: Ink(
-        decoration: BoxDecoration(color:Colors.white,border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(5))),
         child: InkWell(
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
@@ -211,7 +222,6 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
           },
           borderRadius: BorderRadius.all(Radius.circular(4)),
           child: Container(
-
             child: Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
               child: Text(

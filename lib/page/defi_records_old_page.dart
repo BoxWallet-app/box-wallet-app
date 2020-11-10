@@ -84,7 +84,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365)),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                   ),
                   onPressed: () {
                     EasyLoading.show();
@@ -113,7 +113,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365)),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -167,7 +167,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -192,7 +192,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();

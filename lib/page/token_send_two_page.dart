@@ -675,7 +675,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365)),
+                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();
@@ -702,7 +702,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365)),
+                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();
@@ -760,7 +760,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365)),
+                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();
@@ -787,7 +787,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365)),
+                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();

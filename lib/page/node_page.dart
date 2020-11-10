@@ -212,7 +212,7 @@ class _NodePageState extends State<NodePage> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xff3460ee)),
+                                  style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                                 ),
                                 onPressed: () {
                                   stopLoading();
@@ -231,7 +231,7 @@ class _NodePageState extends State<NodePage> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xff3460ee)),
+                                  style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                                 ),
                                 onPressed: () {
                                   stopLoading();
@@ -252,7 +252,7 @@ class _NodePageState extends State<NodePage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee)),
+                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();

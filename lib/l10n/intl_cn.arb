@@ -238,6 +238,13 @@
   "dialog_defi_get_msg" : "成功领取",
   "dialog_defi_get" : "领取成功",
 
+
+  "dialog_save_word" : "请备份助记词",
+  "dialog_save_word_hint" : "为了您的资产安全,请及时备份助记词,助记词丢丢失您的钱包和资产也会丢",
+  "dialog_dismiss" : "取消",
+  "dialog_save_go" : "去备份",
+
+
   "ae_status_broadcast" : "正在广播",
   "ae_status_aensPreclaim" : "正在声明域名",
   "ae_status_aensBid" : "正在绑定域名",

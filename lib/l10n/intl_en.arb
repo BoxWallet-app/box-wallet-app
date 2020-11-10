@@ -216,6 +216,11 @@
   "dialog_defi_get_msg": "Successfully received",
   "dialog_defi_get": "Received successfully",
 
+  "dialog_save_word": "Please backup the mnemonic phrase",
+  "dialog_save_word_hint": "For the safety of your assets, please back up your mnemonic phrase in time. If you lose your mnemonic phrase, your wallet and assets will also be lost",
+  "dialog_dismiss": "Cancel",
+  "dialog_save_go": "Go to backup",
+
   "ae_status_broadcast": "Broadcasting",
   "ae_status_aensPreclaim": "Domain is being claimed",
   "ae_status_aensBid": "Domain is being bound",

@@ -237,7 +237,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               stopLoading();
@@ -265,7 +265,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               stopLoading();
@@ -339,7 +339,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               stopLoading();
@@ -367,7 +367,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365)),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                             ),
                             onPressed: () {
                               stopLoading();
@@ -443,7 +443,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                                             ),
                                             onPressed: () {
                                               stopLoading();
@@ -487,7 +487,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365)),
+                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();

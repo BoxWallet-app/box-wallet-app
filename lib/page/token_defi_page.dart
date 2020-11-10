@@ -984,7 +984,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365)),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                   ),
                   onPressed: () {
                     EasyLoading.show();
@@ -1013,7 +1013,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365)),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -1087,7 +1087,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                                             ),
                                             onPressed: () {
                                               EasyLoading.dismiss();
@@ -1130,7 +1130,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365)),
+                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();

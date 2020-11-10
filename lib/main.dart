@@ -10,6 +10,7 @@ import 'package:box/page/aens_register.dart';
 import 'package:box/page/home_page_lod.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/login_page.dart';
+import 'package:box/page/mnemonic_copy_page.dart';
 import 'package:box/page/splash_page.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:common_utils/common_utils.dart';
@@ -470,6 +471,7 @@ class BoxApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             '/login': (BuildContext context) => LoginPage(),
             '/home': (BuildContext context) => HomePage(),
+            '/MnemonicCopyPage': (BuildContext context) => MnemonicCopyPage(),
           },
         ),
       ),
@@ -508,6 +510,18 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('mnemonic', mnemonic);
   }
+
+  static Future<String> getNewAccount() async {
+    var prefs = await SharedPreferences.getInstance();
+    var account = prefs.getString('account');
+    return account;
+  }
+
+  static setNewAccount(String address) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('account', address);
+  }
+
 
   static setSigningKey(String signingKey) async {
     var prefs = await SharedPreferences.getInstance();

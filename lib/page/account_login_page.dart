@@ -139,12 +139,9 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                         return;
                       }
 
-
                       // ignore: missing_return
                       BoxApp.getValidationMnemonic((isSucess) {
-
-                        if(isSucess){
-
+                        if (isSucess) {
                           // ignore: missing_return
                           BoxApp.getSecretKey((address, signingKey) {
                             showGeneralDialog(
@@ -173,7 +170,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                                       ));
                                 });
                           }, _textEditingController.text);
-                        }else{
+                        } else {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
@@ -183,7 +180,10 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                                 BasicDialogAction(
                                   title: Text(
                                     "Conform",
-                                    style: TextStyle(color: Color(0xFFFC2365)),
+                                    style: TextStyle(
+                                      color: Color(0xFFFC2365),
+                                      fontFamily: "Ubuntu",
+                                    ),
                                   ),
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true).pop();
@@ -193,9 +193,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                             ),
                           );
                         }
-                      },  _textEditingController.text);
-
-
+                      }, _textEditingController.text);
                     },
                     child: Text(
                       S.of(context).account_login_page_conform,

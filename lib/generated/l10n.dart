@@ -1683,6 +1683,46 @@ class S {
     );
   }
 
+  /// `Please backup the mnemonic phrase`
+  String get dialog_save_word {
+    return Intl.message(
+      'Please backup the mnemonic phrase',
+      name: 'dialog_save_word',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For the safety of your assets, please back up your mnemonic phrase in time. If you lose your mnemonic phrase, your wallet and assets will also be lost`
+  String get dialog_save_word_hint {
+    return Intl.message(
+      'For the safety of your assets, please back up your mnemonic phrase in time. If you lose your mnemonic phrase, your wallet and assets will also be lost',
+      name: 'dialog_save_word_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get dialog_dismiss {
+    return Intl.message(
+      'Cancel',
+      name: 'dialog_dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to backup`
+  String get dialog_save_go {
+    return Intl.message(
+      'Go to backup',
+      name: 'dialog_save_go',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Broadcasting`
   String get ae_status_broadcast {
     return Intl.message(

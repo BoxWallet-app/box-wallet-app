@@ -504,7 +504,7 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee)),
+                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();
@@ -562,7 +562,7 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee)),
+                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();
@@ -589,7 +589,7 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee)),
+                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
                               ),
                               onPressed: () {
                                 stopLoading();

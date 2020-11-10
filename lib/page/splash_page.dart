@@ -59,6 +59,9 @@ class _SplashPageState extends State<SplashPage> {
                 ),
                 content: Text(
                   "Please choose the language you want to use\n请选择你要使用的语言",
+                  style: TextStyle(
+                    fontFamily: "Ubuntu",
+                  ),
                 ),
                 actions: <Widget>[
                   BasicDialogAction(

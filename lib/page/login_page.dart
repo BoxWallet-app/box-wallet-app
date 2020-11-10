@@ -22,6 +22,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
+import 'mnemonic_copy_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -243,6 +244,7 @@ class _LoginPageState extends State<LoginPage> {
 
                                         BoxApp.setSigningKey(signingKeyAesEncode);
                                         BoxApp.setMnemonic(mnemonicAesEncode);
+                                        BoxApp.setNewAccount(address);
                                         BoxApp.setAddress(address);
                                         Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
                                       }),

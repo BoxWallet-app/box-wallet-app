@@ -51,6 +51,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'aens_register.dart';
+import 'mnemonic_copy_page.dart';
 
 class HomePage extends StatefulWidget {
   static var token = "loading...";
@@ -96,120 +97,132 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   void showHint() {
     Future.delayed(Duration.zero, () {
-      SharedPreferences.getInstance().then((value) {
-        String isShow = value.getString("is_show_hint");
-        if (isShow == null || isShow == "")
-          showGeneralDialog(
-              context: context,
-              pageBuilder: (context, anim1, anim2) {},
-              barrierColor: Colors.grey.withOpacity(.4),
-              barrierDismissible: true,
-              barrierLabel: "",
-              transitionDuration: Duration(milliseconds: 400),
-              transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                return Transform(
-                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                    child: Opacity(
-                        opacity: anim1.value,
-                        // ignore: missing_return
-                        child: Material(
-                          type: MaterialType.transparency, //透明类型
-                          child: Center(
-                            child: Container(
-                              height: 470,
-                              width: MediaQuery.of(context).size.width - 40,
-                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                              decoration: ShapeDecoration(
-                                color: Color(0xffffffff),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0),
-                                  ),
-                                ),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 40,
-                                    alignment: Alignment.topLeft,
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.all(Radius.circular(60)),
-                                        onTap: () {
-                                          Navigator.pop(context); //关闭对话框
-                                          exit(0);
-                                          // ignore: unnecessary_statements
-//                                  widget.dismissCallBackFuture("");
-                                        },
-                                        child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+      BoxApp.getMnemonic().then((account) {
+        if (account != null && account.length > 0) {
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text(
+                S.of(context).dialog_save_word,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  fontFamily: "Ubuntu",
+                ),
+              ),
+              content: Text(
+                S.of(context).dialog_save_word_hint,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  height: 1.2,
+                  fontFamily: "Ubuntu",
+                ),
+              ),
+              actions: <Widget>[
+                BasicDialogAction(
+                  title: Text(
+                    S.of(context).dialog_dismiss,
+                    style: TextStyle(
+                      color: Color(0xFFFC2365),
+                      fontFamily: "Ubuntu",
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                BasicDialogAction(
+                  title: Text(
+                    S.of(context).dialog_save_go,
+                    style: TextStyle(
+                      color: Color(0xFFFC2365),
+                      fontFamily: "Ubuntu",
+                    ),
+                  ),
+                  onPressed: () {
+                    showGeneralDialog(
+                        context: context,
+                        pageBuilder: (context, anim1, anim2) {},
+                        barrierColor: Colors.grey.withOpacity(.4),
+                        barrierDismissible: true,
+                        barrierLabel: "",
+                        transitionDuration: Duration(milliseconds: 400),
+                        transitionBuilder: (_, anim1, anim2, child) {
+                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                          return Transform(
+                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            child: Opacity(
+                              opacity: anim1.value,
+                              // ignore: missing_return
+                              child: PayPasswordWidget(
+                                title: S.of(context).password_widget_input_password,
+                                dismissCallBackFuture: (String password) {
+                                  return;
+                                },
+                                passwordCallBackFuture: (String password) async {
+                                  var mnemonic = await BoxApp.getMnemonic();
+                                  if (mnemonic == "") {
+                                    showPlatformDialog(
+                                      context: context,
+                                      builder: (_) => BasicDialogAlert(
+                                        title: Text(S.of(context).dialog_hint),
+                                        content: Text(S.of(context).dialog_login_user_no_save),
+                                        actions: <Widget>[
+                                          BasicDialogAction(
+                                            title: Text(
+                                              S.of(context).dialog_conform,
+                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20, right: 20),
-                                    child: Text(
-                                      S.of(context).dialog_statement_title,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 270,
-                                    margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                                    child: SingleChildScrollView(
-                                      child: Container(
-                                        child: Text(
-                                          S.of(context).dialog_statement_content,
-                                          style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", letterSpacing: 2, height: 2),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                    );
+                                    return;
+                                  }
+                                  var address = await BoxApp.getAddress();
+                                  final key = Utils.generateMd5Int(password + address);
+                                  var aesDecode = Utils.aesDecode(mnemonic, key);
 
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 30, bottom: 20),
-                                    child: ArgonButton(
-                                      height: 40,
-                                      roundLoadingShape: true,
-                                      width: 120,
-                                      onTap: (startLoading, stopLoading, btnState) async {
-                                        var prefs = await SharedPreferences.getInstance();
-                                        prefs.setString('is_show_hint', "true");
-                                        Navigator.pop(context); //关闭对话框
-                                      },
-                                      child: Text(
-                                        S.of(context).dialog_statement_btn,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: "Ubuntu",
-                                        ),
+                                  if (aesDecode == "") {
+                                    showPlatformDialog(
+                                      context: context,
+                                      builder: (_) => BasicDialogAlert(
+                                        title: Text(S.of(context).dialog_hint_check_error),
+                                        content: Text(S.of(context).dialog_hint_check_error_content),
+                                        actions: <Widget>[
+                                          BasicDialogAction(
+                                            title: Text(
+                                              S.of(context).dialog_conform,
+                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                      loader: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: SpinKitRing(
-                                          lineWidth: 4,
-                                          color: Colors.white,
-                                          // size: loaderWidth ,
-                                        ),
-                                      ),
-                                      borderRadius: 30.0,
-                                      color: Color(0xFFFC2365),
-                                    ),
-                                  ),
-
-//          Text(text),
-                                ],
+                                    );
+                                    return;
+                                  }
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                },
                               ),
                             ),
-                          ),
-                        )));
-              });
+                          );
+                        });
+
+
+
+
+                  },
+                ),
+              ],
+            ),
+          );
+        }
       });
     });
   }
@@ -218,6 +231,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
+        // HomePage.token = "8888.88888";
         HomePage.token = model.data.balance;
         setState(() {});
       } else {}
@@ -482,124 +496,175 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                   child: Stack(
                     children: [
                       Positioned(
-                        child: SizedBox(
-                          height: 200,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80.0),
+                            boxShadow: [
+//                                BoxShadow(
+//                                    color: Color(0xFFFC2365).withAlpha(20),
+//                                    offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+//                                    blurRadius: 50.0, //阴影模糊程度
+//                                    spreadRadius: 0.1 //阴影扩散程度
+//                                    )
+                            ],
+                          ),
                           child: PageView(
                             controller: pageController,
                             children: [
-                              Container(
-                                height: 200,
-                                alignment: Alignment.centerLeft,
-                                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                                margin: const EdgeInsets.only(top: 0, bottom: 0),
-                                decoration: new BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage("images/wallet_card.png"),
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 28, left: 18),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            S.of(context).home_page_my_count + " (AE)",
-                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                          ),
-                                        ],
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 160,
+                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                    decoration: new BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage("images/wallet_card.png"),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0xFFFC2365).withAlpha(20),
+                                            offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+                                            blurRadius: 50.0, //阴影模糊程度
+                                            spreadRadius: 0.1 //阴影扩散程度
+                                            )
+                                      ],
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 18),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                          Text(
-                                            HomePage.token,
-//                                      "9999999.00000",
-                                            overflow: TextOverflow.ellipsis,
-
-                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                          ),
-//                                          baseDataModel == null
-//                                              ? Container()
-//                                              : Container(
-//                                                  margin: const EdgeInsets.only(bottom: 5, left: 2),
-//                                                  child: Text(
-//
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 18),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                S.of(context).home_page_my_count + " (AE)",
+                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                              ),
+//                                              Expanded(child: Container()),
+//                                              baseDataModel == null
+//                                                  ? Container()
+//                                                  : Container(
+//                                                      margin: const EdgeInsets.only(left: 2,right: 15),
+//                                                      child: Text(
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-//                                                    "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2)+" (USD)",
-//                                                    overflow: TextOverflow.ellipsis,
-//                                                    style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-//                                                  ),
-//                                                ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                      child: Text(
-                                        address,
-                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 200,
-
-                                alignment: Alignment.centerLeft,
-                                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-//                                margin: const EdgeInsets.only(top: 0, bottom: 0),
-
-                                decoration: new BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage("images/wallet_card_blue.png"),
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 28, left: 18),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            S.of(context).home_page_my_count + " (ABC)",
-                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+//                                                        " ≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+//                                                        overflow: TextOverflow.ellipsis,
+//                                                        style: TextStyle(fontSize: 13, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+//                                                      ),
+//                                                    ),
+                                            ],
                                           ),
-                                          Text("")
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 18),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: <Widget>[
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(top: 8, left: 15),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
-                                          Text(
-                                            HomePage.tokenABC,
-                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                              Text(
+                                                HomePage.token == "loading..."
+                                                    ? "loading..."
+                                                    : double.parse(HomePage.token) > 1000
+                                                        ? double.parse(HomePage.token).toStringAsFixed(2)
+                                                        : double.parse(HomePage.token).toStringAsFixed(5),
+//                                      "9999999.00000",
+                                                overflow: TextOverflow.ellipsis,
+
+                                                style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                              ),
+                                              baseDataModel == null
+                                                  ? Container()
+                                                  : Container(
+                                                      margin: const EdgeInsets.only(bottom: 5, left: 2),
+                                                      child: Text(
+//                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
+                                                        "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                      ),
+                                                    ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                          child: Text(
+                                            address,
+                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                            style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                      child: Text(
-                                        address,
-                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 160,
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                    decoration: new BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage("images/wallet_card_blue.png"),
+                                        fit: BoxFit.fitWidth,
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0xFF3D7BF6).withAlpha(20),
+                                            offset: Offset(0.0, 55.0), //阴影xy轴偏移量
+                                            blurRadius: 50.0, //阴影模糊程度
+                                            spreadRadius: 0.1 //阴影扩散程度
+                                            )
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 18),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                S.of(context).home_page_my_count + " (ABC)",
+                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                              ),
+                                              Text("")
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(top: 8, left: 15),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                              Text(
+                                                HomePage.tokenABC,
+                                                style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                          child: Text(
+                                            address,
+                                            strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                            style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -609,7 +674,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Column(
                           children: <Widget>[
                             Container(
-                              height: 180,
+                              height: 140,
+
                               padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
 //                                margin: const EdgeInsets.only(top: 0, bottom: 0),
                             ),
@@ -618,19 +684,20 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                 controller: pageController,
                                 count: 2,
                                 effect: ExpandingDotsEffect(
-                                  dotHeight: 5,
-                                  spacing: 5,
-                                  strokeWidth: 5,
+                                  dotHeight: 4,
+                                  spacing: 3,
+                                  strokeWidth: 3,
                                   dotWidth: 5,
-                                  activeDotColor: Color(0xFFFC2365),
-                                  expansionFactor: 5,
+                                  activeDotColor: Color(0xFFFFFFFF),
+                                  dotColor: Color(0xFFcccccc),
+                                  expansionFactor: 3,
                                 ),
                               ),
                             ),
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 7, left: 15, right: 15),
+                              margin: const EdgeInsets.only(top: 21, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),
