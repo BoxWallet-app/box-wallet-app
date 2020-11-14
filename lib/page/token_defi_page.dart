@@ -1061,7 +1061,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                         transitionBuilder: (_, anim1, anim2, child) {
                           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
@@ -1182,7 +1182,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
 //        transitionBuilder: (_, anim1, anim2, child) {
 //          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
 //          return Transform(
-//              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+//              transform: Matrix4.translationValues(0.0, 0, 0.0),
 //              child: Opacity(
 //                opacity: anim1.value,
 //                // ignore: missing_return

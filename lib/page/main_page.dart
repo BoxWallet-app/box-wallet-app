@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                                     decoration: new BoxDecoration(
                                         color: Color(0xFFFFFFFF).withAlpha(200),
                                         //设置四周圆角 角度
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                         boxShadow: [
                                           BoxShadow(
                                               color: Colors.black.withAlpha(20),
@@ -433,7 +433,7 @@ class _MainPageState extends State<MainPage> {
                                           decoration: new BoxDecoration(
                                             color: Color(0xFFF8F8F8),
                                             //设置四周圆角 角度
-                                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
 //                                      boxShadow: [
 //                                        BoxShadow(
 //                                            color: Colors.black12,
@@ -552,7 +552,7 @@ class _MainPageState extends State<MainPage> {
                                           decoration: new BoxDecoration(
                                             color: Color(0xFFF8F8F8),
                                             //设置四周圆角 角度
-                                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
 //                                      boxShadow: [
 //                                        BoxShadow(
 //                                            color: Colors.black12,
@@ -616,7 +616,7 @@ class _MainPageState extends State<MainPage> {
                         decoration: new BoxDecoration(
                             color: Color(0xE6FFFFFF),
                             //设置四周圆角 角度
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.black12,

@@ -87,7 +87,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xFFFAFAFA),
+        backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
@@ -121,17 +121,17 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 100,
+                              height: 130,
                               color: Color(0xFFFC2365),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
                                   Color(0xFFFC2365),
-                                  Color(0xFFFAFAFA),
+                                  Color(0xFFEEEEEE),
                                 ]),
                               ),
-                              height: 200,
+                              height: 190,
                             ),
                           ],
                         ),
@@ -215,14 +215,14 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                   boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-                                        blurRadius: 15.0, //阴影模糊程度
-                                        spreadRadius: 1.0 //阴影扩散程度
-                                        )
+//                                    BoxShadow(
+//                                        color: Colors.black12,
+//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+//                                        blurRadius: 15.0, //阴影模糊程度
+//                                        spreadRadius: 1.0 //阴影扩散程度
+//                                        )
                                   ]
                                   //设置四周边框
                                   ),
@@ -237,7 +237,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           child: Text(
                                             S.of(context).token_send_two_page_number,
                                             style: TextStyle(
-                                              color: Color(0xFF666666),
+                                              color: Color(0xFF000000),
                                               fontFamily: "Ubuntu",
                                               fontSize: 19,
                                             ),
@@ -286,34 +286,21 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                         Positioned(
                                           right: 0,
                                           top: 12,
-                                          child: Container(
-                                            margin: const EdgeInsets.only(left: 10, right: 0),
-                                            child: Material(
-                                              color: Color(0x00000000),
-                                              child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                  onTap: () {
-                                                    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
-                                                    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
-                                                  },
-                                                  child: Container(
-                                                    margin: const EdgeInsets.only(left: 10, right: 10),
-                                                    height: 30,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          S.of(context).token_send_two_page_all,
-                                                          style: TextStyle(
-                                                            color: Color(0xFFFC2365),
-                                                            fontSize: 17,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )),
+                                          child:Container(
+                                            height: 30,
+                                            margin: const EdgeInsets.only(top: 0),
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                clickAllCount();
+                                              },
+                                              child: Text(
+                                                S.of(context).token_send_two_page_all,
+                                                maxLines: 1,
+                                                style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                              ),
+                                              color: Color(0xFFE61665).withAlpha(16),
+                                              textColor: Colors.black,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
                                           ),
                                         ),
@@ -519,7 +506,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                             );
                                       },
                                       child: Container(
-                                        height: 60,
+                                        height: 55,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: <Widget>[
@@ -588,37 +575,39 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       )
                     ],
                   ),
+
+
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 30),
-                    child: ArgonButton(
+                    margin: const EdgeInsets.only(top: 10, bottom: 30),
+                    child: Container(
                       height: 50,
-                      roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
-                      onTap: (startLoading, stopLoading, btnState) {
-                        netSendV2(context, startLoading, stopLoading);
-                      },
-                      child: Text(
-                        S.of(context).token_send_two_page_conform,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Ubuntu", fontWeight: FontWeight.w700),
-                      ),
-                      loader: Container(
-                        padding: EdgeInsets.all(10),
-                        child: SpinKitRing(
-                          lineWidth: 4,
-                          color: Colors.white,
-                          // size: loaderWidth ,
+                      child: FlatButton(
+                        onPressed: () {
+                          netSendV2(context);
+                        },
+                        child: Text(
+                          S.of(context).token_send_two_page_conform,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                         ),
+                        color: Color(0xFFFC2365),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
-                      borderRadius: 30.0,
-                      color: Color(0xFFFC2365),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
         ));
 //
+  }
+
+  void clickAllCount() {
+    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
+    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
   Future<String> getAddress() {
@@ -633,7 +622,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     return Utils.formatAddress(widget.address);
   }
 
-  Future<void> netSendV2(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
     var senderID = await BoxApp.getAddress();
     if (currentCoinName == "AE") {
@@ -649,14 +638,13 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           transitionBuilder: (_, anim1, anim2, child) {
             final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
               child: Opacity(
                 opacity: anim1.value,
                 // ignore: missing_return
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    stopLoading();
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -675,10 +663,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -690,7 +680,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                     // ignore: missing_return
                     BoxApp.spend((tx) {
                       showFlushSucess(context);
-                      stopLoading();
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -702,17 +691,18 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      stopLoading();
                     }, aesDecode, address, widget.address, _textEditingController.text);
                     showChainLoading();
                   },
@@ -720,7 +710,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
               ),
             );
           });
-
     } else {
 //      startLoading();
       showGeneralDialog(
@@ -734,14 +723,13 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           transitionBuilder: (_, anim1, anim2, child) {
             final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
               child: Opacity(
                 opacity: anim1.value,
                 // ignore: missing_return
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    stopLoading();
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -760,10 +748,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -775,7 +765,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
                       showFlushSucess(context);
-                      stopLoading();
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -787,19 +776,20 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      stopLoading();
                       // ignore: missing_return
-                    }, aesDecode, address, "ct_2ChohjmuLJEt8vNMJma9T9apfwLiNomFRZmjhF8yu38i7JQ2Ve", widget.address, _textEditingController.text);
+                    }, aesDecode, address, BoxApp.ABC_CONTRACT_AEX9, widget.address, _textEditingController.text);
                     showChainLoading();
                   },
                 ),

@@ -126,95 +126,93 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
 //                  children: childrenFalse,
 //                ),
 //              ),
+
                 Container(
                   margin: const EdgeInsets.only(top: 30, bottom: 50),
-                  child: ArgonButton(
+                  child: Container(
                     height: 50,
-                    roundLoadingShape: true,
                     width: MediaQuery.of(context).size.width * 0.8,
-                    onTap: (startLoading, stopLoading, btnState) {
-//                       netLogin(context, startLoading, stopLoading);
-
-                      if (_textEditingController.text == null || _textEditingController.text == "") {
-                        return;
-                      }
-
-                      // ignore: missing_return
-                      BoxApp.getValidationMnemonic((isSucess) {
-                        if (isSucess) {
-                          // ignore: missing_return
-                          BoxApp.getSecretKey((address, signingKey) {
-                            showGeneralDialog(
-                                context: context,
-                                pageBuilder: (context, anim1, anim2) {},
-                                barrierColor: Colors.grey.withOpacity(.4),
-                                barrierDismissible: true,
-                                barrierLabel: "",
-                                transitionDuration: Duration(milliseconds: 400),
-                                transitionBuilder: (context, anim1, anim2, child) {
-                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                                  return Transform(
-                                      transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-                                      child: Opacity(
-                                        opacity: anim1.value,
-                                        // ignore: missing_return
-                                        child: PayPasswordWidget(
-                                            title: S.of(context).password_widget_input_password,
-                                            passwordCallBackFuture: (String password) async {
-                                              final key = Utils.generateMd5Int(password + address);
-                                              var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                                              BoxApp.setSigningKey(signingKeyAesEncode);
-                                              BoxApp.setAddress(address);
-                                              Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
-                                            }),
-                                      ));
-                                });
-                          }, _textEditingController.text);
-                        } else {
-                          showPlatformDialog(
-                            context: context,
-                            builder: (_) => BasicDialogAlert(
-                              title: Text("Login Error"),
-                              content: Text("mnemonic error"),
-                              actions: <Widget>[
-                                BasicDialogAction(
-                                  title: Text(
-                                    "Conform",
-                                    style: TextStyle(
-                                      color: Color(0xFFFC2365),
-                                      fontFamily: "Ubuntu",
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      }, _textEditingController.text);
-                    },
-                    child: Text(
-                      S.of(context).account_login_page_conform,
-                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                    ),
-                    loader: Container(
-                      padding: EdgeInsets.all(10),
-                      child: SpinKitRing(
-                        lineWidth: 4,
-                        color: Colors.white,
-                        // size: loaderWidth ,
+                    child: FlatButton(
+                      onPressed: () {
+                        clickLogin();
+                      },
+                      child: Text(
+                        S.of(context).account_login_page_conform,
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                       ),
+                      color: Color(0xFFFC2365),
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
-                    borderRadius: 30.0,
-                    color: Color(0xFFFC2365),
                   ),
-                )
+                ),
               ],
             ),
           )),
         ));
+  }
+
+  clickLogin() {
+    if (_textEditingController.text == null || _textEditingController.text == "") {
+      return;
+    }
+
+    // ignore: missing_return
+    BoxApp.getValidationMnemonic((isSucess) {
+      if (isSucess) {
+        // ignore: missing_return
+        BoxApp.getSecretKey((address, signingKey) {
+          showGeneralDialog(
+              context: context,
+              pageBuilder: (context, anim1, anim2) {},
+              barrierColor: Colors.grey.withOpacity(.4),
+              barrierDismissible: true,
+              barrierLabel: "",
+              transitionDuration: Duration(milliseconds: 400),
+              transitionBuilder: (context, anim1, anim2, child) {
+                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                return Transform(
+                    transform: Matrix4.translationValues(0.0, 0, 0.0),
+                    child: Opacity(
+                      opacity: anim1.value,
+                      // ignore: missing_return
+                      child: PayPasswordWidget(
+                          title: S.of(context).password_widget_input_password,
+                          passwordCallBackFuture: (String password) async {
+                            final key = Utils.generateMd5Int(password + address);
+                            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                            BoxApp.setSigningKey(signingKeyAesEncode);
+                            BoxApp.setAddress(address);
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                          }),
+                    ));
+              });
+        }, _textEditingController.text);
+      } else {
+        showPlatformDialog(
+          context: context,
+          builder: (_) => BasicDialogAlert(
+            title: Text("Login Error"),
+            content: Text("mnemonic error"),
+            actions: <Widget>[
+              BasicDialogAction(
+                title: Text(
+                  "Conform",
+                  style: TextStyle(
+                    color: Color(0xFFFC2365),
+                    fontFamily: "Ubuntu",
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    }, _textEditingController.text);
   }
 
   Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
@@ -238,7 +236,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
               transitionBuilder: (context, anim1, anim2, child) {
                 final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
-                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                    transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
                       opacity: anim1.value,
                       // ignore: missing_return

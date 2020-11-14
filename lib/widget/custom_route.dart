@@ -5,7 +5,7 @@ class CustomRoute extends PageRouteBuilder{
   CustomRoute(this.widget)
       :super(
     // 设置过度时间
-      transitionDuration:Duration(seconds: 2),
+      transitionDuration:Duration(seconds: 1),
       // 构造器
       pageBuilder:(
           // 上下文和动画

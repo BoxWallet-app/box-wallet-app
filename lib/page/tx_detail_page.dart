@@ -119,7 +119,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     items.add(
       Container(
           child: Container(
-            color: Color(0xFFFAFAFA),
+            color: Color(0xFFEEEEEE),
           ),
           padding: EdgeInsets.only(left: 0, right: 0),
           height: 30.0,
@@ -181,7 +181,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     );
     items.add(
       Container(
-        color: Color(0xFFFAFAFA),
+        color: Color(0xFFEEEEEE),
         height: 50.0,
       ),
     );
@@ -190,7 +190,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFAFAFA),
+      backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
         // 隐藏阴影
         elevation: 0,

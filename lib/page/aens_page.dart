@@ -64,9 +64,9 @@ class _AensPageState extends State<AensPage> {
                   ),
                   insets: EdgeInsets.only(bottom: 5)),
               tabs: <Widget>[
-                Tab(icon: Text(S.of(context).aens_page_title_tab_1, style: TextStyle(fontFamily: "Ubuntu",),)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_2, style: TextStyle(fontFamily: "Ubuntu",),)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_3 ,style: TextStyle(fontFamily: "Ubuntu",),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_1, style: TextStyle(fontFamily: "Ubuntu",fontSize: 14, fontWeight: FontWeight.w600),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_2, style: TextStyle(fontFamily: "Ubuntu",fontWeight: FontWeight.w600),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_3 ,style: TextStyle(fontFamily: "Ubuntu",fontWeight: FontWeight.w600),)),
               ],
             ),
           ),

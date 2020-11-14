@@ -40,7 +40,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFFAFAFA),
+        backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
@@ -77,17 +77,17 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                   .of(context)
                                   .size
                                   .width,
-                              height: 100,
+                              height: 70,
                               color: Color(0xFFFC2365),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
                                   Color(0xFFFC2365),
-                                  Color(0xFFFAFAFA),
+                                  Color(0xFFEEEEEE),
                                 ]),
                               ),
-                              height: 100,
+                              height: 400,
                             ),
                           ],
                         ),
@@ -117,14 +117,14 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                   boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-                                        blurRadius: 15.0, //阴影模糊程度
-                                        spreadRadius: 1.0 //阴影扩散程度
-                                    )
+//                                    BoxShadow(
+//                                        color: Colors.black12,
+//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+//                                        blurRadius: 15.0, //阴影模糊程度
+//                                        spreadRadius: 1.0 //阴影扩散程度
+//                                        )
                                   ]
                                 //设置四周边框
                               ),

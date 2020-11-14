@@ -168,7 +168,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                         transitionBuilder: (_, anim1, anim2, child) {
                           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
@@ -265,7 +265,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
         transitionBuilder: (_, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return Transform(
-            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            transform: Matrix4.translationValues(0.0, 0, 0.0),
             child: Opacity(
               opacity: anim1.value,
               // ignore: missing_return
@@ -325,7 +325,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                       ),
                     );
                     // ignore: missing_return
-                  }, aesDecode, address, "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T",contractRecordModel.data[index].unlockHeight.toString());
+                  }, aesDecode, address,BoxApp.DEFI_CONTRACT_V1_FIX ,contractRecordModel.data[index].unlockHeight.toString());
                   showChainLoading();
                 },
               ),
@@ -475,7 +475,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
               //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
 
               //设置四周边框
             ),

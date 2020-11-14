@@ -61,7 +61,7 @@ class _AensRegisterState extends State<AensRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xFFFAFAFA),
+        backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
@@ -96,7 +96,7 @@ class _AensRegisterState extends State<AensRegister> {
                           decoration: new BoxDecoration(
                             gradient: const LinearGradient(begin: Alignment.topRight, colors: [
                               Color(0xFFFC2365),
-                              Color(0xFFFAFAFA),
+                              Color(0xFFEEEEEE),
                             ]),
                           ),
                           height: 100,
@@ -127,7 +127,7 @@ class _AensRegisterState extends State<AensRegister> {
                           decoration: new BoxDecoration(
                               color: Color(0xE6FFFFFF),
                               //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black12,
@@ -208,141 +208,137 @@ class _AensRegisterState extends State<AensRegister> {
                   )
                 ],
               ),
+
               Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: ArgonButton(
+                margin: const EdgeInsets.only(top: 30, bottom: 30),
+                child: Container(
                   height: 50,
-                  roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {
-                    netPreclaimV2(context, startLoading, stopLoading);
-                  },
-                  child: Text(
-                    S.of(context).aens_register_page_create,
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  loader: Container(
-                    padding: EdgeInsets.all(10),
-                    child: SpinKitRing(
-                      lineWidth: 4,
-                      color: Colors.white,
-                      // size: loaderWidth ,
+                  child: FlatButton(
+                    onPressed: () {
+                      netPreclaimV2(context);
+                    },
+                    child: Text(
+                      S.of(context).aens_register_page_create,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                     ),
+                    color: Color(0xFFFC2365),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  borderRadius: 30.0,
-                  color: Color(0xFFFC2365),
                 ),
               ),
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 30,
-                    ),
-                    Container(
-                      child: Text(
-                        "The auction time of invalid domain name registration is as follows:",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(left: 18, top: 10),
-                    ),
-
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        width: MediaQuery.of(context).size.width,
-                        child: DataTable(columns: [
-                          DataColumn(label: Text("Name Length")),
-                          DataColumn(label: Text("Out Height")),
-                        ], rows: [
-                          DataRow(cells: [DataCell(Text('13+')), DataCell(Text('0'))]),
-                          DataRow(cells: [DataCell(Text('9-12')), DataCell(Text('480'))]),
-                          DataRow(cells: [DataCell(Text('5-8')), DataCell(Text('14880'))]),
-                          DataRow(cells: [DataCell(Text('1-4')), DataCell(Text('29760'))])
-                        ])),
-
-                    Container(
-                      child: Text(
-                        "The corresponding fee for the length of domain name registration and auction is as follows:",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(left: 18, top: 10),
-                    ),
-
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        width: MediaQuery.of(context).size.width,
-                        child: DataTable(columns: [
-                          DataColumn(label: Text("Name Length")),
-                          DataColumn(label: Text("Amount(AE)")),
-                        ], rows: [
-                          DataRow(cells: [
-                            DataCell(Text('1')),
-                            DataCell(Text('570.2887AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('2')),
-                            DataCell(Text('352.4578AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('3')),
-                            DataCell(Text('217.8309AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('4')),
-                            DataCell(Text('134.6269AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('5')),
-                            DataCell(Text('83.204AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('6')),
-                            DataCell(Text('51.4229AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('7')),
-                            DataCell(Text('31.7811AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('8')),
-                            DataCell(Text('19.6418AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('9')),
-                            DataCell(Text('12.1393AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('10')),
-                            DataCell(Text('7.5025AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('11')),
-                            DataCell(Text('4.6368AE')),
-                          ]),
-                          DataRow(cells: [
-                            DataCell(Text('12+')),
-                            DataCell(Text('2.8657AE')),
-                          ]),
-                        ])),
-
-                  ],
-                ),
-              ),
+//              SingleChildScrollView(
+//                child: Column(
+//                  children: [
+//                    Container(
+//                      height: 30,
+//                    ),
+//                    Container(
+//                      child: Text(
+//                        "The auction time of invalid domain name registration is as follows:",
+//                        style: TextStyle(fontSize: 16),
+//                      ),
+//                      alignment: Alignment.topLeft,
+//                      margin: EdgeInsets.only(left: 18, top: 10),
+//                    ),
+//
+//                    Container(
+//                        padding: EdgeInsets.all(16),
+//                        width: MediaQuery.of(context).size.width,
+//                        child: DataTable(columns: [
+//                          DataColumn(label: Text("Name Length")),
+//                          DataColumn(label: Text("Out Height")),
+//                        ], rows: [
+//                          DataRow(cells: [DataCell(Text('13+')), DataCell(Text('0'))]),
+//                          DataRow(cells: [DataCell(Text('9-12')), DataCell(Text('480'))]),
+//                          DataRow(cells: [DataCell(Text('5-8')), DataCell(Text('14880'))]),
+//                          DataRow(cells: [DataCell(Text('1-4')), DataCell(Text('29760'))])
+//                        ])),
+//
+//                    Container(
+//                      child: Text(
+//                        "The corresponding fee for the length of domain name registration and auction is as follows:",
+//                        style: TextStyle(fontSize: 16),
+//                      ),
+//                      alignment: Alignment.topLeft,
+//                      margin: EdgeInsets.only(left: 18, top: 10),
+//                    ),
+//
+//                    Container(
+//                        padding: EdgeInsets.all(16),
+//                        width: MediaQuery.of(context).size.width,
+//                        child: DataTable(columns: [
+//                          DataColumn(label: Text("Name Length")),
+//                          DataColumn(label: Text("Amount(AE)")),
+//                        ], rows: [
+//                          DataRow(cells: [
+//                            DataCell(Text('1')),
+//                            DataCell(Text('570.2887AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('2')),
+//                            DataCell(Text('352.4578AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('3')),
+//                            DataCell(Text('217.8309AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('4')),
+//                            DataCell(Text('134.6269AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('5')),
+//                            DataCell(Text('83.204AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('6')),
+//                            DataCell(Text('51.4229AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('7')),
+//                            DataCell(Text('31.7811AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('8')),
+//                            DataCell(Text('19.6418AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('9')),
+//                            DataCell(Text('12.1393AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('10')),
+//                            DataCell(Text('7.5025AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('11')),
+//                            DataCell(Text('4.6368AE')),
+//                          ]),
+//                          DataRow(cells: [
+//                            DataCell(Text('12+')),
+//                            DataCell(Text('2.8657AE')),
+//                          ]),
+//                        ])),
+//
+//                  ],
+//                ),
+//              ),
             ],
           ),
         ));
   }
 
-  Future<void> netPreclaimV2(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netPreclaimV2(BuildContext context) async {
     focusNode.unfocus();
-    startLoading();
+    
     var name = _textEditingController.text + ".chain";
     AensInfoDao.fetch(name).then((AensInfoModel model) {
-      stopLoading();
+      
       print(model.toString());
-      if (model.code == 200) {
+      if (model.code == 200 && model.data.currentHeight < model.data.overHeight ) {
         Fluttertoast.showToast(msg: "name already register", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       } else if (model.code == 201) {
         showGeneralDialog(
@@ -356,14 +352,14 @@ class _AensRegisterState extends State<AensRegister> {
             transitionBuilder: (_, anim1, anim2, child) {
               final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
               return Transform(
-                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                transform: Matrix4.translationValues(0.0, 0, 0.0),
                 child: Opacity(
                   opacity: anim1.value,
                   // ignore: missing_return
                   child: PayPasswordWidget(
                     title: S.of(context).password_widget_input_password,
                     dismissCallBackFuture: (String password) {
-                      stopLoading();
+                      
                       return;
                     },
                     passwordCallBackFuture: (String password) async {
@@ -385,7 +381,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                                 ),
                                 onPressed: () {
-                                  stopLoading();
+                                  
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
@@ -398,7 +394,7 @@ class _AensRegisterState extends State<AensRegister> {
                       BoxApp.claimName((tx) {
                         print(tx);
                         showFlush(context);
-                        stopLoading();
+                        
                         // ignore: missing_return
                       }, (error) {
                         showPlatformDialog(
@@ -413,14 +409,14 @@ class _AensRegisterState extends State<AensRegister> {
                                   style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                                 ),
                                 onPressed: () {
-                                  stopLoading();
+                                  
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
                             ],
                           ),
                         );
-                        stopLoading();
+                        
                         // ignore: missing_return
                       }, aesDecode, address, name);
                       showChainLoading();
@@ -433,7 +429,7 @@ class _AensRegisterState extends State<AensRegister> {
         Fluttertoast.showToast(msg: model.msg, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       }
     }).catchError((e) {
-      stopLoading();
+      
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -456,7 +452,7 @@ class _AensRegisterState extends State<AensRegister> {
   Future<void> netClaimV2(BuildContext context, Function startLoading, Function stopLoading, String name, String nameSalt) async {
     AensRegisterDao.fetch(name, this.address, nameSalt).then((MsgSignModel model) {
       EasyLoading.dismiss();
-      stopLoading();
+      
       if (model.code == 200) {
         Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
         Navigator.of(context).push(new MaterialPageRoute<Null>(
@@ -466,7 +462,7 @@ class _AensRegisterState extends State<AensRegister> {
                   tx: tx,
                   // ignore: missing_return
                   dismissCallBackFuture: () {
-                    stopLoading();
+                    
                   },
                   // ignore: missing_return
                   conformCallBackFuture: () {
@@ -482,14 +478,14 @@ class _AensRegisterState extends State<AensRegister> {
                         transitionBuilder: (_, anim1, anim2, child) {
                           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
                               child: PayPasswordWidget(
                                 title: S.of(context).password_widget_input_password,
                                 dismissCallBackFuture: (String password) {
-                                  stopLoading();
+                                  
                                   return;
                                 },
                                 passwordCallBackFuture: (String password) async {
@@ -511,7 +507,7 @@ class _AensRegisterState extends State<AensRegister> {
                                               style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
                                             ),
                                             onPressed: () {
-                                              stopLoading();
+                                              
                                               Navigator.of(context, rootNavigator: true).pop();
                                             },
                                           ),
@@ -523,14 +519,14 @@ class _AensRegisterState extends State<AensRegister> {
 
                                   var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
                                   TxBroadcastDao.fetch(signMsg, model.data.tx, "NameClaimTx").then((model) {
-                                    stopLoading();
+                                    
                                     if (model.code == 200) {
                                       focusNode.unfocus();
                                       showFlush(context);
                                       print(model.data.hash);
                                     }
                                   }).catchError((e) {
-                                    stopLoading();
+                                    
                                     Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                                   });
                                 },
@@ -564,7 +560,7 @@ class _AensRegisterState extends State<AensRegister> {
         );
       }
     }).catchError((e) {
-      stopLoading();
+      
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }

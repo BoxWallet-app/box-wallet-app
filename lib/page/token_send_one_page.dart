@@ -29,7 +29,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFFAFAFA),
+        backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
@@ -64,17 +64,17 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 100,
+                              height: 80,
                               color: Color(0xFFFC2365),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
                                   Color(0xFFFC2365),
-                                  Color(0xFFFAFAFA),
+                                  Color(0xFFEEEEEE),
                                 ]),
                               ),
-                              height: 100,
+                              height: 190,
                             ),
                           ],
                         ),
@@ -102,14 +102,14 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                   boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-                                        blurRadius: 15.0, //阴影模糊程度
-                                        spreadRadius: 1.0 //阴影扩散程度
-                                        )
+//                                    BoxShadow(
+//                                        color: Colors.black12,
+//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+//                                        blurRadius: 15.0, //阴影模糊程度
+//                                        spreadRadius: 1.0 //阴影扩散程度
+//                                        )
                                   ]
                                   //设置四周边框
                                   ),
@@ -124,7 +124,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                           child: Text(
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
-                                              color: Color(0xFF666666),
+                                              color: Color(0xFF000000),
                                               fontFamily: "Ubuntu",
                                               fontSize: 19,
                                             ),
@@ -220,45 +220,37 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    child: ArgonButton(
+                    margin: const EdgeInsets.only(top: 0),
+                    child: Container(
                       height: 50,
-                      roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
-                      onTap: (startLoading, stopLoading, btnState) {
-//                  netRegister(context, startLoading, stopLoading);
-                        if (_textEditingController.text.length < 10) {
-                          EasyLoading.showToast(S.of(context).hint_error_address);
-                          return;
-                        }
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
-//                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address:"ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")));
-                      },
-                      child: Text(
-                        S.of(context).token_send_one_page_next,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "Ubuntu",
+                      child: FlatButton(
+                        onPressed: () {
+                          clickNext();
+                        },
+                        child: Text(
+                          S.of(context).token_send_one_page_next,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                         ),
+                        color: Color(0xFFFC2365),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
-                      loader: Container(
-                        padding: EdgeInsets.all(10),
-                        child: SpinKitRing(
-                          lineWidth: 4,
-                          color: Colors.white,
-                          // size: loaderWidth ,
-                        ),
-                      ),
-                      borderRadius: 30.0,
-                      color: Color(0xFFFC2365),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
         ));
+  }
+
+  clickNext(){
+    if (_textEditingController.text.length < 10) {
+      Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
   }
 }

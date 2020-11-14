@@ -104,20 +104,45 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: ArgonButton(
+                margin: const EdgeInsets.only(top: 30, bottom: 30),
+                child: Container(
                   height: 50,
-                  roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {
-                    print(childrenWordTrue.toString());
-                    print(widget.mnemonic.split(" ").toString());
-                    if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
+                  child: FlatButton(
+                    onPressed: () {
+                      print(childrenWordTrue.toString());
+                      print(widget.mnemonic.split(" ").toString());
+                      if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
+                        showPlatformDialog(
+                          context: context,
+                          builder: (_) => BasicDialogAlert(
+                            title: Text(S.of(context).dialog_save_sucess),
+                            content: Text(S.of(context).dialog_save_sucess_hint),
+                            actions: <Widget>[
+                              BasicDialogAction(
+                                title: Text(
+                                  S.of(context).dialog_conform,
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: "Ubuntu",
+                                  ),
+                                ),
+                                onPressed: () {
+                                  BoxApp.setMnemonic("");
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
                       showPlatformDialog(
                         context: context,
                         builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_save_sucess),
-                          content: Text(S.of(context).dialog_save_sucess_hint),
+                          title: Text(S.of(context).dialog_save_error),
+                          content: Text(S.of(context).dialog_save_error_hint),
                           actions: <Widget>[
                             BasicDialogAction(
                               title: Text(
@@ -128,63 +153,28 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                                 ),
                               ),
                               onPressed: () {
-                                BoxApp.setMnemonic("");
                                 Navigator.of(context, rootNavigator: true).pop();
-                                Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
                               },
                             ),
                           ],
                         ),
                       );
                       return;
-                    }
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_save_error),
-                        content: Text(S.of(context).dialog_save_error_hint),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                    return;
-//                    testList6.forEach((item) => print(item));
-//                    String s = JsonEncoder().convert(childrenWordTrue);
-//                    print(s);
-                  },
-                  child: Text(
-                    S.of(context).dialog_conform,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Ubuntu",
+                    },
+                    child: Text(
+                      S.of(context).dialog_conform,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                     ),
+                    color: Color(0xFFFC2365),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  loader: Container(
-                    padding: EdgeInsets.all(10),
-                    child: SpinKitRing(
-                      lineWidth: 4,
-                      color: Colors.white,
-                      // size: loaderWidth ,
-                    ),
-                  ),
-                  borderRadius: 30.0,
-                  color: Color(0xFFFC2365),
                 ),
-              )
+              ),
+
+
+
             ],
           ),
         ));

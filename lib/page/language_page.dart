@@ -33,7 +33,7 @@ class _LanguagePageState extends State<LanguagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFAFAFA),
+      backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
         // 隐藏阴影
         elevation: 0,

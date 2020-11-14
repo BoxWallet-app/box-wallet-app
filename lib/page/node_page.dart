@@ -29,12 +29,12 @@ class _NodePageState extends State<NodePage> {
 
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl == "") {
+        if (nodeUrl == "" || nodeUrl == null) {
           _textEditingControllerNode.text = "https://node.aeasy.io";
         } else {
           _textEditingControllerNode.text = nodeUrl;
         }
-        if (compilerUrl == "") {
+        if (compilerUrl == "" || nodeUrl == null) {
           _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
         } else {
           _textEditingControllerCompiler.text = compilerUrl;
@@ -46,7 +46,7 @@ class _NodePageState extends State<NodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFAFAFA),
+      backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
         // 隐藏阴影
         elevation: 0,
@@ -212,7 +212,10 @@ class _NodePageState extends State<NodePage> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xff3460ee),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
                                   stopLoading();
@@ -231,7 +234,10 @@ class _NodePageState extends State<NodePage> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xff3460ee),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
                                   stopLoading();
@@ -252,7 +258,10 @@ class _NodePageState extends State<NodePage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xff3460ee),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
                                 stopLoading();

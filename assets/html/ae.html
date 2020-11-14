@@ -195,11 +195,11 @@ contract FungibleTokenFull =
 
   // Creates \`value\` tokens and assigns them to \`account\`, increasing the total supply.
   // Emits a \`Mint\` event with \`account\` and \`value\`.
-  stateful entrypoint mint(account: address, value: int) =
-    require_owner()
-    require_non_negative_value(value)
-    put(state{ total_supply = state.total_supply + value, balances[account = 0] @ b = b + value })
-    Chain.event(Mint(account, value))
+  //stateful entrypoint mint(account: address, value: int) =
+  //  require_owner()
+  //  require_non_negative_value(value)
+  //  put(state{ total_supply = state.total_supply + value, balances[account = 0] @ b = b + value })
+  //  Chain.event(Mint(account, value))
 
   stateful entrypoint swap() =
     let balance = Map.lookup_default(Call.caller, state.balances, 0)
@@ -1030,8 +1030,6 @@ contract FungibleTokenInterface =
   entrypoint balance                       : (address)               => option(int)
   stateful entrypoint transfer             : (address, int)          => unit
 
-include "Option.aes"
-include "List.aes"
 
 payable contract ABCLockContractV2 =
 
@@ -1052,22 +1050,26 @@ payable contract ABCLockContractV2 =
     all_count = 0,
     decimals = 1000000000000000000}
 
-  stateful entrypoint getContractBalance() =
+  entrypoint getContractBalance() =
     Contract.balance
 
-  stateful entrypoint getContractAddress() =
-    Contract.address
 
-  stateful entrypoint getCallCaller() =
-    Call.caller
-
-  stateful entrypoint getAccounts() : map(address, account) =
+  entrypoint getAccounts() : map(address, account) =
     state.accounts
 
   entrypoint getABCoutputCount(): int =
     switch(state.token.balance(Contract.address))
       Some(balance) =>
         state.token.total_supply()-balance
+      None => 0
+
+  entrypoint getAccountInfo(addr: address) =
+    Map.lookup(addr, state.accounts)
+
+
+  entrypoint getAccountBalance(): int =
+    switch(state.token.balance(Contract.address))
+      Some(balance) => balance
       None => 0
 
   private function getAccount(addr: address): account =
@@ -1095,21 +1097,27 @@ payable contract ABCLockContractV2 =
     let account_data = getAccount(Call.caller)
     if(Chain.block_height - account_data.height =< 0)
       abort("ACCOUNT_HEIGHT_0")
+    if(getAccountBalance() == 0)
+      abort("CONTRACTS_ACCOUNT_BALANCE_0")
     let token_number = 300000000000 * (account_data.count / state.decimals) * (Chain.block_height - account_data.height)
-    state.token.transfer(Call.caller, token_number)
-    state.token.transfer(ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK, token_number * 10 / 100)
-    state.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, token_number * 5 / 100)
-    let account = {account = account_data.account ,count = account_data.count , height = Chain.block_height}
-    put(state{accounts[Call.caller] = account})
-    token_number
-
-  private stateful function benefitsAddress() =
-    let account_data = getAccount(Call.caller)
-    if(Chain.block_height - account_data.height > 0 && account_data.height > 0)
-      let token_number = 300000000000 * (account_data.count / state.decimals) * (Chain.block_height - account_data.height)
+    if(getAccountBalance() > token_number)
       state.token.transfer(Call.caller, token_number)
       state.token.transfer(ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK, token_number * 10 / 100)
       state.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, token_number * 5 / 100)
+      let account = {account = account_data.account ,count = account_data.count , height = Chain.block_height}
+      put(state{accounts[Call.caller] = account})
+      token_number
+    else
+      0
+
+  private function benefitsAddress() =
+    let account_data = getAccount(Call.caller)
+    if(Chain.block_height - account_data.height > 0 && account_data.height > 0)
+      let token_number = 300000000000 * (account_data.count / state.decimals) * (Chain.block_height - account_data.height)
+      if(getAccountBalance() > token_number)
+        state.token.transfer(Call.caller, token_number)
+        state.token.transfer(ak_2Xu6d6W4UJBWyvBVJQRHASbQHQ1vjBA7d1XUeY8SwwgzssZVHK, token_number * 10 / 100)
+        state.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, token_number * 5 / 100)
 
   stateful entrypoint unLock(count : int) =
     if(!isAccountExist(Call.caller))
@@ -1122,6 +1130,11 @@ payable contract ABCLockContractV2 =
     Chain.spend(accountData.account, count)
     put(state{accounts[accountData.account] = account,all_count = state.all_count - count})
     count
+
+
+
+
+
 
 	`
 
@@ -1351,7 +1364,7 @@ payable contract ABCLockContractV2 =
                         status_JS.postMessage("decode");
                         callResult.decode().then(callResultDecode => {
                             status_JS.postMessage("sucess");
-                            contractDefiUnLockV1.postMessage(callResultDecode);
+                            contractDefiUnLockV1_JS.postMessage(callResultDecode);
 
                         }).catch(err => {
                             status_JS.postMessage("error");

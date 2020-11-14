@@ -142,7 +142,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
         transitionBuilder: (_, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return Transform(
-            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            transform: Matrix4.translationValues(0.0, 0, 0.0),
             child: Opacity(
               opacity: anim1.value,
               // ignore: missing_return
@@ -202,7 +202,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                       ),
                     );
                     // ignore: missing_return
-                  }, aesDecode, address, "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv", contractRecordModel.data[index].unlockHeight.toString());
+                  }, aesDecode, address,BoxApp.DEFI_CONTRACT_V1 , contractRecordModel.data[index].unlockHeight.toString());
                   showChainLoading();
                 },
               ),
@@ -237,7 +237,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
 //        transitionBuilder: (_, anim1, anim2, child) {
 //          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
 //          return Transform(
-//              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+//              transform: Matrix4.translationValues(0.0, 0, 0.0),
 //              child: Opacity(
 //                opacity: anim1.value,
 //                // ignore: missing_return
@@ -461,7 +461,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
               //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
 
               //设置四周边框
             ),

@@ -46,7 +46,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
-                    colors: [Colors.blue, Colors.blueAccent, Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
+                    colors: [ Color(0xff2453DF),  Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
                   ),
                 ),
 //                color: Color(0xff2453DF),
@@ -57,8 +57,9 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           ),
           Positioned(
             top: 30,
+            right: 0,
             child: Container(
-              margin: const EdgeInsets.only(left: 30),
+              margin: const EdgeInsets.only(right: 00),
               child: Column(
                 children: [
                   Container(
@@ -75,8 +76,10 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           Positioned(
             top: 130,
             child: Container(
-              margin: const EdgeInsets.only(left: 30),
+              margin: const EdgeInsets.only(left: 25),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BoxApp.language == "cn"
                       ? Container(
@@ -105,14 +108,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Positioned(
-            top: 315,
+            top: 310,
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: getItemTitle(context),
             ),
           ),
           Positioned(
-            top: 365,
+            top: 360,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 370,
@@ -139,7 +142,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             ),
           ),
           Positioned(
-            top: 255,
+            top: 250,
             child: ClipRect(
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),

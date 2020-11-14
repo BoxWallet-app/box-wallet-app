@@ -178,6 +178,10 @@ typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
   static String language = "";
+  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
+  static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
+  static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
+  static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
 
   static WebViewController webViewController;
 
@@ -521,7 +525,6 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('account', address);
   }
-
 
   static setSigningKey(String signingKey) async {
     var prefs = await SharedPreferences.getInstance();

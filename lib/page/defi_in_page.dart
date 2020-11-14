@@ -38,7 +38,6 @@ import '../main.dart';
 import 'home_page.dart';
 
 class DefiInPage extends StatefulWidget {
-
   DefiInPage({Key key}) : super(key: key);
 
   @override
@@ -87,7 +86,7 @@ class _DefiInPageState extends State<DefiInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xFFFAFAFA),
+        backgroundColor: Color(0xFFeeeeee),
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
@@ -121,17 +120,17 @@ class _DefiInPageState extends State<DefiInPage> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 100,
+                              height: 150,
                               color: Color(0xff3460ee),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
                                   Color(0xff3460ee),
-                                  Color(0xFFFAFAFA),
+                                  Color(0xFFEEEEEE),
                                 ]),
                               ),
-                              height: 200,
+                              height: 190,
                             ),
                           ],
                         ),
@@ -197,7 +196,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    Utils.formatCTAddress("ct_SNM68L9pEym92bBf3ZJjzzuB9eyCtVhouHB3Qq5SpyU9Ccn2F"),
+                                    Utils.formatCTAddress(BoxApp.DEFI_CONTRACT_V2),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Ubuntu",
@@ -215,14 +214,14 @@ class _DefiInPageState extends State<DefiInPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                   boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-                                        blurRadius: 15.0, //阴影模糊程度
-                                        spreadRadius: 1.0 //阴影扩散程度
-                                        )
+//                                    BoxShadow(
+//                                        color: Colors.black12,
+//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+//                                        blurRadius: 15.0, //阴影模糊程度
+//                                        spreadRadius: 1.0 //阴影扩散程度
+//                                        )
                                   ]
                                   //设置四周边框
                                   ),
@@ -269,7 +268,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                           decoration: InputDecoration(
                                             hintText: '',
                                             enabledBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFF6F6F6)),
+                                              borderSide: BorderSide(color: Color(0xFFeeeeee)),
                                             ),
                                             focusedBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xff3460ee)),
@@ -287,33 +286,20 @@ class _DefiInPageState extends State<DefiInPage> {
                                           right: 0,
                                           top: 12,
                                           child: Container(
-                                            margin: const EdgeInsets.only(left: 10, right: 0),
-                                            child: Material(
-                                              color: Color(0x00000000),
-                                              child: InkWell(
-                                                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                  onTap: () {
-                                                    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
-                                                    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
-                                                  },
-                                                  child: Container(
-                                                    margin: const EdgeInsets.only(left: 10, right: 10),
-                                                    height: 30,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          S.of(context).token_send_two_page_all,
-                                                          style: TextStyle(
-                                                            color: Color(0xff3460ee),
-                                                            fontSize: 17,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )),
+                                            height: 30,
+                                            margin: const EdgeInsets.only(right: 0),
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                clickAllCount();
+                                              },
+                                              child: Text(
+                                                S.of(context).token_send_two_page_all,
+                                                maxLines: 1,
+                                                style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                                              ),
+                                              color: Color(0xff3460ee).withAlpha(40),
+                                              textColor: Colors.black,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
                                           ),
                                         ),
@@ -324,10 +310,10 @@ class _DefiInPageState extends State<DefiInPage> {
                                     height: 10,
                                   ),
                                   Material(
+                                    color: Colors.transparent,
                                     child: InkWell(
-
                                       child: Container(
-                                        height: 60,
+                                        height: 55,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: <Widget>[
@@ -375,7 +361,6 @@ class _DefiInPageState extends State<DefiInPage> {
                                                       fontSize: 14,
                                                     ),
                                                   ),
-
                                                 ],
                                               ),
                                             ),
@@ -392,37 +377,38 @@ class _DefiInPageState extends State<DefiInPage> {
                       )
                     ],
                   ),
+
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 30),
-                    child: ArgonButton(
+                    margin: const EdgeInsets.only(top: 0),
+                    child: Container(
                       height: 50,
-                      roundLoadingShape: true,
                       width: MediaQuery.of(context).size.width * 0.8,
-                      onTap: (startLoading, stopLoading, btnState) {
-                        netSendV2(context, startLoading, stopLoading);
-                      },
-                      child: Text(
-                        S.of(context).token_send_two_page_conform,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Ubuntu", fontWeight: FontWeight.w700),
-                      ),
-                      loader: Container(
-                        padding: EdgeInsets.all(10),
-                        child: SpinKitRing(
-                          lineWidth: 4,
-                          color: Colors.white,
-                          // size: loaderWidth ,
+                      child: FlatButton(
+                        onPressed: () {
+                          netSendV2(context);
+                        },
+                        child: Text(
+                          S.of(context).token_send_two_page_conform,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
                         ),
+                        color: Color(0xff3460ee),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
-                      borderRadius: 30.0,
-                      color: Color(0xff3460ee),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
         ));
 //
+  }
+
+  void clickAllCount() {
+    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
+    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
   Future<String> getAddress() {
@@ -433,8 +419,7 @@ class _DefiInPageState extends State<DefiInPage> {
     });
   }
 
-
-  Future<void> netSendV2(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
     var senderID = await BoxApp.getAddress();
     if (currentCoinName == "AE") {
@@ -450,14 +435,14 @@ class _DefiInPageState extends State<DefiInPage> {
           transitionBuilder: (_, anim1, anim2, child) {
             final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
               child: Opacity(
                 opacity: anim1.value,
                 // ignore: missing_return
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    stopLoading();
+                    
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -479,7 +464,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                 style: TextStyle(color: Color(0xff3460ee)),
                               ),
                               onPressed: () {
-                                stopLoading();
+                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -492,7 +477,7 @@ class _DefiInPageState extends State<DefiInPage> {
                     BoxApp.contractDefiV2Lock((tx) {
                       eventBus.fire(DefiEvent());
                       showFlushSucess(context);
-                      stopLoading();
+                      
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -504,25 +489,27 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xff3460ee),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
+                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      stopLoading();
-                    }, aesDecode, address, "ct_SNM68L9pEym92bBf3ZJjzzuB9eyCtVhouHB3Qq5SpyU9Ccn2F", _textEditingController.text);
+                      
+                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
               ),
             );
           });
-
     } else {
 //      startLoading();
       showGeneralDialog(
@@ -536,14 +523,14 @@ class _DefiInPageState extends State<DefiInPage> {
           transitionBuilder: (_, anim1, anim2, child) {
             final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
             return Transform(
-              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
               child: Opacity(
                 opacity: anim1.value,
                 // ignore: missing_return
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    stopLoading();
+                    
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -562,10 +549,13 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xff3460ee),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
+                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -577,7 +567,7 @@ class _DefiInPageState extends State<DefiInPage> {
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
                       showFlushSucess(context);
-                      stopLoading();
+                      
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -589,19 +579,22 @@ class _DefiInPageState extends State<DefiInPage> {
                             BasicDialogAction(
                               title: Text(
                                 S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                style: TextStyle(
+                                  color: Color(0xff3460ee),
+                                  fontFamily: "Ubuntu",
+                                ),
                               ),
                               onPressed: () {
-                                stopLoading();
+                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      stopLoading();
+                      
                       // ignore: missing_return
-                    }, aesDecode, address, "ct_2ChohjmuLJEt8vNMJma9T9apfwLiNomFRZmjhF8yu38i7JQ2Ve", "", _textEditingController.text);
+                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, "", _textEditingController.text);
                     showChainLoading();
                   },
                 ),

@@ -170,7 +170,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 18, top: 140, right: 18),
+                              margin: const EdgeInsets.only(left: 18, top: 150, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
                                 strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: "Ubuntu"),
@@ -192,11 +192,12 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base_content,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5),
+
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5,color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 22, top: 15, right: 22),
+                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
                             ),
                             Container(
                               height: 50,
@@ -467,7 +468,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                 transitionBuilder: (_, anim1, anim2, child) {
                                   final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                                   return Transform(
-                                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                    transform: Matrix4.translationValues(0.0, 0, 0.0),
                                     child: Opacity(
                                       opacity: anim1.value,
                                       // ignore: missing_return
@@ -545,7 +546,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                 ],
                                               ),
                                             );
-                                          }, aesDecode, address, "ct_SNM68L9pEym92bBf3ZJjzzuB9eyCtVhouHB3Qq5SpyU9Ccn2F");
+                                          }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2);
 
                                           showChainLoading();
                                         },
@@ -569,7 +570,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 ),
 
                 Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 18),
                     child: Container(
                       color: Color(0xFFEEEEEE),
                     ),
@@ -810,7 +811,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                         transitionBuilder: (_, anim1, anim2, child) {
                           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
-                            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
@@ -931,7 +932,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
 //        transitionBuilder: (_, anim1, anim2, child) {
 //          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
 //          return Transform(
-//              transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+//              transform: Matrix4.translationValues(0.0, 0, 0.0),
 //              child: Opacity(
 //                opacity: anim1.value,
 //                // ignore: missing_return

@@ -29,10 +29,11 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Material(
-      type: MaterialType.transparency, //透明类型
+    return  Material(
+      color: Color(0x00000000).withAlpha(100),
+//      type: MaterialType.transparency, //透明类型
       child: Center(
+
         child: Container(
           height: 250,
           width: MediaQuery.of(context).size.width - 40,
@@ -51,7 +52,6 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 width: MediaQuery.of(context).size.width - 40,
                 alignment: Alignment.topLeft,
                 child: Material(
-
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
@@ -68,7 +68,10 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   widget.title,
-                  style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: "Ubuntu",
+                  ),
                 ),
               ),
 
@@ -87,7 +90,8 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: TextField(
                             textAlign: TextAlign.center,
-                            autofocus: true, //是否自动获取焦点
+                            autofocus: true,
+                            //是否自动获取焦点
                             controller: _textEditingController,
                             keyboardType: TextInputType.multiline,
                             style: TextStyle(
@@ -123,40 +127,35 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   ],
                 ),
               ),
-
-        Container(
-          margin: const EdgeInsets.only(top: 30,bottom: 20),
-          child: ArgonButton(
-            height: 40,
-            roundLoadingShape: true,
-            width: 120,
-            onTap: (startLoading, stopLoading, btnState) {
-              Navigator.pop(context); //关闭对话框
-              widget.passwordCallBackFuture(_textEditingController.text);
-            },
-            child: Text(
-              S.of(context).password_widget_conform,
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700,fontFamily: "Ubuntu",),
-            ),
-            loader: Container(
-              padding: EdgeInsets.all(10),
-              child: SpinKitRing(
-                lineWidth: 4,
-                color: Colors.white,
-                // size: loaderWidth ,
+              Container(
+                margin: const EdgeInsets.only(top: 30, bottom: 20),
+                child: Container(
+                  height: 40,
+                  width: 120,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context); //关闭对话框
+                      widget.passwordCallBackFuture(_textEditingController.text);
+                    },
+                    child: Text(
+                      S.of(context).password_widget_conform,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                    ),
+                    color: Color(0xFFFC2365),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  ),
+                ),
               ),
-            ),
-            borderRadius: 30.0,
-            color: Color(widget.color),
-          ),
-        ) ,
-
 //          Text(text),
             ],
           ),
         ),
+
       ),
-    ));
+
+    );
   }
 
   _onKeyboardTap(String value) {

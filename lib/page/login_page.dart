@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               transitionBuilder: (context, anim1, anim2, child) {
                 final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
-                    transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                    transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
                         opacity: anim1.value,
                         // ignore: missing_return
@@ -183,24 +183,45 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Positioned(
                 bottom: 125,
-                child: MaterialButton(
-                  child: Text(
-                    S.of(context).login_page_login,
-                    style: new TextStyle(
-                      fontSize: 17,
-                      color: Color(0xFFFC2365),
-                      fontFamily: "Ubuntu",
+                  child: Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 0),
+                  child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
+                      },
+                      child: Text(
+                        S.of(context).login_page_login,
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFFFC2365)),
+                      ),
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
-                  color: Colors.white,
-                  height: 50,
-                  minWidth: 320,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                  onPressed: () {
-//                    Navigator.pushReplacementNamed(context, "home");
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
-                  },
                 ),
+
+
+//                child: MaterialButton(
+//                  child: Text(
+//                    S.of(context).login_page_login,
+//                    style: new TextStyle(
+//                      fontSize: 17,
+//                      color: Color(0xFFFC2365),
+//                      fontFamily: "Ubuntu",
+//                    ),
+//                  ),
+//                  color: Colors.white,
+//                  height: 50,
+//                  minWidth: 320,
+//                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
+//                  onPressed: () {
+////                    Navigator.pushReplacementNamed(context, "home");
+//                    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
+//                  },
+//                ),
               ),
               Positioned(
                 bottom: 60,
@@ -230,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                           transitionBuilder: (context, anim1, anim2, child) {
                             final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                             return Transform(
-                                transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                                transform: Matrix4.translationValues(0.0, 0, 0.0),
                                 child: Opacity(
                                   opacity: anim1.value,
                                   // ignore: missing_return
@@ -277,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
             transitionBuilder: (context, anim1, anim2, child) {
               final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
               return Transform(
-                  transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+                  transform: Matrix4.translationValues(0.0, 0, 0.0),
                   child: Opacity(
                     opacity: anim1.value,
                     // ignore: missing_return
