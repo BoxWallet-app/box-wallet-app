@@ -563,12 +563,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(80.0),
                                         boxShadow: [
-//                                BoxShadow(
-//                                    color: Color(0xFFFC2365).withAlpha(20),
-//                                    offset: Offset(0.0, 55.0), //阴影xy轴偏移量
-//                                    blurRadius: 50.0, //阴影模糊程度
-//                                    spreadRadius: 0.1 //阴影扩散程度
-//                                    )
                                         ],
                                       ),
                                       child: PageView(
@@ -582,25 +576,57 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.only(left: 16, right: 16),
-                                                padding: EdgeInsets.only(top: 20, bottom: 20),
-                                                decoration: new BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage("images/wallet_card.png"),
-                                                    fit: BoxFit.fitWidth,
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
+
+                                                child: Stack(
+                                                  children: [
                                                     Container(
-                                                      margin: const EdgeInsets.only(left: 18),
-                                                      child: Row(
+                                                      width: MediaQuery.of(context).size.width,
+                                                      height: 156,
+
+                                                      decoration: new BoxDecoration(
+                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                        gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+                                                          Color(0xFFE51363),
+                                                          Color(0xFFFF428F),
+                                                        ]),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 0,
+                                                      top: 0,
+                                                      child:  Container(
+                                                        width: 87,
+                                                        height: 58,
+                                                        child: Image(
+                                                          image: AssetImage("images/card_top.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 0,
+                                                      bottom: 0,
+                                                      child:  Container(
+                                                        width: 120,
+                                                        height: 46,
+                                                        child: Image(
+                                                          image: AssetImage("images/card_bottom.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 156,
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
-                                                          Text(
-                                                            S.of(context).home_page_my_count + " (AE)",
-                                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                                          ),
+                                                          Container(
+                                                            margin: const EdgeInsets.only(left: 18),
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  S.of(context).home_page_my_count + " (AE)",
+                                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                                                ),
 //                                              Expanded(child: Container()),
 //                                              baseDataModel == null
 //                                                  ? Container()
@@ -613,29 +639,29 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                                                        style: TextStyle(fontSize: 13, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
 //                                                      ),
 //                                                    ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: const EdgeInsets.only(top: 8, left: 15),
-                                                      child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                                        children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                                          Text(
-                                                            HomePage.token == "loading..."
-                                                                ? "loading..."
-                                                                : double.parse(HomePage.token) > 1000
-                                                                    ? double.parse(HomePage.token).toStringAsFixed(2)
-                                                                    : double.parse(HomePage.token).toStringAsFixed(5),
-//                                      "9999999.00000",
-                                                            overflow: TextOverflow.ellipsis,
-
-                                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                                              ],
+                                                            ),
                                                           ),
-                                                          baseDataModel == null
-                                                              ? Container()
-                                                              : Container(
+                                                          Container(
+                                                            margin: const EdgeInsets.only(top: 8, left: 15),
+                                                            child: Row(
+                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                              children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                                                Text(
+                                                                  HomePage.token == "loading..."
+                                                                      ? "loading..."
+                                                                      : double.parse(HomePage.token) > 1000
+                                                                      ? double.parse(HomePage.token).toStringAsFixed(2)
+                                                                      : double.parse(HomePage.token).toStringAsFixed(5),
+//                                      "9999999.00000",
+                                                                  overflow: TextOverflow.ellipsis,
+
+                                                                  style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                                                ),
+                                                                baseDataModel == null
+                                                                    ? Container()
+                                                                    : Container(
                                                                   margin: const EdgeInsets.only(bottom: 5, left: 2),
                                                                   child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
@@ -644,16 +670,112 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                     style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
                                                                   ),
                                                                 ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                                            child: Text(
+                                                              address,
+                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                                              style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(left: 16, right: 16),
+
+                                                child: Stack(
+                                                  children: [
                                                     Container(
-                                                      alignment: Alignment.topLeft,
-                                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                                      child: Text(
-                                                        address,
-                                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                                      width: MediaQuery.of(context).size.width,
+                                                      height: 156,
+
+                                                      decoration: new BoxDecoration(
+                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                        gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+                                                          Color(0xFF3C5DE3),
+                                                          Color(0xFF3F8BFF),
+                                                        ]),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 0,
+                                                      top:0,
+                                                      child:  Container(
+                                                        width: 87,
+                                                        height: 58,
+                                                        child: Image(
+                                                          image: AssetImage("images/card_top.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      right: 0,
+                                                      bottom: 0,
+                                                      child:  Container(
+                                                        width: 120,
+                                                        height: 46,
+                                                        child: Image(
+                                                          image: AssetImage("images/card_bottom.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 156,
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Container(
+                                                            margin: const EdgeInsets.only(left: 18),
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  S.of(context).home_page_my_count + " (ABC)",
+                                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                                                ),
+//
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            margin: const EdgeInsets.only(top: 8, left: 15),
+                                                            child: Row(
+                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                              children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                                                Text(
+                                                                  HomePage.tokenABC,
+//                                      "9999999.00000",
+                                                                  overflow: TextOverflow.ellipsis,
+
+                                                                  style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                                                ),
+
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            alignment: Alignment.topLeft,
+                                                            margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                                            child: Text(
+                                                              address,
+                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                                              style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ],
@@ -746,7 +868,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 11, left: 15, right: 15),
+                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                               //边框设置
                               decoration: new BoxDecoration(
                                 color: Color(0xE6FFFFFF),

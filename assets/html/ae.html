@@ -1178,9 +1178,14 @@ payable contract ABCLockContractV2 =
                     }).catch(err => {
 
                         status_JS.postMessage("error");
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        error_JS.postMessage(msg);
+                        if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
+
 
                     })
                 }).catch(err => {
@@ -1224,9 +1229,14 @@ payable contract ABCLockContractV2 =
                         })
                     }).catch(err => {
                         status_JS.postMessage("error");
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        error_JS.postMessage(msg);
+                        if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
+
 
                     })
                 }).catch(err => {
@@ -1269,9 +1279,13 @@ payable contract ABCLockContractV2 =
                         })
                     }).catch(err => {
                         status_JS.postMessage("error");
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        error_JS.postMessage(msg);
+                        if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
 
 
                     })
@@ -1318,9 +1332,14 @@ payable contract ABCLockContractV2 =
                         })
                     }).catch(err => {
                         status_JS.postMessage("error");
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        error_JS.postMessage(msg);
+                        if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
+
 
                     })
                 }).catch(err => {
@@ -1372,9 +1391,14 @@ payable contract ABCLockContractV2 =
                         })
                     }).catch(err => {
                         status_JS.postMessage("error");
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        error_JS.postMessage(msg);
+                        if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
+
 
                     })
                 }).catch(err => {

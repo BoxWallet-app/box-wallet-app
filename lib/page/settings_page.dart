@@ -87,6 +87,15 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
           children: <Widget>[
             if (mnemonic != "" && mnemonic != null)
               buildItem(context, S.of(context).setting_page_item_save, "images/profile_display_currency.png", () {
+
+
+
+
+
+
+
+
+
                 showGeneralDialog(
                     context: context,
                     pageBuilder: (context, anim1, anim2) {},

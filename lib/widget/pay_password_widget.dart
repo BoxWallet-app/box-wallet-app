@@ -25,15 +25,30 @@ class PayPasswordWidget extends StatefulWidget {
 
 class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   String text = '';
+  FocusNode _commentFocus = FocusNode();
   TextEditingController _textEditingController = TextEditingController();
+  var marginBottom;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+//    marginBottom = MediaQuery.of(context).viewInsets.bottom;
+    // 延时1s执行返回
+    Future.delayed(Duration(milliseconds: 500), (){
+
+      FocusScope.of(context).requestFocus(_commentFocus);
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Material(
+    return Material(
       color: Color(0x00000000).withAlpha(100),
 //      type: MaterialType.transparency, //透明类型
       child: Center(
-
         child: Container(
           height: 250,
           width: MediaQuery.of(context).size.width - 40,
@@ -90,9 +105,10 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: TextField(
                             textAlign: TextAlign.center,
-                            autofocus: true,
+//                            autofocus: true,
                             //是否自动获取焦点
                             controller: _textEditingController,
+                            focusNode: _commentFocus,
                             keyboardType: TextInputType.multiline,
                             style: TextStyle(
                               textBaseline: TextBaseline.alphabetic,
@@ -152,9 +168,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
             ],
           ),
         ),
-
       ),
-
     );
   }
 

@@ -152,6 +152,8 @@ flutter:
     - images/splasn_logo.png
     - images/defi_bg.png
     - images/defi_logo.png
+    - images/card_top.png
+    - images/card_bottom.png
 
   #   - images/a_dot_ham.jpeg
 

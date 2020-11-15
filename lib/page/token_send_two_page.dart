@@ -311,6 +311,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     height: 10,
                                   ),
                                   Material(
+                                    color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
                                         showMaterialModalBottomSheet(
@@ -421,7 +422,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                       Container(
                                                         margin: EdgeInsets.only(left: 20),
                                                         height: 1,
-                                                        color: Color(0xFFEEEEEE),
+                                                        color: Color(0xFFF6F6F6),
                                                         width: MediaQuery.of(context).size.width,
                                                       ),
                                                       Material(

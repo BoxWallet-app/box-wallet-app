@@ -334,6 +334,7 @@ class BoxApp extends StatelessWidget {
                 JavascriptChannel(
                     name: 'error_JS',
                     onMessageReceived: (JavascriptMessage message) {
+                      print("11111111111111"+message.message);
                       if (BoxApp.flutterJsErrorCallBack != null) {
                         BoxApp.flutterJsErrorCallBack(message.message);
                       }
