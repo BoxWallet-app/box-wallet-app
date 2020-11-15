@@ -783,61 +783,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               ),
                                             ],
                                           ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                alignment: Alignment.center,
-                                                margin: const EdgeInsets.only(left: 16, right: 16),
-                                                padding: EdgeInsets.only(top: 20, bottom: 20),
-                                                decoration: new BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage("images/wallet_card_blue.png"),
-                                                    fit: BoxFit.fitWidth,
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: const EdgeInsets.only(left: 18),
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            S.of(context).home_page_my_count + " (ABC)",
-                                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                                          ),
-                                                          Text("")
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: const EdgeInsets.only(top: 8, left: 15),
-                                                      child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                                        children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                                          Text(
-                                                            HomePage.tokenABC,
-                                                            style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      alignment: Alignment.topLeft,
-                                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                                      child: Text(
-                                                        address,
-                                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         ],
                                       ),
                                     ),
