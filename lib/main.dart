@@ -7,7 +7,7 @@ import 'package:box/page/aens_detail_page.dart';
 import 'package:box/page/aens_my_page.dart';
 import 'package:box/page/aens_page.dart';
 import 'package:box/page/aens_register.dart';
-import 'package:box/page/home_page_lod.dart';
+import 'package:box/page/tab_page.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/mnemonic_copy_page.dart';
@@ -476,6 +476,7 @@ class BoxApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             '/login': (BuildContext context) => LoginPage(),
             '/home': (BuildContext context) => HomePage(),
+            '/TabPage': (BuildContext context) => TabPage(),
             '/MnemonicCopyPage': (BuildContext context) => MnemonicCopyPage(),
           },
         ),

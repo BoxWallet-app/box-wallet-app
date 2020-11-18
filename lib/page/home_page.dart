@@ -446,30 +446,30 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         child: Container(
                           padding: EdgeInsets.only(left: 18),
                           alignment: Alignment.topLeft,
-                          child: Image(
-                            width: 153,
-                            height: 36,
-                            image: AssetImage('images/home_logo_left.png'),
-                          ),
+//                          child: Image(
+//                            width: 153,
+//                            height: 36,
+//                            image: AssetImage('images/home_logo_left.png'),
+//                          ),
                         ),
                       ),
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
-                          },
+//                          onTap: () {
+//                            Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+//                          },
                           child: Container(
                             height: 55,
                             width: 55,
                             padding: EdgeInsets.all(15),
-                            child: Image(
-                              width: 36,
-                              height: 36,
-                              color: Colors.black,
-                              image: AssetImage('images/home_settings.png'),
-                            ),
+//                            child: Image(
+//                              width: 36,
+//                              height: 36,
+//                              color: Colors.black,
+//                              image: AssetImage('images/home_settings.png'),
+//                            ),
                           ),
                         ),
                       ),
@@ -562,8 +562,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       height: 156,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(80.0),
-                                        boxShadow: [
-                                        ],
+                                        boxShadow: [],
                                       ),
                                       child: PageView(
                                         controller: pageController,
@@ -576,13 +575,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.only(left: 16, right: 16),
-
                                                 child: Stack(
                                                   children: [
                                                     Container(
                                                       width: MediaQuery.of(context).size.width,
                                                       height: 156,
-
                                                       decoration: new BoxDecoration(
                                                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                                         gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
@@ -594,7 +591,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     Positioned(
                                                       right: 0,
                                                       top: 0,
-                                                      child:  Container(
+                                                      child: Container(
                                                         width: 87,
                                                         height: 58,
                                                         child: Image(
@@ -605,7 +602,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     Positioned(
                                                       right: 0,
                                                       bottom: 0,
-                                                      child:  Container(
+                                                      child: Container(
                                                         width: 120,
                                                         height: 46,
                                                         child: Image(
@@ -652,8 +649,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                   HomePage.token == "loading..."
                                                                       ? "loading..."
                                                                       : double.parse(HomePage.token) > 1000
-                                                                      ? double.parse(HomePage.token).toStringAsFixed(2)
-                                                                      : double.parse(HomePage.token).toStringAsFixed(5),
+                                                                          ? double.parse(HomePage.token).toStringAsFixed(2)
+                                                                          : double.parse(HomePage.token).toStringAsFixed(5),
 //                                      "9999999.00000",
                                                                   overflow: TextOverflow.ellipsis,
 
@@ -662,14 +659,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                 baseDataModel == null
                                                                     ? Container()
                                                                     : Container(
-                                                                  margin: const EdgeInsets.only(bottom: 5, left: 2),
-                                                                  child: Text(
+                                                                        margin: const EdgeInsets.only(bottom: 5, left: 2),
+                                                                        child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                                    "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                                  ),
-                                                                ),
+                                                                          "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                                        ),
+                                                                      ),
                                                               ],
                                                             ),
                                                           ),
@@ -694,13 +691,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.only(left: 16, right: 16),
-
                                                 child: Stack(
                                                   children: [
                                                     Container(
                                                       width: MediaQuery.of(context).size.width,
                                                       height: 156,
-
                                                       decoration: new BoxDecoration(
                                                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                                         gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
@@ -711,8 +706,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     ),
                                                     Positioned(
                                                       right: 0,
-                                                      top:0,
-                                                      child:  Container(
+                                                      top: 0,
+                                                      child: Container(
                                                         width: 87,
                                                         height: 58,
                                                         child: Image(
@@ -723,7 +718,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     Positioned(
                                                       right: 0,
                                                       bottom: 0,
-                                                      child:  Container(
+                                                      child: Container(
                                                         width: 120,
                                                         height: 46,
                                                         child: Image(
@@ -762,7 +757,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
                                                                   style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                                                 ),
-
                                                               ],
                                                             ),
                                                           ),
@@ -1242,7 +1236,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(top: 12, left: 15, right: 15, bottom: 40),
+      margin:  EdgeInsets.only(top: 12, left: 15, right: 15, bottom: MediaQueryData.fromWindow(window).padding.bottom+80),
       //边框设置
       decoration: new BoxDecoration(
         color: Color(0xE6FFFFFF),

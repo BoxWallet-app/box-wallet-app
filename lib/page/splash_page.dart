@@ -5,6 +5,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
+import 'package:box/page/tab_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
@@ -118,7 +119,7 @@ class _SplashPageState extends State<SplashPage> {
           SharedPreferences.getInstance().then((sp) {
             sp.setString('is_language', "true");
             if (value.length > 10) {
-              Navigator.pushReplacement(context, CustomRoute(HomePage()));
+              Navigator.pushReplacement(context, CustomRoute(TabPage()));
             } else {
               Navigator.pushReplacement(context, CustomRoute(LoginPage()));
             }

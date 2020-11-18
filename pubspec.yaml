@@ -68,7 +68,10 @@ dependencies:
   common_utils: ^1.2.1
   jaguar_flutter_asset: ^2.2.0
   date_time_format: ^1.1.0
-
+  google_nav_bar: ^3.1.0
+  line_icons: ^0.2.0
+  badges: ^1.1.1
+  salomon_bottom_bar: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

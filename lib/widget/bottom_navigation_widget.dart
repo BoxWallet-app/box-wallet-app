@@ -1,4 +1,5 @@
 import 'package:box/page/main_page.dart';
+import 'package:box/page/settings_page.dart';
 import 'package:box/page/wallet_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   @override
   void initState() {
-//    list..add(MainPage())..add(WalletPage())..add(ProfilePage());
+    list..add(SettingsPage())..add(WalletPage());
     super.initState();
   }
 
