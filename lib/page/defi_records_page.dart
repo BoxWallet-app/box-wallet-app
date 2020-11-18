@@ -304,6 +304,30 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                   // ignore: missing_return
                   BoxApp.contractDefiUnLockV1((tx) {
                     // ignore: missing_return
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_hint,
+                        ),
+                        content: Text( S.of(context).dialog_defi_unlock_sucess),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                            ),
+                            onPressed: () {
+                              EasyLoading.show();
+                              eventBus.fire(DefiEvent());
+                              netData();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+
                   }, (error) {
                     print(error);
                     showPlatformDialog(
