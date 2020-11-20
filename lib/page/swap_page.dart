@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:auro_avatar/auro_avatar.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -16,6 +19,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -62,8 +66,49 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
-      body: Center(
-        child: Text("swap")
+      body: Container(
+        padding: EdgeInsets.only(top: 70),
+        child: AnimationLimiter(
+          child: ListView.builder(
+            itemCount: 5,
+            itemBuilder: (BuildContext context, int index) {
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 200.0,
+                  child: getItem(context,index),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getItem(BuildContext context, int index) {
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () {
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+        },
+        child: Container(
+          color: Color(0xFFF5F5F5),
+          child: Container(
+            height: 150,
+            decoration: new BoxDecoration(
+              color: Color(0xFFFFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+
+              //设置四周边框
+            ),
+            margin: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 0),
+            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
+          ),
+        ),
       ),
     );
   }

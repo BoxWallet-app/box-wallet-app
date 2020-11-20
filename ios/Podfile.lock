@@ -1,4 +1,6 @@
 PODS:
+  - auro_avatar (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_aes_ecb_pkcs5 (0.0.1):
     - Flutter
@@ -22,6 +24,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - auro_avatar (from `.symlinks/plugins/auro_avatar/ios`)
   - Flutter (from `Flutter`)
   - flutter_aes_ecb_pkcs5 (from `.symlinks/plugins/flutter_aes_ecb_pkcs5/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
@@ -35,6 +38,8 @@ DEPENDENCIES:
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 EXTERNAL SOURCES:
+  auro_avatar:
+    :path: ".symlinks/plugins/auro_avatar/ios"
   Flutter:
     :path: Flutter
   flutter_aes_ecb_pkcs5:
@@ -59,6 +64,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  auro_avatar: d8468deafcd8f607dab330f77e4fb383f73abf75
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_aes_ecb_pkcs5: fb682a7bb13f29cfbb33f88f7e1ed2211eacf5db
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069

@@ -267,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
                                         BoxApp.setMnemonic(mnemonicAesEncode);
                                         BoxApp.setNewAccount(address);
                                         BoxApp.setAddress(address);
-                                        Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                                        Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                       }),
                                 ));
                           });
@@ -313,7 +313,7 @@ class _LoginPageState extends State<LoginPage> {
                           BoxApp.setSigningKey(signingKeyAesEncode);
                           BoxApp.setMnemonic(mnemonicAesEncode);
                           BoxApp.setAddress(model.data.address);
-                          Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                          Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                         }),
                   ));
             });

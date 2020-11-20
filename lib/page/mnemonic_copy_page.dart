@@ -28,11 +28,17 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
     // TODO: implement initState
     super.initState();
 
-//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
+//    List mnemonicList = mnemonic.split(" ");
     List mnemonicList = widget.mnemonic.split(" ");
-    for (String item in mnemonicList) {
-      mnemonicWord[item] = false;
+    for( var i = 0 ; i < mnemonicList.length; i++ ) {
+      mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
     }
+
+
+//    for (String item in mnemonicList) {
+//      mnemonicWord[item] = false;
+//    }
     updateData();
   }
 
@@ -114,7 +120,6 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 
               Center(
                 child: Container(
-                  height: 170,
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
@@ -190,7 +195,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
             child: Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
               child: Text(
-                item,
+                item.split("_")[0],
                 style: TextStyle(color: Color(0xFF000000),fontFamily: "Ubuntu",),
               ),
             ),

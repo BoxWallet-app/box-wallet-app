@@ -41,6 +41,7 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
@@ -551,79 +552,89 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                         ),
                       ),
                       Positioned(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Container(
-                                      height: 156,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(80.0),
-                                        boxShadow: [],
-                                      ),
-                                      child: PageView(
-                                        controller: pageController,
-                                        onPageChanged: (value) {
-                                          pageControllerBg.animateToPage(value, duration: const Duration(milliseconds: 300), curve: Curves.ease);
-                                          setState(() {});
-                                        },
-                                        children: [
-                                          Column(
+                        child: AnimationLimiter(
+
+                          child: Column(
+                            children: AnimationConfiguration.toStaggeredList(
+                              duration: const Duration(milliseconds: 375),
+                              childAnimationBuilder: (widget) => SlideAnimation(
+                                verticalOffset: 200.0,
+                                child: FadeInAnimation(
+                                  child: widget,
+                                ),
+                              ),
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(top: 12),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        child: Container(
+                                          height: 156,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(80.0),
+                                            boxShadow: [],
+                                          ),
+                                          child: PageView(
+                                            controller: pageController,
+                                            onPageChanged: (value) {
+                                              pageControllerBg.animateToPage(value, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+                                              setState(() {});
+                                            },
                                             children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(left: 16, right: 16),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.of(context).size.width,
-                                                      height: 156,
-                                                      decoration: new BoxDecoration(
-                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                                        gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                                                          Color(0xFFE51363),
-                                                          Color(0xFFFF428F),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      right: 0,
-                                                      top: 0,
-                                                      child: Container(
-                                                        width: 87,
-                                                        height: 58,
-                                                        child: Image(
-                                                          image: AssetImage("images/card_top.png"),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          width: MediaQuery.of(context).size.width,
+                                                          height: 156,
+                                                          decoration: new BoxDecoration(
+                                                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                            gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+                                                              Color(0xFFE51363),
+                                                              Color(0xFFFF428F),
+                                                            ]),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      right: 0,
-                                                      bottom: 0,
-                                                      child: Container(
-                                                        width: 120,
-                                                        height: 46,
-                                                        child: Image(
-                                                          image: AssetImage("images/card_bottom.png"),
+                                                        Positioned(
+                                                          right: 0,
+                                                          top: 0,
+                                                          child: Container(
+                                                            width: 87,
+                                                            height: 58,
+                                                            child: Image(
+                                                              image: AssetImage("images/card_top.png"),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: 156,
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Container(
-                                                            margin: const EdgeInsets.only(left: 18),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Text(
-                                                                  S.of(context).home_page_my_count + " (AE)",
-                                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                                                ),
+                                                        Positioned(
+                                                          right: 0,
+                                                          bottom: 0,
+                                                          child: Container(
+                                                            width: 120,
+                                                            height: 46,
+                                                            child: Image(
+                                                              image: AssetImage("images/card_bottom.png"),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 156,
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                margin: const EdgeInsets.only(left: 18),
+                                                                child: Row(
+                                                                  children: <Widget>[
+                                                                    Text(
+                                                                      S.of(context).home_page_my_count + " (AE)",
+                                                                      style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                                                    ),
 //                                              Expanded(child: Container()),
 //                                              baseDataModel == null
 //                                                  ? Container()
@@ -631,206 +642,279 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 //                                                      margin: const EdgeInsets.only(left: 2,right: 15),
 //                                                      child: Text(
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-//                                                        " ≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+//                                                    600    " ≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
 //                                                        overflow: TextOverflow.ellipsis,
 //                                                        style: TextStyle(fontSize: 13, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
 //                                                      ),
 //                                                    ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: const EdgeInsets.only(top: 8, left: 15),
-                                                            child: Row(
-                                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                                              children: <Widget>[
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                margin: const EdgeInsets.only(top: 8, left: 15),
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                  children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
-                                                                Text(
-                                                                  HomePage.token == "loading..."
-                                                                      ? "loading..."
-                                                                      : double.parse(HomePage.token) > 1000
+                                                                    Text(
+                                                                      HomePage.token == "loading..."
+                                                                          ? "loading..."
+                                                                          : double.parse(HomePage.token) > 1000
                                                                           ? double.parse(HomePage.token).toStringAsFixed(2)
                                                                           : double.parse(HomePage.token).toStringAsFixed(5),
 //                                      "9999999.00000",
-                                                                  overflow: TextOverflow.ellipsis,
+                                                                      overflow: TextOverflow.ellipsis,
 
-                                                                  style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                                                ),
-                                                                baseDataModel == null
-                                                                    ? Container()
-                                                                    : Container(
-                                                                        margin: const EdgeInsets.only(bottom: 5, left: 2),
-                                                                        child: Text(
+                                                                      style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                                                    ),
+                                                                    baseDataModel == null
+                                                                        ? Container()
+                                                                        : Container(
+                                                                      margin: const EdgeInsets.only(bottom: 5, left: 2),
+                                                                      child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                                          "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                                        ),
+                                                                        "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
                                                                       ),
-                                                              ],
-                                                            ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                alignment: Alignment.topLeft,
+                                                                margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                                                child: Text(
+                                                                  address,
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                                                  style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Container(
-                                                            alignment: Alignment.topLeft,
-                                                            margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                                            child: Text(
-                                                              address,
-                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                                              style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.only(left: 16, right: 16),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          width: MediaQuery.of(context).size.width,
+                                                          height: 156,
+                                                          decoration: new BoxDecoration(
+                                                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                                            gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+                                                              Color(0xFF3C5DE3),
+                                                              Color(0xFF3F8BFF),
+                                                            ]),
+                                                          ),
+                                                        ),
+                                                        Positioned(
+                                                          right: 0,
+                                                          top: 0,
+                                                          child: Container(
+                                                            width: 87,
+                                                            height: 58,
+                                                            child: Image(
+                                                              image: AssetImage("images/card_top.png"),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Positioned(
+                                                          right: 0,
+                                                          bottom: 0,
+                                                          child: Container(
+                                                            width: 120,
+                                                            height: 46,
+                                                            child: Image(
+                                                              image: AssetImage("images/card_bottom.png"),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 156,
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                margin: const EdgeInsets.only(left: 18),
+                                                                child: Row(
+                                                                  children: <Widget>[
+                                                                    Text(
+                                                                      S.of(context).home_page_my_count + " (ABC)",
+                                                                      style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                                                    ),
+//
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                margin: const EdgeInsets.only(top: 8, left: 15),
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                  children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                                                    Text(
+                                                                      HomePage.tokenABC,
+//                                      "9999999.00000",
+                                                                      overflow: TextOverflow.ellipsis,
+
+                                                                      style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                alignment: Alignment.topLeft,
+                                                                margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                                                                child: Text(
+                                                                  address,
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
+                                                                  style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          Column(
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(left: 16, right: 16),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.of(context).size.width,
-                                                      height: 156,
-                                                      decoration: new BoxDecoration(
-                                                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                                        gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                                                          Color(0xFF3C5DE3),
-                                                          Color(0xFF3F8BFF),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      right: 0,
-                                                      top: 0,
-                                                      child: Container(
-                                                        width: 87,
-                                                        height: 58,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 11,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          alignment: Alignment.center,
+                                          child: SmoothPageIndicator(
+                                            controller: pageController,
+                                            count: 2,
+                                            effect: ExpandingDotsEffect(
+                                              dotHeight: 4,
+                                              spacing: 3,
+                                              strokeWidth: 3,
+                                              dotWidth: 5,
+                                              activeDotColor: Color(0xFFFFFFFF),
+                                              dotColor: Color(0xFFFFFFFF).withAlpha(120),
+                                              expansionFactor: 3,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 90,
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xE6FFFFFF),
+                                    //设置四周圆角 角度
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
+                                  child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                    color: Colors.white,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 90,
+                                                  alignment: Alignment.center,
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin: const EdgeInsets.only(top: 10),
                                                         child: Image(
-                                                          image: AssetImage("images/card_top.png"),
+                                                          width: 56,
+                                                          height: 56,
+                                                          image: AssetImage("images/home_financial.png"),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Positioned(
-                                                      right: 0,
-                                                      bottom: 0,
-                                                      child: Container(
-                                                        width: 120,
-                                                        height: 46,
-                                                        child: Image(
-                                                          image: AssetImage("images/card_bottom.png"),
+                                                      Container(
+                                                        padding: const EdgeInsets.only(left: 5),
+                                                        child: Text(
+                                                          S.of(context).home_page_function_defi,
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: 156,
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Container(
-                                                            margin: const EdgeInsets.only(left: 18),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Text(
-                                                                  S.of(context).home_page_my_count + " (ABC)",
-                                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
-                                                                ),
-//
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: const EdgeInsets.only(top: 8, left: 15),
-                                                            child: Row(
-                                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                                              children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-                                                                Text(
-                                                                  HomePage.tokenABC,
-//                                      "9999999.00000",
-                                                                  overflow: TextOverflow.ellipsis,
-
-                                                                  style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            alignment: Alignment.topLeft,
-                                                            margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                                                            child: Text(
-                                                              address,
-                                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                                              style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: "Ubuntu", height: 1.3),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                                Positioned(
+                                                  right: 18,
+                                                  child: Container(
+                                                    height: 30,
+                                                    margin: const EdgeInsets.only(top: 0),
+                                                    child: FlatButton(
+                                                      onPressed: () {
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                                      },
+                                                      child: Text(
+                                                        S.of(context).home_page_function_defi_go,
+                                                        maxLines: 1,
+                                                        style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                                      ),
+                                                      color: Color(0xFFE61665).withAlpha(16),
+                                                      textColor: Colors.black,
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  Positioned(
-                                    bottom: 11,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      alignment: Alignment.center,
-                                      child: SmoothPageIndicator(
-                                        controller: pageController,
-                                        count: 2,
-                                        effect: ExpandingDotsEffect(
-                                          dotHeight: 4,
-                                          spacing: 3,
-                                          strokeWidth: 3,
-                                          dotWidth: 5,
-                                          activeDotColor: Color(0xFFFFFFFF),
-                                          dotColor: Color(0xFFFFFFFF).withAlpha(120),
-                                          expansionFactor: 3,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 90,
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color(0xE6FFFFFF),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
+                                ),
+                                Container(
+                                  height: 90,
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xE6FFFFFF),
+                                    //设置四周圆角 角度
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
+                                  child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                    color: Colors.white,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
+                                      },
+                                      child: Container(
+                                        height: 90,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: <Widget>[
                                             Container(
-                                              height: 90,
-                                              alignment: Alignment.center,
                                               padding: const EdgeInsets.only(left: 5),
                                               child: Row(
                                                 children: <Widget>[
@@ -839,260 +923,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                     child: Image(
                                                       width: 56,
                                                       height: 56,
-                                                      image: AssetImage("images/home_financial.png"),
+                                                      image: AssetImage("images/home_send_token.png"),
                                                     ),
                                                   ),
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 5),
                                                     child: Text(
-                                                      S.of(context).home_page_function_defi,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Positioned(
-                                              right: 18,
-                                              child: Container(
-                                                height: 30,
-                                                margin: const EdgeInsets.only(top: 0),
-                                                child: FlatButton(
-                                                  onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
-                                                  },
-                                                  child: Text(
-                                                    S.of(context).home_page_function_defi_go,
-                                                    maxLines: 1,
-                                                    style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
-                                                  ),
-                                                  color: Color(0xFFE61665).withAlpha(16),
-                                                  textColor: Colors.black,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 90,
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color(0xE6FFFFFF),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenSendOnePage()));
-                                  },
-                                  child: Container(
-                                    height: 90,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          padding: const EdgeInsets.only(left: 5),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin: const EdgeInsets.only(top: 10),
-                                                child: Image(
-                                                  width: 56,
-                                                  height: 56,
-                                                  image: AssetImage("images/home_send_token.png"),
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  S.of(context).home_page_function_send,
-                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 23,
-                                          child: Container(
-                                            width: 25,
-                                            height: 25,
-                                            padding: const EdgeInsets.only(left: 0),
-                                            //边框设置
-                                            decoration: new BoxDecoration(
-                                              color: Color(0xFFF5F5F5),
-                                              //设置四周圆角 角度
-                                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                            ),
-                                            child: Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 15,
-                                              color: Color(0xFFCCCCCC),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 160,
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color(0xE6FFFFFF),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Stack(
-                                          alignment: Alignment.topCenter,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.topCenter,
-                                              padding: const EdgeInsets.only(left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: const EdgeInsets.only(top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage("images/home_receive_token.png"),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding: const EdgeInsets.only(left: 0),
-                                                    child: Text(
-                                                      S.of(context).home_page_function_receive,
-                                                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Positioned(
-                                              right: 18,
-                                              child: Container(
-                                                height: 30,
-                                                margin: const EdgeInsets.only(top: 20),
-                                                child: FlatButton(
-                                                  onPressed: () {
-                                                    Clipboard.setData(ClipboardData(text: address));
-                                                    setState(() {
-                                                      contentText = S.of(context).token_receive_page_copy_sucess;
-                                                    });
-                                                    Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                                  },
-                                                  child: Text(
-                                                    contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
-                                                    maxLines: 1,
-                                                    style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
-                                                  ),
-                                                  color: Color(0xFFE61665).withAlpha(16),
-                                                  textColor: Colors.black,
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              margin: const EdgeInsets.only(top: 5, left: 18, right: 5),
-                                              child: Text(
-                                                address,
-                                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
-                                                style: TextStyle(fontSize: 14, color: Color(0xFF999999), letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.3),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 0, right: 23),
-                                            child: QrImage(
-                                              data: address,
-                                              version: QrVersions.auto,
-                                              size: 80.0,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 130,
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color(0xE6FFFFFF),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Stack(
-                                          alignment: Alignment.topCenter,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.topCenter,
-                                              padding: const EdgeInsets.only(left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: const EdgeInsets.only(top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage("images/home_names.png"),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding: const EdgeInsets.only(left: 0),
-                                                    child: Text(
-                                                      S.of(context).home_page_function_names,
+                                                      S.of(context).home_page_function_send,
                                                       style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
                                                     ),
                                                   )
@@ -1104,7 +941,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                               child: Container(
                                                 width: 25,
                                                 height: 25,
-                                                margin: const EdgeInsets.only(top: 23),
                                                 padding: const EdgeInsets.only(left: 0),
                                                 //边框设置
                                                 decoration: new BoxDecoration(
@@ -1122,92 +958,271 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                           ],
                                         ),
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 0, left: 20),
-                                                  child: Text(
-                                                    S.of(context).home_page_function_name,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      wordSpacing: 30.0, //词间距
-                                                      color: Color(0xFF666666),
-                                                      fontFamily: "Ubuntu",
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 5, left: 20),
-                                                  child: Text(
-                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
-                                                    style: TextStyle(
-                                                      fontSize: 19,
-                                                      letterSpacing: -1,
-                                                      //字体间距
-                                                      fontWeight: FontWeight.w600,
-
-                                                      //词间距
-                                                      color: Color(0xFF000000),
-                                                      fontFamily: "Ubuntu",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 0, left: 20),
-                                                  child: Text(
-                                                    S.of(context).home_page_function_name_count + "(ae)",
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      wordSpacing: 30.0, //词间距
-                                                      color: Color(0xFF666666),
-                                                      fontFamily: "Ubuntu",
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  alignment: Alignment.topLeft,
-                                                  margin: const EdgeInsets.only(top: 5, left: 20),
-                                                  child: Text(
-                                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
-                                                    style: TextStyle(
-                                                        fontSize: 19,
-                                                        letterSpacing: -1,
-                                                        //字体间距
-                                                        fontWeight: FontWeight.w600,
-
-                                                        //词间距
-                                                        color: Color(0xFF000000),
-                                                        fontFamily: "Ubuntu"),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 160,
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xE6FFFFFF),
+                                    //设置四周圆角 角度
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
+                                  child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                    color: Colors.white,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                      },
+                                      child: Column(
+                                        children: [
                                           Container(
-                                            width: 86,
-                                            height: 30,
+                                            child: Stack(
+                                              alignment: Alignment.topCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  alignment: Alignment.topCenter,
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin: const EdgeInsets.only(top: 10),
+                                                        child: Image(
+                                                          width: 56,
+                                                          height: 56,
+                                                          image: AssetImage("images/home_receive_token.png"),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        padding: const EdgeInsets.only(left: 0),
+                                                        child: Text(
+                                                          S.of(context).home_page_function_receive,
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 18,
+                                                  child: Container(
+                                                    height: 30,
+                                                    margin: const EdgeInsets.only(top: 20),
+                                                    child: FlatButton(
+                                                      onPressed: () {
+                                                        Clipboard.setData(ClipboardData(text: address));
+                                                        setState(() {
+                                                          contentText = S.of(context).token_receive_page_copy_sucess;
+                                                        });
+                                                        Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                                      },
+                                                      child: Text(
+                                                        contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
+                                                        maxLines: 1,
+                                                        style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                                      ),
+                                                      color: Color(0xFFE61665).withAlpha(16),
+                                                      textColor: Colors.black,
+                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(top: 5, left: 18, right: 5),
+                                                  child: Text(
+                                                    address,
+                                                    strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                    style: TextStyle(fontSize: 14, color: Color(0xFF999999), letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.3),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 0, right: 23),
+                                                child: QrImage(
+                                                  data: address,
+                                                  version: QrVersions.auto,
+                                                  size: 80.0,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 130,
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xE6FFFFFF),
+                                    //设置四周圆角 角度
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  ),
+                                  child: Material(
+                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                    color: Colors.white,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            child: Stack(
+                                              alignment: Alignment.topCenter,
+                                              children: <Widget>[
+                                                Container(
+                                                  alignment: Alignment.topCenter,
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin: const EdgeInsets.only(top: 10),
+                                                        child: Image(
+                                                          width: 56,
+                                                          height: 56,
+                                                          image: AssetImage("images/home_names.png"),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        padding: const EdgeInsets.only(left: 0),
+                                                        child: Text(
+                                                          S.of(context).home_page_function_names,
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: "Ubuntu", color: Colors.black),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 23,
+                                                  child: Container(
+                                                    width: 25,
+                                                    height: 25,
+                                                    margin: const EdgeInsets.only(top: 23),
+                                                    padding: const EdgeInsets.only(left: 0),
+                                                    //边框设置
+                                                    decoration: new BoxDecoration(
+                                                      color: Color(0xFFF5F5F5),
+                                                      //设置四周圆角 角度
+                                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      size: 15,
+                                                      color: Color(0xFFCCCCCC),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      alignment: Alignment.topLeft,
+                                                      margin: const EdgeInsets.only(top: 0, left: 20),
+                                                      child: Text(
+                                                        S.of(context).home_page_function_name,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          wordSpacing: 30.0, //词间距
+                                                          color: Color(0xFF666666),
+                                                          fontFamily: "Ubuntu",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment: Alignment.topLeft,
+                                                      margin: const EdgeInsets.only(top: 5, left: 20),
+                                                      child: Text(
+                                                        baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
+                                                        style: TextStyle(
+                                                          fontSize: 19,
+                                                          letterSpacing: -1,
+                                                          //字体间距
+                                                          fontWeight: FontWeight.w600,
+
+                                                          //词间距
+                                                          color: Color(0xFF000000),
+                                                          fontFamily: "Ubuntu",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      alignment: Alignment.topLeft,
+                                                      margin: const EdgeInsets.only(top: 0, left: 20),
+                                                      child: Text(
+                                                        S.of(context).home_page_function_name_count + "(ae)",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          wordSpacing: 30.0, //词间距
+                                                          color: Color(0xFF666666),
+                                                          fontFamily: "Ubuntu",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment: Alignment.topLeft,
+                                                      margin: const EdgeInsets.only(top: 5, left: 20),
+                                                      child: Text(
+                                                        baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
+                                                        style: TextStyle(
+                                                            fontSize: 19,
+                                                            letterSpacing: -1,
+                                                            //字体间距
+                                                            fontWeight: FontWeight.w600,
+
+                                                            //词间距
+                                                            color: Color(0xFF000000),
+                                                            fontFamily: "Ubuntu"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 86,
+                                                height: 30,
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                                getRecordContainer(context),
+                              ],
                             ),
-                            getRecordContainer(context),
-                          ],
+
+
+                          ),
                         ),
                       ),
                     ],

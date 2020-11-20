@@ -27,12 +27,13 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
+//    List mnemonicList = mnemonic.split(" ");
     List mnemonicList = widget.mnemonic.split(" ");
     mnemonicList.shuffle();
 //    mnemonicList.sort((left,right)=>left.compareTo(right));
-    for (String item in mnemonicList) {
-      mnemonicWord[item] = false;
+    for( var i = 0 ; i < mnemonicList.length; i++ ) {
+      mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
     }
 
     updateData();
@@ -83,14 +84,17 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
               Center(
                 child: Container(
                   height: 170,
+                  
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                   decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: Wrap(
-                    spacing: 10, //主轴上子控件的间距
-                    runSpacing: 10, //交叉轴上子控件之间的间距
-                    children: childrenTrue,
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: 10, //主轴上子控件的间距
+                      runSpacing: 10, //交叉轴上子控件之间的间距
+                      children: childrenTrue,
+                    ),
                   ),
                 ),
               ),
@@ -130,7 +134,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                                 onPressed: () {
                                   BoxApp.setMnemonic("");
                                   Navigator.of(context, rootNavigator: true).pop();
-                                  Navigator.of(context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                                  Navigator.of(context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                 },
                               ),
                             ],
@@ -203,9 +207,9 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
             if (!isSelect) {
-              childrenWordTrue.add(item);
+              childrenWordTrue.add( item.split("_")[0]);
             } else {
-              childrenWordTrue.remove(item);
+              childrenWordTrue.remove( item.split("_")[0]);
             }
             mnemonicWord[item] = !isSelect;
             updateData();
@@ -215,7 +219,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
             child: Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
               child: Text(
-                item,
+                item.split("_")[0],
                 style: TextStyle(color: Color(0xFF000000)),
               ),
             ),

@@ -184,7 +184,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setAddress(address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                           }),
                     ));
               });

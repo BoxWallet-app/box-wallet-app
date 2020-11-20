@@ -20,7 +20,7 @@ class TabPage extends StatefulWidget {
 class _TabPageState extends State<TabPage> {
   int selectedIndex = 0;
   int badge = 0;
-  var padding = EdgeInsets.symmetric(horizontal: 18, vertical: 5);
+  var padding = EdgeInsets.symmetric(horizontal: 18, vertical: 3);
   double gap = 10;
 
   PageController controller = PageController();
@@ -44,7 +44,7 @@ class _TabPageState extends State<TabPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       extendBody: true,
-
+      resizeToAvoidBottomInset: false,
       body: Container(
         child: Stack(
           children: [
@@ -138,55 +138,74 @@ class _TabPageState extends State<TabPage> {
       // backgroundColor: Colors.green,
       // body: Container(color: Colors.red,),
       bottomNavigationBar: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 90, vertical: 5),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              boxShadow: [
-                BoxShadow(
-                    spreadRadius: -10,
-                    blurRadius: 60,
-                    color: Colors.black.withOpacity(.4),
-                    offset: Offset(0, 25))
-              ]),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 3),
-            child: GNav(
-                curve: Curves.easeOutExpo,
-                duration: Duration(milliseconds: 300),
-                tabs: [
-                  GButton(
-                    gap: gap,
-                    iconActiveColor: Colors.pink,
-                    iconColor: Colors.black,
-                    textColor: Colors.pink,
-                    backgroundColor: Colors.pink.withOpacity(.2),
-                    iconSize: 24,
-                    padding: padding,
-                    onPressed: () {
-                      controller.jumpToPage(0);
-                    },
-                    icon: Icons.home_outlined,
-                    // textStyle: t.textStyle,
-                    text: 'Home',
-                  ),
-                  GButton(
-                    gap: gap,
-                    iconActiveColor: Color(0xff3460ee),
-                    textColor: Color(0xff3460ee),
-                    backgroundColor: Color(0xff3460ee).withOpacity(.2),
-                    iconColor: Colors.black,
-                    iconSize: 24,
-                    padding: padding,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 90, vertical: 5),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: -10,
+                      blurRadius: 60,
+                      color: Colors.black.withOpacity(.4),
+                      offset: Offset(0, 25))
+                ]),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 3),
+              child: GNav(
+                  duration: Duration(milliseconds: 700),
 
-                    onPressed: () {
-                      controller.jumpToPage(1);
-                    },
-                    icon: Icons.swap_calls_rounded,
+                  tabs: [
+                    GButton(
+                      gap: gap,
+                      iconActiveColor: Colors.pink,
+                      iconColor: Colors.black,
+                      textColor: Colors.pink,
+                      backgroundColor: Colors.pink.withOpacity(.2),
+                      iconSize: 24,
+//                      leading: InkWell(
+//                        child: Container(
+//                            child:  Image(
+//                              width: 24,
+//                              height: 24,
+//                              image: AssetImage("images/check_box_select.png"),
+//                            ),),
+//                      ),
+                      padding: padding,
+                      onPressed: () {
+                        controller.jumpToPage(0);
+                      },
+                      icon: Icons.home_outlined,
+                      // textStyle: t.textStyle,
+                      text: 'Home',
+                      textStyle: TextStyle(
+                        color: Color(0xFFFC2365),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Ubuntu",
+                      ),
+                    ),
+                    GButton(
+                      gap: gap,
+                      iconActiveColor: Color(0xff3460ee),
+                      textColor: Color(0xff3460ee),
+                      backgroundColor: Color(0xff3460ee).withOpacity(.2),
+                      iconColor: Colors.black,
+                      iconSize: 24,
+                      padding: padding,
+                      textStyle: TextStyle(
+                        color: Color(0xff3460ee),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Ubuntu",
+                      ),
+                      onPressed: () {
+                        controller.jumpToPage(1);
+                      },
+                      icon: Icons.swap_calls_rounded,
 // textStyle: t.textStyle,
-                    text: 'Swap',
-                  ),
+                      text: 'Swap',
+                    ),
 //                  GButton(
 //                    gap: gap,
 //                    iconActiveColor: Color(0xff3460ee),
@@ -202,19 +221,20 @@ class _TabPageState extends State<TabPage> {
 //// textStyle: t.textStyle,
 //                    text: 'My',
 //                  )
-                ],
-                selectedIndex: selectedIndex,
-                onTabChange: (index) {
-                  // _debouncer.run(() {
+                  ],
+                  selectedIndex: selectedIndex,
+                  onTabChange: (index) {
+                    // _debouncer.run(() {
 
-                  print(index);
-                  setState(() {
-                    selectedIndex = index;
-                    // badge = badge + 1;
-                  });
-                  controller.jumpToPage(index);
-                  // });
-                }),
+                    print(index);
+                    setState(() {
+                      selectedIndex = index;
+                      // badge = badge + 1;
+                    });
+                    controller.jumpToPage(index);
+                    // });
+                  }),
+            ),
           ),
         ),
       ),
