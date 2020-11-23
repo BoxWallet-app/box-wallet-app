@@ -11,6 +11,7 @@ import 'package:box/page/token_defi_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
+import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -67,21 +69,35 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       body: Container(
-        padding: EdgeInsets.only(top: 70),
-        child: AnimationLimiter(
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index) {
-              return AnimationConfiguration.staggeredList(
-                position: index,
-                duration: const Duration(milliseconds: 375),
-                child: SlideAnimation(
-                  verticalOffset: 200.0,
-                  child: getItem(context,index),
+        padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 55),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: AnimationLimiter(
+                child: EasyRefresh(
+                  header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
+                  onRefresh: () {},
+                  child: ListView.builder(
+                    itemCount: 20000,
+                    itemBuilder: (BuildContext context, int index) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 200.0,
+                          child: getItem(context, index),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -97,7 +113,126 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         child: Container(
           color: Color(0xFFF5F5F5),
           child: Container(
-            height: 150,
+            margin: EdgeInsets.only(left: 18, right: 18, bottom: 0, top: 12),
+            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+//                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      child: SvgPicture.asset(
+                        'images/avatar_1.svg',
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 8),
+                      child: Text("ak_***6yKx", style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 46,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 18, left: 0),
+                            child: Text(
+                              "卖出数量(ABC)",
+                              style: TextStyle(
+                                fontSize: 14,
+                                wordSpacing: 30.0, //词间距
+                                color: Color(0xFF666666),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 5, left: 0),
+                            child: Text(
+                              "100.00个",
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  letterSpacing: -1,
+                                  //字体间距
+                                  fontWeight: FontWeight.w600,
+
+                                  //词间距
+                                  color: Color(0xFF000000),
+                                  fontFamily: "Ubuntu"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 46,
+                      margin: const EdgeInsets.only(top: 0, left: 20),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 18, left: 0),
+                            child: Text(
+                              "兑换数量(AE)",
+                              style: TextStyle(
+                                fontSize: 14,
+                                wordSpacing: 30.0, //词间距
+                                color: Color(0xFF666666),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 5, left: 0),
+                            child: Text(
+                              "150.00个",
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  letterSpacing: -1,
+                                  //字体间距
+                                  fontWeight: FontWeight.w600,
+
+                                  //词间距
+                                  color: Color(0xFFF22B79),
+                                  fontFamily: "Ubuntu"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width - 46,
+                  margin: const EdgeInsets.only(top: 18),
+                  child: FlatButton(
+                    onPressed: () {
+//                      clickAllCount();
+                    },
+                    child: Text(
+                      "兑 换",
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                    ),
+                    color: Color(0xFFE61665).withAlpha(16),
+                    textColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  ),
+                ),
+              ],
+            ),
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
               //设置四周圆角 角度
@@ -105,8 +240,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
               //设置四周边框
             ),
-            margin: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 0),
-            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
           ),
         ),
       ),

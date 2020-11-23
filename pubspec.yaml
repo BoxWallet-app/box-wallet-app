@@ -74,6 +74,7 @@ dependencies:
   salomon_bottom_bar: ^2.0.0
   auro_avatar: ^0.1.0
   flutter_staggered_animations: ^0.1.2
+  flutter_svg: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -106,6 +107,7 @@ flutter:
     - assets/
     - assets/js/
     - assets/html/
+    - images/
     - images/login_logo.png
     - images/nav_home.png
     - images/nav_home_active.png
