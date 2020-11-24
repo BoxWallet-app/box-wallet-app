@@ -333,12 +333,11 @@ class _AensRegisterState extends State<AensRegister> {
 
   Future<void> netPreclaimV2(BuildContext context) async {
     focusNode.unfocus();
-    
+
     var name = _textEditingController.text + ".chain";
     AensInfoDao.fetch(name).then((AensInfoModel model) {
-      
       print(model.toString());
-      if (model.code == 200 && model.data.currentHeight < model.data.overHeight ) {
+      if (model.code == 200 && model.data.currentHeight < model.data.overHeight) {
         Fluttertoast.showToast(msg: "name already register", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       } else if (model.code == 201) {
         showGeneralDialog(
@@ -359,7 +358,6 @@ class _AensRegisterState extends State<AensRegister> {
                   child: PayPasswordWidget(
                     title: S.of(context).password_widget_input_password,
                     dismissCallBackFuture: (String password) {
-                      
                       return;
                     },
                     passwordCallBackFuture: (String password) async {
@@ -378,10 +376,12 @@ class _AensRegisterState extends State<AensRegister> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
-                                  
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
@@ -394,7 +394,7 @@ class _AensRegisterState extends State<AensRegister> {
                       BoxApp.claimName((tx) {
                         print(tx);
                         showFlush(context);
-                        
+
                         // ignore: missing_return
                       }, (error) {
                         showPlatformDialog(
@@ -406,17 +406,19 @@ class _AensRegisterState extends State<AensRegister> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
-                                  
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
                             ],
                           ),
                         );
-                        
+
                         // ignore: missing_return
                       }, aesDecode, address, name);
                       showChainLoading();
@@ -444,7 +446,6 @@ class _AensRegisterState extends State<AensRegister> {
                   child: PayPasswordWidget(
                     title: S.of(context).password_widget_input_password,
                     dismissCallBackFuture: (String password) {
-
                       return;
                     },
                     passwordCallBackFuture: (String password) async {
@@ -463,10 +464,12 @@ class _AensRegisterState extends State<AensRegister> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
-
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
@@ -491,10 +494,12 @@ class _AensRegisterState extends State<AensRegister> {
                               BasicDialogAction(
                                 title: Text(
                                   S.of(context).dialog_conform,
-                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: "Ubuntu",
+                                  ),
                                 ),
                                 onPressed: () {
-
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
@@ -512,7 +517,6 @@ class _AensRegisterState extends State<AensRegister> {
             });
       }
     }).catchError((e) {
-      
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -535,7 +539,7 @@ class _AensRegisterState extends State<AensRegister> {
   Future<void> netClaimV2(BuildContext context, Function startLoading, Function stopLoading, String name, String nameSalt) async {
     AensRegisterDao.fetch(name, this.address, nameSalt).then((MsgSignModel model) {
       EasyLoading.dismiss();
-      
+
       if (model.code == 200) {
         Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
         Navigator.of(context).push(new MaterialPageRoute<Null>(
@@ -544,9 +548,7 @@ class _AensRegisterState extends State<AensRegister> {
               return TxConformWidget(
                   tx: tx,
                   // ignore: missing_return
-                  dismissCallBackFuture: () {
-                    
-                  },
+                  dismissCallBackFuture: () {},
                   // ignore: missing_return
                   conformCallBackFuture: () {
                     // ignore: missing_return
@@ -568,7 +570,6 @@ class _AensRegisterState extends State<AensRegister> {
                               child: PayPasswordWidget(
                                 title: S.of(context).password_widget_input_password,
                                 dismissCallBackFuture: (String password) {
-                                  
                                   return;
                                 },
                                 passwordCallBackFuture: (String password) async {
@@ -587,10 +588,12 @@ class _AensRegisterState extends State<AensRegister> {
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                              style: TextStyle(
+                                                color: Color(0xFFFC2365),
+                                                fontFamily: "Ubuntu",
+                                              ),
                                             ),
                                             onPressed: () {
-                                              
                                               Navigator.of(context, rootNavigator: true).pop();
                                             },
                                           ),
@@ -602,14 +605,12 @@ class _AensRegisterState extends State<AensRegister> {
 
                                   var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
                                   TxBroadcastDao.fetch(signMsg, model.data.tx, "NameClaimTx").then((model) {
-                                    
                                     if (model.code == 200) {
                                       focusNode.unfocus();
                                       showFlush(context);
                                       print(model.data.hash);
                                     }
                                   }).catchError((e) {
-                                    
                                     Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                                   });
                                 },
@@ -632,7 +633,10 @@ class _AensRegisterState extends State<AensRegister> {
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFFFC2365),
+                    fontFamily: "Ubuntu",
+                  ),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -643,7 +647,6 @@ class _AensRegisterState extends State<AensRegister> {
         );
       }
     }).catchError((e) {
-      
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
