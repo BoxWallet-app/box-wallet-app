@@ -426,7 +426,90 @@ class _AensRegisterState extends State<AensRegister> {
               );
             });
       } else {
-        Fluttertoast.showToast(msg: model.msg, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        showGeneralDialog(
+            context: context,
+            // ignore: missing_return
+            pageBuilder: (context, anim1, anim2) {},
+            barrierColor: Colors.grey.withOpacity(.4),
+            barrierDismissible: true,
+            barrierLabel: "",
+            transitionDuration: Duration(milliseconds: 400),
+            transitionBuilder: (_, anim1, anim2, child) {
+              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+              return Transform(
+                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                    title: S.of(context).password_widget_input_password,
+                    dismissCallBackFuture: (String password) {
+
+                      return;
+                    },
+                    passwordCallBackFuture: (String password) async {
+                      var signingKey = await BoxApp.getSigningKey();
+                      var address = await BoxApp.getAddress();
+                      final key = Utils.generateMd5Int(password + address);
+                      var aesDecode = Utils.aesDecode(signingKey, key);
+
+                      if (aesDecode == "") {
+                        showPlatformDialog(
+                          context: context,
+                          builder: (_) => BasicDialogAlert(
+                            title: Text(S.of(context).dialog_hint_check_error),
+                            content: Text(S.of(context).dialog_hint_check_error_content),
+                            actions: <Widget>[
+                              BasicDialogAction(
+                                title: Text(
+                                  S.of(context).dialog_conform,
+                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                ),
+                                onPressed: () {
+
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
+                      // ignore: missing_return
+                      BoxApp.claimName((tx) {
+                        print(tx);
+                        showFlush(context);
+
+                        // ignore: missing_return
+                      }, (error) {
+                        showPlatformDialog(
+                          context: context,
+                          builder: (_) => BasicDialogAlert(
+                            title: Text(S.of(context).dialog_hint_check_error),
+                            content: Text(error),
+                            actions: <Widget>[
+                              BasicDialogAction(
+                                title: Text(
+                                  S.of(context).dialog_conform,
+                                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                ),
+                                onPressed: () {
+
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+
+                        // ignore: missing_return
+                      }, aesDecode, address, name);
+                      showChainLoading();
+                    },
+                  ),
+                ),
+              );
+            });
       }
     }).catchError((e) {
       

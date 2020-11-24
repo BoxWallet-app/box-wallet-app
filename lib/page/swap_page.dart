@@ -134,6 +134,45 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       margin: EdgeInsets.only(left: 8),
                       child: Text("ak_***6yKx", style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
                     ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 0, left: 0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 0, left: 0),
+                            child: Text(
+                              "比例:",
+                              style: TextStyle(
+                                fontSize: 14,
+                                wordSpacing: 30.0, //词间距
+                                color: Color(0xFF666666),
+                                fontFamily: "Ubuntu",
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 0, left: 0),
+                            child: Text(
+                              "1 : 1.5",
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  letterSpacing: -1,
+                                  //字体间距
+                                  fontWeight: FontWeight.w600,
+
+                                  //词间距
+                                  color: Color(0xFFF22B79),
+                                  fontFamily: "Ubuntu"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -159,7 +198,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              "100.00个",
+                              "100.00 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -176,7 +215,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2 - 46,
-                      margin: const EdgeInsets.only(top: 0, left: 20),
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -196,7 +234,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              "150.00个",
+                              "150.00 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -204,18 +242,19 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                   fontWeight: FontWeight.w600,
 
                                   //词间距
-                                  color: Color(0xFFF22B79),
+                                  color: Color(0xFF000000),
                                   fontFamily: "Ubuntu"),
                             ),
                           ),
                         ],
                       ),
                     ),
+
                   ],
                 ),
                 Container(
                   height: 40,
-                  width: MediaQuery.of(context).size.width - 46,
+                  width: MediaQuery.of(context).size.width - 25,
                   margin: const EdgeInsets.only(top: 18),
                   child: FlatButton(
                     onPressed: () {
