@@ -486,7 +486,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
               height: MediaQuery.of(context).size.height - 55 - MediaQueryData.fromWindow(window).padding.top,
               width: MediaQuery.of(context).size.width,
               child: EasyRefresh(
-                header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
+                header: TaurusHeader(backgroundColor: Color(0xFFF5F5F5)),
                 onRefresh: _onRefresh,
                 child: Container(
 //                height: MediaQuery.of(context).size.height,
@@ -565,7 +565,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                               ),
                               children: <Widget>[
                                 Container(
-                                  margin: const EdgeInsets.only(top: 12),
+                                  margin: const EdgeInsets.only(top: 0),
                                   child: Stack(
                                     children: [
                                       Positioned(

@@ -266,6 +266,7 @@ class TaurusHeaderWidgetState extends State<TaurusHeaderWidget> {
                       child: Image.memory(
                         _airplaneBytes,
                         fit: BoxFit.fill,
+                        color: Color(0xFFFC2365),
                       ),
                     ),
                   ),

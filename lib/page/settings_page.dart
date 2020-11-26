@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -63,39 +66,59 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        // 隐藏阴影
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 17,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          S.of(context).setting_page_title,
-          style: TextStyle(
-            fontSize: 18,
-            fontFamily: "Ubuntu",
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Container(
         child: Column(
           children: <Widget>[
+            Container(
+              color: Colors.white,
+              height: MediaQueryData.fromWindow(window).padding.top,
+            ),
+
+            Container(
+              padding: EdgeInsets.only(left: 30, right: 20, top: 80),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+//                  crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    child: SvgPicture.asset(
+                      'images/avatar_1.svg',
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 12),
+                        child: Text("ak_***6yKx", style: TextStyle(fontSize: 20, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8 - 120,
+                        margin: EdgeInsets.only(left: 12, top: 4),
+                        child: Text("Name: Is developing ", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", color: Color(0xFF666666))),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              height: 30,
+            ),
+            Container(height: 1.0,  margin: EdgeInsets.only(left: 10,right: 10), width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+            Container(
+              color: Colors.white,
+              height: 15,
+            ),
             if (mnemonic != "" && mnemonic != null)
-              buildItem(context, S.of(context).setting_page_item_save, "images/profile_display_currency.png", () {
-
-
-
-
-
-
-
-
-
+              buildItem(context, S.of(context).setting_page_item_save, "images/setting_save.png", () {
                 showGeneralDialog(
                     context: context,
                     pageBuilder: (context, anim1, anim2) {},
@@ -169,13 +192,25 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                         ),
                       );
                     });
-              }),
-            buildItem(context, S.of(context).setting_page_node_set, "images/profile_lanuge.png", () {
+              }, isLine: false),
+            Container(
+              color: Colors.white,
+              height: 5,
+            ),
+            buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
-            }, isLine: true),
-            buildItem(context, S.of(context).setting_page_item_language, "images/profile_lanuge.png", () {
+            }, isLine: false),
+            Container(
+              color: Colors.white,
+              height: 5,
+            ),
+            buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
-            }, isLine: true),
+            }, isLine: false),
+            Container(
+              color: Colors.white,
+              height: 5,
+            ),
             Material(
               color: Colors.white,
               child: InkWell(
@@ -185,14 +220,14 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     alignment: Alignment.center,
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.only(left: 13),
+                        padding: const EdgeInsets.only(left: 25),
                         child: Row(
                           children: <Widget>[
-//                    Image(
-//                      width: 40,
-//                      height: 40,
-//                      image: AssetImage(assetImage),
-//                    ),
+                            Image(
+                              width: 30,
+                              height: 30,
+                              image: AssetImage("images/setting_version.png"),
+                            ),
                             Container(
                               padding: const EdgeInsets.only(left: 7),
                               child: Text(
@@ -208,15 +243,9 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                         ),
                       ),
                       Positioned(
-                        right: 28,
+                        right: 45,
                         child: Text("v" + version),
                       ),
-                      if (true)
-                        Positioned(
-                          bottom: 0,
-                          left: 20,
-                          child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
-                        )
                     ],
                   ),
                 ),
@@ -226,28 +255,27 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
 //              print("123");
 //            }, isLine: true),
 
+            Expanded(child: Container()),
             Container(
-              margin: const EdgeInsets.only(top: 80, bottom: 50),
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: FlatButton(
-                  onPressed: () {
-                    BoxApp.setAddress("");
-                    BoxApp.setSigningKey("");
-                    BoxApp.setMnemonic("");
-                    TokenDefiPage.model = null;
-                    Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
-                  },
-                  child: Text(
-                    S.of(context).setting_page_item_logout,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
-                  ),
-                  color: Color(0xFFFC2365),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              height: 50,
+              width: MediaQuery.of(context).size.width * 0.8 - 60,
+              margin:  EdgeInsets.only(top: 70,bottom: MediaQueryData.fromWindow(window).padding.bottom+50),
+              child: FlatButton(
+                onPressed: () {
+                  BoxApp.setAddress("");
+                  BoxApp.setSigningKey("");
+                  BoxApp.setMnemonic("");
+                  TokenDefiPage.model = null;
+                  Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
+                },
+                child: Text(
+                  S.of(context).setting_page_item_logout,
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
                 ),
+                color: Color(0xFFE61665).withAlpha(16),
+                textColor: Colors.black,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
             ),
           ],
@@ -267,14 +295,14 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
             alignment: Alignment.center,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(left: 13),
+                padding: const EdgeInsets.only(left: 25),
                 child: Row(
                   children: <Widget>[
-//                    Image(
-//                      width: 40,
-//                      height: 40,
-//                      image: AssetImage(assetImage),
-//                    ),
+                    Image(
+                      width: 30,
+                      height: 30,
+                      image: AssetImage(assetImage),
+                    ),
                     Container(
                       padding: const EdgeInsets.only(left: 7),
                       child: Text(
@@ -290,7 +318,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                 ),
               ),
               Positioned(
-                right: 28,
+                right: 30,
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
@@ -324,8 +352,8 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   Container(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Image(
-                      width: 40,
-                      height: 40,
+                      width: 30,
+                      height: 30,
                       image: AssetImage(image),
                     ),
                   ),

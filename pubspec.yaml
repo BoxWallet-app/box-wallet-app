@@ -162,6 +162,12 @@ flutter:
     - images/defi_logo.png
     - images/card_top.png
     - images/card_bottom.png
+    - images/setting_lanuage.png
+    - images/setting_node.png
+    - images/setting_save.png
+    - images/setting_version.png
+    - images/tab_swap.png
+    - images/tab_home.png
 
   #   - images/a_dot_ham.jpeg
 
