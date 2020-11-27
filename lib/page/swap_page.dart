@@ -79,10 +79,10 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
               width: MediaQuery.of(context).size.width,
               child: AnimationLimiter(
                 child: EasyRefresh(
-                  header: TaurusHeader(backgroundColor: Color(0xFFFC2365)),
+                  header: TaurusHeader(backgroundColor: Color(0xFFF5F5F5)),
                   onRefresh: () {},
                   child: ListView.builder(
-                    itemCount: 20000,
+                    itemCount: 2,
                     itemBuilder: (BuildContext context, int index) {
                       return AnimationConfiguration.staggeredList(
                         position: index,
@@ -113,7 +113,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         child: Container(
           color: Color(0xFFF5F5F5),
           child: Container(
-            margin: EdgeInsets.only(left: 18, right: 18, bottom: 0, top: 12),
+            margin: EdgeInsets.only(left: 14, right: 14, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
             child: Column(
               children: [
@@ -145,7 +145,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              "比例:",
+                              "溢价:",
                               style: TextStyle(
                                 fontSize: 14,
                                 wordSpacing: 30.0, //词间距
@@ -158,7 +158,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              "1 : 1.5",
+                              "-100%",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
