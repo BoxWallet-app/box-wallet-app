@@ -12,10 +12,14 @@ PODS:
     - Flutter
   - image_picker (0.0.1):
     - Flutter
+  - keyboard_visibility (0.5.0):
+    - Flutter
+    - Reachability
   - package_info (0.0.1):
     - Flutter
   - permission_handler (3.3.0):
     - Flutter
+  - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
@@ -31,11 +35,16 @@ DEPENDENCIES:
   - flutter_qr_reader (from `.symlinks/plugins/flutter_qr_reader/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - keyboard_visibility (from `.symlinks/plugins/keyboard_visibility/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Reachability
 
 EXTERNAL SOURCES:
   auro_avatar:
@@ -52,6 +61,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  keyboard_visibility:
+    :path: ".symlinks/plugins/keyboard_visibility/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   permission_handler:
@@ -71,8 +82,10 @@ SPEC CHECKSUMS:
   flutter_qr_reader: 254fd9eea45a65ef461e050d6607daf9cfb753e8
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
+  keyboard_visibility: 96a24de806fe6823c3ad956c01ba2ec6d056616f
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96

@@ -4,9 +4,10 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/page/home_page.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
-import 'package:box/page/token_defi_page.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -112,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
               color: Colors.white,
               height: 30,
             ),
-            Container(height: 1.0,  margin: EdgeInsets.only(left: 10,right: 10), width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+            Container(height: 1.0, margin: EdgeInsets.only(left: 10, right: 10), width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
             Container(
               color: Colors.white,
               height: 15,
@@ -259,13 +260,14 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
             Container(
               height: 50,
               width: MediaQuery.of(context).size.width * 0.8 - 60,
-              margin:  EdgeInsets.only(top: 70,bottom: MediaQueryData.fromWindow(window).padding.bottom+50),
+              margin: EdgeInsets.only(top: 70, bottom: MediaQueryData.fromWindow(window).padding.bottom + 50),
               child: FlatButton(
                 onPressed: () {
+                  HomePage.tokenABC = "loading...";
+                  TokenDefiPage.model = null;
                   BoxApp.setAddress("");
                   BoxApp.setSigningKey("");
                   BoxApp.setMnemonic("");
-                  TokenDefiPage.model = null;
                   Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
                 },
                 child: Text(

@@ -28,6 +28,7 @@ import 'package:box/page/token_receive_page.dart';
 import 'package:box/page/token_send_one_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/ae_header.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/password_widget.dart';
@@ -87,14 +88,20 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     eventBus.on<LanguageEvent>().listen((event) {
       setState(() {});
     });
-    showHint();
+
+//
     getAddress();
-    netContractBalance();
-    netAccountInfo();
-    netBaseData();
-    netTopHeightData();
-    netBaseNameData();
-    netVersion();
+    Future.delayed(Duration(milliseconds: 600), () {
+      showHint();
+
+      netContractBalance();
+      netAccountInfo();
+      netBaseData();
+      netTopHeightData();
+      netBaseNameData();
+      netVersion();
+    });
+
   }
 
   void showHint() {
@@ -272,7 +279,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -404,7 +411,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -418,7 +425,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -486,7 +493,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
               height: MediaQuery.of(context).size.height - 55 - MediaQueryData.fromWindow(window).padding.top,
               width: MediaQuery.of(context).size.width,
               child: EasyRefresh(
-                header: TaurusHeader(backgroundColor: Color(0xFFF5F5F5)),
+//                header: TaurusHeader(backgroundColor: Color(0xFFF5F5F5)),
+                header: AEHeader(),
                 onRefresh: _onRefresh,
                 child: Container(
 //                height: MediaQuery.of(context).size.height,
@@ -556,9 +564,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
                           child: Column(
                             children: AnimationConfiguration.toStaggeredList(
-                              duration: const Duration(milliseconds: 375),
+                              duration: const Duration(milliseconds: 300),
                               childAnimationBuilder: (widget) => SlideAnimation(
-                                verticalOffset: 200.0,
+                                verticalOffset: 150.0,
                                 child: FadeInAnimation(
                                   child: widget,
                                 ),

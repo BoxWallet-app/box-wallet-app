@@ -17,7 +17,6 @@ import 'package:box/model/contract_record_model.dart';
 import 'package:box/model/msg_sign_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_detail_page.dart';
-import 'package:box/page/token_defi_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';

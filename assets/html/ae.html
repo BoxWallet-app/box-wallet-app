@@ -1131,22 +1131,614 @@ payable contract ABCLockContractV2 =
     put(state{accounts[accountData.account] = account,all_count = state.all_count - count})
     count
 
+	`
+	
+
+   const sourceCodeSwap = `
+contract FungibleTokenInterface =
+
+  record allowance_accounts = { from_account : address, for_account : address }
+
+  entrypoint total_supply                  : ()                      => int
+  entrypoint balance                       : (address)               => option(int)
+  entrypoint allowance                     : (allowance_accounts)    => option(int)
+
+  stateful entrypoint transfer_allowance   : (address, address, int) => unit
+  stateful entrypoint create_allowance     : (address, int)          => unit
+  stateful entrypoint change_allowance     : (address, int)          => unit
+  stateful entrypoint reset_allowance      : (address)               => unit
+  stateful entrypoint transfer             : (address, int)          => unit
+
+payable contract AESwapContract =
+
+  record account = {
+    account      : address,
+    coin         : string,
+    count        : int,
+    ae           : int}
+
+  record account_swaps = {
+    account_map  : map(address, account),
+    transaction  : int}
+
+  record account_coin = {
+    coin_map     : map(string, account),
+    useless      : int}
+
+  record coin = {
+    token        : FungibleTokenInterface,
+    coin_name    : string,
+    freeze       : int}
+
+  record state = {
+    swaps        : map(string,  account_swaps),
+    accounts     : map(address, account_coin),
+    coins        : map(address, coin),
+    owner        : address,
+    decimals     : int}
+
+  stateful entrypoint init() =
+    let owner = Call.caller
+    { swaps       = {},
+      coins       = {},
+      accounts    = {},
+      owner       = owner,
+      decimals    = 1000000000000000000}
+
+  entrypoint get_contract_balance() =
+    Contract.balance
+
+  entrypoint owner() : address =
+    state.owner
+
+  function require_owner() =
+    require(Call.caller == state.owner, "ONLY_OWNER_CALL_ALLOWED")
 
 
+  entrypoint get_coins() =
+    state.coins
+
+  entrypoint get_swaps() =
+    state.swaps
+
+  entrypoint get_swaps_icon(coin_name : string) =
+    state.swaps[coin_name]
+
+  entrypoint get_accounts() =
+    state.accounts
+
+  entrypoint get_accounts_address(account : address) =
+    state.accounts[account]
+
+  private function get_coin(contract_address: address): coin =
+    switch(Map.lookup(contract_address, state.coins))
+      Some(coin) => coin
+
+  private function is_coin_exist(contract_address: address): bool =
+    switch(Map.lookup(contract_address, state.coins))
+      Some(coin) => true
+      None => false
+
+  private function get_my_cion_balance(token : FungibleTokenInterface): int =
+    switch(token.balance(Call.caller))
+      Some(balance) => balance
+      None => 0
+
+  private function get_my_cion_allowance(token : FungibleTokenInterface): int =
+    switch(token.allowance({from_account = Call.caller , for_account = Contract.address}))
+      Some(allowance) => allowance
+      None => 0
+
+  private function get_account_swaps(coin_name : string): account_swaps =
+    switch(Map.lookup(coin_name, state.swaps))
+      Some(account_swaps) => account_swaps
+      None => {account_map = {}, transaction = 0}
+
+  //获取当前币种是否自己已经发生过交易
+  private function is_account_swaps_exist(account_swaps: account_swaps): bool =
+    switch(Map.lookup(Call.caller, account_swaps.account_map))
+      Some(account) => true
+      None => false
+
+  //获取当前币种其他人是否存在交易
+  private function is_account_swaps_account_exist(account_swaps: account_swaps , account_address : address): bool =
+    switch(Map.lookup(account_address, account_swaps.account_map))
+      Some(account) => true
+      None => false
+
+  //获取当前币种是否自己已经发生过交易
+  private function is_account_coin_exist(account_coin: account_coin , coin_name : string): bool =
+    switch(Map.lookup(coin_name , account_coin.coin_map))
+      Some(account) => true
+      None => false
+
+  private function get_account_coin(): account_coin =
+    switch(Map.lookup(Call.caller, state.accounts))
+      Some(account_coin) => account_coin
+      None => {coin_map = {}, useless = 0}
+
+  //设置可交易数据
+  stateful entrypoint set_coin(token: FungibleTokenInterface , contract_address : address ,  coin_name : string , freeze : int) =
+    require_owner()
+    let coin = {token = token,coin_name = coin_name,freeze = freeze}
+    put( state{ coins [contract_address] = coin})
+    put( state{ swaps [coin_name] = {account_map = {} , transaction = 0}})
+    coin
+
+  stateful entrypoint swap_sell(contract_address: address , count : int , ae : int) =
+    //判断当前币种合约是否存在
+    if(!is_coin_exist(contract_address))
+      abort("COIN_NOT_EXIST")
+
+    //获取通过合约地址获取币种
+    let coin = get_coin(contract_address)
+
+    //判断币种是否是合法的 0 默认合法 1为暂停交易
+    if(coin.freeze != 0)
+      abort("TRADING_IN_THE_CURRENCY_WAS_SUSPENDED")
+
+    //获取要卖出的币种,我的余额是否大于了要卖出的余额
+    if(get_my_cion_balance(coin.token) < count)
+      abort("CONTRACT_MY_BALANCE_0")
+
+    //获取要卖出的币种,在交易合约中零花钱是否达到可以操作的数量
+    if(get_my_cion_allowance(coin.token) < count)
+      abort("CONTRACT_MY_ALLOWANCE_0")
+
+    //判断当前币种自己是否已经存在订单了,存在的话不可以在卖出了
+    if(is_account_swaps_exist(state.swaps[coin.coin_name]))
+      abort("PLEDGE_ALREADY_EXISTS")
+
+    //将代币转入当前合约进行托管交易
+    coin.token.transfer_allowance(Call.caller,Contract.address,count)
+
+    //生成要交易的订单信息, 卖出人 , 币种名称 , 币种数量 , 兑换比例
+    let account = {account  = Call.caller,coin = coin.coin_name ,count = count, ae = ae}
+
+    //获取当前用户币种合集, 准备将订单放入到当前用户的币种合集当中
+    let account_coin = get_account_coin()
+    //将订单放入到币种合集当中
+    let account_coin = account_coin{coin_map[coin.coin_name] = account , useless = 0}
+    //保存状态
+    put( state{ accounts [Call.caller] = account_coin})
+
+    //获取当前交易的币种合集, 准备将订单放入到当前交易的币种合集当中
+    let account_swaps = get_account_swaps(coin.coin_name)
+    //将订单放入到交易币种合集当中
+    let account_swaps = account_swaps{account_map[Call.caller] = account , transaction = account_swaps.transaction}
+    //保存状态
+    put( state{ swaps [coin.coin_name] = account_swaps})
+
+    account
+
+  stateful entrypoint swap_cancel(contract_address: address) =
+    //判断当前币种合约是否存在
+    if(!is_coin_exist(contract_address))
+      abort("COIN_NOT_EXIST")
+
+    //获取通过合约地址获取币种
+    let coin = get_coin(contract_address)
+
+    //判断币种是否是合法的 0 默认合法 1为暂停交易
+    if(coin.freeze != 0)
+      abort("TRADING_IN_THE_CURRENCY_WAS_SUSPENDED")
+
+    //判断当前币种自己是否已经存在订单了,存在的话不可以在卖出了
+    if(!is_account_swaps_exist(state.swaps[coin.coin_name]))
+      abort("PLEDGE_NOT_EXISTS")
+
+    //获取要交易用户的订单信息
+    let account = state.swaps[coin.coin_name].account_map[Call.caller]
+
+    //判断是不是自己调用了取消方法
+    if(account.account != Call.caller )
+      abort("CALLER_ERROR")
+
+
+    //将token 支付给订单归属人
+    coin.token.transfer(Call.caller, account.count  * 998 / 1000)
+    coin.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, account.count * 2 / 1000)
+
+    //更新交易数据集合
+    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_name].account_map) ,transaction =  state.swaps[coin.coin_name].transaction}
+    put(state{ swaps[coin.coin_name] = account_swaps})
+
+
+    account
+
+  payable stateful entrypoint swap_buy(contract_address: address,account_address : address) =
+
+    //判断当前币种合约是否存在
+    if(!is_coin_exist(contract_address))
+      abort("COIN_NOT_EXIST")
+
+    //获取通过合约地址获取币种
+    let coin = get_coin(contract_address)
+
+    //判断币种是否是合法的 0 默认合法 1为暂停交易
+    if(coin.freeze != 0)
+      abort("TRADING_IN_THE_CURRENCY_WAS_SUSPENDED")
+
+    //判断当前币种的售卖者是否存在交易,因为可能存在多个人抢一个订单
+    if(!is_account_swaps_account_exist(state.swaps[coin.coin_name],account_address))
+      abort("PLEDGE_NOT_EXISTS")
+
+    //获取要交易用户的订单信息
+    let account = state.swaps[coin.coin_name].account_map[account_address]
+
+    //判断输入金额是否等于订单金额
+    if(account.count != Call.value )
+      abort("COUNT_ERROR")
+
+    //将ae 支付给卖方
+    Chain.spend(account.account, Call.value  * 998 / 1000)
+    Chain.spend(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, Call.value * 2 / 1000)
+
+    //将token 支付给买方
+    coin.token.transfer(Call.caller, account.count  * 998 / 1000)
+    coin.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, account.count * 2 / 1000)
+
+    //更新交易数据集合
+    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_name].account_map) ,transaction =  state.swaps[coin.coin_name].transaction + Call.value  / state.decimals}
+    put(state{ swaps[coin.coin_name] = account_swaps})
+
+    //更新买方数据集合
+    let account_coin = {coin_map = Map.delete(account.coin, state.accounts[account.account].coin_map) , useless = 0}
+    put(state{ accounts[account.account] = account_coin})
+
+    account
 
 
 
 	`
 
 
+
     let nodeUrl = 'https://node.aeasy.io';
     let compilerUrl = 'https://compiler.aeasy.io';
-
+    let nodeUrlTestNet = 'https://debug.aeasy.io';
 
     const setNodeCompilerUrl = function (node, compiler) {
         nodeUrl  = node;
         compilerUrl  = compiler;
     }
+
+
+
+ function callSwapSell(client, ctId, count, amount, swapCtId) {
+        client.contractEncodeCall(sourceCodeSwap, 'swap_sell', [ctId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count), Ae.AmountFormatter.toAettos(amount)]).then(callDataCall => {
+            status_JS.postMessage("contractCall");
+            client.contractCall(sourceCodeSwap, swapCtId, "swap_sell", callDataCall).then(callResult => {
+                status_JS.postMessage("decode");
+                callResult.decode().then(callResultDecode => {
+                    status_JS.postMessage("sucess");
+                    contractSwapSell_JS.postMessage(callResultDecode);
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+                var decode = err.toString().split('Decoded: ')
+                var msg = decode[1].substring(1, decode[1].length - 4)
+                status_JS.postMessage("error");
+                error_JS.postMessage(msg);
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        })
+    }
+
+    const contractSwapSell = function (secretKey, publicKey, swapCtId, ctId, count, amount) {
+        Ae.Node({url: nodeUrl, internalUrl: nodeUrlTestNet}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.getContractInstance(sourceCodeABC, {contractAddress: ctId}).then(tokenContract => {
+                    tokenContract.methods.allowance({
+                        from_account: publicKey,
+                        for_account: swapCtId.replace('ct_', 'ak_'),
+                    }).then((allowance) => {
+                        status_JS.postMessage("allowance");
+                        if (allowance.decodedResult !== undefined) {
+                            if (allowance.decodedResult >= Ae.AmountFormatter.toAettos(count)) {
+                                callSwapSell(client, ctId, count, amount, swapCtId);
+                            } else {
+                                status_JS.postMessage("change_allowance");
+                                tokenContract.methods.change_allowance(swapCtId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count) - allowance.decodedResult).then(changeAllowance => {
+                                    client.contractEncodeCall(sourceCodeSwap, 'swap_sell', [ctId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count), Ae.AmountFormatter.toAettos(amount)]).then(callDataCall => {
+                                        status_JS.postMessage("contractEncodeCall");
+                                        callSwapSell(client, ctId, count, amount, swapCtId);
+                                    }).catch(err => {
+                                        status_JS.postMessage("error");
+                                        error_JS.postMessage(err.toString());
+                                    })
+
+                                }).catch(err => {
+                                    status_JS.postMessage("error");
+                                    error_JS.postMessage(err.toString());
+                                });
+                            }
+
+                        } else {
+                            status_JS.postMessage("create_allowance");
+                            tokenContract.methods.create_allowance(swapCtId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count)).then(createAllowance => {
+                                callSwapSell(client, ctId, count, amount, swapCtId);
+                            }).catch(err => {
+                                status_JS.postMessage("error");
+                                error_JS.postMessage(err.toString());
+                            });
+                        }
+
+                    }).catch(err => {
+                        status_JS.postMessage("error");
+                        error_JS.postMessage(err.toString());
+                    });
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                });
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+
+    const contractSwapBuy = function (secretKey, publicKey, swapCtId, ctId, accountAddress, amount) {
+        Ae.Node({url: nodeUrl}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.contractEncodeCall(sourceCodeSwap, 'swap_buy', [ctId.replace('ct_', 'ak_'),accountAddress]).then(callDataCall => {
+                    status_JS.postMessage("contractCall");
+                    client.contractCall(sourceCodeSwap, swapCtId, "swap_buy", callDataCall, {amount: Ae.AmountFormatter.toAettos(amount)}).then(callResult => {
+                        status_JS.postMessage("decode");
+                        callResult.decode().then(callResultDecode => {
+							status_JS.postMessage("sucess");
+							contractSwapBuy_JS.postMessage(callResultDecode);
+                        }).catch(err => {
+							status_JS.postMessage("error");
+							error_JS.postMessage(err.toString());
+                        })
+                    }).catch(err => {
+                        var decode = err.toString().split('Decoded: ')
+                        var msg = decode[1].substring(1, decode[1].length - 4)
+						status_JS.postMessage("error");
+						error_JS.postMessage(msg);
+                    })
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+
+    const contractSwapCancel = function (secretKey, publicKey, swapCtId, ctId) {
+        Ae.Node({url: nodeUrl, internalUrl: nodeUrlTestNet}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.contractEncodeCall(sourceCodeSwap, 'swap_cancel', [ctId.replace('ct_', 'ak_')]).then(callDataCall => {
+                    status_JS.postMessage("contractCall");
+                    client.contractCall(sourceCodeSwap, swapCtId, "swap_cancel", callDataCall).then(callResult => {
+                        status_JS.postMessage("decode");
+                        callResult.decode().then(callResultDecode => {
+							status_JS.postMessage("sucess");
+							contractSwapCancel_JS.postMessage(callResultDecode);
+                        }).catch(err => {
+                            status_JS.postMessage("error");
+                            error_JS.postMessage(err.toString());
+                        })
+                    }).catch(err => {
+                        console.log("error");
+                        console.log(err);
+                        var decode = err.toString().split('Decoded: ')
+                        var msg = decode[1].substring(1, decode[1].length - 4)
+                        status_JS.postMessage("error");
+                        error_JS.postMessage(msg);
+
+                    })
+                }).catch(err => {
+					status_JS.postMessage("error");
+					error_JS.postMessage(err.toString());
+                })
+            }).catch(err => {
+				status_JS.postMessage("error");
+				error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+    const contractSwaGetGetCoins = function (secretKey, publicKey, swapCtId) {
+        Ae.Node({url: nodeUrl, internalUrl: nodeUrlTestNet}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                console.log("contractEncodeCall");
+                client.getContractInstance(sourceCodeSwap, {contractAddress: swapCtId}).then(tokenContract => {
+                    tokenContract.methods.get_coins().then((coins) => {
+                        let coinsArray = [];
+
+                        for (let i = 0; i < coins.decodedResult.length; i++) {
+                            let coin = new Map();
+                            coin["coin_name"] = coins.decodedResult[i][1]["coin_name"];
+                            coin["freeze"] = coins.decodedResult[i][1]["freeze"];
+                            coin["token"] = coins.decodedResult[i][1]["token"];
+                            coinsArray.push(coin);
+                        }
+						status_JS.postMessage("sucess");
+						contractSwaGetGetCoins_JS.postMessage(JSON.stringify(coinsArray));
+                    }).catch(err => {
+                        status_JS.postMessage("error");
+                        error_JS.postMessage(err.toString());
+                    });
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                });
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+
+    const contractSwapGetSwapsIcon = function (secretKey, publicKey, swapCtId, coinName) {
+        Ae.Node({url: nodeUrl, internalUrl: nodeUrlTestNet}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.getContractInstance(sourceCodeSwap, {contractAddress: swapCtId}).then(tokenContract => {
+                    tokenContract.methods.get_swaps_icon(coinName).then((swapsIcon) => {
+                        let coinsArray = [];
+                        for (let i = 0; i < swapsIcon.decodedResult["account_map"].length; i++) {
+                            let coin = new Map();
+                            coin["account"] = swapsIcon.decodedResult["account_map"][i][1]["account"];
+                            coin["ae"] = Ae.AmountFormatter.toAe(swapsIcon.decodedResult["account_map"][i][1]["ae"]);
+                            coin["coin"] = swapsIcon.decodedResult["account_map"][i][1]["coin"];
+                            coin["count"] = Ae.AmountFormatter.toAe(swapsIcon.decodedResult["account_map"][i][1]["count"]);
+                            coinsArray.push(coin);
+                        }
+						status_JS.postMessage("sucess");
+						contractSwapGetSwapsIcon_JS.postMessage(JSON.stringify(coinsArray));
+                    }).catch(err => {
+                        status_JS.postMessage("error");
+                        error_JS.postMessage(err.toString());
+                    });
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                });
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+    const contractSwapGetAccountsAddress = function (secretKey, publicKey, swapCtId , address) {
+        Ae.Node({url: nodeUrl, internalUrl: nodeUrlTestNet}).then(node => {
+            Ae.Universal({
+                compilerUrl: compilerUrl,
+                nodes: [{name: 'local', instance: node}],
+                accounts: [Ae.MemoryAccount({
+                    keypair: {
+                        secretKey: secretKey,
+                        publicKey: publicKey
+                    }
+                }),],
+                address: publicKey,
+            }).then(client => {
+                status_JS.postMessage("contractEncodeCall");
+                client.getContractInstance(sourceCodeSwap, {contractAddress: swapCtId}).then(tokenContract => {
+                    tokenContract.methods.get_accounts_address(address).then((accounts) => {
+                        let coinsArray = [];
+                        for (let i = 0; i < accounts.decodedResult["coin_map"].length; i++) {
+                            let coin = new Map();
+                            coin["account"] = accounts.decodedResult["coin_map"][i][1]["account"];
+                            coin["ae"] = Ae.AmountFormatter.toAe(accounts.decodedResult["coin_map"][i][1]["ae"]);
+                            coin["coin"] = accounts.decodedResult["coin_map"][i][1]["coin"];
+                            coin["count"] = Ae.AmountFormatter.toAe(accounts.decodedResult["coin_map"][i][1]["count"]);
+                            coinsArray.push(coin);
+                        }
+						status_JS.postMessage("sucess");
+                        contractSwapGetAccountsAddress_JS.postMessage(JSON.stringify(coinsArray));
+                    }).catch(err => {
+						status_JS.postMessage("error");
+						error_JS.postMessage(err.toString());
+                    });
+                }).catch(err => {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                });
+            }).catch(err => {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(err => {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     const contractDefiV2Lock = function (secretKey, publicKey, ctId, amount) {

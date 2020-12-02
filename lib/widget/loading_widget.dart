@@ -1,6 +1,7 @@
 import 'package:box/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 
 enum LoadingType { loading, error, finish, no_data }
 
@@ -15,7 +16,23 @@ class LoadingWidget extends StatefulWidget {
   _LoadingWidgetState createState() => _LoadingWidgetState();
 }
 
-class _LoadingWidgetState extends State<LoadingWidget> {
+class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateMixin {
+
+
+  AnimationController _controller;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -34,9 +51,27 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   }
 
   Widget get _loadingView {
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365)),
+//    return Center(
+//      child: CircularProgressIndicator(
+//        valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365)),
+//      ),
+//    );
+
+    return  Center(
+      child: Container(
+        width: 60,
+        height: 60,
+        child:Lottie.asset(
+          'images/animation_khzuiqgg.json',
+          controller: _controller,
+          onLoaded: (composition) {
+            // Configure the AnimationController with the duration of the
+            // Lottie file and start the animation.
+            _controller
+              ..duration = Duration(milliseconds: 1500)
+              ..repeat();
+          },
+        ),
       ),
     );
   }

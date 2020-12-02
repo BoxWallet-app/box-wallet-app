@@ -18,7 +18,7 @@ import 'package:box/model/contract_balance_model.dart';
 import 'package:box/model/contract_call_model.dart';
 import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
-import 'package:box/page/token_defi_page.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.0"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.13"
   argon_buttons_flutter:
     dependency: "direct main"
     description:
@@ -420,6 +427,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.2"
+  keyboard_visibility:
+    dependency: "direct main"
+    description:
+      name: keyboard_visibility
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.6"
   line_icons:
     dependency: "direct main"
     description:
@@ -434,6 +448,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.11.4"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.7.0+1"
   matcher:
     dependency: transitive
     description:

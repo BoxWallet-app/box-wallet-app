@@ -17,7 +17,6 @@ import 'package:box/model/contract_record_model.dart';
 import 'package:box/model/msg_sign_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_detail_page.dart';
-import 'package:box/page/token_defi_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -180,6 +179,29 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                   }
                   // ignore: missing_return
                   BoxApp.contractDefiUnLockV1((tx) {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_hint,
+                        ),
+                        content: Text( S.of(context).dialog_defi_unlock_sucess),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                            ),
+                            onPressed: () {
+                              EasyLoading.show();
+                              eventBus.fire(DefiEvent());
+                              netData();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                     // ignore: missing_return
                   }, (error) {
                     print(error);

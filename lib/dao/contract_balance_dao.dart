@@ -13,6 +13,7 @@ class ContractBalanceDao {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
+    params["ct_id"] = BoxApp.ABC_CONTRACT_AEX9;
     Response response = await Dio().post(CONTRACT_BALANCE,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

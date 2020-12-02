@@ -168,6 +168,13 @@ typedef FlutterJsContractDefiLockV2CallBack = Future Function(String data);
 typedef FlutterJsContractDefiUnLockV2CallBack = Future Function(String data);
 typedef FlutterJsContractDefiBenefitsV2CallBack = Future Function(String data);
 
+//swap
+typedef FlutterJsContractSwapSellCallBack = Future Function(String data);
+typedef FlutterJsContractSwapCancelCallBack = Future Function(String data);
+typedef FlutterJsContractSwapBuyCallBack = Future Function(String data);
+typedef FlutterJsContractSwapGetSwapsIconCallBack = Future Function(String data);
+typedef FlutterJsContractSwapGetAccountsAddressCallBack = Future Function(String data);
+
 typedef FlutterJsErrorCallBack = Future Function(String error);
 typedef FlutterJsStatusCallBack = Future Function(String status);
 typedef FlutterJsClaimNameCallBack = Future Function(String status);
@@ -178,10 +185,14 @@ typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
   static String language = "";
-  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
+//  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
+  static String ABC_CONTRACT_AEX9 = "ct_PYBnWEWYrLq3nckq83xWd85nwMCCbEFK5MiHkDKZkfotZz7iK";
   static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
   static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
   static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
+
+  static String SWAP_CONTRACT = "ct_2GGNpE5S59mXxRzAHpunrR4c66ovPZSTahyw1ccce9NRqbqfV";
+  static String SWAP_CONTRACT_ABC = "ct_PYBnWEWYrLq3nckq83xWd85nwMCCbEFK5MiHkDKZkfotZz7iK";
 
   static WebViewController webViewController;
 
@@ -212,9 +223,21 @@ class BoxApp extends StatelessWidget {
   //V1合约解锁
   static FlutterJsContractDefiUnLockV1CallBack flutterJsContractDefiUnLockV1CallBack;
 
+  //V2锁仓
   static FlutterJsContractDefiLockV2CallBack flutterJsContractDefiLockV2CallBack;
+
+  //V2解锁
   static FlutterJsContractDefiUnLockV2CallBack flutterJsContractDefiUnLockV2CallBack;
+
+  //V2领取收益
   static FlutterJsContractDefiBenefitsV2CallBack flutterJsContractDefiBenefitsV2CallBack;
+
+  //swap
+  static FlutterJsContractSwapSellCallBack flutterJsContractSwapSellCallBack;
+  static FlutterJsContractSwapCancelCallBack flutterJsContractSwapCancelCallBack;
+  static FlutterJsContractSwapBuyCallBack flutterJsContractSwapBuyCallBack;
+  static FlutterJsContractSwapGetSwapsIconCallBack flutterJsContractSwapGetSwapsIconCallBack;
+  static FlutterJsContractSwapGetAccountsAddressCallBack flutterJsContractSwapGetAccountsAddressCallBack;
 
   //错误
   static FlutterJsStatusCallBack flutterJsStatusCallBack;
@@ -282,6 +305,41 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("contractDefiV2Benefits('" + secretKey + "','" + publicKey + "','" + ctID + "');");
   }
 
+//  static FlutterJsContractSwapSellCallBack flutterJsContractSwapSellCallBack;
+//  static FlutterJsContractSwapCancelCallBack flutterJsContractSwapCancelCallBack;
+//  static FlutterJsContractSwapBuyCallBack flutterJsContractSwapBuyCallBack;
+//  static FlutterJsContractSwapListCallBack flutterJsContractSwapListCallBack;
+
+  static contractSwapSell(FlutterJsContractSwapSellCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String ctID, String count, String amount) {
+    BoxApp.flutterJsContractSwapSellCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractSwapSell('" + secretKey + "','" + publicKey + "','" + swapCtId + "','" + ctID + "','" + count + "','" + amount + "');");
+  }
+
+  static contractSwapCancel(FlutterJsContractSwapCancelCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String ctID) {
+    BoxApp.flutterJsContractSwapCancelCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractSwapCancel('" + secretKey + "','" + publicKey + "','" + swapCtId + "','" + ctID + "');");
+  }
+
+  static contractSwapBuy(FlutterJsContractSwapBuyCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String ctID, String accountAddress, String amount) {
+    BoxApp.flutterJsContractSwapBuyCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractSwapBuy('" + secretKey + "','" + publicKey + "','" + swapCtId + "','" + ctID + "','" + accountAddress + "','" + amount + "');");
+  }
+
+  static contractSwapGetSwapsIcon(FlutterJsContractSwapGetSwapsIconCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String coinName) {
+    BoxApp.flutterJsContractSwapGetSwapsIconCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractSwapGetSwapsIcon('" + secretKey + "','" + publicKey + "','" + swapCtId + "','" + coinName + "');");
+  }
+
+  static contractSwapGetAccountsAddress(FlutterJsContractSwapGetAccountsAddressCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String address) {
+    BoxApp.flutterJsContractSwapGetAccountsAddressCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("contractSwapGetAccountsAddress('" + secretKey + "','" + publicKey + "','" + swapCtId + "','" + address + "');");
+  }
+
   static claimName(FlutterJsClaimNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name) {
     BoxApp.flutterJsClaimNameCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
@@ -334,7 +392,7 @@ class BoxApp extends StatelessWidget {
                 JavascriptChannel(
                     name: 'error_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      print("11111111111111"+message.message);
+                      print("11111111111111" + message.message);
                       if (BoxApp.flutterJsErrorCallBack != null) {
                         BoxApp.flutterJsErrorCallBack(message.message);
                       }
@@ -344,6 +402,41 @@ class BoxApp extends StatelessWidget {
                     onMessageReceived: (JavascriptMessage message) {
                       if (BoxApp.flutterJsSpendCallBack != null) {
                         BoxApp.flutterJsSpendCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractSwapSell_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractSwapSellCallBack != null) {
+                        BoxApp.flutterJsContractSwapSellCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractSwapBuy_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractSwapBuyCallBack != null) {
+                        BoxApp.flutterJsContractSwapBuyCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractSwapCancel_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractSwapCancelCallBack != null) {
+                        BoxApp.flutterJsContractSwapCancelCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractSwapGetAccountsAddress_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractSwapGetAccountsAddressCallBack != null) {
+                        BoxApp.flutterJsContractSwapGetAccountsAddressCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'contractSwapGetSwapsIcon_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsContractSwapGetSwapsIconCallBack != null) {
+                        BoxApp.flutterJsContractSwapGetSwapsIconCallBack(message.message);
                       }
                     }),
                 JavascriptChannel(
@@ -493,6 +586,17 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     var nodeUrl = prefs.getString('nodeUrl');
     return nodeUrl;
+  }
+
+  static setKeyHeight(double height) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('key_height', height);
+  }
+
+  static Future<double> getKeyHeight() async {
+    var prefs = await SharedPreferences.getInstance();
+    var keyHeight = prefs.getDouble('key_height');
+    return keyHeight;
   }
 
   static setCompilerUrl(String compilerUrl) async {

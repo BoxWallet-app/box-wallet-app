@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auro_avatar/auro_avatar.dart';
 import 'package:box/dao/swap_dao.dart';
+import 'package:box/dao/swap_my_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -11,7 +12,6 @@ import 'package:box/model/swap_model.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/swap_initiate_page.dart';
-import 'package:box/page/swap_my_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -40,12 +40,12 @@ import 'login_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
 
-class SwapPage extends StatefulWidget {
+class SwapMyPage extends StatefulWidget {
   @override
-  _SwapPageState createState() => _SwapPageState();
+  _SwapPageMyState createState() => _SwapPageMyState();
 }
 
-class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin {
+class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
   SwapModel swapModels;
@@ -64,16 +64,34 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         version = packageInfo.version;
       });
     });
-    Future.delayed(Duration(milliseconds: 600), () {
-      _onRefresh();
-    });
-
+    _onRefresh();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Color(0xFFEEEEEE),
+        // 隐藏阴影
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 17,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          "我的兑换",
+          style: TextStyle(
+            fontSize: 18,
+            fontFamily: "Ubuntu",
+          ),
+        ),
+        centerTitle: true,
+
+      ),
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -81,30 +99,20 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
           return;
         },
         child: Container(
-          padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 55),
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: AnimationLimiter(
-                  child: EasyRefresh(
-                    enableControlFinishRefresh: true,
-                    controller: controller,
-                    header: AEHeader(),
-                    onRefresh: _onRefresh,
-                    child: ListView.builder(
-                      itemCount: swapModels == null ? 1 : swapModels.data.length + 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        return getItem(context, index);
-                      },
-                    ),
-                  ),
-                ),
+//          padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 55),
+          child: AnimationLimiter(
+            child: EasyRefresh(
+              enableControlFinishRefresh: true,
+              controller: controller,
+              header: AEHeader(),
+              onRefresh: _onRefresh,
+              child: ListView.builder(
+                itemCount: swapModels == null ? 1 : swapModels.data.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return getItem(context, index);
+                },
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -112,16 +120,20 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
   }
 
   Future<void> _onRefresh() async {
-    var model = await SwapDao.fetch("ABC");
+    var model = await SwapMyDao.fetch();
     if (swapModels != null) {
       swapModels = null;
     }
     if (model != null || model.code == 200) {
       swapModels = model;
       loadingType = LoadingType.finish;
+      if(swapModels.data == null || swapModels.data.length==0){
+        loadingType = LoadingType.no_data;
+      }
     } else {
       loadingType = LoadingType.error;
     }
+
     controller.finishRefresh();
 
     setState(() {});
@@ -131,107 +143,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
     if (index == 0) {
       return Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-            child: Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 100,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                      Color(0xFFE51363),
-                      Color(0xFFFF428F),
-                    ]),
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapInitiatePage()));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Image(
-                                          width: 40,
-                                          height: 40,
-                                          image: AssetImage("images/swap_send.png"),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          "发起兑换",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontFamily: "Ubuntu",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapMyPage()));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Image(
-                                          width: 40,
-                                          height: 40,
-                                          image: AssetImage("images/swap_my.png"),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          "我的兑换",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontFamily: "Ubuntu",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+
           swapModels != null
               ? Container()
               : Container(
@@ -410,7 +322,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       netBuy(index);
                     },
                     child: Text(
-                      "兑 换",
+                      "取 消",
                       maxLines: 1,
                       style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
                     ),
@@ -462,6 +374,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                   var aesDecode = Utils.aesDecode(signingKey, key);
 
                   if (aesDecode == "") {
+                    _onRefresh();
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(
@@ -477,6 +390,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               ),
                             ),
                             onPressed: () {
+
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -486,7 +400,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.contractSwapBuy((data) {
+                  BoxApp.contractSwapCancel((data) {
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(
@@ -504,10 +418,16 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               ),
                             ),
                             onPressed: () {
+
                               swapModels.data.removeAt(index-1);
                               setState(() {
 
                               });
+                              loadingType = LoadingType.loading;
+                              setState(() {
+
+                              });
+                              _onRefresh();
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -516,7 +436,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     );
                   }, (error) {
                     print(error);
-                    // ignore: missing_return, missing_return
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return
@@ -535,12 +454,13 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
+                              return;
                             },
                           ),
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index-1].account,  swapModels.data[index-1].ae);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
                 },
               ),

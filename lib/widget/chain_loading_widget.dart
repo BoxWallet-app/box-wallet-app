@@ -5,6 +5,7 @@ import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'numeric_keyboard.dart';
@@ -22,17 +23,23 @@ class ChainLoadingWidget extends StatefulWidget {
   _TxConformWidgetWidgetState createState() => _TxConformWidgetWidgetState();
 }
 
-class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> {
+class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with TickerProviderStateMixin{
+  AnimationController _controller;
   String text = 'Loading...';
   List<Widget> items = [];
 
+
   @override
   void dispose() {
+    _controller.dispose();
+    // TODO: implement dispose
     super.dispose();
+
   }
 
   @override
   void initState() {
+    _controller = AnimationController(vsync: this);
     super.initState();
     // ignore: missing_return
     BoxApp.getStatus((status) {
@@ -42,8 +49,14 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> {
         return;
       }
       switch (status) {
-        case "broadcast":
-          text = S.of(context).ae_status_broadcast;
+        case "allowance":
+          text ="查询零花钱";
+          break;
+        case "change_allowance":
+          text = "设置零花钱";
+          break;
+        case "create_allowance":
+          text = "创建零花钱";
           break;
         case "aensPreclaim":
           text = S.of(context).ae_status_aensPreclaim;
@@ -100,10 +113,20 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    child: SpinKitRing(
-                      color: Color(0xFFFC2365),
-                      lineWidth: 5,
-                      size: 50.0,
+                    child:Container(
+                      width: 70,
+                      height: 70,
+                      child: Lottie.asset(
+                        'images/animation_khzuiqgg.json',
+                        controller: _controller,
+                        onLoaded: (composition) {
+                          // Configure the AnimationController with the duration of the
+                          // Lottie file and start the animation.
+                          _controller
+                            ..duration = Duration(milliseconds: 1500)
+                            ..repeat();
+                        },
+                      ),
                     ),
                   ),
                   Container(

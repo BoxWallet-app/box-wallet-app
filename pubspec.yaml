@@ -75,7 +75,8 @@ dependencies:
   auro_avatar: ^0.1.0
   flutter_staggered_animations: ^0.1.2
   flutter_svg: ^0.19.0
-
+  lottie: ^0.7.0+1
+  keyboard_visibility: ^0.5.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -168,6 +169,8 @@ flutter:
     - images/setting_version.png
     - images/tab_swap.png
     - images/tab_home.png
+    - images/swap_my.png
+    - images/swap_send.png
 
   #   - images/a_dot_ham.jpeg
 

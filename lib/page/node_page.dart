@@ -18,7 +18,7 @@ class NodePage extends StatefulWidget {
 class _NodePageState extends State<NodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
-
+  String dropdownValue = 'custom';
   TextEditingController _textEditingControllerCompiler = TextEditingController();
   final FocusNode focusNodeCompiler = FocusNode();
 
@@ -31,16 +31,32 @@ class _NodePageState extends State<NodePage> {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if (nodeUrl == "" || nodeUrl == null) {
           _textEditingControllerNode.text = "https://node.aeasy.io";
+          dropdownValue = "box";
         } else {
           _textEditingControllerNode.text = nodeUrl;
+
+          if (nodeUrl == "https://node.aeasy.io") {
+            dropdownValue = "box";
+          }
+          if (nodeUrl == "https://mainnet.aeternity.io") {
+            dropdownValue = "base";
+          }
+          if (nodeUrl == "https://node.aechina.io") {
+            dropdownValue = "wetrue";
+          }
         }
         if (compilerUrl == "" || nodeUrl == null) {
           _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
         } else {
           _textEditingControllerCompiler.text = compilerUrl;
         }
+
+        setState(() {
+
+        });
       });
     });
+
   }
 
   @override
@@ -105,39 +121,77 @@ class _NodePageState extends State<NodePage> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 18, right: 18),
-                child: TextField(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      child: TextField(
 //                                          autofocus: true,
 
-                  controller: _textEditingControllerNode,
-                  focusNode: focusNodeNode,
+                        controller: _textEditingControllerNode,
+                        focusNode: focusNodeNode,
 //              inputFormatters: [
 //                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
 //              ],
 
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: "Ubuntu",
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '',
-                    enabledBorder: new UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black.withAlpha(30),
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Ubuntu",
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '',
+                          enabledBorder: new UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black.withAlpha(30),
+                            ),
+                          ),
+                          focusedBorder: new UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFC2365)),
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 19,
+                            color: Colors.black.withAlpha(180),
+                          ),
+                        ),
+                        cursorColor: Color(0xFFFC2365),
+                        cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
                       ),
                     ),
-                    focusedBorder: new UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFFC2365)),
+                    Positioned(
+                      right: 0,
+                      child: DropdownButton<String>(
+                        underline: Container(),
+                        value: dropdownValue,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                          if (dropdownValue == "box") {
+                            _textEditingControllerNode.text = "https://node.aeasy.io";
+                          }
+                          if (dropdownValue == "base") {
+                            _textEditingControllerNode.text = "https://mainnet.aeternity.io";
+                          }
+                          if (dropdownValue == "wetrue") {
+                            _textEditingControllerNode.text = "https://node.aechina.io";
+                          }
+                          if (dropdownValue == "custom") {
+                            _textEditingControllerNode.text = "";
+                          }
+                        },
+                        items: <String>['box', 'base', 'wetrue', 'custom'].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                    hintStyle: TextStyle(
-                      fontSize: 19,
-                      color: Colors.black.withAlpha(180),
-                    ),
-                  ),
-                  cursorColor: Color(0xFFFC2365),
-                  cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
+                  ],
                 ),
               ),
               Container(

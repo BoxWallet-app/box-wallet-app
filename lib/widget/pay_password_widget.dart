@@ -1,10 +1,11 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
@@ -34,20 +35,15 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     // TODO: implement initState
     super.initState();
 
-//    marginBottom = MediaQuery.of(context).viewInsets.bottom;
-    // 延时1s执行返回
-    Future.delayed(Duration(milliseconds: 500), (){
-
+    Future.delayed(Duration(milliseconds: 800), () {
       FocusScope.of(context).requestFocus(_commentFocus);
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Color(0x00000000).withAlpha(100),
-//      type: MaterialType.transparency, //透明类型
       child: Center(
         child: Container(
           height: 250,
