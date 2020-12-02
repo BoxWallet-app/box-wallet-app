@@ -90,7 +90,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
     _streamController.sink.add(0xFFFC2365);
     _streamController2.sink.add(0xFF000000);
 
-    Timer.periodic(Duration(seconds: 15), (timer) {
+    Timer.periodic(Duration(seconds: 3), (timer) {
       netTestNode();
       // 每隔 1 秒钟会调用一次，如果要结束调用
     });

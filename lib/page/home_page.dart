@@ -8,6 +8,7 @@ import 'package:box/dao/base_data_dao.dart';
 import 'package:box/dao/base_name_data_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/price_model.dart';
 import 'package:box/dao/version_dao.dart';
 import 'package:box/dao/wallet_record_dao.dart';
 import 'package:box/event/language_event.dart';
@@ -17,6 +18,7 @@ import 'package:box/model/base_data_model.dart';
 import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/price_model.dart';
 import 'package:box/model/version_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/aens_page.dart';
@@ -73,7 +75,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   final pageControllerBg = PageController(viewportFraction: 1);
   WalletTransferRecordModel walletRecordModel;
   BlockTopModel blockTopModel;
-  BaseDataModel baseDataModel;
+
+//  BaseDataModel baseDataModel;
+  PriceModel priceModel;
   BaseNameDataModel baseNameDataModel;
 
   var address = '';
@@ -86,6 +90,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     // TODO: implement initState
     super.initState();
     eventBus.on<LanguageEvent>().listen((event) {
+      netBaseData();
       setState(() {});
     });
 
@@ -101,7 +106,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       netBaseNameData();
       netVersion();
     });
-
   }
 
   void showHint() {
@@ -235,7 +239,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        print(model.data.balance);
         // HomePage.token = "8888.88888";
         HomePage.token = model.data.balance;
         setState(() {});
@@ -288,7 +291,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       baseNameDataModel = model;
       setState(() {});
     }).catchError((e) {
-      print(e.toString());
     });
   }
 
@@ -302,12 +304,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   void netVersion() {
     VersionDao.fetch().then((VersionModel model) {
-      print(model.code);
       if (model.code == 200) {
-        print(model.data.version);
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-          print(model.data.version);
-          print(packageInfo.version);
           var newVersion = int.parse(model.data.version.replaceAll(".", ""));
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
 
@@ -396,7 +394,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         });
       } else {}
     }).catchError((e) {
-      print(e.toString());
     });
   }
 
@@ -410,21 +407,21 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       } else {}
     }).catchError((e) {
       loadingType = LoadingType.error;
-      setState(() {});
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
   void netBaseData() {
-    BaseDataDao.fetch().then((BaseDataModel model) {
-      if (model.code == 200) {
-        baseDataModel = model;
-        print(baseDataModel.toJson());
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-      loadingType = LoadingType.error;
+    var type = "usd";
+    if (BoxApp.language == "cn") {
+      type = "cny";
+    } else {
+      type = "usd";
+    }
+    PriceDao.fetch(type).then((PriceModel model) {
+      priceModel = model;
       setState(() {});
+    }).catchError((e) {
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -561,7 +558,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                       ),
                       Positioned(
                         child: AnimationLimiter(
-
                           child: Column(
                             children: AnimationConfiguration.toStaggeredList(
                               duration: const Duration(milliseconds: 300),
@@ -668,24 +664,24 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                       HomePage.token == "loading..."
                                                                           ? "loading..."
                                                                           : double.parse(HomePage.token) > 1000
-                                                                          ? double.parse(HomePage.token).toStringAsFixed(2)
-                                                                          : double.parse(HomePage.token).toStringAsFixed(5),
+                                                                              ? double.parse(HomePage.token).toStringAsFixed(2)
+                                                                              : double.parse(HomePage.token).toStringAsFixed(5),
 //                                      "9999999.00000",
                                                                       overflow: TextOverflow.ellipsis,
 
                                                                       style: TextStyle(fontSize: 35, color: Colors.white, letterSpacing: 1.3, fontFamily: "Ubuntu"),
                                                                     ),
-                                                                    baseDataModel == null
+                                                                    priceModel == null
                                                                         ? Container()
                                                                         : Container(
-                                                                      margin: const EdgeInsets.only(bottom: 5, left: 2),
-                                                                      child: Text(
+                                                                            margin: const EdgeInsets.only(bottom: 5, left: 2),
+                                                                            child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                                        "≈ " + (double.parse(baseDataModel.data.priceUsdt) * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)",
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
-                                                                      ),
-                                                                    ),
+                                                                              getAePrice(),
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                                            ),
+                                                                          ),
                                                                   ],
                                                                 ),
                                                               ),
@@ -1228,8 +1224,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                 getRecordContainer(context),
                               ],
                             ),
-
-
                           ),
                         ),
                       ),
@@ -1242,6 +1236,26 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         )),
       ),
     );
+  }
+
+  String getAePrice() {
+    if (BoxApp.language == "cn" && priceModel.aeternity != null) {
+      if (priceModel.aeternity.cny == null) {
+        return "";
+      }
+      if (double.parse(HomePage.token) < 1000) {
+        return "≈ " + (priceModel.aeternity.cny * double.parse(HomePage.token)).toStringAsFixed(2) + " (CNY)";
+      } else {
+//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
+        return "≈ " + (priceModel.aeternity.cny * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
+      }
+
+    } else {
+      if (priceModel.aeternity.usd == null) {
+        return "";
+      }
+      return "≈ " + (priceModel.aeternity.usd * double.parse(HomePage.token)).toStringAsFixed(2) + " (USD)";
+    }
   }
 
   Container getRecordContainer(BuildContext context) {
@@ -1259,7 +1273,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
     }
     return Container(
       alignment: Alignment.centerLeft,
-      margin:  EdgeInsets.only(top: 12, left: 15, right: 15, bottom: MediaQueryData.fromWindow(window).padding.bottom+80),
+      margin: EdgeInsets.only(top: 12, left: 15, right: 15, bottom: MediaQueryData.fromWindow(window).padding.bottom + 80),
       //边框设置
       decoration: new BoxDecoration(
         color: Color(0xE6FFFFFF),

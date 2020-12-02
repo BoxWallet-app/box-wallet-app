@@ -89,3 +89,6 @@ const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
 
 //版本号
 const VERSION = BASE_HOST + '/api/version';
+
+//价格
+const PRICE = 'https://api.coingecko.com/api/v3/simple/price';

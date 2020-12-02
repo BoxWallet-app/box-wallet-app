@@ -134,6 +134,7 @@ class _LanguagePageState extends State<LanguagePage> {
   }
 
   void languageClick(String language) {
+    BoxApp.language = language;
     BoxApp.setLanguage(language);
     eventBus.fire(LanguageEvent());
     //通知将第一页背景色变成红色
