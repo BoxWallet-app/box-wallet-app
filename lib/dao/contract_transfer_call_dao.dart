@@ -20,7 +20,6 @@ class ContractTransferCallDao {
     params["amount"] = amount;
     Response response = await Dio().post(CONTRACT_TRANSFER, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
 
       MsgSignModel model = MsgSignModel.fromJson(data);

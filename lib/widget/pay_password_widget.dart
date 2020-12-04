@@ -86,57 +86,109 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 ),
               ),
 
+//              Container(
+//                height: 50,
+//                width: MediaQuery.of(context).size.width,
+//                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+//                padding: EdgeInsets.only(left: 15, right: 15),
+//                decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(10))),
+//                child: Row(
+//                  children: <Widget>[
+//                    Expanded(
+//                      child: Center(
+//                        child: Container(
+//                          width: MediaQuery.of(context).size.width,
+//                          padding: EdgeInsets.only(left: 15, right: 15),
+//                          child: TextField(
+//                            textAlign: TextAlign.center,
+////                            autofocus: true,
+//                            //是否自动获取焦点
+//                            controller: _textEditingController,
+//                            focusNode: _commentFocus,
+//                            keyboardType: TextInputType.multiline,
+//                            style: TextStyle(
+//                              textBaseline: TextBaseline.alphabetic,
+//                              fontSize: 19,
+//                              color: Colors.black,
+//                            ),
+//                            maxLines: 1,
+//                            maxLength: 20,
+//                            decoration: InputDecoration(
+//                              counterText: '',
+//                              hintText: '',
+//                              enabledBorder: new UnderlineInputBorder(
+//                                borderSide: BorderSide(color: Color(0x00000000)),
+//                              ),
+//// and:
+//                              focusedBorder: new UnderlineInputBorder(
+//                                borderSide: BorderSide(color: Color(0x00000000)),
+//                              ),
+//                              hintStyle: TextStyle(
+//                                fontSize: 19,
+//                                textBaseline: TextBaseline.alphabetic,
+//                                color: Colors.black.withAlpha(80),
+//                              ),
+//                            ),
+//                            cursorColor: Color(widget.color),
+//                            cursorWidth: 2,
+////                                cursorRadius: Radius.elliptical(20, 8),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              ),
+
               Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                padding: EdgeInsets.only(left: 15, right: 15),
-                decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-//                            autofocus: true,
-                            //是否自动获取焦点
-                            controller: _textEditingController,
-                            focusNode: _commentFocus,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              textBaseline: TextBaseline.alphabetic,
-                              fontSize: 19,
-                              color: Colors.black,
-                            ),
-                            maxLines: 1,
-                            maxLength: 20,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              hintText: '',
-                              enabledBorder: new UnderlineInputBorder(
-                                borderSide: BorderSide(color: Color(0x00000000)),
-                              ),
-// and:
-                              focusedBorder: new UnderlineInputBorder(
-                                borderSide: BorderSide(color: Color(0x00000000)),
-                              ),
-                              hintStyle: TextStyle(
-                                fontSize: 19,
-                                textBaseline: TextBaseline.alphabetic,
-                                color: Colors.black.withAlpha(80),
-                              ),
-                            ),
-                            cursorColor: Color(widget.color),
-                            cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
-                          ),
-                        ),
+                height: 40,
+                margin: EdgeInsets.only(left: 20, right: 20,top: 30),
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                //边框设置
+                decoration: new BoxDecoration(
+                  color: Color(0xFFeeeeee),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: TextField(
+                  controller: _textEditingController,
+                  focusNode: _commentFocus,
+//              inputFormatters: [
+//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//              ],
+                  inputFormatters: [
+//                    WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                  ],
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: "Ubuntu",
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10.0),
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(
+                        color: Color(0xFFeeeeee),
                       ),
                     ),
-                  ],
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFFFC2365)),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    hintText: "",
+                    hintStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black.withAlpha(180),
+                    ),
+                  ),
+                  cursorColor: Color(0xFFFC2365),
+                  cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
                 ),
               ),
               Container(

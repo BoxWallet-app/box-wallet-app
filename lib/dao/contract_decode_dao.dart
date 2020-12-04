@@ -18,7 +18,6 @@ class ContractDecodeDao {
     params["function"] = function;
     Response response = await Dio().post(CONTRACT_DECODE,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractDecodeModel model = ContractDecodeModel.fromJson(data);
       return model;
@@ -34,7 +33,6 @@ class ContractDecodeDao {
     params["ct_id"] = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
     Response response = await Dio().post(CONTRACT_DECODE,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractDecodeModel model = ContractDecodeModel.fromJson(data);
       return model;

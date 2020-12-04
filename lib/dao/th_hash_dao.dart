@@ -18,7 +18,6 @@ class ThHashDao {
     params["th"] = th;
     Response response = await Dio().post(TH_HASH, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
 
       ThHashModel model = ThHashModel.fromJson(data);

@@ -252,5 +252,35 @@
   "ae_status_aensClaim" : "正在拍卖域名",
   "ae_status_contractEncodeCall" : "正在编译合约",
   "ae_status_contractCall" : "合约调用中",
-  "ae_status_decode" : "正在解析结果"
+  "ae_status_decode" : "正在解析结果",
+
+  "ae_status_allowance" : "查询授权信息",
+  "ae_status_change_allowance" : "改变授权数量",
+  "ae_status_create_allowance" : "设置授权数量",
+
+
+
+  "tab_node_error" : "节点不可用",
+
+  "dialog_dismiss_sucess" : "取消成功",
+  "dialog_send_sucess" : "发起成功",
+  "dialog_swap_sucess" : "兑换成功",
+
+  "swap_title" : "兑换",
+  "swap_title_my" : "我的兑换",
+  "swap_tab_1" : "发起兑换",
+  "swap_tab_2" : "我的兑换",
+
+  "swap_item_1" : "溢价",
+  "swap_item_2" : "兑换数量",
+  "swap_item_3" : "你支付数量",
+  "swap_item_4" : "立即兑换",
+  "swap_item_5" : "取消",
+
+  "swap_title_send" : "发起兑换",
+  "swap_send_1" : "我兑换的数量",
+  "swap_send_2" : "对方支付的数量",
+  "swap_send_3" : "发起兑换",
+  "swap_send_4" : "兑换说明",
+  "swap_send_5" : "Box Swap 是去中心化兑换,支持AEX9代币和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,请合理根据需求进行发起兑换."
 }

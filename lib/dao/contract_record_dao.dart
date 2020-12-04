@@ -17,7 +17,6 @@ class ContractRecordDao {
     params["address"] = address;
     Response response = await Dio().post(CONTRACT_RECORD,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractRecordModel model = ContractRecordModel.fromJson(data);
       return model;
@@ -33,7 +32,6 @@ class ContractRecordDao {
     params["ct_id"] = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
     Response response = await Dio().post(CONTRACT_RECORD,queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractRecordModel model = ContractRecordModel.fromJson(data);
       return model;

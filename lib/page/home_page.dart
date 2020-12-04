@@ -1239,6 +1239,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
 
   String getAePrice() {
+    if(HomePage.token == "loading..."){
+      return "";
+    }
     if (BoxApp.language == "cn" && priceModel.aeternity != null) {
       if (priceModel.aeternity.cny == null) {
         return "";

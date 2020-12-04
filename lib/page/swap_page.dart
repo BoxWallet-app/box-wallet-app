@@ -9,6 +9,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/page/language_page.dart';
+import 'package:box/page/photo_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/swap_initiate_page.dart';
 import 'package:box/page/swap_my_page.dart';
@@ -19,6 +20,7 @@ import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/taurus_header.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -36,6 +38,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'home_page.dart';
 import 'login_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
@@ -56,8 +59,8 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
   void initState() {
     // TODO: implement initState
     super.initState();
-    eventBus.on<LanguageEvent>().listen((event) {
-      setState(() {});
+    eventBus.on<SwapEvent>().listen((event) {
+      _onRefresh();
     });
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       setState(() {
@@ -67,7 +70,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
-
   }
 
   @override
@@ -77,6 +79,10 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
+          loadingType = LoadingType.loading;
+          setState(() {
+
+          });
           _onRefresh();
           return;
         },
@@ -112,19 +118,43 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
   }
 
   Future<void> _onRefresh() async {
-    var model = await SwapDao.fetch("ABC");
-    if (swapModels != null) {
-      swapModels = null;
-    }
-    if (model != null || model.code == 200) {
-      swapModels = model;
-      loadingType = LoadingType.finish;
-    } else {
-      loadingType = LoadingType.error;
-    }
-    controller.finishRefresh();
+    SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
+      if (model.code == 200) {
+        if (swapModels != null) {
+          swapModels = null;
+        }
+        if (model != null || model.code == 200) {
+          swapModels = model;
+          if (model.data.isEmpty) {
+            controller.finishRefresh();
+            swapModels = null;
+            loadingType = LoadingType.finish;
+            setState(() {});
+            return;
+          }
+          loadingType = LoadingType.finish;
+          if(swapModels.data.isNotEmpty){
+            swapModels.data.sort((left,right)=>left.getPremium().compareTo(right.getPremium()));
+          }
+          setState(() {});
+        } else {
+          swapModels = null;
+          loadingType = LoadingType.error;
+          setState(() {});
+        }
+        controller.finishRefresh();
+      } else {
+        swapModels = null;
+        loadingType = LoadingType.error;
+        controller.finishRefresh();
+        setState(() {});
+      }
 
-    setState(() {});
+    }).catchError((e) {
+      loadingType = LoadingType.error;
+      controller.finishRefresh();
+      setState(() {});
+    });
   }
 
   Widget getItem(BuildContext context, int index) {
@@ -177,7 +207,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                       ),
                                       Container(
                                         child: Text(
-                                          "发起兑换",
+                                          S.of(context).swap_tab_1,
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -210,7 +240,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                       ),
                                       Container(
                                         child: Text(
-                                          "我的兑换",
+                                          S.of(context).swap_tab_2,
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -263,7 +293,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         child: Container(
           color: Color(0xFFF5F5F5),
           child: Container(
-            margin: EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
+            margin: index == swapModels.data.length ?EdgeInsets.only(left: 16, right: 16, bottom: 180+MediaQueryData.fromWindow(window).padding.bottom, top: 0):EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
             child: Column(
               children: [
@@ -272,12 +302,23 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 //                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 40,
-                      height: 40,
-                      child: SvgPicture.asset(
-                        'images/avatar_1.svg',
-                        width: 30,
-                        height: 30,
+                      width: 30,
+                      height: 30,
+                      decoration: new BoxDecoration(
+                        border: new Border.all(color: Color(0xFF999999), width: 0.5), // 边色与边宽度
+                        color: Color(0xFFFFFFFF), // 底色
+                        //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                        borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
+                      ),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address:swapModels.data[index - 1].account)));
+                        },
+                        child: ClipOval(
+                          child: Image.network(
+                            "https://www.gravatar.com/avatar/" +Utils.generateMD5( swapModels.data[index - 1].account) + "?s=100&d=robohash&r=PG&f=1",
+                          ),
+                        ),
                       ),
                     ),
                     Container(
@@ -295,10 +336,9 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              "溢价:",
+                              S.of(context).swap_item_1 + " : ",
                               style: TextStyle(
                                 fontSize: 14,
-                                wordSpacing: 30.0, //词间距
                                 color: Color(0xFF666666),
                                 fontFamily: "Ubuntu",
                               ),
@@ -310,13 +350,13 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             child: Text(
                               ((double.parse(swapModels.data[index - 1].ae)) / (double.parse(swapModels.data[index - 1].count))).toStringAsFixed(2),
                               style: TextStyle(
-                                  fontSize: 19,
+                                  fontSize: 14,
                                   letterSpacing: -1,
                                   //字体间距
                                   fontWeight: FontWeight.w600,
 
                                   //词间距
-                                  color: Color(0xFFF22B79),
+                                  color: Color(0xFF666666),
                                   fontFamily: "Ubuntu"),
                             ),
                           ),
@@ -326,19 +366,21 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                   ],
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 2 - 46,
+//                      color: Colors.red,
+                      width: MediaQuery.of(context).size.width / 2 - 34,
                       child: Column(
                         children: <Widget>[
                           Container(
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              "卖出数量(" + swapModels.data[index - 1].coin + ")",
+                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coin + ")",
                               style: TextStyle(
                                 fontSize: 14,
-                                wordSpacing: 30.0, //词间距
                                 color: Color(0xFF666666),
                                 fontFamily: "Ubuntu",
                               ),
@@ -364,17 +406,17 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 2 - 46,
+//                      color: Colors.amber,
+                      width: MediaQuery.of(context).size.width / 2 - 34,
                       child: Column(
                         children: <Widget>[
                           Container(
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              "兑换数量(AE)",
+                              S.of(context).swap_item_3 + " (AE)",
                               style: TextStyle(
                                 fontSize: 14,
-                                wordSpacing: 30.0, //词间距
                                 color: Color(0xFF666666),
                                 fontFamily: "Ubuntu",
                               ),
@@ -392,7 +434,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                   fontWeight: FontWeight.w600,
 
                                   //词间距
-                                  color: Color(0xFF000000),
+                                  color: Color(0xFFF22B79),
                                   fontFamily: "Ubuntu"),
                             ),
                           ),
@@ -410,7 +452,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       netBuy(index);
                     },
                     child: Text(
-                      "兑 换",
+                      S.of(context).swap_item_4,
                       maxLines: 1,
                       style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
                     ),
@@ -491,9 +533,12 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(
-                          S.of(context).dialog_hint,
+                          S.of(context).dialog_swap_sucess,
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontFamily: "Ubuntu",
+                          ),
                         ),
-                        content: Text("SUCESS"),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
@@ -504,10 +549,13 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               ),
                             ),
                             onPressed: () {
-                              swapModels.data.removeAt(index-1);
-                              setState(() {
+                              swapModels.data.removeAt(index - 1);
+                              if (swapModels.data.isEmpty) {
+                                _onRefresh();
+                              } else {
+                                setState(() {});
+                              }
 
-                              });
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -540,7 +588,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index-1].account,  swapModels.data[index-1].ae);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index - 1].account, swapModels.data[index - 1].ae);
                   showChainLoading();
                 },
               ),

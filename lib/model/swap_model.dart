@@ -36,6 +36,10 @@ class Data {
   String coin;
   String count;
 
+
+  double getPremium(){
+    return (double.parse(ae)) / (double.parse(count));
+  }
   Data({this.account, this.ae, this.coin, this.count});
 
   Data.fromJson(Map<String, dynamic> json) {

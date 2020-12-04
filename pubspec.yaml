@@ -77,6 +77,7 @@ dependencies:
   flutter_svg: ^0.19.0
   lottie: ^0.7.0+1
   keyboard_visibility: ^0.5.6
+  photo_view: ^0.10.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -168,7 +169,9 @@ flutter:
     - images/setting_save.png
     - images/setting_version.png
     - images/tab_swap.png
+    - images/tab_swap_p.png
     - images/tab_home.png
+    - images/tab_home_p.png
     - images/swap_my.png
     - images/swap_send.png
 

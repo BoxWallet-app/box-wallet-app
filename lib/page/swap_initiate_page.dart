@@ -1,13 +1,20 @@
+import 'dart:ui';
+
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../main.dart';
+import 'home_page.dart';
 
 class SwapInitiatePage extends StatefulWidget {
   @override
@@ -15,14 +22,29 @@ class SwapInitiatePage extends StatefulWidget {
 }
 
 class _SwapInitiatePageState extends State<SwapInitiatePage> {
+  TextEditingController _textEditingControllerNode = TextEditingController();
+  final FocusNode focusNodeNode = FocusNode();
+  TextEditingController _textEditingControllerCompiler = TextEditingController();
+  final FocusNode focusNodeCompiler = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(milliseconds: 600), () {
+      //请求获取焦点
+      FocusScope.of(context).requestFocus(focusNodeNode);
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Color(0xFFeeeeee),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color(0xFFEEEEEE),
         // 隐藏阴影
+        elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -31,119 +53,251 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "",
+          S.of(context).swap_title_send,
           style: TextStyle(
             fontSize: 18,
             fontFamily: "Ubuntu",
           ),
         ),
         centerTitle: true,
-
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 25,
-            margin: const EdgeInsets.only(top: 18),
-            child: FlatButton(
-              onPressed: () {
-                // ignore: missing_return
-                netSell();
-              },
-              child: Text(
-                "发起",
-                maxLines: 1,
-                style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          focusNodeNode.unfocus();
+          focusNodeCompiler.unfocus();
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
+          color: Colors.white,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 18, top: 18),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  S.of(context).swap_send_1,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: "Ubuntu",
+                  ),
+                ),
               ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            ),
-          ),
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 25,
-            margin: const EdgeInsets.only(top: 18),
-            child: FlatButton(
-              onPressed: () {
-                // ignore: missing_return
-                netCancel();
-              },
-              child: Text(
-                "取消",
-                maxLines: 1,
-                style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
-              ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            ),
-          ),
+              Container(
+                margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 40,
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                      //边框设置
+                      decoration: new BoxDecoration(
+                        color: Color(0xFFeeeeee),
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: TextField(
 
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 25,
-            margin: const EdgeInsets.only(top: 18),
-            child: FlatButton(
-              onPressed: () {
-                // ignore: missing_return
-                netBuy();
-              },
-              child: Text(
-                "兑换",
-                maxLines: 1,
-                style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                        controller: _textEditingControllerNode,
+                        focusNode: focusNodeNode,
+//              inputFormatters: [
+//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//              ],
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                        ],
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Ubuntu",
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 10.0),
+                          enabledBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Color(0xFFeeeeee),
+                            ),
+                          ),
+                          focusedBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(color: Color(0xFFFC2365)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          hintText: "",
+                          hintStyle: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black.withAlpha(180),
+                          ),
+                        ),
+                        cursorColor: Color(0xFFFC2365),
+                        cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                      ),
+                    ),
+                    Positioned(
+                      right: 15,
+                      child: Container(
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "ABC",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: "Ubuntu",
+                              color: Colors.black,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
               ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            ),
-          ),
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 25,
-            margin: const EdgeInsets.only(top: 18),
-            child: FlatButton(
-              onPressed: () {
-                // ignore: missing_return
-                netCoins();
-              },
-              child: Text(
-                "查询",
-                maxLines: 1,
-                style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+              Container(
+                margin: EdgeInsets.only(left: 26, top: 18, right: 26),
+                alignment: Alignment.topRight,
+                child: Text(
+                  S.of(context).token_send_two_page_balance + " : " + HomePage.tokenABC,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: "Ubuntu",
+                  ),
+                ),
               ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            ),
-          ),
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 25,
-            margin: const EdgeInsets.only(top: 18),
-            child: FlatButton(
-              onPressed: () {
-                // ignore: missing_return
-                netCoinsAddress();
-              },
-              child: Text(
-                "查询 address",
-                maxLines: 1,
-                style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+              Container(
+                margin: EdgeInsets.only(left: 18, top: 18),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  S.of(context).swap_send_2,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: "Ubuntu",
+                  ),
+                ),
               ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            ),
+              Container(
+                margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                child: Stack(
+                  children: [
+                    Container(
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                      //边框设置
+                      height: 40,
+                      decoration: new BoxDecoration(
+                        color: Color(0xFFeeeeee),
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: TextField(
+//                                          autofocus: true,
+
+                        controller: _textEditingControllerCompiler,
+                        focusNode: focusNodeCompiler,
+//              inputFormatters: [
+//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//              ],
+
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Ubuntu",
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 10.0),
+                          enabledBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                              color: Color(0xFFeeeeee),
+                            ),
+                          ),
+                          focusedBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(color: Color(0xFFFC2365)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          hintText: "",
+                          hintStyle: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black.withAlpha(180),
+                          ),
+                        ),
+                        cursorColor: Color(0xFFFC2365),
+                        cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                      ),
+                    ),
+                    Positioned(
+                      right: 15,
+                      child: Container(
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "AE",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: "Ubuntu",
+                              color: Colors.black,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width - 25,
+                margin: const EdgeInsets.only(top: 28),
+                child: FlatButton(
+                  onPressed: () {
+                    netSell();
+                  },
+                  child: Text(
+                    S.of(context).swap_send_3,
+                    maxLines: 1,
+                    style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFFFFFFF)),
+                  ),
+                  color: Color(0xFFE61665),
+                  textColor: Colors.black,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 18, top: 18),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  S.of(context).swap_send_4,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF000000),
+                    fontFamily: "Ubuntu",
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 18, right: 18, top: 8),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  S.of(context).swap_send_5,
+                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   void netSell() {
+    focusNodeNode.unfocus();
+    focusNodeCompiler.unfocus();
     showGeneralDialog(
         context: context,
         // ignore: missing_return
@@ -180,7 +334,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -193,29 +350,36 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   }
                   // ignore: missing_return
                   BoxApp.contractSwapSell((tx) {
+                    focusNodeNode.unfocus();
+                    focusNodeCompiler.unfocus();
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(
-                          S.of(context).dialog_hint,
+                          S.of(context).dialog_send_sucess,
                         ),
-                        content: Text( "SUCESS"),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
+                              focusNodeNode.unfocus();
+                              focusNodeCompiler.unfocus();
+                              eventBus.fire(SwapEvent());
 
                               Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pop(context);
                             },
                           ),
                         ],
                       ),
                     );
                   }, (error) {
-                    print(error);
                     // ignore: missing_return, missing_return
                     showPlatformDialog(
                       context: context,
@@ -228,7 +392,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             // ignore: missing_return
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -237,7 +404,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         ],
                       ),
                     );
-                  }, aesDecode, address,BoxApp.SWAP_CONTRACT , BoxApp.SWAP_CONTRACT_ABC,"1","1");
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, _textEditingControllerNode.text, _textEditingControllerCompiler.text);
                   showChainLoading();
                 },
               ),
@@ -283,7 +450,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -302,15 +472,17 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         title: Text(
                           S.of(context).dialog_hint,
                         ),
-                        content: Text( "SUCESS"),
+                        content: Text("SUCESS"),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
-
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -331,7 +503,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             // ignore: missing_return
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -340,7 +515,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         ],
                       ),
                     );
-                  }, aesDecode, address,BoxApp.SWAP_CONTRACT , BoxApp.SWAP_CONTRACT_ABC,"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF","1");
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "1");
                   showChainLoading();
                 },
               ),
@@ -348,6 +523,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           );
         });
   }
+
   void netCancel() {
     showGeneralDialog(
         context: context,
@@ -385,7 +561,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -404,15 +583,17 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         title: Text(
                           S.of(context).dialog_hint,
                         ),
-                        content: Text( "SUCESS"),
+                        content: Text("SUCESS"),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
-
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -433,7 +614,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             // ignore: missing_return
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: "Ubuntu",
+                              ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -442,7 +626,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         ],
                       ),
                     );
-                  }, aesDecode, address,BoxApp.SWAP_CONTRACT , BoxApp.SWAP_CONTRACT_ABC);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
                 },
               ),
@@ -450,7 +634,6 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           );
         });
   }
-
 
   void netCoins() {
     // ignore: missing_return
@@ -462,15 +645,17 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           title: Text(
             S.of(context).dialog_hint,
           ),
-          content: Text( "SUCESS"),
+          content: Text("SUCESS"),
           actions: <Widget>[
             BasicDialogAction(
               title: Text(
                 S.of(context).dialog_conform,
-                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                style: TextStyle(
+                  color: Color(0xFFFC2365),
+                  fontFamily: "Ubuntu",
+                ),
               ),
               onPressed: () {
-
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
@@ -491,7 +676,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
               // ignore: missing_return
               title: Text(
                 S.of(context).dialog_conform,
-                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                style: TextStyle(
+                  color: Color(0xFFFC2365),
+                  fontFamily: "Ubuntu",
+                ),
               ),
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
@@ -500,10 +688,9 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           ],
         ),
       );
-    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN",BoxApp.SWAP_CONTRACT ,"ABC");
+    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN", BoxApp.SWAP_CONTRACT, "ABC");
     showChainLoading();
   }
-
 
   void netCoinsAddress() {
     // ignore: missing_return
@@ -515,15 +702,17 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           title: Text(
             S.of(context).dialog_hint,
           ),
-          content: Text( "SUCESS"),
+          content: Text("SUCESS"),
           actions: <Widget>[
             BasicDialogAction(
               title: Text(
                 S.of(context).dialog_conform,
-                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                style: TextStyle(
+                  color: Color(0xFFFC2365),
+                  fontFamily: "Ubuntu",
+                ),
               ),
               onPressed: () {
-
                 Navigator.of(context, rootNavigator: true).pop();
               },
             ),
@@ -544,7 +733,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
               // ignore: missing_return
               title: Text(
                 S.of(context).dialog_conform,
-                style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                style: TextStyle(
+                  color: Color(0xFFFC2365),
+                  fontFamily: "Ubuntu",
+                ),
               ),
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
@@ -553,9 +745,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           ],
         ),
       );
-    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN",BoxApp.SWAP_CONTRACT ,"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF");
+    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN", BoxApp.SWAP_CONTRACT, "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF");
     showChainLoading();
   }
+
   void showChainLoading() {
     showGeneralDialog(
         context: context,

@@ -8,6 +8,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/settings_page.dart';
 import 'package:box/page/swap_page.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -58,6 +59,8 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    _streamController.sink.add(0xFFFC2365);
+    _streamController2.sink.add(0xFF666666);
     //初始化
     //用来控制动画的开始与结束以及设置动画的监听
     //vsync参数，存在vsync时会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
@@ -87,14 +90,17 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
     _tabController.reverse();
     _title2Controller.reverse();
     _title1Controller.forward();
-    _streamController.sink.add(0xFFFC2365);
-    _streamController2.sink.add(0xFF000000);
 
-    Timer.periodic(Duration(seconds: 3), (timer) {
+    Timer.periodic(Duration(seconds: 15), (timer) {
       netTestNode();
       // 每隔 1 秒钟会调用一次，如果要结束调用
     });
+
     netTestNode();
+  }
+
+  Future<void> getAddress() async {
+    HomePage.address = await BoxApp.getAddress();
   }
 
   @override
@@ -107,124 +113,126 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
         child: SettingsPage(),
       ),
       resizeToAvoidBottomInset: false,
-      body: Container(
-        child: Stack(
-          children: [
-            PageView.builder(
-              onPageChanged: (page) {
-                if (page == 1) {
-                  _tabController.forward();
-                  _title2Controller.forward();
-                  _title1Controller.reverse();
+      body: FutureBuilder<Object>(
+          future: getAddress(),
+          builder: (context, snapshot) {
+            return Container(
+              child: Stack(
+                children: [
+                  PageView.builder(
+                    allowImplicitScrolling: true,
+                    onPageChanged: (page) {
+                      if (page == 1) {
+                        _tabController.forward();
+                        _title2Controller.forward();
+                        _title1Controller.reverse();
 
-                  _streamController.sink.add(0xFF000000);
-                  _streamController2.sink.add(0xFFFC2365);
+                        _streamController.sink.add(0xFF666666);
+                        _streamController2.sink.add(0xFFFC2365);
 //                  _tabColor2Controller.forward();
 
-                } else {
-                  _tabController.reverse();
-                  _title2Controller.reverse();
-                  _title1Controller.forward();
-                  _streamController.sink.add(0xFFFC2365);
-                  _streamController2.sink.add(0xFF000000);
+                      } else {
+                        _tabController.reverse();
+                        _title2Controller.reverse();
+                        _title1Controller.forward();
+                        _streamController.sink.add(0xFFFC2365);
+                        _streamController2.sink.add(0xFF666666);
 //                  _tabColor2Controller.reverse();
-                }
-                selectedIndex = page;
-                badge = badge + 1;
-                // 延时1s执行返回
-                Future.delayed(Duration(milliseconds: 600), () {
+                      }
+                      selectedIndex = page;
+                      badge = badge + 1;
+                      // 延时1s执行返回
+                      Future.delayed(Duration(milliseconds: 600), () {
 //                  setState(() {
 //                    selectedIndex = page;
 //                  });
-                });
+                      });
 //
 //          setState(() {
 //
 //          });
-              },
+                    },
 
-              controller: pageController,
-              itemBuilder: (context, position) {
-                return position == 0 ? HomePage() : SwapPage();
-              },
-              itemCount: 2, // Can be null
-            ),
-            Positioned(
-              child: Container(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        color: Color(0xFFF5F5F5),
-                        height: MediaQueryData.fromWindow(window).padding.top,
-                      ),
-                      Container(
-                        color: Color(0xFFF5F5F5),
-                        child: Stack(
+                    controller: pageController,
+                    itemBuilder: (context, position) {
+                      return position == 0 ? HomePage() : SwapPage();
+                    },
+                    itemCount: 2, // Can be null
+                  ),
+                  Positioned(
+                    child: Container(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
                           children: <Widget>[
-                            Positioned(
-                              left: 8,
-                              child: FadeTransition(
-                                opacity: _title1Controller,
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                    onTap: () {
-                                      if (selectedIndex != 0) {
-                                        return;
-                                      }
-                                      _scaffoldKey.currentState.openDrawer();
+                            Container(
+                              color: Color(0xFFF5F5F5),
+                              height: MediaQueryData.fromWindow(window).padding.top,
+                            ),
+                            Container(
+                              color: Color(0xFFF5F5F5),
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    left: 4.5,
+                                    child: FadeTransition(
+                                      opacity: _title1Controller,
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                          onTap: () {
+                                            if (selectedIndex != 0) {
+                                              return;
+                                            }
+                                            _scaffoldKey.currentState.openDrawer();
 //                                  Navigator.push(
 //                                      context,
 //                                      MaterialPageRoute(
 //                                          builder: (context) => SettingsPage()));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        child: Container(
-                                          width: 36,
-                                          height: 36,
-                                          child: SvgPicture.asset(
-                                            'images/avatar_1.svg',
-                                            width: 36,
-                                            height: 36,
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(12.5),
+                                            width: 55,
+                                            height: 55,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: new BoxDecoration(
+                                                border: new Border.all(color: Color(0xFF999999), width: 0.5), // 边色与边宽度
+                                                color: Color(0xFFFFFFFF), // 底色
+                                                borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
+                                              ),
+                                              child: ClipOval(
+                                                child: Image.network(
+                                                  "https://www.gravatar.com/avatar/" + Utils.generateMD5(HomePage.address) + "?s=100&d=robohash&r=PG",
+                                                  width: 30,
+                                                  height: 30,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-//                                          child: SvgPicture.network(
-//                                            'https://avatars.dicebear.com/api/male/ak_dXusX5K7S1wgZ2N2t7PZax4ShZTmr8qr4G8div9oM9FrgTGSt.svg',
-//                                            fit:BoxFit.none,
-//                                            width: 36,
-//                                            height: 36,
-//                                            placeholderBuilder: (BuildContext context) => Container(
-//                                                padding: const EdgeInsets.all(30.0),
-//                                                child: const CircularProgressIndicator()),
-//                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              child: FadeTransition(
-                                opacity: _title1Controller,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 55,
-                                  alignment: Alignment.topLeft,
-                                  child: Center(
-                                    child: Text(
-                                      "Box æpp",
-                                      style: TextStyle(
-                                        color: Color(0xFF000000),
-                                        fontSize: 24,
-                                        fontFamily: "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
+                                  Positioned(
+                                    child: FadeTransition(
+                                      opacity: _title1Controller,
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 55,
+                                        alignment: Alignment.topLeft,
+                                        child: Center(
+                                          child: Text(
+                                            "Box æpp",
+                                            style: TextStyle(
+                                              color: Color(0xFF000000),
+                                              fontSize: 20,
+                                              fontFamily: "Ubuntu",
+                                            ),
+                                          ),
+                                        ),
 //                                child: Center(
 //                                  child: Image(
 //                                    width: 153,
@@ -232,25 +240,25 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //                                    image: AssetImage('images/home_logo_left.png'),
 //                                  ),
 //                                ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              child: FadeTransition(
-                                opacity: _title2Controller,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 55,
-                                  alignment: Alignment.topLeft,
-                                  child: Center(
-                                    child: Text(
-                                      "Swap",
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontFamily: "Ubuntu",
                                       ),
                                     ),
                                   ),
+                                  Positioned(
+                                    child: FadeTransition(
+                                      opacity: _title2Controller,
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 55,
+                                        alignment: Alignment.topLeft,
+                                        child: Center(
+                                          child: Text(
+                                            S.of(context).swap_title,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "Ubuntu",
+                                            ),
+                                          ),
+                                        ),
 //                                child: Center(
 //                                  child: Image(
 //                                    width: 153,
@@ -258,20 +266,21 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //                                    image: AssetImage('images/home_logo_left.png'),
 //                                  ),
 //                                ),
-                                ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
       // backgroundColor: Colors.green,
       // body: Container(color: Colors.red,),
       bottomNavigationBar: SafeArea(
@@ -299,7 +308,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                             Container(
                               margin: EdgeInsets.only(left: 5),
                               child: Text(
-                                "节点连接失败",
+                                S.of(context).tab_node_error,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -358,40 +367,39 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                         onTap: () {
                           pageController.animateToPage(0, duration: new Duration(milliseconds: 500), curve: new ElasticOutCurve(4));
                         },
-                        child: Container(
-//                    color: Colors.amber,
-                          width: 126,
-                          height: 55,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                child: Image(
-                                  width: 34,
-                                  height: 34,
-                                  image: AssetImage("images/tab_home.png"),
-                                ),
-                              ),
-                              StreamBuilder<int>(
-                                  stream: _streamController.stream,
-                                  builder: (context, snapshot) {
-                                    return Container(
+                        child: StreamBuilder<Object>(
+                            stream: _streamController.stream,
+                            builder: (context, snapshot) {
+                              return Container(
+                                width: 126,
+                                height: 55,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Image(
+                                        width: 34,
+                                        height: 34,
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
+                                      ),
+                                    ),
+                                    Container(
                                       margin: EdgeInsets.only(left: 5),
                                       child: Text(
                                         "Home",
                                         style: TextStyle(
 //                                    color: colorsAnimation1.value,
-                                          color: Color(snapshot.data),
+                                          color: snapshot != null ? Color(snapshot.data) : Color(0x666666),
                                           fontWeight: FontWeight.w600,
                                           fontFamily: "Ubuntu",
                                         ),
                                       ),
-                                    );
-                                  }),
-                            ],
-                          ),
-                        ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
                     ),
                   ),
@@ -405,44 +413,47 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                         onTap: () {
                           pageController.animateToPage(1, duration: new Duration(milliseconds: 500), curve: new ElasticOutCurve(4));
                         },
-                        child: Container(
-                          width: 126,
-                          height: 55,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                child: Image(
-                                  width: 34,
-                                  height: 34,
-                                  image: AssetImage("images/tab_swap.png"),
-                                ),
-                              ),
-                              StreamBuilder<int>(
-                                  stream: _streamController2.stream,
-                                  builder: (context, snapshot) {
-                                    return Container(
+                        child: StreamBuilder<int>(
+                            stream: _streamController2.stream,
+                            builder: (context, snapshot) {
+                              return Container(
+                                width: 126,
+                                height: 55,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Image(
+                                        width: 34,
+                                        height: 34,
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap_p.png") : AssetImage("images/tab_swap.png"),
+                                      ),
+                                    ),
+                                    Container(
                                       margin: EdgeInsets.only(left: 5),
                                       child: Text(
                                         "Swap",
                                         style: TextStyle(
 //                                    color: colorsAnimation2.value,
-                                          color: Color(snapshot.data),
+                                          color: snapshot != null ? Color(snapshot.data) : Color(0x666666),
                                           fontWeight: FontWeight.w600,
                                           fontFamily: "Ubuntu",
                                         ),
                                       ),
-                                    );
-                                  }),
-                            ],
-                          ),
-                        ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
                     ),
                   ),
                 ],
               ),
+            ),
+            Container(
+              height: 20,
             ),
           ],
         ),
@@ -465,7 +476,6 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
             isNodeTest = false;
             setState(() {});
           }
-          print(e.toString());
         });
       });
     });

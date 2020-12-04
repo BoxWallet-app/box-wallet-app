@@ -336,7 +336,6 @@ class _AensRegisterState extends State<AensRegister> {
 
     var name = _textEditingController.text + ".chain";
     AensInfoDao.fetch(name).then((AensInfoModel model) {
-      print(model.toString());
       if (model.code == 200 && model.data.currentHeight < model.data.overHeight) {
         Fluttertoast.showToast(msg: "name already register", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       } else if (model.code == 201) {

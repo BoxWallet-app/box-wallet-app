@@ -1167,11 +1167,12 @@ payable contract AESwapContract =
 
   record coin = {
     token        : FungibleTokenInterface,
+    coin_address : address,
     coin_name    : string,
     freeze       : int}
 
   record state = {
-    swaps        : map(string,  account_swaps),
+    swaps        : map(address,  account_swaps),
     accounts     : map(address, account_coin),
     coins        : map(address, coin),
     owner        : address,
@@ -1201,8 +1202,8 @@ payable contract AESwapContract =
   entrypoint get_swaps() =
     state.swaps
 
-  entrypoint get_swaps_icon(coin_name : string) =
-    state.swaps[coin_name]
+  entrypoint get_swaps_icon(coin_address : address) =
+    state.swaps[coin_address]
 
   entrypoint get_accounts() =
     state.accounts
@@ -1229,8 +1230,8 @@ payable contract AESwapContract =
       Some(allowance) => allowance
       None => 0
 
-  private function get_account_swaps(coin_name : string): account_swaps =
-    switch(Map.lookup(coin_name, state.swaps))
+  private function get_account_swaps(coin_address : address): account_swaps =
+    switch(Map.lookup(coin_address, state.swaps))
       Some(account_swaps) => account_swaps
       None => {account_map = {}, transaction = 0}
 
@@ -1260,9 +1261,9 @@ payable contract AESwapContract =
   //设置可交易数据
   stateful entrypoint set_coin(token: FungibleTokenInterface , contract_address : address ,  coin_name : string , freeze : int) =
     require_owner()
-    let coin = {token = token,coin_name = coin_name,freeze = freeze}
+    let coin = {token = token,coin_address = contract_address , coin_name = coin_name , freeze = freeze}
     put( state{ coins [contract_address] = coin})
-    put( state{ swaps [coin_name] = {account_map = {} , transaction = 0}})
+    put( state{ swaps [contract_address] = {account_map = {} , transaction = 0}})
     coin
 
   stateful entrypoint swap_sell(contract_address: address , count : int , ae : int) =
@@ -1286,8 +1287,21 @@ payable contract AESwapContract =
       abort("CONTRACT_MY_ALLOWANCE_0")
 
     //判断当前币种自己是否已经存在订单了,存在的话不可以在卖出了
-    if(is_account_swaps_exist(state.swaps[coin.coin_name]))
+    if(is_account_swaps_exist(state.swaps[coin.coin_address]))
       abort("PLEDGE_ALREADY_EXISTS")
+
+    if(count < state.decimals)
+      abort("COUNT_MIN_1")
+
+    if(count > 1000000 * state.decimals)
+      abort("COUNT_MIN_1000000")
+
+    if(ae < state.decimals)
+      abort("AE_MIN_1")
+
+    if(ae > 1000000 * state.decimals)
+      abort("AE_MIN_1000000")
+
 
     //将代币转入当前合约进行托管交易
     coin.token.transfer_allowance(Call.caller,Contract.address,count)
@@ -1303,11 +1317,11 @@ payable contract AESwapContract =
     put( state{ accounts [Call.caller] = account_coin})
 
     //获取当前交易的币种合集, 准备将订单放入到当前交易的币种合集当中
-    let account_swaps = get_account_swaps(coin.coin_name)
+    let account_swaps = get_account_swaps(coin.coin_address)
     //将订单放入到交易币种合集当中
     let account_swaps = account_swaps{account_map[Call.caller] = account , transaction = account_swaps.transaction}
     //保存状态
-    put( state{ swaps [coin.coin_name] = account_swaps})
+    put( state{ swaps [coin.coin_address] = account_swaps})
 
     account
 
@@ -1324,11 +1338,11 @@ payable contract AESwapContract =
       abort("TRADING_IN_THE_CURRENCY_WAS_SUSPENDED")
 
     //判断当前币种自己是否已经存在订单了,存在的话不可以在卖出了
-    if(!is_account_swaps_exist(state.swaps[coin.coin_name]))
+    if(!is_account_swaps_exist(state.swaps[coin.coin_address]))
       abort("PLEDGE_NOT_EXISTS")
 
     //获取要交易用户的订单信息
-    let account = state.swaps[coin.coin_name].account_map[Call.caller]
+    let account = state.swaps[coin.coin_address].account_map[Call.caller]
 
     //判断是不是自己调用了取消方法
     if(account.account != Call.caller )
@@ -1336,13 +1350,18 @@ payable contract AESwapContract =
 
 
     //将token 支付给订单归属人
-    coin.token.transfer(Call.caller, account.count  * 998 / 1000)
-    coin.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, account.count * 2 / 1000)
+    coin.token.transfer(Call.caller, account.count  * 996 / 1000)
+    coin.token.transfer(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, account.count * 2 / 1000)
+    coin.token.transfer(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, account.count * 2 / 1000)
 
     //更新交易数据集合
-    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_name].account_map) ,transaction =  state.swaps[coin.coin_name].transaction}
-    put(state{ swaps[coin.coin_name] = account_swaps})
+    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_address].account_map) ,transaction =  state.swaps[coin.coin_address].transaction}
+    put(state{ swaps[coin.coin_address] = account_swaps})
 
+
+    //更新买方数据集合
+    let account_coin = {coin_map = Map.delete(account.coin, state.accounts[account.account].coin_map) , useless = 0}
+    put(state{ accounts[account.account] = account_coin})
 
     account
 
@@ -1360,33 +1379,39 @@ payable contract AESwapContract =
       abort("TRADING_IN_THE_CURRENCY_WAS_SUSPENDED")
 
     //判断当前币种的售卖者是否存在交易,因为可能存在多个人抢一个订单
-    if(!is_account_swaps_account_exist(state.swaps[coin.coin_name],account_address))
+    if(!is_account_swaps_account_exist(state.swaps[coin.coin_address],account_address))
       abort("PLEDGE_NOT_EXISTS")
 
     //获取要交易用户的订单信息
-    let account = state.swaps[coin.coin_name].account_map[account_address]
+    let account = state.swaps[coin.coin_address].account_map[account_address]
 
     //判断输入金额是否等于订单金额
-    if(account.count != Call.value )
+    if(account.ae != Call.value )
       abort("COUNT_ERROR")
 
     //将ae 支付给卖方
-    Chain.spend(account.account, Call.value  * 998 / 1000)
-    Chain.spend(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, Call.value * 2 / 1000)
+    Chain.spend(account.account, Call.value  * 996 / 1000)
+    Chain.spend(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, Call.value * 2 / 1000)
+    Chain.spend(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, Call.value * 2 / 1000)
 
     //将token 支付给买方
-    coin.token.transfer(Call.caller, account.count  * 998 / 1000)
-    coin.token.transfer(ak_2MHJv6JcdcfpNvu4wRDZXWzq8QSxGbhUfhMLR7vUPzRFYsDFw6, account.count * 2 / 1000)
+    coin.token.transfer(Call.caller, account.count  * 996 / 1000)
+    coin.token.transfer(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, account.count * 2 / 1000)
+    coin.token.transfer(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, account.count * 2 / 1000)
 
     //更新交易数据集合
-    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_name].account_map) ,transaction =  state.swaps[coin.coin_name].transaction + Call.value  / state.decimals}
-    put(state{ swaps[coin.coin_name] = account_swaps})
+    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_address].account_map) ,transaction =  state.swaps[coin.coin_address].transaction + Call.value  / state.decimals}
+    put(state{ swaps[coin.coin_address] = account_swaps})
 
     //更新买方数据集合
     let account_coin = {coin_map = Map.delete(account.coin, state.accounts[account.account].coin_map) , useless = 0}
     put(state{ accounts[account.account] = account_coin})
 
     account
+
+
+
+
 
 
 
@@ -1418,10 +1443,14 @@ payable contract AESwapContract =
                     error_JS.postMessage(err.toString());
                 })
             }).catch(err => {
-                var decode = err.toString().split('Decoded: ')
-                var msg = decode[1].substring(1, decode[1].length - 4)
-                status_JS.postMessage("error");
-                error_JS.postMessage(msg);
+            status_JS.postMessage("error");
+               if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
             })
         }).catch(err => {
             status_JS.postMessage("error");
@@ -1454,7 +1483,7 @@ payable contract AESwapContract =
                                 callSwapSell(client, ctId, count, amount, swapCtId);
                             } else {
                                 status_JS.postMessage("change_allowance");
-                                tokenContract.methods.change_allowance(swapCtId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count) - allowance.decodedResult).then(changeAllowance => {
+                                tokenContract.methods.change_allowance(swapCtId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count- Ae.AmountFormatter.toAe(allowance.decodedResult))).then(changeAllowance => {
                                     client.contractEncodeCall(sourceCodeSwap, 'swap_sell', [ctId.replace('ct_', 'ak_'), Ae.AmountFormatter.toAettos(count), Ae.AmountFormatter.toAettos(amount)]).then(callDataCall => {
                                         status_JS.postMessage("contractEncodeCall");
                                         callSwapSell(client, ctId, count, amount, swapCtId);
@@ -1524,10 +1553,14 @@ payable contract AESwapContract =
 							error_JS.postMessage(err.toString());
                         })
                     }).catch(err => {
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-						status_JS.postMessage("error");
-						error_JS.postMessage(msg);
+                    status_JS.postMessage("error");
+                       if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
                     })
                 }).catch(err => {
                     status_JS.postMessage("error");
@@ -1570,12 +1603,14 @@ payable contract AESwapContract =
                             error_JS.postMessage(err.toString());
                         })
                     }).catch(err => {
-                        console.log("error");
-                        console.log(err);
-                        var decode = err.toString().split('Decoded: ')
-                        var msg = decode[1].substring(1, decode[1].length - 4)
-                        status_JS.postMessage("error");
-                        error_JS.postMessage(msg);
+                       status_JS.postMessage("error");
+                       if(err.toString().indexOf("Decoded") !== -1 ){
+                            var decode = err.toString().split('Decoded: ')
+                            var msg = decode[1].substring(1, decode[1].length - 4)
+                            error_JS.postMessage(msg);
+                        }else{
+                            error_JS.postMessage(err.toString());
+                        }
 
                     })
                 }).catch(err => {

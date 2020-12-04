@@ -7,7 +7,19 @@ import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:date_time_format/date_time_format.dart';
+
+import 'dart:convert';
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
 class Utils {
+  // md5 加密
+  static String generateMD5(String data) {
+    var content = new Utf8Encoder().convert(data);
+    var digest = md5.convert(content);
+    // 这里其实就是 digest.toString()
+    return hex.encode(digest.bytes);
+  }
+
   static formatAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";

@@ -58,6 +58,13 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [

@@ -343,7 +343,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   }
                   // ignore: missing_return
                   BoxApp.bidName((tx) {
-                    print(tx);
                     showFlush(context);
                    
                     // ignore: missing_return

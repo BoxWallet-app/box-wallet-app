@@ -32,6 +32,15 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
+    BoxApp.getNodeUrl().then((nodeUrl) {
+      BoxApp.getCompilerUrl().then((compilerUrl) {
+        if(nodeUrl == null || compilerUrl ==null){
+          BoxApp.setNodeUrl("https://node.aeasy.io");
+          BoxApp.setCompilerUrl("https://compiler.aeasy.io");
+        }
+      });
+    });
+
     // ignore: missing_return
     BoxApp.startAeService(context, () {
       SharedPreferences.getInstance().then((sp) {

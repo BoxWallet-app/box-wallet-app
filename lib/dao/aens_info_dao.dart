@@ -9,8 +9,6 @@ class AensInfoDao {
     Map<String, String> params = new Map();
     params['name'] = name;
     Response response = await Dio().post(NAME_INFO, queryParameters: params);
-    print(response.toString());
-    print("\n" + jsonEncode(params) + "\n" + response.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AensInfoModel model = AensInfoModel.fromJson(data);

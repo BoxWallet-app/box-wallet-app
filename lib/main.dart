@@ -36,6 +36,9 @@ void main() {
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ignore: unrelated_type_equality_checks
+
+
+
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.ring
@@ -49,9 +52,17 @@ void main() {
     ..loadingStyle = EasyLoadingStyle.dark
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false;
+
+
+
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(BoxApp());
+  // 强制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
 //  runApp(Test());
 }
 
@@ -185,14 +196,14 @@ typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
   static String language = "";
-//  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
-  static String ABC_CONTRACT_AEX9 = "ct_PYBnWEWYrLq3nckq83xWd85nwMCCbEFK5MiHkDKZkfotZz7iK";
+  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
+//  static String ABC_CONTRACT_AEX9 = "ct_qrDMpsWmVuM7yJZhwM6AeVWcsf9s5fNpctTU1E84edMkxVDxj";
   static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
   static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
   static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
 
-  static String SWAP_CONTRACT = "ct_2GGNpE5S59mXxRzAHpunrR4c66ovPZSTahyw1ccce9NRqbqfV";
-  static String SWAP_CONTRACT_ABC = "ct_PYBnWEWYrLq3nckq83xWd85nwMCCbEFK5MiHkDKZkfotZz7iK";
+  static String SWAP_CONTRACT = "ct_yECAqurisBaG9jAfQfM2hbp2yeFYa9ByjoavNPnvmUQVfQJds";
+  static String SWAP_CONTRACT_ABC = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
 
   static WebViewController webViewController;
 
@@ -392,7 +403,6 @@ class BoxApp extends StatelessWidget {
                 JavascriptChannel(
                     name: 'error_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      print("11111111111111" + message.message);
                       if (BoxApp.flutterJsErrorCallBack != null) {
                         BoxApp.flutterJsErrorCallBack(message.message);
                       }

@@ -6,6 +6,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/language_page.dart';
+import 'package:box/page/photo_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
@@ -81,14 +82,26 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                 mainAxisAlignment: MainAxisAlignment.start,
 //                  crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    child: SvgPicture.asset(
-                      'images/avatar_1.svg',
-                      width: 30,
-                      height: 30,
+                  InkWell(
+                    borderRadius: new BorderRadius.all( Radius.circular( 50)), // 也可
+                    child: Container(
+                      width: 45,
+                      height: 45,
+                      decoration: new BoxDecoration(
+                        border: new Border.all(color: Color(0xFF999999), width: 0.5), // 边色与边宽度
+                        color: Color(0xFFFFFFFF), // 底色
+                        //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                        borderRadius: new BorderRadius.all( Radius.circular( 50)), // 也可控件一边圆角大小
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          "https://www.gravatar.com/avatar/" +Utils.generateMD5(HomePage.address) + "?s=100&d=robohash&r=PG",
+                        ),
+                      ),
                     ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address:HomePage.address)));
+                    },
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -97,12 +110,12 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     children: [
                       Container(
                         margin: EdgeInsets.only(left: 12),
-                        child: Text("ak_***6yKx", style: TextStyle(fontSize: 20, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                        child: Text(Utils.formatAddress(HomePage.address), style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8 - 120,
+                        width: 190,
                         margin: EdgeInsets.only(left: 12, top: 4),
-                        child: Text("Name: Is developing ", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", color: Color(0xFF666666))),
+                        child: Text("Name: developing ", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", color: Color(0xFF666666))),
                       ),
                     ],
                   ),

@@ -140,7 +140,6 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                   Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                                                   if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
                                                     final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                                                    print(data);
                                                     _textEditingController.text = data;
                                                   } else {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);

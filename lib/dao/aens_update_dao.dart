@@ -14,7 +14,6 @@ class AensUpdaterDao {
     params['name'] = name;
     params['address'] = address;
     Response response = await Dio().post(NAME_UPDATE, queryParameters: params);
-    print(response.toString());
     print("\n" + jsonEncode(params) + "\n" + response.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

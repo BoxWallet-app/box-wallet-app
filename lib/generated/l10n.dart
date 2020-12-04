@@ -1802,6 +1802,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Query authorization information`
+  String get ae_status_allowance {
+    return Intl.message(
+      'Query authorization information',
+      name: 'ae_status_allowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change the number of authorizations`
+  String get ae_status_change_allowance {
+    return Intl.message(
+      'Change the number of authorizations',
+      name: 'ae_status_change_allowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set the number of authorizations`
+  String get ae_status_create_allowance {
+    return Intl.message(
+      'Set the number of authorizations',
+      name: 'ae_status_create_allowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Node not use`
+  String get tab_node_error {
+    return Intl.message(
+      'Node not use',
+      name: 'tab_node_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancellation successful`
+  String get dialog_dismiss_sucess {
+    return Intl.message(
+      'Cancellation successful',
+      name: 'dialog_dismiss_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful initiation`
+  String get dialog_send_sucess {
+    return Intl.message(
+      'Successful initiation',
+      name: 'dialog_send_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap successfully`
+  String get dialog_swap_sucess {
+    return Intl.message(
+      'Swap successfully',
+      name: 'dialog_swap_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap`
+  String get swap_title {
+    return Intl.message(
+      'Swap',
+      name: 'swap_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Swap`
+  String get swap_title_my {
+    return Intl.message(
+      'My Swap',
+      name: 'swap_title_my',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initiate Swap`
+  String get swap_tab_1 {
+    return Intl.message(
+      'Initiate Swap',
+      name: 'swap_tab_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Swap`
+  String get swap_tab_2 {
+    return Intl.message(
+      'My Swap',
+      name: 'swap_tab_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium`
+  String get swap_item_1 {
+    return Intl.message(
+      'Premium',
+      name: 'swap_item_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap quantity`
+  String get swap_item_2 {
+    return Intl.message(
+      'Swap quantity',
+      name: 'swap_item_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount you paid`
+  String get swap_item_3 {
+    return Intl.message(
+      'Amount you paid',
+      name: 'swap_item_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap now`
+  String get swap_item_4 {
+    return Intl.message(
+      'Swap now',
+      name: 'swap_item_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get swap_item_5 {
+    return Intl.message(
+      'Cancel',
+      name: 'swap_item_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initiate exchange`
+  String get swap_title_send {
+    return Intl.message(
+      'Initiate exchange',
+      name: 'swap_title_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount I exchanged`
+  String get swap_send_1 {
+    return Intl.message(
+      'The amount I exchanged',
+      name: 'swap_send_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount paid by the other party`
+  String get swap_send_2 {
+    return Intl.message(
+      'The amount paid by the other party',
+      name: 'swap_send_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initiate exchange`
+  String get swap_send_3 {
+    return Intl.message(
+      'Initiate exchange',
+      name: 'swap_send_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exchange Instructions`
+  String get swap_send_4 {
+    return Intl.message(
+      'Exchange Instructions',
+      name: 'swap_send_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.`
+  String get swap_send_5 {
+    return Intl.message(
+      'Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.',
+      name: 'swap_send_5',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

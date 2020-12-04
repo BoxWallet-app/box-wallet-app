@@ -43,23 +43,25 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
     super.initState();
     // ignore: missing_return
     BoxApp.getStatus((status) {
-      print(status);
       if (status == "sucess" || status == "error") {
         Navigator.pop(context); //关闭对话框
         return;
       }
       switch (status) {
         case "allowance":
-          text ="查询零花钱";
+          text = S.of(context).ae_status_allowance;
           break;
         case "change_allowance":
-          text = "设置零花钱";
+          text = S.of(context).ae_status_change_allowance;
           break;
         case "create_allowance":
-          text = "创建零花钱";
+          text = S.of(context).ae_status_create_allowance;
           break;
         case "aensPreclaim":
           text = S.of(context).ae_status_aensPreclaim;
+
+
+
           break;
         case "aensBid":
           text = S.of(context).ae_status_aensBid;
@@ -99,14 +101,12 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
             left: 0,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 300,
+              height: MediaQuery.of(context).size.height/3,
 //          margin: EdgeInsets.only(top: 200),
               decoration: ShapeDecoration(
                 color: Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18.0),
-                  ),
+                  borderRadius: BorderRadius.only(topLeft:  Radius.circular(18.0),topRight:  Radius.circular(18.0),),
                 ),
               ),
               child: Column(
@@ -130,7 +130,7 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 25, bottom: 18),
+                    margin: EdgeInsets.only(top: 5, bottom: 18),
                     child: Text(
                       text,
                       style: TextStyle(

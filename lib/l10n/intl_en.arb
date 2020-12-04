@@ -228,5 +228,33 @@
   "ae_status_aensClaim": "Domain is being auctioned",
   "ae_status_contractEncodeCall": "Contract is being compiled",
   "ae_status_contractCall": "Contract Calling",
-  "ae_status_decode": "Analyzing results"
+  "ae_status_decode": "Analyzing results",
+
+  "ae_status_allowance": "Query authorization information",
+  "ae_status_change_allowance": "Change the number of authorizations",
+  "ae_status_create_allowance": "Set the number of authorizations",
+
+  "tab_node_error": "Node not use",
+
+  "dialog_dismiss_sucess": "Cancellation successful",
+  "dialog_send_sucess": "Successful initiation",
+  "dialog_swap_sucess": "Swap successfully",
+
+  "swap_title": "Swap",
+  "swap_title_my": "My Swap",
+  "swap_tab_1": "Initiate Swap",
+  "swap_tab_2": "My Swap",
+
+  "swap_item_1": "Premium",
+  "swap_item_2": "Swap quantity",
+  "swap_item_3": "Amount you paid",
+  "swap_item_4": "Swap now",
+  "swap_item_5": "Cancel",
+
+  "swap_title_send": "Initiate exchange",
+  "swap_send_1": "The amount I exchanged",
+  "swap_send_2": "The amount paid by the other party",
+  "swap_send_3": "Initiate exchange",
+  "swap_send_4": "Exchange Instructions",
+  "swap_send_5": "Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs."
 }

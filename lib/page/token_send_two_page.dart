@@ -74,7 +74,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        print(model.data.balance);
         HomePage.token = model.data.balance;
         setState(() {});
       } else {}

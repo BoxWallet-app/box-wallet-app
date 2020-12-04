@@ -67,7 +67,6 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
       } else {
         Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       }
-      print("error:" + e.toString());
     });
   }
 

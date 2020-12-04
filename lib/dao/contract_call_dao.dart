@@ -21,7 +21,6 @@ class ContractCallDao {
     params["amount"] = amount;
     Response response = await Dio().post(CONTRACT_CALL, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
 
       MsgSignModel model = MsgSignModel.fromJson(data);
