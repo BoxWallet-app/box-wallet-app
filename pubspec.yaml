@@ -172,8 +172,12 @@ flutter:
     - images/tab_swap_p.png
     - images/tab_home.png
     - images/tab_home_p.png
+    - images/tab_app.png
     - images/swap_my.png
     - images/swap_send.png
+    - images/apps_wetrue.png
+    - images/aepp_forum.png
+    - images/aepp_superhero.png
 
   #   - images/a_dot_ham.jpeg
 

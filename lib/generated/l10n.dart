@@ -1963,11 +1963,51 @@ class S {
     );
   }
 
+  /// `Home`
+  String get tab_1 {
+    return Intl.message(
+      'Home',
+      name: 'tab_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap`
+  String get tab_2 {
+    return Intl.message(
+      'Swap',
+      name: 'tab_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aepp`
+  String get tab_3 {
+    return Intl.message(
+      'Aepp',
+      name: 'tab_3',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Initiate exchange`
   String get swap_title_send {
     return Intl.message(
       'Initiate exchange',
       name: 'swap_title_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the quantity`
+  String get swap_text_hint {
+    return Intl.message(
+      'Please enter the quantity',
+      name: 'swap_text_hint',
       desc: '',
       args: [],
     );

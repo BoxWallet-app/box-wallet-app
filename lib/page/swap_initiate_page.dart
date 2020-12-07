@@ -73,7 +73,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 18, top: 18),
+                margin: EdgeInsets.only(left: 18, top: 0),
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_1,
@@ -92,7 +92,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                       //边框设置
                       decoration: new BoxDecoration(
-                        color: Color(0xFFeeeeee),
+                        color: Color(0xFFf5f5f5),
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
@@ -109,7 +109,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         ],
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontFamily: "Ubuntu",
                           color: Colors.black,
                         ),
@@ -128,10 +128,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          hintText: "",
+                          hintText: S.of(context).swap_text_hint,
                           hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black.withAlpha(180),
+                            fontSize: 14,
+                            color: Color(0xFF666666).withAlpha(85),
                           ),
                         ),
                         cursorColor: Color(0xFFFC2365),
@@ -157,7 +157,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 26, top: 18, right: 26),
+                margin: EdgeInsets.only(left: 26, top: 10, right: 26),
                 alignment: Alignment.topRight,
                 child: Text(
                   S.of(context).token_send_two_page_balance + " : " + HomePage.tokenABC,
@@ -187,7 +187,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                       //边框设置
                       height: 40,
                       decoration: new BoxDecoration(
-                        color: Color(0xFFeeeeee),
+                        color: Color(0xFFf5f5f5),
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
@@ -222,10 +222,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          hintText: "",
+                          hintText: S.of(context).swap_text_hint,
                           hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black.withAlpha(180),
+                            fontSize: 14,
+                            color: Color(0xFF666666).withAlpha(85),
                           ),
                         ),
                         cursorColor: Color(0xFFFC2365),
@@ -273,11 +273,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_4,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF000000),
-                    fontFamily: "Ubuntu",
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
@@ -413,341 +409,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
         });
   }
 
-  void netBuy() {
-    showGeneralDialog(
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, 0, 0.0),
-            child: Opacity(
-              opacity: anim1.value,
-              // ignore: missing_return
-              child: PayPasswordWidget(
-                title: S.of(context).password_widget_input_password,
-                dismissCallBackFuture: (String password) {
-                  return;
-                },
-                passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
-                  var address = await BoxApp.getAddress();
-                  final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-                  if (aesDecode == "") {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                    return;
-                  }
-                  // ignore: missing_return
-                  BoxApp.contractSwapBuy((data) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_hint,
-                        ),
-                        content: Text("SUCESS"),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, (error) {
-                    print(error);
-                    // ignore: missing_return, missing_return
-                    showPlatformDialog(
-                      context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "1");
-                  showChainLoading();
-                },
-              ),
-            ),
-          );
-        });
-  }
-
-  void netCancel() {
-    showGeneralDialog(
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, 0, 0.0),
-            child: Opacity(
-              opacity: anim1.value,
-              // ignore: missing_return
-              child: PayPasswordWidget(
-                title: S.of(context).password_widget_input_password,
-                dismissCallBackFuture: (String password) {
-                  return;
-                },
-                passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
-                  var address = await BoxApp.getAddress();
-                  final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                  if (aesDecode == "") {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                    return;
-                  }
-                  // ignore: missing_return
-                  BoxApp.contractSwapCancel((tx) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_hint,
-                        ),
-                        content: Text("SUCESS"),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, (error) {
-                    print(error);
-                    // ignore: missing_return, missing_return
-                    showPlatformDialog(
-                      context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
-                  showChainLoading();
-                },
-              ),
-            ),
-          );
-        });
-  }
-
-  void netCoins() {
-    // ignore: missing_return
-    BoxApp.contractSwapGetSwapsIcon((data) {
-      print(data);
-      showPlatformDialog(
-        context: context,
-        builder: (_) => BasicDialogAlert(
-          title: Text(
-            S.of(context).dialog_hint,
-          ),
-          content: Text("SUCESS"),
-          actions: <Widget>[
-            BasicDialogAction(
-              title: Text(
-                S.of(context).dialog_conform,
-                style: TextStyle(
-                  color: Color(0xFFFC2365),
-                  fontFamily: "Ubuntu",
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    }, (error) {
-      print(error);
-      // ignore: missing_return, missing_return
-      showPlatformDialog(
-        context: context,
-        // ignore: missing_return
-        builder: (_) => BasicDialogAlert(
-          title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(error),
-          actions: <Widget>[
-            BasicDialogAction(
-              // ignore: missing_return
-              title: Text(
-                S.of(context).dialog_conform,
-                style: TextStyle(
-                  color: Color(0xFFFC2365),
-                  fontFamily: "Ubuntu",
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN", BoxApp.SWAP_CONTRACT, "ABC");
-    showChainLoading();
-  }
-
-  void netCoinsAddress() {
-    // ignore: missing_return
-    BoxApp.contractSwapGetAccountsAddress((data) {
-      print(data);
-      showPlatformDialog(
-        context: context,
-        builder: (_) => BasicDialogAlert(
-          title: Text(
-            S.of(context).dialog_hint,
-          ),
-          content: Text("SUCESS"),
-          actions: <Widget>[
-            BasicDialogAction(
-              title: Text(
-                S.of(context).dialog_conform,
-                style: TextStyle(
-                  color: Color(0xFFFC2365),
-                  fontFamily: "Ubuntu",
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    }, (error) {
-      print(error);
-      // ignore: missing_return, missing_return
-      showPlatformDialog(
-        context: context,
-        // ignore: missing_return
-        builder: (_) => BasicDialogAlert(
-          title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(error),
-          actions: <Widget>[
-            BasicDialogAction(
-              // ignore: missing_return
-              title: Text(
-                S.of(context).dialog_conform,
-                style: TextStyle(
-                  color: Color(0xFFFC2365),
-                  fontFamily: "Ubuntu",
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    }, "aec15878c1bf7127ed4435cbe1acbb075042b53fbd4af932d12ad53549cb80106dad60f5449e6bc6e1e4b2711700300f1cf4f68d14fabaa548afc5f8e41358aa", "ak_qJZPXvWPC7G9kFVEqNjj9NAmwMsQcpRu6E3SSCvCQuwfqpMtN", BoxApp.SWAP_CONTRACT, "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF");
-    showChainLoading();
-  }
 
   void showChainLoading() {
     showGeneralDialog(

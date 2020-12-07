@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                       width: 45,
                       height: 45,
                       decoration: new BoxDecoration(
-                        border: new Border.all(color: Color(0xFF999999), width: 0.5), // 边色与边宽度
+                        border: new Border.all(color: Color(0xFFeeeeee), width: 0.5), // 边色与边宽度
                         color: Color(0xFFFFFFFF), // 底色
                         //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
                         borderRadius: new BorderRadius.all( Radius.circular( 50)), // 也可控件一边圆角大小
@@ -126,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
               color: Colors.white,
               height: 30,
             ),
-            Container(height: 1.0, margin: EdgeInsets.only(left: 10, right: 10), width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+            Container(height: 1.0, margin: EdgeInsets.only(left: 30, right: 30), width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
             Container(
               color: Colors.white,
               height: 15,
@@ -257,7 +257,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                         ),
                       ),
                       Positioned(
-                        right: 45,
+                        right: 35,
                         child: Text("v" + version),
                       ),
                     ],
@@ -271,8 +271,8 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
 
             Expanded(child: Container()),
             Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width * 0.8 - 60,
+              height: 44,
+              width: MediaQuery.of(context).size.width * 0.8 - 80,
               margin: EdgeInsets.only(top: 70, bottom: MediaQueryData.fromWindow(window).padding.bottom + 50),
               child: FlatButton(
                 onPressed: () {
@@ -337,7 +337,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
-                  color: Color(0xFFEEEEEE),
+                  color: Color(0xFFe0e0e0),
                 ),
               ),
               if (isLine)

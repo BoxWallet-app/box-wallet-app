@@ -251,7 +251,13 @@
   "swap_item_4": "Swap now",
   "swap_item_5": "Cancel",
 
+
+  "tab_1" : "Home",
+  "tab_2" : "Swap",
+  "tab_3" : "Aepp",
+
   "swap_title_send": "Initiate exchange",
+  "swap_text_hint" : "Please enter the quantity",
   "swap_send_1": "The amount I exchanged",
   "swap_send_2": "The amount paid by the other party",
   "swap_send_3": "Initiate exchange",

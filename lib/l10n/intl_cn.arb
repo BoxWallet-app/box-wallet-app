@@ -277,7 +277,15 @@
   "swap_item_4" : "立即兑换",
   "swap_item_5" : "取消",
 
+
+  "tab_1" : "首页",
+  "tab_2" : "兑换",
+  "tab_3" : "应用",
+
+
+
   "swap_title_send" : "发起兑换",
+  "swap_text_hint" : "请输入数量",
   "swap_send_1" : "我兑换的数量",
   "swap_send_2" : "对方支付的数量",
   "swap_send_3" : "发起兑换",

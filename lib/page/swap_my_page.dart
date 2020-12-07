@@ -190,7 +190,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                         width: 30,
                         height: 30,
                         decoration: new BoxDecoration(
-                          border: new Border.all(color: Color(0xFF999999), width: 0.5), // 边色与边宽度
+                            border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
                           color: Color(0xFFFFFFFF), // 底色
                           //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
                           borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
