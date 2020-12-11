@@ -46,7 +46,7 @@ class _LanguagePageState extends State<LanguagePage> {
         ),
         title: Text(
           S.of(context).setting_page_item_language,
-          style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
+          style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
         ),
         centerTitle: true,
       ),
@@ -164,7 +164,7 @@ class _LanguagePageState extends State<LanguagePage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   ),

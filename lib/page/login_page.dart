@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                                       S.of(context).dialog_statement_title,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontFamily: "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       ),
                                     ),
                                   ),
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Container(
                                         child: Text(
                                           S.of(context).dialog_statement_content,
-                                          style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", letterSpacing: 2, height: 2),
+                                          style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", letterSpacing: 2, height: 2),
                                         ),
                                       ),
                                     ),
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                           color: Colors.white,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          fontFamily: "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                         ),
                                       ),
                                       loader: Container(
@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         S.of(context).login_page_login,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFFFC2365)),
+                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFC2365)),
                       ),
                       color: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
 //                    style: new TextStyle(
 //                      fontSize: 17,
 //                      color: Color(0xFFFC2365),
-//                      fontFamily: "Ubuntu",
+//                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
 //                    ),
 //                  ),
 //                  color: Colors.white,
@@ -231,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: new TextStyle(
                       fontSize: 17,
                       color: Color(0xFFFFFFFF),
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                   height: 50,

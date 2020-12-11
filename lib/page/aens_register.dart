@@ -114,7 +114,7 @@ class _AensRegisterState extends State<AensRegister> {
                             S.of(context).aens_register_page_title,
                             style: TextStyle(
                               color: Colors.white,
-                              fontFamily: "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               fontSize: 19,
                             ),
                           ),
@@ -147,7 +147,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).aens_register_page_name,
                                   style: TextStyle(
                                     color: Color(0xFF666666),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                     fontSize: 19,
                                   ),
                                 ),
@@ -194,7 +194,7 @@ class _AensRegisterState extends State<AensRegister> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 19,
-                                            fontFamily: "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                           ),
                                         )),
                                   ],
@@ -221,7 +221,7 @@ class _AensRegisterState extends State<AensRegister> {
                     child: Text(
                       S.of(context).aens_register_page_create,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -377,7 +377,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -407,7 +407,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -465,7 +465,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -495,7 +495,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -589,7 +589,7 @@ class _AensRegisterState extends State<AensRegister> {
                                               S.of(context).dialog_conform,
                                               style: TextStyle(
                                                 color: Color(0xFFFC2365),
-                                                fontFamily: "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                               ),
                                             ),
                                             onPressed: () {
@@ -634,7 +634,7 @@ class _AensRegisterState extends State<AensRegister> {
                   S.of(context).dialog_conform,
                   style: TextStyle(
                     color: Color(0xFFFC2365),
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
                 onPressed: () {

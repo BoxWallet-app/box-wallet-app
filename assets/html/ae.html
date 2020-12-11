@@ -1149,10 +1149,25 @@ contract FungibleTokenInterface =
   stateful entrypoint reset_allowance      : (address)               => unit
   stateful entrypoint transfer             : (address, int)          => unit
 
+include "List.aes"
+
 payable contract AESwapContract =
 
   record account = {
     account      : address,
+    coin         : string,
+    c_time       : int,
+    c_height     : int,
+    count        : int,
+    ae           : int}
+
+  record order = {
+    buy_address  : address,
+    sell_address : address,
+    c_time       : int,
+    p_time       : int,
+    c_height     : int,
+    p_height     : int,
     coin         : string,
     count        : int,
     ae           : int}
@@ -1172,9 +1187,11 @@ payable contract AESwapContract =
     freeze       : int}
 
   record state = {
-    swaps        : map(address,  account_swaps),
+    swaps        : map(address, account_swaps),
     accounts     : map(address, account_coin),
     coins        : map(address, coin),
+    records_buy  : map(address, list(order)),
+    records_sell : map(address, list(order)),
     owner        : address,
     decimals     : int}
 
@@ -1183,6 +1200,8 @@ payable contract AESwapContract =
     { swaps       = {},
       coins       = {},
       accounts    = {},
+      records_buy = {},
+      records_sell= {},
       owner       = owner,
       decimals    = 1000000000000000000}
 
@@ -1210,6 +1229,17 @@ payable contract AESwapContract =
 
   entrypoint get_accounts_address(account : address) =
     state.accounts[account]
+
+  entrypoint get_accounts_buy_records(account : address) : list(order) =
+    switch(Map.lookup(account, state.records_buy))
+      Some(account_list) => account_list
+      None => []
+
+  entrypoint get_accounts_sell_records(account : address) : list(order) =
+    switch(Map.lookup(account, state.records_sell))
+      Some(account_list) => account_list
+      None => []
+
 
   private function get_coin(contract_address: address): coin =
     switch(Map.lookup(contract_address, state.coins))
@@ -1259,9 +1289,11 @@ payable contract AESwapContract =
       None => {coin_map = {}, useless = 0}
 
   //设置可交易数据
-  stateful entrypoint set_coin(token: FungibleTokenInterface , contract_address : address ,  coin_name : string , freeze : int) =
+  stateful entrypoint set_coin(contract_address : address ,  coin_name : string , freeze : int) =
     require_owner()
-    let coin = {token = token,coin_address = contract_address , coin_name = coin_name , freeze = freeze}
+    if(!Address.is_contract(contract_address))
+      abort("is_contract")
+    let coin = {token = Address.to_contract(contract_address),coin_address = contract_address , coin_name = coin_name , freeze = freeze}
     put( state{ coins [contract_address] = coin})
     put( state{ swaps [contract_address] = {account_map = {} , transaction = 0}})
     coin
@@ -1302,12 +1334,20 @@ payable contract AESwapContract =
     if(ae > 1000000 * state.decimals)
       abort("AE_MIN_1000000")
 
+    if (count != count / state.decimals *  state.decimals)
+      abort("TOKEN_COUNT_ERROR")
+
+    if (ae != ae / state.decimals *  state.decimals)
+      abort("AE_COUNT_ERROR")
+
+
 
     //将代币转入当前合约进行托管交易
     coin.token.transfer_allowance(Call.caller,Contract.address,count)
 
     //生成要交易的订单信息, 卖出人 , 币种名称 , 币种数量 , 兑换比例
-    let account = {account  = Call.caller,coin = coin.coin_name ,count = count, ae = ae}
+
+    let account = {account  = Call.caller,coin = coin.coin_name , c_time = Chain.timestamp ,c_height = Chain.block_height,count = count, ae = ae}
 
     //获取当前用户币种合集, 准备将订单放入到当前用户的币种合集当中
     let account_coin = get_account_coin()
@@ -1383,33 +1423,57 @@ payable contract AESwapContract =
       abort("PLEDGE_NOT_EXISTS")
 
     //获取要交易用户的订单信息
-    let account = state.swaps[coin.coin_address].account_map[account_address]
+    let data = state.swaps[coin.coin_address].account_map[account_address]
 
     //判断输入金额是否等于订单金额
-    if(account.ae != Call.value )
+    if(data.ae != Call.value )
       abort("COUNT_ERROR")
 
     //将ae 支付给卖方
-    Chain.spend(account.account, Call.value  * 996 / 1000)
+    Chain.spend(data.account, Call.value  * 996 / 1000)
     Chain.spend(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, Call.value * 2 / 1000)
     Chain.spend(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, Call.value * 2 / 1000)
 
     //将token 支付给买方
-    coin.token.transfer(Call.caller, account.count  * 996 / 1000)
-    coin.token.transfer(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, account.count * 2 / 1000)
-    coin.token.transfer(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, account.count * 2 / 1000)
+    coin.token.transfer(Call.caller, data.count  * 996 / 1000)
+    coin.token.transfer(ak_2pdbj3Cbdf2Suqgm8pPye3jst9TKBojAUqKL3VrZYX3MB6WF2Z, data.count * 2 / 1000)
+    coin.token.transfer(ak_PqTdZwX7iMuzgitCakRvWQmwSC5gPDfw5zLQcnwF3Fzjidrnm, data.count * 2 / 1000)
+
+
+    let order = {buy_address = Call.caller , sell_address = data.account , c_time = data.c_time , p_time = Chain.timestamp ,c_height = data.c_height , p_height = Chain.block_height ,coin = data.coin , count = data.count , ae = data.ae}
+
+    let account_record_buy = get_accounts_buy_records(Call.caller)
+    if(List.length(account_record_buy) > 100)
+      let account_record_buy = List.drop(List.length(account_record_buy), account_record_buy)
+
+      let account_record_buy = List.insert_at(0, order, account_record_buy)
+      put(state{ records_buy[Call.caller] = account_record_buy})
+    else
+      let account_record_buy = List.insert_at(0, order, account_record_buy)
+      put(state{ records_buy[Call.caller] = account_record_buy})
+
+
+
+    let account_record_sell = get_accounts_sell_records(data.account)
+    if(List.length(account_record_sell) > 100)
+      let account_record_sell = List.drop(List.length(account_record_sell), account_record_sell)
+      let account_record_sell = List.insert_at(0, order, account_record_sell)
+      put(state{ records_sell[data.account] = account_record_sell})
+    else
+      let account_record_sell = List.insert_at(0, order, account_record_sell)
+      put(state{ records_sell[data.account] = account_record_sell})
+
+
 
     //更新交易数据集合
-    let account_swaps = {account_map = Map.delete(account.account, state.swaps[coin.coin_address].account_map) ,transaction =  state.swaps[coin.coin_address].transaction + Call.value  / state.decimals}
+    let account_swaps = {account_map = Map.delete(data.account, state.swaps[coin.coin_address].account_map) ,transaction =  state.swaps[coin.coin_address].transaction + Call.value  / state.decimals}
     put(state{ swaps[coin.coin_address] = account_swaps})
 
     //更新买方数据集合
-    let account_coin = {coin_map = Map.delete(account.coin, state.accounts[account.account].coin_map) , useless = 0}
-    put(state{ accounts[account.account] = account_coin})
+    let account_coin = {coin_map = Map.delete(data.coin, state.accounts[data.account].coin_map) , useless = 0}
+    put(state{ accounts[data.account] = account_coin})
 
-    account
-
-
+    data
 
 
 

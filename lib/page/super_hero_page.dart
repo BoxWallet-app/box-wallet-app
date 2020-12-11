@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../main.dart';
+
 class SuperHeroPage extends StatefulWidget {
   @override
   _SuperHeroPageState createState() => _SuperHeroPageState();
@@ -29,7 +31,7 @@ class _SuperHeroPageState extends State<SuperHeroPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,

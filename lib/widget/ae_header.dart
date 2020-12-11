@@ -70,16 +70,18 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
       children: [
         Center(
           child: Container(
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             child: Lottie.asset(
-              'images/animation_khzuiqgg.json',
+//              'images/lf30_editor_nwcefvon.json',
+              'images/lf30_editor_41iiftdt.json',
+//              'images/animation_khzuiqgg.json',
               controller: _controller,
               onLoaded: (composition) {
                 // Configure the AnimationController with the duration of the
                 // Lottie file and start the animation.
                 _controller
-                  ..duration = Duration(milliseconds: 1500)
+                  ..duration = Duration(milliseconds: 1000)
                   ..repeat();
               },
             ),

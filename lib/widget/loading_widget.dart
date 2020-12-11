@@ -63,13 +63,13 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
         width: 60,
         height: 60,
         child:Lottie.asset(
-          'images/animation_khzuiqgg.json',
+          'images/lf30_editor_41iiftdt.json',
           controller: _controller,
           onLoaded: (composition) {
             // Configure the AnimationController with the duration of the
             // Lottie file and start the animation.
             _controller
-              ..duration = Duration(milliseconds: 1500)
+              ..duration = Duration(milliseconds: 1000)
               ..repeat();
           },
         ),

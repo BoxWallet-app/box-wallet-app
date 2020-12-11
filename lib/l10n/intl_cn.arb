@@ -290,5 +290,28 @@
   "swap_send_2" : "对方支付的数量",
   "swap_send_3" : "发起兑换",
   "swap_send_4" : "兑换说明",
-  "swap_send_5" : "Box Swap 是去中心化兑换,支持AEX9代币和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,请合理根据需求进行发起兑换."
+  "swap_send_5" : "Box Swap 是去中心化兑换,支持AEX9代币和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,订单记录每100条进行清除,请合理根据需求进行发起兑换.",
+
+  "swap_buy_sell_order" : "订单",
+  "swap_buy_sell_order_title" : "我的订单",
+  "swap_buy_sell_order_tab1" : "已卖出",
+  "swap_buy_sell_order_tab2" : "已买入",
+  "swap_buy_sell_order_item_1" : "卖方",
+  "swap_buy_sell_order_item_2" : "买方",
+  "swap_buy_sell_order_item_3" : "创建时间",
+  "swap_buy_sell_order_item_4" : "支付时间",
+  "swap_buy_sell_order_item_5" : "创建高度",
+  "swap_buy_sell_order_item_6" : "支付高度",
+  "swap_buy_sell_order_item_7" : "卖出数量",
+  "swap_buy_sell_order_item_8" : "支付数量(AE)",
+
+
+  "aepp_item_1" : "官方社区",
+  "aepp_item_1_1" : "在论坛反馈问题",
+
+  "aepp_item_2_1" : "区块链浏览器",
+  "aepp_item_3_1" : "官方开发钱包",
+  "aepp_item_4_1" : "区块链版微博"
+
+
 }

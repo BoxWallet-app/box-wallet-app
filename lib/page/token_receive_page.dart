@@ -102,7 +102,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                 S.of(context).token_receive_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -149,7 +149,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                           height: 1.3,
                                           letterSpacing: 1.0,
 
-                                          fontFamily: "Ubuntu"),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                     ),
                                   ),
 
@@ -173,7 +173,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                       child: Text(
                                         contentText == "" ?S.of(context).token_receive_page_copy:S.of(context).token_receive_page_copy_sucess,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 13, color: Color(0xFFF22B79),fontFamily: "Ubuntu",),
+                                        style: TextStyle(fontSize: 13, color: Color(0xFFF22B79),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                       ),
                                       color: Color(0xFFE61665).withAlpha(16),
                                       textColor: Colors.black,

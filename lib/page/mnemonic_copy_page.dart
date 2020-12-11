@@ -6,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../main.dart';
+
 // ignore: must_be_immutable
 class MnemonicCopyPage extends StatefulWidget {
 
@@ -65,7 +67,7 @@ print(widget.mnemonic);
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                 child: Text(
                   S.of(context).mnemonic_copy_title,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: "Ubuntu",),
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
               ),
               Container(
@@ -73,7 +75,7 @@ print(widget.mnemonic);
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   S.of(context).mnemonic_copy_content,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: "Ubuntu",),
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
               ),
 
@@ -104,7 +106,7 @@ print(widget.mnemonic);
                               TextSpan(text: S.of(context).mnemonic_copy_hint1),
                               TextSpan(
                                   text: S.of(context).mnemonic_copy_hint2,
-                                  style: TextStyle(color: Color(0xFF000000),fontFamily: "Ubuntu",),
+                                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
 //                        }
@@ -154,7 +156,7 @@ print(widget.mnemonic);
                     child: Text(
                       S.of(context).mnemonic_copy_confrom,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -196,7 +198,7 @@ print(widget.mnemonic);
               margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
               child: Text(
                 item.split("_")[0],
-                style: TextStyle(color: Color(0xFF000000),fontFamily: "Ubuntu",),
+                style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
               ),
             ),
           ),

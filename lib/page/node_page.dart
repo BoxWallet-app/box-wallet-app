@@ -77,7 +77,7 @@ class _NodePageState extends State<NodePage> {
           S.of(context).setting_page_node_set,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -87,7 +87,7 @@ class _NodePageState extends State<NodePage> {
             child: new Text(
               S.of(context).setting_page_node_reset,
               style: TextStyle(
-                fontFamily: "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
               ),
             ),
             onPressed: () {
@@ -115,7 +115,7 @@ class _NodePageState extends State<NodePage> {
                   S.of(context).setting_page_node_url,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -138,7 +138,7 @@ class _NodePageState extends State<NodePage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -202,7 +202,7 @@ class _NodePageState extends State<NodePage> {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black.withAlpha(180),
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -220,7 +220,7 @@ class _NodePageState extends State<NodePage> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
@@ -268,7 +268,7 @@ class _NodePageState extends State<NodePage> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xff3460ee),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -290,7 +290,7 @@ class _NodePageState extends State<NodePage> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xff3460ee),
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -314,7 +314,7 @@ class _NodePageState extends State<NodePage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -369,7 +369,7 @@ class _NodePageState extends State<NodePage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   ),

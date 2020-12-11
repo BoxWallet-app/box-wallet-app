@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../main.dart';
+
 class KnowPage extends StatefulWidget {
   @override
   _KnowPageState createState() => _KnowPageState();
@@ -29,7 +31,7 @@ class _KnowPageState extends State<KnowPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,

@@ -145,7 +145,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -159,7 +159,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -171,7 +171,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     Utils.formatAddress(address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -187,7 +187,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -199,7 +199,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     getReceiveAddress(),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -237,7 +237,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                             S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -262,7 +262,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -295,7 +295,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
                                               ),
                                               color: Color(0xFFE61665).withAlpha(16),
                                               textColor: Colors.black,
@@ -335,7 +335,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                           S.of(context).token_send_two_page_coin,
                                                           style: TextStyle(
                                                             color: Color(0xFF666666),
-                                                            fontFamily: "Ubuntu",
+                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                             fontSize: 19,
                                                           ),
                                                         ),
@@ -386,7 +386,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                                             fontSize: 15,
                                                                             color: Colors.black,
                                                                             fontWeight: FontWeight.w600,
-                                                                            fontFamily: "Ubuntu",
+                                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                                           ),
                                                                         ),
                                                                       )
@@ -401,7 +401,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                                         HomePage.token + " ",
                                                                         style: TextStyle(
                                                                           color: Color(0xFF666666),
-                                                                          fontFamily: "Ubuntu",
+                                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                                           fontSize: 14,
                                                                         ),
                                                                       ),
@@ -467,7 +467,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                                             fontSize: 15,
                                                                             color: Colors.black,
                                                                             fontWeight: FontWeight.w600,
-                                                                            fontFamily: "Ubuntu",
+                                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                                           ),
                                                                         ),
                                                                       )
@@ -482,7 +482,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                                         HomePage.tokenABC + " ",
                                                                         style: TextStyle(
                                                                           color: Color(0xFF666666),
-                                                                          fontFamily: "Ubuntu",
+                                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                                           fontSize: 14,
                                                                         ),
                                                                       ),
@@ -535,7 +535,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                       ),
                                                     ),
                                                   )
@@ -550,7 +550,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                     currentCoinName == "AE" ? HomePage.token + " " : HomePage.tokenABC + " ",
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
-                                                      fontFamily: "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                       fontSize: 14,
                                                     ),
                                                   ),
@@ -589,7 +589,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         child: Text(
                           S.of(context).token_send_two_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,
@@ -606,8 +606,28 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
-    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+    if (currentCoinName == "AE") {
+      if (HomePage.token == "loading...") {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(HomePage.token) < 1) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(HomePage.token) - 1).toString();
+        }
+      }
+    } else {
+      if (HomePage.tokenABC == "loading...") {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(HomePage.tokenABC) < 1) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(HomePage.tokenABC) - 0).toString();
+        }
+      }
+      _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+    }
   }
 
   Future<String> getAddress() {
@@ -665,7 +685,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -693,7 +713,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -750,7 +770,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -778,7 +798,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {

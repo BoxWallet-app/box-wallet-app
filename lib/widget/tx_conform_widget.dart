@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../main.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
@@ -108,7 +109,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   S.of(context).dialog_tx_title,
                   style: TextStyle(
                     fontSize: 18,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -142,7 +143,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                   loader: Container(
@@ -181,7 +182,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -198,7 +199,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
 //                overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 )),
           ),

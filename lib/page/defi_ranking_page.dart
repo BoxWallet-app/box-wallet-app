@@ -92,7 +92,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                       : Container(
                           child: Text(
                             "Ranking",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: "Ubuntu"),
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                           ),
                         ),
                   Container(
@@ -100,7 +100,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       "Update Time: " + Utils.getCurrentDate(),
-                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: "Ubuntu"),
+                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                     ),
                   ),
                 ],
@@ -177,7 +177,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                             alignment: Alignment.center,
                             child: Text(
                               S.of(context).defi_ranking_content,
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                           Expanded(child: Container()),
@@ -187,7 +187,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                             alignment: Alignment.center,
                             child: Text(
                               rankingModel == null ? "loading..." : rankingModel.data.outCount,
-                              style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0, fontFamily: "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                             ),
                           ),
                         ],
@@ -261,7 +261,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             child: index != 0
                 ? Text(
                     (index + 1).toString(),
-                    style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: "Ubuntu"),
+                    style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                   )
                 : Image(
                     width: 30,
@@ -276,14 +276,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             child: Container(
               child: Text(
                 Utils.formatAddress(rankingModel.data.ranking[index].address),
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
               rankingModel.data.ranking[index].proportion + "%",
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
             ),
           ),
           Container(
@@ -294,7 +294,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             alignment: Alignment.centerRight,
             child: Text(
               rankingModel.data.ranking[index].count,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
             ),
           ),
         ],
@@ -312,7 +312,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           Container(
             child: Text(
               S.of(context).defi_raking_1,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
             ),
           ),
           Container(
@@ -322,14 +322,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             child: Container(
               child: Text(
                 S.of(context).defi_raking_2,
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
               S.of(context).defi_raking_3,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
             ),
           ),
           Container(
@@ -340,7 +340,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             alignment: Alignment.centerRight,
             child: Text(
               S.of(context).defi_raking_4,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
             ),
           ),
         ],

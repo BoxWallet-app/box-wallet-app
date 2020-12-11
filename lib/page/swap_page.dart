@@ -75,8 +75,10 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
+    print("update_swap");
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
+
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -212,7 +214,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
-                                            fontFamily: "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                           ),
                                         ),
                                       ),
@@ -246,7 +248,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
-                                            fontFamily: "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                           ),
                                         ),
                                       ),
@@ -325,7 +327,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -342,7 +344,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -359,7 +361,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFF666666),
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -384,7 +386,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -401,7 +403,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFF000000),
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -420,7 +422,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -437,7 +439,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFFF22B79),
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -456,7 +458,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     child: Text(
                       S.of(context).swap_item_4,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
                     ),
                     color: Color(0xFFE61665).withAlpha(16),
                     textColor: Colors.black,
@@ -517,7 +519,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -538,7 +540,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                           S.of(context).dialog_swap_sucess,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontFamily: "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                           ),
                         ),
                         actions: <Widget>[
@@ -547,7 +549,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -580,7 +582,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -640,7 +642,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                         ),
                       ),
                     )
@@ -692,7 +694,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   )
                 ],

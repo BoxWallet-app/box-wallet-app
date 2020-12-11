@@ -173,8 +173,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               margin: const EdgeInsets.only(left: 18, top: 150, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: "Ubuntu"),
-                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.white),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.white),
                               ),
                             ),
                             buildContainerCount(context),
@@ -193,8 +193,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               child: Text(
                                 S.of(context).defi_card_hint_base_content,
 
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: "Ubuntu"),
-                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5,color: Color(0xFF999999)),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", height: 1.5,color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 22, top: 10, right: 22),
@@ -432,7 +432,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 Container(
                   child: Text(
                     S.of(context).defi_card_my_get_hint,
-                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF666666)),
                   ),
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 20, top: 18),
@@ -445,8 +445,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                       Container(
                         child: Text(
                           TokenDefiPage.model == null ? "loading..." : "≈"+TokenDefiPage.model.data.accountInfo.earnings,
-                          style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
-//                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Colors.black),
+                          style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
+//                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                         ),
                         alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(left: 18, top: 5),
@@ -493,7 +493,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                   BasicDialogAction(
                                                     title: Text(
                                                       S.of(context).dialog_conform,
-                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context, rootNavigator: true).pop();
@@ -517,7 +517,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                   BasicDialogAction(
                                                     title: Text(
                                                       S.of(context).dialog_conform,
-                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context, rootNavigator: true).pop();
@@ -537,7 +537,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                                   BasicDialogAction(
                                                     title: Text(
                                                       S.of(context).dialog_conform,
-                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: "Ubuntu",),
+                                                      style: TextStyle(color: Color(0xff3460ee), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context, rootNavigator: true).pop();
@@ -558,7 +558,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           child: Text(
                             S.of(context).defi_card_get,
                             maxLines: 1,
-                            style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                            style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
                           ),
                           color: Color(0xff3460ee).withAlpha(40),
                           textColor: Colors.black,
@@ -589,7 +589,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_my_token,
-                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
@@ -597,7 +597,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 TokenDefiPage.model == null ? "loading..." : double.parse(TokenDefiPage.model.data.myBalance).toStringAsFixed(2),
-                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff000000)),
+                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 5),
@@ -615,7 +615,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_all_token,
-                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(0xFF666666)),
+                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
@@ -623,7 +623,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 TokenDefiPage.model == null ? "loading..." : double.parse(TokenDefiPage.model.data.contractBalance).toStringAsFixed(0),
-                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: "Ubuntu", color: Color(0xff000000)),
+                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 5),
@@ -646,7 +646,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     child: Text(
                       S.of(context).defi_card_mine,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xff3460ee),
                     textColor: Colors.black,
@@ -664,7 +664,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     child: Text(
                       S.of(context).defi_card_out,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
                     ),
                     color: Color(0xff3460ee).withAlpha(40),
                     textColor: Colors.black,
@@ -675,7 +675,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
 //                                        Container(
 //                                          child: Text(
 //                                            "Been locked (ae)",
-//                                            style: new TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Ubuntu", color: Colors.black.withAlpha(150)),
+//                                            style: new TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black.withAlpha(150)),
 //                                          ),
 //                                          alignment: Alignment.topLeft,
 //                                          margin: EdgeInsets.only(left: 18, top: 20),
@@ -683,7 +683,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
 //                                        Container(
 //                                          child: Text(
 //                                            "10,000.000",
-//                                            style: new TextStyle(fontSize: 35, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Colors.black),
+//                                            style: new TextStyle(fontSize: 35, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
 //                                          ),
 //                                          alignment: Alignment.topLeft,
 //                                          margin: EdgeInsets.only(left: 18, top: 5),
@@ -736,7 +736,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                   ),
                   onPressed: () {
                     EasyLoading.show();
@@ -765,7 +765,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -837,7 +837,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                             ),
                                             onPressed: () {
                                               EasyLoading.dismiss();
@@ -880,7 +880,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -964,7 +964,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
 //                                  S.of(context).dialog_conform,
 //                                  style: TextStyle(
 //                                    color: Color(0xFFFC2365),
-//                                    fontFamily: "Ubuntu",
+//                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
 //                                  ),
 //                                ),
 //                                onPressed: () {

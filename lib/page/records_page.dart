@@ -119,7 +119,7 @@ class _RecordsPageState extends State<RecordsPage>
         ),
         title: Text(
           S.of(context).home_page_transaction,
-          style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
+          style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
         ),
         centerTitle: true,
       ),
@@ -186,7 +186,7 @@ class _RecordsPageState extends State<RecordsPage>
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
-                                    fontFamily: "Ubuntu"),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ),
@@ -204,12 +204,12 @@ class _RecordsPageState extends State<RecordsPage>
                             forceStrutHeight: true,
                             height: 0.8,
                             leading: 1,
-                            fontFamily: "Ubuntu"),
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                         style: TextStyle(
                             color: Colors.black.withAlpha(56),
                             letterSpacing: 1.0,
                             fontSize: 13,
-                            fontFamily: "Ubuntu"),
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                       ),
                       width: MediaQuery.of(context).size.width - 40,
                     ),
@@ -224,7 +224,7 @@ class _RecordsPageState extends State<RecordsPage>
                             color: Colors.black.withAlpha(56),
                             fontSize: 13,
                             letterSpacing: 1.0,
-                            fontFamily: "Ubuntu"),
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                       ),
                     ),
                   ],
@@ -254,7 +254,7 @@ class _RecordsPageState extends State<RecordsPage>
                   .toString() +
               " AE",
           style:
-              TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+              TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       } else {
         return Text(
@@ -264,7 +264,7 @@ class _RecordsPageState extends State<RecordsPage>
                   .toString() +
               " AE",
           style: TextStyle(
-              color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+              color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       }
     } else {
@@ -277,7 +277,7 @@ class _RecordsPageState extends State<RecordsPage>
         style: TextStyle(
             color: Colors.black.withAlpha(56),
             fontSize: 14,
-            fontFamily: "Ubuntu"),
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
       );
     }
   }

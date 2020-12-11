@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 
+import '../main.dart';
 import 'aens_list_page.dart';
 import 'aens_my_page.dart';
 
@@ -35,7 +36,7 @@ class _AensPageState extends State<AensPage> {
             ),
             title: Text(
               S.of(context).aens_page_title,
-              style: TextStyle(fontSize: 18,fontFamily: "Ubuntu",),
+              style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
             ),
             centerTitle: true,
             actions: <Widget>[
@@ -43,7 +44,7 @@ class _AensPageState extends State<AensPage> {
                 minWidth: 10,
                 child: new Text(
                   S.of(context).aens_page_title_my,
-                  style: TextStyle(fontFamily: "Ubuntu",),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
@@ -64,9 +65,9 @@ class _AensPageState extends State<AensPage> {
                   ),
                   insets: EdgeInsets.only(bottom: 5)),
               tabs: <Widget>[
-                Tab(icon: Text(S.of(context).aens_page_title_tab_1, style: TextStyle(fontFamily: "Ubuntu",fontSize: 14, fontWeight: FontWeight.w600),)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_2, style: TextStyle(fontFamily: "Ubuntu",fontWeight: FontWeight.w600),)),
-                Tab(icon: Text(S.of(context).aens_page_title_tab_3 ,style: TextStyle(fontFamily: "Ubuntu",fontWeight: FontWeight.w600),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_1, style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",fontSize: 14, fontWeight: FontWeight.w600),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_2, style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",fontWeight: FontWeight.w600),)),
+                Tab(icon: Text(S.of(context).aens_page_title_tab_3 ,style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",fontWeight: FontWeight.w600),)),
               ],
             ),
           ),

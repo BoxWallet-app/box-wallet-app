@@ -62,9 +62,13 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
     _streamController3.close();
   }
 
+  double tabAddWidth = 0.0;
+  double tabWidth = 0.0;
+
   @override
   void initState() {
     super.initState();
+
     _streamController.sink.add(0xFFFC2365);
     _streamController2.sink.add(0xFF666666);
     _streamController3.sink.add(0xFF666666);
@@ -93,7 +97,6 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //    _offsetAnimation = Tween<Offset>(begin: Offset.zero, end: const Offset(1, 0.0),).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticIn,));
     var padding = EdgeInsets.symmetric(horizontal: 18, vertical: 5);
 
-    pageController.addListener(() {});
     double gap = 10;
     _tabController.reverse();
     _title3Controller.reverse();
@@ -105,14 +108,32 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
     });
 
     netTestNode();
+    pageController.addListener(() {
+      //  屏幕  / 4 * 3 + 屏幕  / 4 / 3
+      //      print(pageController.offset);
+      //MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3))
+//      _tabBgController.sink.add((MediaQuery.of(context).size.width / 4 * 3 + (MediaQuery.of(context).size.width / 4 / 3))/3 );
+
+      double zoom = (tabWidth+tabAddWidth) / (MediaQuery.of(context).size.width);
+
+
+      double offset = (pageController.offset *zoom /3);
+      if(offset<0 || offset>(tabWidth+tabAddWidth) /3*2){
+        return;
+      }
+      _tabBgController.sink.add(offset);
+    });
   }
 
   Future<void> getAddress() async {
     HomePage.address = await BoxApp.getAddress();
   }
-
   @override
   Widget build(BuildContext context) {
+    tabWidth = MediaQuery.of(context).size.width / 4 * 3;
+    tabAddWidth = MediaQuery.of(context).size.width / 4 / 3;
+
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color(0xFFF5F5F5),
@@ -128,47 +149,28 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
               child: Stack(
                 children: [
                   PageView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     allowImplicitScrolling: true,
                     onPageChanged: (page) {
                       if (page == 0) {
-                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
-                        _tabBgController.sink.add(0);
-                        _tabController.forward();
+//                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
+//                        _tabBgController.sink.add(0);
 
-                        _title2Controller.reverse();
-                        _title3Controller.reverse();
-                        _title1Controller.forward();
-                        _streamController.sink.add(0xFFFC2365);
-                        _streamController2.sink.add(0xFF666666);
-                        _streamController3.sink.add(0xFF666666);
+
                       } else if (page == 1) {
-                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
+//                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
+//                        _tabBgController.sink.add(MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3));
 
-                        _tabBgController.sink.add(MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3));
 
-                        _tabController.forward();
-                        _title2Controller.forward();
-                        _title1Controller.reverse();
-                        _title3Controller.reverse();
 
-                        _streamController.sink.add(0xFF666666);
-                        _streamController2.sink.add(0xFFFC2365);
-                        _streamController3.sink.add(0xFF666666);
+
+
 
 //                  _tabColor2Controller.reverse();
                       } else {
-                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
-                        _tabBgController.sink.add((MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3)) * 2);
+//                        _tabOffsetAnimation = Tween(begin: Offset.zero, end: Offset(page.toDouble(), 0)).animate(_tabController);
+//                        _tabBgController.sink.add((MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3)) * 2);
 
-                        _tabController.forward();
-//                        _tabController.reverse();
-                        _title2Controller.reverse();
-                        _title3Controller.forward();
-                        _title1Controller.reverse();
-
-                        _streamController2.sink.add(0xFF666666);
-                        _streamController.sink.add(0xFF666666);
-                        _streamController3.sink.add(0xFFFC2365);
                       }
                       selectedIndex = page;
                       badge = badge + 1;
@@ -236,7 +238,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                                               width: 30,
                                               height: 30,
                                               decoration: new BoxDecoration(
-                                                  border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
+                                                border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
                                                 color: Color(0xFFFFFFFF), // 底色
                                                 borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
                                               ),
@@ -267,13 +269,43 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                                               color: Color(0xFF000000),
                                               fontWeight: FontWeight.w500,
                                               fontSize: 20,
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn"
+                                                  ? "Ubuntu"
+                                                  : BoxApp.language == "cn"
+                                                      ? "Ubuntu"
+                                                      : "Ubuntu",
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
+//                                  Positioned(
+//                                    right: 4.5,
+//                                    child: FadeTransition(
+//                                      opacity: _title2Controller,
+//                                      child: Material(
+//                                        color: Colors.transparent,
+//                                        child: InkWell(
+//                                          borderRadius: BorderRadius.all(Radius.circular(30)),
+//
+//                                          child: Container(
+//                                            padding: EdgeInsets.all(12.5),
+//                                            height: 55,
+//                                            child:  Center(
+//                                              child: Text(
+//                                               "AE/ABC",
+//                                                style: TextStyle(
+//                                                  fontSize: 14,
+//                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                ),
+//                                              ),
+//                                            ),
+//                                          ),
+//                                        ),
+//                                      ),
+//                                    ),
+//                                  ),
                                   Positioned(
                                     child: FadeTransition(
                                       opacity: _title2Controller,
@@ -287,7 +319,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                             ),
                                           ),
                                         ),
@@ -314,7 +346,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                             ),
                                           ),
                                         ),
@@ -364,7 +396,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                             ),
@@ -378,7 +410,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
             ),
             Container(
               height: 55,
-              width: MediaQuery.of(context).size.width / 4 * 3 + (MediaQuery.of(context).size.width / 4 / 3),
+              width: tabWidth + tabAddWidth,
               decoration: BoxDecoration(color: Color(0xFFEEEEEE), borderRadius: BorderRadius.all(Radius.circular(100)), boxShadow: [BoxShadow(spreadRadius: -10, blurRadius: 60, color: Colors.black.withOpacity(.4), offset: Offset(0, 25))]),
               child: Stack(
                 children: [
@@ -391,7 +423,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 4 - 6 + (MediaQuery.of(context).size.width / 4 / 3 / 3),
+                              width: (tabWidth / 3 + tabAddWidth /3) - 6,
                               height: 49,
                               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(100))),
                             ),
@@ -418,6 +450,14 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                       child: InkWell(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(100), bottomLeft: Radius.circular(100), topRight: Radius.circular(100), bottomRight: Radius.circular(100)),
                         onTap: () {
+                          _tabController.forward();
+
+                          _title2Controller.reverse();
+                          _title3Controller.reverse();
+                          _title1Controller.forward();
+                          _streamController.sink.add(0xFFFC2365);
+                          _streamController2.sink.add(0xFF666666);
+                          _streamController3.sink.add(0xFF666666);
                           pageController.animateToPage(0, duration: new Duration(milliseconds: 500), curve: new ElasticOutCurve(4));
                         },
                         child: StreamBuilder<Object>(
@@ -445,7 +485,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //                                    color: colorsAnimation1.value,
                                           color: snapshot != null ? Color(snapshot.data) : Color(0x666666),
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                         ),
                                       ),
                                     ),
@@ -464,6 +504,14 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                       child: InkWell(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(100), bottomLeft: Radius.circular(100), topRight: Radius.circular(100), bottomRight: Radius.circular(100)),
                         onTap: () {
+                          _tabController.forward();
+                          _title2Controller.forward();
+                          _title1Controller.reverse();
+                          _title3Controller.reverse();
+
+                          _streamController.sink.add(0xFF666666);
+                          _streamController2.sink.add(0xFFFC2365);
+                          _streamController3.sink.add(0xFF666666);
                           pageController.animateToPage(1, duration: new Duration(milliseconds: 500), curve: new ElasticOutCurve(4));
                         },
                         child: StreamBuilder<int>(
@@ -491,7 +539,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //                                    color: colorsAnimation2.value,
                                           color: snapshot != null ? Color(snapshot.data) : Color(0x666666),
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                         ),
                                       ),
                                     ),
@@ -510,6 +558,16 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
                       child: InkWell(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(100), bottomLeft: Radius.circular(100), topRight: Radius.circular(100), bottomRight: Radius.circular(100)),
                         onTap: () {
+
+                          _tabController.forward();
+//                        _tabController.reverse();
+                          _title2Controller.reverse();
+                          _title3Controller.forward();
+                          _title1Controller.reverse();
+
+                          _streamController2.sink.add(0xFF666666);
+                          _streamController.sink.add(0xFF666666);
+                          _streamController3.sink.add(0xFFFC2365);
                           pageController.animateToPage(2, duration: new Duration(milliseconds: 500), curve: new ElasticOutCurve(4));
                         },
                         child: StreamBuilder<int>(
@@ -537,7 +595,7 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
 //                                    color: colorsAnimation2.value,
                                           color: snapshot != null ? Color(snapshot.data) : Color(0x666666),
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                         ),
                                       ),
                                     ),

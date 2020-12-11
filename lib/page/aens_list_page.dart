@@ -13,6 +13,8 @@ import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../main.dart';
+
 class AensListPage extends StatefulWidget {
   final AensPageType aensPageType;
 
@@ -140,7 +142,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -149,7 +151,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                               setNameTime(position),
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ],
@@ -167,14 +169,14 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
                                 Utils.formatPrice(_aensPageModel.data[position].currentPrice) + " AE",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             Text(
                                 S.of(context).aens_list_page_item_address+": " + Utils.formatAddress(_aensPageModel.data[position].owner),
-                              style: TextStyle(color: Colors.black54, fontSize: 14,fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Colors.black54, fontSize: 14,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                           ],
                         ),

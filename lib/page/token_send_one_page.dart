@@ -17,6 +17,8 @@ import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../main.dart';
+
 class TokenSendOnePage extends StatefulWidget {
   @override
   _TokenSendOnePageState createState() => _TokenSendOnePageState();
@@ -89,7 +91,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                 S.of(context).token_send_one_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -125,7 +127,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -162,7 +164,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                         S.of(context).token_send_one_page_qr,
                                                         style: TextStyle(
                                                           color: Color(0xFF666666),
-                                                          fontFamily: "Ubuntu",
+                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                           fontSize: 17,
                                                         ),
                                                       ),
@@ -198,7 +200,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
@@ -230,7 +232,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                         child: Text(
                           S.of(context).token_send_one_page_next,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,

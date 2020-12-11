@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../main.dart';
+
 class ForumPage extends StatefulWidget {
   @override
   _ForumPageState createState() => _ForumPageState();
@@ -14,6 +16,13 @@ class ForumPage extends StatefulWidget {
 class _ForumPageState extends State<ForumPage> {
   WebViewController _webViewController;
   bool isFinish = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class _ForumPageState extends State<ForumPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,

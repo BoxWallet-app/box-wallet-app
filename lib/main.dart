@@ -197,12 +197,12 @@ typedef FlutterJsInitCallBack = Future Function();
 class BoxApp extends StatelessWidget {
   static String language = "";
   static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
-//  static String ABC_CONTRACT_AEX9 = "ct_qrDMpsWmVuM7yJZhwM6AeVWcsf9s5fNpctTU1E84edMkxVDxj";
+//  static String ABC_CONTRACT_AEX9 = "ct_2XJt1TFnac3DNMNPUj5P3LRkyajFbCLmzWMq27aY9xQ7Vo6oyK";
   static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
   static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
   static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
 
-  static String SWAP_CONTRACT = "ct_yECAqurisBaG9jAfQfM2hbp2yeFYa9ByjoavNPnvmUQVfQJds";
+  static String SWAP_CONTRACT = "ct_2QjYFRYbfjUoxe6TSrBYr3SDVpy8NfWk4W5EQYNfHMerZv4qRA";
   static String SWAP_CONTRACT_ABC = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
 
   static WebViewController webViewController;

@@ -246,8 +246,8 @@
   "swap_tab_2": "My Swap",
 
   "swap_item_1": "Premium",
-  "swap_item_2": "Swap quantity",
-  "swap_item_3": "Amount you paid",
+  "swap_item_2": "Swap count",
+  "swap_item_3": "Pay you",
   "swap_item_4": "Swap now",
   "swap_item_5": "Cancel",
 
@@ -262,5 +262,25 @@
   "swap_send_2": "The amount paid by the other party",
   "swap_send_3": "Initiate exchange",
   "swap_send_4": "Exchange Instructions",
-  "swap_send_5": "Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs."
+  "swap_send_5": "Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.",
+
+  "swap_buy_sell_order": "Order",
+  "swap_buy_sell_order_title": "My Order",
+  "swap_buy_sell_order_tab1": "Sold",
+  "swap_buy_sell_order_tab2": "Bought",
+  "swap_buy_sell_order_item_1": "Seller",
+  "swap_buy_sell_order_item_2": "Buyer",
+  "swap_buy_sell_order_item_3": "Created time",
+  "swap_buy_sell_order_item_4": "Payment time",
+  "swap_buy_sell_order_item_5": "Created Height",
+  "swap_buy_sell_order_item_6": "Payment Height",
+  "swap_buy_sell_order_item_7": "Sold Quantity",
+  "swap_buy_sell_order_item_8": "Payment Quantity (AE)",
+
+  "aepp_item_1" : "Team Forum",
+  "aepp_item_1_1" : "Feedback problems",
+
+  "aepp_item_2_1" : "Blockchain browser",
+  "aepp_item_3_1" : "The official wallet",
+  "aepp_item_4_1" : "Blockchain weibo"
 }

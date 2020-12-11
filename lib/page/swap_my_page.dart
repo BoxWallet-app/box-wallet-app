@@ -13,6 +13,7 @@ import 'package:box/page/language_page.dart';
 import 'package:box/page/photo_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/swap_initiate_page.dart';
+import 'package:box/page/swaps_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -87,11 +88,24 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
           S.of(context).swap_title_my,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          MaterialButton(
+            minWidth: 10,
+            child: new Text(
+              S.of(context).swap_buy_sell_order,
+              style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+            ),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SwapsPage()));
+            },
+          ),
+        ],
       ),
+
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -204,7 +218,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -221,7 +235,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -238,7 +252,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
 
                                   //词间距
                                   color: Color(0xFF666666),
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -260,7 +274,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -277,7 +291,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
 
                                   //词间距
                                   color: Color(0xFF000000),
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -295,7 +309,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                           ),
@@ -311,7 +325,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFFF22B79),
                                   //词间距
-                                  fontFamily: "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                             ),
                           ),
                         ],
@@ -330,7 +344,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                     child: Text(
                       S.of(context).swap_item_5,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
                     ),
                     color: Color(0xFFE61665).withAlpha(16),
                     textColor: Colors.black,
@@ -392,7 +406,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -418,7 +432,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -449,7 +463,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -510,7 +524,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                         ),
                       ),
                     )
@@ -562,7 +576,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   )
                 ],

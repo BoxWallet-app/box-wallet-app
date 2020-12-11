@@ -70,7 +70,7 @@ class _SplashPageState extends State<SplashPage> {
                 content: Text(
                   "Please choose the language you want to use\n请选择你要使用的语言",
                   style: TextStyle(
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
                 actions: <Widget>[
@@ -79,7 +79,7 @@ class _SplashPageState extends State<SplashPage> {
                       "中文",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -96,7 +96,7 @@ class _SplashPageState extends State<SplashPage> {
                       "English",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -173,7 +173,7 @@ class _SplashPageState extends State<SplashPage> {
                     "· Infinite possibility ·",
                     style: TextStyle(
                       fontSize: 20,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                 ),

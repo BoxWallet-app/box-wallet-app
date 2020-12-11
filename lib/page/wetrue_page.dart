@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../main.dart';
+
 class WeTruePage extends StatefulWidget {
   @override
   _WeTruePageState createState() => _WeTruePageState();
@@ -31,7 +33,7 @@ class _WeTruePageState extends State<WeTruePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,

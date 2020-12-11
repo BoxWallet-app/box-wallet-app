@@ -56,7 +56,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           S.of(context).swap_title_send,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -79,7 +79,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   S.of(context).swap_send_1,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -105,12 +105,12 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
 //                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                          WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
                         ],
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -148,7 +148,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             "ABC",
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               color: Colors.black,
                             ),
                           )),
@@ -163,7 +163,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   S.of(context).token_send_two_page_balance + " : " + HomePage.tokenABC,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -174,7 +174,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   S.of(context).swap_send_2,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                   ),
                 ),
               ),
@@ -197,14 +197,14 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
 
                         controller: _textEditingControllerCompiler,
                         focusNode: focusNodeCompiler,
-//              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
-//              ],
+              inputFormatters: [
+                WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+              ],
 
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -242,7 +242,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             "AE",
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               color: Colors.black,
                             ),
                           )),
@@ -261,7 +261,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   child: Text(
                     S.of(context).swap_send_3,
                     maxLines: 1,
-                    style: TextStyle(fontSize: 15, fontFamily: "Ubuntu", color: Color(0xFFFFFFFF)),
+                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFFFFFF)),
                   ),
                   color: Color(0xFFE61665),
                   textColor: Colors.black,
@@ -281,7 +281,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_5,
-                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],
@@ -332,7 +332,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -360,7 +360,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -390,7 +390,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                               ),
                             ),
                             onPressed: () {

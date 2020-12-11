@@ -92,7 +92,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                   ),
                   onPressed: () {
                     EasyLoading.show();
@@ -121,7 +121,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                 BasicDialogAction(
                   title: Text(
                     S.of(context).dialog_conform,
-                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                    style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                   ),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
@@ -193,7 +193,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                             ),
                                             onPressed: () {
                                               EasyLoading.dismiss();
@@ -236,7 +236,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -289,7 +289,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -314,7 +314,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                               EasyLoading.show();
@@ -338,7 +338,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
@@ -432,7 +432,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
           S.of(context).defi_record_title,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -443,7 +443,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                   child: new Text(
                     S.of(context).defi_record_title_right,
                     style: TextStyle(
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                   onPressed: () {
@@ -518,14 +518,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_lock_number,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 contractRecordModel.data[index].number.toString(),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -540,14 +540,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_mine_number,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 contractRecordModel.data[index].tokenNumber.toString(),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -562,14 +562,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_lock_time,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 contractRecordModel.data[index].day.toString() + S.of(context).defi_record_item_lock_time_day,
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -584,14 +584,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_day_time,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 getContinueTime(context, index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -606,14 +606,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_time,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 getUnlockTime(context, index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -628,14 +628,14 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                               child: Container(
                                 child: Text(
                                   S.of(context).defi_record_item_status,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: "Ubuntu"),
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
                                 getType(index),
-                                style: TextStyle(color: Colors.green, fontSize: 16, fontFamily: "Ubuntu"),
+                                style: TextStyle(color: Colors.green, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
@@ -703,7 +703,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
           child: Text(
             S.of(context).defi_record_item_btn_unlock,
             maxLines: 1,
-            style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFF3561ef)),
+            style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF3561ef)),
           ),
           color: Color(0x333A66F5),
           textColor: Colors.black,
@@ -751,7 +751,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                             Container(
                               child: Text(
                                 S.of(context).defi_card_time,
-                                style: new TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Ubuntu", color: Color(0xFF000000)),
+                                style: new TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 32),
@@ -784,7 +784,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                             Container(
                                               child: Text(
                                                 "1",
-                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             ),
                                             Container(
@@ -792,7 +792,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                               margin: EdgeInsets.only(top: 17),
                                               child: Text(
                                                 S.of(context).defi_card_time_day,
-                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 1 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             )
                                           ],
@@ -826,7 +826,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                             Container(
                                               child: Text(
                                                 "7",
-                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             ),
                                             Container(
@@ -834,7 +834,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                               margin: EdgeInsets.only(top: 17),
                                               child: Text(
                                                 S.of(context).defi_card_time_day,
-                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 7 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             )
                                           ],
@@ -868,7 +868,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                             Container(
                                               child: Text(
                                                 "30",
-                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             ),
                                             Container(
@@ -876,7 +876,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                               margin: EdgeInsets.only(top: 17),
                                               child: Text(
                                                 S.of(context).defi_card_time_day,
-                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 30 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             )
                                           ],
@@ -910,7 +910,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                             Container(
                                               child: Text(
                                                 "90",
-                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 25, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             ),
                                             Container(
@@ -918,7 +918,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                               margin: EdgeInsets.only(top: 17),
                                               child: Text(
                                                 S.of(context).defi_card_time_day,
-                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
+                                                style: new TextStyle(fontSize: 10.8, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(day == 90 ? dayTextCheckColor : dayTextUnCheckColor)),
                                               ),
                                             )
                                           ],
@@ -941,7 +941,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                                 },
                                 child: Text(
                                   S.of(context).defi_card_mine,
-                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: "Ubuntu", color: Colors.white),
+                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.white),
                                 ),
                                 loader: Container(
                                   padding: EdgeInsets.all(10),
@@ -966,7 +966,7 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
           child: Text(
             S.of(context).defi_record_item_btn_continue,
             maxLines: 1,
-            style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xFF000000)),
+            style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
           ),
           color: Color(0xFFEEEEEE),
           textColor: Colors.black,

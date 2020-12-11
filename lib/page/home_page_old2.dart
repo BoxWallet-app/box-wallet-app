@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                             margin: const EdgeInsets.only(bottom: 5),
                                             child: Text(
                                               "  AE",
-                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: "Ubuntu"),
+                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                             ),
                                           ),
                                         ],
@@ -266,7 +266,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                       margin: const EdgeInsets.only(top: 18, left: 18, right: 18),
                                       child: Text(
                                         address,
-                                        style: TextStyle(fontSize: 18, color: Colors.white70, height: 1.3, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                        style: TextStyle(fontSize: 18, color: Colors.white70, height: 1.3, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                       ),
                                     ),
                                   ],
@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                 margin: EdgeInsets.only(left: 18, top: 20),
                                 child: Text(
                                   S.of(context).home_page_function,
-                                  style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "Ubuntu"),
+                                  style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                               Container(
@@ -308,7 +308,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 margin: EdgeInsets.only(top: 10),
                                                 child: Text(
                                                   S.of(context).home_page_function_send,
-                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                 ),
                                               ),
                                             ],
@@ -340,7 +340,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 margin: EdgeInsets.only(top: 10),
                                                 child: Text(
                                                   S.of(context).home_page_function_receive,
-                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                 ),
                                               ),
                                             ],
@@ -372,7 +372,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 margin: EdgeInsets.only(top: 10),
                                                 child: Text(
                                                   S.of(context).home_page_function_names,
-                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                 ),
                                               ),
                                             ],
@@ -402,7 +402,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                 margin: EdgeInsets.only(top: 10),
                                                 child: Text(
                                                   S.of(context).home_page_function_games,
-                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Ubuntu"),
+                                                  style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                 ),
                                               ),
                                             ],
@@ -556,7 +556,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                       child: Container(
                                                                         child: Text(
                                                                           walletRecordModel.data[index].tx['type'],
-                                                                          style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Ubuntu"),
+                                                                          style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -570,7 +570,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                 margin: EdgeInsets.only(top: 8),
                                                                 child: Text(
                                                                   walletRecordModel.data[index].hash,
-                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: "Ubuntu"),
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                                   style: TextStyle(
                                                                     color: Colors.black.withAlpha(80),
                                                                     letterSpacing: 1.0,
@@ -583,7 +583,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
                                                                 margin: EdgeInsets.only(top: 6),
                                                                 child: Text(
                                                                   DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                                                                  style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: "Ubuntu"),
+                                                                  style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                                                 ),
                                                               ),
                                                             ],
@@ -661,18 +661,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       if (walletRecordModel.data[index].tx['recipient_id'].toString() == address) {
         return Text(
           "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       } else {
         return Text(
           "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       }
     } else {
       return Text(
         "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: "Ubuntu"),
+        style: TextStyle(color: Colors.black.withAlpha(80), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
       );
     }
   }

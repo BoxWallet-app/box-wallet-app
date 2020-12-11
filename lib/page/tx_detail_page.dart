@@ -53,7 +53,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
         "Basic data",
         style: TextStyle(
           fontSize: 20,
-          fontFamily: "Ubuntu",
+          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
         ),
       ),
     ));
@@ -133,7 +133,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
         "All the data",
         style: TextStyle(
           fontSize: 20,
-          fontFamily: "Ubuntu",
+          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
         ),
       ),
     ));
@@ -212,7 +212,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
           widget.recordData.hash.toString(),
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -230,18 +230,18 @@ class _TxDetailPageState extends State<TxDetailPage> {
       if (widget.recordData.tx['recipient_id'].toString() == HomePage.address) {
         return Text(
           "+" + ((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: "Ubuntu"),
+          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       } else {
         return Text(
           "-" + (((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000)).toString() + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       }
     } else {
       return Text(
         "-" + (widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
       );
     }
   }
@@ -269,7 +269,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   ),
@@ -284,7 +284,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 14,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                   margin: const EdgeInsets.only(left: 30.0),
@@ -315,7 +315,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   ),

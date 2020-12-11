@@ -117,13 +117,13 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
                       width: 70,
                       height: 70,
                       child: Lottie.asset(
-                        'images/animation_khzuiqgg.json',
+                        'images/lf30_editor_41iiftdt.json',
                         controller: _controller,
                         onLoaded: (composition) {
                           // Configure the AnimationController with the duration of the
                           // Lottie file and start the animation.
                           _controller
-                            ..duration = Duration(milliseconds: 1500)
+                            ..duration = Duration(milliseconds: 1000)
                             ..repeat();
                         },
                       ),
@@ -137,7 +137,7 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   )

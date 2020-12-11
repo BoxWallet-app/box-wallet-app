@@ -145,7 +145,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                 S.of(context).defi_card_in_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -159,7 +159,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -171,7 +171,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                     Utils.formatAddress(address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -187,7 +187,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -199,7 +199,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                     Utils.formatCTAddress(BoxApp.DEFI_CONTRACT_V2),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -237,7 +237,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                             S.of(context).defi_card_in_title_content,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
-                                              fontFamily: "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -262,7 +262,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -295,7 +295,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: "Ubuntu", color: Color(0xff3460ee)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
                                               ),
                                               color: Color(0xff3460ee).withAlpha(40),
                                               textColor: Colors.black,
@@ -342,7 +342,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                       ),
                                                     ),
                                                   )
@@ -357,7 +357,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                                     currentCoinName == "AE" ? HomePage.token + " " : HomePage.tokenABC + " ",
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
-                                                      fontFamily: "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                                       fontSize: 14,
                                                     ),
                                                   ),
@@ -390,7 +390,7 @@ class _DefiInPageState extends State<DefiInPage> {
                         child: Text(
                           S.of(context).token_send_two_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xff3460ee),
                         textColor: Colors.white,
@@ -405,10 +405,29 @@ class _DefiInPageState extends State<DefiInPage> {
         ));
 //
   }
-
   void clickAllCount() {
-    _textEditingController.text = currentCoinName == "AE" ? HomePage.token : HomePage.tokenABC;
-    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+    if (currentCoinName == "AE") {
+      if (HomePage.token == "loading...") {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(HomePage.token) < 1) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(HomePage.token) - 1).toString();
+        }
+      }
+    } else {
+      if (HomePage.tokenABC == "loading...") {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(HomePage.tokenABC) < 1) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(HomePage.tokenABC) - 1).toString();
+        }
+      }
+      _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+    }
   }
 
   Future<String> getAddress() {
@@ -442,7 +461,7 @@ class _DefiInPageState extends State<DefiInPage> {
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    
+
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -464,7 +483,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                 style: TextStyle(color: Color(0xff3460ee)),
                               ),
                               onPressed: () {
-                                
+
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -477,7 +496,7 @@ class _DefiInPageState extends State<DefiInPage> {
                     BoxApp.contractDefiV2Lock((tx) {
                       eventBus.fire(DefiEvent());
                       showFlushSucess(context);
-                      
+
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -491,18 +510,18 @@ class _DefiInPageState extends State<DefiInPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
+
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      
+
                     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, _textEditingController.text);
                     showChainLoading();
                   },
@@ -530,7 +549,7 @@ class _DefiInPageState extends State<DefiInPage> {
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    
+
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -551,11 +570,11 @@ class _DefiInPageState extends State<DefiInPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
+
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -567,7 +586,7 @@ class _DefiInPageState extends State<DefiInPage> {
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
                       showFlushSucess(context);
-                      
+
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -581,18 +600,18 @@ class _DefiInPageState extends State<DefiInPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
+
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      
+
                       // ignore: missing_return
                     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, "", _textEditingController.text);
                     showChainLoading();

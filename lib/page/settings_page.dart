@@ -110,12 +110,12 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     children: [
                       Container(
                         margin: EdgeInsets.only(left: 12),
-                        child: Text(Utils.formatAddress(HomePage.address), style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFF000000))),
+                        child: Text(Utils.formatAddress(HomePage.address), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000))),
                       ),
                       Container(
                         width: 190,
                         margin: EdgeInsets.only(left: 12, top: 4),
-                        child: Text("Name: developing ", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 14, fontFamily: "Ubuntu", color: Color(0xFF666666))),
+                        child: Text("Name: developing ", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF666666))),
                       ),
                     ],
                   ),
@@ -249,7 +249,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                                 style: new TextStyle(
                                   fontSize: 15,
                                   color: Colors.black,
-                                  fontFamily: "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                                 ),
                               ),
                             )
@@ -270,6 +270,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
 //            }, isLine: true),
 
             Expanded(child: Container()),
+
             Container(
               height: 44,
               width: MediaQuery.of(context).size.width * 0.8 - 80,
@@ -286,13 +287,15 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                 child: Text(
                   S.of(context).setting_page_item_logout,
                   maxLines: 1,
-                  style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xFFF22B79)),
+                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
                 ),
                 color: Color(0xFFE61665).withAlpha(16),
                 textColor: Colors.black,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
             ),
+
+
           ],
         ),
       ),
@@ -325,7 +328,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                         ),
                       ),
                     )
@@ -377,7 +380,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   )
                 ],

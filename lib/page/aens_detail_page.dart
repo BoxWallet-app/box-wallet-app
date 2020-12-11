@@ -178,7 +178,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
           child: Text(
             S.of(context).aens_detail_page_update,
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
           ),
           color: Color(0xff6F53A1),
           textColor: Colors.white,
@@ -227,7 +227,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                              
@@ -255,7 +255,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                              
@@ -329,7 +329,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                              
@@ -356,7 +356,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
-                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                             ),
                             onPressed: () {
                              
@@ -432,7 +432,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                                             ),
                                             onPressed: () {
                                              
@@ -476,7 +476,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
               BasicDialogAction(
                 title: Text(
                   S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: "Ubuntu",),
+                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
                 ),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -572,7 +572,7 @@ return Container(
       child: Text(
         S.of(context).aens_detail_page_add,
         maxLines: 1,
-        style: TextStyle(fontSize: 16, fontFamily: "Ubuntu", color: Color(0xffffffff)),
+        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
       ),
       color: Color(0xFFFC2365),
       textColor: Colors.white,
@@ -605,7 +605,7 @@ return Container(
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                       ),
                     ),
                   ),
@@ -620,7 +620,7 @@ return Container(
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 14,
-                      fontFamily: "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
                     ),
                   ),
                   margin: const EdgeInsets.only(left: 30.0),

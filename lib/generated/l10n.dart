@@ -1923,20 +1923,20 @@ class S {
     );
   }
 
-  /// `Swap quantity`
+  /// `Swap count`
   String get swap_item_2 {
     return Intl.message(
-      'Swap quantity',
+      'Swap count',
       name: 'swap_item_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Amount you paid`
+  /// `Pay you`
   String get swap_item_3 {
     return Intl.message(
-      'Amount you paid',
+      'Pay you',
       name: 'swap_item_3',
       desc: '',
       args: [],
@@ -2058,6 +2058,176 @@ class S {
     return Intl.message(
       'Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.',
       name: 'swap_send_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order`
+  String get swap_buy_sell_order {
+    return Intl.message(
+      'Order',
+      name: 'swap_buy_sell_order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Order`
+  String get swap_buy_sell_order_title {
+    return Intl.message(
+      'My Order',
+      name: 'swap_buy_sell_order_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sold`
+  String get swap_buy_sell_order_tab1 {
+    return Intl.message(
+      'Sold',
+      name: 'swap_buy_sell_order_tab1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bought`
+  String get swap_buy_sell_order_tab2 {
+    return Intl.message(
+      'Bought',
+      name: 'swap_buy_sell_order_tab2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seller`
+  String get swap_buy_sell_order_item_1 {
+    return Intl.message(
+      'Seller',
+      name: 'swap_buy_sell_order_item_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buyer`
+  String get swap_buy_sell_order_item_2 {
+    return Intl.message(
+      'Buyer',
+      name: 'swap_buy_sell_order_item_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created time`
+  String get swap_buy_sell_order_item_3 {
+    return Intl.message(
+      'Created time',
+      name: 'swap_buy_sell_order_item_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment time`
+  String get swap_buy_sell_order_item_4 {
+    return Intl.message(
+      'Payment time',
+      name: 'swap_buy_sell_order_item_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created Height`
+  String get swap_buy_sell_order_item_5 {
+    return Intl.message(
+      'Created Height',
+      name: 'swap_buy_sell_order_item_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Height`
+  String get swap_buy_sell_order_item_6 {
+    return Intl.message(
+      'Payment Height',
+      name: 'swap_buy_sell_order_item_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sold Quantity`
+  String get swap_buy_sell_order_item_7 {
+    return Intl.message(
+      'Sold Quantity',
+      name: 'swap_buy_sell_order_item_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Quantity (AE)`
+  String get swap_buy_sell_order_item_8 {
+    return Intl.message(
+      'Payment Quantity (AE)',
+      name: 'swap_buy_sell_order_item_8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team Forum`
+  String get aepp_item_1 {
+    return Intl.message(
+      'Team Forum',
+      name: 'aepp_item_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback problems`
+  String get aepp_item_1_1 {
+    return Intl.message(
+      'Feedback problems',
+      name: 'aepp_item_1_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blockchain browser`
+  String get aepp_item_2_1 {
+    return Intl.message(
+      'Blockchain browser',
+      name: 'aepp_item_2_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The official wallet`
+  String get aepp_item_3_1 {
+    return Intl.message(
+      'The official wallet',
+      name: 'aepp_item_3_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blockchain weibo`
+  String get aepp_item_4_1 {
+    return Intl.message(
+      'Blockchain weibo',
+      name: 'aepp_item_4_1',
       desc: '',
       args: [],
     );
