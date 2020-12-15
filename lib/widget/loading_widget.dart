@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:box/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
+
+import '../main.dart';
 
 enum LoadingType { loading, error, finish, no_data }
 
@@ -17,8 +21,6 @@ class LoadingWidget extends StatefulWidget {
 }
 
 class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateMixin {
-
-
   AnimationController _controller;
 
   @override
@@ -26,14 +28,15 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
     // TODO: implement dispose
     _controller.dispose();
     super.dispose();
-
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = AnimationController(vsync: this);
   }
+
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -47,6 +50,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
         return widget.child;
       case LoadingType.no_data:
         return _noData;
+//        return _error(widget.onPressedError);;
         break;
     }
   }
@@ -58,11 +62,11 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
 //      ),
 //    );
 
-    return  Center(
+    return Center(
       child: Container(
         width: 60,
         height: 60,
-        child:Lottie.asset(
+        child: Lottie.asset(
           'images/lf30_editor_41iiftdt.json',
           controller: _controller,
           onLoaded: (composition) {
@@ -78,36 +82,72 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
   }
 
   Widget _error(onPressedError) {
-    if (onPressedError == null) {
-    }
+    if (onPressedError == null) {}
     return Center(
         child: Container(
-      height: 120,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(  S.of(context).loading_widget_no_net,),
+          Image(
+            width: 198,
+            height: 164,
+            image: AssetImage('images/no_net.png'),
+          ),
           Container(
             margin: EdgeInsets.only(top: 20),
-            child: MaterialButton(
-              child: Text(
-                S.of(context).loading_widget_no_net_try,
-                style: new TextStyle(fontSize: 17, color: Colors.white),
-              ),
-              color: Color(0xFFFC2365),
-              height: 40,
-              minWidth: 120,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
+            child: Text(
+              S.of(context).loading_widget_no_net,
+              style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
+
+            ),
+          ),
+
+          Container(
+            height: 35,
+            width: 120,
+            margin: EdgeInsets.only(top: 20, bottom: MediaQueryData.fromWindow(window).padding.bottom + 50),
+            child: FlatButton(
               onPressed: () {
                 onPressedError.call();
               },
+              child: Text(
+                S.of(context).loading_widget_no_net_try,
+                maxLines: 1,
+                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
+              ),
+              color: Color(0xFFE61665).withAlpha(16),
+              textColor: Colors.black,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             ),
-          )
+          ),
         ],
       ),
     ));
   }
 
   Widget get _noData {
-    return Center(child: Text(S.of(context).loading_widget_no_data));
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(
+            width: 198,
+            height: 164,
+            image: AssetImage('images/no_data.png'),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Text(
+              S.of(context).loading_widget_no_data,
+              style: TextStyle(
+                fontSize: 15,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                color: Color(0xFF000000),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

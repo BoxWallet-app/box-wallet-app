@@ -108,7 +108,7 @@
   "hint_error_address": "地址错误",
   "hint_error_camera_permissions": "没有相机权限",
 
-  "loading_widget_no_data": "暂无数据",
+  "loading_widget_no_data": "这里暂时没有数据",
   "loading_widget_no_net": "网络错误,请确认重试",
   "loading_widget_no_net_try": "重试",
 

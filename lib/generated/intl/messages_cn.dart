@@ -168,7 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("我的资产"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("交易记录"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("确认数"),
-    "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("暂无数据"),
+    "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("这里暂时没有数据"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
     "login_page_create" : MessageLookupByLibrary.simpleMessage("创建新账户"),

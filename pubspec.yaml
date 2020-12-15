@@ -184,6 +184,8 @@ flutter:
     - images/apps_wetrue.png
     - images/aepp_forum.png
     - images/aepp_superhero.png
+    - images/no_data.png
+    - images/no_net.png
 
   #   - images/a_dot_ham.jpeg
 
