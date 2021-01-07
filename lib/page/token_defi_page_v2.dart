@@ -102,7 +102,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       } else {}
     }).catchError((e) {
       print(e.toString());
-      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
