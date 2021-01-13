@@ -75,7 +75,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
-    print("update_swap");
+//    print("update_swap");
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
 
