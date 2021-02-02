@@ -78,7 +78,25 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 //    print("update_swap");
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
-
+      appBar: AppBar(
+        // 隐藏阴影
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 17,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          S.of(context).swap_title,
+          style: TextStyle(
+            fontSize: 18,
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -90,7 +108,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
           return;
         },
         child: Container(
-          padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 55),
+//          padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top + 55),
           child: Stack(
             children: [
               Positioned(

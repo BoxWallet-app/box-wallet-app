@@ -2203,30 +2203,30 @@ class S {
     );
   }
 
-  /// `Blockchain browser`
+  /// `Connect the blockchain with your fingertips`
   String get aepp_item_2_1 {
     return Intl.message(
-      'Blockchain browser',
+      'Connect the blockchain with your fingertips',
       name: 'aepp_item_2_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `The official wallet`
+  /// `AE official development wallet`
   String get aepp_item_3_1 {
     return Intl.message(
-      'The official wallet',
+      'AE official development wallet',
       name: 'aepp_item_3_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Blockchain weibo`
+  /// `Remember what you remember, think what you think`
   String get aepp_item_4_1 {
     return Intl.message(
-      'Blockchain weibo',
+      'Remember what you remember, think what you think',
       name: 'aepp_item_4_1',
       desc: '',
       args: [],

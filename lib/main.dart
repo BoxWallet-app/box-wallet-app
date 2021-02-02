@@ -32,6 +32,8 @@ import 'package:jaguar_flutter_asset/jaguar_flutter_asset.dart';
 
 import 'package:ed25519_edwards/ed25519_edwards.dart' as ed;
 
+import 'page/tab_page_v2.dart';
+
 void main() {
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -569,6 +571,7 @@ class BoxApp extends StatelessWidget {
           home: StreamBuilder<Object>(
               stream: null,
               builder: (context, snapshot) {
+//                return TabPageV2();
                 return SplashPage();
               }),
           localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
@@ -579,7 +582,7 @@ class BoxApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             '/login': (BuildContext context) => LoginPage(),
             '/home': (BuildContext context) => HomePage(),
-            '/TabPage': (BuildContext context) => TabPage(),
+            '/TabPage': (BuildContext context) => TabPageV2(),
             '/MnemonicCopyPage': (BuildContext context) => MnemonicCopyPage(),
           },
         ),
@@ -662,8 +665,10 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     var address = prefs.getString('address');
     if (address == null) {
+//      return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
       return "-";
     }
+//    return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
     return address;
   }
 
