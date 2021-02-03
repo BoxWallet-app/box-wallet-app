@@ -8,6 +8,7 @@ import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/contract_info_model.dart';
 import 'package:box/page/swap_page.dart';
 import 'package:box/page/token_defi_page_v2.dart';
+import 'package:box/page/web_page.dart';
 import 'package:box/page/wetrue_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
@@ -28,7 +29,7 @@ class AeppsPageV2 extends StatefulWidget {
   _AeppsPageV2State createState() => _AeppsPageV2State();
 }
 
-class _AeppsPageV2State extends State<AeppsPageV2>  with AutomaticKeepAliveClientMixin{
+class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClientMixin {
   BaseNameDataModel baseNameDataModel;
 
   @override
@@ -43,8 +44,7 @@ class _AeppsPageV2State extends State<AeppsPageV2>  with AutomaticKeepAliveClien
     BaseNameDataDao.fetch().then((BaseNameDataModel model) {
       baseNameDataModel = model;
       setState(() {});
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   void netContractBalance() {
@@ -77,16 +77,16 @@ class _AeppsPageV2State extends State<AeppsPageV2>  with AutomaticKeepAliveClien
   }
 
   Future<void> _onRefresh() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
             child: EasyRefresh(
-              header: AEHeader(),
-              onRefresh: _onRefresh,
-              child: Column(
-      children: [
-
+      header: AEHeader(),
+      onRefresh: _onRefresh,
+      child: Column(
+        children: [
 //        Container(
 //          height: 130,
 //          alignment: Alignment.centerLeft,
@@ -317,290 +317,284 @@ class _AeppsPageV2State extends State<AeppsPageV2>  with AutomaticKeepAliveClien
 //            ),
 //          ),
 //        ),
-        Container(
-          height: 90,
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-          //边框设置
-          decoration: new BoxDecoration(
-            color: Color(0xE6FFFFFF),
-            //设置四周圆角 角度
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          ),
-          child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: Colors.white,
+
+          Container(
+            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+            decoration: new BoxDecoration(
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            width: MediaQuery.of(context).size.width,
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WebPage(url: "https://ae-source.oss-cn-hongkong.aliyuncs.com/1.pdf",title: "A tale of attack and recovery",)));
               },
               child: Column(
                 children: [
-                  Container(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 90,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Image(
-                                  width: 56,
-                                  height: 56,
-                                  image: AssetImage("images/home_financial.png"),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                  S.of(context).home_page_function_defi,
-                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 18,
-                          child: Container(
-                            height: 30,
-                            margin: const EdgeInsets.only(top: 0),
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
-                              },
-                              child: Text(
-                                "GO",
-                                maxLines: 1,
-                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
-                              ),
-                              color: Color(0xff3460ee).withAlpha(16),
-                              textColor: Colors.black,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                          ),
-                        ),
-                      ],
+
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(15.0),topLeft: Radius.circular(15.0)),
+                    child: Image.network(
+                      "https://www.aechina.io/wp-content/uploads/2021/01/4d28ce8f9a6c10a77a283a25ef14203b.jpg",
                     ),
                   ),
-
+                  Container(
+                    margin: const EdgeInsets.only( left: 20, right: 20,top: 12,bottom: 12),
+                    alignment: Alignment.centerLeft,
+                    child: Text("A tale of attack and recovery",  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-        Container(
-          height: 90,
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-          //边框设置
-          decoration: new BoxDecoration(
-            color: Color(0xE6FFFFFF),
-            //设置四周圆角 角度
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          ),
-          child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: Colors.white,
-            child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
-              },
-              child: Column(
-                children: [
-                  Container(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 90,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Image(
-                                  width: 56,
-                                  height: 56,
-                                  image: AssetImage("images/home_record.png"),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(
-                                  S.of(context).swap_title,
-                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 18,
-                          child: Container(
-                            height: 30,
-                            margin: const EdgeInsets.only(top: 0),
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
-                              },
-                              child: Text(
-                                "GO",
-                                maxLines: 1,
-                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
-                              ),
-                              color: Color(0xFFE61665).withAlpha(16),
-                              textColor: Colors.black,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
+          Container(
+            height: 90,
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+            //边框设置
+            decoration: new BoxDecoration(
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
-          ),
-        ),
-        Container(
-          height: 130,
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-          //边框设置
-          decoration: new BoxDecoration(
-            color: Color(0xE6FFFFFF),
-            //设置四周圆角 角度
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          ),
-          child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: Colors.white,
-            child: InkWell(
+            child: Material(
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
-              },
-              child: Column(
-                children: [
-                  Container(
-                    child: Stack(
-                      alignment: Alignment.topCenter,
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.topCenter,
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Image(
-                                  width: 56,
-                                  height: 56,
-                                  image: AssetImage("images/home_names.png"),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Container(
+                            height: 90,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: Image(
+                                    width: 56,
+                                    height: 56,
+                                    image: AssetImage("images/home_financial.png"),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(left: 0),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    S.of(context).home_page_function_defi,
+                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 18,
+                            child: Container(
+                              height: 30,
+                              margin: const EdgeInsets.only(top: 0),
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                                },
                                 child: Text(
-                                  S.of(context).home_page_function_names,
-                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
+                                  "GO",
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 23,
-                          child: Container(
-                            width: 25,
-                            height: 25,
-                            margin: const EdgeInsets.only(top: 23),
-                            padding: const EdgeInsets.only(left: 0),
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              color: Color(0xFFF5F5F5),
-                              //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                              color: Color(0xFFCCCCCC),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(top: 0, left: 20),
-                              child: Text(
-                                S.of(context).home_page_function_name,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  wordSpacing: 30.0, //词间距
-                                  color: Color(0xFF666666),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
+                                color: Color(0xff3460ee).withAlpha(16),
+                                textColor: Colors.black,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(top: 5, left: 20),
-                              child: Text(
-                                baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  letterSpacing: -1,
-                                  //字体间距
-                                  fontWeight: FontWeight.w600,
-
-                                  //词间距
-                                  color: Color(0xFF000000),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(top: 0, left: 20),
-                              child: Text(
-                                S.of(context).home_page_function_name_count + "(ae)",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  wordSpacing: 30.0, //词间距
-                                  color: Color(0xFF666666),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 90,
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+            //边框设置
+            decoration: new BoxDecoration(
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            child: Material(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Container(
+                            height: 90,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: Image(
+                                    width: 56,
+                                    height: 56,
+                                    image: AssetImage("images/home_record.png"),
+                                  ),
                                 ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    S.of(context).swap_title,
+                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 18,
+                            child: Container(
+                              height: 30,
+                              margin: const EdgeInsets.only(top: 0),
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
+                                },
+                                child: Text(
+                                  "GO",
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                ),
+                                color: Color(0xFFE61665).withAlpha(16),
+                                textColor: Colors.black,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                               ),
                             ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(top: 5, left: 20),
-                              child: Text(
-                                baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
-                                style: TextStyle(
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 130,
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+            //边框设置
+            decoration: new BoxDecoration(
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            child: Material(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.topCenter,
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: Image(
+                                    width: 56,
+                                    height: 56,
+                                    image: AssetImage("images/home_names.png"),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    S.of(context).home_page_function_names,
+                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 23,
+                            child: Container(
+                              width: 25,
+                              height: 25,
+                              margin: const EdgeInsets.only(top: 23),
+                              padding: const EdgeInsets.only(left: 0),
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                size: 15,
+                                color: Color(0xFFCCCCCC),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.topLeft,
+                                margin: const EdgeInsets.only(top: 0, left: 20),
+                                child: Text(
+                                  S.of(context).home_page_function_name,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    wordSpacing: 30.0, //词间距
+                                    color: Color(0xFF666666),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                margin: const EdgeInsets.only(top: 5, left: 20),
+                                child: Text(
+                                  baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
+                                  style: TextStyle(
                                     fontSize: 19,
                                     letterSpacing: -1,
                                     //字体间距
@@ -608,275 +602,303 @@ class _AeppsPageV2State extends State<AeppsPageV2>  with AutomaticKeepAliveClien
 
                                     //词间距
                                     color: Color(0xFF000000),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.topLeft,
+                                margin: const EdgeInsets.only(top: 0, left: 20),
+                                child: Text(
+                                  S.of(context).home_page_function_name_count + "(ae)",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    wordSpacing: 30.0, //词间距
+                                    color: Color(0xFF666666),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                margin: const EdgeInsets.only(top: 5, left: 20),
+                                child: Text(
+                                  baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      letterSpacing: -1,
+                                      //字体间距
+                                      fontWeight: FontWeight.w600,
+
+                                      //词间距
+                                      color: Color(0xFF000000),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 86,
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 48,
+            margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "The third party",
+              style: TextStyle(
+                color: Color(0xFF000000),
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontFamily: BoxApp.language == "cn"
+                    ? "Ubuntu"
+                    : BoxApp.language == "cn"
+                        ? "Ubuntu"
+                        : "Ubuntu",
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom),
+            padding: EdgeInsets.only(bottom: 16, top: 16),
+            //边框设置
+            decoration: new BoxDecoration(
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
+            child: Material(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              padding: EdgeInsets.all(6),
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: Image(
+                                width: 48,
+                                height: 48,
+                                image: AssetImage("images/apps_wetrue.png"),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      "Wetrue",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    child: Text(
+                                      S.of(context).aepp_item_4_1,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
+
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        width: 86,
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 48,
-          margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "The third party",
-            style: TextStyle(
-              color: Color(0xFF000000),
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              fontFamily: BoxApp.language == "cn"
-                  ? "Ubuntu"
-                  : BoxApp.language == "cn"
-                  ? "Ubuntu"
-                  : "Ubuntu",
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only( left: 15, right: 15,bottom: MediaQuery.of(context).padding.bottom),
-          padding: EdgeInsets.only(bottom: 16,top: 16),
-          //边框设置
-          decoration: new BoxDecoration(
-            color: Color(0xE6FFFFFF),
-            //设置四周圆角 角度
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          ),
-          child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: Colors.white,
-            child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-
-              child: Column(
-                children: [
-
-
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 7,bottom: 7),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            height: 52,
-                            padding: EdgeInsets.all(6),
-                            width: 52,
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              //背景
-                              color: Colors.white,
-                              //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                              //设置四周边框
-                              border: new Border.all(width: 0.5, color:  Color(0xFFeeeeee)),
-                            ),
-                            child: Image(
-                              width: 48,
-                              height: 48,
-                              image: AssetImage("images/apps_wetrue.png"),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 0, left: 20),
-                                  child: Text(
-                                    "Wetrue",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF333333),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 5, left: 20),
-                                  child: Text(
-                                    S.of(context).aepp_item_4_1,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      letterSpacing: -1,
-                                      //字体间距
-
-                                      //词间距
-                                      color: Color(0xFF666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-                        ],
-                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 7,bottom: 7),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            height: 52,
-                            width: 52,
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              //背景
-                              color: Colors.white,
-                              //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                              //设置四周边框
-                              border: new Border.all(width: 0.5, color:  Color(0xFFeeeeee)),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image(
-                                width: 48,
-                                height: 48,
-
-                                image: AssetImage("images/base_logo.png"),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/base_logo.png"),
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 0, left: 20),
-                                  child: Text(
-                                    "Base wallet",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF333333),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      "Base wallet",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 5, left: 20),
-                                  child: Text(
-                                    S.of(context).aepp_item_3_1,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      letterSpacing: -1,
-                                      //字体间距
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    child: Text(
+                                      S.of(context).aepp_item_3_1,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
 
-                                      //词间距
-                                      color: Color(0xFF666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-
-
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 7,bottom: 7),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            height: 52,
-                            width: 52,
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              //背景
-                              color: Colors.white,
-                              //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                              //设置四周边框
-                              border: new Border.all(width: 0.5, color:  Color(0xFFeeeeee)),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/apple-touch-icon.png"),
+                                ),
+                              ),
                             ),
-                            child: Image(
-                              width: 48,
-                              height: 48,
-                              image: AssetImage("images/apple-touch-icon.png"),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 0, left: 20),
-                                  child: Text(
-                                    "Aeknow",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF333333),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      "Aeknow",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 5, left: 20),
-                                  child: Text(
-                                    S.of(context).aepp_item_2_1,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      letterSpacing: -1,
-                                      //字体间距
-
-                                      //词间距
-                                      color: Color(0xFF666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    child: Text(
+                                      S.of(context).aepp_item_2_1,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-
-
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-            )));
+        ],
+      ),
+    )));
   }
 
   @override
