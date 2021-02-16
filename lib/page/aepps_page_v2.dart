@@ -328,22 +328,35 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
             width: MediaQuery.of(context).size.width,
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WebPage(url: "https://ae-source.oss-cn-hongkong.aliyuncs.com/1.pdf",title: "A tale of attack and recovery",)));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WebPage(
+                              url: "https://www.aechina.io/news/official/1431.html",
+                              title: "News",
+                            )));
               },
               child: Column(
                 children: [
-
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(15.0),topLeft: Radius.circular(15.0)),
-                    child: Image.network(
-                      "https://www.aechina.io/wp-content/uploads/2021/01/4d28ce8f9a6c10a77a283a25ef14203b.jpg",
+                  Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
+                      child: Image.network(
+                        "https://www.aechina.io/wp-content/uploads/2021/02/3964ae1b4ccfe22c7f78f74bc37c0d77.gif",
+//                        fit: BoxFit.cover,
+                        //设置图片的填充样式
+//                        fit: BoxFit.fitHeight,
+                      ),
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only( left: 20, right: 20,top: 12,bottom: 12),
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
                     alignment: Alignment.centerLeft,
-                    child: Text("A tale of attack and recovery",  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),),
+                    child: Text(
+                      "新的一年 新的开始—强大的社区",
+                      style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                    ),
                   ),
                 ],
               ),
@@ -460,7 +473,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   child: Image(
                                     width: 56,
                                     height: 56,
-                                    image: AssetImage("images/home_record.png"),
+                                    image: AssetImage("images/home_swap.png"),
                                   ),
                                 ),
                                 Container(
@@ -660,7 +673,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
             margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
             alignment: Alignment.centerLeft,
             child: Text(
-              "The third party",
+              "生态伙伴",
               style: TextStyle(
                 color: Color(0xFF000000),
                 fontWeight: FontWeight.w500,
@@ -695,7 +708,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        margin: EdgeInsets.only(top: 16, bottom: 16),
                         child: Row(
                           children: <Widget>[
                             Container(

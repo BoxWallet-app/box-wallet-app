@@ -11,14 +11,17 @@ import 'package:box/page/settings_page.dart';
 import 'package:box/page/swap_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/bottom_navigation_widget.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../main.dart';
+import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
 
 class TabPage extends StatefulWidget {
@@ -123,7 +126,10 @@ class _TabPageState extends State<TabPage> with TickerProviderStateMixin {
       }
       _tabBgController.sink.add(offset);
     });
+
   }
+
+
 
   Future<void> getAddress() async {
     HomePage.address = await BoxApp.getAddress();

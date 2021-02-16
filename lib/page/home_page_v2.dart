@@ -15,6 +15,7 @@ import 'package:box/model/price_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/records_page.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   BlockTopModel blockTopModel;
   SwapModel swapModels;
   double premium;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -156,7 +158,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     if (HomePageV2.token == "loading...") {
       return "";
     }
-    if(premium == null){
+    if (premium == null) {
       if (BoxApp.language == "cn" && priceModel.aeternity != null) {
         if (priceModel.aeternity.cny == null) {
           return "";
@@ -173,31 +175,29 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
         }
         return " \$" + (priceModel.aeternity.usd * double.parse(HomePageV2.token)).toStringAsFixed(2) + " ≈ ";
       }
-    }else{
+    } else {
       if (BoxApp.language == "cn" && priceModel.aeternity != null) {
         if (priceModel.aeternity.cny == null) {
           return "";
         }
         if (double.parse(HomePageV2.token) < 1000) {
-          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token))+double.parse(HomePageV2.tokenABC)*premium)).toStringAsFixed(2) + " ≈ ";
+          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(2) + " ≈ ";
         } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token))+double.parse(HomePageV2.tokenABC)*premium)).toStringAsFixed(0) + " ≈ ";
+          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(0) + " ≈ ";
         }
       } else {
         if (priceModel.aeternity.usd == null) {
           return "";
         }
-        return " \$" + (priceModel.aeternity.usd * ((double.parse(HomePageV2.token))+double.parse(HomePageV2.tokenABC)*premium)).toStringAsFixed(2) + " ≈ ";
+        return " \$" + (priceModel.aeternity.usd * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(2) + " ≈ ";
       }
     }
-
   }
 
   void netSwapDao() {
     SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
       if (model != null) {
-
         setState(() {
           premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
         });
@@ -224,7 +224,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                 children: [
                   Positioned(
                     child: Container(
-                      height: MediaQuery.of(context).size.height,
+//                      height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(80.0),
                         boxShadow: [
@@ -380,7 +380,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                 height: 160,
                                 alignment: Alignment.centerLeft,
                                 margin: EdgeInsets.only(left: 20, right: 50),
-                                child: Text("ak_ idk ...\nHKg j3q iCF", style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                child: Text(Utils.formatHomeCardAddress(HomePageV2.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                               ),
                               Positioned(
                                 right: 0,
@@ -393,30 +393,30 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                left: 60,
-                                bottom: 20,
-                                child: Container(
-                                  width: 15,
-                                  height: 15,
-                                  child: Image(
-                                    color: Colors.white.withAlpha(60),
-                                    image: AssetImage("images/index_bg4.png"),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: (MediaQuery.of(context).size.width - 32) / 3,
-                                top: 23,
-                                child: Container(
-                                  width: 25,
-                                  height: 25,
-                                  child: Image(
-                                    color: Colors.white.withAlpha(60),
-                                    image: AssetImage("images/index_bg2.png"),
-                                  ),
-                                ),
-                              ),
+//                              Positioned(
+//                                left: 60,
+//                                bottom: 20,
+//                                child: Container(
+//                                  width: 15,
+//                                  height: 15,
+//                                  child: Image(
+//                                    color: Colors.white.withAlpha(60),
+//                                    image: AssetImage("images/index_bg4.png"),
+//                                  ),
+//                                ),
+//                              ),
+//                              Positioned(
+//                                right: (MediaQuery.of(context).size.width - 32) / 3,
+//                                top: 23,
+//                                child: Container(
+//                                  width: 25,
+//                                  height: 25,
+//                                  child: Image(
+//                                    color: Colors.white.withAlpha(60),
+//                                    image: AssetImage("images/index_bg2.png"),
+//                                  ),
+//                                ),
+//                              ),
                               Positioned(
                                 right: 0,
                                 bottom: 0,
@@ -502,8 +502,8 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                                 HomePageV2.token == "loading..."
                                                     ? "loading..."
                                                     : double.parse(HomePageV2.token) > 1000
-                                                        ? double.parse(HomePageV2.token).toStringAsFixed(2)
-                                                        : double.parse(HomePageV2.token).toStringAsFixed(4),
+                                                        ? double.parse(HomePageV2.token).toStringAsFixed(5) + ""
+                                                        : double.parse(HomePageV2.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
                                                 overflow: TextOverflow.ellipsis,
 
@@ -534,128 +534,12 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                             ],
                           ),
 
-//                          Container(
-//                            height: 52,
-//                            margin: EdgeInsets.only(left: 4, right: 0, top: 0, bottom: 0),
-//                            alignment: Alignment.centerLeft,
-//                            child: Text(
-//                              "My app credits",
-//                              style: TextStyle(
-//                                color: Color(0xFF000000),
-//                                fontWeight: FontWeight.w500,
-//                                fontSize: 16,
-//                                fontFamily: BoxApp.language == "cn"
-//                                    ? "Ubuntu"
-//                                    : BoxApp.language == "cn"
-//                                        ? "Ubuntu"
-//                                        : "Ubuntu",
-//                              ),
-//                            ),
-//                          ),
-//                          Container(
-//                            margin: const EdgeInsets.only(top: 12),
-//                            child: Stack(
-//                              children: [
-//                                Container(
-//                                  width: MediaQuery.of(context).size.width,
-//                                  height: 90,
-//                                  decoration: new BoxDecoration(
-//                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//                                    gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-//                                      Color(0xFF3C5DE3),
-//                                      Color(0xFF3F8BFF),
-//                                    ]),
-//                                  ),
-//                                ),
-//                                Positioned(
-//                                  right: 0,
-//                                  top: 0,
-//                                  child: Container(
-//                                    width: 87,
-//                                    height: 58,
-//                                    child: Image(
-//                                      image: AssetImage("images/card_top.png"),
-//                                    ),
-//                                  ),
-//                                ),
-////                                Positioned(
-////                                  left: 00,
-////                                  bottom: 0,
-////                                  child: Container(
-////                                    width: 120,
-////                                    height: 46,
-////                                    child: Image(
-////                                      image: AssetImage("images/card_bottom.png"),
-////                                    ),
-////                                  ),
-////                                ),
-//                                Container(
-//                                  height: 90,
-//                                  child: Column(
-//                                    crossAxisAlignment: CrossAxisAlignment.center,
-//                                    mainAxisAlignment: MainAxisAlignment.center,
-//                                    children: <Widget>[
-//                                      Container(
-//                                        margin: const EdgeInsets.only(top: 0, left: 15),
-//                                        child: Row(
-//                                          children: <Widget>[
-////                            buildTypewriterAnimatedTextKit(),
-//
-//                                            Container(
-//                                              width: 36.0,
-//                                              height: 36.0,
-//                                              decoration: BoxDecoration(
-//                                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-////                                                      shape: BoxShape.rectangle,
-//                                                borderRadius: BorderRadius.circular(36.0),
-//                                                image: DecorationImage(
-//                                                  image: AssetImage("images/logo.png"),
-////                                                        image: AssetImage("images/apple-touch-icon.png"),
-//                                                ),
-//                                              ),
-//                                            ),
-//                                            Container(
-//                                              padding: const EdgeInsets.only(left: 8, right: 18),
-//                                              child: Text(
-//                                                "ABC",
-//                                                style: new TextStyle(
-//                                                  fontSize: 20,
-//                                                  color: Colors.white,
-////                                            fontWeight: FontWeight.w600,
-//                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                                                ),
-//                                              ),
-//                                            ),
-//                                            Expanded(child: Container()),
-//                                            Text(
-//                                              HomePageV2.tokenABC == "loading..."
-//                                                  ? "loading..."
-//                                                  : double.parse(HomePageV2.tokenABC) > 1000
-//                                                      ? double.parse(HomePageV2.tokenABC).toStringAsFixed(5)
-//                                                      : double.parse(HomePageV2.tokenABC).toStringAsFixed(5),
-////                                      "9999999.00000",
-//                                              overflow: TextOverflow.ellipsis,
-//
-//                                              style: TextStyle(fontSize: 24, color: Colors.white, letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                            ),
-//                                            Container(
-//                                              width: 20,
-//                                            ),
-//                                          ],
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
                           Container(
                             height: 48,
                             margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Send and receive tokens",
+                              "发送和接收你的币",
                               style: TextStyle(
                                 color: Color(0xFF000000),
                                 fontWeight: FontWeight.w500,
@@ -959,14 +843,14 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                               child: Image(
                                                 width: 56,
                                                 height: 56,
-                                                image: AssetImage("images/home_names.png"),
+                                                image: AssetImage("images/home_token.png"),
                                               ),
                                             ),
                                             Expanded(
                                               child: Container(
                                                 padding: const EdgeInsets.only(left: 5),
                                                 child: Text(
-                                                  "Token",
+                                                  "代币",
                                                   style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                                                 ),
                                               ),
@@ -1020,12 +904,12 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
         height: 50,
       );
     }
-    if (walletRecordModel == null) {
-      return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-      );
-    }
+//    if (walletRecordModel == null) {
+//      return Container(
+//        width: MediaQuery.of(context).size.width,
+//        height: 50,
+//      );
+//    }
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(top: 12, bottom: MediaQueryData.fromWindow(window).padding.bottom),
@@ -1040,6 +924,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
+            splashColor:  Colors.white,
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));
           },
@@ -1095,7 +980,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                   ],
                 ),
               ),
-              Container(
+              if (walletRecordModel != null)  Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(left: 15, top: 0),
                 child: Text(
@@ -1108,6 +993,31 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                 padding: EdgeInsets.only(bottom: 10),
                 child: Column(
                   children: [
+                    if (walletRecordModel == null) Container(child:    Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Image(
+                                width: 198,
+                                height: 164,
+                                image: AssetImage('images/no_record.png'),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(bottom: 20),
+                                child: Text(
+                                 "暂无交易记录",
+                                  style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
+
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ))),
                     getItem(context, 0),
                     getItem(context, 1),
                   ],

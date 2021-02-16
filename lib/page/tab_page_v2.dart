@@ -1,15 +1,25 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:box/dao/version_dao.dart';
+import 'package:box/generated/l10n.dart';
+import 'package:box/model/version_model.dart';
 import 'package:box/page/aepps_page_v2.dart';
 import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/setting_page_v2.dart';
 import 'package:box/page/settings_page.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import 'mnemonic_copy_page.dart';
 
 class TabPageV2 extends StatefulWidget {
   @override
@@ -117,6 +127,241 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamController2.sink.add(-1);
     _streamController3.sink.add(-1);
     _streamControllerLine.sink.add(0);
+    showHint();
+    netVersion();
+  }
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  void netVersion() {
+    VersionDao.fetch().then((VersionModel model) {
+      if (model.code == 200) {
+        PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+          var newVersion = int.parse(model.data.version.replaceAll(".", ""));
+//          var oldVersion = 100;
+          var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
+
+          if (newVersion > oldVersion) {
+            Future.delayed(Duration.zero, () {
+              model.data.isMandatory == "1"
+                  ? showPlatformDialog(
+                context: context,
+                builder: (_) => BasicDialogAlert(
+                  title: Text(
+                    S.of(context).dialog_update_title,
+                  ),
+                  content: Text(
+                    S.of(context).dialog_update_content,
+                  ),
+                  actions: <Widget>[
+                    BasicDialogAction(
+                      title: Text(
+                        S.of(context).dialog_conform,
+                        style: TextStyle(
+                          color: Color(0xFFFC2365),
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        ),
+                      ),
+                      onPressed: () {
+//                        Navigator.of(context, rootNavigator: true).pop();
+                        if (Platform.isIOS) {
+                          _launchURL(model.data.urlIos);
+                        } else if (Platform.isAndroid) {
+                          _launchURL(model.data.urlAndroid);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              )
+                  : showPlatformDialog(
+                context: context,
+                builder: (_) => BasicDialogAlert(
+                  title: Text(
+                    S.of(context).dialog_update_title,
+                  ),
+                  content: Text(
+                    S.of(context).dialog_update_content,
+                  ),
+                  actions: <Widget>[
+                    BasicDialogAction(
+                      title: Text(
+                        S.of(context).dialog_conform,
+                        style: TextStyle(
+                          color: Color(0xFFFC2365),
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        if (Platform.isIOS) {
+                          _launchURL(model.data.urlIos);
+                        } else if (Platform.isAndroid) {
+                          _launchURL(model.data.urlAndroid);
+                        }
+                      },
+                    ),
+                    BasicDialogAction(
+                      title: Text(
+                        S.of(context).dialog_cancel,
+                        style: TextStyle(
+                          color: Color(0xFFFC2365),
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            });
+          }
+
+//          String appName = packageInfo.appName;
+//          String packageName = packageInfo.packageName;
+//          String version = packageInfo.version;
+//          String buildNumber = packageInfo.buildNumber;
+        });
+      } else {}
+    }).catchError((e) {
+    });
+  }
+
+  void showHint() {
+    print("tet1");
+    Future.delayed(Duration.zero, () {
+      print("tet2");
+      BoxApp.getMnemonic().then((account) {
+        if (account != null && account.length > 0) {
+          print("tet");
+          showPlatformDialog(
+            context: context,
+            builder: (_) => BasicDialogAlert(
+              title: Text(
+                S.of(context).dialog_save_word,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                ),
+              ),
+              content: Text(
+                S.of(context).dialog_save_word_hint,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  height: 1.2,
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                ),
+              ),
+              actions: <Widget>[
+                BasicDialogAction(
+                  title: Text(
+                    S.of(context).dialog_dismiss,
+                    style: TextStyle(
+                      color: Color(0xFFFC2365),
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                BasicDialogAction(
+                  title: Text(
+                    S.of(context).dialog_save_go,
+                    style: TextStyle(
+                      color: Color(0xFFFC2365),
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    ),
+                  ),
+                  onPressed: () {
+                    showGeneralDialog(
+                        context: context,
+                        pageBuilder: (context, anim1, anim2) {},
+                        barrierColor: Colors.grey.withOpacity(.4),
+                        barrierDismissible: true,
+                        barrierLabel: "",
+                        transitionDuration: Duration(milliseconds: 400),
+                        transitionBuilder: (_, anim1, anim2, child) {
+                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                          return Transform(
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
+                            child: Opacity(
+                              opacity: anim1.value,
+                              // ignore: missing_return
+                              child: PayPasswordWidget(
+                                title: S.of(context).password_widget_input_password,
+                                dismissCallBackFuture: (String password) {
+                                  return;
+                                },
+                                passwordCallBackFuture: (String password) async {
+                                  var mnemonic = await BoxApp.getMnemonic();
+                                  if (mnemonic == "") {
+                                    showPlatformDialog(
+                                      context: context,
+                                      builder: (_) => BasicDialogAlert(
+                                        title: Text(S.of(context).dialog_hint),
+                                        content: Text(S.of(context).dialog_login_user_no_save),
+                                        actions: <Widget>[
+                                          BasicDialogAction(
+                                            title: Text(
+                                              S.of(context).dialog_conform,
+                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  var address = await BoxApp.getAddress();
+                                  final key = Utils.generateMd5Int(password + address);
+                                  var aesDecode = Utils.aesDecode(mnemonic, key);
+
+                                  if (aesDecode == "") {
+                                    showPlatformDialog(
+                                      context: context,
+                                      builder: (_) => BasicDialogAlert(
+                                        title: Text(S.of(context).dialog_hint_check_error),
+                                        content: Text(S.of(context).dialog_hint_check_error_content),
+                                        actions: <Widget>[
+                                          BasicDialogAction(
+                                            title: Text(
+                                              S.of(context).dialog_conform,
+                                              style: TextStyle(color: Color(0xFFFC2365)),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                },
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      });
+    });
   }
 
   @override
@@ -127,12 +372,15 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Container(
+
           child: Column(
             children: [
               Container(
+                color: Color(0xfffafafa),
                 height: MediaQueryData.fromWindow(window).padding.top,
               ),
               Container(
+                color: Color(0xfffafafa),
 //              color: Colors.blue,
                 width: MediaQuery.of(context).size.width,
                 height: 52,
@@ -161,7 +409,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Wallet",
+                                    "钱包",
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -180,7 +428,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Discover",
+                                    "发现",
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -199,7 +447,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Settings",
+                                    "设置",
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -344,11 +592,11 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                   },
                 ),
               ),
-//              Container(
-//                width: MediaQuery.of(context).size.width,
-//                height: 1,
-//                color: Color(0xffeeeeee),
-//              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 1,
+                color: Color(0xffeeeeee),
+              ),
               Container(
                 color: Colors.green,
                 height: 52,

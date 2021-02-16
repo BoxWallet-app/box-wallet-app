@@ -1,3 +1,4 @@
+import 'package:box/page/token_add_page.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,7 +24,7 @@ class _TokenListPathState extends State<TokenListPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "Token",
+          "代币",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -43,16 +44,25 @@ class _TokenListPathState extends State<TokenListPage> {
           },
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.close,
-              color: Colors.black,
-              size: 20,
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TokenAddPage()));
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                padding: EdgeInsets.all(15),
+                child: Image(
+                  width: 36,
+                  height: 36,
+                  color: Colors.black,
+                  image: AssetImage('images/token_add.png'),
+                ),
+              ),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-//              Navigator.pop(context);
-            },
           ),
         ],
       ),

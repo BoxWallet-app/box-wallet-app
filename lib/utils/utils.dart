@@ -11,6 +11,7 @@ import 'package:date_time_format/date_time_format.dart';
 import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+
 class Utils {
   // md5 加密
   static String generateMD5(String data) {
@@ -26,6 +27,21 @@ class Utils {
     }
 //    print(address);
     return "ak_***" + address.substring(address.length - 4, address.length);
+  }
+
+  static formatHomeCardAddress(String address) {
+    if (address == "" || address.length <= 4) {
+      return "";
+    }
+//    print(address);
+    //ak_ idk ...\nHKg j3q iCF
+    return "ak_ " +
+        address.substring(3, 6) + " ...\n" +
+        address.substring(address.length - 9, address.length - 6)+
+        " "+
+        address.substring(address.length - 6, address.length - 3)+
+        " "+
+        address.substring(address.length - 3, address.length);
   }
 
   static getCurrentDate() {
@@ -108,11 +124,10 @@ class Utils {
     }
   }
 
-  static String formatTime(time){
+  static String formatTime(time) {
     var now = new DateTime.now();
     var formatted = DateTime.fromMillisecondsSinceEpoch(time).toString();
-    return formatted.substring(0,formatted.length-4);
-
+    return formatted.substring(0, formatted.length - 4);
   }
 
   static String formatHeight(BuildContext context, int startHeight, int endHeight) {

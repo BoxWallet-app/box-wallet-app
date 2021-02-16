@@ -187,6 +187,15 @@ flutter:
     - images/no_data.png
     - images/no_net.png
     - images/base_logo.png
+    - images/index_bg1.png
+    - images/index_bg2.png
+    - images/index_bg4.png
+    - images/together.png
+    - images/tether.png
+    - images/token_add.png
+    - home_swap.png
+    - home_token.png
+    - no_record.png
 
   #   - images/a_dot_ham.jpeg
 

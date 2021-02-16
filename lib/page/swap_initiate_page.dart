@@ -15,6 +15,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../main.dart';
 import 'home_page.dart';
+import 'home_page_v2.dart';
 
 class SwapInitiatePage extends StatefulWidget {
   @override
@@ -160,7 +161,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 margin: EdgeInsets.only(left: 26, top: 10, right: 26),
                 alignment: Alignment.topRight,
                 child: Text(
-                  S.of(context).token_send_two_page_balance + " : " + HomePage.tokenABC,
+                  S.of(context).token_send_two_page_balance + " : " + HomePageV2.tokenABC,
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
