@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -32,7 +33,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -47,7 +48,6 @@ class _TokenAddPageState extends State<TokenAddPage> {
 //              Navigator.pop(context);
           },
         ),
-
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -67,7 +67,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                   "代币名称",
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -86,7 +86,6 @@ class _TokenAddPageState extends State<TokenAddPage> {
                       ),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
-
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
@@ -98,7 +97,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -144,7 +143,6 @@ class _TokenAddPageState extends State<TokenAddPage> {
                   ],
                 ),
               ),
-
               Container(
                 margin: EdgeInsets.only(left: 18, top: 18),
                 alignment: Alignment.topLeft,
@@ -152,7 +150,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                   "发行数量",
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -182,7 +180,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -239,11 +237,47 @@ class _TokenAddPageState extends State<TokenAddPage> {
                   child: Text(
                     "创 建",
                     maxLines: 1,
-                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFFFFFF)),
+                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                   ),
                   color: Color(0xFFE61665),
                   textColor: Colors.black,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                padding: EdgeInsets.all(10),
+                //边框设置
+                decoration: new BoxDecoration(
+                  color: Color(0xffeeeeee),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                      "合约地址：ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE",
+                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                    )),
+                    Container(
+                      height: 30,
+                      margin: const EdgeInsets.only(top: 0, left: 18),
+                      child: FlatButton(
+                        onPressed: () {
+//                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+                        },
+                        child: Text(
+                          "复制",
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                        ),
+                        color: Color(0xFFE61665).withAlpha(16),
+                        textColor: Colors.black,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -258,8 +292,8 @@ class _TokenAddPageState extends State<TokenAddPage> {
                 margin: EdgeInsets.only(left: 18, right: 18, top: 8),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "通过Box aepp 可以免费创建AEX9协议代币。整个过程全部去中心化，不会保存你的私钥信息。代币列表为了增加用户体验防止代币乱飞",
-                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  "通过Box aepp 可以免费创建AEX9协议代币。整个过程全部去中心化，不会保存你的私钥信息。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送邮件到293122529@qq.com",
+                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],
