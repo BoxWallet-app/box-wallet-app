@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "aepp_item_2_1" : MessageLookupByLibrary.simpleMessage("动动指尖，连接区块链"),
     "aepp_item_3_1" : MessageLookupByLibrary.simpleMessage("AE官方开发钱包"),
     "aepp_item_4_1" : MessageLookupByLibrary.simpleMessage("记你所记，想你所想"),
+    "aepps_friend" : MessageLookupByLibrary.simpleMessage("合作伙伴"),
     "common_day" : MessageLookupByLibrary.simpleMessage("天"),
     "common_hours" : MessageLookupByLibrary.simpleMessage("小时"),
     "common_points" : MessageLookupByLibrary.simpleMessage("分钟"),
@@ -155,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint_broadcast_sucess_hint" : MessageLookupByLibrary.simpleMessage("正在同步节点信息,预计5分钟后同步成功"),
     "hint_error_address" : MessageLookupByLibrary.simpleMessage("地址错误"),
     "hint_error_camera_permissions" : MessageLookupByLibrary.simpleMessage("没有相机权限"),
+    "home_no_record" : MessageLookupByLibrary.simpleMessage("暂无交易记录"),
     "home_page_function" : MessageLookupByLibrary.simpleMessage("常用功能"),
     "home_page_function_defi" : MessageLookupByLibrary.simpleMessage("质押"),
     "home_page_function_defi_go" : MessageLookupByLibrary.simpleMessage("去质押"),
@@ -168,6 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("我的资产"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("交易记录"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("确认数"),
+    "home_send_receive" : MessageLookupByLibrary.simpleMessage("发送和接收你的代币"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("AEX9 代币"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("这里暂时没有数据"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
@@ -222,9 +226,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("兑换"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("我的兑换"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("发起兑换"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("首页"),
-    "tab_2" : MessageLookupByLibrary.simpleMessage("兑换"),
-    "tab_3" : MessageLookupByLibrary.simpleMessage("应用"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("钱包"),
+    "tab_2" : MessageLookupByLibrary.simpleMessage("发现"),
+    "tab_3" : MessageLookupByLibrary.simpleMessage("设置"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("节点不可用"),
     "token_receive_page_copy" : MessageLookupByLibrary.simpleMessage("复制地址"),
     "token_receive_page_copy_sucess" : MessageLookupByLibrary.simpleMessage("复制成功️"),
@@ -240,6 +244,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_from" : MessageLookupByLibrary.simpleMessage("从"),
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("转账数量"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2请输入发送数量"),
-    "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到")
+    "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送邮件到293122529@qq.com"),
+    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明")
   };
 }

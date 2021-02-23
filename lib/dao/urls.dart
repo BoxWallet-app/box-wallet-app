@@ -1,8 +1,8 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.105:7070';
-// const BASE_HOST = 'http://10.53.5.44:7070';
-//const BASE_HOST = 'https://aebox.io';
-const BASE_HOST = 'http://localhost:7070';
+// const BASE_HOST = 'http://10.53.5.92:7070';
+const BASE_HOST = 'https://aebox.io';
+//const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度
@@ -97,6 +97,9 @@ const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
 
 //代币列表
 const TOKEN_LIST = BASE_HOST + '/api/tokens/list';
+
+//banner
+const BANNER = BASE_HOST + '/api/banner';
 
 //版本号
 const VERSION = BASE_HOST + '/api/version';

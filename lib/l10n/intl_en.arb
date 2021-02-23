@@ -252,9 +252,9 @@
   "swap_item_5": "Cancel",
 
 
-  "tab_1" : "Home",
-  "tab_2" : "Swap",
-  "tab_3" : "Aepp",
+  "tab_1" : "Wallet",
+  "tab_2" : "Discover",
+  "tab_3" : "Setting",
 
   "swap_title_send": "Initiate exchange",
   "swap_text_hint" : "Please enter the quantity",
@@ -282,5 +282,12 @@
 
   "aepp_item_2_1" : "Connect the blockchain with your fingertips",
   "aepp_item_3_1" : "AE official development wallet",
-  "aepp_item_4_1" : "Remember what you remember, think what you think"
+  "aepp_item_4_1" : "Remember what you remember, think what you think",
+
+  "home_no_record": "No transaction record temporarily",
+  "home_token": "AEX9 token",
+  "home_send_receive": "Send and receive your tokens",
+  "aepps_friend": "Partner",
+  "tokens_dialog_title": "Description of Listing",
+  "tokens_dialog_content": "AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo, and send an email to 293122529@qq.com"
 }

@@ -199,8 +199,8 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
       if (model != null) {
         setState(() {
-          if(model.data.isNotEmpty){
-            model.data.sort((left,right)=>left.getPremium().compareTo(right.getPremium()));
+          if (model.data.isNotEmpty) {
+            model.data.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
           }
           premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
           print(premium);
@@ -543,7 +543,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                             margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "发送和接收你的币",
+                              S.of(context).home_send_receive,
                               style: TextStyle(
                                 color: Color(0xFF000000),
                                 fontWeight: FontWeight.w500,
@@ -854,7 +854,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                               child: Container(
                                                 padding: const EdgeInsets.only(left: 5),
                                                 child: Text(
-                                                  "代币",
+                                                  S.of(context).home_token,
                                                   style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                                                 ),
                                               ),
@@ -928,7 +928,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
-            splashColor:  Colors.white,
+          splashColor: Colors.white,
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));
           },
@@ -984,44 +984,45 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                   ],
                 ),
               ),
-              if (walletRecordModel != null)  Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 15, top: 0),
-                child: Text(
-                  S.of(context).home_page_transaction_conform,
-                  style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              if (walletRecordModel != null)
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 15, top: 0),
+                  child: Text(
+                    S.of(context).home_page_transaction_conform,
+                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  ),
+                  height: 23,
                 ),
-                height: 23,
-              ),
               Container(
                 padding: EdgeInsets.only(bottom: 10),
                 child: Column(
                   children: [
-                    if (walletRecordModel == null) Container(child:    Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image(
-                                width: 198,
-                                height: 164,
-                                image: AssetImage('images/no_record.png'),
+                    if (walletRecordModel == null)
+                      Container(
+                          child: Center(
+                              child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image(
+                              width: 198,
+                              height: 164,
+                              image: AssetImage('images/no_record.png'),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20),
+                              padding: EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                S.of(context).home_no_record,
+                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(top: 20),
-                                padding: EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                 "暂无交易记录",
-                                  style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
-
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        ))),
+                            ),
+                          ],
+                        ),
+                      ))),
                     getItem(context, 0),
                     getItem(context, 1),
                   ],

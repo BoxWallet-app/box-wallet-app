@@ -1963,30 +1963,30 @@ class S {
     );
   }
 
-  /// `Home`
+  /// `Wallet`
   String get tab_1 {
     return Intl.message(
-      'Home',
+      'Wallet',
       name: 'tab_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Swap`
+  /// `Discover`
   String get tab_2 {
     return Intl.message(
-      'Swap',
+      'Discover',
       name: 'tab_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Aepp`
+  /// `Setting`
   String get tab_3 {
     return Intl.message(
-      'Aepp',
+      'Setting',
       name: 'tab_3',
       desc: '',
       args: [],
@@ -2228,6 +2228,66 @@ class S {
     return Intl.message(
       'Remember what you remember, think what you think',
       name: 'aepp_item_4_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No transaction record temporarily`
+  String get home_no_record {
+    return Intl.message(
+      'No transaction record temporarily',
+      name: 'home_no_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AEX9 token`
+  String get home_token {
+    return Intl.message(
+      'AEX9 token',
+      name: 'home_token',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send and receive your tokens`
+  String get home_send_receive {
+    return Intl.message(
+      'Send and receive your tokens',
+      name: 'home_send_receive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partner`
+  String get aepps_friend {
+    return Intl.message(
+      'Partner',
+      name: 'aepps_friend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description of Listing`
+  String get tokens_dialog_title {
+    return Intl.message(
+      'Description of Listing',
+      name: 'tokens_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo, and send an email to 293122529@qq.com`
+  String get tokens_dialog_content {
+    return Intl.message(
+      'AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo, and send an email to 293122529@qq.com',
+      name: 'tokens_dialog_content',
       desc: '',
       args: [],
     );

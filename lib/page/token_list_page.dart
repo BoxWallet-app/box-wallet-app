@@ -57,7 +57,7 @@ class _TokenListPathState extends State<TokenListPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "代币",
+          S.of(context).home_token,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -132,7 +132,7 @@ class _TokenListPathState extends State<TokenListPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 20, right: 20),
                                           child: Text(
-                                            "上架说明",
+                                            S.of(context).tokens_dialog_title,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -145,7 +145,7 @@ class _TokenListPathState extends State<TokenListPage> {
                                           child: SingleChildScrollView(
                                             child: Container(
                                               child: Text(
-                                                  "通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送邮件到293122529@qq.com,",
+                                                S.of(context).tokens_dialog_content,
                                                 style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
                                               ),
                                             ),

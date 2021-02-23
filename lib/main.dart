@@ -288,10 +288,10 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("spend('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + amount + "');");
   }
 
-  static contractTransfer(FlutterJsContractTransferCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String ctID, String amount) {
+  static contractTransfer(FlutterJsContractTransferCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String ctID, String amount,String type) {
     BoxApp.flutterJsContractTransferCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
-    BoxApp.webViewController.evaluateJavascript("contractTransfer('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + ctID + "','" + amount + "');");
+    BoxApp.webViewController.evaluateJavascript("contractTransfer('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + ctID + "','" + amount + "','" + type + "');");
   }
 
   static contractDefiUnLockV1(FlutterJsContractDefiUnLockV1CallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String ctID, String height) {

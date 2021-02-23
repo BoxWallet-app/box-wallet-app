@@ -84,6 +84,7 @@ class _KnowPageState extends State<KnowPage> {
               //JS执行模式 是否允许JS执行
               javascriptMode: JavascriptMode.unrestricted,
               initialUrl: "https://aeknow.org/",
+//              initialUrl: "https://aeknow.org/",
               navigationDelegate: (NavigationRequest request) {
                 //路由委托（可以通过在此处拦截url实现JS调用Flutter部分）；
 //                  if (!request.url.startsWith('https://forum.aeternity.com')) {

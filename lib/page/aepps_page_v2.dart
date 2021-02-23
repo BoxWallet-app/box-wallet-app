@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:box/dao/banner_dao.dart';
 import 'package:box/dao/base_name_data_dao.dart';
 import 'package:box/dao/contract_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/banner_model.dart';
 import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/contract_info_model.dart';
 import 'package:box/page/swap_page.dart';
@@ -22,6 +24,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 import '../main.dart';
 import 'aens_page.dart';
+import 'base_page.dart';
 import 'know_page.dart';
 
 class AeppsPageV2 extends StatefulWidget {
@@ -31,6 +34,7 @@ class AeppsPageV2 extends StatefulWidget {
 
 class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClientMixin {
   BaseNameDataModel baseNameDataModel;
+  BannerModel bannerModel;
 
   @override
   void initState() {
@@ -38,6 +42,10 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
     super.initState();
     netBaseNameData();
     netContractBalance();
+    netBanner();
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {});
+    });
   }
 
   void netBaseNameData() {
@@ -76,7 +84,18 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
         });
   }
 
-  Future<void> _onRefresh() async {}
+  Future<void> _onRefresh() async {
+    netBanner();
+  }
+
+  void netBanner() {
+     BannerDao.fetch().then((BannerModel model) {
+      bannerModel = model;
+      setState(() {});
+    }).catchError((e) {
+    //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -329,27 +348,39 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               onTap: () {
+                if(bannerModel == null){
+                  return;
+                }
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => WebPage(
-                              url: "https://www.aechina.io/news/official/1431.html",
-                              title: "News",
+                              url: bannerModel == null
+                                  ? ""
+                                  : BoxApp.language == "cn"
+                                      ? bannerModel.cn.url
+                                      : bannerModel.en.url,
+                              title: BoxApp.language == "cn"
+                                  ? bannerModel.cn.title
+                                  : bannerModel.en.title
                             )));
               },
               child: Column(
                 children: [
                   Container(
                     height: 170,
-                    width: MediaQuery.of(context).size.width-30,
+                    width: MediaQuery.of(context).size.width - 30,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
                       child: Image.network(
-                        "https://www.aechina.io/wp-content/uploads/2021/02/3964ae1b4ccfe22c7f78f74bc37c0d77.gif",
+                        bannerModel == null
+                            ? ""
+                            : BoxApp.language == "cn"
+                            ? bannerModel.cn.image
+                            : bannerModel.en.image,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null)
-                            return child;
+                          if (loadingProgress == null) return child;
 
                           return Container(
                             alignment: Alignment.center,
@@ -357,10 +388,9 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                               child: new CircularProgressIndicator(
                                 valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
                               ),
-                          ),
-                          width: 160.0,
-                          height: 90.0,
-
+                            ),
+                            width: 160.0,
+                            height: 90.0,
                           );
                         },
                         //设置图片的填充样式
@@ -372,7 +402,11 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "新的一年 新的开始—强大的社区",
+                      bannerModel == null
+                          ? "-"
+                          : BoxApp.language == "cn"
+                          ? bannerModel.cn.title
+                          : bannerModel.en.title,
                       style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                     ),
                   ),
@@ -691,7 +725,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
             margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
             alignment: Alignment.centerLeft,
             child: Text(
-              "生态伙伴",
+              S.of(context).aepps_friend,
               style: TextStyle(
                 color: Color(0xFF000000),
                 fontWeight: FontWeight.w500,
@@ -766,7 +800,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    margin: const EdgeInsets.only(top: 5, left: 20,right: 20),
                                     child: Text(
                                       S.of(context).aepp_item_4_1,
                                       style: TextStyle(
@@ -789,7 +823,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => BasePage()));
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 9, bottom: 9),
@@ -822,7 +856,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 children: <Widget>[
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    margin: const EdgeInsets.only(top: 0, left: 20,right: 20),
                                     child: Text(
                                       "Base wallet",
                                       style: TextStyle(
@@ -834,7 +868,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    margin: const EdgeInsets.only(top: 5, left: 20,right: 20),
                                     child: Text(
                                       S.of(context).aepp_item_3_1,
                                       style: TextStyle(
@@ -902,7 +936,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20),
+                                    margin: const EdgeInsets.only(top: 5, left: 20,right: 20),
                                     child: Text(
                                       S.of(context).aepp_item_2_1,
                                       style: TextStyle(

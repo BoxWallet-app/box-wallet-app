@@ -20,7 +20,7 @@ class SettingPageV2 extends StatefulWidget {
   _SettingPageV2State createState() => _SettingPageV2State();
 }
 
-class _SettingPageV2State extends State<SettingPageV2> {
+class _SettingPageV2State extends State<SettingPageV2> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
 
@@ -321,4 +321,8 @@ class _SettingPageV2State extends State<SettingPageV2> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

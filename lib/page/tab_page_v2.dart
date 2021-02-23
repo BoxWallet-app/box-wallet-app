@@ -27,9 +27,7 @@ class TabPageV2 extends StatefulWidget {
 }
 
 class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
-  AnimationController _title1Controller;
-  AnimationController _title2Controller;
-  AnimationController _title3Controller;
+
 
   final StreamController<int> _streamController1 = StreamController<int>();
   final StreamController<int> _streamController2 = StreamController<int>();
@@ -39,15 +37,12 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
 
-  // ignore: close_sinks
-  final StreamController<String> _streamControllerTitle = StreamController<String>();
+
 
   @override
   void dispose() {
     super.dispose();
-    _title1Controller.dispose();
-    _title2Controller.dispose();
-    _title3Controller.dispose();
+
 
     _streamController1.close();
     _streamController2.close();
@@ -59,24 +54,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _title1Controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-    _title1Controller.forward();
-
-    _title2Controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-    _title2Controller.reverse();
-
-    _title3Controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-    _title3Controller.reverse();
-
-    _streamControllerTitle.sink.add("One");
     pageControllerBody.addListener(() {
-//      var offset = pageControllerBody.offset;
-//      print(offset / (MediaQuery.of(context).size.width / 2));
-
-//      pageControllerTitle.jumpTo(offset / 2);
-      //  屏幕  / 4 * 3 + 屏幕  / 4 / 3
-      //      print(pageController.offset);
-      //MediaQuery.of(context).size.width / 4 + (MediaQuery.of(context).size.width / 4 / 3 / 3))
 
       if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery.of(context).size.width + MediaQuery.of(context).size.width) {
         return;
@@ -102,25 +80,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         _streamController2.sink.add(-1);
         _streamController3.sink.add(0xFFFC2365);
       }
-
-//      _streamControllerLine.sink.add(offset/156);
-
-//      pageControllerTitle.offset = 10;
-//      if (pageControllerBody.page == 0) {
-//        _title1Controller.forward();
-//        _title2Controller.reverse();
-//        _title3Controller.reverse();
-//      }
-//      if (pageControllerBody.page == 1) {
-//        _title1Controller.reverse();
-//        _title2Controller.forward();
-//        _title3Controller.reverse();
-//      }
-//      if (pageControllerBody.page == 2) {
-//        _title1Controller.reverse();
-//        _title2Controller.reverse();
-//        _title3Controller.forward();
-//      }
     });
     _streamController1.sink.add(0xFFFC2365);
     _streamController2.sink.add(-1);
@@ -366,7 +325,8 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: Colors.white,
+
+        backgroundColor:  Color(0xfffafafa),
         resizeToAvoidBottomInset: false,
         body: Container(
           child: Column(
@@ -405,7 +365,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "钱包",
+                                    S.of(context).tab_1,
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -424,7 +384,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "发现",
+                                    S.of(context).tab_2,
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -443,7 +403,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                   margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "设置",
+                                    S.of(context).tab_3,
                                     style: TextStyle(
                                       color: Color(0xFF000000),
                                       fontWeight: FontWeight.w500,
@@ -597,6 +557,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
               Container(
                 color: Colors.green,
                 height: 52,
+
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
@@ -694,7 +655,11 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                         })
                   ],
                 ),
+              ),
+              Container(height:  MediaQueryData.fromWindow(window).padding.bottom,
+                color: Colors.white,
               )
+
             ],
           ),
         ),

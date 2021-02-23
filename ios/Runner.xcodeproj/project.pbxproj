@@ -388,7 +388,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -535,7 +535,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -576,7 +576,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";

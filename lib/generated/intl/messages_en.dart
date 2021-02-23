@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "aepp_item_2_1" : MessageLookupByLibrary.simpleMessage("Connect the blockchain with your fingertips"),
     "aepp_item_3_1" : MessageLookupByLibrary.simpleMessage("AE official development wallet"),
     "aepp_item_4_1" : MessageLookupByLibrary.simpleMessage("Remember what you remember, think what you think"),
+    "aepps_friend" : MessageLookupByLibrary.simpleMessage("Partner"),
     "common_day" : MessageLookupByLibrary.simpleMessage("day"),
     "common_hours" : MessageLookupByLibrary.simpleMessage("Hours"),
     "common_points" : MessageLookupByLibrary.simpleMessage("Minutes"),
@@ -155,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint_broadcast_sucess_hint" : MessageLookupByLibrary.simpleMessage("Synchronizing node information, it is estimated that the synchronization will be successful in 5 minutes"),
     "hint_error_address" : MessageLookupByLibrary.simpleMessage("Address Error"),
     "hint_error_camera_permissions" : MessageLookupByLibrary.simpleMessage("No camera permission"),
+    "home_no_record" : MessageLookupByLibrary.simpleMessage("No transaction record temporarily"),
     "home_page_function" : MessageLookupByLibrary.simpleMessage("Common Functions"),
     "home_page_function_defi" : MessageLookupByLibrary.simpleMessage("Defi"),
     "home_page_function_defi_go" : MessageLookupByLibrary.simpleMessage("GO"),
@@ -168,6 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("My Assets"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("Transaction"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("Confirmation"),
+    "home_send_receive" : MessageLookupByLibrary.simpleMessage("Send and receive your tokens"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("AEX9 token"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("No data yet"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("Network error, please confirm and try again"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("Retry"),
@@ -222,9 +226,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("Swap"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("My Swap"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("Initiate exchange"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("Home"),
-    "tab_2" : MessageLookupByLibrary.simpleMessage("Swap"),
-    "tab_3" : MessageLookupByLibrary.simpleMessage("Aepp"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("Wallet"),
+    "tab_2" : MessageLookupByLibrary.simpleMessage("Discover"),
+    "tab_3" : MessageLookupByLibrary.simpleMessage("Setting"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("Node not use"),
     "token_receive_page_copy" : MessageLookupByLibrary.simpleMessage("Copy"),
     "token_receive_page_copy_sucess" : MessageLookupByLibrary.simpleMessage("Successful"),
@@ -240,6 +244,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_from" : MessageLookupByLibrary.simpleMessage("From"),
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("Transfer amount"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2 please enter the number to send"),
-    "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("To")
+    "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("To"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo, and send an email to 293122529@qq.com"),
+    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("Description of Listing")
   };
 }

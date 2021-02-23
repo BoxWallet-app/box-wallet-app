@@ -5,6 +5,7 @@ import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
 import 'package:box/dao/contract_transfer_call_dao.dart';
+import 'package:box/dao/token_list_dao.dart';
 import 'package:box/dao/token_send_dao.dart';
 import 'package:box/dao/tx_broadcast_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -13,10 +14,12 @@ import 'package:box/model/account_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/contract_balance_model.dart';
 import 'package:box/model/contract_call_model.dart';
+import 'package:box/model/token_list_model.dart';
 import 'package:box/model/token_send_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
+import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
 import 'package:common_utils/common_utils.dart';
@@ -35,6 +38,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
 import 'home_page.dart';
+import 'home_page_v2.dart';
 
 class TokenSendTwoPage extends StatefulWidget {
   final String address;
@@ -50,7 +54,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String address = '';
-  String currentCoinName = 'AE';
+  int currentPosition = -1;
+  var loadingType = LoadingType.loading;
+  TokenListModel tokenListModel;
+  List<Widget> items = List<Widget>();
 
   @override
   void initState() {
@@ -58,6 +65,131 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     netAccountInfo();
     netContractBalance();
     getAddress();
+    netTokenList();
+  }
+
+  void netTokenList() {
+    TokenListDao.fetch(HomePageV2.address).then((TokenListModel model) {
+      if (model != null || model.code == 200) {
+        tokenListModel = model;
+        loadingType = LoadingType.finish;
+        if (tokenListModel == null) {
+          return;
+        }
+        items.add(
+          Container(
+            height: 20,
+          ),
+        );
+        items.add(
+          Container(
+            margin: EdgeInsets.only(left: 20),
+            alignment: Alignment.topLeft,
+            child: Text(
+              S.of(context).token_send_two_page_coin,
+              style: TextStyle(
+                color: Color(0xFF666666),
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontSize: 19,
+              ),
+            ),
+          ),
+        );
+        items.add(
+          Container(
+            height: 20,
+          ),
+        );
+        items.add(
+          Material(
+            color: Colors.white,
+            child: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  currentPosition = -1;
+                });
+              },
+              child: Container(
+                height: 70,
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 36.0,
+                            height: 36.0,
+                            decoration: BoxDecoration(
+                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(36.0),
+                              image: DecorationImage(
+                                image: AssetImage("images/apple-touch-icon.png"),
+//                                                        image: AssetImage("images/apple-touch-icon.png"),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 17),
+                            child: Text(
+                              "AE",
+                              style: new TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 10,
+                      child: Row(
+                        children: [
+                          Text(
+                            HomePageV2.token + " ",
+                            style: TextStyle(
+                              color: Color(0xFF666666),
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontSize: 14,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+        for (var i = 0; i < tokenListModel.data.length; i++) {
+          var item = itemListView(context, i);
+
+          items.add(item);
+        }
+
+        setState(() {});
+      } else {
+        tokenListModel = null;
+        loadingType = LoadingType.error;
+        setState(() {});
+      }
+    }).catchError((e) {
+      print(e);
+      loadingType = LoadingType.error;
+      setState(() {});
+    });
   }
 
   void netContractBalance() {
@@ -74,7 +206,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        HomePage.token = model.data.balance;
+        HomePageV2.token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -145,7 +277,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -159,7 +291,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -171,7 +303,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     Utils.formatAddress(address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -187,7 +319,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -199,7 +331,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     getReceiveAddress(),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -237,7 +369,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                             S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -262,7 +394,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -285,7 +417,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                         Positioned(
                                           right: 0,
                                           top: 12,
-                                          child:Container(
+                                          child: Container(
                                             height: 30,
                                             margin: const EdgeInsets.only(top: 0),
                                             child: FlatButton(
@@ -295,7 +427,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
                                               ),
                                               color: Color(0xFFE61665).withAlpha(16),
                                               textColor: Colors.black,
@@ -313,195 +445,23 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
+                                        if (tokenListModel == null) {
+                                          return;
+                                        }
                                         showMaterialModalBottomSheet(
                                             context: context,
                                             backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
                                             builder: (context, scrollController) => Container(
-                                                  height: 250,
-                                                  decoration: new BoxDecoration(
-                                                      color: Color(0xFFFFFFFF),
-                                                      //设置四周圆角 角度
-                                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                                                      boxShadow: []),
-                                                  child: SingleChildScrollView(
-                                                    child: Column(children: [
-                                                      Container(
-                                                        height: 20,
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(left: 20),
-                                                        alignment: Alignment.topLeft,
-                                                        child: Text(
-                                                          S.of(context).token_send_two_page_coin,
-                                                          style: TextStyle(
-                                                            color: Color(0xFF666666),
-                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                                            fontSize: 19,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height: 20,
-                                                      ),
-                                                      Material(
-                                                        color: Colors.white,
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            Navigator.pop(context);
-                                                            setState(() {
-                                                              currentCoinName = "AE";
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            height: 70,
-                                                            margin: EdgeInsets.only(left: 20, right: 20),
-                                                            child: Stack(
-                                                              alignment: Alignment.center,
-                                                              children: <Widget>[
-                                                                Container(
-                                                                  child: Row(
-                                                                    children: <Widget>[
-                                                                      Container(
-                                                                        width: 36.0,
-                                                                        height: 36.0,
-                                                                        decoration: BoxDecoration(
-                                                                          border: Border(
-                                                                              bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                                                                          borderRadius: BorderRadius.circular(36.0),
-                                                                          image: DecorationImage(
-                                                                            image: AssetImage("images/apple-touch-icon.png"),
-//                                                        image: AssetImage("images/apple-touch-icon.png"),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        padding: const EdgeInsets.only(left: 17),
-                                                                        child: Text(
-                                                                          "AE",
-                                                                          style: new TextStyle(
-                                                                            fontSize: 15,
-                                                                            color: Colors.black,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Positioned(
-                                                                  right: 10,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                        HomePage.token + " ",
-                                                                        style: TextStyle(
-                                                                          color: Color(0xFF666666),
-                                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                                                          fontSize: 14,
-                                                                        ),
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons.arrow_forward_ios,
-                                                                        size: 15,
-                                                                        color: Color(0xFF666666),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(left: 20),
-                                                        height: 1,
-                                                        color: Color(0xFFF6F6F6),
-                                                        width: MediaQuery.of(context).size.width,
-                                                      ),
-                                                      Material(
-                                                        color: Colors.white,
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            Navigator.pop(context);
-                                                            setState(() {
-                                                              currentCoinName = "ABC";
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            height: 70,
-                                                            margin: EdgeInsets.only(left: 20, right: 20),
-                                                            child: Stack(
-                                                              alignment: Alignment.center,
-                                                              children: <Widget>[
-                                                                Container(
-                                                                  child: Row(
-                                                                    children: <Widget>[
-                                                                      Container(
-                                                                        width: 36.0,
-                                                                        height: 36.0,
-                                                                        decoration: BoxDecoration(
-                                                                          border: Border(
-                                                                              bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                                              right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                                                                          borderRadius: BorderRadius.circular(36.0),
-                                                                          image: DecorationImage(
-                                                                            image: AssetImage("images/logo.png"),
-//                                                        image: AssetImage("images/apple-touch-icon.png"),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        padding: const EdgeInsets.only(left: 17),
-                                                                        child: Text(
-                                                                          "ABC",
-                                                                          style: new TextStyle(
-                                                                            fontSize: 15,
-                                                                            color: Colors.black,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Positioned(
-                                                                  right: 10,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                        HomePage.tokenABC + " ",
-                                                                        style: TextStyle(
-                                                                          color: Color(0xFF666666),
-                                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                                                          fontSize: 14,
-                                                                        ),
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons.arrow_forward_ios,
-                                                                        size: 15,
-                                                                        color: Color(0xFF666666),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                                  ),
-                                                )
+                                                height: MediaQuery.of(context).size.height / 2,
+                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                decoration: new BoxDecoration(
+                                                    color: Color(0xFFFFFFFF),
+                                                    //设置四周圆角 角度
+                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                                                    boxShadow: []),
+                                                child: Column(
+                                                  children: items,
+                                                ))
 //
                                             );
                                       },
@@ -521,21 +481,30 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                       border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                       borderRadius: BorderRadius.circular(36.0),
-                                                      image: DecorationImage(
-                                                        image: AssetImage(currentCoinName == "AE" ? "images/apple-touch-icon.png" : "images/logo.png"),
+                                                      image: currentPosition == -1
+                                                          ? DecorationImage(
+                                                              image: AssetImage("images/apple-touch-icon.png"),
 //                                                        image: AssetImage("images/apple-touch-icon.png"),
-                                                      ),
+                                                            )
+                                                          : null,
                                                     ),
+                                                    child: currentPosition != -1
+                                                        ? ClipOval(
+                                                            child: Image.network(
+                                                              tokenListModel.data[currentPosition].image,
+                                                            ),
+                                                          )
+                                                        : null,
                                                   ),
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
-                                                      currentCoinName,
+                                                      currentPosition == -1 ? "AE" : tokenListModel.data[currentPosition].name,
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                       ),
                                                     ),
                                                   )
@@ -547,10 +516,10 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    currentCoinName == "AE" ? HomePage.token + " " : HomePage.tokenABC + " ",
+                                                    currentPosition == -1 ? HomePageV2.token + " " : tokenListModel.data[currentPosition].count,
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                       fontSize: 14,
                                                     ),
                                                   ),
@@ -575,8 +544,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       )
                     ],
                   ),
-
-
                   Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 30),
                     child: Container(
@@ -589,7 +556,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         child: Text(
                           S.of(context).token_send_two_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,
@@ -606,26 +573,18 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (currentCoinName == "AE") {
-      if (HomePage.token == "loading...") {
+    if (currentPosition == -1) {
+      if (HomePageV2.token == "loading...") {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(HomePage.token) < 1) {
+        if (double.parse(HomePageV2.token) < 1) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(HomePage.token) - 1).toString();
+          _textEditingController.text = (double.parse(HomePageV2.token) - 1).toString();
         }
       }
     } else {
-      if (HomePage.tokenABC == "loading...") {
-        _textEditingController.text = "0";
-      } else {
-        if (double.parse(HomePage.tokenABC) < 1) {
-          _textEditingController.text = "0";
-        } else {
-          _textEditingController.text = (double.parse(HomePage.tokenABC) - 0).toString();
-        }
-      }
+      _textEditingController.text = tokenListModel.data[currentPosition].count;
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
     }
   }
@@ -645,7 +604,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
     var senderID = await BoxApp.getAddress();
-    if (currentCoinName == "AE") {
+    if (currentPosition == -1) {
 //      startLoading();
       showGeneralDialog(
           context: context,
@@ -685,7 +644,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -713,7 +672,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -770,7 +729,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -798,7 +757,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -809,7 +768,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         ),
                       );
                       // ignore: missing_return
-                    }, aesDecode, address, BoxApp.ABC_CONTRACT_AEX9, widget.address, _textEditingController.text);
+                    }, aesDecode, address, tokenListModel.data[currentPosition].ctAddress, widget.address, _textEditingController.text, tokenListModel.data[currentPosition].type);
                     showChainLoading();
                   },
                 ),
@@ -863,5 +822,80 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
     )..show(context).then((result) {
         Navigator.pop(context);
       });
+  }
+
+  Widget itemListView(BuildContext context, int index) {
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            currentPosition = index;
+          });
+          Navigator.pop(context);
+        },
+        child: Container(
+          height: 70,
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 36.0,
+                      height: 36.0,
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(36.0),
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          tokenListModel.data[index].image,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 17),
+                      child: Text(
+                        tokenListModel.data[index].name,
+                        style: new TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Positioned(
+                right: 10,
+                child: Row(
+                  children: [
+                    Text(
+                      tokenListModel.data[index].count,
+                      style: TextStyle(
+                        color: Color(0xFF666666),
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontSize: 14,
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                      color: Color(0xFF666666),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

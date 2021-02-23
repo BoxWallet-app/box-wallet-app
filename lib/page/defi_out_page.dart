@@ -573,36 +573,36 @@ class _DefiOutPageState extends State<DefiOutPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.contractTransfer((tx) {
-                      showFlushSucess(context);
-                      
-                      // ignore: missing_return
-                    }, (error) {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(error),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                      
-                      // ignore: missing_return
-                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, "", _textEditingController.text);
+//                    BoxApp.contractTransfer((tx) {
+//                      showFlushSucess(context);
+//
+//                      // ignore: missing_return
+//                    }, (error) {
+//                      showPlatformDialog(
+//                        context: context,
+//                        builder: (_) => BasicDialogAlert(
+//                          title: Text(S.of(context).dialog_hint_check_error),
+//                          content: Text(error),
+//                          actions: <Widget>[
+//                            BasicDialogAction(
+//                              title: Text(
+//                                S.of(context).dialog_conform,
+//                                style: TextStyle(
+//                                  color: Color(0xff3460ee),
+//                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+//                                ),
+//                              ),
+//                              onPressed: () {
+//
+//                                Navigator.of(context, rootNavigator: true).pop();
+//                              },
+//                            ),
+//                          ],
+//                        ),
+//                      );
+//
+//                      // ignore: missing_return
+//                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, "", _textEditingController.text);
                     showChainLoading();
                   },
                 ),
