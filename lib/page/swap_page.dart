@@ -80,6 +80,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         // 隐藏阴影
+        backgroundColor: Color(0xFFF5F5F5),
         elevation: 0,
         leading: IconButton(
           icon: Icon(

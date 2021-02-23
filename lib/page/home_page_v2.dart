@@ -181,16 +181,16 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
           return "";
         }
         if (double.parse(HomePageV2.token) < 1000) {
-          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(2) + " ≈ ";
+          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + (double.parse(HomePageV2.tokenABC) * premium))).toStringAsFixed(2) + " ≈ ";
         } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(0) + " ≈ ";
+          return " ¥" + (priceModel.aeternity.cny * ((double.parse(HomePageV2.token)) + (double.parse(HomePageV2.tokenABC) * premium))).toStringAsFixed(0) + " ≈ ";
         }
       } else {
         if (priceModel.aeternity.usd == null) {
           return "";
         }
-        return " \$" + (priceModel.aeternity.usd * ((double.parse(HomePageV2.token)) + double.parse(HomePageV2.tokenABC) * premium)).toStringAsFixed(2) + " ≈ ";
+        return " \$" + (priceModel.aeternity.usd * ((double.parse(HomePageV2.token)) + (double.parse(HomePageV2.tokenABC) * premium))).toStringAsFixed(2) + " ≈ ";
       }
     }
   }
@@ -199,7 +199,11 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
       if (model != null) {
         setState(() {
+          if(model.data.isNotEmpty){
+            model.data.sort((left,right)=>left.getPremium().compareTo(right.getPremium()));
+          }
           premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
+          print(premium);
         });
       }
     }).catchError((e) {});
@@ -912,7 +916,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
 //    }
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 12, bottom: MediaQueryData.fromWindow(window).padding.bottom),
+      margin: EdgeInsets.only(top: 12, bottom: MediaQuery.of(context).padding.bottom),
       //边框设置
       decoration: new BoxDecoration(
         color: Color(0xE6FFFFFF),

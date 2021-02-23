@@ -1,8 +1,8 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.105:7070';
 // const BASE_HOST = 'http://10.53.5.44:7070';
-const BASE_HOST = 'https://aebox.io';
-//const BASE_HOST = 'http://localhost:7070';
+//const BASE_HOST = 'https://aebox.io';
+const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度
@@ -35,10 +35,16 @@ const NAME_PRECLAI = BASE_HOST + '/api/names/preclaim';
 //域名详情
 const NAME_INFO = BASE_HOST + '/api/names/info';
 
+//交易记录
 const SWAP_LIST = BASE_HOST + '/api/contract/swap/records';
 
+//我的兑换记录
 const SWAP_MY_LIST = BASE_HOST + '/api/contract/swap/records/my';
+
+//我的售卖
 const SWAP_MY_BUY_LIST = BASE_HOST + '/api/contract/swap/records/my/buy';
+
+//我的购买
 const SWAP_MY_SELL_LIST = BASE_HOST + '/api/contract/swap/records/my/sell';
 
 //用户详情
@@ -88,6 +94,9 @@ const CONTRACT_RANKING = BASE_HOST + '/api/contract/ranking';
 
 //广播
 const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
+
+//代币列表
+const TOKEN_LIST = BASE_HOST + '/api/tokens/list';
 
 //版本号
 const VERSION = BASE_HOST + '/api/version';

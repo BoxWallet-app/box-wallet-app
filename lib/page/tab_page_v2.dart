@@ -86,23 +86,22 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
       double zoom = (156) / (MediaQuery.of(context).size.width);
       double offset = (pageControllerBody.offset * zoom);
       _streamControllerLine.sink.add(pageControllerBody.offset / 3);
-    if(pageControllerBody.page <0.5){
-      _streamController1.sink.add(0xFFFC2365);
-      _streamController2.sink.add(-1);
-      _streamController3.sink.add(-1);
-    }
-    if(pageControllerBody.page>0.6&& pageControllerBody.page<1.5){
-      _streamController1.sink.add(-1);
-      _streamController2.sink.add(0xFFFC2365);
-      _streamController3.sink.add(-1);
-    }
+      if (pageControllerBody.page < 0.5) {
+        _streamController1.sink.add(0xFFFC2365);
+        _streamController2.sink.add(-1);
+        _streamController3.sink.add(-1);
+      }
+      if (pageControllerBody.page > 0.6 && pageControllerBody.page < 1.5) {
+        _streamController1.sink.add(-1);
+        _streamController2.sink.add(0xFFFC2365);
+        _streamController3.sink.add(-1);
+      }
 
-    if(pageControllerBody.page>1.5){
-      _streamController1.sink.add(-1);
-      _streamController2.sink.add(-1);
-      _streamController3.sink.add(0xFFFC2365);
-    }
-
+      if (pageControllerBody.page > 1.5) {
+        _streamController1.sink.add(-1);
+        _streamController2.sink.add(-1);
+        _streamController3.sink.add(0xFFFC2365);
+      }
 
 //      _streamControllerLine.sink.add(offset/156);
 
@@ -130,6 +129,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     showHint();
     netVersion();
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -137,6 +137,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
       throw 'Could not launch $url';
     }
   }
+
   void netVersion() {
     VersionDao.fetch().then((VersionModel model) {
       if (model.code == 200) {
@@ -149,77 +150,77 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
                   ? showPlatformDialog(
-                context: context,
-                builder: (_) => BasicDialogAlert(
-                  title: Text(
-                    S.of(context).dialog_update_title,
-                  ),
-                  content: Text(
-                    S.of(context).dialog_update_content,
-                  ),
-                  actions: <Widget>[
-                    BasicDialogAction(
-                      title: Text(
-                        S.of(context).dialog_conform,
-                        style: TextStyle(
-                          color: Color(0xFFFC2365),
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_update_title,
                         ),
-                      ),
-                      onPressed: () {
+                        content: Text(
+                          S.of(context).dialog_update_content,
+                        ),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
 //                        Navigator.of(context, rootNavigator: true).pop();
-                        if (Platform.isIOS) {
-                          _launchURL(model.data.urlIos);
-                        } else if (Platform.isAndroid) {
-                          _launchURL(model.data.urlAndroid);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              )
+                              if (Platform.isIOS) {
+                                _launchURL(model.data.urlIos);
+                              } else if (Platform.isAndroid) {
+                                _launchURL(model.data.urlAndroid);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    )
                   : showPlatformDialog(
-                context: context,
-                builder: (_) => BasicDialogAlert(
-                  title: Text(
-                    S.of(context).dialog_update_title,
-                  ),
-                  content: Text(
-                    S.of(context).dialog_update_content,
-                  ),
-                  actions: <Widget>[
-                    BasicDialogAction(
-                      title: Text(
-                        S.of(context).dialog_conform,
-                        style: TextStyle(
-                          color: Color(0xFFFC2365),
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(
+                          S.of(context).dialog_update_title,
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                        if (Platform.isIOS) {
-                          _launchURL(model.data.urlIos);
-                        } else if (Platform.isAndroid) {
-                          _launchURL(model.data.urlAndroid);
-                        }
-                      },
-                    ),
-                    BasicDialogAction(
-                      title: Text(
-                        S.of(context).dialog_cancel,
-                        style: TextStyle(
-                          color: Color(0xFFFC2365),
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        content: Text(
+                          S.of(context).dialog_update_content,
                         ),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                              if (Platform.isIOS) {
+                                _launchURL(model.data.urlIos);
+                              } else if (Platform.isAndroid) {
+                                _launchURL(model.data.urlAndroid);
+                              }
+                            },
+                          ),
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_cancel,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                      },
-                    ),
-                  ],
-                ),
-              );
+                    );
             });
           }
 
@@ -229,17 +230,13 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //          String buildNumber = packageInfo.buildNumber;
         });
       } else {}
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   void showHint() {
-    print("tet1");
     Future.delayed(Duration.zero, () {
-      print("tet2");
       BoxApp.getMnemonic().then((account) {
         if (account != null && account.length > 0) {
-          print("tet");
           showPlatformDialog(
             context: context,
             builder: (_) => BasicDialogAlert(
@@ -247,7 +244,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                 S.of(context).dialog_save_word,
                 style: TextStyle(
                   color: Color(0xFF000000),
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               ),
               content: Text(
@@ -255,7 +252,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                 style: TextStyle(
                   color: Color(0xFF000000),
                   height: 1.2,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               ),
               actions: <Widget>[
@@ -264,7 +261,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                     S.of(context).dialog_dismiss,
                     style: TextStyle(
                       color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                   onPressed: () {
@@ -276,7 +273,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                     S.of(context).dialog_save_go,
                     style: TextStyle(
                       color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                   onPressed: () {
@@ -372,7 +369,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Container(
-
           child: Column(
             children: [
               Container(
@@ -574,22 +570,23 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52 - 52,
-                child: PageView.builder(
-                  itemCount: 3,
-                  controller: pageControllerBody,
-                  itemBuilder: (context, position) {
-                    if (position == 0) {
-                      return HomePageV2();
-                    } else if (position == 1) {
-                      return AeppsPageV2();
-                    } else {
-                      return SettingPageV2();
-                    }
-                  },
+              Expanded(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
+                  child: PageView.builder(
+                    itemCount: 3,
+                    controller: pageControllerBody,
+                    itemBuilder: (context, position) {
+                      if (position == 0) {
+                        return HomePageV2();
+                      } else if (position == 1) {
+                        return AeppsPageV2();
+                      } else {
+                        return SettingPageV2();
+                      }
+                    },
+                  ),
                 ),
               ),
               Container(

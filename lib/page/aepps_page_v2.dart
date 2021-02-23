@@ -340,13 +340,31 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               child: Column(
                 children: [
                   Container(
+                    height: 170,
+                    width: MediaQuery.of(context).size.width-30,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
                       child: Image.network(
                         "https://www.aechina.io/wp-content/uploads/2021/02/3964ae1b4ccfe22c7f78f74bc37c0d77.gif",
-//                        fit: BoxFit.cover,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null)
+                            return child;
+
+                          return Container(
+                            alignment: Alignment.center,
+                            child: new Center(
+                              child: new CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                              ),
+                          ),
+                          width: 160.0,
+                          height: 90.0,
+
+                          );
+                        },
                         //设置图片的填充样式
-//                        fit: BoxFit.fitHeight,
+//                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),
