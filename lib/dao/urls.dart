@@ -106,3 +106,9 @@ const VERSION = BASE_HOST + '/api/version';
 
 //价格
 const PRICE = 'https://api.coingecko.com/api/v3/simple/price';
+
+//绑定的域名
+const NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';
+
+//域名归属
+const NAME_OWNER = '/v2/names/';

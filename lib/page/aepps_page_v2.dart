@@ -379,6 +379,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                             ? bannerModel.cn.image
                             : bannerModel.en.image,
                         fit: BoxFit.cover,
+
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
 

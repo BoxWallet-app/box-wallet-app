@@ -2243,10 +2243,10 @@ class S {
     );
   }
 
-  /// `AEX9 token`
+  /// `Tokens`
   String get home_token {
     return Intl.message(
-      'AEX9 token',
+      'Tokens',
       name: 'home_token',
       desc: '',
       args: [],

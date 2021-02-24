@@ -1,7 +1,9 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/dao/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_register_model.dart';
+import 'package:box/model/name_owner_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/token_send_two_page.dart';
 import 'package:flushbar/flushbar.dart';
@@ -27,6 +29,21 @@ class TokenSendOnePage extends StatefulWidget {
 class _TokenSendOnePageState extends State<TokenSendOnePage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
+  FocusNode _focus = FocusNode();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _textEditingController.addListener(() {
+      if (_textEditingController.text.contains("ak_")) {
+        return;
+      }
+//      if(_textEditingController.text.contains(".c")){
+//        return;
+//      }
+//      _textEditingController.text = _textEditingController.text+".chain";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +108,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                 S.of(context).token_send_one_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -127,7 +144,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -164,7 +181,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                                         S.of(context).token_send_one_page_qr,
                                                         style: TextStyle(
                                                           color: Color(0xFF666666),
-                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                           fontSize: 17,
                                                         ),
                                                       ),
@@ -183,7 +200,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                       children: <Widget>[
                                         TextField(
                                           controller: _textEditingController,
-
+                                          focusNode: _focus,
                                           maxLines: 3,
                                           style: TextStyle(
                                             fontSize: 19,
@@ -200,7 +217,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
@@ -211,7 +228,6 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
@@ -232,7 +248,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                         child: Text(
                           S.of(context).token_send_one_page_next,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,
@@ -247,11 +263,34 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
         ));
   }
 
-  clickNext(){
-    if (_textEditingController.text.length < 10) {
-      Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+  clickNext() {
+
+    if (!_textEditingController.text.contains("ak_")) {
+      EasyLoading.show();
+      NameOwnerDao.fetch(_textEditingController.text+".chain").then((NameOwnerModel model) {
+        EasyLoading.dismiss(animation: true);
+        if (model != null && model.owner.isNotEmpty) {
+          _textEditingController.text = model.owner;
+          final length = model.owner.length;
+          _textEditingController.selection = TextSelection(baseOffset:length , extentOffset:length);
+          _focus.unfocus();
+        }else{
+          Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+          EasyLoading.dismiss(animation: true);
+        }
+      }).catchError((e) {
+        EasyLoading.dismiss(animation: true);
+      });
       return;
     }
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
+
+    if (_textEditingController.text.length < 10 && _textEditingController.text.contains("ak_")) {
+      Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }else{
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
+    }
+
+
   }
 }

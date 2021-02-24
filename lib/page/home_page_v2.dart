@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/name_reverse_dao.dart';
 import 'package:box/dao/price_model.dart';
 import 'package:box/dao/swap_dao.dart';
 import 'package:box/dao/wallet_record_dao.dart';
@@ -11,6 +12,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/name_reverse_model.dart';
 import 'package:box/model/price_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/model/wallet_record_model.dart';
@@ -49,6 +51,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   BlockTopModel blockTopModel;
   SwapModel swapModels;
   double premium;
+  List<NameReverseModel> namesModel;
 
   @override
   void initState() {
@@ -69,6 +72,23 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     getAddress();
     netTopHeightData();
     netSwapDao();
+    netNameReverseData();
+  }
+
+  void netNameReverseData() {
+    NameReverseDao.fetch().then((List<NameReverseModel> model) {
+      if (model.isNotEmpty) {
+        if (model.isNotEmpty) {
+          model.sort((left, right) => right.expiresAt.compareTo(left.expiresAt));
+        }
+        namesModel = model;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      loadingType = LoadingType.error;
+      print(e.toString());
+//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
   }
 
   void netTopHeightData() {
@@ -90,6 +110,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
       if (model.code == 200) {
         if (page == 1) {
           page++;
+          walletRecordModel = model;
           if (model.data == null || model.data.length == 0) {
 //            _easyRefreshController.finishRefresh();
 //            _easyRefreshController.finishLoad();
@@ -203,7 +224,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
             model.data.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
           }
           premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
-          print(premium);
         });
       }
     }).catchError((e) {});
@@ -379,12 +399,18 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 160,
-                                alignment: Alignment.centerLeft,
-                                margin: EdgeInsets.only(left: 20, right: 50),
-                                child: Text(Utils.formatHomeCardAddress(HomePageV2.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                              InkWell(
+                                onTap: () {
+                                  Clipboard.setData(ClipboardData(text: HomePageV2.address));
+                                  Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 160,
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(left: 20, right: 50),
+                                  child: Text(Utils.formatHomeCardAddress(HomePageV2.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                ),
                               ),
                               Positioned(
                                 right: 0,
@@ -432,6 +458,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                   ),
                                 ),
                               ),
+
                               Container(
                                 height: 130,
                                 child: Column(
@@ -448,7 +475,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                           Container(
                                             margin: const EdgeInsets.only(left: 2, right: 20),
                                             child: Text(
-                                              "box.chain",
+                                              namesModel == null ? "" : namesModel[0].name,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
@@ -535,6 +562,25 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                   ],
                                 ),
                               ),
+//                              Positioned(
+//                                right: 0,
+//                                top: 0,
+//                                child: GestureDetector(
+//                                  onTap: (){
+//                                    Clipboard.setData(ClipboardData(text: namesModel[0].name));
+//                                    Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//
+//                                  },
+//                                  child: Material(
+//                                    color: Colors.transparent,
+//                                    child: Container(
+//                                      width: 80,
+//                                      height: 80,
+//
+//                                    ),
+//                                  ),
+//                                ),
+//                              ),
                             ],
                           ),
 
@@ -902,12 +948,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   }
 
   Container getRecordContainer(BuildContext context) {
-    if (walletRecordModel == null && page == 1 && blockTopModel == null) {
-      return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-      );
-    }
 //    if (walletRecordModel == null) {
 //      return Container(
 //        width: MediaQuery.of(context).size.width,
@@ -999,6 +1039,15 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                 child: Column(
                   children: [
                     if (walletRecordModel == null)
+                      Container(
+                        height: 150,
+                        child: new Center(
+                          child: new CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                          ),
+                        ),
+                      ),
+                    if (walletRecordModel != null && walletRecordModel.data.length == 0)
                       Container(
                           child: Center(
                               child: Container(
@@ -1280,6 +1329,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     getAddress();
     netTopHeightData();
     netSwapDao();
+    netNameReverseData();
   }
 
   @override

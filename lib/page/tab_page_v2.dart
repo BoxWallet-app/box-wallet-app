@@ -103,6 +103,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
           var newVersion = int.parse(model.data.version.replaceAll(".", ""));
 //          var oldVersion = 100;
+//          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
 
           if (newVersion > oldVersion) {
@@ -133,6 +134,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                               } else if (Platform.isAndroid) {
                                 _launchURL(model.data.urlAndroid);
                               }
+
                             },
                           ),
                         ],

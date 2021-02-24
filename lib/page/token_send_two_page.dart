@@ -76,30 +76,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         if (tokenListModel == null) {
           return;
         }
-        items.add(
-          Container(
-            height: 20,
-          ),
-        );
-        items.add(
-          Container(
-            margin: EdgeInsets.only(left: 20),
-            alignment: Alignment.topLeft,
-            child: Text(
-              S.of(context).token_send_two_page_coin,
-              style: TextStyle(
-                color: Color(0xFF666666),
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                fontSize: 19,
-              ),
-            ),
-          ),
-        );
-        items.add(
-          Container(
-            height: 20,
-          ),
-        );
+
+
+
         items.add(
           Material(
             color: Colors.white,
@@ -128,7 +107,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               borderRadius: BorderRadius.circular(36.0),
                               image: DecorationImage(
                                 image: AssetImage("images/apple-touch-icon.png"),
-//                                                        image: AssetImage("images/apple-touch-icon.png"),
+
                               ),
                             ),
                           ),
@@ -457,10 +436,36 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                 decoration: new BoxDecoration(
                                                     color: Color(0xFFFFFFFF),
                                                     //设置四周圆角 角度
-                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+//                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
                                                     boxShadow: []),
                                                 child: Column(
-                                                  children: items,
+                                                  children: [
+                                                    Container(
+                                                      height: 20,
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 20),
+                                                      alignment: Alignment.topLeft,
+                                                      child: Text(
+                                                        S.of(context).token_send_two_page_coin,
+                                                        style: TextStyle(
+                                                          color: Color(0xFF666666),
+                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                          fontSize: 19,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 20,
+                                                    ),
+                                                    Expanded(
+                                                      child: SingleChildScrollView(
+                                                        child: Column(
+                                                          children: items,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ))
 //
                                             );
@@ -492,6 +497,17 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                         ? ClipOval(
                                                             child: Image.network(
                                                               tokenListModel.data[currentPosition].image,
+                                                              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                                                if (wasSynchronouslyLoaded)
+                                                                  return child;
+
+                                                                return AnimatedOpacity(
+                                                                  child: child,
+                                                                  opacity: frame == null ? 0 : 1,
+                                                                  duration: const Duration(seconds: 2),
+                                                                  curve: Curves.easeOut,
+                                                                );
+                                                              },
                                                             ),
                                                           )
                                                         : null,
@@ -854,6 +870,17 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                       child: ClipOval(
                         child: Image.network(
                           tokenListModel.data[index].image,
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if (wasSynchronouslyLoaded)
+                              return child;
+
+                            return AnimatedOpacity(
+                              child: child,
+                              opacity: frame == null ? 0 : 1,
+                              duration: const Duration(seconds: 2),
+                              curve: Curves.easeOut,
+                            );
+                          },
                         ),
                       ),
                     ),

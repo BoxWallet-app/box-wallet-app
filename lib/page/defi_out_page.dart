@@ -87,7 +87,12 @@ class _DefiOutPageState extends State<DefiOutPage> {
   }
 
   void clickAllCount() {
-    _textEditingController.text = TokenDefiPage.model == null ? "" : TokenDefiPage.model.data.accountInfo.count;
+    if ((double.parse(TokenDefiPage.model.data.accountInfo.count) > 1)) {
+      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.accountInfo.count) - 0.1).toString();
+    }else{
+      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.accountInfo.count) ).toString();
+    }
+
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
@@ -154,7 +159,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                 S.of(context).defi_card_out_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
@@ -168,7 +173,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -180,7 +185,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                     Utils.formatCTAddress(BoxApp.DEFI_CONTRACT_V2),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -196,7 +201,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -208,7 +213,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                     Utils.formatAddress(address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -246,7 +251,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                             S.of(context).defi_card_out_title_content,
                                             style: TextStyle(
                                               color: Color(0xFF666666),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -271,7 +276,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -304,7 +309,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
                                               ),
                                               color: Color(0xff3460ee).withAlpha(40),
                                               textColor: Colors.black,
@@ -351,7 +356,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                       ),
                                                     ),
                                                   )
@@ -366,7 +371,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                                     TokenDefiPage.model == null ? "" : TokenDefiPage.model.data.accountInfo.count,
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                       fontSize: 14,
                                                     ),
                                                   ),
@@ -386,7 +391,6 @@ class _DefiOutPageState extends State<DefiOutPage> {
                       )
                     ],
                   ),
-
                   Container(
                     margin: const EdgeInsets.only(top: 0),
                     child: Container(
@@ -399,7 +403,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                         child: Text(
                           S.of(context).token_send_two_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
                         color: Color(0xff3460ee),
                         textColor: Colors.white,
@@ -407,7 +411,6 @@ class _DefiOutPageState extends State<DefiOutPage> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -447,7 +450,6 @@ class _DefiOutPageState extends State<DefiOutPage> {
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -468,11 +470,10 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
@@ -485,7 +486,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                     BoxApp.contractDefiV2UnLock((tx) {
                       eventBus.fire(DefiEvent());
                       showFlushSucess(context);
-                      
+
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -499,18 +500,16 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),
                           ],
                         ),
                       );
-                      
                     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, _textEditingController.text);
                     showChainLoading();
                   },
@@ -538,7 +537,6 @@ class _DefiOutPageState extends State<DefiOutPage> {
                 child: PayPasswordWidget(
                   title: S.of(context).password_widget_input_password,
                   dismissCallBackFuture: (String password) {
-                    
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
@@ -559,11 +557,10 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
-                                
                                 Navigator.of(context, rootNavigator: true).pop();
                               },
                             ),

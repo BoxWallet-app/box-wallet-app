@@ -171,7 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("Transaction"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "home_send_receive" : MessageLookupByLibrary.simpleMessage("Send and receive your tokens"),
-    "home_token" : MessageLookupByLibrary.simpleMessage("AEX9 token"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("Tokens"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("No data yet"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("Network error, please confirm and try again"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("Retry"),
