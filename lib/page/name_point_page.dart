@@ -1,11 +1,15 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aens_register_dao.dart';
 import 'package:box/dao/name_owner_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/name_owner_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/token_send_two_page.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/chain_loading_widget.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,12 +25,16 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
 
-class TokenSendOnePage extends StatefulWidget {
+class NamePointPage extends StatefulWidget {
+  final String name;
+
+  const NamePointPage({Key key, this.name}) : super(key: key);
+
   @override
-  _TokenSendOnePageState createState() => _TokenSendOnePageState();
+  _NamePointPageState createState() => _NamePointPageState();
 }
 
-class _TokenSendOnePageState extends State<TokenSendOnePage> {
+class _NamePointPageState extends State<NamePointPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
@@ -53,7 +61,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xFFFC2365),
+          backgroundColor: Color(0xff6F53A1),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -85,12 +93,12 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: 80,
-                              color: Color(0xFFFC2365),
+                              color: Color(0xff6F53A1),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xFFFC2365),
+                                  Color(0xff6F53A1),
                                   Color(0xFFEEEEEE),
                                 ]),
                               ),
@@ -106,7 +114,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
-                                S.of(context).token_send_one_page_title,
+                                S.of(context).name_point_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -150,47 +158,6 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          margin: const EdgeInsets.only(left: 10, right: 10),
-                                          child: Material(
-                                            color: Color(0x00000000),
-                                            child: InkWell(
-                                                borderRadius: BorderRadius.all(Radius.circular(30)),
-                                                onTap: () async {
-                                                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                                                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                                    final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                                                    _textEditingController.text = data;
-                                                  } else {
-                                                    EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                                                  }
-                                                },
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(left: 10, right: 10),
-                                                  height: 30,
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      new Icon(
-                                                        Icons.photo_camera,
-                                                        size: 18,
-                                                        color: Color(0xFF666666),
-                                                      ),
-                                                      Container(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        S.of(context).token_send_one_page_qr,
-                                                        style: TextStyle(
-                                                          color: Color(0xFF666666),
-                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                          fontSize: 17,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -214,7 +181,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                             ),
 // and:
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFC2365)),
+                                              borderSide: BorderSide(color: Color(0xff6F53A1)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
@@ -222,7 +189,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
-                                          cursorColor: Color(0xFFFC2365),
+                                          cursorColor: Color(0xff6F53A1),
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
@@ -244,14 +211,14 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
-                          clickNext();
+                          netUpdateV2(context);
                         },
                         child: Text(
-                          S.of(context).token_send_one_page_next,
+                          S.of(context).name_point_conform,
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFFFC2365),
+                        color: Color(0xff6F53A1),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
@@ -264,46 +231,141 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
         ));
   }
 
-  clickNext() {
-    if (!_textEditingController.text.contains("ak_")) {
-      String address = _textEditingController.text;
+  Future<void> netUpdateV2(BuildContext context) async {
+    _focus.unfocus();
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, 0, 0.0),
+            child: Opacity(
+              opacity: anim1.value,
+              // ignore: missing_return
+              child: PayPasswordWidget(
+                title: S.of(context).password_widget_input_password,
+                dismissCallBackFuture: (String password) {
+                  return;
+                },
+                passwordCallBackFuture: (String password) async {
+                  var signingKey = await BoxApp.getSigningKey();
+                  var address = await BoxApp.getAddress();
+                  final key = Utils.generateMd5Int(password + address);
+                  var aesDecode = Utils.aesDecode(signingKey, key);
 
-      if (!address.contains(".chain")) {
-        address = _textEditingController.text + ".chain";
-      }
-      EasyLoading.show();
-      NameOwnerDao.fetch(address).then((NameOwnerModel model) {
-        EasyLoading.dismiss(animation: true);
-        if (model != null && model.owner.isNotEmpty) {
-          var accountPubkey = "";
-          model.pointers.forEach((element) {
-            if (element.key == "account_pubkey") {
-              accountPubkey = element.id;
-            }
-          });
-          if (accountPubkey == "") {
-            accountPubkey = model.owner;
-          }
+                  if (aesDecode == "") {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  // ignore: missing_return
+                  BoxApp.updateName((tx) {
+                    print(tx);
+                    showFlush(context);
 
-          _textEditingController.text = accountPubkey;
-          final length = accountPubkey.length;
-          _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
-          _focus.unfocus();
-        } else {
-          Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-          EasyLoading.dismiss(animation: true);
-        }
-      }).catchError((e) {
-        EasyLoading.dismiss(animation: true);
+                    // ignore: missing_return
+                  }, (error) {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(error),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+
+                    // ignore: missing_return
+                  }, aesDecode, address, widget.name, _textEditingController.text);
+                  showChainLoading();
+                },
+              ),
+            ),
+          );
+        });
+  }
+
+  void showChainLoading() {
+    showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return ChainLoadingWidget();
+        });
+  }
+
+  void showFlush(BuildContext context) {
+    flush = Flushbar<bool>(
+      title: S.of(context).hint_broadcast_sucess,
+      message: S.of(context).hint_broadcast_sucess_hint,
+      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundColor: Color(0xFFFC2365),
+      blockBackgroundInteraction: true,
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      //                        flushbarStyle: FlushbarStyle.GROUNDED,
+
+      mainButton: FlatButton(
+        onPressed: () {
+          flush.dismiss(true); // result = true
+        },
+        child: Text(
+          S.of(context).dialog_conform,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Color(0x88000000),
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+    )..show(context).then((result) {
+        eventBus.fire(NameEvent());
+        Navigator.pop(context);
       });
-      return;
-    }
-
-    if (_textEditingController.text.length < 10 && _textEditingController.text.contains("ak_")) {
-      Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      return;
-    } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TokenSendTwoPage(address: _textEditingController.text)));
-    }
   }
 }

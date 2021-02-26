@@ -962,6 +962,9 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               ),
             ),
           ),
+          Container(
+            height: 8,
+          ),
         ],
       ),
     )));

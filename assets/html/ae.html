@@ -2549,7 +2549,7 @@ payable contract AESwapContract =
         });
     }
 
-    const updateName = function (signingKey, publicKey, name) {
+    const updateName = function (signingKey, publicKey, name , pointData) {
         Ae.Node({url: nodeUrl}).then(node => {
             Ae.Universal({
                 nodes: [{name: 'local', instance: node}],
@@ -2563,11 +2563,11 @@ payable contract AESwapContract =
                 ],
                 address: publicKey,
             }).then(aeInstance => {
-                const pointersArray = [publicKey];
+                const pointersArray = [pointData];
                 status_JS.postMessage("aensUpdate");
                 aeInstance.aensUpdate(name, pointersArray, {
                     extendPointers: true,
-                    waitMined: false
+                    waitMined: true
                 }).then(function (update) {
                     status_JS.postMessage("sucess");
                     updateName_JS.postMessage(update.hash);

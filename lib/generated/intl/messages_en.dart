@@ -184,6 +184,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonic_copy_hint1" : MessageLookupByLibrary.simpleMessage("Don\'t take a screenshot!"),
     "mnemonic_copy_hint2" : MessageLookupByLibrary.simpleMessage("If someone gets your mnemonic phrase, they will get your assets directly!"),
     "mnemonic_copy_title" : MessageLookupByLibrary.simpleMessage("Please copy the mnemonic phrase"),
+    "name_point" : MessageLookupByLibrary.simpleMessage("Pointers"),
+    "name_point_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
+    "name_point_title" : MessageLookupByLibrary.simpleMessage("Please enter the address to which the domain name refers"),
     "password_widget_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "password_widget_input_password" : MessageLookupByLibrary.simpleMessage("Enter a secure password"),
     "password_widget_set_password" : MessageLookupByLibrary.simpleMessage("Set a secure password"),
@@ -245,7 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("Transfer amount"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2 please enter the number to send"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("To"),
-    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo, and send an email to 293122529@qq.com"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo to AE BBS @baixin"),
     "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("Description of Listing")
   };
 }

@@ -86,7 +86,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
       } else {}
     }).catchError((e) {
 //      loadingType = LoadingType.error;
-      print(e.toString());
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -219,11 +218,12 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   void netSwapDao() {
     SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
       if (model != null) {
+        if (model.data.isNotEmpty) {
+          model.data.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
+        }
+        premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
         setState(() {
-          if (model.data.isNotEmpty) {
-            model.data.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
-          }
-          premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
+
         });
       }
     }).catchError((e) {});
@@ -533,7 +533,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                                 HomePageV2.token == "loading..."
                                                     ? "loading..."
                                                     : double.parse(HomePageV2.token) > 1000
-                                                        ? double.parse(HomePageV2.token).toStringAsFixed(5) + ""
+                                                        ? double.parse(HomePageV2.token).toStringAsFixed(2) + ""
                                                         : double.parse(HomePageV2.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
                                                 overflow: TextOverflow.ellipsis,
@@ -940,7 +940,10 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                   ),
                 ],
               ),
-            )
+            ),
+            Container(
+              height: 8,
+            ),
           ],
         ),
       ),

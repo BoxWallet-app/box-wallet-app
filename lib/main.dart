@@ -359,10 +359,10 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("claimName('" + secretKey + "','" + publicKey + "','" + name + "');");
   }
 
-  static updateName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name) {
+  static updateName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name,String pointData) {
     BoxApp.flutterJsUpdateNameCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
-    BoxApp.webViewController.evaluateJavascript("updateName('" + secretKey + "','" + publicKey + "','" + name + "');");
+    BoxApp.webViewController.evaluateJavascript("updateName('" + secretKey + "','" + publicKey + "','" + name + "','" + pointData + "');");
   }
 
   static bidName(FlutterJsBidNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name, String nameFee) {

@@ -184,6 +184,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonic_copy_hint1" : MessageLookupByLibrary.simpleMessage("请勿截图!"),
     "mnemonic_copy_hint2" : MessageLookupByLibrary.simpleMessage("如果有人获取了你的助记词将直接获取你的资产!"),
     "mnemonic_copy_title" : MessageLookupByLibrary.simpleMessage("请抄写助记词"),
+    "name_point" : MessageLookupByLibrary.simpleMessage("指向"),
+    "name_point_conform" : MessageLookupByLibrary.simpleMessage("确 认"),
+    "name_point_title" : MessageLookupByLibrary.simpleMessage("请输入域名指向的地址"),
     "password_widget_conform" : MessageLookupByLibrary.simpleMessage("确 认"),
     "password_widget_input_password" : MessageLookupByLibrary.simpleMessage("输入安全密码"),
     "password_widget_set_password" : MessageLookupByLibrary.simpleMessage("设置安全密码"),
@@ -245,7 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("转账数量"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2请输入发送数量"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到"),
-    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送邮件到293122529@qq.com"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送帖子到AE官方论坛并且@百鑫"),
     "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明")
   };
 }

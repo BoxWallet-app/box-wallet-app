@@ -11,3 +11,7 @@ class LanguageEvent {
 class DefiEvent {
   DefiEvent();
 }
+
+class NameEvent {
+  NameEvent();
+}

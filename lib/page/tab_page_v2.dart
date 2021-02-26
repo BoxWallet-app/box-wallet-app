@@ -110,37 +110,43 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
                   ? showPlatformDialog(
+                androidBarrierDismissible:false,
                       context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_update_title,
-                        ),
-                        content: Text(
-                          S.of(context).dialog_update_content,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-//                        Navigator.of(context, rootNavigator: true).pop();
-                              if (Platform.isIOS) {
-                                _launchURL(model.data.urlIos);
-                              } else if (Platform.isAndroid) {
-                                _launchURL(model.data.urlAndroid);
-                              }
+                      builder: (_) => WillPopScope(
+                          onWillPop: () async => false,
+                        child: BasicDialogAlert(
 
-                            },
+                          title: Text(
+                            S.of(context).dialog_update_title,
                           ),
-                        ],
+                          content: Text(
+                            S.of(context).dialog_update_content,
+                          ),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_conform,
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                              onPressed: () {
+//                        Navigator.of(context, rootNavigator: true).pop();
+                                if (Platform.isIOS) {
+                                  _launchURL(model.data.urlIos);
+                                } else if (Platform.isAndroid) {
+                                  _launchURL(model.data.urlAndroid);
+                                }
+
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   : showPlatformDialog(
+
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(
