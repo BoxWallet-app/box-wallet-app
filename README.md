@@ -1,16 +1,20 @@
-# box
+# Box aepp
 
-A new Flutter application.
+The ecological entry of infinite possibilities
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Box AEPP is the Flutter project, so please follow the Flutter environment before running. After successful installation, you can directly compile, open and run. JS-SDK is nested inside the app, so the app is completely de-centered without any security problems
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Support AE transfer, check the balance
+Support AEX9 ABC(AEX-9 token) transfer
+Support domain display latest, about to expire, etc
+Support AENS registration, update, bidding
+Support Defi pledge extraction and V1-V2 technical solution to produce ABC
+Support account transaction record view
+Support cold wallet, mnemonic word generation, mnemonic word login
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
