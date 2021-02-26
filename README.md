@@ -1,6 +1,9 @@
+
+![Alt text](https://github.com/sunbx/Box-aepp-mobile/blob/master/images/logo.png)
 # Box aepp
 
 The ecological entry of infinite possibilities
+
 
 ## Getting Started
 
@@ -13,8 +16,4 @@ Support AENS registration, update, bidding
 Support Defi pledge extraction and V1-V2 technical solution to produce ABC
 Support account transaction record view
 Support cold wallet, mnemonic word generation, mnemonic word login
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
