@@ -36,6 +36,11 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
     // TODO: implement initState
     super.initState();
     _textEditingController.addListener(() {
+      if (_textEditingController.text.contains("\n") || _textEditingController.text.contains(" ")) {
+        _textEditingController.text = _textEditingController.text.replaceAll("\n", "");
+        _textEditingController.text = _textEditingController.text.replaceAll(" ", "");
+        return;
+      }
       if (_textEditingController.text.contains("ak_")) {
         return;
       }
@@ -202,6 +207,7 @@ class _TokenSendOnePageState extends State<TokenSendOnePage> {
                                         TextField(
                                           controller: _textEditingController,
                                           focusNode: _focus,
+
                                           maxLines: 3,
                                           style: TextStyle(
                                             fontSize: 19,

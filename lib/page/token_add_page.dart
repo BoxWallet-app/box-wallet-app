@@ -29,7 +29,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "发行代币",
+          "发行Tokens",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -64,7 +64,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                 margin: EdgeInsets.only(left: 18, top: 0),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "代币名称",
+                  "Tokens名称",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -292,7 +292,7 @@ class _TokenAddPageState extends State<TokenAddPage> {
                 margin: EdgeInsets.only(left: 18, right: 18, top: 8),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "通过Box aepp 可以免费创建AEX9协议代币。整个过程全部去中心化，不会保存你的私钥信息。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送邮件到293122529@qq.com",
+                  "通过Box aepp 可以免费创建AEX9协议Tokens。整个过程全部去中心化，不会保存你的私钥信息。Tokens列表为了增加用户体验防止Tokens乱飞所设置的优秀Tokens，优秀Tokens需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为Tokens锁仓费用，Tokens上任何中心化交易所或者退市即可退回质押Tokens\n下架流程：下架Tokens需要回收市场上全部Tokens，Tokens价格按照所采价值进行回收。或者Tokens长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、Tokens名称，Tokenslogo，发送邮件到293122529@qq.com",
                   style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),

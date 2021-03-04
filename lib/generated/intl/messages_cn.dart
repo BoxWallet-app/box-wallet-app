@@ -170,8 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("我的资产"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("交易记录"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("确认数"),
-    "home_send_receive" : MessageLookupByLibrary.simpleMessage("发送和接收你的代币"),
-    "home_token" : MessageLookupByLibrary.simpleMessage("代币"),
+    "home_send_receive" : MessageLookupByLibrary.simpleMessage("发送和接收你的Tokens"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("Tokens"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("这里暂时没有数据"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
@@ -222,7 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_send_2" : MessageLookupByLibrary.simpleMessage("对方支付的数量"),
     "swap_send_3" : MessageLookupByLibrary.simpleMessage("发起兑换"),
     "swap_send_4" : MessageLookupByLibrary.simpleMessage("兑换说明"),
-    "swap_send_5" : MessageLookupByLibrary.simpleMessage("Box Swap 是去中心化兑换,支持AEX9代币和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,订单记录每100条进行清除,请合理根据需求进行发起兑换."),
+    "swap_send_5" : MessageLookupByLibrary.simpleMessage("Box Swap 是去中心化兑换,支持AEX9Tokens和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,订单记录每100条进行清除,请合理根据需求进行发起兑换."),
     "swap_tab_1" : MessageLookupByLibrary.simpleMessage("发起兑换"),
     "swap_tab_2" : MessageLookupByLibrary.simpleMessage("我的兑换"),
     "swap_text_hint" : MessageLookupByLibrary.simpleMessage("请输入数量"),
@@ -235,7 +235,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("节点不可用"),
     "token_receive_page_copy" : MessageLookupByLibrary.simpleMessage("复制地址"),
     "token_receive_page_copy_sucess" : MessageLookupByLibrary.simpleMessage("复制成功️"),
-    "token_receive_page_title" : MessageLookupByLibrary.simpleMessage("分享你的地址给接收者"),
+    "token_receive_page_title" : MessageLookupByLibrary.simpleMessage("分享你的地址给发送者"),
     "token_send_one_page_address" : MessageLookupByLibrary.simpleMessage("地址"),
     "token_send_one_page_next" : MessageLookupByLibrary.simpleMessage("下一步"),
     "token_send_one_page_qr" : MessageLookupByLibrary.simpleMessage("扫码"),
@@ -248,7 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("转账数量"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2请输入发送数量"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到"),
-    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送帖子到AE官方论坛并且@百鑫"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议Tokens。Tokens列表为了增加用户体验防止Tokens乱飞所设置的优秀Tokens，优秀Tokens需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为Tokens锁仓费用，Tokens上任何中心化交易所或者退市即可退回质押Tokens\n下架流程：下架Tokens需要回收市场上全部Tokens，Tokens价格按照所采价值进行回收。或者Tokens长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、Tokens名称，Tokenslogo，发送帖子到AE官方论坛并且@百鑫"),
     "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明")
   };
 }

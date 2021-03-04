@@ -95,7 +95,7 @@ const CONTRACT_RANKING = BASE_HOST + '/api/contract/ranking';
 //广播
 const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
 
-//代币列表
+//Tokens列表
 const TOKEN_LIST = BASE_HOST + '/api/tokens/list';
 
 //banner

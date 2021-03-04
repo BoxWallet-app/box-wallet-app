@@ -222,9 +222,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
           model.data.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
         }
         premium = (double.parse(model.data[0].ae) / (double.parse(model.data[0].count)));
-        setState(() {
-
-        });
+        setState(() {});
       }
     }).catchError((e) {});
   }
@@ -1261,7 +1259,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                           Expanded(
                             child: Container(
                               child: Text(
-                                walletRecordModel.data[index].tx['type'],
+                                getTxType(index),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                               ),
                             ),
@@ -1302,8 +1300,55 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
     );
   }
 
+  getTxType(int index) {
+    if (BoxApp.language == "cn") {
+      switch (walletRecordModel.data[index].tx['type']) {
+        case "SpendTx":
+          return "转账";
+        case "OracleRegisterTx":
+          return "预言机注册";
+        case "OracleExtendTx":
+          return "预言机扩展";
+        case "OracleQueryTx":
+          return "预言机查询";
+        case "OracleResponseTx":
+          return "预言机响应";
+        case "NamePreclaimTx":
+          return "域名声明";
+        case "NameClaimTx":
+          return "域名注册";
+        case "NameUpdateTx":
+          return "域名更新";
+        case "NameTransferTx":
+          return "域名转移";
+        case "NameRevokeTx":
+          return "域名销毁";
+        case "GAAttachTx":
+          return "GA账户附加";
+        case "GAMetaTx":
+          return "GA账户变换";
+        case "ContractCallTx":
+          return "合约调用";
+        case "ContractCreateTx":
+          return "合约创建";
+        case "ChannelCreateTx":
+          return "状态通道创建";
+        case "ChannelDepositTx":
+          return "状态通道存款";
+        case "ChannelDepositTx":
+          return "状态通道撤销";
+        case "ChannelCloseMutualTx":
+          return "状态通道关闭";
+        case "ChannelSnapshotSoloTx":
+          return "状态通道Settle";
+      }
+      return walletRecordModel.data[index].tx['type'];
+    }
+    return walletRecordModel.data[index].tx['type'];
+  }
+
   Text getFeeWidget(int index) {
-    if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
+    if (getTxType(index).toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
       if (walletRecordModel.data[index].tx['recipient_id'].toString() == HomePageV2.address) {

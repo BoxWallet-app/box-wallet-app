@@ -43,7 +43,7 @@
   "hint_broadcast_sucess": "广播成功",
   "hint_broadcast_sucess_hint": "正在同步节点信息,预计5分钟后同步成功",
 
-  "token_receive_page_title": "分享你的地址给接收者",
+  "token_receive_page_title": "分享你的地址给发送者",
   "token_receive_page_copy": "复制地址",
   "token_receive_page_copy_sucess": "复制成功️",
 
@@ -290,7 +290,7 @@
   "swap_send_2" : "对方支付的数量",
   "swap_send_3" : "发起兑换",
   "swap_send_4" : "兑换说明",
-  "swap_send_5" : "Box Swap 是去中心化兑换,支持AEX9代币和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,订单记录每100条进行清除,请合理根据需求进行发起兑换.",
+  "swap_send_5" : "Box Swap 是去中心化兑换,支持AEX9Tokens和AE之间的转换,兑换过程和取消交易手续费将收取0.4%,手续费的50%将定期按照持仓比例空投给ABC用户,由于所有操作均是在链上进行,将自付链上费用,兑换数量AEX9和AE均为1,最大值为100000,订单记录每100条进行清除,请合理根据需求进行发起兑换.",
 
   "swap_buy_sell_order" : "订单",
   "swap_buy_sell_order_title" : "我的订单",
@@ -314,11 +314,11 @@
   "aepp_item_4_1" : "记你所记，想你所想",
 
   "home_no_record" : "暂无交易记录",
-  "home_token" : "代币",
-  "home_send_receive" : "发送和接收你的代币",
+  "home_token" : "Tokens",
+  "home_send_receive" : "发送和接收你的Tokens",
   "aepps_friend": "合作伙伴",
   "tokens_dialog_title": "上架说明",
-  "tokens_dialog_content": "通过 aeasy.io 可以免费创建AEX9协议代币。代币列表为了增加用户体验防止代币乱飞所设置的优秀代币，优秀代币需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为代币锁仓费用，代币上任何中心化交易所或者退市即可退回质押代币\n下架流程：下架代币需要回收市场上全部代币，代币价格按照所采价值进行回收。或者代币长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、代币名称，代币logo，发送帖子到AE官方论坛并且@百鑫",
+  "tokens_dialog_content": "通过 aeasy.io 可以免费创建AEX9协议Tokens。Tokens列表为了增加用户体验防止Tokens乱飞所设置的优秀Tokens，优秀Tokens需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为Tokens锁仓费用，Tokens上任何中心化交易所或者退市即可退回质押Tokens\n下架流程：下架Tokens需要回收市场上全部Tokens，Tokens价格按照所采价值进行回收。或者Tokens长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、Tokens名称，Tokenslogo，发送帖子到AE官方论坛并且@百鑫",
 
   "name_point": "指向",
   "name_point_conform": "确 认",
