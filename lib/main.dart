@@ -14,7 +14,6 @@ import 'package:box/page/mnemonic_copy_page.dart';
 import 'package:box/page/splash_page.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:common_utils/common_utils.dart';
-import 'package:ed25519_edwards/ed25519_edwards.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ import 'package:hex/hex.dart';
 import 'package:jaguar/jaguar.dart';
 import 'package:jaguar_flutter_asset/jaguar_flutter_asset.dart';
 
-import 'package:ed25519_edwards/ed25519_edwards.dart' as ed;
 
 import 'page/tab_page_v2.dart';
 
@@ -118,55 +116,6 @@ class _TestState extends State<Test> {
     initState() {}
   }
 
-  Future test2() async {
-    // The message that we will sign
-//    final message = <int>[1, 2, 3];
-//    var privateKeyHex = HEX.decode("d03826de64d010f683b4aee0ac67e074e01725bb6f94c6d26942ab5a5671886a5e88d722246295cefec3143d2cf2212347aac960d0b3ea4abe03fba86ce0dc2e");
-//    PrivateKey privateKey = new PrivateKey(privateKeyHex);
-//
-//    var publicKex = HEX.decode("ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF");
-//    PublicKey publicKey = new PublicKey(publicKex);
-//    // Generate a random ED25519 keypair
-//    final keyPair = new KeyPair(privateKey: privateKey, publicKey: publicKey);
-//
-//    // Sign
-//    final signature = await ed25519.sign(
-//      message,
-//      keyPair,
-//    );
-//
-//    print('Signature: ${signature.bytes}');
-//    print('Public key: ${signature.publicKey.bytes}');
-
-//    var keyPair = ed.generateKey();
-//    var privateKey = keyPair.privateKey;
-//    var publicKey = keyPair.publicKey;
-
-    var privateKeyHex = HEX.decode("d03826de64d010f683b4aee0ac67e074e01725bb6f94c6d26942ab5a5671886a5e88d722246295cefec3143d2cf2212347aac960d0b3ea4abe03fba86ce0dc2e");
-    PrivateKey privateKey = new PrivateKey(privateKeyHex);
-//
-//    var publicKex = HEX.decode("XojXIiRilc7+wxQ9LPIhI0eqyWDQs+pKvgP7qGzg3C4=");
-//    PublicKey publicKey = new PublicKey(publicKex);
-
-//    var message = utf8.encode('YWVfbWFpbm5ldPhcDAGhAV6I1yIkYpXO/sMUPSzyISNHqslg0LPqSr4D+6hs4NwuoQEZ0rJgoQ1wez4TmmcNBApTSPS/77bjxxiRWxMZ3t3umIZa8xB6QACGD1ouZ2AAgwUOT4ICsYA=');
-
-    var message = HEX.decode("61655f6d61696e6e6574f85e0c01a1015e88d722246295cefec3143d2cf2212347aac960d0b3ea4abe03fba86ce0dc2ea10119d2b260a10d707b3e139a670d040a5348f4bfefb6e3c718915b1319deddee9888016345785d8a0000860f637e96f000830510438202bd80");
-//    var message = HEX.decode("61655f6d61696e6e6574f85c0c01a1015e88d722246295cefec3143d2cf2212347aac960d0b3ea4abe03fba86ce0dc2ea10119d2b260a10d707b3e139a670d040a5348f4bfefb6e3c718915b1319deddee98865af3107a4000860f5a2e6760008305101e8202bc80");
-    var sig = ed.sign(privateKey, message);
-//    var result = ed.verify(publicKey, message, sig);
-
-    var encodeSign = HEX.encode(sig);
-    print(encodeSign);
-
-    var xorBase64Decode = EncryptUtil.decodeBase64(
-        "eyJTZW5kZXJJRCI6ImFrX2lka3g2bTNiZ1JyN1dpS1h1QjhFQllCb1JxVnNhU2M2cW80ZHNkMjNIS2dqM3FpQ0YiLCJSZWNpcGllbnRJRCI6ImFrX0NOY2Yyb3l3cWJnbVZnM0ZmS2RiSFFKZkI5NTl3clZ3cWZ6U3BkV1ZLWm5lcDduajQiLCJBbW91bnQiOjEwMDAwMDAwMDAwMDAwMDAwMCwiRmVlIjoxNjkyMDAwMDAwMDAwMCwiUGF5bG9hZCI6IiIsIlRUTCI6MzMxOTkzLCJOb25jZSI6NzAyfQ==");
-    print("xorBase64Decode=>" + xorBase64Decode);
-//    assert(result == true);
-    var base64decode = base64Decode("");
-    var wrongMessage = utf8.encode('wrong message');
-//    var wrongResult = ed.verify(publicKey, wrongMessage, sig);
-//    assert(wrongResult == false);
-  }
 }
 
 typedef FlutterJsSecretKeyCallBack = Future Function(String signingKey, String address);
@@ -258,14 +207,7 @@ class BoxApp extends StatelessWidget {
   //错误
   static FlutterJsErrorCallBack flutterJsErrorCallBack;
 
-  static String signMsg(String msg, String signingKey) {
-    var privateKeyHex = HEX.decode(signingKey);
-    PrivateKey privateKey = new PrivateKey(privateKeyHex);
-    var message = HEX.decode(msg);
-    var sig = ed.sign(privateKey, message);
-    var encodeSign = HEX.encode(sig);
-    return encodeSign;
-  }
+
 
   static getSecretKey(FlutterJsSecretKeyCallBack callBack, String mnemonic) {
     BoxApp.flutterJsSecretKeyCallBack = callBack;

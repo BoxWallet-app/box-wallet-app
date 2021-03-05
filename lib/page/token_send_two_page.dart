@@ -430,7 +430,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                         showMaterialModalBottomSheet(
                                             context: context,
                                             backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
-                                            builder: (context, scrollController) => Container(
+                                            builder: (context) => Container(
                                                 height: MediaQuery.of(context).size.height / 2,
                                                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                                                 decoration: new BoxDecoration(

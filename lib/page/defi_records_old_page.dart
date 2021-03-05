@@ -689,7 +689,7 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
             showMaterialModalBottomSheet(
               context: context,
               backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
-              builder: (context, scrollController) => Container(
+              builder: (context) => Container(
                   height: 250,
                   decoration: new BoxDecoration(
 //                      color: Color(0xFFFFFFFF),

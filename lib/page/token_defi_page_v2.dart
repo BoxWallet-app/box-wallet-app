@@ -124,7 +124,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-          resizeToAvoidBottomPadding: false, //输入框抵住键盘
           backgroundColor: Color(0xFFeeeeee),
           body: Container(
             child: GestureDetector(
@@ -781,119 +780,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     });
   }
 
-  void netLockV2() {
-    EasyLoading.show();
-    ContractCallDao.fetch("lock", day.toString(), HomePage.address, _textEditingController.text).then((MsgSignModel model) {
-      EasyLoading.dismiss();
-      if (model.code == 200) {
-        Map<String, dynamic> tx = jsonDecode(EncryptUtil.decodeBase64(model.data.tx));
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-            builder: (BuildContext naContext) {
-              // ignore: missing_return
-              return TxConformWidget(
-                  tx: tx,
-                  // ignore: missing_return
-                  dismissCallBackFuture: () {
-//                    stopLoading();
-                  },
-                  // ignore: missing_return
-                  conformCallBackFuture: () {
-                    // ignore: missing_return
-                    showGeneralDialog(
-                        context: context,
-                        // ignore: missing_return
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, 0, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  EasyLoading.dismiss();
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var signingKey = await BoxApp.getSigningKey();
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
-                                            ),
-                                            onPressed: () {
-                                              EasyLoading.dismiss();
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  var signMsg = BoxApp.signMsg(model.data.msg, aesDecode);
-                                  TxBroadcastDao.fetch(signMsg, model.data.tx, "ContractCallTx").then((model) {
-                                    print(model.toJson());
-                                    if (model.code == 200) {
-                                      print(model.data.hash);
-                                      netContractTx(model.data.hash, "lock");
-                                    }
-                                  }).catchError((e) {
-                                    Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                  });
-                                },
-                              ),
-                            ),
-                          );
-                        });
-                  });
-            },
-            fullscreenDialog: true));
-      } else {
-        showPlatformDialog(
-          context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text(
-              S.of(context).dialog_hint_send_error,
-            ),
-            content: Text(model.msg),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text(
-                  S.of(context).dialog_conform,
-                  style: TextStyle(color: Color(0xFFFC2365), fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
-                ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      }
-    }).catchError((e) {
-      EasyLoading.dismiss(animation: true);
-      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
 
 //  void netLock() {
 //    var text = _textEditingController.text;

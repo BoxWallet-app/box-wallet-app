@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:auro_avatar/auro_avatar.dart';
 import 'package:box/dao/swap_dao.dart';
 import 'package:box/dao/swap_my_buy_dao.dart';
 import 'package:box/dao/swap_my_dao.dart';
