@@ -674,6 +674,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                     }
                     // ignore: missing_return
                     BoxApp.spend((tx) {
+                      print(tx);
                       showFlushSucess(context);
                       // ignore: missing_return
                     }, (error) {
