@@ -260,11 +260,6 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("contractDefiV2Benefits('" + secretKey + "','" + publicKey + "','" + ctID + "');");
   }
 
-//  static FlutterJsContractSwapSellCallBack flutterJsContractSwapSellCallBack;
-//  static FlutterJsContractSwapCancelCallBack flutterJsContractSwapCancelCallBack;
-//  static FlutterJsContractSwapBuyCallBack flutterJsContractSwapBuyCallBack;
-//  static FlutterJsContractSwapListCallBack flutterJsContractSwapListCallBack;
-
   static contractSwapSell(FlutterJsContractSwapSellCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String ctID, String count, String amount) {
     BoxApp.flutterJsContractSwapSellCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
@@ -607,10 +602,8 @@ class BoxApp extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     var address = prefs.getString('address');
     if (address == null) {
-//      return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
       return "-";
     }
-//    return "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx";
     return address;
   }
 
