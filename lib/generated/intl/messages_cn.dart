@@ -229,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("兑换"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("我的兑换"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("发起兑换"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("钱包"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("账户"),
     "tab_2" : MessageLookupByLibrary.simpleMessage("发现"),
     "tab_3" : MessageLookupByLibrary.simpleMessage("设置"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("节点不可用"),

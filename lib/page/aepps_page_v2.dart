@@ -8,6 +8,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/banner_model.dart';
 import 'package:box/model/base_name_data_model.dart';
 import 'package:box/model/contract_info_model.dart';
+import 'package:box/page/swap_my_page.dart';
 import 'package:box/page/swap_page.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/page/web_page.dart';
@@ -507,7 +508,8 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapMyPage()));
+//                  Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
                 },
                 child: Column(
                   children: [

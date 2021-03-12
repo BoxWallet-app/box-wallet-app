@@ -48,7 +48,7 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            '钱包',
+            '账户',
             style: TextStyle(fontSize: 18),
           ),
           centerTitle: true,
