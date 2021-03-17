@@ -535,7 +535,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
             netPreclaimV2(context);
           },
           child: Text(
-            S.of(context).aens_detail_page_add,
+            S.of(context).aens_detail_page_add+" ≈ "+(double.parse(_aensInfoModel.data.currentPrice) + double.parse(_aensInfoModel.data.currentPrice) * 0.1).toStringAsFixed(2)+" AE",
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
           ),

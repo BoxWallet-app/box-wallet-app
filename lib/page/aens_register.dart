@@ -11,6 +11,7 @@ import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/msg_sign_model.dart';
 import 'package:box/page/aens_detail_page.dart';
+import 'package:box/page/home_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -36,11 +37,14 @@ class AensRegister extends StatefulWidget {
 
 class _AensRegisterState extends State<AensRegister> {
   Flushbar flush;
+  int price = 0;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String address;
 
   int errorCount = 0;
+
+  String textClaim = "";
 
   Future<String> getAddress() {
     BoxApp.getAddress().then((String address) {
@@ -55,10 +59,66 @@ class _AensRegisterState extends State<AensRegister> {
     // TODO: implement initState
     super.initState();
     getAddress();
+    textClaim = S().aens_register_page_create;
+    _textEditingController.addListener(() {
+      var length = _textEditingController.text.length;
+
+      if (length == 0) {
+        price = 0;
+      }
+      if (length == 1) {
+        price = 571;
+      }
+      if (length == 2) {
+        price = 353;
+      }
+      if (length == 3) {
+        price = 218;
+      }
+      if (length == 4) {
+        price = 134;
+      }
+      if (length == 5) {
+        price = 84;
+      }
+      if (length == 6) {
+        price = 52;
+      }
+      if (length == 7) {
+        price = 32;
+      }
+      if (length == 8) {
+        price = 20;
+      }
+      if (length == 9) {
+        price = 13;
+      }
+      if (length == 10) {
+        price = 8;
+      }
+      if (length == 11) {
+        price = 5;
+      }
+      if (length == 12) {
+        price = 4;
+      }
+      if (length == 13) {
+        price = 3;
+      }
+
+      if (price == 0) {
+        textClaim = S.of(context).aens_register_page_create;
+        setState(() {});
+        return;
+      }
+      textClaim = S.of(context).aens_register_page_create + "≈" + price.toString() + "AE";
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+//
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFEEEEEE),
@@ -114,7 +174,7 @@ class _AensRegisterState extends State<AensRegister> {
                             S.of(context).aens_register_page_title,
                             style: TextStyle(
                               color: Colors.white,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               fontSize: 19,
                             ),
                           ),
@@ -147,7 +207,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).aens_register_page_name,
                                   style: TextStyle(
                                     color: Color(0xFF666666),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     fontSize: 19,
                                   ),
                                 ),
@@ -194,7 +254,7 @@ class _AensRegisterState extends State<AensRegister> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                           ),
                                         )),
                                   ],
@@ -208,7 +268,17 @@ class _AensRegisterState extends State<AensRegister> {
                   )
                 ],
               ),
-
+              Container(
+                margin: EdgeInsets.only(left: 26, top: 10, right: 26),
+                alignment: Alignment.topRight,
+                child: Text(
+                  S.of(context).token_send_two_page_balance + " : " + HomePageV2.token,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                  ),
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 30, bottom: 30),
                 child: Container(
@@ -219,9 +289,9 @@ class _AensRegisterState extends State<AensRegister> {
                       netPreclaimV2(context);
                     },
                     child: Text(
-                      S.of(context).aens_register_page_create,
+                      textClaim,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -334,10 +404,20 @@ class _AensRegisterState extends State<AensRegister> {
   Future<void> netPreclaimV2(BuildContext context) async {
     focusNode.unfocus();
 
+    if (HomePageV2.token == "loading...") {
+      return;
+    }
+    if (double.parse(HomePageV2.token) < price) {
+      Fluttertoast.showToast(msg: "钱包余额不足", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }
+    if (_textEditingController.text == null || _textEditingController.text == "") {
+      return;
+    }
     var name = _textEditingController.text + ".chain";
     AensInfoDao.fetch(name).then((AensInfoModel model) {
       if (model.code == 200 && model.data.currentHeight < model.data.overHeight) {
-        Fluttertoast.showToast(msg: "name already register", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        Fluttertoast.showToast(msg: S.of(context).msg_name_already, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       } else if (model.code == 201) {
         showGeneralDialog(
             context: context,
@@ -377,7 +457,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -407,7 +487,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -465,7 +545,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -495,7 +575,7 @@ class _AensRegisterState extends State<AensRegister> {
                                   S.of(context).dialog_conform,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
@@ -534,8 +614,6 @@ class _AensRegisterState extends State<AensRegister> {
           return ChainLoadingWidget();
         });
   }
-
-
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(

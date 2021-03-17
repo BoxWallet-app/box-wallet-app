@@ -322,6 +322,10 @@
 
   "name_point": "指向",
   "name_point_conform": "确 认",
-  "name_point_title": "请输入域名指向的地址"
+  "name_point_title": "请输入域名指向的地址",
+
+  "msg_name_already": "域名已经被注册",
+  "msg_name_balance_error": "钱包余额不足"
+
 
 }

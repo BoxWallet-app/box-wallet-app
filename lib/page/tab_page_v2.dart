@@ -105,7 +105,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //          var oldVersion = 100;
 //          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
-
+//return;
           if (newVersion > oldVersion) {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"

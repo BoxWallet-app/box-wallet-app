@@ -184,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonic_copy_hint1" : MessageLookupByLibrary.simpleMessage("Don\'t take a screenshot!"),
     "mnemonic_copy_hint2" : MessageLookupByLibrary.simpleMessage("If someone gets your mnemonic phrase, they will get your assets directly!"),
     "mnemonic_copy_title" : MessageLookupByLibrary.simpleMessage("Please copy the mnemonic phrase"),
+    "msg_name_already" : MessageLookupByLibrary.simpleMessage("name already register"),
+    "msg_name_balance_error" : MessageLookupByLibrary.simpleMessage("Insufficient wallet balance"),
     "name_point" : MessageLookupByLibrary.simpleMessage("Pointers"),
     "name_point_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "name_point_title" : MessageLookupByLibrary.simpleMessage("Please enter the address to which the domain name refers"),

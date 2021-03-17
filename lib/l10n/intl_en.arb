@@ -293,5 +293,9 @@
 
   "name_point": "Pointers",
   "name_point_conform": "Confirm",
-  "name_point_title": "Please enter the address to which the domain name refers"
+  "name_point_title": "Please enter the address to which the domain name refers",
+
+
+  "msg_name_already": "name already register",
+  "msg_name_balance_error": "Insufficient wallet balance"
 }

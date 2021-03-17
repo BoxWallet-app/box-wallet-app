@@ -2322,6 +2322,26 @@ class S {
       args: [],
     );
   }
+
+  /// `name already register`
+  String get msg_name_already {
+    return Intl.message(
+      'name already register',
+      name: 'msg_name_already',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient wallet balance`
+  String get msg_name_balance_error {
+    return Intl.message(
+      'Insufficient wallet balance',
+      name: 'msg_name_balance_error',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

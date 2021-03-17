@@ -184,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonic_copy_hint1" : MessageLookupByLibrary.simpleMessage("请勿截图!"),
     "mnemonic_copy_hint2" : MessageLookupByLibrary.simpleMessage("如果有人获取了你的助记词将直接获取你的资产!"),
     "mnemonic_copy_title" : MessageLookupByLibrary.simpleMessage("请抄写助记词"),
+    "msg_name_already" : MessageLookupByLibrary.simpleMessage("域名已经被注册"),
+    "msg_name_balance_error" : MessageLookupByLibrary.simpleMessage("钱包余额不足"),
     "name_point" : MessageLookupByLibrary.simpleMessage("指向"),
     "name_point_conform" : MessageLookupByLibrary.simpleMessage("确 认"),
     "name_point_title" : MessageLookupByLibrary.simpleMessage("请输入域名指向的地址"),
