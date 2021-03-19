@@ -25,16 +25,16 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
 
-class NamePointPage extends StatefulWidget {
+class NameTransferPage extends StatefulWidget {
   final String name;
 
-  const NamePointPage({Key key, this.name}) : super(key: key);
+  const NameTransferPage({Key key, this.name}) : super(key: key);
 
   @override
-  _NamePointPageState createState() => _NamePointPageState();
+  _NameTransferPageState createState() => _NameTransferPageState();
 }
 
-class _NamePointPageState extends State<NamePointPage> {
+class _NameTransferPageState extends State<NameTransferPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
@@ -114,7 +114,7 @@ class _NamePointPageState extends State<NamePointPage> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
-                                S.of(context).name_point_title,
+                                S.of(context).name_transfer_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -284,7 +284,7 @@ class _NamePointPageState extends State<NamePointPage> {
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.updateName((tx) {
+                  BoxApp.transferName((tx) {
                     showPlatformDialog(
                       androidBarrierDismissible: false,
                       context: context,

@@ -27,8 +27,6 @@ class TabPageV2 extends StatefulWidget {
 }
 
 class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
-
-
   final StreamController<int> _streamController1 = StreamController<int>();
   final StreamController<int> _streamController2 = StreamController<int>();
   final StreamController<int> _streamController3 = StreamController<int>();
@@ -37,12 +35,9 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
 
-
-
   @override
   void dispose() {
     super.dispose();
-
 
     _streamController1.close();
     _streamController2.close();
@@ -55,7 +50,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     pageControllerBody.addListener(() {
-
       if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery.of(context).size.width + MediaQuery.of(context).size.width) {
         return;
       }
@@ -87,7 +81,24 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamControllerLine.sink.add(0);
     showHint();
     netVersion();
+
+    const timeout = const Duration(seconds: 1);
+//    Timer.periodic(timeout, (timer) { //callback function
+//      //1s 回调一次
+//      print('afterTimer='+DateTime.now().toString());
+//      getClipboardData();
+//    });
+
   }
+
+
+//  getClipboardData() {
+//    Clipboard.getData(Clipboard.kTextPlain).then((clipboardData) {
+//      if (clipboardData != null) {
+//        print(clipboardData); //打印内容
+//      }
+//    });
+//  }
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -110,12 +121,11 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
                   ? showPlatformDialog(
-                androidBarrierDismissible:false,
+                      androidBarrierDismissible: false,
                       context: context,
                       builder: (_) => WillPopScope(
-                          onWillPop: () async => false,
+                        onWillPop: () async => false,
                         child: BasicDialogAlert(
-
                           title: Text(
                             S.of(context).dialog_update_title,
                           ),
@@ -138,7 +148,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 } else if (Platform.isAndroid) {
                                   _launchURL(model.data.urlAndroid);
                                 }
-
                               },
                             ),
                           ],
@@ -146,7 +155,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                       ),
                     )
                   : showPlatformDialog(
-
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(
@@ -333,8 +341,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-
-        backgroundColor:  Color(0xfffafafa),
+        backgroundColor: Color(0xfffafafa),
         resizeToAvoidBottomInset: false,
         body: Container(
           child: Column(
@@ -433,108 +440,28 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                       ),
                     ),
 //                    Positioned(
-//                        right: 0,
-//                        child: Container(
-//                          color: Colors.green,
-//                          height: 52,
-//                          width: 156,
-//                          child: Stack(
-//                            children: [
-//                              Row(
-//                                children: [
-//                                  Material(
-//                                    child: InkWell(
-//                                      onTap: () {
-//                                        pageControllerBody.animateToPage(0, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-//                                      },
-//                                      borderRadius: BorderRadius.all(Radius.circular(60)),
-//                                      child: StreamBuilder<Object>(
-//                                          stream: _streamController1.stream,
-//                                          builder: (context, snapshot) {
-//                                            return Container(
-//                                              width: 52,
-//                                              padding: EdgeInsets.all(12),
-//                                              height: 52,
-//                                              child: Image(
-//                                                width: 30,
-//                                                color: Colors.black,
-//                                                height: 30,
-//                                                image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
-//                                              ),
-//                                            );
-//                                          }),
-//                                    ),
-//                                  ),
-//                                  Material(
-//                                    child: InkWell(
-//                                      onTap: () {
-//                                        pageControllerBody.animateToPage(1, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-//                                      },
-//                                      borderRadius: BorderRadius.all(Radius.circular(60)),
-//                                      child: StreamBuilder<Object>(
-//                                          stream: _streamController2.stream,
-//                                          builder: (context, snapshot) {
-//                                            return Container(
-//                                              width: 52,
-//                                              padding: EdgeInsets.all(12),
-//                                              height: 52,
-//                                              child: Image(
-//                                                width: 30,
-//                                                height: 30,
-//                                                color: Colors.black,
-//                                                image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap.png.png") : AssetImage("images/tab_swap.png"),
-//                                              ),
-//                                            );
-//                                          }),
-//                                    ),
-//                                  ),
-//                                  Material(
-//                                    child: InkWell(
-//                                      onTap: () {
-//                                        pageControllerBody.animateToPage(2, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-//                                      },
-//                                      borderRadius: BorderRadius.all(Radius.circular(60)),
-//                                      child: StreamBuilder<Object>(
-//                                          stream: _streamController3.stream,
-//                                          builder: (context, snapshot) {
-//                                            return Container(
-//                                              width: 52,
-//                                              padding: EdgeInsets.all(12),
-//                                              height: 52,
-//                                              child: Image(
-//                                                width: 30,
-//                                                height: 30,
-//                                                color: Colors.black,
-//                                                image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_app.png.png") : AssetImage("images/tab_app.png"),
-//                                              ),
-//                                            );
-//                                          }),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                              StreamBuilder<double>(
-//                                  stream: _streamControllerLine.stream,
-//                                  builder: (context, snapshot) {
-//                                    return Positioned(
-//                                        bottom: 6,
-//                                        left: snapshot.data,
-//                                        child: Container(
-//                                          height: 3,
-//                                          margin: EdgeInsets.only(left: 18.5, right: 18.5),
-//                                          width: 15,
-//                                          //边框设置
-//                                          decoration: new BoxDecoration(
-//                                            //背景
-//                                            color: Color(0xFFf7296e),
-//                                            //设置四周圆角 角度
-//                                            borderRadius: BorderRadius.all(Radius.circular(25)),
-//                                          ),
-//                                        ));
-//                                  })
-//                            ],
+//                      right: 10,
+//                      child: Material(
+//                        color: Colors.transparent,
+//                        child: InkWell(
+//                          borderRadius: BorderRadius.all(Radius.circular(50)),
+//                          onTap: () {},
+//                          child: Container(
+//                            height: 50,
+//                            width: 50,
+//                            padding: EdgeInsets.all(15),
+//                            child: Image(
+//                              width: 36,
+//                              height: 36,
+//                              color: Colors.black,
+//                              image: AssetImage('images/search.png'),
+//                            ),
 //                          ),
-//                        ))
+//                        ),
+//                      ),
+//                    )
+
+
                   ],
                 ),
               ),
@@ -565,7 +492,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
               Container(
                 color: Colors.green,
                 height: 52,
-
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
@@ -664,10 +590,10 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Container(height:  MediaQueryData.fromWindow(window).padding.bottom,
+              Container(
+                height: MediaQueryData.fromWindow(window).padding.bottom,
                 color: Colors.white,
               )
-
             ],
           ),
         ),

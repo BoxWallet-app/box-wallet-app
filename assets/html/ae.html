@@ -2380,7 +2380,7 @@ payable contract AESwapContract =
                         status_JS.postMessage("decode");
                         callResult.decode().then(callResultDecode => {
                             status_JS.postMessage("sucess");
-                            contractTransfer_JS.postMessage(callResultDecode);
+                            contractTransfer_JS.postMessage(callResult.hash);
 
                         }).catch(err => {
                             status_JS.postMessage("error");
@@ -2571,6 +2571,41 @@ payable contract AESwapContract =
                 }).then(function (update) {
                     status_JS.postMessage("sucess");
                     updateName_JS.postMessage(update.hash);
+                }).catch(function (err) {
+                    status_JS.postMessage("error");
+                    error_JS.postMessage(err.toString());
+                })
+            }).catch(function (err) {
+                status_JS.postMessage("error");
+                error_JS.postMessage(err.toString());
+            })
+        }).catch(function (err) {
+            status_JS.postMessage("error");
+            error_JS.postMessage(err.toString());
+        });
+    }
+
+
+      const transferName = function (signingKey, publicKey, name , address) {
+        Ae.Node({url: nodeUrl}).then(node => {
+            Ae.Universal({
+                nodes: [{name: 'local', instance: node}],
+                accounts: [
+                    Ae.MemoryAccount({
+                        keypair: {
+                            secretKey: signingKey,
+                            publicKey: publicKey
+                        }
+                    }),
+                ],
+                address: publicKey,
+            }).then(aeInstance => {
+                status_JS.postMessage("aensTransfer");
+                aeInstance.aensTransfer(name, address, {
+                    waitMined: true
+                }).then(function (update) {
+                    status_JS.postMessage("sucess");
+                    transferName_JS.postMessage(update.hash);
                 }).catch(function (err) {
                     status_JS.postMessage("error");
                     error_JS.postMessage(err.toString());

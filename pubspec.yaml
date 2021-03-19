@@ -194,6 +194,9 @@ flutter:
     - home_token.png
     - no_record.png
     - name_point.png
+    - home_serach.png
+    - name_transfer.png
+    - search.png
 
   #   - images/a_dot_ham.jpeg
 

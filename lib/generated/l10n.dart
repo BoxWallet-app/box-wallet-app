@@ -2342,6 +2342,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Copy Th Hash`
+  String get dialog_copy {
+    return Intl.message(
+      'Copy Th Hash',
+      name: 'dialog_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer the domain name to your new address`
+  String get name_transfer_title {
+    return Intl.message(
+      'Transfer the domain name to your new address',
+      name: 'name_transfer_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transferring domain name`
+  String get ae_status_aensTransfer {
+    return Intl.message(
+      'Transferring domain name',
+      name: 'ae_status_aensTransfer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

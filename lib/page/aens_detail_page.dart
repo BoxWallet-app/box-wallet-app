@@ -20,6 +20,7 @@ import 'package:box/model/msg_sign_model.dart';
 import 'package:box/model/name_owner_model.dart';
 import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/name_point_page.dart';
+import 'package:box/page/name_transfer_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -119,7 +120,38 @@ class _AensDetailPageState extends State<AensDetailPage> {
                 child: InkWell(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NamePointPage(name: widget.name,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NameTransferPage(
+                                  name: widget.name,
+                                )));
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    padding: EdgeInsets.all(15),
+                    child: Image(
+                      width: 36,
+                      height: 36,
+                      color: Colors.black,
+                      image: AssetImage('images/name_transfer.png'),
+                    ),
+                  ),
+                ),
+              ),
+            if (isPoint())
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NamePointPage(
+                                  name: widget.name,
+                                )));
                   },
                   child: Container(
                     height: 50,
@@ -154,7 +186,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(S.of(context).aens_detail_page_owner, _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
-            buildItem(  S.of(context).name_point, accountPubkey),
+            buildItem(S.of(context).name_point, accountPubkey),
             Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildBtnAdd(context),
             buildBtnUpdate(context),
@@ -342,8 +374,35 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   }
                   // ignore: missing_return
                   BoxApp.updateName((tx) {
-                    print(tx);
-                    showFlush(context);
+                    showPlatformDialog(
+                      androidBarrierDismissible: false,
+                      context: context,
+                      builder: (_) => WillPopScope(
+                        onWillPop: () async => false,
+                        child: BasicDialogAlert(
+                          content: Text(
+                            tx,
+                          ),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_copy,
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: tx));
+                                Navigator.of(context, rootNavigator: true).pop();
+                                print(tx);
+                                showFlush(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
 
                     // ignore: missing_return
                   }, (error) {
@@ -370,7 +429,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                     );
 
                     // ignore: missing_return
-                  }, aesDecode, address, _aensInfoModel.data.name,HomePageV2.address);
+                  }, aesDecode, address, _aensInfoModel.data.name, HomePageV2.address);
                   showChainLoading();
                 },
               ),
@@ -447,8 +506,35 @@ class _AensDetailPageState extends State<AensDetailPage> {
                   }
                   // ignore: missing_return
                   BoxApp.bidName((tx) {
-                    print(tx);
-                    showFlush(context);
+                    showPlatformDialog(
+                      androidBarrierDismissible: false,
+                      context: context,
+                      builder: (_) => WillPopScope(
+                        onWillPop: () async => false,
+                        child: BasicDialogAlert(
+                          content: Text(
+                            tx,
+                          ),
+                          actions: <Widget>[
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_copy,
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: tx));
+                                Navigator.of(context, rootNavigator: true).pop();
+                                print(tx);
+                                showFlush(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
 
                     // ignore: missing_return
                   }, (error) {
@@ -483,8 +569,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
           );
         });
   }
-
-
 
   void showFlush(BuildContext context) {
     flush = Flushbar<bool>(
@@ -535,7 +619,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
             netPreclaimV2(context);
           },
           child: Text(
-            S.of(context).aens_detail_page_add+" ≈ "+(double.parse(_aensInfoModel.data.currentPrice) + double.parse(_aensInfoModel.data.currentPrice) * 0.1).toStringAsFixed(2)+" AE",
+            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(_aensInfoModel.data.currentPrice) + double.parse(_aensInfoModel.data.currentPrice) * 0.1).toStringAsFixed(2) + " AE",
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
           ),

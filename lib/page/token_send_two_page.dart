@@ -77,8 +77,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
           return;
         }
 
-
-
         items.add(
           Material(
             color: Colors.white,
@@ -107,7 +105,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                               borderRadius: BorderRadius.circular(36.0),
                               image: DecorationImage(
                                 image: AssetImage("images/apple-touch-icon.png"),
-
                               ),
                             ),
                           ),
@@ -433,8 +430,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                             builder: (context) => Container(
                                                 height: MediaQuery.of(context).size.height / 2,
                                                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                decoration: new BoxDecoration(
-                                                    color: Color(0xFFFFFFFF),
+                                                decoration: new BoxDecoration(color: Color(0xFFFFFFFF),
                                                     //设置四周圆角 角度
 //                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
                                                     boxShadow: []),
@@ -498,8 +494,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                                             child: Image.network(
                                                               tokenListModel.data[currentPosition].image,
                                                               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                                                if (wasSynchronouslyLoaded)
-                                                                  return child;
+                                                                if (wasSynchronouslyLoaded) return child;
 
                                                                 return AnimatedOpacity(
                                                                   child: child,
@@ -674,8 +669,36 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                     }
                     // ignore: missing_return
                     BoxApp.spend((tx) {
-                      print(tx);
-                      showFlushSucess(context);
+                      showPlatformDialog(
+                        androidBarrierDismissible: false,
+                        context: context,
+                        builder: (_) => WillPopScope(
+                          onWillPop: () async => false,
+                          child: BasicDialogAlert(
+                            content: Text(
+                              tx,
+                            ),
+                            actions: <Widget>[
+                              BasicDialogAction(
+                                title: Text(
+                                  S.of(context).dialog_copy,
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: tx));
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  print(tx);
+                                  showFlushSucess(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -760,7 +783,35 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                     }
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
-                      showFlushSucess(context);
+                      showPlatformDialog(
+                        androidBarrierDismissible: false,
+                        context: context,
+                        builder: (_) => WillPopScope(
+                          onWillPop: () async => false,
+                          child: BasicDialogAlert(
+                            content: Text(
+                              tx,
+                            ),
+                            actions: <Widget>[
+                              BasicDialogAction(
+                                title: Text(
+                                  S.of(context).dialog_copy,
+                                  style: TextStyle(
+                                    color: Color(0xFFFC2365),
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: tx));
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  print(tx);
+                                  showFlushSucess(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                       // ignore: missing_return
                     }, (error) {
                       showPlatformDialog(
@@ -872,8 +923,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                         child: Image.network(
                           tokenListModel.data[index].image,
                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                            if (wasSynchronouslyLoaded)
-                              return child;
+                            if (wasSynchronouslyLoaded) return child;
 
                             return AnimatedOpacity(
                               child: child,

@@ -23,18 +23,16 @@ class ChainLoadingWidget extends StatefulWidget {
   _TxConformWidgetWidgetState createState() => _TxConformWidgetWidgetState();
 }
 
-class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with TickerProviderStateMixin{
+class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerProviderStateMixin {
   AnimationController _controller;
   String text = 'Loading...';
   List<Widget> items = [];
-
 
   @override
   void dispose() {
     _controller.dispose();
     // TODO: implement dispose
     super.dispose();
-
   }
 
   @override
@@ -60,14 +58,15 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
         case "aensPreclaim":
           text = S.of(context).ae_status_aensPreclaim;
 
-
-
           break;
         case "aensBid":
           text = S.of(context).ae_status_aensBid;
           break;
         case "aensUpdate":
           text = S.of(context).ae_status_aensUpdate;
+          break;
+        case "aensTransfer":
+          text = S.of(context).ae_status_aensTransfer;
           break;
         case "aensClaim":
           text = S.of(context).ae_status_aensClaim;
@@ -101,19 +100,22 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
             left: 0,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height / 3,
 //          margin: EdgeInsets.only(top: 200),
               decoration: ShapeDecoration(
                 color: Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft:  Radius.circular(18.0),topRight:  Radius.circular(18.0),),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(18.0),
+                    topRight: Radius.circular(18.0),
+                  ),
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    child:Container(
+                    child: Container(
                       width: 70,
                       height: 70,
                       child: Lottie.asset(
@@ -137,7 +139,7 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget>  with Ticker
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                   )

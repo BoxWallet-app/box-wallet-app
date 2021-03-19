@@ -471,8 +471,36 @@ class _AensRegisterState extends State<AensRegister> {
                       }
                       // ignore: missing_return
                       BoxApp.claimName((tx) {
-                        print(tx);
-                        showFlush(context);
+                        showPlatformDialog(
+                          androidBarrierDismissible: false,
+                          context: context,
+                          builder: (_) => WillPopScope(
+                            onWillPop: () async => false,
+                            child: BasicDialogAlert(
+                              content: Text(
+                                tx,
+                              ),
+                              actions: <Widget>[
+                                BasicDialogAction(
+                                  title: Text(
+                                    S.of(context).dialog_copy,
+                                    style: TextStyle(
+                                      color: Color(0xFFFC2365),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(text: tx));
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                    print(tx);
+                                    showFlush(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+
 
                         // ignore: missing_return
                       }, (error) {

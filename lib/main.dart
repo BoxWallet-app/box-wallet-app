@@ -141,6 +141,7 @@ typedef FlutterJsErrorCallBack = Future Function(String error);
 typedef FlutterJsStatusCallBack = Future Function(String status);
 typedef FlutterJsClaimNameCallBack = Future Function(String status);
 typedef FlutterJsUpdateNameCallBack = Future Function(String status);
+typedef FlutterJsTransferNameCallBack = Future Function(String status);
 typedef FlutterJsBidNameCallBack = Future Function(String status);
 
 typedef FlutterJsInitCallBack = Future Function();
@@ -175,6 +176,9 @@ class BoxApp extends StatelessWidget {
 
   //更新域名
   static FlutterJsUpdateNameCallBack flutterJsUpdateNameCallBack;
+
+  //转移域名
+  static FlutterJsTransferNameCallBack flutterJsTransferNameCallBack;
 
   //加价域名
   static FlutterJsBidNameCallBack flutterJsBidNameCallBack;
@@ -300,6 +304,11 @@ class BoxApp extends StatelessWidget {
     BoxApp.flutterJsUpdateNameCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
     BoxApp.webViewController.evaluateJavascript("updateName('" + secretKey + "','" + publicKey + "','" + name + "','" + pointData + "');");
+  }
+  static transferName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name,String address) {
+    BoxApp.flutterJsTransferNameCallBack = callBack;
+    BoxApp.flutterJsErrorCallBack = errorCallBack;
+    BoxApp.webViewController.evaluateJavascript("transferName('" + secretKey + "','" + publicKey + "','" + name + "','" + address + "');");
   }
 
   static bidName(FlutterJsBidNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name, String nameFee) {
@@ -428,6 +437,13 @@ class BoxApp extends StatelessWidget {
                     onMessageReceived: (JavascriptMessage message) {
                       if (BoxApp.flutterJsBidNameCallBack != null) {
                         BoxApp.flutterJsBidNameCallBack(message.message);
+                      }
+                    }),
+                JavascriptChannel(
+                    name: 'transferName_JS',
+                    onMessageReceived: (JavascriptMessage message) {
+                      if (BoxApp.flutterJsTransferNameCallBack != null) {
+                        BoxApp.flutterJsTransferNameCallBack(message.message);
                       }
                     }),
                 JavascriptChannel(

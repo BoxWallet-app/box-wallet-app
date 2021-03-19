@@ -325,7 +325,9 @@
   "name_point_title": "请输入域名指向的地址",
 
   "msg_name_already": "域名已经被注册",
-  "msg_name_balance_error": "钱包余额不足"
-
+  "msg_name_balance_error": "钱包余额不足",
+  "dialog_copy": "复制Th Hash",
+  "name_transfer_title": "将域名转移到你的新地址",
+  "ae_status_aensTransfer": "正在转移域名"
 
 }
