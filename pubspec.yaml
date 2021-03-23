@@ -190,13 +190,14 @@ flutter:
     - images/together.png
     - images/tether.png
     - images/token_add.png
-    - home_swap.png
-    - home_token.png
-    - no_record.png
-    - name_point.png
-    - home_serach.png
-    - name_transfer.png
-    - search.png
+    - images/home_swap.png
+    - images/home_token.png
+    - images/no_record.png
+    - images/name_point.png
+    - images/home_serach.png
+    - images/name_transfer.png
+    - images/search.png
+    - images/ic_aeknow.png
 
   #   - images/a_dot_ham.jpeg
 

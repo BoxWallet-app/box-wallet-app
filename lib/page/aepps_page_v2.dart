@@ -918,7 +918,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 child: Image(
                                   width: 48,
                                   height: 48,
-                                  image: AssetImage("images/apple-touch-icon.png"),
+                                  image: AssetImage("images/ic_aeknow.png"),
                                 ),
                               ),
                             ),
