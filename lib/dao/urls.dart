@@ -1,8 +1,8 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.105:7070';
 // const BASE_HOST = 'http://10.53.5.92:7070';
-const BASE_HOST = 'https://aebox.io';
-//const BASE_HOST = 'http://localhost:7070';
+//const BASE_HOST = 'https://aebox.io';
+const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度
@@ -69,10 +69,10 @@ const WALLET_RECORD = BASE_HOST + '/api/wallet/transfer/record';
 const WALLET_TRANSFER = BASE_HOST + '/api/wallet/transfer';
 
 //获取合约余额
-const CONTRACT_BALANCE = BASE_HOST + '/api/contract/balance';
+const CONTRACT_BALANCE = BASE_HOST + '/api/aex9/balance';
 
 //获取合约基本信息
-const CONTRACT_INFO = BASE_HOST + '/api/contract/info';
+const CONTRACT_INFO = BASE_HOST + '/api/defi/info';
 
 //获取交易记录
 const CONTRACT_RECORD = BASE_HOST + '/api/contract/record';
@@ -90,7 +90,7 @@ const CONTRACT_TRANSFER = BASE_HOST + '/api/contract/transfer';
 const CONTRACT_DECODE = BASE_HOST + '/api/contract/decode';
 
 //排行榜
-const CONTRACT_RANKING = BASE_HOST + '/api/contract/ranking';
+const CONTRACT_RANKING = BASE_HOST + '/api/aex9/ranking';
 
 //广播
 const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';

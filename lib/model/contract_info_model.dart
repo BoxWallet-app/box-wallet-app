@@ -26,52 +26,42 @@ class ContractInfoModel {
 }
 
 class Data {
-  AccountInfo accountInfo;
-  String contractBalance;
-  String myBalance;
+  String account;
+  int afterHeight;
+  String allCount;
+  String count;
+  int height;
+  int minHeight;
+  String token;
 
-  Data({this.accountInfo, this.contractBalance, this.myBalance});
+  Data(
+      {this.account,
+        this.afterHeight,
+        this.allCount,
+        this.count,
+        this.height,
+        this.minHeight,
+        this.token});
 
   Data.fromJson(Map<String, dynamic> json) {
-    accountInfo = json['account_info'] != null
-        ? new AccountInfo.fromJson(json['account_info'])
-        : null;
-    contractBalance = json['contract_balance'];
-    myBalance = json['my_balance'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.accountInfo != null) {
-      data['account_info'] = this.accountInfo.toJson();
-    }
-    data['contract_balance'] = this.contractBalance;
-    data['my_balance'] = this.myBalance;
-    return data;
-  }
-}
-
-class AccountInfo {
-  String account;
-  String count;
-  String earnings;
-  int height;
-
-  AccountInfo({this.account, this.count, this.earnings, this.height});
-
-  AccountInfo.fromJson(Map<String, dynamic> json) {
     account = json['account'];
+    afterHeight = json['after_height'];
+    allCount = json['all_count'];
     count = json['count'];
-    earnings = json['earnings'];
     height = json['height'];
+    minHeight = json['min_height'];
+    token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['account'] = this.account;
+    data['after_height'] = this.afterHeight;
+    data['all_count'] = this.allCount;
     data['count'] = this.count;
-    data['earnings'] = this.earnings;
     data['height'] = this.height;
+    data['min_height'] = this.minHeight;
+    data['token'] = this.token;
     return data;
   }
 }

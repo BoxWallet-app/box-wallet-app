@@ -273,7 +273,7 @@ class _TokenListPathState extends State<TokenListPage> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 8, right: 18),
+                            padding: const EdgeInsets.only(left: 18, right: 18),
                             child: Text(
                               tokenListModel.data[index].name,
                               style: new TextStyle(

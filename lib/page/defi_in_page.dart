@@ -196,7 +196,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    Utils.formatCTAddress(BoxApp.DEFI_CONTRACT_V2),
+                                    Utils.formatCTAddress(BoxApp.DEFI_CONTRACT_V3),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
@@ -413,7 +413,7 @@ class _DefiInPageState extends State<DefiInPage> {
         if (double.parse(HomePage.token) < 1) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(HomePage.token) - 1).toString();
+          _textEditingController.text = (double.parse(HomePage.token) - 1).toStringAsFixed(0);
         }
       }
     } else {
@@ -440,6 +440,30 @@ class _DefiInPageState extends State<DefiInPage> {
 
   Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
+
+    if( double.parse(_textEditingController.text)> double.parse(HomePage.token)){
+      showPlatformDialog(
+        context: context,
+        builder: (_) => BasicDialogAlert(
+          title: Text("提示"),
+          content: Text("映射数量不可大于钱包数量"),
+          actions: <Widget>[
+            BasicDialogAction(
+              title: Text(
+                S.of(context).dialog_conform,
+                style: TextStyle(color: Color(0xff3460ee)),
+              ),
+              onPressed: () {
+
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     var senderID = await BoxApp.getAddress();
     if (currentCoinName == "AE") {
 //      startLoading();
@@ -503,7 +527,7 @@ class _DefiInPageState extends State<DefiInPage> {
                         context: context,
                         builder: (_) => BasicDialogAlert(
                           title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(error),
+                          content: Text(Utils.formatABCLockV3Hint(error)),
                           actions: <Widget>[
                             BasicDialogAction(
                               title: Text(
@@ -522,7 +546,7 @@ class _DefiInPageState extends State<DefiInPage> {
                         ),
                       );
 
-                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V2, _textEditingController.text);
+                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, _textEditingController.text);
                     showChainLoading();
                   },
                 ),

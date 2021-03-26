@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:box/generated/l10n.dart';
+import 'package:box/main.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'dart:convert' as convert;
@@ -35,13 +36,7 @@ class Utils {
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return "ak_ " +
-        address.substring(3, 6) + " ...\n" +
-        address.substring(address.length - 9, address.length - 6)+
-        " "+
-        address.substring(address.length - 6, address.length - 3)+
-        " "+
-        address.substring(address.length - 3, address.length);
+    return "ak_ " + address.substring(3, 6) + " ...\n" + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
   }
 
   static getCurrentDate() {
@@ -147,5 +142,27 @@ class Utils {
       return (time / (60)).toInt().toString() + S.of(context).common_hours;
     }
     return (time).toInt().toString() + S.of(context).common_points;
+  }
+
+  static String formatABCLockV3Hint(String msg) {
+    if (BoxApp.language == "cn") {
+      switch (msg) {
+        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE":
+          return "当前账户已被加入黑名单";
+        case "IS_MAPPING_ACCOUNTS_TRUE":
+          return "当前已存在映射合同";
+        case "MIN_LOCK_COUNT_LOW":
+          return "映射AE数量过低";
+        case "BALANCE_COUNT_LOW":
+          return "映射的AE数量不足";
+        case "IS_MAPPING_ACCOUNTS_FALSE":
+          return "当前账户未存在映射";
+        case "MIN_BENEFITS_HEIGHT":
+          return "未达到最低领取高度";
+        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE":
+          return "当前账户未在黑名单";
+      }
+      return msg;
+    } else {}
   }
 }

@@ -148,12 +148,11 @@ typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
   static String language = "";
-  static String ABC_CONTRACT_AEX9 = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
-//  static String ABC_CONTRACT_AEX9 = "ct_2XJt1TFnac3DNMNPUj5P3LRkyajFbCLmzWMq27aY9xQ7Vo6oyK";
+  static String ABC_CONTRACT_AEX9 = "ct_jyw2fRpr6srNwSqE6FJFyZSD1upD91eZ5ZZKZfBhuDmBxTU53";
+  static String DEFI_CONTRACT_V3 = "ct_2W5UZLXySwh5BYXnXocGrzZ4wvLJQza1UPTsvor2UrtvjoFfQt";
   static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
   static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
   static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
-
   static String SWAP_CONTRACT = "ct_2QjYFRYbfjUoxe6TSrBYr3SDVpy8NfWk4W5EQYNfHMerZv4qRA";
   static String SWAP_CONTRACT_ABC = "ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE";
 
@@ -249,19 +248,19 @@ class BoxApp extends StatelessWidget {
   static contractDefiV2Lock(FlutterJsContractDefiLockV2CallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String ctID, String amount) {
     BoxApp.flutterJsContractDefiLockV2CallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
-    BoxApp.webViewController.evaluateJavascript("contractDefiV2Lock('" + secretKey + "','" + publicKey + "','" + ctID + "','" + amount + "');");
+    BoxApp.webViewController.evaluateJavascript("contractDefiV3Lock('" + secretKey + "','" + publicKey + "','" + ctID + "','" + amount + "');");
   }
 
   static contractDefiV2UnLock(FlutterJsContractDefiUnLockV2CallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String ctID, String amount) {
     BoxApp.flutterJsContractDefiUnLockV2CallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
-    BoxApp.webViewController.evaluateJavascript("contractDefiV2UnLock('" + secretKey + "','" + publicKey + "','" + ctID + "','" + amount + "');");
+    BoxApp.webViewController.evaluateJavascript("contractDefiV3UnLock('" + secretKey + "','" + publicKey + "','" + ctID + "','" + amount + "');");
   }
 
   static contractDefiV2Benefits(FlutterJsContractDefiBenefitsV2CallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String ctID) {
     BoxApp.flutterJsContractDefiBenefitsV2CallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
-    BoxApp.webViewController.evaluateJavascript("contractDefiV2Benefits('" + secretKey + "','" + publicKey + "','" + ctID + "');");
+    BoxApp.webViewController.evaluateJavascript("contractDefiV3Benefits('" + secretKey + "','" + publicKey + "','" + ctID + "');");
   }
 
   static contractSwapSell(FlutterJsContractSwapSellCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String swapCtId, String ctID, String count, String amount) {
@@ -333,7 +332,7 @@ class BoxApp extends StatelessWidget {
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Container(
-        alignment: Alignment.topLeft,
+        alignment: Alignment.center,
         child: Container(
             width: 1,
             height: 1,
@@ -398,21 +397,21 @@ class BoxApp extends StatelessWidget {
                       }
                     }),
                 JavascriptChannel(
-                    name: 'contractDefiV2Lock_JS',
+                    name: 'contractDefiV3Lock_JS',
                     onMessageReceived: (JavascriptMessage message) {
                       if (BoxApp.flutterJsContractDefiLockV2CallBack != null) {
                         BoxApp.flutterJsContractDefiLockV2CallBack(message.message);
                       }
                     }),
                 JavascriptChannel(
-                    name: 'contractDefiV2UnLock_JS',
+                    name: 'contractDefiV3UnLock_JS',
                     onMessageReceived: (JavascriptMessage message) {
                       if (BoxApp.flutterJsContractDefiUnLockV2CallBack != null) {
                         BoxApp.flutterJsContractDefiUnLockV2CallBack(message.message);
                       }
                     }),
                 JavascriptChannel(
-                    name: 'contractDefiV2Benefits_JS',
+                    name: 'contractDefiV3Benefits_JS',
                     onMessageReceived: (JavascriptMessage message) {
                       if (BoxApp.flutterJsContractDefiBenefitsV2CallBack != null) {
                         BoxApp.flutterJsContractDefiBenefitsV2CallBack(message.message);

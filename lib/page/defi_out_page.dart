@@ -87,10 +87,10 @@ class _DefiOutPageState extends State<DefiOutPage> {
   }
 
   void clickAllCount() {
-    if ((double.parse(TokenDefiPage.model.data.accountInfo.count) > 1)) {
-      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.accountInfo.count) - 0.1).toString();
+    if ((double.parse(TokenDefiPage.model.data.count) > 1)) {
+      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.count) - 0.1).toString();
     }else{
-      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.accountInfo.count) ).toString();
+      _textEditingController.text = TokenDefiPage.model == null ? "" : (double.parse(TokenDefiPage.model.data.count) ).toString();
     }
 
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
@@ -368,7 +368,7 @@ class _DefiOutPageState extends State<DefiOutPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    TokenDefiPage.model == null ? "" : TokenDefiPage.model.data.accountInfo.count,
+                                                    TokenDefiPage.model == null ? "" : TokenDefiPage.model.data.count,
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",

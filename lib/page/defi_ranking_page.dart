@@ -381,6 +381,9 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
     if (rankingModel.data.ranking.length < 20) {
       _controller.finishLoad(noMore: true);
     }
+    setState(() {
+
+    });
     EasyLoading.dismiss(animation: true);
   }
 
