@@ -2,13 +2,17 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:box/dao/contract_info_dao.dart';
 import 'package:box/dao/version_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/contract_info_model.dart';
 import 'package:box/model/version_model.dart';
 import 'package:box/page/aepps_page_v2.dart';
 import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/setting_page_v2.dart';
 import 'package:box/page/settings_page.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +85,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamControllerLine.sink.add(0);
     showHint();
     netVersion();
-
+    netContractInfo();
     const timeout = const Duration(seconds: 1);
 //    Timer.periodic(timeout, (timer) { //callback function
 //      //1s 回调一次
@@ -89,16 +93,22 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //      getClipboardData();
 //    });
 
+    eventBus.on<DefiEvent>().listen((event) {
+      netContractInfo();
+    });
   }
 
-
-//  getClipboardData() {
-//    Clipboard.getData(Clipboard.kTextPlain).then((clipboardData) {
-//      if (clipboardData != null) {
-//        print(clipboardData); //打印内容
-//      }
-//    });
-//  }
+  void netContractInfo() {
+    ContractInfoDao.fetch().then((ContractInfoModel model) {
+      if (model.code == 200) {
+        TokenDefiPage.model = model;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+      print(e.toString());
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -112,7 +122,13 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     VersionDao.fetch().then((VersionModel model) {
       if (model.code == 200) {
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-          var newVersion = int.parse(model.data.version.replaceAll(".", ""));
+          var newVersion = 0;
+          if (Platform.isIOS) {
+            newVersion = int.parse(model.data.versionIos.replaceAll(".", ""));
+          } else {
+            newVersion = int.parse(model.data.version.replaceAll(".", ""));
+          }
+
 //          var oldVersion = 100;
 //          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
@@ -439,29 +455,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-//                    Positioned(
-//                      right: 10,
-//                      child: Material(
-//                        color: Colors.transparent,
-//                        child: InkWell(
-//                          borderRadius: BorderRadius.all(Radius.circular(50)),
-//                          onTap: () {},
-//                          child: Container(
-//                            height: 50,
-//                            width: 50,
-//                            padding: EdgeInsets.all(15),
-//                            child: Image(
-//                              width: 36,
-//                              height: 36,
-//                              color: Colors.black,
-//                              image: AssetImage('images/search.png'),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    )
-
-
+                    buildTitleRightIcon()
                   ],
                 ),
               ),
@@ -595,6 +589,37 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                 color: Colors.white,
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned buildTitleRightIcon() {
+    if (TokenDefiPage.model == null || TokenDefiPage.model.data.height == -1) {
+      return Positioned(
+        child: Container(),
+      );
+    }
+    return Positioned(
+      right: 10,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+          },
+          child: Container(
+            height: 55,
+            width: 55,
+            padding: EdgeInsets.all(15),
+            child: Image(
+              width: 40,
+              height: 40,
+              color: Colors.black,
+              image: AssetImage('images/ic_status_defi.png'),
+            ),
           ),
         ),
       ),

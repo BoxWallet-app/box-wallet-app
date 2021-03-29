@@ -1,8 +1,8 @@
 //域名
 //const BASE_HOST = 'http://192.168.0.105:7070';
 // const BASE_HOST = 'http://10.53.5.92:7070';
-//const BASE_HOST = 'https://aebox.io';
-const BASE_HOST = 'http://localhost:7070';
+const BASE_HOST = 'https://aebox.io';
+//const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度

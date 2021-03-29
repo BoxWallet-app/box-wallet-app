@@ -163,6 +163,24 @@ class Utils {
           return "当前账户未在黑名单";
       }
       return msg;
-    } else {}
+    } else {
+      switch (msg) {
+        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE":
+          return "The current account has been blacklisted";
+        case "IS_MAPPING_ACCOUNTS_TRUE":
+          return "A mapping contract currently exists";
+        case "MIN_LOCK_COUNT_LOW":
+          return "The number of mapped AE is too low";
+        case "BALANCE_COUNT_LOW":
+          return "Insufficient number of mapped AE";
+        case "IS_MAPPING_ACCOUNTS_FALSE":
+          return "There is no mapping for the current account";
+        case "MIN_BENEFITS_HEIGHT":
+          return "The minimum claim height was not reached";
+        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE":
+          return "The current account is not on the blacklist";
+      }
+      return msg;
+    }
   }
 }

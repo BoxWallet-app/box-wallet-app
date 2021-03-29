@@ -30,6 +30,7 @@ class Data {
   String urlAndroid;
   String urlIos;
   String version;
+  String versionIos;
 
   Data({this.isMandatory, this.urlAndroid, this.urlIos, this.version});
 
@@ -38,6 +39,7 @@ class Data {
     urlAndroid = json['url_android'];
     urlIos = json['url_ios'];
     version = json['version'];
+    versionIos = json['version_ios'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +48,7 @@ class Data {
     data['url_android'] = this.urlAndroid;
     data['url_ios'] = this.urlIos;
     data['version'] = this.version;
+    data['version_ios'] = this.versionIos;
     return data;
   }
 }

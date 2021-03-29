@@ -148,8 +148,8 @@ typedef FlutterJsInitCallBack = Future Function();
 
 class BoxApp extends StatelessWidget {
   static String language = "";
-  static String ABC_CONTRACT_AEX9 = "ct_jyw2fRpr6srNwSqE6FJFyZSD1upD91eZ5ZZKZfBhuDmBxTU53";
-  static String DEFI_CONTRACT_V3 = "ct_2W5UZLXySwh5BYXnXocGrzZ4wvLJQza1UPTsvor2UrtvjoFfQt";
+  static String ABC_CONTRACT_AEX9 = "ct_7UfopTwsRuLGFEcsScbYgQ6YnySXuyMxQWhw6fjycnzS5Nyzq";
+  static String DEFI_CONTRACT_V3 = "ct_nZpU3hfmAfe4g6jiTPPcwa21hnQL68SEYvtizV3iEcfsSHCfD";
   static String DEFI_CONTRACT_V2 = "ct_2MgX2e9mdM3epVpmxLQim7SAMF2xTbid4jtyVi4WiLF3Q8ZTRZ";
   static String DEFI_CONTRACT_V1_FIX = "ct_2MPzBmtTVXDyBBZALD2JfHrzwdpr8tXZGhu3FRtPJ9sEEPXV2T";
   static String DEFI_CONTRACT_V1 = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";

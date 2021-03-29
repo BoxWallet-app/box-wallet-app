@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:box/dao/account_info_dao.dart';
 import 'package:box/dao/block_top_dao.dart';
 import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/contract_info_dao.dart';
 import 'package:box/dao/name_reverse_dao.dart';
 import 'package:box/dao/price_model.dart';
 import 'package:box/dao/swap_dao.dart';
@@ -12,11 +13,13 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/account_info_model.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/contract_info_model.dart';
 import 'package:box/model/name_reverse_model.dart';
 import 'package:box/model/price_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/records_page.dart';
+import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:flutter/material.dart';
@@ -1372,28 +1375,46 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
       return walletRecordModel.data[index].tx['type'];
     }
 
-    Text getFeeWidget(int index) {
-      if (getTxType(index).toString() == "SpendTx") {
-        // ignore: unrelated_type_equality_checks
+  Text getFeeWidget(int index) {
+    if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
+      // ignore: unrelated_type_equality_checks
 
-        if (walletRecordModel.data[index].tx['recipient_id'].toString() == HomePageV2.address) {
-          return Text(
-            "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-            style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-          );
-        } else {
-          return Text(
-            "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-            style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-          );
-        }
+      if (walletRecordModel.data[index].tx['recipient_id'].toString() ==
+          HomePageV2.address) {
+        return Text(
+          "+" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                  1000000000000000000)
+                  .toString() +
+              " AE",
+          style:
+          TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+        );
       } else {
         return Text(
-          "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          "-" +
+              ((walletRecordModel.data[index].tx['amount'].toDouble()) /
+                  1000000000000000000)
+                  .toString() +
+              " AE",
+          style: TextStyle(
+              color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       }
+    } else {
+      return Text(
+        "-" +
+            (walletRecordModel.data[index].tx['fee'].toDouble() /
+                1000000000000000000)
+                .toString() +
+            " AE",
+        style: TextStyle(
+            color: Colors.black.withAlpha(56),
+            fontSize: 14,
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+      );
     }
+  }
 
     Future<void> _onRefresh() async {
       netBaseData();
@@ -1403,6 +1424,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
       netTopHeightData();
       netSwapDao();
       netNameReverseData();
+      eventBus.fire(DefiEvent());
     }
 
     @override

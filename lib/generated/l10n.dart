@@ -1203,10 +1203,10 @@ class S {
     );
   }
 
-  /// `ABC is a pledge mining based on the expanded AEX9 agreement of AE block chain. The whole process is open and transparent, with no time limit of pledge and it can be released at any time. Users can get ABC by pledging AE, the unique pass of ABC user Box AEPP ecology. Is an important part of the latter ecology, and the output speed of ABC is strongly correlated with the amount of AE in the lock\nThe ABC total amount is 50 million yuan, and all ABC will be used to dig out minerals. The team and the ecological fund will allocate 15% of the total amount and lock the warehouse. The unlock will be unlocked step by step with digging out minerals`
+  /// `ABC is a pledge mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent, there is no pledge time limit, and it can be released at any time. Users can exchange ABC, ABC user Box aepp ecological pass by staking AE. It is an important part of the ecology behind. The output speed of ABC is strongly related to the number of locked AEs. The V3 version can set the number of mapped AEs before pledge. During the mining period, the number of user wallets cannot be less than the set number of mappings . If lower than the mapped amount is found by the police (watchdog program, each block detection), you will be locked in a small black room and the income of this ABC will be confiscated, and the account cannot be used for mining ABC permanently operating. The user can unmap at any time during the mapping period. After cancellation, you can freely transfer AE`
   String get defi_card_hint_base_content {
     return Intl.message(
-      'ABC is a pledge mining based on the expanded AEX9 agreement of AE block chain. The whole process is open and transparent, with no time limit of pledge and it can be released at any time. Users can get ABC by pledging AE, the unique pass of ABC user Box AEPP ecology. Is an important part of the latter ecology, and the output speed of ABC is strongly correlated with the amount of AE in the lock\nThe ABC total amount is 50 million yuan, and all ABC will be used to dig out minerals. The team and the ecological fund will allocate 15% of the total amount and lock the warehouse. The unlock will be unlocked step by step with digging out minerals',
+      'ABC is a pledge mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent, there is no pledge time limit, and it can be released at any time. Users can exchange ABC, ABC user Box aepp ecological pass by staking AE. It is an important part of the ecology behind. The output speed of ABC is strongly related to the number of locked AEs. The V3 version can set the number of mapped AEs before pledge. During the mining period, the number of user wallets cannot be less than the set number of mappings . If lower than the mapped amount is found by the police (watchdog program, each block detection), you will be locked in a small black room and the income of this ABC will be confiscated, and the account cannot be used for mining ABC permanently operating. The user can unmap at any time during the mapping period. After cancellation, you can freely transfer AE',
       name: 'defi_card_hint_base_content',
       desc: '',
       args: [],
@@ -2368,6 +2368,66 @@ class S {
     return Intl.message(
       'Transferring domain name',
       name: 'ae_status_aensTransfer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock successfully`
+  String get dialog_unlock_sucess {
+    return Intl.message(
+      'Unlock successfully',
+      name: 'dialog_unlock_sucess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlocked successfully`
+  String get dialog_unlock_sucess_msg {
+    return Intl.message(
+      'Unlocked successfully',
+      name: 'dialog_unlock_sucess_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are benefits that have not been received. Do you want to continue to cancel?`
+  String get dialog_ae_no_get {
+    return Intl.message(
+      'There are benefits that have not been received. Do you want to continue to cancel?',
+      name: 'dialog_ae_no_get',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The number of mappings is greater than the number of wallets, and the automatic blacklist function has been triggered`
+  String get dialog_defi_blacklist {
+    return Intl.message(
+      'The number of mappings is greater than the number of wallets, and the automatic blacklist function has been triggered',
+      name: 'dialog_defi_blacklist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Need to wait`
+  String get dialog_defi_wait1 {
+    return Intl.message(
+      'Need to wait',
+      name: 'dialog_defi_wait1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can receive the income in minutes`
+  String get dialog_defi_wait2 {
+    return Intl.message(
+      'You can receive the income in minutes',
+      name: 'dialog_defi_wait2',
       desc: '',
       args: [],
     );

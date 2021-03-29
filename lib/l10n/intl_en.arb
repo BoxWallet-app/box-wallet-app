@@ -143,7 +143,7 @@
   "defi_raking_4": "Amount (ABC)",
 
   "defi_card_hint_base": "Basic introduction",
-  "defi_card_hint_base_content": "ABC is a pledge mining based on the expanded AEX9 agreement of AE block chain. The whole process is open and transparent, with no time limit of pledge and it can be released at any time. Users can get ABC by pledging AE, the unique pass of ABC user Box AEPP ecology. Is an important part of the latter ecology, and the output speed of ABC is strongly correlated with the amount of AE in the lock\nThe ABC total amount is 50 million yuan, and all ABC will be used to dig out minerals. The team and the ecological fund will allocate 15% of the total amount and lock the warehouse. The unlock will be unlocked step by step with digging out minerals",
+  "defi_card_hint_base_content": "ABC is a pledge mining written based on the AE blockchain AEX9 protocol extension. The whole process is open and transparent, there is no pledge time limit, and it can be released at any time. Users can exchange ABC, ABC user Box aepp ecological pass by staking AE. It is an important part of the ecology behind. The output speed of ABC is strongly related to the number of locked AEs. The V3 version can set the number of mapped AEs before pledge. During the mining period, the number of user wallets cannot be less than the set number of mappings . If lower than the mapped amount is found by the police (watchdog program, each block detection), you will be locked in a small black room and the income of this ABC will be confiscated, and the account cannot be used for mining ABC permanently operating. The user can unmap at any time during the mapping period. After cancellation, you can freely transfer AE",
   "defi_card_hint_day": "Period-Multiple",
   "defi_card_hint_day_content1": "Quantity",
   "defi_card_hint_day_content2": "Period",
@@ -300,5 +300,12 @@
   "msg_name_balance_error": "Insufficient wallet balance",
   "dialog_copy": "Copy Th Hash",
   "name_transfer_title": "Transfer the domain name to your new address",
-  "ae_status_aensTransfer": "Transferring domain name"
+  "ae_status_aensTransfer": "Transferring domain name",
+
+  "dialog_unlock_sucess": "Unlock successfully",
+  "dialog_unlock_sucess_msg": "Unlocked successfully",
+  "dialog_ae_no_get": "There are benefits that have not been received. Do you want to continue to cancel?",
+  "dialog_defi_blacklist": "The number of mappings is greater than the number of wallets, and the automatic blacklist function has been triggered",
+  "dialog_defi_wait1": "Need to wait",
+  "dialog_defi_wait2": "You can receive the income in minutes"
 }

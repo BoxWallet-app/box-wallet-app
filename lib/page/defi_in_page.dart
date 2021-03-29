@@ -266,7 +266,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: '',
+                                            hintText: '>1000 AE',
                                             enabledBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xFFeeeeee)),
                                             ),

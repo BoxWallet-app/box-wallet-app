@@ -763,7 +763,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 16, bottom: 16),
+                        margin: EdgeInsets.only(top: 22, bottom: 22),
                         child: Row(
                           children: <Widget>[
                             Container(
@@ -829,7 +829,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         Navigator.push(context, MaterialPageRoute(builder: (context) => BasePage()));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        margin: EdgeInsets.only(top: 18, bottom: 18),
                         child: Row(
                           children: <Widget>[
                             Container(
@@ -897,7 +897,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 9, bottom: 9),
+                        margin: EdgeInsets.only(top: 18, bottom: 18),
                         child: Row(
                           children: <Widget>[
                             Container(
