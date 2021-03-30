@@ -43,3 +43,9 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 android/box.keystore
 android/key.properties
+assets/js/ABCLockV3Call.js
+assets/js/ABCLockV3Contract.js
+assets/js/aepp-sdk.browser-script-770.js
+assets/js/BaseFunctionCall.js
+assets/js/FungibleTokenFullCall.js
+assets/js/FungibleTokenFullContract.js
