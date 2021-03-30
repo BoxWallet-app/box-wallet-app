@@ -178,8 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("我的资产"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("交易记录"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("确认数"),
-    "home_send_receive" : MessageLookupByLibrary.simpleMessage("发送和接收你的Tokens"),
-    "home_token" : MessageLookupByLibrary.simpleMessage("Tokens"),
+    "home_send_receive" : MessageLookupByLibrary.simpleMessage("发送和接收你的积分"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("积分"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("这里暂时没有数据"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
@@ -259,7 +259,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("转账数量"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2请输入发送数量"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到"),
-    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议Tokens。Tokens列表为了增加用户体验防止Tokens乱飞所设置的优秀Tokens，优秀Tokens需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为Tokens锁仓费用，Tokens上任何中心化交易所或者退市即可退回质押Tokens\n下架流程：下架Tokens需要回收市场上全部Tokens，Tokens价格按照所采价值进行回收。或者Tokens长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、Tokens名称，Tokenslogo，发送帖子到AE官方论坛并且@百鑫"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议积分。积分列表为了增加用户体验防止积分乱飞所设置的优秀Tokens，优秀积分需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为积分锁仓费用，积分上任何中心化交易所或者退市即可退回质押积分\n下架流程：下架积分需要回收市场上全部积分，积分价格按照所采价值进行回收。或者积分长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、积分名称，积分logo，发送帖子到AE官方论坛并且@百鑫"),
     "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明")
   };
 }
