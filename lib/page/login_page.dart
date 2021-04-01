@@ -162,46 +162,59 @@ class _LoginPageState extends State<LoginPage> {
       });
     });
   }
-
+  DateTime lastPopTime;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFFC2365),
-      body: Container(
-        child: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              Positioned(
-                top: 55,
-                child: Image(
-                  width: 315,
-                  height: 314,
-                  image: AssetImage('images/login_logo.png'),
-                ),
-              ),
-              Positioned(
-                bottom: 125,
-                  child: Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 0),
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
-                      },
-                      child: Text(
-                        S.of(context).login_page_login,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFC2365)),
-                      ),
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    ),
+    return WillPopScope(
+      onWillPop: () async{
+        // 点击返回键的操作
+        // ignore: missing_return, missing_return
+        if(lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)){
+          lastPopTime = DateTime.now();
+          Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        }else{
+          lastPopTime = DateTime.now();
+          // 退出app
+          exit(0);
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xFFFC2365),
+        body: Container(
+          child: SafeArea(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Positioned(
+                  top: 55,
+                  child: Image(
+                    width: 315,
+                    height: 314,
+                    image: AssetImage('images/login_logo.png'),
                   ),
                 ),
+                Positioned(
+                  bottom: 125,
+                    child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 0),
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
+                        },
+                        child: Text(
+                          S.of(context).login_page_login,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFC2365)),
+                        ),
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                    ),
+                  ),
 
 
 //                child: MaterialButton(
@@ -222,61 +235,62 @@ class _LoginPageState extends State<LoginPage> {
 //                    Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
 //                  },
 //                ),
-              ),
-              Positioned(
-                bottom: 60,
-                child: MaterialButton(
-                  child: Text(
-                    S.of(context).login_page_create,
-                    style: new TextStyle(
-                      fontSize: 17,
-                      color: Color(0xFFFFFFFF),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                    ),
-                  ),
-                  height: 50,
-                  minWidth: 120,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                  onPressed: () {
-//                    netUserRegisterData();
-                    // ignore: missing_return
-                    BoxApp.getGenerateSecretKey((address,signingKey,mnemonic) {
-                      showGeneralDialog(
-                          context: context,
-                          pageBuilder: (context, anim1, anim2) {},
-                          barrierColor: Colors.grey.withOpacity(.4),
-                          barrierDismissible: true,
-                          barrierLabel: "",
-                          transitionDuration: Duration(milliseconds: 400),
-                          transitionBuilder: (context, anim1, anim2, child) {
-                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                            return Transform(
-                                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                                child: Opacity(
-                                  opacity: anim1.value,
-                                  // ignore: missing_return
-                                  child: PayPasswordWidget(
-                                      title: S.of(context).password_widget_set_password,
-                                      passwordCallBackFuture: (String password) async {
-                                        final key = Utils.generateMd5Int(password + address);
-
-                                        var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                                        var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-
-                                        BoxApp.setSigningKey(signingKeyAesEncode);
-                                        BoxApp.setMnemonic(mnemonicAesEncode);
-                                        BoxApp.setNewAccount(address);
-                                        BoxApp.setAddress(address);
-                                        Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
-                                      }),
-                                ));
-                          });
-                    });
-//                      Navigator.pushReplacementNamed(context, "home");
-                  },
                 ),
-              )
-            ],
+                Positioned(
+                  bottom: 60,
+                  child: MaterialButton(
+                    child: Text(
+                      S.of(context).login_page_create,
+                      style: new TextStyle(
+                        fontSize: 17,
+                        color: Color(0xFFFFFFFF),
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      ),
+                    ),
+                    height: 50,
+                    minWidth: 120,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
+                    onPressed: () {
+//                    netUserRegisterData();
+                      // ignore: missing_return
+                      BoxApp.getGenerateSecretKey((address,signingKey,mnemonic) {
+                        showGeneralDialog(
+                            context: context,
+                            pageBuilder: (context, anim1, anim2) {},
+                            barrierColor: Colors.grey.withOpacity(.4),
+                            barrierDismissible: true,
+                            barrierLabel: "",
+                            transitionDuration: Duration(milliseconds: 400),
+                            transitionBuilder: (context, anim1, anim2, child) {
+                              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                              return Transform(
+                                  transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                  child: Opacity(
+                                    opacity: anim1.value,
+                                    // ignore: missing_return
+                                    child: PayPasswordWidget(
+                                        title: S.of(context).password_widget_set_password,
+                                        passwordCallBackFuture: (String password) async {
+                                          final key = Utils.generateMd5Int(password + address);
+
+                                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+
+                                          BoxApp.setSigningKey(signingKeyAesEncode);
+                                          BoxApp.setMnemonic(mnemonicAesEncode);
+                                          BoxApp.setNewAccount(address);
+                                          BoxApp.setAddress(address);
+                                          Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                                        }),
+                                  ));
+                            });
+                      });
+//                      Navigator.pushReplacementNamed(context, "home");
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

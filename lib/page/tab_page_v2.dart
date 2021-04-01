@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -106,7 +107,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
       } else {}
     }).catchError((e) {
       print(e.toString());
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//
     });
   }
 
@@ -352,243 +353,260 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     });
   }
 
+  DateTime lastPopTime;
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
-      child: Scaffold(
-        backgroundColor: Color(0xfffafafa),
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          child: Column(
-            children: [
-              Container(
-                color: Color(0xfffafafa),
-                height: MediaQueryData.fromWindow(window).padding.top,
-              ),
-              Container(
-                color: Color(0xfffafafa),
+      child: WillPopScope(
+        // ignore: missing_return
+        onWillPop: () async{
+          // 点击返回键的操作
+          if(lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)){
+            lastPopTime = DateTime.now();
+            Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+          }else{
+            lastPopTime = DateTime.now();
+            // 退出app
+            exit(0);
+          }
+        },
+
+        child: Scaffold(
+          
+          backgroundColor: Color(0xfffafafa),
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            child: Column(
+              children: [
+                Container(
+                  color: Color(0xfffafafa),
+                  height: MediaQueryData.fromWindow(window).padding.top,
+                ),
+                Container(
+                  color: Color(0xfffafafa),
 //              color: Colors.blue,
-                width: MediaQuery.of(context).size.width,
-                height: 52,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      height: 52,
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 52,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        height: 52,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: Container(
-                          decoration: new BoxDecoration(
-                            //背景
-                            //设置四周圆角 角度
-                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                          child: Container(
+                            decoration: new BoxDecoration(
+                              //背景
+                              //设置四周圆角 角度
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                            ),
+                            child: PageView.builder(
+                              itemCount: 3,
+                              controller: pageControllerTitle,
+                              physics: NeverScrollableScrollPhysics(),
+                              allowImplicitScrolling: true,
+                              pageSnapping: false,
+                              itemBuilder: (context, position) {
+                                if (position == 0) {
+                                  return Container(
+                                    height: 52,
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.of(context).tab_1,
+                                      style: TextStyle(
+                                        color: Color(0xFF000000),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24,
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : BoxApp.language == "cn"
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
+                                      ),
+                                    ),
+                                  );
+                                } else if (position == 1) {
+                                  return Container(
+                                    height: 52,
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.of(context).tab_2,
+                                      style: TextStyle(
+                                        color: Color(0xFF000000),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24,
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : BoxApp.language == "cn"
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                    height: 52,
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      S.of(context).tab_3,
+                                      style: TextStyle(
+                                        color: Color(0xFF000000),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24,
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : BoxApp.language == "cn"
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: 52,
                           ),
-                          child: PageView.builder(
-                            itemCount: 3,
-                            controller: pageControllerTitle,
-                            physics: NeverScrollableScrollPhysics(),
-                            allowImplicitScrolling: true,
-                            pageSnapping: false,
-                            itemBuilder: (context, position) {
-                              if (position == 0) {
-                                return Container(
-                                  height: 52,
-                                  margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    S.of(context).tab_1,
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu",
-                                    ),
-                                  ),
-                                );
-                              } else if (position == 1) {
-                                return Container(
-                                  height: 52,
-                                  margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    S.of(context).tab_2,
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu",
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return Container(
-                                  height: 52,
-                                  margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    S.of(context).tab_3,
-                                    style: TextStyle(
-                                      color: Color(0xFF000000),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 24,
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu",
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 52,
                         ),
                       ),
-                    ),
-                    buildTitleRightIcon()
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
-                  child: PageView.builder(
-                    itemCount: 3,
-                    controller: pageControllerBody,
-                    itemBuilder: (context, position) {
-                      if (position == 0) {
-                        return HomePageV2();
-                      } else if (position == 1) {
-                        return AeppsPageV2();
-                      } else {
-                        return SettingPageV2();
-                      }
-                    },
+                      buildTitleRightIcon()
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 1,
-                color: Color(0xffeeeeee),
-              ),
-              Container(
-                color: Colors.green,
-                height: 52,
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              pageControllerBody.animateToPage(0, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                            },
-                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                            child: StreamBuilder<Object>(
-                                stream: _streamController1.stream,
-                                builder: (context, snapshot) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    padding: EdgeInsets.all(12),
-                                    height: 52,
-                                    child: Image(
-                                      width: 30,
-                                      height: 30,
-                                      image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              pageControllerBody.animateToPage(1, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                            },
-                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                            child: StreamBuilder<Object>(
-                                stream: _streamController2.stream,
-                                builder: (context, snapshot) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    padding: EdgeInsets.all(12),
-                                    height: 52,
-                                    child: Image(
-                                      width: 30,
-                                      height: 30,
-                                      image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap_p.png") : AssetImage("images/tab_swap.png"),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {
-                              pageControllerBody.animateToPage(2, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                            },
-                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                            child: StreamBuilder<Object>(
-                                stream: _streamController3.stream,
-                                builder: (context, snapshot) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    padding: EdgeInsets.all(12),
-                                    height: 52,
-                                    child: Image(
-                                      width: 30,
-                                      height: 30,
-                                      image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_app_p.png") : AssetImage("images/tab_app.png"),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ),
-                      ],
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
+                    child: PageView.builder(
+                      itemCount: 3,
+                      controller: pageControllerBody,
+                      itemBuilder: (context, position) {
+                        if (position == 0) {
+                          return HomePageV2();
+                        } else if (position == 1) {
+                          return AeppsPageV2();
+                        } else {
+                          return SettingPageV2();
+                        }
+                      },
                     ),
-                    StreamBuilder<double>(
-                        stream: _streamControllerLine.stream,
-                        builder: (context, snapshot) {
-                          return Positioned(
-                              top: 2,
-                              left: snapshot.data,
-                              child: Container(
-                                height: 3,
-                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 3 / 3, right: MediaQuery.of(context).size.width / 3 / 3),
-                                width: MediaQuery.of(context).size.width / 3 - MediaQuery.of(context).size.width / 3 / 3 - MediaQuery.of(context).size.width / 3 / 3,
-                                //边框设置
-                                decoration: new BoxDecoration(
-                                  //背景
-                                  color: Color(0xFFf7296e),
-                                  //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                                ),
-                              ));
-                        })
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQueryData.fromWindow(window).padding.bottom,
-                color: Colors.white,
-              )
-            ],
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 1,
+                  color: Color(0xffeeeeee),
+                ),
+                Container(
+                  color: Colors.green,
+                  height: 52,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Row(
+                        children: [
+                          Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                pageControllerBody.animateToPage(0, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
+                              },
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                              child: StreamBuilder<Object>(
+                                  stream: _streamController1.stream,
+                                  builder: (context, snapshot) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      padding: EdgeInsets.all(12),
+                                      height: 52,
+                                      child: Image(
+                                        width: 30,
+                                        height: 30,
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                pageControllerBody.animateToPage(1, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
+                              },
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                              child: StreamBuilder<Object>(
+                                  stream: _streamController2.stream,
+                                  builder: (context, snapshot) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      padding: EdgeInsets.all(12),
+                                      height: 52,
+                                      child: Image(
+                                        width: 30,
+                                        height: 30,
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap_p.png") : AssetImage("images/tab_swap.png"),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                pageControllerBody.animateToPage(2, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
+                              },
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                              child: StreamBuilder<Object>(
+                                  stream: _streamController3.stream,
+                                  builder: (context, snapshot) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      padding: EdgeInsets.all(12),
+                                      height: 52,
+                                      child: Image(
+                                        width: 30,
+                                        height: 30,
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_app_p.png") : AssetImage("images/tab_app.png"),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      StreamBuilder<double>(
+                          stream: _streamControllerLine.stream,
+                          builder: (context, snapshot) {
+                            return Positioned(
+                                top: 2,
+                                left: snapshot.data,
+                                child: Container(
+                                  height: 3,
+                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 3 / 3, right: MediaQuery.of(context).size.width / 3 / 3),
+                                  width: MediaQuery.of(context).size.width / 3 - MediaQuery.of(context).size.width / 3 / 3 - MediaQuery.of(context).size.width / 3 / 3,
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    //背景
+                                    color: Color(0xFFf7296e),
+                                    //设置四周圆角 角度
+                                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                                  ),
+                                ));
+                          })
+                    ],
+                  ),
+                ),
+                Container(
+                  height: MediaQueryData.fromWindow(window).padding.bottom,
+                  color: Colors.white,
+                )
+              ],
+            ),
           ),
         ),
       ),
