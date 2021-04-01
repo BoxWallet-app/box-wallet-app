@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:box/page/account_login_page.dart';
 import 'package:box/page/home_page.dart';
@@ -29,15 +30,12 @@ import 'package:hex/hex.dart';
 import 'package:jaguar/jaguar.dart';
 import 'package:jaguar_flutter_asset/jaguar_flutter_asset.dart';
 
-
 import 'page/tab_page_v2.dart';
 
 void main() {
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ignore: unrelated_type_equality_checks
-
-
 
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
@@ -53,16 +51,11 @@ void main() {
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false;
 
-
-
   // 强制竖屏
 //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(BoxApp());
   // 强制竖屏
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 //  runApp(Test());
 }
 
@@ -115,7 +108,6 @@ class _TestState extends State<Test> {
     );
     initState() {}
   }
-
 }
 
 typedef FlutterJsSecretKeyCallBack = Future Function(String signingKey, String address);
@@ -210,8 +202,6 @@ class BoxApp extends StatelessWidget {
   //错误
   static FlutterJsErrorCallBack flutterJsErrorCallBack;
 
-
-
   static getSecretKey(FlutterJsSecretKeyCallBack callBack, String mnemonic) {
     BoxApp.flutterJsSecretKeyCallBack = callBack;
     BoxApp.webViewController.evaluateJavascript("getSecretKey('" + mnemonic + "');");
@@ -233,7 +223,7 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("spend('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + amount + "');");
   }
 
-  static contractTransfer(FlutterJsContractTransferCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String ctID, String amount,String type) {
+  static contractTransfer(FlutterJsContractTransferCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String receiveID, String ctID, String amount, String type) {
     BoxApp.flutterJsContractTransferCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
     BoxApp.webViewController.evaluateJavascript("contractTransfer('" + secretKey + "','" + publicKey + "','" + receiveID + "','" + ctID + "','" + amount + "','" + type + "');");
@@ -299,12 +289,13 @@ class BoxApp extends StatelessWidget {
     BoxApp.webViewController.evaluateJavascript("claimName('" + secretKey + "','" + publicKey + "','" + name + "');");
   }
 
-  static updateName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name,String pointData) {
+  static updateName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name, String pointData) {
     BoxApp.flutterJsUpdateNameCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
     BoxApp.webViewController.evaluateJavascript("updateName('" + secretKey + "','" + publicKey + "','" + name + "','" + pointData + "');");
   }
-  static transferName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name,String address) {
+
+  static transferName(FlutterJsUpdateNameCallBack callBack, FlutterJsErrorCallBack errorCallBack, String secretKey, String publicKey, String name, String address) {
     BoxApp.flutterJsTransferNameCallBack = callBack;
     BoxApp.flutterJsErrorCallBack = errorCallBack;
     BoxApp.webViewController.evaluateJavascript("transferName('" + secretKey + "','" + publicKey + "','" + name + "','" + address + "');");
@@ -330,14 +321,15 @@ class BoxApp extends StatelessWidget {
     server.addRoute(serveFlutterAssets());
     await server.serve(logRequests: true);
     OverlayState overlayState = Overlay.of(context);
+
     OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Container(
         alignment: Alignment.center,
         child: Container(
-            width: 1,
-            height: 1,
+            width: 400,
+            height: 400,
             child: WebView(
-              initialUrl: "http://127.0.0.1:9000/html/ae.html",
+              initialUrl: kIsWeb ? "http://localhost:7070/server" : "http://127.0.0.1:9000/html/ae.html",
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (String url) {
                 callBack();
