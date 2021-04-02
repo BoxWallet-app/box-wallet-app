@@ -49,8 +49,8 @@ assets/js/aepp-sdk.browser-script-770.js
 assets/js/BaseFunctionCall.js
 assets/js/FungibleTokenFullCall.js
 assets/js/FungibleTokenFullContract.js
-lib/page/intl_cn.arb
-lib/page/intl_en.arb
+lib/l10n/intl_cn.arb
+lib/l10n/intl_en.arb
 lib/main.dart
 pubspec.lock
 pubspec.yaml
