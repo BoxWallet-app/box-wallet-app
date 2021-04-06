@@ -46,11 +46,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
-                    colors: [ Color(0xff2453DF),  Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
+                    colors: [Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Color(0xff2453DF), Colors.white],
                   ),
                 ),
 //                color: Color(0xff2453DF),
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 child: Container(),
               ),
             ),
@@ -83,24 +86,24 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                 children: [
                   BoxApp.language == "cn"
                       ? Container(
-                          child: Image(
-                            width: 144,
-                            height: 48,
-                            image: AssetImage("images/ranking_text.png"),
-                          ),
-                        )
+                    child: Image(
+                      width: 144,
+                      height: 48,
+                      image: AssetImage("images/ranking_text.png"),
+                    ),
+                  )
                       : Container(
-                          child: Text(
-                            "Ranking",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                          ),
-                        ),
+                    child: Text(
+                      "Ranking",
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 10),
                     alignment: Alignment.centerRight,
                     child: Text(
                       "Update Time: " + Utils.getCurrentDate(),
-                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                     ),
                   ),
                 ],
@@ -110,15 +113,24 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           Positioned(
             top: 310,
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               child: getItemTitle(context),
             ),
           ),
           Positioned(
             top: 360,
             child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 370,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height - 370,
               child: LoadingWidget(
                 type: _loadingType,
                 onPressedError: () {
@@ -158,11 +170,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                         offset: Offset(0.0, 5.0), //阴影xy轴偏移量
                         blurRadius: 10.0, //阴影模糊程度
                         spreadRadius: 0.5 //阴影扩散程度
-                        )
+                    )
                   ],
                 ),
 
-                width: MediaQuery.of(context).size.width - 20,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 20,
                 child: Column(
                   children: [
                     Container(
@@ -176,8 +191,10 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                             height: 60,
                             alignment: Alignment.center,
                             child: Text(
-                              S.of(context).defi_ranking_content,
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                              S
+                                  .of(context)
+                                  .defi_ranking_content,
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                           Expanded(child: Container()),
@@ -187,7 +204,11 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
                             alignment: Alignment.center,
                             child: Text(
                               rankingModel == null ? "loading..." : rankingModel.data.outCount,
-                              style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  color: Colors.black),
                             ),
                           ),
                         ],
@@ -202,11 +223,17 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             top: 0,
             child: ClipRect(
               child: Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 child: Column(
                   children: [
                     Container(
-                      height: MediaQueryData.fromWindow(window).padding.top,
+                      height: MediaQueryData
+                          .fromWindow(window)
+                          .padding
+                          .top,
                     ),
                     Row(
                       children: <Widget>[
@@ -256,18 +283,10 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
       child: Row(
         children: [
           Container(
-            alignment: Alignment.center,
-            width: 30,
-            child: index != 0
-                ? Text(
-                    (index + 1).toString(),
-                    style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                  )
-                : Image(
-                    width: 30,
-                    height: 30,
-                    image: AssetImage("images/ranking_one.png"),
-                  ),
+              alignment: Alignment.center,
+              width: 30,
+              child: getRankingIcon(index)
+
           ),
           Container(
             width: 15,
@@ -276,14 +295,14 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             child: Container(
               child: Text(
                 Utils.formatAddress(rankingModel.data.ranking[index].address),
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
               rankingModel.data.ranking[index].proportion + "%",
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
           Container(
@@ -294,11 +313,38 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             alignment: Alignment.centerRight,
             child: Text(
               rankingModel.data.ranking[index].count,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  // ignore: missing_return
+  Widget getRankingIcon(int index) {
+    if (index == 0) {
+      return Image(
+          width: 30,
+          height: 30,
+          image: AssetImage("images/ranking_one.png"));
+    }
+    if (index == 1) {
+      return Image(
+          width: 30,
+          height: 30,
+          image: AssetImage("images/ranking_two.png"));
+    }
+    if (index == 2) {
+      return Image(
+          width: 30,
+          height: 30,
+          image: AssetImage("images/ranking_three.png"));
+    }
+
+    return Text(
+      (index + 1).toString(),
+      style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
     );
   }
 
@@ -311,8 +357,10 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
         children: [
           Container(
             child: Text(
-              S.of(context).defi_raking_1,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+              S
+                  .of(context)
+                  .defi_raking_1,
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
           Container(
@@ -321,15 +369,19 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
           Expanded(
             child: Container(
               child: Text(
-                S.of(context).defi_raking_2,
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                S
+                    .of(context)
+                    .defi_raking_2,
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
-              S.of(context).defi_raking_3,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+              S
+                  .of(context)
+                  .defi_raking_3,
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
           Container(
@@ -339,8 +391,10 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
             width: 130,
             alignment: Alignment.centerRight,
             child: Text(
-              S.of(context).defi_raking_4,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+              S
+                  .of(context)
+                  .defi_raking_4,
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
         ],
@@ -381,9 +435,7 @@ class _DefiRankingPageState extends State<DefiRankingPage> {
     if (rankingModel.data.ranking.length < 20) {
       _controller.finishLoad(noMore: true);
     }
-    setState(() {
-
-    });
+    setState(() {});
     EasyLoading.dismiss(animation: true);
   }
 
