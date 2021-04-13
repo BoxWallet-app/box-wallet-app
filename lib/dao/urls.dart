@@ -1,7 +1,7 @@
 //域名
-//const BASE_HOST = 'http://192.168.0.105:7070';
-// const BASE_HOST = 'http://10.53.5.92:7070';
-const BASE_HOST = 'https://aebox.io';
+//const BASE_HOST = 'http://192.168.0.53:7070';
+ const BASE_HOST = 'http://10.53.5.35:7070';
+//const BASE_HOST = 'https://aebox.io';
 //const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
@@ -112,3 +112,11 @@ const NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';
 
 //域名归属
 const NAME_OWNER = '/v2/names/';
+//兑换币种列表
+const SWAP_COIN_LIST = BASE_HOST+'/api/swap/coin/list';
+////兑换币种下用户挂单
+const SWAP_COIN_ACCOUNT =  BASE_HOST+'/api/swap/coin/account';
+////兑换币种下正在挂单的
+const SWAP_COIN_ACCOUNT_MY =  BASE_HOST+'/api/swap/coin/account/my';
+//兑换订单
+const SWAP_COIN_ORDER_MY = BASE_HOST+ '/api/swap/coin/order/my';

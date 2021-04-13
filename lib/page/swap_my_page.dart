@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/swap_coin_account_dao.dart';
+import 'package:box/dao/swap_coin_my_dao.dart';
 import 'package:box/dao/swap_dao.dart';
 import 'package:box/dao/swap_my_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/model/swap_coin_account_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/photo_page.dart';
@@ -20,6 +23,7 @@ import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/taurus_header.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -49,7 +53,7 @@ class SwapMyPage extends StatefulWidget {
 class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapModel swapModels;
+  SwapCoinAccountModel swapModels;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -87,7 +91,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
           S.of(context).swap_title_my,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -96,7 +100,9 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
             minWidth: 10,
             child: new Text(
               S.of(context).swap_buy_sell_order,
-              style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+              style: TextStyle(
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              ),
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => SwapsPage()));
@@ -104,7 +110,6 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
           ),
         ],
       ),
-
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -133,7 +138,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
   }
 
   Future<void> _onRefresh() async {
-    var model = await SwapMyDao.fetch();
+    var model = await SwapCoinMyDao.fetch();
     if (swapModels != null) {
       swapModels = null;
     }
@@ -196,28 +201,50 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
 //                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address:swapModels.data[index - 1].account)));
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].account)));
                       },
                       child: Container(
                         width: 30,
                         height: 30,
                         decoration: new BoxDecoration(
-                            border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
+                          border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
                           color: Color(0xFFFFFFFF), // 底色
                           //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
                           borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
                         ),
                         child: ClipOval(
-                          child: Image.network(
-                            "https://www.gravatar.com/avatar/" + Utils.generateMD5(swapModels.data[index - 1].account) + "?s=100&d=robohash&r=PG",
-                          ),
+                          child: CircularProfileAvatar(
+                            '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
+                            radius: 15,
+                            // sets radius, default 50.0
+                            backgroundColor: Colors.transparent,
+                            // sets background color, default Colors.white
+//                            borderWidth: 10,  // sets border, default 0.0
+                            initialsText: Text(
+                              swapModels.data[index - 1].account.substring(swapModels.data[index - 1].account.length - 2, swapModels.data[index - 1].account.length).toUpperCase(),
+                              style: TextStyle(fontSize: 15, color: Colors.white),
+                            ),
+                            // sets initials text, set your own style, default Text('')
+                            borderColor: Color(0xFFE51363),
+                            // sets border color, default Colors.white
+                            elevation: 5.0,
+                            // sets elevation (shadow of the profile picture), default value is 0.0
+                            foregroundColor: Color(0xFFE51363).withOpacity(0.5),
+                            //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
+                            cacheImage: true,
+                            // allow widget to cache image against provided url
+                            onTap: () {
+                            },
+                            // sets on tap
+                            showInitialTextAbovePicture: true, // setting it true will show initials text above profile picture, default false
+                          )
                         ),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -234,7 +261,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -242,7 +269,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              ((double.parse(swapModels.data[index - 1].ae)) / (double.parse(swapModels.data[index - 1].count))).toStringAsFixed(2),
+                              swapModels.data[index - 1].rate.toString(),
                               style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: -1,
@@ -251,7 +278,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
 
                                   //词间距
                                   color: Color(0xFF666666),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -269,11 +296,11 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coin + ")",
+                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coinName + ")",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -281,7 +308,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              double.parse(swapModels.data[index - 1].count).toStringAsFixed(2) + " 个",
+                              swapModels.data[index - 1].tokenCount + " 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -290,7 +317,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
 
                                   //词间距
                                   color: Color(0xFF000000),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -304,11 +331,11 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              S.of(context).swap_item_3 + " (AE)",
+                              "对方兑换数量" + " (AE)",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -316,7 +343,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              double.parse(swapModels.data[index - 1].ae).toStringAsFixed(2) + " 个",
+                              swapModels.data[index - 1].aeCount+ " 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -324,7 +351,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFFF22B79),
                                   //词间距
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -343,7 +370,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                     child: Text(
                       S.of(context).swap_item_5,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
                     ),
                     color: Color(0xFFE61665).withAlpha(16),
                     textColor: Colors.black,
@@ -405,7 +432,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -431,7 +458,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -462,7 +489,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -523,7 +550,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                         ),
                       ),
                     )
@@ -575,7 +602,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   )
                 ],

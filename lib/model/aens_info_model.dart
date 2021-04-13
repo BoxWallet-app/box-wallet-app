@@ -25,6 +25,7 @@ class AensInfoModel {
   }
 }
 
+
 class Data {
   List<Claim> claim;
   int currentHeight;

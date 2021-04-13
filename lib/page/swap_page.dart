@@ -2,10 +2,14 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/swap_coin_account_dao.dart';
+import 'package:box/dao/swap_coin_dao.dart';
 import 'package:box/dao/swap_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/model/swap_coin_account_model.dart';
+import 'package:box/model/swap_coin_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/page/language_page.dart';
 import 'package:box/page/photo_page.dart';
@@ -20,6 +24,7 @@ import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/taurus_header.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +56,10 @@ class SwapPage extends StatefulWidget {
 class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapModel swapModels;
+  SwapCoinModelData dropdownValue;
+  SwapCoinAccountModel swapModels;
+  SwapCoinModel swapCoinModel;
+  List<DropdownMenuItem<SwapCoinModelData>> coins = List();
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -92,18 +100,50 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
           S.of(context).swap_title,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          swapCoinModel == null
+              ? Container()
+              : Container(
+                  padding: EdgeInsets.only(right: 12),
+                  child: Center(
+                    child: DropdownButton<SwapCoinModelData>(
+                      underline: Container(),
+                      value: dropdownValue,
+                      onChanged: (SwapCoinModelData newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+
+                        });
+                        controller.callRefresh();
+
+//                  if (dropdownValue == "box") {
+////                _textEditingControllerNode.text = "https://node.aeasy.io";
+//                  }
+//                  if (dropdownValue == "base") {
+////                _textEditingControllerNode.text = "https://mainnet.aeternity.io";
+//                  }
+//                  if (dropdownValue == "wetrue") {
+////                _textEditingControllerNode.text = "https://node.aechina.io";
+//                  }
+//                  if (dropdownValue == "custom") {
+////                _textEditingControllerNode.text = "";
+//                  }
+                      },
+                      items: coins,
+                    ),
+                  ),
+                ),
+        ],
       ),
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
           loadingType = LoadingType.loading;
-          setState(() {
-
-          });
+          setState(() {});
           _onRefresh();
           return;
         },
@@ -139,43 +179,62 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
   }
 
   Future<void> _onRefresh() async {
-    SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
-      if (model.code == 200) {
-        if (swapModels != null) {
-          swapModels = null;
-        }
-        if (model != null || model.code == 200) {
-          swapModels = model;
-          if (model.data.isEmpty) {
-            controller.finishRefresh();
+    SwapCoinDao.fetch().then((SwapCoinModel model) {
+      if (dropdownValue == null) {
+        swapCoinModel = model;
+        dropdownValue = model.data[0];
+        model.data.forEach((element) {
+          final DropdownMenuItem<SwapCoinModelData> item = DropdownMenuItem(
+            child: Text(element.name),
+            value: element,
+          );
+          coins.add(item);
+        });
+      }
+
+      print(dropdownValue.ctAddress);
+      SwapCoinAccountDao.fetch(dropdownValue.ctAddress).then((SwapCoinAccountModel model) {
+        if (model.code == 200) {
+          if (swapModels != null) {
             swapModels = null;
+          }
+          if (model != null || model.code == 200) {
+            swapModels = model;
+            if (model.data.isEmpty) {
+              controller.finishRefresh();
+              swapModels = null;
+              loadingType = LoadingType.finish;
+              setState(() {});
+              return;
+            }
             loadingType = LoadingType.finish;
+
             setState(() {});
-            return;
+          } else {
+            swapModels = null;
+            loadingType = LoadingType.error;
+            setState(() {});
           }
-          loadingType = LoadingType.finish;
-          if(swapModels.data.isNotEmpty){
-            swapModels.data.sort((left,right)=>left.getPremium().compareTo(right.getPremium()));
-          }
-          setState(() {});
+          controller.finishRefresh();
         } else {
           swapModels = null;
           loadingType = LoadingType.error;
+          controller.finishRefresh();
           setState(() {});
         }
-        controller.finishRefresh();
-      } else {
-        swapModels = null;
+      }).catchError((e) {
+        print(e.toString());
         loadingType = LoadingType.error;
         controller.finishRefresh();
         setState(() {});
-      }
-
+      });
     }).catchError((e) {
+      print(e.toString());
       loadingType = LoadingType.error;
       controller.finishRefresh();
       setState(() {});
     });
+    ;
   }
 
   Widget getItem(BuildContext context, int index) {
@@ -232,7 +291,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                           ),
                                         ),
                                       ),
@@ -266,7 +325,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                           ),
                                         ),
                                       ),
@@ -315,7 +374,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         child: Container(
           color: Color(0xFFF5F5F5),
           child: Container(
-            margin: index == swapModels.data.length ?EdgeInsets.only(left: 16, right: 16, bottom: 180+MediaQueryData.fromWindow(window).padding.bottom, top: 0):EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
+            margin: index == swapModels.data.length ? EdgeInsets.only(left: 16, right: 16, bottom: 180 + MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
             child: Column(
               children: [
@@ -333,19 +392,40 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
                       ),
                       child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address:swapModels.data[index - 1].account)));
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].account)));
                         },
                         child: ClipOval(
-                          child: Image.network(
-                            "https://www.gravatar.com/avatar/" +Utils.generateMD5( swapModels.data[index - 1].account) + "?s=100&d=robohash&r=PG&f=1",
+                            child: CircularProfileAvatar(
+                          '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
+                          radius: 15,
+                          // sets radius, default 50.0
+                          backgroundColor: Colors.transparent,
+                          // sets background color, default Colors.white
+//                            borderWidth: 10,  // sets border, default 0.0
+                          initialsText: Text(
+                            swapModels.data[index - 1].account.substring(swapModels.data[index - 1].account.length - 2, swapModels.data[index - 1].account.length).toUpperCase(),
+                            style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
-                        ),
+                          // sets initials text, set your own style, default Text('')
+                          borderColor: Color(0xFFE51363),
+                          // sets border color, default Colors.white
+                          elevation: 5.0,
+                          // sets elevation (shadow of the profile picture), default value is 0.0
+                          foregroundColor: Color(0xFFE51363).withOpacity(0.5),
+                          //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
+                          cacheImage: true,
+                          // allow widget to cache image against provided url
+                          onTap: () {
+                          },
+                          // sets on tap
+                          showInitialTextAbovePicture: true, // setting it true will show initials text above profile picture, default false
+                        )),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -362,7 +442,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -370,7 +450,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              ((double.parse(swapModels.data[index - 1].ae)) / (double.parse(swapModels.data[index - 1].count))).toStringAsFixed(2),
+                              swapModels.data[index - 1].rate,
                               style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: -1,
@@ -379,7 +459,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFF666666),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -400,11 +480,11 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coin + ")",
+                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coinName + ")",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -412,7 +492,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              double.parse(swapModels.data[index - 1].count).toStringAsFixed(2) + " 个",
+                              swapModels.data[index - 1].tokenCount + " 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -421,7 +501,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFF000000),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -440,7 +520,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
@@ -448,7 +528,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              double.parse(swapModels.data[index - 1].ae).toStringAsFixed(2) + " 个",
+                              swapModels.data[index - 1].aeCount + " 个",
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -457,7 +537,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                                   //词间距
                                   color: Color(0xFFF22B79),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -476,7 +556,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     child: Text(
                       S.of(context).swap_item_4,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
                     ),
                     color: Color(0xFFE61665).withAlpha(16),
                     textColor: Colors.black,
@@ -537,7 +617,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -558,7 +638,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                           S.of(context).dialog_swap_sucess,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           ),
                         ),
                         actions: <Widget>[
@@ -567,7 +647,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -600,7 +680,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -610,7 +690,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index - 1].account, swapModels.data[index - 1].ae);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index - 1].account, swapModels.data[index - 1].aeCount);
                   showChainLoading();
                 },
               ),
@@ -660,7 +740,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                         ),
                       ),
                     )
@@ -712,7 +792,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   )
                 ],
