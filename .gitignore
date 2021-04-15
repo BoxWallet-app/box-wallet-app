@@ -54,3 +54,5 @@ lib/l10n/intl_en.arb
 lib/main.dart
 pubspec.lock
 pubspec.yaml
+assets/js/BoxSwapContractV2.js
+assets/js/BoxSwapV2Call.js

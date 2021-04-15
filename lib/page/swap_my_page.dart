@@ -331,7 +331,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              "对方兑换数量" + " (AE)",
+                              S.of(context).swap_send_2+ " (AE)",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
