@@ -25,6 +25,7 @@ class _SwapsPageState extends State<SwapsPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFFF5F5F5),
           elevation: 0,
           // 隐藏阴影
           leading: IconButton(
@@ -43,40 +44,8 @@ class _SwapsPageState extends State<SwapsPage> {
           ),
           centerTitle: true,
 
-          bottom: TabBar(
-            unselectedLabelColor: Colors.black54,
-            indicatorSize: TabBarIndicatorSize.label,
-            dragStartBehavior: DragStartBehavior.down,
-            indicator: UnderlineIndicator(
-                strokeCap: StrokeCap.round,
-                borderSide: BorderSide(
-                  color: Color(0xFFFC2365),
-                  width: 2,
-                ),
-                insets: EdgeInsets.only(bottom: 5)),
-            tabs: <Widget>[
-              Tab(
-                  icon: Text(
-                S.of(context).swap_buy_sell_order_tab1,
-                style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, fontWeight: FontWeight.w600),
-              )),
-              Tab(
-                  icon: Text(
-                S.of(context).swap_buy_sell_order_tab2,
-                style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600),
-              )),
-            ],
-          ),
         ),
-        body: Container(
-          padding: const EdgeInsets.only(top: 0),
-          child: TabBarView(
-            children: <Widget>[
-              SwapBuySellPage(type: 0),
-              SwapBuySellPage(type: 1),
-            ],
-          ),
-        ),
+        body: SwapBuySellPage()
       ),
     );
   }

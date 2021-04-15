@@ -1963,6 +1963,16 @@ class S {
     );
   }
 
+  /// ``
+  String get swap_item_6 {
+    return Intl.message(
+      '',
+      name: 'swap_item_6',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Wallet`
   String get tab_1 {
     return Intl.message(
@@ -2053,10 +2063,10 @@ class S {
     );
   }
 
-  /// `Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.`
+  /// `Box Swap is a decentralized point exchange, which supports the conversion between AEX9 points and AE, the exchange process and the cancellation of transaction fees. The standards of fees are dynamically adjusted according to different currencies, and part of the fees will be airdropped to ABC users according to the proportion of positions they hold. This function is a test function and is only used for testing. Not open to the public, because all the operation in the block chain, the user experience exchange privately, such as the loss of points and other problems by the user to bear`
   String get swap_send_5 {
     return Intl.message(
-      'Box Swap is a decentralized exchange that supports the conversion between AEX9 tokens and AE. The exchange process and cancellation transaction fee will be charged 0.4%, and 50% of the handling fee will be airdropped to ABC users regularly according to the position ratio , Since all operations are performed on the chain, the on-chain fee will be paid by oneself. The exchange amount AEX9 and AE are both 1, and the maximum is 100,000. Please initiate the exchange based on your needs.',
+      'Box Swap is a decentralized point exchange, which supports the conversion between AEX9 points and AE, the exchange process and the cancellation of transaction fees. The standards of fees are dynamically adjusted according to different currencies, and part of the fees will be airdropped to ABC users according to the proportion of positions they hold. This function is a test function and is only used for testing. Not open to the public, because all the operation in the block chain, the user experience exchange privately, such as the loss of points and other problems by the user to bear',
       name: 'swap_send_5',
       desc: '',
       args: [],
@@ -2178,6 +2188,16 @@ class S {
     return Intl.message(
       'Payment Quantity (AE)',
       name: 'swap_buy_sell_order_item_8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm height`
+  String get swap_buy_sell_order_item_9 {
+    return Intl.message(
+      'Confirm height',
+      name: 'swap_buy_sell_order_item_9',
       desc: '',
       args: [],
     );
@@ -2428,6 +2448,46 @@ class S {
     return Intl.message(
       'You can receive the income in minutes',
       name: 'dialog_defi_wait2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning Risk Warning`
+  String get dialog_privacy_hint {
+    return Intl.message(
+      'Warning Risk Warning',
+      name: 'dialog_privacy_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forced to use`
+  String get dialog_privacy_confirm {
+    return Intl.message(
+      'Forced to use',
+      name: 'dialog_privacy_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Box Defi Pledge is one way to get ABC points. An ABC integral has no value and is useless. It is only a sample program written by the developer to experience the blockchain. Not to market development, if you download through other means and try to use the pledge, please turn off this feature.`
+  String get dialog_defi_hint {
+    return Intl.message(
+      'Box Defi Pledge is one way to get ABC points. An ABC integral has no value and is useless. It is only a sample program written by the developer to experience the blockchain. Not to market development, if you download through other means and try to use the pledge, please turn off this feature.',
+      name: 'dialog_defi_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The exchange function of Box Swap is the exchange between points and AE. The whole function is an exchange example written for the developer's personal preference, which is not used officially or open to the public. The points exchanged (ABC, WTT, AEG, etc.) have no value. Just as a collection. Since the function is realized based on blockchain, if the user uses it without authorization, please quit in time. If the forced use results in the loss of points and the floating exchange ratio between points and AE, it has nothing to do with the developer and the project party, and the user should bear the responsibility by himself.`
+  String get dialog_swap_hint {
+    return Intl.message(
+      'The exchange function of Box Swap is the exchange between points and AE. The whole function is an exchange example written for the developer\'s personal preference, which is not used officially or open to the public. The points exchanged (ABC, WTT, AEG, etc.) have no value. Just as a collection. Since the function is realized based on blockchain, if the user uses it without authorization, please quit in time. If the forced use results in the loss of points and the floating exchange ratio between points and AE, it has nothing to do with the developer and the project party, and the user should bear the responsibility by himself.',
+      name: 'dialog_swap_hint',
       desc: '',
       args: [],
     );

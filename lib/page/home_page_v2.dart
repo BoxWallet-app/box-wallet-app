@@ -145,7 +145,7 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   }
 
   void netContractBalance() {
-    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
       if (model.code == 200) {
         HomePageV2.tokenABC = model.data.balance;
         setState(() {});

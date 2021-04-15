@@ -15,6 +15,7 @@ import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/contract_balance_model.dart';
 import 'package:box/model/contract_call_model.dart';
 import 'package:box/model/token_send_model.dart';
+import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -60,9 +61,9 @@ class _DefiInPageState extends State<DefiInPage> {
   }
 
   void netContractBalance() {
-    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        HomePage.tokenABC = model.data.balance;
+        HomePageV2.tokenABC = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {

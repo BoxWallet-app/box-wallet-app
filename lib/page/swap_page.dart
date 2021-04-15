@@ -56,9 +56,10 @@ class SwapPage extends StatefulWidget {
 class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapCoinModelData dropdownValue;
+
   SwapCoinAccountModel swapModels;
   SwapCoinModel swapCoinModel;
+  SwapCoinModelData dropdownValue;
   List<DropdownMenuItem<SwapCoinModelData>> coins = List();
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
@@ -119,19 +120,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
 
                         });
                         controller.callRefresh();
-
-//                  if (dropdownValue == "box") {
-////                _textEditingControllerNode.text = "https://node.aeasy.io";
-//                  }
-//                  if (dropdownValue == "base") {
-////                _textEditingControllerNode.text = "https://mainnet.aeternity.io";
-//                  }
-//                  if (dropdownValue == "wetrue") {
-////                _textEditingControllerNode.text = "https://node.aechina.io";
-//                  }
-//                  if (dropdownValue == "custom") {
-////                _textEditingControllerNode.text = "";
-//                  }
                       },
                       items: coins,
                     ),
@@ -492,7 +480,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].tokenCount + " 个",
+                              swapModels.data[index - 1].tokenCount + " "+S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -528,7 +516,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].aeCount + " 个",
+                              swapModels.data[index - 1].aeCount + " "+S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -672,7 +660,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       // ignore: missing_return
                       builder: (_) => BasicDialogAlert(
                         title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
+                        content: Text(Utils.formatSwapV2Hint(error)),
                         actions: <Widget>[
                           BasicDialogAction(
                             // ignore: missing_return
@@ -690,7 +678,7 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, swapModels.data[index - 1].account, swapModels.data[index - 1].aeCount);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, swapModels.data[index - 1].account, swapModels.data[index - 1].aeCount);
                   showChainLoading();
                 },
               ),

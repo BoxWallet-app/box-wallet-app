@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
   }
   var isBalanceFirst = true;
   void netContractBalance() {
-    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
       if (model.code == 200) {
         HomePage.tokenABC = model.data.balance;
         setState(() {});

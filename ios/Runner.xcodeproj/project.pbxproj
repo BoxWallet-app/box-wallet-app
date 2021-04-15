@@ -367,8 +367,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 8DP45S7D78;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V9GG3QPYP4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -389,8 +389,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aepp.aepp.hebe;
+				MARKETING_VERSION = 2.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -515,8 +515,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 8DP45S7D78;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V9GG3QPYP4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -537,8 +537,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aepp.aepp.hebe;
+				MARKETING_VERSION = 2.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -557,8 +557,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 8DP45S7D78;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V9GG3QPYP4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -579,8 +579,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 2.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aepp.aepp.hebe;
+				MARKETING_VERSION = 2.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.box.aepp;
 				PRODUCT_NAME = Box_aepp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

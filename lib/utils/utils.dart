@@ -183,4 +183,38 @@ class Utils {
       return msg;
     }
   }
+  static String formatSwapV2Hint(String msg) {
+    if (BoxApp.language == "cn") {
+      if(msg.contains("IS_COIN_EXIST_F"))
+        return "交易对不存在";
+      if(msg.contains("IS_COIN_ACCOUNT_EXIST_T"))
+        return "同一积分只可以挂单一次";
+      if(msg.contains("LOW_TOKEN_COUNT_LOW_T"))
+        return "未达到最低挂单积分标准";
+      if(msg.contains("LOW_AE_COUNT_LOW_T"))
+        return "未达到最低挂单AE标准";
+      if(msg.contains("COIN_FRE"))
+        return "积分已暂停兑换";
+      if(msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE"))
+        return "挂单不存在";
+      if(msg.contains("AE_VALUE_L"))
+        return "AE数量过低";
+      return msg;
+    } else {
+      if(msg.contains("IS_COIN_EXIST_F"))
+        return "Trade pair does not exist";
+      if(msg.contains("IS_COIN_ACCOUNT_EXIST_T"))
+        return "The bill already exists";
+      if(msg.contains("LOW_TOKEN_COUNT_LOW_T"))
+        return "The number of credits is too low";
+      if(msg.contains("LOW_AE_COUNT_LOW_T"))
+        return "The number of AE is too low";
+      if(msg.contains("COIN_FRE"))
+        return "Bonus points have been suspended";
+      if(msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE"))
+        return "The bill does not exist";
+      if(msg.contains("AE_VALUE_L"))
+        return "The number of AE is too low";
+    }
+  }
 }

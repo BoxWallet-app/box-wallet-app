@@ -1,8 +1,12 @@
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/swap_coin_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/swap_coin_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -27,6 +31,11 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
   final FocusNode focusNodeNode = FocusNode();
   TextEditingController _textEditingControllerCompiler = TextEditingController();
   final FocusNode focusNodeCompiler = FocusNode();
+  String ctBalance = "loading...";
+
+  SwapCoinModel swapCoinModel;
+  SwapCoinModelData dropdownValue;
+  List<DropdownMenuItem<SwapCoinModelData>> coins = List();
 
   @override
   void initState() {
@@ -35,9 +44,39 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
     Future.delayed(Duration(milliseconds: 600), () {
       //请求获取焦点
       FocusScope.of(context).requestFocus(focusNodeNode);
+    });
+    _onRefresh();
+  }
 
+  void netContractBalance() {
+    ctBalance = "loading...";
+    ContractBalanceDao.fetch(dropdownValue.ctAddress).then((ContractBalanceModel model) {
+      if (model.code == 200) {
+        ctBalance = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
+
+  Future<void> _onRefresh() async {
+    SwapCoinDao.fetch().then((SwapCoinModel model) {
+      if (dropdownValue == null) {
+        swapCoinModel = model;
+        dropdownValue = model.data[0];
+        model.data.forEach((element) {
+          final DropdownMenuItem<SwapCoinModelData> item = DropdownMenuItem(
+            child: Text(element.name),
+            value: element,
+          );
+          coins.add(item);
+        });
+        netContractBalance();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +96,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           S.of(context).swap_title_send,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -80,7 +119,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   S.of(context).swap_send_1,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -99,7 +138,6 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                       ),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
-
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
@@ -111,7 +149,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -129,7 +167,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          hintText: S.of(context).swap_text_hint,
+                          hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowTokenCount.toString(),
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666).withAlpha(85),
@@ -141,18 +179,23 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                       ),
                     ),
                     Positioned(
-                      right: 15,
-                      child: Container(
-                          height: 40,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "ABC",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                              color: Colors.black,
+                      right: 5,
+                      child: swapCoinModel == null
+                          ? Container()
+                          : Container(
+                              height: 40,
+                              child: DropdownButton<SwapCoinModelData>(
+                                underline: Container(),
+                                value: dropdownValue,
+                                onChanged: (SwapCoinModelData newValue) {
+                                  setState(() {
+                                    dropdownValue = newValue;
+                                  });
+                                  netContractBalance();
+                                },
+                                items: coins,
+                              ),
                             ),
-                          )),
                     ),
                   ],
                 ),
@@ -161,10 +204,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 margin: EdgeInsets.only(left: 26, top: 10, right: 26),
                 alignment: Alignment.topRight,
                 child: Text(
-                  S.of(context).token_send_two_page_balance + " : " + HomePageV2.tokenABC,
+                  S.of(context).token_send_two_page_balance + " : " + ctBalance,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -175,7 +218,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   S.of(context).swap_send_2,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -198,14 +241,14 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
 
                         controller: _textEditingControllerCompiler,
                         focusNode: focusNodeCompiler,
-              inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
-              ],
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                        ],
 
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -223,7 +266,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          hintText: S.of(context).swap_text_hint,
+                          hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowAeCount.toString(),
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666).withAlpha(85),
@@ -243,7 +286,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                             "AE",
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               color: Colors.black,
                             ),
                           )),
@@ -262,7 +305,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   child: Text(
                     S.of(context).swap_send_3,
                     maxLines: 1,
-                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFFFFFF)),
+                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                   ),
                   color: Color(0xFFE61665),
                   textColor: Colors.black,
@@ -282,7 +325,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_5,
-                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],
@@ -333,7 +376,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -361,7 +404,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -377,13 +420,14 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                       ),
                     );
                   }, (error) {
+                    print(error.toString());
                     // ignore: missing_return, missing_return
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return
                       builder: (_) => BasicDialogAlert(
                         title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
+                        content: Text(Utils.formatSwapV2Hint(error)),
                         actions: <Widget>[
                           BasicDialogAction(
                             // ignore: missing_return
@@ -391,17 +435,18 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
+                              // ignore: missing_return
                             },
                           ),
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC, _textEditingControllerNode.text, _textEditingControllerCompiler.text);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, _textEditingControllerNode.text, _textEditingControllerCompiler.text);
                   showChainLoading();
                 },
               ),
@@ -409,8 +454,6 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
           );
         });
   }
-
-
 
   void showChainLoading() {
     showGeneralDialog(

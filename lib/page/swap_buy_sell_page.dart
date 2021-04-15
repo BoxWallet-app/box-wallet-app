@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/swap_coin_order_dao.dart';
 import 'package:box/dao/swap_dao.dart';
 import 'package:box/dao/swap_my_buy_dao.dart';
 import 'package:box/dao/swap_my_dao.dart';
@@ -9,6 +10,7 @@ import 'package:box/dao/swap_my_sell_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/model/swap_coin_order_model.dart';
 import 'package:box/model/swap_model.dart';
 import 'package:box/model/swap_order_model.dart';
 import 'package:box/page/language_page.dart';
@@ -55,7 +57,7 @@ class SwapBuySellPage extends StatefulWidget {
 class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapOrderModel swapModels;
+  SwapCoinOrderModel swapModels;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -73,7 +75,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEEEEEE),
+      backgroundColor: Color(0xFFF5F5F5),
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -81,10 +83,12 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
           return;
         },
         child: Container(
+
           child: AnimationLimiter(
             child: EasyRefresh(
               enableControlFinishRefresh: true,
               controller: controller,
+
               header: AEHeader(),
               onRefresh: _onRefresh,
               child: ListView.builder(
@@ -103,9 +107,9 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
   Future<void> _onRefresh() async {
     var model;
     if (widget.type == 0) {
-      model = await SwapMySellDao.fetch();
+      model = await SwapCoinOrderDao.fetch();
     } else {
-      model = await SwapMyBuyDao.fetch();
+      model = await SwapCoinOrderDao.fetch();
     }
     if (swapModels != null) {
       swapModels = null;
@@ -328,7 +332,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
-          color: Color(0xFFEEEEEE),
+          color: Color(0xFFF5F5F5),
           child: Container(
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
@@ -337,7 +341,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
 
               //设置四周边框
             ),
-            margin: EdgeInsets.only(left: 18, right: 18, bottom: 0, top: 18),
+            margin: index == swapModels.data.length-1 ? EdgeInsets.only(left: 16, right: 16, bottom:  MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,28 +392,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: MediaQuery.of(context).size.width - 18 * 4,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  S.of(context).swap_buy_sell_order_item_3,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                               Utils.formatTime( swapModels.data[index].cTime),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
                       Container(
                         margin: EdgeInsets.only(top: 12),
                         width: MediaQuery.of(context).size.width - 18 * 4,
@@ -425,13 +408,57 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                             ),
                             Container(
                               child: Text(
-                                Utils.formatTime( swapModels.data[index].pTime),
+                                Utils.formatTime( swapModels.data[index].payTime),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
                           ],
                         ),
                       ),
+//                      Container(
+//                        margin: EdgeInsets.only(top: 12),
+//                        width: MediaQuery.of(context).size.width - 18 * 4,
+//                        child: Row(
+//                          children: <Widget>[
+//                            Expanded(
+//                              child: Container(
+//                                child: Text(
+//                                  S.of(context).swap_buy_sell_order_item_5,
+//                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+//                                ),
+//                              ),
+//                            ),
+//                            Container(
+//                              child: Text(
+//                                  swapModels.data[index].createHeight.toString(),
+//                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                      Container(
+//                        margin: EdgeInsets.only(top: 12),
+//                        width: MediaQuery.of(context).size.width - 18 * 4,
+//                        child: Row(
+//                          children: <Widget>[
+//                            Expanded(
+//                              child: Container(
+//                                child: Text(
+//                                  S.of(context).swap_buy_sell_order_item_6,
+//                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+//                                ),
+//                              ),
+//                            ),
+//                            Container(
+//                              child: Text(
+//                                swapModels.data[index].payHeight.toString(),
+//                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
                       Container(
                         margin: EdgeInsets.only(top: 12),
                         width: MediaQuery.of(context).size.width - 18 * 4,
@@ -440,58 +467,14 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  S.of(context).swap_buy_sell_order_item_5,
+                                  S.of(context).swap_buy_sell_order_item_7 +" ("+swapModels.data[index].coinName+")",
                                   style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
-                                  swapModels.data[index].cHeight.toString(),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: MediaQuery.of(context).size.width - 18 * 4,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  S.of(context).swap_buy_sell_order_item_6,
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                swapModels.data[index].pHeight.toString(),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: MediaQuery.of(context).size.width - 18 * 4,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  S.of(context).swap_buy_sell_order_item_7 +" ("+swapModels.data[index].coin+")",
-                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                swapModels.data[index].count.toString(),
+                                swapModels.data[index].tokenCount.toString(),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -513,7 +496,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                             ),
                             Container(
                               child: Text(
-                                swapModels.data[index].ae.toString(),
+                                swapModels.data[index].aeCount.toString(),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -521,7 +504,28 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                         ),
                       ),
 
-
+                      Container(
+                        margin: EdgeInsets.only(top: 12),
+                        width: MediaQuery.of(context).size.width - 18 * 4,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  " "+S.of(context).swap_buy_sell_order_item_9,
+                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                (swapModels.data[index].currentHeight - swapModels.data[index].payHeight).toString(),
+                                style: TextStyle(color: Color(0xFFE51363), fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),

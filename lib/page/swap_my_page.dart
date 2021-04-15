@@ -308,7 +308,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].tokenCount + " 个",
+                              swapModels.data[index - 1].tokenCount + " "+S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -343,7 +343,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].aeCount+ " 个",
+                              swapModels.data[index - 1].aeCount+ " "+S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -465,9 +465,11 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                               eventBus.fire(SwapEvent());
                               swapModels.data.removeAt(index - 1);
                               setState(() {});
-                              loadingType = LoadingType.loading;
-                              setState(() {});
-                              _onRefresh();
+                              if(swapModels.data.length == 0){
+                                loadingType = LoadingType.no_data;
+                                setState(() {});
+                              }
+
                               Navigator.of(context, rootNavigator: true).pop();
                             },
                           ),
@@ -481,7 +483,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                       // ignore: missing_return
                       builder: (_) => BasicDialogAlert(
                         title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
+                        content: Text(Utils.formatSwapV2Hint(error)),
                         actions: <Widget>[
                           BasicDialogAction(
                             // ignore: missing_return
@@ -500,7 +502,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels.data[index-1].token);
                   showChainLoading();
                 },
               ),

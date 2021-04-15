@@ -169,9 +169,9 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   }
 
   void netContractBalance() {
-    ContractBalanceDao.fetch().then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        HomePage.tokenABC = model.data.balance;
+        HomePageV2.tokenABC = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
