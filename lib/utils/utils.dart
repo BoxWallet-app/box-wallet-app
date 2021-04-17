@@ -199,7 +199,6 @@ class Utils {
         return "挂单不存在";
       if(msg.contains("AE_VALUE_L"))
         return "AE数量过低";
-      return msg;
     } else {
       if(msg.contains("IS_COIN_EXIST_F"))
         return "Trade pair does not exist";
@@ -216,5 +215,6 @@ class Utils {
       if(msg.contains("AE_VALUE_L"))
         return "The number of AE is too low";
     }
+    return msg;
   }
 }

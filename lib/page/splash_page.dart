@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if(nodeUrl == null || compilerUrl ==null){
-          BoxApp.setNodeUrl("https://node.aeasy.io");
+          BoxApp.setNodeUrl("https://node.aechina.io");
           BoxApp.setCompilerUrl("https://compiler.aeasy.io");
         }
       });
@@ -84,6 +84,7 @@ class _SplashPageState extends State<SplashPage> {
                       ),
                     ),
                     onPressed: () {
+                      BoxApp.language = "cn";
                       BoxApp.setLanguage("cn");
                       //通知将第一页背景色变成红色
                       S.load(Locale("cn", "cn".toUpperCase()));
@@ -101,6 +102,7 @@ class _SplashPageState extends State<SplashPage> {
                       ),
                     ),
                     onPressed: () {
+                      BoxApp.language = "en";
                       BoxApp.setLanguage("en");
                       //通知将第一页背景色变成红色
                       S.load(Locale("en", "en".toUpperCase()));

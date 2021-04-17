@@ -399,6 +399,19 @@ class _AensDetailPageState extends State<AensDetailPage> {
                                 showFlush(context);
                               },
                             ),
+                            BasicDialogAction(
+                              title: Text(
+                                S.of(context).dialog_dismiss,
+                                style: TextStyle(
+                                  color: Color(0xFFFC2365),
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true).pop();
+                                showFlush(context);
+                              },
+                            ),
                           ],
                         ),
                       ),

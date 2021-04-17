@@ -1085,15 +1085,15 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                   )));
         });
   }
-  void goSwap(BuildContext context) {
+  void goSwap(BuildContext buildContext) {
     showGeneralDialog(
         context: context,
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (con, anim1, anim2) {},
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (context, anim1, anim2, child) {
+        transitionBuilder: (transitionBuilderContext, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return Transform(
               transform: Matrix4.translationValues(0.0, 0, 0.0),
@@ -1125,7 +1125,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(60)),
                                   onTap: () {
-                                    Navigator.pop(context); //关闭对话框
+                                    Navigator.pop(transitionBuilderContext); //关闭对话框
                                     // ignore: unnecessary_statements
     //                                  widget.dismissCallBackFuture("");
                                   },
@@ -1163,7 +1163,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 roundLoadingShape: true,
                                 width: 120,
                                 onTap: (startLoading, stopLoading, btnState) async {
-                                  Navigator.pop(context); //关闭对话框
+                                  Navigator.pop(transitionBuilderContext); //关闭对话框
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => SwapPage()));
                                 },
                                 child: Text(

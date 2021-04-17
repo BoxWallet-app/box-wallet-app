@@ -595,7 +595,12 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         }
       }
     } else {
-      _textEditingController.text = tokenListModel.data[currentPosition].count;
+      if (double.parse(tokenListModel.data[currentPosition].count) > 1) {
+        _textEditingController.text = (double.parse(tokenListModel.data[currentPosition].count) - 0.1).toString();
+      } else {
+        _textEditingController.text = tokenListModel.data[currentPosition].count;
+      }
+
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
     }
   }

@@ -120,3 +120,5 @@ const SWAP_COIN_ACCOUNT =  BASE_HOST+'/api/swap/coin/account';
 const SWAP_COIN_ACCOUNT_MY =  BASE_HOST+'/api/swap/coin/account/my';
 //兑换订单
 const SWAP_COIN_ORDER_MY = BASE_HOST+ '/api/swap/coin/order/my';
+
+const AEX9_ALLOWANCE = BASE_HOST+ '/api/aex9/allowance';

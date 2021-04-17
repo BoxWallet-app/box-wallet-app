@@ -30,8 +30,8 @@ class _NodePageState extends State<NodePage> {
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if (nodeUrl == "" || nodeUrl == null) {
-          _textEditingControllerNode.text = "https://node.aeasy.io";
-          dropdownValue = "box";
+          _textEditingControllerNode.text = "https://node.aechina.io";
+          dropdownValue = "wetrue";
         } else {
           _textEditingControllerNode.text = nodeUrl;
 
@@ -91,7 +91,7 @@ class _NodePageState extends State<NodePage> {
               ),
             ),
             onPressed: () {
-              _textEditingControllerNode.text = "https://node.aeasy.io";
+              _textEditingControllerNode.text = "https://node.aechina.io";
               _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
             },
           ),
