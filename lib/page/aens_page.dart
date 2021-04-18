@@ -26,7 +26,7 @@ class _AensPageState extends State<AensPage> {
           appBar: AppBar(
             elevation: 0,
             // 隐藏阴影
-            leading: IconButton(
+            leading:BoxApp.isOpenStore?null: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
 

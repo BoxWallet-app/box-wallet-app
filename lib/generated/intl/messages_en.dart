@@ -182,8 +182,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_page_my_count" : MessageLookupByLibrary.simpleMessage("My Assets"),
     "home_page_transaction" : MessageLookupByLibrary.simpleMessage("Transaction"),
     "home_page_transaction_conform" : MessageLookupByLibrary.simpleMessage("Confirmation"),
-    "home_send_receive" : MessageLookupByLibrary.simpleMessage("Send and receive your tokens"),
-    "home_token" : MessageLookupByLibrary.simpleMessage("Tokens"),
+    "home_send_receive" : MessageLookupByLibrary.simpleMessage("Send and receive your Integral"),
+    "home_token" : MessageLookupByLibrary.simpleMessage("Integral"),
     "loading_widget_no_data" : MessageLookupByLibrary.simpleMessage("No data yet"),
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("Network error, please confirm and try again"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("Retry"),
@@ -265,7 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_number" : MessageLookupByLibrary.simpleMessage("Transfer amount"),
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2 please enter the number to send"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("To"),
-    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the token list need to be reviewed. \n Listing process: on The token fee is 10000AE and 1000ABC. This fee is used as the token lock-up fee. Any centralized exchange or delisting on the token can return the pledge token \n Delisting process: Delisting tokens requires recycling all tokens on the market The token price will be recovered according to the collected value. Or the token will not flow for a long time. Form a dead token \n Please prepare the contract address, token name, token logo to AE BBS @baixin"),
+    "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the Integral list need to be reviewed. \n Listing process: on The Integral fee is 10000AE and 1000ABC. This fee is used as the Integral lock-up fee. Any centralized exchange or delisting on the Integral can return the pledge Integral \n Delisting process: Delisting tokens requires recycling all tokens on the market The Integral price will be recovered according to the collected value. Or the Integral will not flow for a long time. Form a dead Integral \n Please prepare the contract address, Integral name, Integral logo to AE BBS @baixin"),
     "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("Description of Listing")
   };
 }

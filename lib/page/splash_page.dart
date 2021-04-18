@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/app_store_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/app_store_model.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/tab_page.dart';
@@ -17,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -29,20 +33,54 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   String _value = "";
 
+  void netConfig() {
+    AppStoreDao.fetch().then((AppStoreModel model) {
+      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+        var newVersion = 0;
+        if (Platform.isIOS) {
+          newVersion = int.parse(model.data.version.replaceAll(".", ""));
+          var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
+          if (newVersion == oldVersion) {
+            BoxApp.isOpenStore = model.data.isOpen;
+          }
+        }
+      });
+    }).catchError((e) {});
+  }
+
   @override
-  void initState() {
+  Future<void> initState() {
     super.initState();
 
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
-        if(nodeUrl == null || compilerUrl ==null){
+        if (nodeUrl == null || compilerUrl == null) {
           BoxApp.setNodeUrl("https://node.aechina.io");
           BoxApp.setCompilerUrl("https://compiler.aeasy.io");
         }
       });
     });
 
-    // ignore: missing_return
+    AppStoreDao.fetch().then((AppStoreModel model) {
+      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+        var newVersion = 0;
+        if (Platform.isIOS) {
+          newVersion = int.parse(model.data.version.replaceAll(".", ""));
+          var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
+          if (newVersion == oldVersion) {
+            BoxApp.isOpenStore = model.data.isOpen;
+            print(" BoxApp.isOpenStore :"+ BoxApp.isOpenStore.toString());
+            startService();
+          }
+        }
+      });
+    }).catchError((e) {
+      BoxApp.isOpenStore = true;
+      print(" BoxApp.isOpenStore :"+ BoxApp.isOpenStore.toString());
+    });
+  }
+
+  void startService(){
     BoxApp.startAeService(context, () {
       SharedPreferences.getInstance().then((sp) {
         // ignore: missing_return
@@ -71,7 +109,7 @@ class _SplashPageState extends State<SplashPage> {
                 content: Text(
                   "Please choose the language you want to use\n请选择你要使用的语言",
                   style: TextStyle(
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
                 actions: <Widget>[
@@ -80,7 +118,7 @@ class _SplashPageState extends State<SplashPage> {
                       "中文",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -98,7 +136,7 @@ class _SplashPageState extends State<SplashPage> {
                       "English",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -176,7 +214,7 @@ class _SplashPageState extends State<SplashPage> {
                     "· Infinite possibility ·",
                     style: TextStyle(
                       fontSize: 20,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),

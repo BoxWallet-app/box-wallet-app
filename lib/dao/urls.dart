@@ -1,7 +1,7 @@
 //域名
-//const BASE_HOST = 'http://192.168.0.53:7070';
+const BASE_HOST = 'http://192.168.0.105:7070';
 // const BASE_HOST = 'http://10.53.5.35:7070';
-const BASE_HOST = 'https://aebox.io';
+//const BASE_HOST = 'https://aebox.io';
 //const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
@@ -122,3 +122,5 @@ const SWAP_COIN_ACCOUNT_MY =  BASE_HOST+'/api/swap/coin/account/my';
 const SWAP_COIN_ORDER_MY = BASE_HOST+ '/api/swap/coin/order/my';
 
 const AEX9_ALLOWANCE = BASE_HOST+ '/api/aex9/allowance';
+
+const APP_STORE = BASE_HOST+ '/api/config/store';
