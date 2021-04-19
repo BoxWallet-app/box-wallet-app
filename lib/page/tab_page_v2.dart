@@ -481,7 +481,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
                     child: PageView.builder(
-                      itemCount: 2,
+                      itemCount: 3,
                       controller: pageControllerBody,
                       itemBuilder: (context, position) {
                         if (position == 0) {

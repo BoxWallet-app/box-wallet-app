@@ -246,7 +246,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("Swap"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("My Swap"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("Initiate exchange"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("Wallet"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("Account"),
     "tab_2" : MessageLookupByLibrary.simpleMessage("Discover"),
     "tab_3" : MessageLookupByLibrary.simpleMessage("Setting"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("Node not use"),

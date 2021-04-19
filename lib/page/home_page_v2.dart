@@ -553,7 +553,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
 //                              ),
                             ],
                           ),
-
                           Container(
                             height: 48,
                             margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
@@ -727,182 +726,79 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                               ),
                             ],
                           ),
-
-//                          Container(
-//                            height: 160,
-//                            alignment: Alignment.centerLeft,
-//                            margin: const EdgeInsets.only(top: 12),
-//                            //边框设置
-//                            decoration: new BoxDecoration(
-//                              color: Color(0xE6FFFFFF),
-//                              //设置四周圆角 角度
-//                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//                            ),
-//                            child: Material(
-//                              borderRadius: BorderRadius.all(Radius.circular(15)),
-//                              color: Colors.white,
-//                              child: InkWell(
-//                                borderRadius: BorderRadius.all(Radius.circular(15)),
-//                                onTap: () {
-//                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
-//                                },
-//                                child: Column(
-//                                  children: [
-//                                    Container(
-//                                      child: Stack(
-//                                        alignment: Alignment.topCenter,
-//                                        children: <Widget>[
-//                                          Container(
-//                                            alignment: Alignment.topCenter,
-//                                            padding: const EdgeInsets.only(left: 5),
-//                                            child: Row(
-//                                              children: <Widget>[
-//                                                Container(
-//                                                  margin: const EdgeInsets.only(top: 10),
-//                                                  child: Image(
-//                                                    width: 56,
-//                                                    height: 56,
-//                                                    image: AssetImage("images/home_receive_token.png"),
-//                                                  ),
-//                                                ),
-//                                                Container(
-//                                                  padding: const EdgeInsets.only(left: 0),
-//                                                  child: Text(
-//                                                    S.of(context).home_page_function_receive,
-//                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-//                                                  ),
-//                                                )
-//                                              ],
-//                                            ),
-//                                          ),
-//                                          Positioned(
-//                                            right: 18,
-//                                            child: Container(
-//                                              height: 30,
-//                                              margin: const EdgeInsets.only(top: 20),
-//                                              child: FlatButton(
-//                                                onPressed: () {
-//                                                  Clipboard.setData(ClipboardData(text: HomePageV2.address));
-//                                                  setState(() {
-//                                                    contentText = S.of(context).token_receive_page_copy_sucess;
-//                                                  });
-//                                                  Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-//                                                },
-//                                                child: Text(
-//                                                  contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
-//                                                  maxLines: 1,
-//                                                  style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
-//                                                ),
-//                                                color: Color(0xFFE61665).withAlpha(16),
-//                                                textColor: Colors.black,
-//                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-//                                              ),
-//                                            ),
-//                                          ),
-//                                        ],
-//                                      ),
-//                                    ),
-//                                    Row(
-//                                      crossAxisAlignment: CrossAxisAlignment.start,
-//                                      children: [
-//                                        Expanded(
-//                                          child: Container(
-//                                            margin: const EdgeInsets.only(top: 5, left: 18, right: 5),
-//                                            child: Text(
-//                                              HomePageV2.address,
-//                                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                              style: TextStyle(fontSize: 14, color: Color(0xFF999999), letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
-//                                            ),
-//                                          ),
-//                                        ),
-//                                        Container(
-//                                          margin: EdgeInsets.only(top: 0, right: 23),
-//                                          child: QrImage(
-//                                            data: HomePageV2.address,
-//                                            version: QrVersions.auto,
-//                                            size: 80.0,
-//                                          ),
-//                                        ),
-//                                      ],
-//                                    )
-//                                  ],
-//                                ),
-//                              ),
-//                            ),
-//                          ),
-//                          getTokensContainer(context),
-                          Container(
-                            height: 90,
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 12),
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              color: Color(0xE6FFFFFF),
-                              //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            ),
-                            child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                              color: Colors.white,
-                              child: InkWell(
+                          if (!BoxApp.isOpenStore)
+                            Container(
+                              height: 90,
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 12),
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                color: Color(0xE6FFFFFF),
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              ),
+                              child: Material(
                                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenListPage()));
-                                },
-                                child: Container(
-                                  height: 90,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: const EdgeInsets.only(top: 10),
-                                              child: Image(
-                                                width: 56,
-                                                height: 56,
-                                                image: AssetImage("images/home_token.png"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  S.of(context).home_token,
-                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                color: Colors.white,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenListPage()));
+                                  },
+                                  child: Container(
+                                    height: 90,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 10),
+                                                child: Image(
+                                                  width: 56,
+                                                  height: 56,
+                                                  image: AssetImage("images/home_token.png"),
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 23,
-                                        child: Container(
-                                          width: 25,
-                                          height: 25,
-                                          padding: const EdgeInsets.only(left: 0),
-                                          //边框设置
-                                          decoration: new BoxDecoration(
-                                            color: Color(0xFFF5F5F5),
-                                            //设置四周圆角 角度
-                                            borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 15,
-                                            color: Color(0xFFCCCCCC),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    S.of(context).home_token,
+                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Positioned(
+                                          right: 23,
+                                          child: Container(
+                                            width: 25,
+                                            height: 25,
+                                            padding: const EdgeInsets.only(left: 0),
+                                            //边框设置
+                                            decoration: new BoxDecoration(
+                                              color: Color(0xFFF5F5F5),
+                                              //设置四周圆角 角度
+                                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                            ),
+                                            child: Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 15,
+                                              color: Color(0xFFCCCCCC),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                           getRecordContainer(context),
                         ],
                       ),
@@ -1243,7 +1139,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                       ),
                     ),
                     Container(
-
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         walletRecordModel.data[index].hash,

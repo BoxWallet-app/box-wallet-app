@@ -1973,10 +1973,10 @@ class S {
     );
   }
 
-  /// `Wallet`
+  /// `Account`
   String get tab_1 {
     return Intl.message(
-      'Wallet',
+      'Account',
       name: 'tab_1',
       desc: '',
       args: [],
