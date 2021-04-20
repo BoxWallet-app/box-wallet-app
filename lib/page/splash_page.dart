@@ -69,20 +69,21 @@ class _SplashPageState extends State<SplashPage> {
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
           if (newVersion == oldVersion) {
             BoxApp.isOpenStore = model.data.isOpen;
-            print(" BoxApp.isOpenStore :"+ BoxApp.isOpenStore.toString());
+            print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
             startService();
           }
         }
       });
     }).catchError((e) {
       BoxApp.isOpenStore = true;
-      print(" BoxApp.isOpenStore :"+ BoxApp.isOpenStore.toString());
+      print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
       startService();
     });
   }
 
-  void startService(){
+  void startService() {
     BoxApp.startAeService(context, () {
+      // ignore: missing_return
       SharedPreferences.getInstance().then((sp) {
         // ignore: missing_return
         var isLanguage = sp.getString('is_language');
@@ -155,6 +156,7 @@ class _SplashPageState extends State<SplashPage> {
           });
         }
       });
+      return;
     });
   }
 
