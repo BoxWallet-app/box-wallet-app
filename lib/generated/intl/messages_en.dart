@@ -36,7 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "ae_status_contractEncodeCall" : MessageLookupByLibrary.simpleMessage("Contract is being compiled"),
     "ae_status_create_allowance" : MessageLookupByLibrary.simpleMessage("Set the number of authorizations"),
     "ae_status_decode" : MessageLookupByLibrary.simpleMessage("Analyzing results"),
-    "aens_detail_page_add" : MessageLookupByLibrary.simpleMessage("Price Increase"),
+    "aens_detail_page_add" : MessageLookupByLibrary.simpleMessage("Register"),
     "aens_detail_page_balance" : MessageLookupByLibrary.simpleMessage("Price"),
     "aens_detail_page_height" : MessageLookupByLibrary.simpleMessage("Current Height"),
     "aens_detail_page_name" : MessageLookupByLibrary.simpleMessage("Name"),

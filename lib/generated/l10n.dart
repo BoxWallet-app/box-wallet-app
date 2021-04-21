@@ -603,10 +603,10 @@ class S {
     );
   }
 
-  /// `Price Increase`
+  /// `Register`
   String get aens_detail_page_add {
     return Intl.message(
-      'Price Increase',
+      'Register',
       name: 'aens_detail_page_add',
       desc: '',
       args: [],

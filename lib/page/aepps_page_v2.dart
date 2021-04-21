@@ -109,7 +109,6 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
       onRefresh: _onRefresh,
       child: Column(
         children: [
-
           Container(
             margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
             decoration: new BoxDecoration(
@@ -137,38 +136,39 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               },
               child: Column(
                 children: [
-                  Container(
-                    height: 170,
-                    width: MediaQuery.of(context).size.width - 30,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
-                      child: Image.network(
-                        bannerModel == null
-                            ? ""
-                            : BoxApp.language == "cn"
-                                ? bannerModel.cn.image
-                                : bannerModel.en.image,
-                        fit: BoxFit.cover,
+                  if (!BoxApp.isOpenStore)
+                    Container(
+                      height: 170,
+                      width: MediaQuery.of(context).size.width - 30,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
+                        child: Image.network(
+                          bannerModel == null
+                              ? ""
+                              : BoxApp.language == "cn"
+                                  ? bannerModel.cn.image
+                                  : bannerModel.en.image,
+                          fit: BoxFit.cover,
 
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
 
-                          return Container(
-                            alignment: Alignment.center,
-                            child: new Center(
-                              child: new CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                            return Container(
+                              alignment: Alignment.center,
+                              child: new Center(
+                                child: new CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                                ),
                               ),
-                            ),
-                            width: 160.0,
-                            height: 90.0,
-                          );
-                        },
-                        //设置图片的填充样式
+                              width: 160.0,
+                              height: 90.0,
+                            );
+                          },
+                          //设置图片的填充样式
 //                        fit: BoxFit.fitWidth,
+                        ),
                       ),
                     ),
-                  ),
                   Container(
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
                     alignment: Alignment.centerLeft,
@@ -493,112 +493,182 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               ),
             ),
           ),
-          if (!BoxApp.isOpenStore) Container(
-            height: 48,
-            margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              S.of(context).aepps_friend,
-              style: TextStyle(
-                color: Color(0xFF000000),
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                fontFamily: BoxApp.language == "cn"
-                    ? "Ubuntu"
-                    : BoxApp.language == "cn"
-                        ? "Ubuntu"
-                        : "Ubuntu",
+          if (!BoxApp.isOpenStore)
+            Container(
+              height: 48,
+              margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                S.of(context).aepps_friend,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  fontFamily: BoxApp.language == "cn"
+                      ? "Ubuntu"
+                      : BoxApp.language == "cn"
+                          ? "Ubuntu"
+                          : "Ubuntu",
+                ),
               ),
             ),
-          ),
-          if (!BoxApp.isOpenStore) Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom),
-            padding: EdgeInsets.only(bottom: 16, top: 16),
-            //边框设置
-            decoration: new BoxDecoration(
-              color: Color(0xE6FFFFFF),
-              //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            ),
-            child: Material(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              color: Colors.white,
-              child: InkWell(
+          if (!BoxApp.isOpenStore)
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom),
+              padding: EdgeInsets.only(bottom: 16, top: 16),
+              //边框设置
+              decoration: new BoxDecoration(
+                color: Color(0xE6FFFFFF),
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              ),
+              child: Material(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                child: Column(
-                  children: [
-                    if (!BoxApp.isOpenStore)
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 22, bottom: 22),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(left: 16),
-                                height: 52,
-                                padding: EdgeInsets.all(6),
-                                width: 52,
-                                //边框设置
-                                decoration: new BoxDecoration(
-                                  //背景
-                                  color: Colors.white,
-                                  //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                                  //设置四周边框
-                                  border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                color: Colors.white,
+                child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Column(
+                    children: [
+                      if (!BoxApp.isOpenStore)
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => WeTruePage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 22, bottom: 22),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(left: 16),
+                                  height: 52,
+                                  padding: EdgeInsets.all(6),
+                                  width: 52,
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    //背景
+                                    color: Colors.white,
+                                    //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                    //设置四周边框
+                                    border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                                  ),
+                                  child: Image(
+                                    width: 48,
+                                    height: 48,
+                                    image: AssetImage("images/apps_wetrue.png"),
+                                  ),
                                 ),
-                                child: Image(
-                                  width: 48,
-                                  height: 48,
-                                  image: AssetImage("images/apps_wetrue.png"),
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: const EdgeInsets.only(top: 0, left: 20),
-                                      child: Text(
-                                        "Wetrue",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFF333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: const EdgeInsets.only(top: 0, left: 20),
+                                        child: Text(
+                                          "Wetrue",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF333333),
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                                      child: Text(
-                                        S.of(context).aepp_item_4_1,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          letterSpacing: 1,
-                                          //字体间距
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                        child: Text(
+                                          S.of(context).aepp_item_4_1,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            letterSpacing: 1,
+                                            //字体间距
 
-                                          //词间距
-                                          color: Color(0xFF666666),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            //词间距
+                                            color: Color(0xFF666666),
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    if (!BoxApp.isOpenStore)
+                      if (!BoxApp.isOpenStore)
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => BasePage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 18, bottom: 18),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(left: 16),
+                                  height: 52,
+                                  width: 52,
+                                  //边框设置
+                                  decoration: new BoxDecoration(
+                                    //背景
+                                    color: Colors.white,
+                                    //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                    //设置四周边框
+                                    border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image(
+                                      width: 48,
+                                      height: 48,
+                                      image: AssetImage("images/base_logo.png"),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: const EdgeInsets.only(top: 0, left: 20, right: 20),
+                                        child: Text(
+                                          "Base wallet",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF333333),
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                        child: Text(
+                                          S.of(context).aepp_item_3_1,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            letterSpacing: 1,
+                                            //字体间距
+
+                                            //词间距
+                                            color: Color(0xFF666666),
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => BasePage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 18, bottom: 18),
@@ -611,9 +681,9 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 //边框设置
                                 decoration: new BoxDecoration(
                                   //背景
+                                  borderRadius: BorderRadius.circular(12),
                                   color: Colors.white,
                                   //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
                                   //设置四周边框
                                   border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
                                 ),
@@ -622,7 +692,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   child: Image(
                                     width: 48,
                                     height: 48,
-                                    image: AssetImage("images/base_logo.png"),
+                                    image: AssetImage("images/ic_aeknow.png"),
                                   ),
                                 ),
                               ),
@@ -631,9 +701,9 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                   children: <Widget>[
                                     Container(
                                       alignment: Alignment.topLeft,
-                                      margin: const EdgeInsets.only(top: 0, left: 20, right: 20),
+                                      margin: const EdgeInsets.only(top: 0, left: 20),
                                       child: Text(
-                                        "Base wallet",
+                                        "Aeknow",
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF333333),
@@ -645,12 +715,11 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                       alignment: Alignment.topLeft,
                                       margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
                                       child: Text(
-                                        S.of(context).aepp_item_3_1,
+                                        S.of(context).aepp_item_2_1,
                                         style: TextStyle(
                                           fontSize: 13,
                                           letterSpacing: 1,
                                           //字体间距
-
                                           //词间距
                                           color: Color(0xFF666666),
                                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -664,78 +733,11 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                           ),
                         ),
                       ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => KnowPage()));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 18, bottom: 18),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              height: 52,
-                              width: 52,
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                //背景
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                                //设置四周边框
-                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image(
-                                  width: 48,
-                                  height: 48,
-                                  image: AssetImage("images/ic_aeknow.png"),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 0, left: 20),
-                                    child: Text(
-                                      "Aeknow",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF333333),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                                    child: Text(
-                                      S.of(context).aepp_item_2_1,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        letterSpacing: 1,
-                                        //字体间距
-                                        //词间距
-                                        color: Color(0xFF666666),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           Container(
             height: 8,
           ),
