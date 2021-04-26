@@ -8,6 +8,8 @@ import 'package:underline_indicator/underline_indicator.dart';
 import '../main.dart';
 import 'aens_list_page.dart';
 import 'aens_my_page.dart';
+import 'aens_page.dart';
+import 'aens_register.dart';
 
 class AensMyPage extends StatefulWidget {
   @override
@@ -32,7 +34,10 @@ class _AensMyPageState extends State<AensMyPage> {
           ),
           title: Text(
             S.of(context).aens_my_page_title,
-            style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            ),
           ),
           centerTitle: true,
 
@@ -48,8 +53,20 @@ class _AensMyPageState extends State<AensMyPage> {
                 ),
                 insets: EdgeInsets.only(bottom: 5)),
             tabs: <Widget>[
-              Tab(icon: Text(S.of(context).aens_my_page_title_tab_1 ,style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),)),
-              Tab(icon: Text(S.of(context).aens_my_page_title_tab_2,style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),)),
+              Tab(
+                  icon: Text(
+                S.of(context).aens_my_page_title_tab_1,
+                style: TextStyle(
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                ),
+              )),
+              Tab(
+                  icon: Text(
+                S.of(context).aens_my_page_title_tab_2,
+                style: TextStyle(
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                ),
+              )),
             ],
           ),
         ),
@@ -59,6 +76,16 @@ class _AensMyPageState extends State<AensMyPage> {
             AensListPage(aensPageType: AensPageType.my_over),
           ],
         ),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AensRegister()));
+          },
+          child: new Icon(Icons.add),
+          elevation: 3.0,
+          highlightElevation: 2.0,
+          backgroundColor: Color(0xFFFC2365),
+        ),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50),
       ),
     );
   }

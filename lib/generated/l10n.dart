@@ -433,10 +433,10 @@ class S {
     );
   }
 
-  /// `Bidding`
+  /// `Register`
   String get aens_page_title_tab_1 {
     return Intl.message(
-      'Bidding',
+      'Register',
       name: 'aens_page_title_tab_1',
       desc: '',
       args: [],
@@ -473,10 +473,10 @@ class S {
     );
   }
 
-  /// `Bidding`
+  /// `Register`
   String get aens_my_page_title_tab_1 {
     return Intl.message(
-      'Bidding',
+      'Register',
       name: 'aens_my_page_title_tab_1',
       desc: '',
       args: [],

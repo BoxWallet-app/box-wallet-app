@@ -16,6 +16,7 @@ class ContractInfoDao {
     params["address"] = address;
     Response response = await Dio().post(CONTRACT_INFO,queryParameters: params);
     if (response.statusCode == 200) {
+      print(response.toString());
       var data = jsonDecode(response.toString());
       ContractInfoModel model = ContractInfoModel.fromJson(data);
       return model;

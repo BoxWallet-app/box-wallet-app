@@ -26,6 +26,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../main.dart';
+import 'aens_my_page.dart';
 import 'aens_page.dart';
 import 'base_page.dart';
 import 'know_page.dart';
@@ -121,6 +122,9 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               onTap: () {
                 if (bannerModel == null) {
+                  return;
+                }
+                if (BoxApp.isOpenStore){
                   return;
                 }
                 Navigator.push(
@@ -355,7 +359,12 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                  if (BoxApp.isOpenStore){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
+                  }else{
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AensPage()));
+                  }
+
                 },
                 child: Column(
                   children: [

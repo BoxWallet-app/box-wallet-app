@@ -111,6 +111,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       if (model.code == 200) {
         TokenDefiPage.model = model;
         setState(() {});
+
       } else {}
     }).catchError((e) {
       print(e.toString());
@@ -469,8 +470,10 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                   child: Row(
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
+//                        width: MediaQuery.of(context).size.width / 2 - 40 ,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               child: Text(
@@ -493,10 +496,11 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                       ),
                       Expanded(child: Container()),
                       Container(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
+//                        width: MediaQuery.of(context).size.width /2-40 ,
                         margin: EdgeInsets.only(right: 18),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               child: Text(
@@ -508,7 +512,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             ),
                             Container(
                               child: Text(
-                                TokenDefiPage.model == null ? "loading..." : TokenDefiPage.model.data.allCount,
+                                TokenDefiPage.model == null ? "loading..." : TokenDefiPage.model.data.allCount+"",
                                 style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
@@ -520,6 +524,7 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     ],
                   ),
                 ),
+
                 lockBtn(),
                 unLockBtn(),
               ],
