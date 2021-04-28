@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
@@ -34,13 +35,37 @@ class _SettingPageV2State extends State<SettingPageV2> with AutomaticKeepAliveCl
         version = packageInfo.version;
       });
     });
+    eventBus.on<LanguageEvent>().listen((event) {
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Color(0xfffafafa),
+        elevation: 0,
+        // 隐藏阴影
+        leading:BoxApp.isOpenStore?null: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+
+            size: 17,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          S.of(context).setting_page_title,
+          style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+        ),
+        centerTitle: true,
+
+
+      ),
       body: Container(
+
         child: Column(
           children: <Widget>[
             Container(

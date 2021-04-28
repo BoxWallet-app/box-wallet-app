@@ -6,6 +6,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/app_store_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/app_store_model.dart';
+import 'package:box/page/home_oracle_page.dart';
 import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/tab_page.dart';
@@ -163,7 +164,7 @@ class _SplashPageState extends State<SplashPage> {
           SharedPreferences.getInstance().then((sp) {
             sp.setString('is_language', "true");
             if (value.length > 10) {
-              Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
+              Navigator.pushReplacement(context, CustomRoute(HomeOraclePage()));
             } else {
               Navigator.pushReplacement(context, CustomRoute(LoginPage()));
             }
