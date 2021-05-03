@@ -189,7 +189,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               ),
             ),
           ),
-          if (!BoxApp.isOpenStore)
+//          if (!BoxApp.isOpenStore)
             Container(
               height: 90,
               alignment: Alignment.centerLeft,

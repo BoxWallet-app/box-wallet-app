@@ -66,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
 //      print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
 //      startService();
 //    });
-    BoxApp.isOpenStore = false;
+    BoxApp.isOpenStore = true;
     print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
     startService();
   }

@@ -726,7 +726,6 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                               ),
                             ],
                           ),
-                          if (!BoxApp.isOpenStore)
                             Container(
                               height: 90,
                               alignment: Alignment.centerLeft,
