@@ -97,7 +97,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
             margin: EdgeInsets.only(top: 20),
             child: Text(
               S.of(context).loading_widget_no_net,
-              style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFF000000)),
+              style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFFFFFFF)),
 
             ),
           ),
@@ -142,7 +142,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                color: Color(0xFF000000),
+                color: Color(0xFFFFFFFF),
               ),
             ),
           ),
