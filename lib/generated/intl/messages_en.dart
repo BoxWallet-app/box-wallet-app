@@ -188,7 +188,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("Network error, please confirm and try again"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("Retry"),
     "login_page_create" : MessageLookupByLibrary.simpleMessage("Create a new account"),
-    "login_page_login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "login_page_login" : MessageLookupByLibrary.simpleMessage("Sign in"),
     "mnemonic_confirm_content" : MessageLookupByLibrary.simpleMessage("In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order"),
     "mnemonic_confirm_title" : MessageLookupByLibrary.simpleMessage("Please confirm the mnemonic phrase"),
     "mnemonic_copy_confrom" : MessageLookupByLibrary.simpleMessage("I have saved it safely"),

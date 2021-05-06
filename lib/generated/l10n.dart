@@ -33,10 +33,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Login`
+  /// `Sign in`
   String get login_page_login {
     return Intl.message(
-      'Login',
+      'Sign in',
       name: 'login_page_login',
       desc: '',
       args: [],
