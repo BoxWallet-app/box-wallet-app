@@ -155,7 +155,7 @@ class _HomeOraclePageState extends State<HomeOraclePage> with AutomaticKeepAlive
           body: Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 16, right: 16, top: 100, bottom: MediaQuery.of(context).padding.bottom),
+                margin: EdgeInsets.only(left: 16, right: 16, top: 100),
                 width: MediaQuery.of(context).size.width,
                 child: LoadingWidget(
                   type: _loadingType,
@@ -276,7 +276,7 @@ class _HomeOraclePageState extends State<HomeOraclePage> with AutomaticKeepAlive
         width: (MediaQuery.of(context).size.width - 32) * 0.85,
         child: FlatButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
           },
           child: Text(
             element.contentEn,
@@ -299,7 +299,7 @@ class _HomeOraclePageState extends State<HomeOraclePage> with AutomaticKeepAlive
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
           },
           child: Column(
             children: [
