@@ -113,14 +113,16 @@ const NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';
 //域名归属
 const NAME_OWNER = '/v2/names/';
 //兑换币种列表
-const SWAP_COIN_LIST = BASE_HOST+'/api/swap/coin/list';
+const SWAP_COIN_LIST = BASE_HOST + '/api/swap/coin/list';
 ////兑换币种下用户挂单
-const SWAP_COIN_ACCOUNT =  BASE_HOST+'/api/swap/coin/account';
+const SWAP_COIN_ACCOUNT = BASE_HOST + '/api/swap/coin/account';
 ////兑换币种下正在挂单的
-const SWAP_COIN_ACCOUNT_MY =  BASE_HOST+'/api/swap/coin/account/my';
+const SWAP_COIN_ACCOUNT_MY = BASE_HOST + '/api/swap/coin/account/my';
 //兑换订单
-const SWAP_COIN_ORDER_MY = BASE_HOST+ '/api/swap/coin/order/my';
+const SWAP_COIN_ORDER_MY = BASE_HOST + '/api/swap/coin/order/my';
 
-const AEX9_ALLOWANCE = BASE_HOST+ '/api/aex9/allowance';
+const AEX9_ALLOWANCE = BASE_HOST + '/api/aex9/allowance';
 
-const APP_STORE = BASE_HOST+ '/api/config/store';
+const APP_STORE = BASE_HOST + '/api/config/store';
+
+const AEX9_RECORD = BASE_HOST + '/api/tokens/record';

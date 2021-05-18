@@ -27,7 +27,7 @@ class Utils {
       return "";
     }
 //    print(address);
-    return "ak_***" + address.substring(address.length - 4, address.length);
+    return "ak_..." + address.substring(address.length - 4, address.length);
   }
 
   static formatHomeCardAddress(String address) {

@@ -29,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -63,13 +64,24 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
   void initState() {
     super.initState();
     netAccountInfo();
-    netContractBalance();
     getAddress();
     netTokenList();
   }
+  void netContractBalance(int index) {
+    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
+      if (model.code == 200) {
+        tokenListModel.data[index].countStr = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
 
   void netTokenList() {
-    TokenListDao.fetch(HomePageV2.address).then((TokenListModel model) {
+    EasyLoading.show();
+    TokenListDao.fetch(HomePageV2.address,"").then((TokenListModel model) {
+      EasyLoading.dismiss(animation: true);
       if (model != null || model.code == 200) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
@@ -163,21 +175,13 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
       }
     }).catchError((e) {
       print(e);
+      EasyLoading.dismiss(animation: true);
       loadingType = LoadingType.error;
       setState(() {});
     });
   }
 
-  void netContractBalance() {
-    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        HomePageV2.tokenABC = model.data.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
+
 
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {

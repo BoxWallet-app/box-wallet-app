@@ -32,6 +32,7 @@ class TokenListModel {
 
 class Data {
   String count;
+  String countStr;
   String ctAddress;
   String image;
   String name;

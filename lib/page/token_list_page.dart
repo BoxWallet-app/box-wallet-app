@@ -1,14 +1,18 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/dao/contract_balance_dao.dart';
 import 'package:box/dao/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/model/contract_balance_model.dart';
 import 'package:box/model/token_list_model.dart';
 import 'package:box/page/token_add_page.dart';
+import 'package:box/page/token_record_page.dart';
 import 'package:box/widget/ae_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 import '../main.dart';
 import 'home_page_v2.dart';
@@ -23,7 +27,7 @@ class _TokenListPathState extends State<TokenListPage> {
   TokenListModel tokenListModel;
 
   Future<void> _onRefresh() async {
-    TokenListDao.fetch(HomePageV2.address).then((TokenListModel model) {
+    TokenListDao.fetch(HomePageV2.address,"easy").then((TokenListModel model) {
       if (model != null || model.code == 200) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
@@ -32,6 +36,9 @@ class _TokenListPathState extends State<TokenListPage> {
         tokenListModel = null;
         loadingType = LoadingType.error;
         setState(() {});
+      }
+      for (int i = 0; i < tokenListModel.data.length; i++) {
+        netContractBalance(i);
       }
     }).catchError((e) {
       print(e);
@@ -225,11 +232,32 @@ class _TokenListPathState extends State<TokenListPage> {
     );
   }
 
+  void netContractBalance(int index) {
+    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
+      if (model.code == 200) {
+        tokenListModel.data[index].countStr = model.data.balance;
+        setState(() {});
+      } else {}
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
   Material itemListView(BuildContext context, int index) {
     return Material(
       color: Colors.white,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TokenRecordPage(
+                        ctId: tokenListModel.data[index].ctAddress,
+                        coinCount: tokenListModel.data[index].count,
+                        coinImage: tokenListModel.data[index].image,
+                        coinName: tokenListModel.data[index].name,
+                      )));
+        },
         child: Container(
           child: Row(
             children: [
@@ -258,8 +286,7 @@ class _TokenListPathState extends State<TokenListPage> {
                               child: Image.network(
                                 tokenListModel.data[index].image,
                                 frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                  if (wasSynchronouslyLoaded)
-                                    return child;
+                                  if (wasSynchronouslyLoaded) return child;
 
                                   return AnimatedOpacity(
                                     child: child,
@@ -269,7 +296,6 @@ class _TokenListPathState extends State<TokenListPage> {
                                   );
                                 },
                               ),
-
                             ),
                           ),
                           Container(
@@ -285,11 +311,22 @@ class _TokenListPathState extends State<TokenListPage> {
                             ),
                           ),
                           Expanded(child: Container()),
-                          Text(
-                            tokenListModel.data[index].count,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          ),
+                          tokenListModel.data[index].countStr == null
+                              ? Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                    'images/lf30_editor_41iiftdt.json',
+//              'images/animation_khzuiqgg.json',
+                                  ),
+                                )
+                              : Text(
+                                  double.parse(tokenListModel.data[index].countStr).toStringAsFixed(2),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                ),
+
                           Container(
                             width: 20,
                           ),

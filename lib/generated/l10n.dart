@@ -2253,6 +2253,16 @@ class S {
     );
   }
 
+  /// `Peer-to-peer social tipping platform`
+  String get aepp_item_5_1 {
+    return Intl.message(
+      'Peer-to-peer social tipping platform',
+      name: 'aepp_item_5_1',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No transaction record temporarily`
   String get home_no_record {
     return Intl.message(
@@ -2488,6 +2498,16 @@ class S {
     return Intl.message(
       'The exchange function of Box Swap is the exchange between points and AE. The whole function is an exchange example written for the developer\'s personal preference, which is not used officially or open to the public. The points exchanged (ABC, WTT, AEG, etc.) have no value. Just as a collection. Since the function is realized based on blockchain, if the user uses it without authorization, please quit in time. If the forced use results in the loss of points and the floating exchange ratio between points and AE, it has nothing to do with the developer and the project party, and the user should bear the responsibility by himself.',
       name: 'dialog_swap_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The domain name system is the underlying function of the user blockchain. This application is only for demonstration, and all operations directly access the blockchain. Users should use it at their own risk. No liability shall be assumed for forced use of this app.`
+  String get dialog_name_hint {
+    return Intl.message(
+      'The domain name system is the underlying function of the user blockchain. This application is only for demonstration, and all operations directly access the blockchain. Users should use it at their own risk. No liability shall be assumed for forced use of this app.',
+      name: 'dialog_name_hint',
       desc: '',
       args: [],
     );
