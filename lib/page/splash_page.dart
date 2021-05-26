@@ -24,6 +24,7 @@ import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import 'forum_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -152,6 +153,9 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void goHome() {
+
+
+
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
@@ -167,6 +171,8 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               Navigator.pushReplacement(context, CustomRoute(LoginPage()));
             }
+//            Navigator.pushReplacement(context, CustomRoute(ForumPage(url: "http://localhost:8080",)));
+//            Navigator.pushReplacement(context, CustomRoute(ForumPage(title:"123",signingKey:"",address:"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",url: "https://governance.aeternity.com/#/",)));
           });
         });
       });
@@ -192,27 +198,27 @@ class _SplashPageState extends State<SplashPage> {
                   height: MediaQuery.of(context).size.height,
                   alignment: Alignment.center,
                   child: Center(
-                    child: Image(
-                      width: 280,
-                      height: 280,
-                      image: AssetImage('images/splasn_logo.png'),
-                    ),
+//                    child: Image(
+//                      width: 280,
+//                      height: 280,
+//                      image: AssetImage('images/splasn_logo.png'),
+//                    ),
                   ),
                 ),
               ),
-              Positioned(
-                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "· Infinite possibility ·",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                ),
-              ),
+//              Positioned(
+//                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
+//                child: Container(
+//                  alignment: Alignment.center,
+//                  child: Text(
+//                    "· Infinite possibility ·",
+//                    style: TextStyle(
+//                      fontSize: 20,
+//                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                    ),
+//                  ),
+//                ),
+//              ),
             ],
           ),
         ),

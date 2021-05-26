@@ -30,6 +30,7 @@ import '../main.dart';
 import 'aens_my_page.dart';
 import 'aens_page.dart';
 import 'base_page.dart';
+import 'forum_page.dart';
 import 'know_page.dart';
 
 class AeppsPageV2 extends StatefulWidget {
@@ -370,7 +371,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 onTap: () {
-                 goNames(context);
+                  goNames(context);
                 },
                 child: Column(
                   children: [
@@ -544,6 +545,74 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: Column(
                   children: [
+                    InkWell(
+                      onTap: () {
+                        goApp(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 22, bottom: 22),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/logo_governance.png"),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      BoxApp.language == "cn" ? "官方投票" : "Governance",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                    child: Text(
+                                      BoxApp.language == "cn" ? "官方投票治理æpp" : "The official vote governs the æpp",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
+
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     InkWell(
                       onTap: () {
                         _launchURL("https://superhero.com/");
@@ -939,6 +1008,188 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                   )));
         });
   }
+
+  void goApp(BuildContext buildContext) {
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 0),
+        transitionBuilder: (context, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
+              child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: Material(
+                    type: MaterialType.transparency, //透明类型
+                    child: Center(
+                      child: Container(
+                        height: 470,
+                        width: MediaQuery.of(context).size.width - 40,
+                        margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        decoration: ShapeDecoration(
+                          color: Color(0xffffffff),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width - 40,
+                              alignment: Alignment.topLeft,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  onTap: () {
+                                    Navigator.pop(context); //关闭对话框
+                                    // ignore: unnecessary_statements
+                                    //                                  widget.dismissCallBackFuture("");
+                                  },
+                                  child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Text(
+                                S.of(context).dialog_privacy_hint,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 270,
+                              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  child: Text(
+                                    S.of(context).dialog_name_hint,
+                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              margin: const EdgeInsets.only(top: 30, bottom: 20),
+                              child: ArgonButton(
+                                height: 40,
+                                roundLoadingShape: true,
+                                width: 120,
+                                onTap: (startLoading, stopLoading, btnState) {
+                                  Navigator.pop(context); //关闭对话框
+
+                                  showPay();
+                                },
+                                child: Text(
+                                  S.of(context).dialog_privacy_confirm,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                                loader: Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: SpinKitRing(
+                                    lineWidth: 4,
+                                    color: Colors.white,
+                                    // size: loaderWidth ,
+                                  ),
+                                ),
+                                borderRadius: 30.0,
+                                color: Color(0xFFFC2365),
+                              ),
+                            ),
+
+                            //          Text(text),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )));
+        });
+  }
+
+  showPay() {
+     showGeneralDialog(
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, anim1, anim2) {},
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 400),
+        transitionBuilder: (_, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, 0, 0.0),
+            child: Opacity(
+              opacity: anim1.value,
+              // ignore: missing_return
+              child: PayPasswordWidget(
+                title: S.of(context).password_widget_input_password,
+                dismissCallBackFuture: (String password) {
+                  return;
+                },
+                passwordCallBackFuture: (String password) async {
+                  var signingKey = await BoxApp.getSigningKey();
+                  var address = await BoxApp.getAddress();
+                  final key = Utils.generateMd5Int(password + address);
+                  var aesDecode = Utils.aesDecode(signingKey, key);
+    
+                  if (aesDecode == "") {
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text(S.of(context).dialog_hint_check_error),
+                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ForumPage(
+                                signingKey: aesDecode,
+                                address: address,
+                                title: BoxApp.language == "cn" ? "官方投票" : "Governance",
+                                url: "https://governance.aeternity.com/#/",
+                              )));
+                  // ignore: missing_return
+                },
+              ),
+            ),
+          );
+        });
+  }
+
   void goDefi(BuildContext context) {
     showGeneralDialog(
         context: context,

@@ -146,74 +146,90 @@ class Utils {
 
   static String formatABCLockV3Hint(String msg) {
     if (BoxApp.language == "cn") {
-      switch (msg) {
-        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE":
-          return "当前账户已被加入黑名单";
-        case "IS_MAPPING_ACCOUNTS_TRUE":
-          return "当前已存在映射合同";
-        case "MIN_LOCK_COUNT_LOW":
-          return "映射AE数量过低";
-        case "BALANCE_COUNT_LOW":
-          return "映射的AE数量不足";
-        case "IS_MAPPING_ACCOUNTS_FALSE":
-          return "当前账户未存在映射";
-        case "MIN_BENEFITS_HEIGHT":
-          return "未达到最低领取高度";
-        case "IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE":
-          return "当前账户未在黑名单";
+      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
+        return "当前账户已被加入黑名单";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_TRUE")) {
+        return "当前已存在映射合同";
+      }
+      if (msg.contains("MIN_LOCK_COUNT_LOW")) {
+        return "映射AE数量过低";
+      }
+      if (msg.contains("BALANCE_COUNT_LOW")) {
+        return "映射的AE数量不足";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_FALSE")) {
+        return "当前账户未存在映射";
+      }
+      if (msg.contains("MIN_BENEFITS_HEIGHT")) {
+        return "未达到最低领取高度";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE")) {
+        return "当前账户未在黑名单";
       }
       return msg;
     } else {
+      print(msg);
+      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
+        return "The current account has been blacklisted";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_TRUE")) {
+        return "A mapping contract currently exists";
+      }
+      if (msg.contains("MIN_LOCK_COUNT_LOW")) {
+        return "The number of mapped AE is too low";
+      }
+      if (msg.contains("BALANCE_COUNT_LOW")) {
+        return "Insufficient number of mapped AE";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_FALSE")) {
+        return "There is no mapping for the current account";
+      }
+      if (msg.contains("MIN_BENEFITS_HEIGHT")) {
+        return "The minimum claim height was not reached";
+      }
+      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE")) {
+        return "The current account is not on the blacklist";
+      }
+      return msg;
+
       switch (msg) {
         case "IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE":
-          return "The current account has been blacklisted";
+          return "";
         case "IS_MAPPING_ACCOUNTS_TRUE":
-          return "A mapping contract currently exists";
+          return "";
         case "MIN_LOCK_COUNT_LOW":
-          return "The number of mapped AE is too low";
+          return "";
         case "BALANCE_COUNT_LOW":
-          return "Insufficient number of mapped AE";
+          return "";
         case "IS_MAPPING_ACCOUNTS_FALSE":
-          return "There is no mapping for the current account";
+          return "";
         case "MIN_BENEFITS_HEIGHT":
-          return "The minimum claim height was not reached";
+          return "";
         case "IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE":
-          return "The current account is not on the blacklist";
+          return "";
       }
       return msg;
     }
   }
+
   static String formatSwapV2Hint(String msg) {
     if (BoxApp.language == "cn") {
-      if(msg.contains("IS_COIN_EXIST_F"))
-        return "交易对不存在";
-      if(msg.contains("IS_COIN_ACCOUNT_EXIST_T"))
-        return "同一积分只可以挂单一次";
-      if(msg.contains("LOW_TOKEN_COUNT_LOW_T"))
-        return "未达到最低挂单积分标准";
-      if(msg.contains("LOW_AE_COUNT_LOW_T"))
-        return "未达到最低挂单AE标准";
-      if(msg.contains("COIN_FRE"))
-        return "积分已暂停兑换";
-      if(msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE"))
-        return "挂单不存在";
-      if(msg.contains("AE_VALUE_L"))
-        return "AE数量过低";
+      if (msg.contains("IS_COIN_EXIST_F")) return "交易对不存在";
+      if (msg.contains("IS_COIN_ACCOUNT_EXIST_T")) return "同一积分只可以挂单一次";
+      if (msg.contains("LOW_TOKEN_COUNT_LOW_T")) return "未达到最低挂单积分标准";
+      if (msg.contains("LOW_AE_COUNT_LOW_T")) return "未达到最低挂单AE标准";
+      if (msg.contains("COIN_FRE")) return "积分已暂停兑换";
+      if (msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE")) return "挂单不存在";
+      if (msg.contains("AE_VALUE_L")) return "AE数量过低";
     } else {
-      if(msg.contains("IS_COIN_EXIST_F"))
-        return "Trade pair does not exist";
-      if(msg.contains("IS_COIN_ACCOUNT_EXIST_T"))
-        return "The bill already exists";
-      if(msg.contains("LOW_TOKEN_COUNT_LOW_T"))
-        return "The number of credits is too low";
-      if(msg.contains("LOW_AE_COUNT_LOW_T"))
-        return "The number of AE is too low";
-      if(msg.contains("COIN_FRE"))
-        return "Bonus points have been suspended";
-      if(msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE"))
-        return "The bill does not exist";
-      if(msg.contains("AE_VALUE_L"))
-        return "The number of AE is too low";
+      if (msg.contains("IS_COIN_EXIST_F")) return "Trade pair does not exist";
+      if (msg.contains("IS_COIN_ACCOUNT_EXIST_T")) return "The bill already exists";
+      if (msg.contains("LOW_TOKEN_COUNT_LOW_T")) return "The number of credits is too low";
+      if (msg.contains("LOW_AE_COUNT_LOW_T")) return "The number of AE is too low";
+      if (msg.contains("COIN_FRE")) return "Bonus points have been suspended";
+      if (msg.contains("IS_COIN_ACCOUNT_EXIST_FALSE")) return "The bill does not exist";
+      if (msg.contains("AE_VALUE_L")) return "The number of AE is too low";
     }
     return msg;
   }

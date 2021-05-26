@@ -60,6 +60,35 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
       if (key == "Payload") {
         value = Utils.formatPayload(value);
       }
+      if (key == "tag") {
+        return;
+      }
+      if (key == "VSN") {
+        return;
+      }
+      if (key == "nonce") {
+        return;
+      }
+      if (key == "abiVersion") {
+        return;
+      }
+      if (key == "callerId") {
+        return;
+      }
+      if (key == "gas") {
+//        value = (double.parse(value.toString()).).toString()+" AE";
+        return;
+      }
+      if (key == "gasPrice") {
+//        value = (double.parse(value.toString())/100000000000000000).toString()+" AE";
+        return;
+      }
+      if (key == "fee") {
+        value = (double.parse(value.toString()) / 100000000000000000).toString() + " AE";
+      }
+      if (key == "amount") {
+        value = (double.parse(value.toString()) / 100000000000000000).toString() + " AE";
+      }
       items.add(buildItems(key, value));
     });
   }
@@ -70,98 +99,98 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
         child: Material(
       type: MaterialType.transparency, //透明类型
       color: Colors.white,
-      child: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          Expanded(child: Container()),
+          Container(
+            child: Container(
+              height: MediaQuery.of(context).size.height / 2 + MediaQuery.of(context).size.height / 4,
 //          margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          decoration: ShapeDecoration(
-            color: Color(0xffffffff),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(18.0),
+              decoration: ShapeDecoration(
+                color: Color(0xffffffff),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(18.0),
+                    topRight: Radius.circular(18.0),
+                  ),
+                ),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 10,
+                        ),
+//                width: MediaQuery.of(context).size.width - 40,
+                        alignment: Alignment.topLeft,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            onTap: () {
+                              Navigator.pop(context); //关闭对话框
+                              // ignore: unnecessary_statements
+                            },
+                            child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 10),
+                          child: Text(
+                            S.of(context).dialog_tx_title,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Expanded(
+                    child: Container(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: items,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context); //关闭对话框
+                          if (widget.conformCallBackFuture != null) widget.conformCallBackFuture();
+                        },
+                        child: Text(
+                          S.of(context).password_widget_conform,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                        ),
+                        color: Color(0xFFFC2365),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                    ),
+                  ),
+
+//          Text(text),
+                ],
               ),
             ),
           ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  top: 10,
-                ),
-//                width: MediaQuery.of(context).size.width - 40,
-                alignment: Alignment.topLeft,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(60)),
-                    onTap: () {
-                      Navigator.pop(context); //关闭对话框
-                      // ignore: unnecessary_statements
-                    },
-                    child: Container(width: 50, height: 40, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
-                  ),
-                ),
-              ),
-              Container(
-//                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 0),
-                child: Text(
-                  S.of(context).dialog_tx_title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: MediaQuery.of(context).size.height - 120 - 150,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: items,
-                  ),
-                ),
-              ),
-
-//              Expanded(
-//                child: Container(),
-//              ),
-
-              Container(
-                padding: const EdgeInsets.only(top: 10, bottom: 0),
-                child: ArgonButton(
-                  height: 50,
-                  roundLoadingShape: true,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {
-                    Navigator.pop(context); //关闭对话框
-                    if (widget.conformCallBackFuture != null) widget.conformCallBackFuture();
-                  },
-                  child: Text(
-                    S.of(context).password_widget_conform,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                    ),
-                  ),
-                  loader: Container(
-                    padding: EdgeInsets.all(10),
-                    child: SpinKitRing(
-                      lineWidth: 4,
-                      color: Colors.white,
-                      // size: loaderWidth ,
-                    ),
-                  ),
-                  borderRadius: 30.0,
-                  color: Color(widget.color),
-                ),
-              ),
-//          Text(text),
-            ],
-          ),
-        ),
+        ],
       ),
     ));
   }
@@ -182,7 +211,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -199,7 +228,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
 //                overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 )),
           ),
