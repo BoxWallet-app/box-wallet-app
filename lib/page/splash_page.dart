@@ -198,27 +198,27 @@ class _SplashPageState extends State<SplashPage> {
                   height: MediaQuery.of(context).size.height,
                   alignment: Alignment.center,
                   child: Center(
-//                    child: Image(
-//                      width: 280,
-//                      height: 280,
-//                      image: AssetImage('images/splasn_logo.png'),
-//                    ),
+                    child: Image(
+                      width: 280,
+                      height: 280,
+                      image: AssetImage('images/splasn_logo.png'),
+                    ),
                   ),
                 ),
               ),
-//              Positioned(
-//                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
-//                child: Container(
-//                  alignment: Alignment.center,
-//                  child: Text(
-//                    "· Infinite possibility ·",
-//                    style: TextStyle(
-//                      fontSize: 20,
-//                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                    ),
-//                  ),
-//                ),
-//              ),
+              Positioned(
+                bottom: MediaQueryData.fromWindow(window).padding.bottom + 50,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "· Infinite possibility ·",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
