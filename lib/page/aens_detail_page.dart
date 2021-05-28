@@ -442,7 +442,7 @@ class _AensDetailPageState extends State<AensDetailPage> {
                     );
 
                     // ignore: missing_return
-                  }, aesDecode, address, _aensInfoModel.data.name, HomePageV2.address);
+                  }, aesDecode, address, _aensInfoModel.data.name,accountPubkey==""?HomePageV2.address:accountPubkey);
                   showChainLoading();
                 },
               ),
