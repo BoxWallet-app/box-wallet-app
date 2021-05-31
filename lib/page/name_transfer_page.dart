@@ -21,6 +21,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
@@ -214,7 +215,7 @@ class _NameTransferPageState extends State<NameTransferPage> {
                           netUpdateV2(context);
                         },
                         child: Text(
-                          S.of(context).name_point_conform,
+                          S.of(context).name_transfer_conform,
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
@@ -230,6 +231,7 @@ class _NameTransferPageState extends State<NameTransferPage> {
           ),
         ));
   }
+
 
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();

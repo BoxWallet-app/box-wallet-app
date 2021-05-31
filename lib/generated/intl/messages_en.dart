@@ -203,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "name_point" : MessageLookupByLibrary.simpleMessage("Pointers"),
     "name_point_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "name_point_title" : MessageLookupByLibrary.simpleMessage("Please enter the address to which the domain name refers"),
+    "name_transfer_conform" : MessageLookupByLibrary.simpleMessage("Transfer"),
     "name_transfer_title" : MessageLookupByLibrary.simpleMessage("Transfer the domain name to your new address"),
     "password_widget_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "password_widget_input_password" : MessageLookupByLibrary.simpleMessage("Enter a secure password"),

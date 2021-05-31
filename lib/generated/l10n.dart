@@ -2393,6 +2393,16 @@ class S {
     );
   }
 
+  /// `Transfer`
+  String get name_transfer_conform {
+    return Intl.message(
+      'Transfer',
+      name: 'name_transfer_conform',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Transferring domain name`
   String get ae_status_aensTransfer {
     return Intl.message(

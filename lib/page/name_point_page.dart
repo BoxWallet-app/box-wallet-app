@@ -61,7 +61,7 @@ class _NamePointPageState extends State<NamePointPage> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xff6F53A1),
+          backgroundColor: Color(0xff000000),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -93,12 +93,12 @@ class _NamePointPageState extends State<NamePointPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: 80,
-                              color: Color(0xff6F53A1),
+                              color: Color(0xff000000),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xff6F53A1),
+                                  Color(0xff000000),
                                   Color(0xFFEEEEEE),
                                 ]),
                               ),
@@ -181,7 +181,7 @@ class _NamePointPageState extends State<NamePointPage> {
                                             ),
 // and:
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xff6F53A1)),
+                                              borderSide: BorderSide(color: Color(0xff000000)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
@@ -218,7 +218,7 @@ class _NamePointPageState extends State<NamePointPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xff6F53A1),
+                        color: Color(0xff000000),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
