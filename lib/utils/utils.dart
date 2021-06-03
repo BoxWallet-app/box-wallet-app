@@ -122,7 +122,7 @@ class Utils {
   static String formatTime(time) {
     var now = new DateTime.now();
     var formatted = DateTime.fromMillisecondsSinceEpoch(time).toString();
-    return formatted.substring(0, formatted.length - 4);
+    return formatted.substring(0, formatted.length - 7);
   }
 
   static String formatHeight(BuildContext context, int startHeight, int endHeight) {

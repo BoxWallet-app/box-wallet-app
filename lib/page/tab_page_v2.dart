@@ -86,7 +86,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamControllerLine.sink.add(0);
     showHint();
     netVersion();
-    netContractInfo();
+//    netContractInfo();
     const timeout = const Duration(seconds: 1);
 //    Timer.periodic(timeout, (timer) { //callback function
 //      //1s 回调一次
@@ -95,7 +95,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //    });
 
     eventBus.on<DefiEvent>().listen((event) {
-      netContractInfo();
+//      netContractInfo();
     });
   }
 

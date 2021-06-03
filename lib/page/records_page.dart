@@ -244,6 +244,9 @@ class _RecordsPageState extends State<RecordsPage>
     if (BoxApp.language == "cn") {
       switch (walletRecordModel.data[index].tx['type']) {
         case "SpendTx":
+          if("ak_dMyzpooJ4oGnBVX35SCvHspJrq55HAAupCwPQTDZmRDT5SSSW" == walletRecordModel.data[index].tx['recipient_id']){
+            return "WeTrue调用";
+          }
           return "转账";
         case "OracleRegisterTx":
           return "预言机注册";

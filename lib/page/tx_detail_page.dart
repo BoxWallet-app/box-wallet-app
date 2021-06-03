@@ -17,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_page.dart';
 
@@ -202,10 +203,25 @@ class _TxDetailPageState extends State<TxDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: <Widget>[
-          MaterialButton(
-            minWidth: 10,
-            child: new Text(''),
-            onPressed: () {},
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              onTap: () {
+                _launchURL("https://www.aeknow.org/block/transaction/"+widget.recordData.hash.toString());
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                padding: EdgeInsets.all(15),
+                child: Image(
+                  width: 36,
+                  height: 36,
+                  color: Colors.black,
+                  image: AssetImage('images/ic_browser.png'),
+                ),
+              ),
+            ),
           ),
         ],
         title: Text(
@@ -216,13 +232,21 @@ class _TxDetailPageState extends State<TxDetailPage> {
           ),
         ),
         centerTitle: true,
+
       ),
+
       body: SingleChildScrollView(
         child: Column(children: items),
       ),
     );
   }
-
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   Text getFeeWidget() {
     if (widget.recordData.tx['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks

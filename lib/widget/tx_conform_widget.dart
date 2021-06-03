@@ -174,7 +174,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                           if (widget.conformCallBackFuture != null) widget.conformCallBackFuture();
                         },
                         child: Text(
-                          S.of(context).password_widget_conform,
+                          S.of(context).password_widget_conform+ " " +(double.parse(widget.tx["amount"].toString()) / 100000000000000000).toString() + "AE",
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
