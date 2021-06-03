@@ -472,7 +472,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      buildTitleRightIcon()
+//                      buildTitleRightIcon()
                     ],
                   ),
                 ),
