@@ -29,7 +29,7 @@ class _PhotoPageState extends State<PhotoPage> {
             bottom: 0,
             child: PhotoView(
 //              imageProvider: NetworkImage("https://www.gravatar.com/avatar/" + Utils.generateMD5(DateTime.now().toIso8601String()) + "?s=1024&d=robohash&r=PG"),
-                  imageProvider: NetworkImage("https://www.gravatar.com/avatar/" + Utils.generateMD5(widget.address) + "?s=1024&d=robohash&r=PG"),
+                  imageProvider: NetworkImage(widget.address),
               loadingBuilder: (context, _progress) => Center(
                 child: Container(
                   width: 40.0,
@@ -48,7 +48,7 @@ class _PhotoPageState extends State<PhotoPage> {
             child: IconButton(
               icon: Icon(
                 Icons.close,
-                size: 30,
+                size: 20,
                 color: Colors.white,
               ),
               onPressed: () {

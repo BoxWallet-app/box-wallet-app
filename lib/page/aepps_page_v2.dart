@@ -13,6 +13,7 @@ import 'package:box/page/swap_my_page.dart';
 import 'package:box/page/swap_page.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/page/web_page.dart';
+import 'package:box/page/wetrue_home_page.dart';
 import 'package:box/page/wetrue_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/ae_header.dart';
@@ -545,74 +546,210 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: Column(
                   children: [
-//                    InkWell(
-//                      onTap: () {
-//                        goApp(context);
-//                      },
-//                      child: Container(
-//                        margin: EdgeInsets.only(top: 22, bottom: 22),
-//                        child: Row(
-//                          children: <Widget>[
-//                            Container(
-//                              margin: EdgeInsets.only(left: 16),
-//                              height: 52,
-//                              width: 52,
-//                              //边框设置
-//                              decoration: new BoxDecoration(
-//                                //背景
-//                                color: Colors.white,
-//                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-//                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-//                                //设置四周边框
-//                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
-//                              ),
-//                              child: ClipRRect(
-//                                borderRadius: BorderRadius.circular(12),
-//                                child: Image(
-//                                  width: 48,
-//                                  height: 48,
-//                                  image: AssetImage("images/logo_governance.png"),
-//                                ),
-//                              ),
-//                            ),
-//                            Expanded(
-//                              child: Column(
-//                                children: <Widget>[
-//                                  Container(
-//                                    alignment: Alignment.topLeft,
-//                                    margin: const EdgeInsets.only(top: 0, left: 20),
-//                                    child: Text(
-//                                      BoxApp.language == "cn" ? "官方投票" : "Governance",
-//                                      style: TextStyle(
-//                                        fontSize: 16,
-//                                        color: Color(0xFF333333),
-//                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                                      ),
-//                                    ),
-//                                  ),
-//                                  Container(
-//                                    alignment: Alignment.topLeft,
-//                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-//                                    child: Text(
-//                                      BoxApp.language == "cn" ? "官方投票治理æpp" : "The official vote governs the æpp",
-//                                      style: TextStyle(
-//                                        fontSize: 13,
-//                                        letterSpacing: 1,
-//                                        //字体间距
-//
-//                                        //词间距
-//                                        color: Color(0xFF666666),
-//                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                    ),
+
+                    if (BoxApp.language == "cn")
+                      InkWell(
+                        onTap: () {
+//                        _launchURL("https://wetrue.io/");
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WeTrueHomePage()));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 22, bottom: 22),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 16),
+                                height: 52,
+                                padding: EdgeInsets.all(6),
+                                width: 52,
+                                //边框设置
+                                decoration: new BoxDecoration(
+                                  //背景
+                                  color: Colors.white,
+                                  //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                  //设置四周边框
+                                  border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                                ),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/apps_wetrue.png"),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: const EdgeInsets.only(top: 0, left: 20),
+                                      child: Text(
+                                        "WeTrue 2.0",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF333333),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                      child: Text(
+                                        S.of(context).aepp_item_4_1,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          letterSpacing: 1,
+                                          //字体间距
+
+                                          //词间距
+                                          color: Color(0xFF666666),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    InkWell(
+                      onTap: () {
+                        _launchURL("https://aeknow.org");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 18, bottom: 18),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/ic_aeknow.png"),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      "AEKnow",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                    child: Text(
+                                      S.of(context).aepp_item_2_1,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        goApp(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 22, bottom: 22),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              height: 52,
+                              width: 52,
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                //背景
+                                color: Colors.white,
+                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                //设置四周边框
+                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image(
+                                  width: 48,
+                                  height: 48,
+                                  image: AssetImage("images/logo_governance.png"),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 0, left: 20),
+                                    child: Text(
+                                      BoxApp.language == "cn" ? "官方投票" : "Governance",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF333333),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                                    child: Text(
+                                      BoxApp.language == "cn" ? "官方投票治理æpp" : "The official vote governs the æpp",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 1,
+                                        //字体间距
+
+                                        //词间距
+                                        color: Color(0xFF666666),
+                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     InkWell(
                       onTap: () {
                         _launchURL("https://superhero.com/");
@@ -679,72 +816,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        _launchURL("https://wetrue.io/");
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 22, bottom: 22),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              height: 52,
-                              padding: EdgeInsets.all(6),
-                              width: 52,
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                //背景
-                                color: Colors.white,
-                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                                //设置四周边框
-                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
-                              ),
-                              child: Image(
-                                width: 48,
-                                height: 48,
-                                image: AssetImage("images/apps_wetrue.png"),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 0, left: 20),
-                                    child: Text(
-                                      "WeTrue 2.0",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF333333),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                                    child: Text(
-                                      S.of(context).aepp_item_4_1,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        letterSpacing: 1,
-                                        //字体间距
 
-                                        //词间距
-                                        color: Color(0xFF666666),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     InkWell(
                       onTap: () {
                         _launchURL("https://base.aepps.com/");
@@ -813,73 +885,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        _launchURL("https://aeknow.org");
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 18, bottom: 18),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              height: 52,
-                              width: 52,
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                //背景
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white,
-                                //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                                //设置四周边框
-                                border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image(
-                                  width: 48,
-                                  height: 48,
-                                  image: AssetImage("images/ic_aeknow.png"),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 0, left: 20),
-                                    child: Text(
-                                      "AEKnow",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF333333),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                                    child: Text(
-                                      S.of(context).aepp_item_2_1,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        letterSpacing: 1,
-                                        //字体间距
-                                        //词间距
-                                        color: Color(0xFF666666),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ),
@@ -1123,7 +1129,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
   }
 
   showPay() {
-     showGeneralDialog(
+    showGeneralDialog(
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -1148,7 +1154,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
-    
+
                   if (aesDecode == "") {
                     showPlatformDialog(
                       context: context,
@@ -1180,6 +1186,7 @@ class _AeppsPageV2State extends State<AeppsPageV2> with AutomaticKeepAliveClient
                                 signingKey: aesDecode,
                                 address: address,
                                 title: BoxApp.language == "cn" ? "官方投票" : "Governance",
+//                                url: "https://superhero.com/voting",
                                 url: "https://governance.aeternity.com/#/",
                               )));
                   // ignore: missing_return
