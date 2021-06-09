@@ -13,6 +13,7 @@ class WeTrueListDao {
     String url = "";
     switch (type) {
       case 0:
+//        url = "https://liushao.cc:1817/Content/list";
         url = "https://api.wetrue.io/Content/list";
         break;
       case 1:

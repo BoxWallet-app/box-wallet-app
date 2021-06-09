@@ -237,7 +237,7 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                   ),
                                   Container(
                                     child: Text(
-                                      "ID:" + Utils.formatAddress(wetrueListModels.data.data[index].users.userAddress) + "  " + RelativeDateFormat.format(wetrueListModels.data.data[index].utcTime),
+                                      RelativeDateFormat.format(wetrueListModels.data.data[index].utcTime)+" 来自:"+wetrueListModels.data.data[index].source,
                                       style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),

@@ -35,6 +35,7 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
   TextEditingController _textEditingController = TextEditingController();
   WeTrueConfigModel weTrueConfigModel;
   Flushbar flush;
+
   @override
   void initState() {
     super.initState();
@@ -187,13 +188,13 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
   }
 
   clickLogin() {
-    if (_textEditingController.text == null ) {
+    if (_textEditingController.text == null) {
       return;
     }
-    if(_textEditingController.text == ""){
-      EasyLoading.showToast('请输入内容' , duration: Duration(seconds: 2));
+    if (_textEditingController.text == "") {
+      EasyLoading.showToast('请输入内容', duration: Duration(seconds: 2));
     }
-    String content = '{"WeTrue":"'+weTrueConfigModel.data.weTrue+'","type":"topic","content":"'+_textEditingController.text+'"}';
+    String content = '{"WeTrue":"' + weTrueConfigModel.data.weTrue + '","type":"topic","source":"Box æpp","content":"' + _textEditingController.text + '"}';
     showGeneralDialog(
         context: context,
         // ignore: missing_return
@@ -281,9 +282,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
-                            Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                     });
-
 
                     // ignore: missing_return
                   }, (error) {
@@ -308,16 +308,15 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                         ],
                       ),
                     );
-
-                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount,Decimal.parse((weTrueConfigModel.data.topicAmount / 1000000000000000000).toString()).toString(),content);
+                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((weTrueConfigModel.data.topicAmount / 1000000000000000000).toString()).toString(), content);
                   showChainLoading();
                 },
               ),
             ),
           );
         });
-
   }
+
   void showChainLoading() {
     showGeneralDialog(
         context: context,
@@ -360,10 +359,9 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
         )
       ],
     )..show(context).then((result) {
-      Navigator.pop(context);
-    });
+        Navigator.pop(context);
+      });
   }
-
 
   Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘

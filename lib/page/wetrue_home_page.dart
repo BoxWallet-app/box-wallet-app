@@ -105,20 +105,20 @@ class _WeTrueHomePageState extends State<WeTrueHomePage> with AutomaticKeepAlive
 //              Navigator.pop(context);
               },
             ),
-            actions: <Widget>[
-              MaterialButton(
-                minWidth: 10,
-                child: new Text(
-                 "白皮书",
-                  style: TextStyle(
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AensMyPage()));
-                },
-              ),
-            ],
+//            actions: <Widget>[
+//              MaterialButton(
+//                minWidth: 10,
+//                child: new Text(
+//                 "白皮书",
+//                  style: TextStyle(
+//                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                  ),
+//                ),
+//                onPressed: () {
+//                  _launchURL("https://wetrue.io/assets/Wetrue_White_Paper.pdf");
+//                },
+//              ),
+//            ],
             bottom: TabBar(
               unselectedLabelColor: Colors.black54,
               indicatorSize: TabBarIndicatorSize.label,

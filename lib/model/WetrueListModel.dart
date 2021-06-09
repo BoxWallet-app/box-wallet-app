@@ -61,6 +61,7 @@ class Data2 {
   String hash;
   String payload;
   String imgTx;
+  String source;
   int utcTime;
   int praise;
   int star;
@@ -78,6 +79,7 @@ class Data2 {
         this.utcTime,
         this.praise,
         this.star,
+        this.source,
         this.read,
         this.isPraise,
         this.isStar,
@@ -92,6 +94,7 @@ class Data2 {
     utcTime = json['utcTime'];
     praise = json['praise'];
     star = json['star'];
+    source = json['source'];
     read = json['read'];
     isPraise = json['isPraise'];
     isStar = json['isStar'];
@@ -108,6 +111,7 @@ class Data2 {
     data['utcTime'] = this.utcTime;
     data['praise'] = this.praise;
     data['star'] = this.star;
+    data['source'] = this.source;
     data['read'] = this.read;
     data['isPraise'] = this.isPraise;
     data['isStar'] = this.isStar;
