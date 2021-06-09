@@ -164,11 +164,11 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
 
   void netBaseData() {
     var type = "usd";
-//    if (BoxApp.language == "cn") {
-//      type = "cny";
-//    } else {
-//      type = "usd";
-//    }
+    if (BoxApp.language == "cn") {
+      type = "cny";
+    } else {
+      type = "usd";
+    }
     PriceDao.fetch(type).then((PriceModel model) {
       priceModel = model;
       setState(() {});
@@ -178,13 +178,27 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
   }
 
   String getAePrice() {
-    if (HomePageV2.token == "loading...") {
+    if(HomePageV2.token == "loading..."){
       return "";
     }
-    if (priceModel.aeternity.usd == null) {
-      return "";
+    if (BoxApp.language == "cn" && priceModel.aeternity != null) {
+      if (priceModel.aeternity.cny == null) {
+        return "";
+      }
+      if (double.parse(HomePageV2.token) < 1000) {
+        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
+      } else {
+//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
+        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
+      }
+
+    } else {
+      if (priceModel.aeternity.usd == null) {
+        return "";
+      }
+      return "\$" + (priceModel.aeternity.usd * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
     }
-    return " \$" + (priceModel.aeternity.usd * double.parse(HomePageV2.token)).toStringAsFixed(2) + " ≈ ";
+
   }
 
   void netSwapDao() {
@@ -351,8 +365,8 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
                                                 HomePageV2.tokenABC == "loading..."
                                                     ? "loading..."
                                                     : double.parse(HomePageV2.tokenABC) > 1000
-                                                        ? double.parse(HomePageV2.tokenABC).toStringAsFixed(5) + " ABC"
-                                                        : double.parse(HomePageV2.tokenABC).toStringAsFixed(5) + " ABC",
+                                                        ? double.parse(HomePageV2.tokenABC).toStringAsFixed(2) + " ABC"
+                                                        : double.parse(HomePageV2.tokenABC).toStringAsFixed(2) + " ABC",
 //                                      "9999999.00000",
                                                 overflow: TextOverflow.ellipsis,
 

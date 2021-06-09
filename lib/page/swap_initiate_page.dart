@@ -33,6 +33,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
   final FocusNode focusNodeNode = FocusNode();
   TextEditingController _textEditingControllerCompiler = TextEditingController();
   final FocusNode focusNodeCompiler = FocusNode();
+
+
+  TextEditingController _textEditingControllerCompiler2 = TextEditingController();
+  final FocusNode focusNodeCompiler2 = FocusNode();
   String ctBalance = "loading...";
 
   SwapCoinModel swapCoinModel;
@@ -48,6 +52,49 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
       FocusScope.of(context).requestFocus(focusNodeNode);
     });
     _onRefresh();
+
+    _textEditingControllerCompiler2.addListener(() {
+      try{
+
+        var tokenCount = double.parse(_textEditingControllerNode.text);
+
+        var pre = double.parse(_textEditingControllerCompiler2.text);
+
+        setState(() {
+          _textEditingControllerCompiler.text =( pre* tokenCount).toStringAsFixed(2);
+
+        });
+
+      }catch(e){
+        setState(() {
+          _textEditingControllerCompiler.text ="";
+
+        });
+      }
+
+    });
+
+
+    _textEditingControllerNode.addListener(() {
+      try{
+
+        var tokenCount = double.parse(_textEditingControllerNode.text);
+
+        var pre = double.parse(_textEditingControllerCompiler2.text);
+
+        setState(() {
+          _textEditingControllerCompiler.text =( pre* tokenCount).toStringAsFixed(2);
+
+        });
+
+      }catch(e){
+        setState(() {
+          _textEditingControllerCompiler.text ="";
+
+        });
+      }
+
+    });
   }
 
   void netContractBalance() {
@@ -55,6 +102,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
     ContractBalanceDao.fetch(dropdownValue.ctAddress).then((ContractBalanceModel model) {
       if (model.code == 200) {
         ctBalance = model.data.balance;
+        _textEditingControllerCompiler2.text = model.data.rate;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -108,6 +156,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
         onTap: () {
           focusNodeNode.unfocus();
           focusNodeCompiler.unfocus();
+          focusNodeCompiler2.unfocus();
         },
         child: Container(
           height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
@@ -213,88 +262,168 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 18, top: 18),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  S.of(context).swap_send_2,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 12, left: 18, right: 18),
-                child: Stack(
-                  children: [
-                    Container(
-//                      padding: EdgeInsets.only(left: 10, right: 10),
-                      //边框设置
-                      height: 40,
-                      decoration: new BoxDecoration(
-                        color: Color(0xFFf5f5f5),
-                        //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: TextField(
-//                                          autofocus: true,
 
-                        controller: _textEditingControllerCompiler,
-                        focusNode: focusNodeCompiler,
-                        inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
-                        ],
-
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 10.0),
-                          enabledBorder: new OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              color: Color(0xFFeeeeee),
-                            ),
-                          ),
-                          focusedBorder: new OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(color: Color(0xFFFC2365)),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowAeCount.toString(),
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF666666).withAlpha(85),
-                          ),
-                        ),
-                        cursorColor: Color(0xFFFC2365),
-                        cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 18, top: 18),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      S.of(context).swap_send_2,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
-                    Positioned(
-                      right: 15,
-                      child: Container(
+                  ),
+                  Expanded(child: Container()),
+                  Container(
+                    margin: EdgeInsets.only(right: 18, top: 18),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      S.of(context).swap_send_2_2,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width/3*2,
+                    margin: EdgeInsets.only(top: 12, left: 18, right: 10),
+                    child: Stack(
+                      children: [
+                        Container(
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                          //边框设置
                           height: 40,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "AE",
+                          decoration: new BoxDecoration(
+                            color: Color(0xFFf5f5f5),
+                            //设置四周圆角 角度
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: TextField(
+//                                          autofocus: true,
+
+                            controller: _textEditingControllerCompiler,
+                            focusNode: focusNodeCompiler,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            ],
+
+                            maxLines: 1,
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               color: Colors.black,
                             ),
-                          )),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 10.0),
+                              enabledBorder: new OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                  color: Color(0xFFeeeeee),
+                                ),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(color: Color(0xFFFC2365)),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowAeCount.toString(),
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF666666).withAlpha(85),
+                              ),
+                            ),
+                            cursorColor: Color(0xFFFC2365),
+                            cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                          ),
+                        ),
+                        Positioned(
+                          right: 15,
+                          child: Container(
+                              height: 40,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "AE",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  color: Colors.black,
+                                ),
+                              )),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width/3-10-18-18,
+                    margin: EdgeInsets.only(top: 12,  right: 18),
+                    child: Stack(
+                      children: [
+                        Container(
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                          //边框设置
+                          height: 40,
+                          decoration: new BoxDecoration(
+                            color: Color(0xFFf5f5f5),
+                            //设置四周圆角 角度
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: TextField(
+//                                          autofocus: true,
+
+                            controller: _textEditingControllerCompiler2,
+                            focusNode: focusNodeCompiler2,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter(RegExp("[0-9\.]")), //只允许输入字母
+                            ],
+
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 10.0),
+                              enabledBorder: new OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                  color: Color(0xFFeeeeee),
+                                ),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(color: Color(0xFFFC2365)),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF666666).withAlpha(85),
+                              ),
+                            ),
+                            cursorColor: Color(0xFFFC2365),
+                            cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               Container(
                 height: 40,

@@ -1,8 +1,10 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/contract_balance_dao.dart';
+import 'package:box/dao/price_model.dart';
 import 'package:box/dao/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/contract_balance_model.dart';
+import 'package:box/model/price_model.dart';
 import 'package:box/model/token_list_model.dart';
 import 'package:box/page/token_add_page.dart';
 import 'package:box/page/token_record_page.dart';
@@ -25,9 +27,10 @@ class TokenListPage extends StatefulWidget {
 class _TokenListPathState extends State<TokenListPage> {
   var loadingType = LoadingType.loading;
   TokenListModel tokenListModel;
+  PriceModel priceModel;
 
   Future<void> _onRefresh() async {
-    TokenListDao.fetch(HomePageV2.address,"easy").then((TokenListModel model) {
+    TokenListDao.fetch(HomePageV2.address, "easy").then((TokenListModel model) {
       if (model != null || model.code == 200) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
@@ -51,9 +54,50 @@ class _TokenListPathState extends State<TokenListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    netBaseData();
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
+  }
+
+  void netBaseData() {
+    var type = "usd";
+    if (BoxApp.language == "cn") {
+      type = "cny";
+    } else {
+      type = "usd";
+    }
+    PriceDao.fetch(type).then((PriceModel model) {
+      priceModel = model;
+      setState(() {});
+    }).catchError((e) {
+//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    });
+  }
+
+  String getAePrice(int index) {
+    if (tokenListModel.data[index].countStr == null || tokenListModel.data[index].countStr == "") {
+      return "";
+    }
+    if (priceModel == null) {
+      return "";
+    }
+    if (BoxApp.language == "cn" && priceModel.aeternity != null) {
+      if (priceModel.aeternity.cny == null) {
+        return "";
+      }
+      if (double.parse(tokenListModel.data[index].countStr) < 1000) {
+        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+      } else {
+//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
+        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+      }
+    } else {
+      if (priceModel.aeternity.usd == null) {
+        return "";
+      }
+      return "≈ " + (priceModel.aeternity.usd * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (USD)";
+    }
   }
 
   @override
@@ -236,6 +280,7 @@ class _TokenListPathState extends State<TokenListPage> {
     ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
       if (model.code == 200) {
         tokenListModel.data[index].countStr = model.data.balance;
+        tokenListModel.data[index].rate = model.data.rate;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -321,10 +366,25 @@ class _TokenListPathState extends State<TokenListPage> {
 //              'images/animation_khzuiqgg.json',
                                   ),
                                 )
-                              : Text(
-                                  double.parse(tokenListModel.data[index].countStr).toStringAsFixed(2),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      double.parse(tokenListModel.data[index].countStr).toStringAsFixed(2),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    ),
+                                    if (getAePrice(index) != "")
+                                      Container(
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Text(
+                                          getAePrice(index),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        ),
+                                      ),
+                                  ],
                                 ),
 
                           Container(

@@ -22,7 +22,7 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:share/share.dart';
 import '../main.dart';
 import 'mnemonic_copy_page.dart';
 
@@ -614,11 +614,11 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
   }
 
   Positioned buildTitleRightIcon() {
-    if (TokenDefiPage.model == null || TokenDefiPage.model.data.height == -1) {
-      return Positioned(
-        child: Container(),
-      );
-    }
+//    if (TokenDefiPage.model == null || TokenDefiPage.model.data.height == -1) {
+//      return Positioned(
+//        child: Container(),
+//      );
+//    }
     return Positioned(
       right: 10,
       child: Material(
@@ -626,17 +626,22 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(50)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+//            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+          if(BoxApp.language == "cn"){
+            Share.share('AeBox 一个AE去中心化魔法盒子 https://aebox.io');
+          }else{
+            Share.share('AeBox is an AE decentralized magic box https://aebox.io');
+          }
+
           },
           child: Container(
             height: 55,
             width: 55,
-            padding: EdgeInsets.all(15),
-            child: Image(
-              width: 40,
-              height: 40,
+//            padding: EdgeInsets.all(15),
+            child: Icon(
+              Icons.share_rounded,
+              size: 17,
               color: Colors.black,
-              image: AssetImage('images/ic_status_defi.png'),
             ),
           ),
         ),

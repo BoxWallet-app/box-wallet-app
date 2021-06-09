@@ -37,6 +37,7 @@ class Data {
   String image;
   String name;
   String type;
+  String rate = "";
 
   Data({this.count, this.ctAddress, this.image, this.name, this.type});
 
@@ -46,6 +47,7 @@ class Data {
     image = json['image'];
     name = json['name'];
     type = json['type'];
+    rate = json['reta'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +57,7 @@ class Data {
     data['image'] = this.image;
     data['name'] = this.name;
     data['type'] = this.type;
+    data['reta'] = this.rate;
     return data;
   }
 }

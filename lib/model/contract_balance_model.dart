@@ -27,16 +27,19 @@ class ContractBalanceModel {
 
 class Data {
   String balance;
+  String rate;
 
   Data({this.balance});
 
   Data.fromJson(Map<String, dynamic> json) {
     balance = json['balance'];
+    rate = json['rate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['balance'] = this.balance;
+    data['rate'] = this.rate;
     return data;
   }
 }

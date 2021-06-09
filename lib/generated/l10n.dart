@@ -673,6 +673,16 @@ class S {
     );
   }
 
+  /// `Share`
+  String get setting_page_item_share {
+    return Intl.message(
+      'Share',
+      name: 'setting_page_item_share',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Node Configuration`
   String get setting_page_node_set {
     return Intl.message(
@@ -2023,21 +2033,31 @@ class S {
     );
   }
 
-  /// `The amount I exchanged`
+  /// `Amount I exchanged`
   String get swap_send_1 {
     return Intl.message(
-      'The amount I exchanged',
+      'Amount I exchanged',
       name: 'swap_send_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `The amount paid by the other party`
+  /// `Amount paid by the other party`
   String get swap_send_2 {
     return Intl.message(
-      'The amount paid by the other party',
+      'Amount paid by the other party',
       name: 'swap_send_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium`
+  String get swap_send_2_2 {
+    return Intl.message(
+      'Premium',
+      name: 'swap_send_2_2',
       desc: '',
       args: [],
     );

@@ -49,6 +49,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'home_page_v2.dart';
 import 'login_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
@@ -117,6 +118,8 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
       ),
     );
   }
+
+
 
   Future<void> _onRefresh() async {
     page = 1;

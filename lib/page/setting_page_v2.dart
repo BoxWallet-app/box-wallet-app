@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:package_info/package_info.dart';
+import 'package:share/share.dart';
 
 import '../main.dart';
 import 'home_page.dart';
@@ -186,6 +187,49 @@ class _SettingPageV2State extends State<SettingPageV2> with AutomaticKeepAliveCl
             Container(
 //              color: Colors.white,
               height: 5,
+            ),
+            Material(
+              child: InkWell(
+                onTap: () {
+                  if(BoxApp.language == "cn"){
+                    Share.share('AeBox 一个AE去中心化魔法盒子 https://aebox.io');
+                  }else{
+                    Share.share('AeBox is an AE decentralized magic box https://aebox.io');
+                  }
+
+                },
+                child: Container(
+                  height: 60,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: <Widget>[
+//                    Image(
+//                      width: 30,
+//                      height: 30,
+//                      image: AssetImage(assetImage),
+//                    ),
+                            Container(
+                              padding: const EdgeInsets.only(left: 7),
+                              child: Text(
+                                S.of(context).setting_page_item_share,
+                                style: new TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Material(
               child: InkWell(
