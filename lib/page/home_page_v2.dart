@@ -186,17 +186,17 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
         return "";
       }
       if (double.parse(HomePageV2.token) < 1000) {
-        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
+        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + " ≈";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
+        return "¥" + (priceModel.aeternity.cny * double.parse(HomePageV2.token)).toStringAsFixed(4) + " ≈";
       }
 
     } else {
       if (priceModel.aeternity.usd == null) {
         return "";
       }
-      return "\$" + (priceModel.aeternity.usd * double.parse(HomePageV2.token)).toStringAsFixed(4) + "";
+      return "\$" + (priceModel.aeternity.usd * double.parse(HomePageV2.token)).toStringAsFixed(4) + " ≈";
     }
 
   }

@@ -12,14 +12,16 @@ class WeTrueTopicDao {
 
     FormData formData = FormData.fromMap({
       "hash": hash,
-    });  var address = await BoxApp.getAddress();
+    });
+    var address = await BoxApp.getAddress();
+
     ///创建 dio
     Options options = Options();
+
     ///请求header的配置
-    options.headers["ak-token"]=address;
-//    url = "https://liushao.cc:1817/Submit/hash";
-    url = "https://api.wetrue.io/Submit/hash";
-    Response response = await Dio().post(url, data: formData,options: options);
+    options.headers["ak-token"] = address;
+    url = WE_TRUE_URL + "/Submit/hash";
+    Response response = await Dio().post(url, data: formData, options: options);
     print(response.toString());
     if (response.statusCode == 200) {
       return true;

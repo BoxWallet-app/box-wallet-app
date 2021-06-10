@@ -27,12 +27,14 @@ import 'package:box/widget/ae_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:box/widget/wetrue_comment_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -63,7 +65,8 @@ class WeTrueListPage extends StatefulWidget {
   _WeTrueListPageState createState() => _WeTrueListPageState();
 }
 
-class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAliveClientMixin {
+class _WeTrueListPageState extends State<WeTrueListPage>
+    with AutomaticKeepAliveClientMixin {
   int page = 1;
   WetrueListModel wetrueListModels;
   EasyRefreshController controller = EasyRefreshController();
@@ -83,11 +86,16 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFF5F5F5),
       body: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height - 40 - 10 - MediaQueryData.fromWindow(window).padding.top - kToolbarHeight,
+            height: MediaQuery.of(context).size.height -
+                40 -
+                10 -
+                MediaQueryData.fromWindow(window).padding.top -
+                kToolbarHeight,
             child: LoadingWidget(
               type: loadingType,
               onPressedError: () {
@@ -104,7 +112,9 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                     onLoad: _onLoad,
                     child: ListView.builder(
                       shrinkWrap: true, // 关键
-                      itemCount: wetrueListModels == null ? 0 : wetrueListModels.data.data.length,
+                      itemCount: wetrueListModels == null
+                          ? 0
+                          : wetrueListModels.data.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return getItem(context, index);
                       },
@@ -118,8 +128,6 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
       ),
     );
   }
-
-
 
   Future<void> _onRefresh() async {
     page = 1;
@@ -169,6 +177,16 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
       child: InkWell(
         onTap: () {
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+          Clipboard.setData(ClipboardData(
+              text: "以下内容来自AE区块链：\n\n" +wetrueListModels.data.data[index].payload
+                      .replaceAll("<br>", "\r\n") +
+                  "\n\n" +
+                  "我在WeTrue发现一个有趣的内容一起来看看吧~" +
+                  "\n" +
+                  "https://wetrue.io/#/pages/index/detail?hash=" +
+                  wetrueListModels.data.data[index].hash));
+          EasyLoading.showToast('复制成功 ',
+              duration: Duration(seconds: 1));
         },
         child: Container(
           color: Color(0xFFF5F5F5),
@@ -180,7 +198,9 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
 
               //设置四周边框
             ),
-            margin: index == wetrueListModels.data.size - 1 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8) : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8),
+            margin: index == wetrueListModels.data.size - 1
+                ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8)
+                : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8),
             padding: EdgeInsets.only(left: 18, right: 18, top: 18),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +215,11 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                             Stack(
                               children: <Widget>[
                                 ClipOval(
-                                  child: Image.network(wetrueListModels.data.data[index].users.portrait, width: 35, height: 35),
+                                  child: Image.network(
+                                      wetrueListModels
+                                          .data.data[index].users.portrait,
+                                      width: 35,
+                                      height: 35),
                                 ),
                                 Positioned(
                                   right: 0,
@@ -218,8 +242,12 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                       height: 12,
                                       child: Center(
                                         child: Text(
-                                          "v" + wetrueListModels.data.data[index].users.userActive.toString(),
-                                          style: TextStyle(color: Colors.white, fontSize: 8),
+                                          "v" +
+                                              wetrueListModels.data.data[index]
+                                                  .users.userActive
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 8),
                                         ),
                                       ),
                                     ),
@@ -234,14 +262,50 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                 children: [
                                   Container(
                                     child: Text(
-                                      wetrueListModels.data.data[index].users.nickname == "" ? "匿名用户" : wetrueListModels.data.data[index].users.nickname,
-                                      style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      wetrueListModels.data.data[index].users
+                                                  .nickname ==
+                                              ""
+                                          ? "匿名用户" +
+                                              "(" +
+                                              Utils.formatAddress(
+                                                  wetrueListModels
+                                                      .data
+                                                      .data[index]
+                                                      .users
+                                                      .userAddress) +
+                                              ")"
+                                          : wetrueListModels.data.data[index]
+                                                  .users.nickname +
+                                              "(" +
+                                              Utils.formatAddress(
+                                                  wetrueListModels
+                                                      .data
+                                                      .data[index]
+                                                      .users
+                                                      .userAddress) +
+                                              ")",
+                                      style: TextStyle(
+                                          color: Colors.black.withAlpha(156),
+                                          fontSize: 15,
+                                          fontFamily: BoxApp.language == "cn"
+                                              ? "Ubuntu"
+                                              : "Ubuntu"),
                                     ),
                                   ),
                                   Container(
+                                    margin: EdgeInsets.only(top: 2),
                                     child: Text(
-                                      RelativeDateFormat.format(wetrueListModels.data.data[index].utcTime)+" 来自:"+wetrueListModels.data.data[index].source,
-                                      style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      RelativeDateFormat.format(wetrueListModels
+                                              .data.data[index].utcTime) +
+                                          " 来自:" +
+                                          wetrueListModels
+                                              .data.data[index].source,
+                                      style: TextStyle(
+                                          color: Colors.black.withAlpha(100),
+                                          fontSize: 13,
+                                          fontFamily: BoxApp.language == "cn"
+                                              ? "Ubuntu"
+                                              : "Ubuntu"),
                                     ),
                                   ),
                                 ],
@@ -260,8 +324,16 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                   Container(
                                     margin: EdgeInsets.only(left: 5),
                                     child: Text(
-                                      (wetrueListModels.data.data[index].read / 1000).toStringAsFixed(1) + "k",
-                                      style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      (wetrueListModels.data.data[index].read /
+                                                  1000)
+                                              .toStringAsFixed(1) +
+                                          "k",
+                                      style: TextStyle(
+                                          color: Colors.black.withAlpha(100),
+                                          fontSize: 13,
+                                          fontFamily: BoxApp.language == "cn"
+                                              ? "Ubuntu"
+                                              : "Ubuntu"),
                                     ),
                                   ),
                                 ],
@@ -282,17 +354,37 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                             margin: EdgeInsets.only(top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
-                              wetrueListModels.data.data[index].payload.replaceAll("<br>", "\r\n"),
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              wetrueListModels.data.data[index].payload
+                                  .replaceAll("<br>", "\r\n"),
+                              strutStyle: StrutStyle(
+                                  forceStrutHeight: true,
+                                  height: 0.8,
+                                  leading: 1.2,
+                                  fontFamily: BoxApp.language == "cn"
+                                      ? "Ubuntu"
+                                      : "Ubuntu"),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  letterSpacing: 1.5,
+                                  fontFamily: BoxApp.language == "cn"
+                                      ? "Ubuntu"
+                                      : "Ubuntu"),
                             ),
                           ),
                         ],
                       ),
 
-                      if (wetrueListModels.data.data[index].imgTx != null && wetrueListModels.data.data[index].imgTx != "")
+                      if (wetrueListModels.data.data[index].imgTx != null &&
+                          wetrueListModels.data.data[index].imgTx != "")
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: wetrueListModels.data.data[index].imgTx)));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PhotoPage(
+                                        address: wetrueListModels
+                                            .data.data[index].imgTx)));
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 10),
@@ -301,21 +393,38 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                               child: Image.network(
                                 wetrueListModels.data.data[index].imgTx,
                                 fit: BoxFit.cover,
-                                loadingBuilder: (context, child, loadingProgress) {
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
                                   if (loadingProgress == null) return child;
 
                                   return Container(
-                                    width: (MediaQuery.of(context).size.width - (18 * 2 + 16 * 2)) / 2,
-                                    height: (MediaQuery.of(context).size.width - (18 * 2 + 16 * 2)) / 2,
+                                    width: (MediaQuery.of(context).size.width -
+                                            (18 * 2 + 16 * 2)) /
+                                        2,
+                                    height: (MediaQuery.of(context).size.width -
+                                            (18 * 2 + 16 * 2)) /
+                                        2,
                                     alignment: Alignment.center,
                                     child: CircularProgressIndicator(
-                                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                                      value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes : null,
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFFF22B79)),
+                                      value: loadingProgress
+                                                  .expectedTotalBytes !=
+                                              null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes
+                                          : null,
                                     ),
                                   );
                                 },
-                                width: (MediaQuery.of(context).size.width - (18 * 2 + 16 * 2)) / 2,
-                                height: (MediaQuery.of(context).size.width - (18 * 2 + 16 * 2)) / 2,
+                                width: (MediaQuery.of(context).size.width -
+                                        (18 * 2 + 16 * 2)) /
+                                    2,
+                                height: (MediaQuery.of(context).size.width -
+                                        (18 * 2 + 16 * 2)) /
+                                    2,
                               ),
                             ),
                           ),
@@ -334,60 +443,86 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
 //                            Expanded(child: Container()),
                             Expanded(
                               child: InkWell(
-                                onTap: (){
-                                  showPlatformDialog(
-                                    context: context,
-                                    builder: (_) => BasicDialogAlert(
-                                      title: Text(
-                                        "功能开发中",
-                                        style: TextStyle(
-                                          color: Color(0xFF000000),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                        ),
-                                      ),
-                                      content: Text(
-                                        "要想体验完整版功能，请访问完整版https://wetrue.io",
-                                        style: TextStyle(
-                                          color: Color(0xFF000000),
-                                          height: 1.2,
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        BasicDialogAction(
-                                          title: Text(
-                                            S.of(context).dialog_dismiss,
-                                            style: TextStyle(
-                                              color: Color(0xFFFC2365),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context, rootNavigator: true).pop();
-                                          },
-                                        ),
-                                        BasicDialogAction(
-                                          title: Text(
-                                            "跳转",
-                                            style: TextStyle(
-                                              color: Color(0xFFFC2365),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            _launchURL("https://wetrue.io");
-                                            Navigator.of(context, rootNavigator: true).pop();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                onTap: () {
+                                  // showPlatformDialog(
+                                  //   context: context,
+                                  //   builder: (_) => BasicDialogAlert(
+                                  //     title: Text(
+                                  //       "功能开发中",
+                                  //       style: TextStyle(
+                                  //         color: Color(0xFF000000),
+                                  //         fontFamily: BoxApp.language == "cn"
+                                  //             ? "Ubuntu"
+                                  //             : "Ubuntu",
+                                  //       ),
+                                  //     ),
+                                  //     content: Text(
+                                  //       "要想体验完整版功能，请访问完整版https://wetrue.io",
+                                  //       style: TextStyle(
+                                  //         color: Color(0xFF000000),
+                                  //         height: 1.2,
+                                  //         fontFamily: BoxApp.language == "cn"
+                                  //             ? "Ubuntu"
+                                  //             : "Ubuntu",
+                                  //       ),
+                                  //     ),
+                                  //     actions: <Widget>[
+                                  //       BasicDialogAction(
+                                  //         title: Text(
+                                  //           S.of(context).dialog_dismiss,
+                                  //           style: TextStyle(
+                                  //             color: Color(0xFFFC2365),
+                                  //             fontFamily:
+                                  //                 BoxApp.language == "cn"
+                                  //                     ? "Ubuntu"
+                                  //                     : "Ubuntu",
+                                  //           ),
+                                  //         ),
+                                  //         onPressed: () {
+                                  //           Navigator.of(context,
+                                  //                   rootNavigator: true)
+                                  //               .pop();
+                                  //         },
+                                  //       ),
+                                  //       BasicDialogAction(
+                                  //         title: Text(
+                                  //           "跳转",
+                                  //           style: TextStyle(
+                                  //             color: Color(0xFFFC2365),
+                                  //             fontFamily:
+                                  //                 BoxApp.language == "cn"
+                                  //                     ? "Ubuntu"
+                                  //                     : "Ubuntu",
+                                  //           ),
+                                  //         ),
+                                  //         onPressed: () {
+                                  //           _launchURL("https://wetrue.io");
+                                  //           Navigator.of(context,
+                                  //                   rootNavigator: true)
+                                  //               .pop();
+                                  //         },
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // );
+
+                                  showCupertinoModalBottomSheet(
+                                      // expand: true,
+                                      context: context,
+                                      enableDrag: true,
+                                      backgroundColor:
+                                          Colors.transparent.withAlpha(10),
+                                      builder: (context) => WeTrueCommentWidget(
+                                            hash: wetrueListModels
+                                                .data.data[index].hash,
+                                          ));
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.chat_bubble_outline,
@@ -397,7 +532,13 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                         Container(
                                           margin: EdgeInsets.only(left: 5),
                                           child: Text(
-                                            wetrueListModels.data.data[index].commentNumber == 0 ? "" : wetrueListModels.data.data[index].commentNumber.toString(),
+                                            wetrueListModels.data.data[index]
+                                                        .commentNumber ==
+                                                    0
+                                                ? ""
+                                                : wetrueListModels.data
+                                                    .data[index].commentNumber
+                                                    .toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
                                             ),
@@ -416,8 +557,11 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                 alignment: Alignment.center,
                                 child: LikeButton(
                                   size: 25,
-                                  isLiked: wetrueListModels.data.data[index].isPraise,
-                                  circleColor: CircleColor(start: Color(0xFFF22B79), end: Color(0xFFF22B79)),
+                                  isLiked: wetrueListModels
+                                      .data.data[index].isPraise,
+                                  circleColor: CircleColor(
+                                      start: Color(0xFFF22B79),
+                                      end: Color(0xFFF22B79)),
                                   bubblesColor: BubblesColor(
                                     dotPrimaryColor: Color(0xFFF22B79),
                                     dotSecondaryColor: Color(0xFFF22B79),
@@ -425,19 +569,29 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                                   likeBuilder: (bool isLiked) {
                                     return Icon(
                                       Icons.emoji_emotions_outlined,
-                                      color: isLiked ? Color(0xFFF22B79) : Colors.grey,
+                                      color: isLiked
+                                          ? Color(0xFFF22B79)
+                                          : Colors.grey,
                                       size: 25,
                                     );
                                   },
                                   onTap: (isLiked) async {
 //    WeTruePraiseDao.fetch(hash)   We
-                                    var weTruePraiseModel = await WeTruePraiseDao.fetch(wetrueListModels.data.data[index].hash);
-                                    wetrueListModels.data.data[index].isPraise = weTruePraiseModel.data.isPraise;
+                                    var weTruePraiseModel =
+                                        await WeTruePraiseDao.fetch(
+                                            wetrueListModels
+                                                .data.data[index].hash);
+                                    wetrueListModels.data.data[index].isPraise =
+                                        weTruePraiseModel.data.isPraise;
                                     return weTruePraiseModel.data.isPraise;
                                   },
-                                  likeCount: wetrueListModels.data.data[index].praise,
-                                  countBuilder: (int count, bool isLiked, String text) {
-                                    var color = isLiked ? Color(0xFFF22B79) : Colors.grey;
+                                  likeCount:
+                                      wetrueListModels.data.data[index].praise,
+                                  countBuilder:
+                                      (int count, bool isLiked, String text) {
+                                    var color = isLiked
+                                        ? Color(0xFFF22B79)
+                                        : Colors.grey;
                                     Widget result;
                                     if (count == 0) {
                                       result = Text(
@@ -471,6 +625,7 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
       ),
     );
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -517,14 +672,17 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        content:
+                            Text(S.of(context).dialog_hint_check_error_content),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -550,7 +708,9 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -581,7 +741,9 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -592,7 +754,8 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                         ],
                       ),
                     );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT,
+                      BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
                 },
               ),
@@ -616,7 +779,9 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
         });
   }
 
-  Material buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
+  Material buildItem(BuildContext context, String content, String assetImage,
+      GestureTapCallback tab,
+      {bool isLine = true}) {
     return Material(
       color: Colors.white,
       child: InkWell(
@@ -642,7 +807,8 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily:
+                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                         ),
                       ),
                     )
@@ -661,7 +827,10 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  child: Container(
+                      height: 1.0,
+                      width: MediaQuery.of(context).size.width - 30,
+                      color: Color(0xFFF5F5F5)),
                 )
             ],
           ),
@@ -670,7 +839,8 @@ class _WeTrueListPageState extends State<WeTrueListPage> with AutomaticKeepAlive
     );
   }
 
-  Widget buildHeaderItem(String content, String image, GestureTapCallback tapCallback) {
+  Widget buildHeaderItem(
+      String content, String image, GestureTapCallback tapCallback) {
     return Material(
         color: Color(0xFFFC2365),
         child: Ink(

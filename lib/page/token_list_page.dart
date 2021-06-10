@@ -76,7 +76,8 @@ class _TokenListPathState extends State<TokenListPage> {
   }
 
   String getAePrice(int index) {
-    if (tokenListModel.data[index].countStr == null || tokenListModel.data[index].countStr == "") {
+    if (tokenListModel.data[index].countStr == null ||
+        tokenListModel.data[index].countStr == "") {
       return "";
     }
     if (priceModel == null) {
@@ -87,16 +88,31 @@ class _TokenListPathState extends State<TokenListPage> {
         return "";
       }
       if (double.parse(tokenListModel.data[index].countStr) < 1000) {
-        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+        return "≈ " +
+            (priceModel.aeternity.cny *
+                    double.parse(tokenListModel.data[index].countStr) *
+                    double.parse(tokenListModel.data[index].rate))
+                .toStringAsFixed(2) +
+            " (CNY)";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+        return "≈ " +
+            (priceModel.aeternity.cny *
+                    double.parse(tokenListModel.data[index].countStr) *
+                    double.parse(tokenListModel.data[index].rate))
+                .toStringAsFixed(2) +
+            " (CNY)";
       }
     } else {
       if (priceModel.aeternity.usd == null) {
         return "";
       }
-      return "≈ " + (priceModel.aeternity.usd * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (USD)";
+      return "≈ " +
+          (priceModel.aeternity.usd *
+                  double.parse(tokenListModel.data[index].countStr) *
+                  double.parse(tokenListModel.data[index].rate))
+              .toStringAsFixed(2) +
+          " (USD)";
     }
   }
 
@@ -141,7 +157,8 @@ class _TokenListPathState extends State<TokenListPage> {
                     barrierLabel: "",
                     transitionDuration: Duration(milliseconds: 0),
                     transitionBuilder: (context, anim1, anim2, child) {
-                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                      final curvedValue =
+                          Curves.easeInOutBack.transform(anim1.value) - 1.0;
                       return Transform(
                           transform: Matrix4.translationValues(0.0, 0, 0.0),
                           child: Opacity(
@@ -152,8 +169,12 @@ class _TokenListPathState extends State<TokenListPage> {
                                 child: Center(
                                   child: Container(
                                     height: 470,
-                                    width: MediaQuery.of(context).size.width - 40,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    margin: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
                                     decoration: ShapeDecoration(
                                       color: Color(0xffffffff),
                                       shape: RoundedRectangleBorder(
@@ -165,60 +186,90 @@ class _TokenListPathState extends State<TokenListPage> {
                                     child: Column(
                                       children: <Widget>[
                                         Container(
-                                          width: MediaQuery.of(context).size.width - 40,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
                                           alignment: Alignment.topLeft,
                                           child: Material(
                                             color: Colors.transparent,
                                             child: InkWell(
-                                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(60)),
                                               onTap: () {
                                                 Navigator.pop(context); //关闭对话框
                                                 // ignore: unnecessary_statements
 //                                  widget.dismissCallBackFuture("");
                                               },
-                                              child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                              child: Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child: Icon(Icons.clear,
+                                                      color: Colors.black
+                                                          .withAlpha(80))),
                                             ),
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                          margin: EdgeInsets.only(
+                                              left: 20, right: 20),
                                           child: Text(
                                             S.of(context).tokens_dialog_title,
                                             style: TextStyle(
                                               fontSize: 18,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily:
+                                                  BoxApp.language == "cn"
+                                                      ? "Ubuntu"
+                                                      : "Ubuntu",
                                             ),
                                           ),
                                         ),
                                         Container(
                                           height: 270,
-                                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                          margin: EdgeInsets.only(
+                                              left: 20, right: 20, top: 20),
                                           child: SingleChildScrollView(
                                             child: Container(
                                               child: Text(
-                                                S.of(context).tokens_dialog_content,
-                                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                                S
+                                                    .of(context)
+                                                    .tokens_dialog_content,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily:
+                                                        BoxApp.language == "cn"
+                                                            ? "Ubuntu"
+                                                            : "Ubuntu",
+                                                    letterSpacing: 2,
+                                                    height: 2),
                                               ),
                                             ),
                                           ),
                                         ),
 
                                         Container(
-                                          margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                          margin: const EdgeInsets.only(
+                                              top: 30, bottom: 20),
                                           child: ArgonButton(
                                             height: 40,
                                             roundLoadingShape: true,
                                             width: 120,
-                                            onTap: (startLoading, stopLoading, btnState) async {
+                                            onTap: (startLoading, stopLoading,
+                                                btnState) async {
                                               Navigator.pop(context); //关闭对话框
                                             },
                                             child: Text(
-                                              S.of(context).dialog_statement_btn,
+                                              S
+                                                  .of(context)
+                                                  .dialog_statement_btn,
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                fontFamily:
+                                                    BoxApp.language == "cn"
+                                                        ? "Ubuntu"
+                                                        : "Ubuntu",
                                               ),
                                             ),
                                             loader: Container(
@@ -277,7 +328,8 @@ class _TokenListPathState extends State<TokenListPage> {
   }
 
   void netContractBalance(int index) {
-    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress)
+        .then((ContractBalanceModel model) {
       if (model.code == 200) {
         tokenListModel.data[index].countStr = model.data.balance;
         tokenListModel.data[index].rate = model.data.rate;
@@ -323,14 +375,23 @@ class _TokenListPathState extends State<TokenListPage> {
                             width: 36.0,
                             height: 36.0,
                             decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Color(0xFFEEEEEE), width: 1.0),
+                                  top: BorderSide(
+                                      color: Color(0xFFEEEEEE), width: 1.0),
+                                  left: BorderSide(
+                                      color: Color(0xFFEEEEEE), width: 1.0),
+                                  right: BorderSide(
+                                      color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             child: ClipOval(
                               child: Image.network(
                                 tokenListModel.data[index].image,
-                                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                frameBuilder: (context, child, frame,
+                                    wasSynchronouslyLoaded) {
                                   if (wasSynchronouslyLoaded) return child;
 
                                   return AnimatedOpacity(
@@ -351,7 +412,9 @@ class _TokenListPathState extends State<TokenListPage> {
                                 fontSize: 20,
                                 color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                           ),
@@ -371,9 +434,17 @@ class _TokenListPathState extends State<TokenListPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      double.parse(tokenListModel.data[index].countStr).toStringAsFixed(2),
+                                      double.parse(tokenListModel
+                                              .data[index].countStr)
+                                          .toStringAsFixed(2),
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          color: Color(0xff333333),
+                                          letterSpacing: 1.3,
+                                          fontFamily: BoxApp.language == "cn"
+                                              ? "Ubuntu"
+                                              : "Ubuntu"),
                                     ),
                                     if (getAePrice(index) != "")
                                       Container(
@@ -381,7 +452,14 @@ class _TokenListPathState extends State<TokenListPage> {
                                         child: Text(
                                           getAePrice(index),
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xff999999),
+                                              letterSpacing: 1.3,
+                                              fontFamily:
+                                                  BoxApp.language == "cn"
+                                                      ? "Ubuntu"
+                                                      : "Ubuntu"),
                                         ),
                                       ),
                                   ],

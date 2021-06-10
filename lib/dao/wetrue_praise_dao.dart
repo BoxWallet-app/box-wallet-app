@@ -18,7 +18,7 @@ class WeTruePraiseDao {
     Options options = Options();
     ///请求header的配置
     options.headers["ak-token"]=address;
-    url = "https://api.wetrue.io/Submit/praise";
+    url = WE_TRUE_URL+"/Submit/praise";
     Response response = await Dio().post(url, data: formData,options: options);
     if (response.statusCode == 200) {
       print(response.toString());

@@ -85,6 +85,7 @@ class _WeTrueHomePageState extends State<WeTrueHomePage> with AutomaticKeepAlive
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Color(0xFFFFFFFF),
             elevation: 0,
@@ -96,9 +97,9 @@ class _WeTrueHomePageState extends State<WeTrueHomePage> with AutomaticKeepAlive
             centerTitle: true,
             leading: IconButton(
               icon: Icon(
-                Icons.arrow_back_ios,
+                Icons.close_outlined,
                 color: Colors.black,
-                size: 17,
+                size: 20,
               ),
               onPressed: () {
                 Navigator.of(context).pop();

@@ -47,7 +47,10 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
   void netWeTrueConfig() {
     WeTrueConfigDao.fetch().then((WeTrueConfigModel model) {
       weTrueConfigModel = model;
-      print(Decimal.parse((weTrueConfigModel.data.commentAmount / 1000000000000000000).toString()).toString());
+      print(Decimal.parse(
+              (weTrueConfigModel.data.commentAmount / 1000000000000000000)
+                  .toString())
+          .toString());
       setState(() {});
     }).catchError((e) {
       //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
@@ -92,7 +95,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                 ),
                 Container(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Text(
                     "该内容将录入到AE区块链中永久保存，上链将会花费矿工费用，请不要上传色情政治等违法信息，共建和谐AE生态。",
                     style: TextStyle(
@@ -107,9 +111,14 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                   child: Container(
                     height: 170,
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                    padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    margin: EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    padding:
+                        EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFEEEEEE),
+                        border: Border.all(color: Color(0xFFEEEEEE)),
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: TextField(
                       controller: _textEditingController,
 
@@ -130,7 +139,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                         ),
                         hintStyle: TextStyle(
                           fontSize: 19,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily:
+                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black.withAlpha(80),
                         ),
                       ),
@@ -153,7 +163,10 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                   margin: EdgeInsets.only(left: 26, top: 10, right: 26),
                   alignment: Alignment.topRight,
                   child: Text(
-                    S.of(context).token_send_two_page_balance + " : " + HomePageV2.token + " AE",
+                    S.of(context).token_send_two_page_balance +
+                        " : " +
+                        HomePageV2.token +
+                        " AE",
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -171,13 +184,28 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                           clickLogin();
                         },
                         child: Text(
-                          weTrueConfigModel == null ? "" : " " + "发布" + " ≈ " + Decimal.parse((weTrueConfigModel.data.topicAmount / 1000000000000000000).toString()).toString() + " AE",
+                          weTrueConfigModel == null
+                              ? ""
+                              : " " +
+                                  "发布" +
+                                  " ≈ " +
+                                  Decimal.parse(
+                                          (weTrueConfigModel.data.topicAmount /
+                                                  1000000000000000000)
+                                              .toString())
+                                      .toString() +
+                                  " AE",
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily:
+                                  BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),
@@ -193,8 +221,16 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
     }
     if (_textEditingController.text == "") {
       EasyLoading.showToast('请输入内容', duration: Duration(seconds: 2));
+      return;
     }
-    String content = '{"WeTrue":"' + weTrueConfigModel.data.weTrue + '","type":"topic","source":"Box æpp","content":"' + _textEditingController.text + '"}';
+
+    print(_textEditingController.text);
+
+    String content = Utils.encodeBase64('{"WeTrue":"' +
+        weTrueConfigModel.data.weTrue +
+        '","type":"topic","source":"Box æpp","content":"' +
+        _textEditingController.text.replaceAll("\n", "\\n") +
+        '"}');
     showGeneralDialog(
         context: context,
         // ignore: missing_return
@@ -226,14 +262,17 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                       context: context,
                       builder: (_) => BasicDialogAlert(
                         title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
+                        content:
+                            Text(S.of(context).dialog_hint_check_error_content),
                         actions: <Widget>[
                           BasicDialogAction(
                             title: Text(
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -248,7 +287,9 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                   // ignore: missing_return
                   BoxApp.spend((tx) {
                     EasyLoading.show();
+                    print(tx);
                     WeTrueTopicDao.fetch(tx).then((bool model) {
+
                       EasyLoading.dismiss(animation: true);
                       showPlatformDialog(
                         androidBarrierDismissible: false,
@@ -265,12 +306,15 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                                   S.of(context).dialog_copy,
                                   style: TextStyle(
                                     color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
                                   ),
                                 ),
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(text: tx));
-                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
                                   print(tx);
                                   showFlushSucess(context);
                                 },
@@ -282,7 +326,14 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
-                      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                      Fluttertoast.showToast(
+                          msg: "error" + e.toString(),
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     });
 
                     // ignore: missing_return
@@ -298,7 +349,9 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -308,7 +361,15 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                         ],
                       ),
                     );
-                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((weTrueConfigModel.data.topicAmount / 1000000000000000000).toString()).toString(), content);
+                  },
+                      aesDecode,
+                      address,
+                      weTrueConfigModel.data.receivingAccount,
+                      Decimal.parse((weTrueConfigModel.data.topicAmount /
+                                  1000000000000000000)
+                              .toString())
+                          .toString(),
+                      content);
                   showChainLoading();
                 },
               ),
@@ -336,7 +397,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundGradient:
+          LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
@@ -363,7 +425,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
       });
   }
 
-  Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netLogin(
+      BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -382,7 +445,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 400),
               transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                final curvedValue =
+                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
                     transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
@@ -391,11 +455,14 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                       child: PayPasswordWidget(
                           title: S.of(context).password_widget_input_password,
                           passwordCallBackFuture: (String password) async {
-                            final key = Utils.generateMd5Int(password + model.data.address);
-                            var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
+                            final key = Utils.generateMd5Int(
+                                password + model.data.address);
+                            var signingKeyAesEncode =
+                                Utils.aesEncode(model.data.signingKey, key);
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setAddress(model.data.address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil(
+                                "/home", ModalRoute.withName("/home"));
                           }),
                     ));
               });
@@ -421,7 +488,8 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
         }
       }).catchError((e) {
         stopLoading();
-        EasyLoading.showToast('网络错误: ' + e.toString(), duration: Duration(seconds: 2));
+        EasyLoading.showToast('网络错误: ' + e.toString(),
+            duration: Duration(seconds: 2));
       });
     });
   }

@@ -20,7 +20,7 @@ class WeTrueConfigDao {
     Options options = Options();
     ///请求header的配置
     options.headers["ak-token"]=address;
-    url = "https://api.wetrue.io/Config/info";
+    url = WE_TRUE_URL+"/Config/info";
     Response response = await Dio().post(url,options: options);
     if (response.statusCode == 200) {
       print(response.toString());

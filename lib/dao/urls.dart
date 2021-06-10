@@ -126,3 +126,5 @@ const AEX9_ALLOWANCE = BASE_HOST + '/api/aex9/allowance';
 const APP_STORE = BASE_HOST + '/api/config/store';
 
 const AEX9_RECORD = BASE_HOST + '/api/tokens/record';
+
+const WE_TRUE_URL = 'https://api.wetrue.io';

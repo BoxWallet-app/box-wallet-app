@@ -14,13 +14,13 @@ class WeTrueListDao {
     switch (type) {
       case 0:
 //        url = "https://liushao.cc:1817/Content/list";
-        url = "https://api.wetrue.io/Content/list";
+        url = WE_TRUE_URL+"/Content/list";
         break;
       case 1:
-        url = "https://api.wetrue.io/Content/hotRec";
+        url = WE_TRUE_URL+"/Content/hotRec";
         break;
       case 2:
-        url = "https://api.wetrue.io/Image/list";
+        url = WE_TRUE_URL+"/Image/list";
         break;
     }
     FormData formData = FormData.fromMap({
