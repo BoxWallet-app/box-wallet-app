@@ -177,16 +177,17 @@ class _WeTrueListPageState extends State<WeTrueListPage>
       child: InkWell(
         onTap: () {
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
-          Clipboard.setData(ClipboardData(
-              text: "以下内容来自AE区块链：\n\n" +wetrueListModels.data.data[index].payload
-                      .replaceAll("<br>", "\r\n") +
-                  "\n\n" +
-                  "我在WeTrue发现一个有趣的内容一起来看看吧~" +
-                  "\n" +
-                  "https://wetrue.io/#/pages/index/detail?hash=" +
-                  wetrueListModels.data.data[index].hash));
-          EasyLoading.showToast('复制成功 ',
-              duration: Duration(seconds: 1));
+//           showMaterialModalBottomSheet(
+//               expand: false,
+//               context: context,
+//               enableDrag: true,
+//               backgroundColor:
+//               Colors.transparent.withAlpha(10),
+//               builder: (context) => WeTrueCommentWidget(
+//                 hash: wetrueListModels
+//                     .data.data[index].hash,
+//               ));
+//
         },
         child: Container(
           color: Color(0xFFF5F5F5),
@@ -199,16 +200,18 @@ class _WeTrueListPageState extends State<WeTrueListPage>
               //设置四周边框
             ),
             margin: index == wetrueListModels.data.size - 1
-                ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8)
-                : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 8),
-            padding: EdgeInsets.only(left: 18, right: 18, top: 18),
+                ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 5)
+                : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 5),
+            padding: EdgeInsets.only( top: 18),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
+
                   child: Column(
                     children: <Widget>[
                       Container(
+                        margin: EdgeInsets.only(left: 18, right: 18,),
                         width: MediaQuery.of(context).size.width - 18 * 2,
                         child: Row(
                           children: [
@@ -218,17 +221,17 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                   child: Image.network(
                                       wetrueListModels
                                           .data.data[index].users.portrait,
-                                      width: 35,
-                                      height: 35),
+                                      width: 45,
+                                      height: 45),
                                 ),
                                 Positioned(
                                   right: 0,
                                   bottom: 0,
                                   child: ClipOval(
                                     child: Container(
-                                      width: 14,
+                                      width: 18,
                                       color: Colors.amberAccent,
-                                      height: 14,
+                                      height: 18,
                                     ),
                                   ),
                                 ),
@@ -237,9 +240,9 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                   bottom: 1,
                                   child: ClipOval(
                                     child: Container(
-                                      width: 12,
+                                      width: 16,
                                       color: Colors.red,
-                                      height: 12,
+                                      height: 16,
                                       child: Center(
                                         child: Text(
                                           "v" +
@@ -247,7 +250,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                                   .users.userActive
                                                   .toString(),
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 8),
+                                              color: Colors.white, fontSize: 9),
                                         ),
                                       ),
                                     ),
@@ -265,7 +268,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                       wetrueListModels.data.data[index].users
                                                   .nickname ==
                                               ""
-                                          ? "匿名用户" +
+                                          ? "匿名用户 " +
                                               "(" +
                                               Utils.formatAddress(
                                                   wetrueListModels
@@ -276,7 +279,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                               ")"
                                           : wetrueListModels.data.data[index]
                                                   .users.nickname +
-                                              "(" +
+                                              " (" +
                                               Utils.formatAddress(
                                                   wetrueListModels
                                                       .data
@@ -351,7 +354,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                       Wrap(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 10),
+                            margin: EdgeInsets.only(left: 18, right: 18,top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
                               wetrueListModels.data.data[index].payload
@@ -387,7 +390,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                             .data.data[index].imgTx)));
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 10),
+                            margin: EdgeInsets.only(left: 18, right: 18,top: 10),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(0.1),
                               child: Image.network(
@@ -431,120 +434,116 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                         ),
                       Container(
                         margin: EdgeInsets.only(top: 18),
-                        width: (MediaQuery.of(context).size.width - (18 * 2)),
+                        width: (MediaQuery.of(context).size.width),
                         color: Colors.grey.withAlpha(40),
                         height: 1,
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        width: MediaQuery.of(context).size.width - (18 * 2),
+                        // padding: EdgeInsets.only(top: 10, bottom: 10),
+                        width: MediaQuery.of(context).size.width ,
                         child: Row(
                           children: [
 //                            Expanded(child: Container()),
                             Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  // showPlatformDialog(
-                                  //   context: context,
-                                  //   builder: (_) => BasicDialogAlert(
-                                  //     title: Text(
-                                  //       "功能开发中",
-                                  //       style: TextStyle(
-                                  //         color: Color(0xFF000000),
-                                  //         fontFamily: BoxApp.language == "cn"
-                                  //             ? "Ubuntu"
-                                  //             : "Ubuntu",
-                                  //       ),
-                                  //     ),
-                                  //     content: Text(
-                                  //       "要想体验完整版功能，请访问完整版https://wetrue.io",
-                                  //       style: TextStyle(
-                                  //         color: Color(0xFF000000),
-                                  //         height: 1.2,
-                                  //         fontFamily: BoxApp.language == "cn"
-                                  //             ? "Ubuntu"
-                                  //             : "Ubuntu",
-                                  //       ),
-                                  //     ),
-                                  //     actions: <Widget>[
-                                  //       BasicDialogAction(
-                                  //         title: Text(
-                                  //           S.of(context).dialog_dismiss,
-                                  //           style: TextStyle(
-                                  //             color: Color(0xFFFC2365),
-                                  //             fontFamily:
-                                  //                 BoxApp.language == "cn"
-                                  //                     ? "Ubuntu"
-                                  //                     : "Ubuntu",
-                                  //           ),
-                                  //         ),
-                                  //         onPressed: () {
-                                  //           Navigator.of(context,
-                                  //                   rootNavigator: true)
-                                  //               .pop();
-                                  //         },
-                                  //       ),
-                                  //       BasicDialogAction(
-                                  //         title: Text(
-                                  //           "跳转",
-                                  //           style: TextStyle(
-                                  //             color: Color(0xFFFC2365),
-                                  //             fontFamily:
-                                  //                 BoxApp.language == "cn"
-                                  //                     ? "Ubuntu"
-                                  //                     : "Ubuntu",
-                                  //           ),
-                                  //         ),
-                                  //         onPressed: () {
-                                  //           _launchURL("https://wetrue.io");
-                                  //           Navigator.of(context,
-                                  //                   rootNavigator: true)
-                                  //               .pop();
-                                  //         },
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // );
+                              child: Material(
+                                color: Colors.white,
+                                child: InkWell(
+                                  onTap: () {
 
-                                  showCupertinoModalBottomSheet(
-                                      // expand: true,
-                                      context: context,
-                                      enableDrag: true,
-                                      backgroundColor:
-                                          Colors.transparent.withAlpha(10),
-                                      builder: (context) => WeTrueCommentWidget(
-                                            hash: wetrueListModels
-                                                .data.data[index].hash,
-                                          ));
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.chat_bubble_outline,
-                                          color: Colors.grey,
-                                          size: 21,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            wetrueListModels.data.data[index]
-                                                        .commentNumber ==
-                                                    0
-                                                ? ""
-                                                : wetrueListModels.data
-                                                    .data[index].commentNumber
-                                                    .toString(),
-                                            style: TextStyle(
-                                              color: Colors.grey,
+                                    Clipboard.setData(ClipboardData(
+                                        text: "以下内容来自AE区块链：\n\n" +wetrueListModels.data.data[index].payload
+                                            .replaceAll("<br>", "\r\n") +
+                                            "\n\n" +
+                                            "我在WeTrue发现一个有趣的内容一起来看看吧~" +
+                                            "\n" +
+                                            "https://wetrue.io/#/pages/index/detail?hash=" +
+                                            wetrueListModels.data.data[index].hash));
+                                    EasyLoading.showToast('复制成功,请打开其他应用粘贴',
+                                        duration: Duration(seconds: 1));
+
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.share_outlined,
+                                            color: Colors.grey,
+                                            size: 21,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              wetrueListModels.data.data[index]
+                                                          .commentNumber ==
+                                                      0
+                                                  ? ""
+                                                  : wetrueListModels.data
+                                                      .data[index].commentNumber
+                                                      .toString(),
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Material(
+                                color: Colors.white,
+                                child: InkWell(
+                                  onTap: () {
+
+                                    showMaterialModalBottomSheet(
+                                        expand: false,
+                                        context: context,
+                                        enableDrag: true,
+                                        backgroundColor:
+                                            Colors.transparent.withAlpha(10),
+                                        builder: (context) => WeTrueCommentWidget(
+                                              hash: wetrueListModels
+                                                  .data.data[index].hash,
+                                            ));
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.chat_bubble_outline,
+                                            color: Colors.grey,
+                                            size: 21,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              wetrueListModels.data.data[index]
+                                                          .commentNumber ==
+                                                      0
+                                                  ? ""
+                                                  : wetrueListModels.data
+                                                      .data[index].commentNumber
+                                                      .toString(),
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -552,64 +551,74 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                             ),
 
                             Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 15, right: 8),
-                                alignment: Alignment.center,
-                                child: LikeButton(
-                                  size: 25,
-                                  isLiked: wetrueListModels
-                                      .data.data[index].isPraise,
-                                  circleColor: CircleColor(
-                                      start: Color(0xFFF22B79),
-                                      end: Color(0xFFF22B79)),
-                                  bubblesColor: BubblesColor(
-                                    dotPrimaryColor: Color(0xFFF22B79),
-                                    dotSecondaryColor: Color(0xFFF22B79),
-                                  ),
-                                  likeBuilder: (bool isLiked) {
-                                    return Icon(
-                                      Icons.emoji_emotions_outlined,
-                                      color: isLiked
-                                          ? Color(0xFFF22B79)
-                                          : Colors.grey,
-                                      size: 25,
-                                    );
-                                  },
-                                  onTap: (isLiked) async {
+                              child: Material(
+                                child: Container(
+                                  color: Colors.white,
+                                  height: 40,
+                                  margin: EdgeInsets.only(left: 0, right: 0),
+                                  alignment: Alignment.center,
+                                  child: LikeButton(
+                                    size: 25,
+                                    isLiked: wetrueListModels
+                                        .data.data[index].isPraise,
+                                    circleColor: CircleColor(
+                                        start: Color(0xFFF22B79),
+                                        end: Color(0xFFF22B79)),
+                                    bubblesColor: BubblesColor(
+                                      dotPrimaryColor: Color(0xFFF22B79),
+                                      dotSecondaryColor: Color(0xFFF22B79),
+                                    ),
+                                    likeBuilder: (bool isLiked) {
+                                      return Icon(
+                                        Icons.emoji_emotions_outlined,
+                                        color: isLiked
+                                            ? Color(0xFFF22B79)
+                                            : Colors.grey,
+                                        size: 25,
+                                      );
+                                    },
+                                    onTap: (isLiked) async {
 //    WeTruePraiseDao.fetch(hash)   We
-                                    var weTruePraiseModel =
-                                        await WeTruePraiseDao.fetch(
-                                            wetrueListModels
-                                                .data.data[index].hash);
-                                    wetrueListModels.data.data[index].isPraise =
-                                        weTruePraiseModel.data.isPraise;
-                                    return weTruePraiseModel.data.isPraise;
-                                  },
-                                  likeCount:
-                                      wetrueListModels.data.data[index].praise,
-                                  countBuilder:
-                                      (int count, bool isLiked, String text) {
-                                    var color = isLiked
-                                        ? Color(0xFFF22B79)
-                                        : Colors.grey;
-                                    Widget result;
-                                    if (count == 0) {
-                                      result = Text(
-                                        "",
-                                        style: TextStyle(color: color),
-                                      );
-                                    } else
-                                      result = Text(
-                                        text,
-                                        style: TextStyle(color: color),
-                                      );
-                                    return result;
-                                  },
+                                      var weTruePraiseModel =
+                                          await WeTruePraiseDao.fetch(
+                                              wetrueListModels
+                                                  .data.data[index].hash);
+                                      wetrueListModels.data.data[index].isPraise =
+                                          weTruePraiseModel.data.isPraise;
+                                      return weTruePraiseModel.data.isPraise;
+                                    },
+                                    likeCount:
+                                        wetrueListModels.data.data[index].praise,
+                                    countBuilder:
+                                        (int count, bool isLiked, String text) {
+                                      var color = isLiked
+                                          ? Color(0xFFF22B79)
+                                          : Colors.grey;
+                                      Widget result;
+                                      if (count == 0) {
+                                        result = Text(
+                                          "",
+                                          style: TextStyle(color: color),
+                                        );
+                                      } else
+                                        result = Text(
+                                          text,
+                                          style: TextStyle(color: color),
+                                        );
+                                      return result;
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 0),
+                        width: (MediaQuery.of(context).size.width),
+                        color: Colors.grey.withAlpha(40),
+                        height: 1,
                       ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,

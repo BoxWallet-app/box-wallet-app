@@ -286,56 +286,24 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                   }
                   // ignore: missing_return
                   BoxApp.spend((tx) {
-                    EasyLoading.show();
+                    // EasyLoading.show();
                     print(tx);
                     WeTrueTopicDao.fetch(tx).then((bool model) {
 
                       EasyLoading.dismiss(animation: true);
-                      showPlatformDialog(
-                        androidBarrierDismissible: false,
-                        context: context,
-                        builder: (_) => WillPopScope(
-                          onWillPop: () async => false,
-                          child: BasicDialogAlert(
-                            content: Text(
-                              tx,
-                            ),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_copy,
-                                  style: TextStyle(
-                                    color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: tx));
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                  print(tx);
-                                  showFlushSucess(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+
+                      print(tx);
+                      showFlushSucess(context);
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
-                      Fluttertoast.showToast(
-                          msg: "error" + e.toString(),
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.black,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    });
 
+                      print(tx);
+                      showFlushSucess(context);
+                      setState(() {});
+                    });
+                    showFlushSucess(context);
+                    setState(() {});
                     // ignore: missing_return
                   }, (error) {
                     showPlatformDialog(
@@ -425,72 +393,4 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
       });
   }
 
-  Future<void> netLogin(
-      BuildContext context, Function startLoading, Function stopLoading) async {
-    //隐藏键盘
-    startLoading();
-    FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      UserLoginDao.fetch(_textEditingController.text).then((UserModel model) {
-        if (!mounted) {
-          return;
-        }
-        stopLoading();
-        if (model.code == 200) {
-          showGeneralDialog(
-              context: context,
-              pageBuilder: (context, anim1, anim2) {},
-              barrierColor: Colors.grey.withOpacity(.4),
-              barrierDismissible: true,
-              barrierLabel: "",
-              transitionDuration: Duration(milliseconds: 400),
-              transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue =
-                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                return Transform(
-                    transform: Matrix4.translationValues(0.0, 0, 0.0),
-                    child: Opacity(
-                      opacity: anim1.value,
-                      // ignore: missing_return
-                      child: PayPasswordWidget(
-                          title: S.of(context).password_widget_input_password,
-                          passwordCallBackFuture: (String password) async {
-                            final key = Utils.generateMd5Int(
-                                password + model.data.address);
-                            var signingKeyAesEncode =
-                                Utils.aesEncode(model.data.signingKey, key);
-                            BoxApp.setSigningKey(signingKeyAesEncode);
-                            BoxApp.setAddress(model.data.address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil(
-                                "/home", ModalRoute.withName("/home"));
-                          }),
-                    ));
-              });
-        } else {
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("Login Error"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        stopLoading();
-        EasyLoading.showToast('网络错误: ' + e.toString(),
-            duration: Duration(seconds: 2));
-      });
-    });
-  }
 }

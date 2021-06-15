@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:box/dao/urls.dart';
 import 'package:box/main.dart';
@@ -20,13 +21,16 @@ class WeTrueTopicDao {
 
     ///请求header的配置
     options.headers["ak-token"] = address;
+    options.sendTimeout = 3;
+    options.receiveTimeout = 3;
     url = WE_TRUE_URL + "/Submit/hash";
     Response response = await Dio().post(url, data: formData, options: options);
-    print(response.toString());
+
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw Exception('Failed to load WeTruePraiseModel.json');
+      return true;
+      // throw Exception('Failed to load WeTruePraiseModel.json');
     }
   }
 }

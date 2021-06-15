@@ -46,7 +46,7 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
     return Material(
       color: Colors.transparent.withAlpha(0),
       child: Container(
-        height: 150,
+        height: 250,
         width: MediaQuery.of(context).size.width ,
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         decoration: ShapeDecoration(
@@ -62,55 +62,62 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
           children: <Widget>[
 
             Container(
-              height: 40,
+              height:150,
               width: MediaQuery.of(context).size.width-20,
               margin: EdgeInsets.only(left: 16, right: 16),
-//                      padding: EdgeInsets.only(left: 10, right: 10),
+              padding: EdgeInsets.only(top: 12, bottom: 12),
               //边框设置
               decoration: new BoxDecoration(
                 color: Color(0xFFeeeeee),
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
-              child: TextField(
-                controller: _textEditingController,
-                focusNode: _commentFocus,
+              child: Container(
+                height:150,
+                width: MediaQuery.of(context).size.width-20,
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                //边框设置
+
+                child: TextField(
+                  controller: _textEditingController,
+                  focusNode: _commentFocus,
 //              inputFormatters: [
 //                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
 //              ],
-                inputFormatters: [
+                  inputFormatters: [
 //                    WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
-                ],
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                  color: Colors.black,
-                ),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 10.0),
-                  enabledBorder: new OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: Color(0xFFeeeeee),
+                  ],
+                  maxLines: 3,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10.0),
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(
+                        color: Color(0xFFeeeeee),
+                      ),
+                    ),
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFFeeeeee)),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    hintText: "有爱评论，说点好听的~",
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black.withAlpha(180),
                     ),
                   ),
-                  focusedBorder: new OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Color(0xFFFC2365)),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  hintText: "有爱评论，说点好听的~",
-                  hintStyle: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black.withAlpha(180),
-                  ),
-                ),
-                cursorColor: Color(0xFFFC2365),
-                cursorWidth: 2,
+                  cursorColor: Color(0xFFFC2365),
+                  cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
+                ),
               ),
             ),
             Container(

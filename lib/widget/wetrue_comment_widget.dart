@@ -119,44 +119,47 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        child: CupertinoPageScaffold(
-      resizeToAvoidBottomInset: false,
-      navigationBar: CupertinoNavigationBar(
-          leading: Container(),
-          trailing: Container(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: 40,
-                  margin: EdgeInsets.only(left: 10),
-                  width: 40,
-                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                ),
+    return Container(
+      color: Colors.white,
+      height: MediaQuery.of(context).size.height / 3 * 2,
+      child: Column(
+        children: [
+          AppBar(
+            primary: false,
+            excludeHeaderSemantics: true,
+            // toolbarHeight:0,
+            // excludeHeaderSemantics:true,
+            backgroundColor: Color(0xFFfafbfc),
+            elevation: 0,
+            // 隐藏阴影
+            title: Text(
+              "评论",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
               ),
             ),
+            centerTitle: true,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+                size: 17,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+//              Navigator.pop(context);
+              },
+            ),
           ),
-          middle: Text('评论')),
-      child: SafeArea(
-        bottom: false,
-        child: Container(
-          height: MediaQuery.of(context).size.height / 3 * 2,
-          child: SingleChildScrollView(
+          SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height / 3 * 2 -
                       50 -
+                      kToolbarHeight -
                       MediaQueryData.fromWindow(window).padding.bottom,
                   child: LoadingWidget(
                     type: loadingType,
@@ -198,8 +201,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                       showMaterialModalBottomSheet(
                           expand: false,
                           context: context,
-                          enableDrag: false,
-                          bounce: false,
+                          enableDrag: true,
+                          bounce: true,
                           backgroundColor: Colors.transparent.withAlpha(0),
                           builder: (context) => WeTrueCommentInputWidget(
                               title: Decimal.parse(
@@ -223,7 +226,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                               MediaQueryData.fromWindow(window).padding.bottom),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(left: 16, right: 16),
+                        margin:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 10),
                         height: 11,
                         padding: EdgeInsets.only(left: 10),
                         alignment: Alignment.centerLeft,
@@ -246,9 +250,9 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
               ],
             ),
           ),
-        ),
+        ],
       ),
-    ));
+    );
   }
 
   clickLogin(String conetnt) {
@@ -327,55 +331,22 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                   }
                   // ignore: missing_return
                   BoxApp.spend((tx) {
-                    EasyLoading.show();
+                    // EasyLoading.show();
                     print(tx);
                     WeTrueTopicDao.fetch(tx).then((bool model) {
                       EasyLoading.dismiss(animation: true);
-                      _onRefresh();
-                      showPlatformDialog(
-                        androidBarrierDismissible: false,
-                        context: context,
-                        builder: (_) => WillPopScope(
-                          onWillPop: () async => false,
-                          child: BasicDialogAlert(
-                            content: Text(
-                              tx,
-                            ),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_copy,
-                                  style: TextStyle(
-                                    color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                  ),
-                                ),
-                                onPressed: () {
 
-                                  Clipboard.setData(ClipboardData(text: tx));
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      print(tx);
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
-                      Fluttertoast.showToast(
-                          msg: "error" + e.toString(),
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.black,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+
+                      print(tx);
+                      setState(() {});
                     });
 
+                    print(tx);
+                    setState(() {});
                     // ignore: missing_return
                   }, (error) {
                     showPlatformDialog(
