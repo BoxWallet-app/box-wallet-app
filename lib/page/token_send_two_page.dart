@@ -731,7 +731,7 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                           ],
                         ),
                       );
-                    }, aesDecode, address, widget.address, _textEditingController.text,"Box aepp");
+                    }, aesDecode, address, widget.address, _textEditingController.text,Utils.encodeBase64("Box aepp"));
                     showChainLoading();
                   },
                 ),
