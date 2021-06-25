@@ -289,18 +289,13 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                     // EasyLoading.show();
                     print(tx);
                     WeTrueTopicDao.fetch(tx).then((bool model) {
-
                       EasyLoading.dismiss(animation: true);
 
                       print(tx);
-                      showFlushSucess(context);
-                      setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
 
                       print(tx);
-                      showFlushSucess(context);
-                      setState(() {});
                     });
                     showFlushSucess(context);
                     setState(() {});
@@ -392,5 +387,4 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
         Navigator.pop(context);
       });
   }
-
 }

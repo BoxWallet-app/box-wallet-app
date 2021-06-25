@@ -46,7 +46,7 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
     return Material(
       color: Colors.transparent.withAlpha(0),
       child: Container(
-        height: 250,
+        height: 150,
         width: MediaQuery.of(context).size.width ,
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         decoration: ShapeDecoration(
@@ -62,7 +62,7 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
           children: <Widget>[
 
             Container(
-              height:150,
+              height:70,
               width: MediaQuery.of(context).size.width-20,
               margin: EdgeInsets.only(left: 16, right: 16),
               padding: EdgeInsets.only(top: 12, bottom: 12),

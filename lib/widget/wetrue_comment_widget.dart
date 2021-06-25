@@ -165,16 +165,16 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     type: loadingType,
                     child: AnimationLimiter(
                       child: EasyRefresh(
-                        enableControlFinishRefresh: true,
+                        // enableControlFinishRefresh: true,
                         controller: controller,
                         topBouncing: false,
                         behavior: null,
-                        header: null,
+                        header: AEHeader(),
                         footer: MaterialFooter(
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Color(0xFFF22B79)),
                         ),
-                        onRefresh: null,
+                        onRefresh: _onRefresh,
                         onLoad: _onLoad,
                         child: ListView(
                           reverse: false,
@@ -337,14 +337,38 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                       EasyLoading.dismiss(animation: true);
 
                       print(tx);
+
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
 
                       print(tx);
                       setState(() {});
-                    });
 
+                    });
+                    showPlatformDialog(
+                      context: context,
+                      builder: (_) => BasicDialogAlert(
+                        title: Text("发布成功"),
+                        content: Text("区块同步中，稍后将展示"),
+                        actions: <Widget>[
+                          BasicDialogAction(
+                            title: Text(
+                              S.of(context).dialog_conform,
+                              style: TextStyle(
+                                color: Color(0xFFFC2365),
+                                fontFamily: BoxApp.language == "cn"
+                                    ? "Ubuntu"
+                                    : "Ubuntu",
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                     print(tx);
                     setState(() {});
                     // ignore: missing_return
