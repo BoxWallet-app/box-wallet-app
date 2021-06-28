@@ -87,7 +87,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Color(0xfffafafa),
       body: Column(
         children: [
           Container(

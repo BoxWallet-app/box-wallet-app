@@ -9,6 +9,8 @@ import 'intl/messages_all.dart';
 // **************************************************************************
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
+// ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -2538,6 +2540,36 @@ class S {
     return Intl.message(
       'The domain name system is the underlying function of the user blockchain. This application is only for demonstration, and all operations directly access the blockchain. Users should use it at their own risk. No liability shall be assumed for forced use of this app.',
       name: 'dialog_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Temporary mapping risk tip`
+  String get dialog_defi_temp_hint {
+    return Intl.message(
+      'Temporary mapping risk tip',
+      name: 'dialog_defi_temp_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.。`
+  String get dialog_defi_temp_hint2 {
+    return Intl.message(
+      'According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.。',
+      name: 'dialog_defi_temp_hint2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact us`
+  String get settings_contact {
+    return Intl.message(
+      'Contact us',
+      name: 'settings_contact',
       desc: '',
       args: [],
     );

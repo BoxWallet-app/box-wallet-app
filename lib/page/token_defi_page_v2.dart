@@ -17,6 +17,7 @@ import 'package:box/model/contract_decode_model.dart';
 import 'package:box/model/contract_info_model.dart';
 import 'package:box/model/msg_sign_model.dart';
 import 'package:box/page/home_page.dart';
+import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/settings_page.dart';
 import 'package:box/page/token_send_two_page.dart';
@@ -111,7 +112,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       if (model.code == 200) {
         TokenDefiPage.model = model;
         setState(() {});
-
       } else {}
     }).catchError((e) {
       print(e.toString());
@@ -124,7 +124,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
-
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Color(0xFFeeeeee),
@@ -171,11 +170,24 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 18, top: 150, right: 18),
+                              margin: const EdgeInsets.only(
+                                  left: 18, top: 150, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                                strutStyle: StrutStyle(
+                                    forceStrutHeight: true,
+                                    height: 1.5,
+                                    leading: 1,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu"),
+                                style: new TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    color: Colors.white),
                               ),
                             ),
                             buildContainerCount(context),
@@ -185,19 +197,35 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base,
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
+                              margin:
+                                  EdgeInsets.only(left: 22, top: 10, right: 22),
                             ),
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base_content,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                                strutStyle: StrutStyle(
+                                    forceStrutHeight: true,
+                                    height: 0.5,
+                                    leading: 1,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu"),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    letterSpacing: 1.0,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    height: 1.5,
+                                    color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
+                              margin:
+                                  EdgeInsets.only(left: 22, top: 10, right: 22),
                             ),
                             Container(
                               height: 50,
@@ -211,7 +239,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     top: 0,
                     child: ClipRect(
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), //图片模糊过滤，横向竖向都设置5.0
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        //图片模糊过滤，横向竖向都设置5.0
                         child: Opacity(
                           opacity: 0.5,
                           child: Container(
@@ -219,14 +248,17 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: MediaQueryData.fromWindow(window).padding.top,
+                                  height: MediaQueryData.fromWindow(window)
+                                      .padding
+                                      .top,
                                 ),
                                 Row(
                                   children: <Widget>[
                                     Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
                                         onTap: () {
                                           Navigator.pop(context);
                                         },
@@ -309,14 +341,16 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                       child: Column(
                         children: [
                           Container(
-                            height: MediaQueryData.fromWindow(window).padding.top,
+                            height:
+                                MediaQueryData.fromWindow(window).padding.top,
                           ),
                           Row(
                             children: <Widget>[
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
@@ -335,26 +369,34 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               Expanded(
                                 child: Container(),
                               ),
-                              Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => DefiRankingPage()));
-                                  },
-                                  child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    padding: EdgeInsets.all(15),
-                                    child: Image(
-                                      width: 36,
-                                      height: 36,
-                                      color: Colors.white,
-                                      image: AssetImage('images/defi_info.png'),
+                              if (HomePageV2.address ==
+                                  "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DefiRankingPage()));
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      padding: EdgeInsets.all(15),
+                                      child: Image(
+                                        width: 36,
+                                        height: 36,
+                                        color: Colors.white,
+                                        image:
+                                            AssetImage('images/defi_info.png'),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
 //                              Material(
 //                                color: Colors.transparent,
 //                                child: InkWell(
@@ -433,7 +475,12 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 Container(
                   child: Text(
                     S.of(context).defi_card_my_get_hint,
-                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                    style: new TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        color: Color(0xFF666666)),
                   ),
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 20, top: 18),
@@ -445,8 +492,16 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     children: [
                       Container(
                         child: Text(
-                          TokenDefiPage.model == null ? "loading..." : "≈" + TokenDefiPage.model.data.token,
-                          style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+                          TokenDefiPage.model == null
+                              ? "loading..."
+                              : "≈" + TokenDefiPage.model.data.token,
+                          style: new TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.5,
+                              fontFamily:
+                                  BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              color: Color(0xff3460ee)),
 //                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                         ),
                         alignment: Alignment.topLeft,
@@ -478,15 +533,32 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_my_token,
-                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                                style: new TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
                             ),
                             Container(
                               child: Text(
-                                TokenDefiPage.model == null ? "loading..." : double.parse(TokenDefiPage.model.data.count).toStringAsFixed(2),
-                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff000000)),
+                                TokenDefiPage.model == null
+                                    ? "loading..."
+                                    : double.parse(
+                                            TokenDefiPage.model.data.count)
+                                        .toStringAsFixed(2),
+                                style: new TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 1.5,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 5),
@@ -505,15 +577,30 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_all_token,
-                                style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                                style: new TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
                             ),
                             Container(
                               child: Text(
-                                TokenDefiPage.model == null ? "loading..." : TokenDefiPage.model.data.allCount+"",
-                                style: new TextStyle(fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff000000)),
+                                TokenDefiPage.model == null
+                                    ? "loading..."
+                                    : TokenDefiPage.model.data.allCount + "",
+                                style: new TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 1.5,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
+                                    color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 5),
@@ -524,7 +611,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                     ],
                   ),
                 ),
-
                 lockBtn(),
                 unLockBtn(),
               ],
@@ -547,20 +633,27 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
           if (TokenDefiPage.model.data.token == null) {
             return;
           }
-          if (TokenDefiPage.model.data.afterHeight <= TokenDefiPage.model.data.minHeight) {
-            var waitHeight = (TokenDefiPage.model.data.minHeight + 1 - TokenDefiPage.model.data.afterHeight) * 3;
+          if (TokenDefiPage.model.data.afterHeight <=
+              TokenDefiPage.model.data.minHeight) {
+            var waitHeight = (TokenDefiPage.model.data.minHeight +
+                    1 -
+                    TokenDefiPage.model.data.afterHeight) *
+                3;
             showPlatformDialog(
               context: context,
               builder: (_) => BasicDialogAlert(
                 title: Text(S.of(context).dialog_hint),
-                content: Text(S.of(context).dialog_defi_wait1 + waitHeight.toString() +S.of(context).dialog_defi_wait2),
+                content: Text(S.of(context).dialog_defi_wait1 +
+                    waitHeight.toString() +
+                    S.of(context).dialog_defi_wait2),
                 actions: <Widget>[
                   BasicDialogAction(
                     title: Text(
                       S.of(context).dialog_conform,
                       style: TextStyle(
                         color: Color(0xff3460ee),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -581,7 +674,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 400),
               transitionBuilder: (_, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                final curvedValue =
+                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
                   transform: Matrix4.translationValues(0.0, 0, 0.0),
                   child: Opacity(
@@ -602,19 +696,25 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text(S.of(context).dialog_hint_check_error),
-                              content: Text(S.of(context).dialog_hint_check_error_content),
+                              title:
+                                  Text(S.of(context).dialog_hint_check_error),
+                              content: Text(S
+                                  .of(context)
+                                  .dialog_hint_check_error_content),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
                                     S.of(context).dialog_conform,
                                     style: TextStyle(
                                       color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn"
+                                          ? "Ubuntu"
+                                          : "Ubuntu",
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                   },
                                 ),
                               ],
@@ -631,18 +731,22 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               context: context,
                               builder: (_) => BasicDialogAlert(
                                 title: Text(S.of(context).dialog_hint),
-                                content: Text(S.of(context).dialog_defi_blacklist),
+                                content:
+                                    Text(S.of(context).dialog_defi_blacklist),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
                                       S.of(context).dialog_conform,
                                       style: TextStyle(
                                         color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : "Ubuntu",
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                     },
                                   ),
                                 ],
@@ -655,18 +759,24 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             context: context,
                             builder: (_) => BasicDialogAlert(
                               title: Text(S.of(context).dialog_defi_get),
-                              content: Text(S.of(context).dialog_defi_get_msg + (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
+                              content: Text(S.of(context).dialog_defi_get_msg +
+                                  (double.parse(tx) / 1000000000000000000)
+                                      .toString() +
+                                  "ABC"),
                               actions: <Widget>[
                                 BasicDialogAction(
                                   title: Text(
                                     S.of(context).dialog_conform,
                                     style: TextStyle(
                                       color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn"
+                                          ? "Ubuntu"
+                                          : "Ubuntu",
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                   },
                                 ),
                               ],
@@ -677,7 +787,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           showPlatformDialog(
                             context: context,
                             builder: (_) => BasicDialogAlert(
-                              title: Text(S.of(context).dialog_hint_check_error),
+                              title:
+                                  Text(S.of(context).dialog_hint_check_error),
                               content: Text(Utils.formatABCLockV3Hint(error)),
                               actions: <Widget>[
                                 BasicDialogAction(
@@ -685,11 +796,14 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                     S.of(context).dialog_conform,
                                     style: TextStyle(
                                       color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn"
+                                          ? "Ubuntu"
+                                          : "Ubuntu",
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                   },
                                 ),
                               ],
@@ -707,7 +821,10 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         child: Text(
           S.of(context).defi_card_get,
           maxLines: 1,
-          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+          style: TextStyle(
+              fontSize: 13,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,
@@ -726,12 +843,16 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => DefiInPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DefiInPage()));
         },
         child: Text(
           S.of(context).defi_card_mine,
           maxLines: 1,
-          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              color: Color(0xffffffff)),
         ),
         color: Color(0xff3460ee),
         textColor: Colors.black,
@@ -751,7 +872,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          if (TokenDefiPage.model.data.afterHeight > TokenDefiPage.model.data.minHeight) {
+          if (TokenDefiPage.model.data.afterHeight >
+              TokenDefiPage.model.data.minHeight) {
             showPlatformDialog(
               context: context,
               builder: (_) => BasicDialogAlert(
@@ -763,7 +885,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                       S.of(context).dialog_dismiss,
                       style: TextStyle(
                         color: Color(0xff3460ee),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -775,7 +898,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                       S.of(context).dialog_conform,
                       style: TextStyle(
                         color: Color(0xff3460ee),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -789,40 +913,57 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                           barrierLabel: "",
                           transitionDuration: Duration(milliseconds: 400),
                           transitionBuilder: (_, anim1, anim2, child) {
-                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                            final curvedValue =
+                                Curves.easeInOutBack.transform(anim1.value) -
+                                    1.0;
                             return Transform(
                               transform: Matrix4.translationValues(0.0, 0, 0.0),
                               child: Opacity(
                                 opacity: anim1.value,
                                 // ignore: missing_return
                                 child: PayPasswordWidget(
-                                  title: S.of(context).password_widget_input_password,
+                                  title: S
+                                      .of(context)
+                                      .password_widget_input_password,
                                   dismissCallBackFuture: (String password) {
                                     return;
                                   },
-                                  passwordCallBackFuture: (String password) async {
-                                    var signingKey = await BoxApp.getSigningKey();
+                                  passwordCallBackFuture:
+                                      (String password) async {
+                                    var signingKey =
+                                        await BoxApp.getSigningKey();
                                     var address = await BoxApp.getAddress();
-                                    final key = Utils.generateMd5Int(password + address);
-                                    var aesDecode = Utils.aesDecode(signingKey, key);
+                                    final key = Utils.generateMd5Int(
+                                        password + address);
+                                    var aesDecode =
+                                        Utils.aesDecode(signingKey, key);
 
                                     if (aesDecode == "") {
                                       showPlatformDialog(
                                         context: context,
                                         builder: (_) => BasicDialogAlert(
-                                          title: Text(S.of(context).dialog_hint_check_error),
-                                          content: Text(S.of(context).dialog_hint_check_error_content),
+                                          title: Text(S
+                                              .of(context)
+                                              .dialog_hint_check_error),
+                                          content: Text(S
+                                              .of(context)
+                                              .dialog_hint_check_error_content),
                                           actions: <Widget>[
                                             BasicDialogAction(
                                               title: Text(
                                                 S.of(context).dialog_conform,
                                                 style: TextStyle(
                                                   color: Color(0xff3460ee),
-                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  fontFamily:
+                                                      BoxApp.language == "cn"
+                                                          ? "Ubuntu"
+                                                          : "Ubuntu",
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Navigator.of(context, rootNavigator: true).pop();
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
                                               },
                                             ),
                                           ],
@@ -837,19 +978,32 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                       showPlatformDialog(
                                         context: context,
                                         builder: (_) => BasicDialogAlert(
-                                          title: Text(S.of(context).dialog_unlock_sucess),
-                                          content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
+                                          title: Text(S
+                                              .of(context)
+                                              .dialog_unlock_sucess),
+                                          content: Text(S
+                                                  .of(context)
+                                                  .dialog_unlock_sucess_msg +
+                                              (double.parse(tx) /
+                                                      1000000000000000000)
+                                                  .toString() +
+                                              "AE"),
                                           actions: <Widget>[
                                             BasicDialogAction(
                                               title: Text(
                                                 S.of(context).dialog_conform,
                                                 style: TextStyle(
                                                   color: Color(0xff3460ee),
-                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  fontFamily:
+                                                      BoxApp.language == "cn"
+                                                          ? "Ubuntu"
+                                                          : "Ubuntu",
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Navigator.of(context, rootNavigator: true).pop();
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
                                               },
                                             ),
                                           ],
@@ -860,25 +1014,34 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                       showPlatformDialog(
                                         context: context,
                                         builder: (_) => BasicDialogAlert(
-                                          title: Text(S.of(context).dialog_hint_check_error),
-                                          content: Text(Utils.formatABCLockV3Hint(error)),
+                                          title: Text(S
+                                              .of(context)
+                                              .dialog_hint_check_error),
+                                          content: Text(
+                                              Utils.formatABCLockV3Hint(error)),
                                           actions: <Widget>[
                                             BasicDialogAction(
                                               title: Text(
                                                 S.of(context).dialog_conform,
                                                 style: TextStyle(
                                                   color: Color(0xff3460ee),
-                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  fontFamily:
+                                                      BoxApp.language == "cn"
+                                                          ? "Ubuntu"
+                                                          : "Ubuntu",
                                                 ),
                                               ),
                                               onPressed: () {
-                                                Navigator.of(context, rootNavigator: true).pop();
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
                                               },
                                             ),
                                           ],
                                         ),
                                       );
-                                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
+                                    }, aesDecode, address,
+                                        BoxApp.DEFI_CONTRACT_V3, "0");
 
                                     showChainLoading();
                                   },
@@ -902,7 +1065,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                 barrierLabel: "",
                 transitionDuration: Duration(milliseconds: 400),
                 transitionBuilder: (_, anim1, anim2, child) {
-                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                  final curvedValue =
+                      Curves.easeInOutBack.transform(anim1.value) - 1.0;
                   return Transform(
                     transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
@@ -923,19 +1087,25 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text(S.of(context).dialog_hint_check_error),
-                                content: Text(S.of(context).dialog_hint_check_error_content),
+                                title:
+                                    Text(S.of(context).dialog_hint_check_error),
+                                content: Text(S
+                                    .of(context)
+                                    .dialog_hint_check_error_content),
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
                                       S.of(context).dialog_conform,
                                       style: TextStyle(
                                         color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : "Ubuntu",
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                     },
                                   ),
                                 ],
@@ -951,18 +1121,21 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                               context: context,
                               builder: (_) => BasicDialogAlert(
                                 title: Text(S.of(context).dialog_unlock_sucess),
-                                content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
+
                                 actions: <Widget>[
                                   BasicDialogAction(
                                     title: Text(
                                       S.of(context).dialog_conform,
                                       style: TextStyle(
                                         color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : "Ubuntu",
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                     },
                                   ),
                                 ],
@@ -973,7 +1146,8 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                             showPlatformDialog(
                               context: context,
                               builder: (_) => BasicDialogAlert(
-                                title: Text(S.of(context).dialog_hint_check_error),
+                                title:
+                                    Text(S.of(context).dialog_hint_check_error),
                                 content: Text(Utils.formatABCLockV3Hint(error)),
                                 actions: <Widget>[
                                   BasicDialogAction(
@@ -981,11 +1155,14 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
                                       S.of(context).dialog_conform,
                                       style: TextStyle(
                                         color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn"
+                                            ? "Ubuntu"
+                                            : "Ubuntu",
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                     },
                                   ),
                                 ],
@@ -1004,7 +1181,10 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         child: Text(
           S.of(context).defi_card_out,
           maxLines: 1,
-          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,
@@ -1032,7 +1212,14 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
     errorCount++;
     if (errorCount > 5) {
       EasyLoading.dismiss();
-      Fluttertoast.showToast(msg: "th error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "th error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
       errorCount = 0;
       return;
     }
@@ -1100,7 +1287,14 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         }
       }).catchError((e) {
         EasyLoading.dismiss(animation: true);
-        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+        Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
       });
     });
   }

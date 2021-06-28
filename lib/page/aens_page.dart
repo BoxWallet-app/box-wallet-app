@@ -88,6 +88,7 @@ class _AensPageState extends State<AensPage> {
               ],
             ),
           ),
+          backgroundColor:Color(0xfffafafa),
           body: Container(
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(

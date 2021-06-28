@@ -176,6 +176,9 @@ class Utils {
       if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE")) {
         return "当前账户未在黑名单";
       }
+      if (msg.contains("ACCOUNT_INSUFFICIENT_BALANCE")) {
+        return "本期ABC已挖完";
+      }
       return msg;
     } else {
       print(msg);
@@ -199,6 +202,9 @@ class Utils {
       }
       if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_FALSE")) {
         return "The current account is not on the blacklist";
+      }
+      if (msg.contains("ACCOUNT_INSUFFICIENT_BALANCE")) {
+        return "ABC mine over";
       }
       return msg;
 

@@ -223,9 +223,9 @@ class _HomePageV2State extends State<HomePageV2> with AutomaticKeepAliveClientMi
       child: Container(
         child: Column(
           children: [
-            Container(
-              height: 8,
-            ),
+            // Container(
+            //   height: 8,
+            // ),
             Container(
               width: MediaQuery.of(context).size.width,
               child: Stack(
