@@ -36,7 +36,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
-import 'home_page.dart';
 
 class DefiInPage extends StatefulWidget {
   DefiInPage({Key key}) : super(key: key);
@@ -75,7 +74,7 @@ class _DefiInPageState extends State<DefiInPage> {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
-        HomePage.token = model.data.balance;
+        HomePageV2.token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -355,7 +354,7 @@ class _DefiInPageState extends State<DefiInPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    currentCoinName == "AE" ? HomePage.token + " " : HomePage.tokenABC + " ",
+                                                    currentCoinName == "AE" ? HomePageV2.token + " " : HomePageV2.tokenABC + " ",
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
@@ -408,23 +407,23 @@ class _DefiInPageState extends State<DefiInPage> {
   }
   void clickAllCount() {
     if (currentCoinName == "AE") {
-      if (HomePage.token == "loading...") {
+      if (HomePageV2.token == "loading...") {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(HomePage.token) < 1) {
+        if (double.parse(HomePageV2.token) < 1) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(HomePage.token) - 1).toStringAsFixed(0);
+          _textEditingController.text = (double.parse(HomePageV2.token) - 1).toStringAsFixed(0);
         }
       }
     } else {
-      if (HomePage.tokenABC == "loading...") {
+      if (HomePageV2.tokenABC == "loading...") {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(HomePage.tokenABC) < 1) {
+        if (double.parse(HomePageV2.tokenABC) < 1) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(HomePage.tokenABC) - 1).toString();
+          _textEditingController.text = (double.parse(HomePageV2.tokenABC) - 1).toString();
         }
       }
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
@@ -442,7 +441,7 @@ class _DefiInPageState extends State<DefiInPage> {
   Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
 
-    if( double.parse(_textEditingController.text)> double.parse(HomePage.token)){
+    if( double.parse(_textEditingController.text)> double.parse(HomePageV2.token)){
       showPlatformDialog(
         context: context,
         builder: (_) => BasicDialogAlert(

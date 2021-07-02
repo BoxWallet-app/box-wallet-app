@@ -20,7 +20,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../main.dart';
-import 'home_page.dart';
+
 import 'home_page_v2.dart';
 
 class SwapInitiatePage extends StatefulWidget {

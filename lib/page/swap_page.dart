@@ -43,7 +43,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'home_page.dart';
+
 import 'login_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';

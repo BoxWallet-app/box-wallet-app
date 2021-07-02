@@ -23,7 +23,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
-import 'home_page.dart';
+
 import 'home_page_v2.dart';
 
 class WeTrueSendPage extends StatefulWidget {

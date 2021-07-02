@@ -38,7 +38,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
-import 'home_page.dart';
 
 class DefiOutPage extends StatefulWidget {
   DefiOutPage({Key key}) : super(key: key);
@@ -78,7 +77,6 @@ class _DefiOutPageState extends State<DefiOutPage> {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
         print(model.data.balance);
-        HomePage.token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {

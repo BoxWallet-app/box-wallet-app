@@ -38,7 +38,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../main.dart';
-import 'home_page.dart';
+
 import 'home_page_v2.dart';
 
 class TokenSendTwoPage extends StatefulWidget {

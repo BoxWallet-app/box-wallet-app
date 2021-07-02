@@ -30,6 +30,15 @@ class Utils {
     return "ak_..." + address.substring(address.length - 4, address.length);
   }
 
+  static formatAccountAddress(String address) {
+    if (address == "" || address.length <= 4) {
+      return "";
+    }
+//    print(address);
+    return  address.substring(0, 5) + "..." +  address.substring(address.length - 4, address.length);
+
+  }
+
   static formatHomeCardAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";

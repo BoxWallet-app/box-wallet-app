@@ -5,10 +5,9 @@ import 'dart:ui';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/app_store_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/app_store_model.dart';
-import 'package:box/page/home_page.dart';
 import 'package:box/page/login_page.dart';
-import 'package:box/page/tab_page.dart';
 import 'package:box/page/tab_page_v2.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -33,8 +32,6 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   String _value = "";
-
-
 
   @override
   Future<void> initState() {
@@ -71,7 +68,6 @@ class _SplashPageState extends State<SplashPage> {
     print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
     startService();
   }
-
 
   void startService() {
     BoxApp.startAeService(context, () {
@@ -112,7 +108,8 @@ class _SplashPageState extends State<SplashPage> {
                       "中文",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -130,7 +127,8 @@ class _SplashPageState extends State<SplashPage> {
                       "English",
                       style: TextStyle(
                         color: Color(0xFFFC2365),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     onPressed: () {
@@ -153,26 +151,25 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void goHome() {
-
-
-
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
+        if (nodeUrl != null &&
+            nodeUrl != "" &&
+            compilerUrl != null &&
+            compilerUrl != "") {
           BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
         }
 
-        // ignore: missing_return
-        BoxApp.getAddress().then((value) {
-          SharedPreferences.getInstance().then((sp) {
-            sp.setString('is_language', "true");
-            if (value.length > 10) {
-              Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
-            } else {
-              Navigator.pushReplacement(context, CustomRoute(LoginPage()));
-            }
-//            Navigator.pushReplacement(context, CustomRoute(ForumPage(url: "http://localhost:8080",)));
-//            Navigator.pushReplacement(context, CustomRoute(ForumPage(title:"123",signingKey:"",address:"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",url: "https://governance.aeternity.com/#/",)));
+        WalletCoinsManager.instance.getCoins().then((value) {
+          WalletCoinsManager.instance.getCurrentCoin().then((value) {
+            SharedPreferences.getInstance().then((sp) {
+              sp.setString('is_language', "true");
+              if (value.length > 1) {
+                Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
+              } else {
+                Navigator.pushReplacement(context, CustomRoute(LoginPage()));
+              }
+            });
           });
         });
       });

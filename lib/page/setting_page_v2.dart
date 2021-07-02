@@ -12,7 +12,8 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
-import 'home_page.dart';
+
+import 'home_page_v2.dart';
 import 'language_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
@@ -260,7 +261,7 @@ class _SettingPageV2State extends State<SettingPageV2>
             Material(
               child: InkWell(
                 onTap: () {
-                  HomePage.tokenABC = "loading...";
+                  HomePageV2.tokenABC = "loading...";
                   TokenDefiPage.model = null;
                   BoxApp.setAddress("");
                   BoxApp.setSigningKey("");

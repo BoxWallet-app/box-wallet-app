@@ -8,6 +8,7 @@ import 'package:box/model/aens_info_model.dart';
 import 'package:box/model/aens_register_model.dart';
 import 'package:box/model/aens_update_model.dart';
 import 'package:box/model/wallet_record_model.dart';
+import 'package:box/page/home_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flushbar/flushbar.dart';
@@ -19,7 +20,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'home_page.dart';
+
 
 class TxDetailPage extends StatefulWidget {
   final RecordData recordData;
@@ -106,7 +107,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
           color: Color(0xFFFFFFFF)),
     );
 
-    var item2 = buildItem("Conform Height", (HomePage.height - widget.recordData.blockHeight).toString());
+    var item2 = buildItem("Conform Height", (HomePageV2.height - widget.recordData.blockHeight).toString());
     items.add(item2);
     items.add(
       Container(
@@ -251,7 +252,7 @@ class _TxDetailPageState extends State<TxDetailPage> {
     if (widget.recordData.tx['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (widget.recordData.tx['recipient_id'].toString() == HomePage.address) {
+      if (widget.recordData.tx['recipient_id'].toString() == HomePageV2.address) {
         return Text(
           "+" + ((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
           style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),

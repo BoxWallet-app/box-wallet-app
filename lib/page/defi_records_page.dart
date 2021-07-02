@@ -37,7 +37,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../main.dart';
 import 'defi_records_old_page.dart';
-import 'home_page.dart';
 
 class DefiRecordsPage extends StatefulWidget {
   final bool isShowTitle;
