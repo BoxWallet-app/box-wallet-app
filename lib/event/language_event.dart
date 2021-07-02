@@ -12,6 +12,11 @@ class DefiEvent {
   DefiEvent();
 }
 
+class AccountUpdateEvent {
+  AccountUpdateEvent();
+}
+
+
 class NameEvent {
   NameEvent();
 }

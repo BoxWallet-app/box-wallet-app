@@ -6,8 +6,10 @@ import 'package:box/dao/contract_info_dao.dart';
 import 'package:box/dao/version_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/contract_info_model.dart';
 import 'package:box/model/version_model.dart';
+import 'package:box/model/wallet_coins_model.dart';
 import 'package:box/page/aepps_page_v2.dart';
 import 'package:box/page/home_page_v2.dart';
 import 'package:box/page/setting_page_v2.dart';
@@ -91,7 +93,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamController3.sink.add(-1);
     _streamControllerLine.sink.add(0);
     showHint();
-    netVersion();
+    // netVersion();
 //    netContractInfo();
     const timeout = const Duration(seconds: 1);
 //    Timer.periodic(timeout, (timer) { //callback function
@@ -100,11 +102,19 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //      getClipboardData();
 //    });
 
-    eventBus.on<DefiEvent>().listen((event) {
-//      netContractInfo();
+    eventBus.on<AccountUpdateEvent>().listen((event) {
+      getAddress();
     });
+    getAddress();
+
   }
 
+  Future<String> getAddress() {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      HomePageV2.address = account.address;
+      setState(() {});
+    });
+  }
   void netContractInfo() {
     ContractInfoDao.fetch().then((ContractInfoModel model) {
       if (model.code == 200) {
@@ -714,7 +724,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
               showMaterialModalBottomSheet(
                   expand: false,
                   context: context,
-                  enableDrag: true,
+                  enableDrag: false,
                   backgroundColor:
                   Colors.transparent.withAlpha(10),
                   builder: (context) => WalletSelectPage()
@@ -726,7 +736,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 //设置四周边框
-                border: new Border.all(width: 1, color: Colors.black12),
+                border: new Border.all(width: 1, color: Colors.black26),
                 //设置四周边框
               ),
               padding: EdgeInsets.only(left: 4, right: 4),
@@ -751,7 +761,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //                                                      shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(36.0),
                         image: DecorationImage(
-                          image: AssetImage("images/ae_logo_red.png"),
+                          image: AssetImage("images/AE.png"),
                         ),
                       ),
                     ),
@@ -763,11 +773,11 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                     Utils.formatAccountAddress(HomePageV2.address),
                     maxLines: 1,
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                         fontFamily:
                             BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        color:  Colors.black54),
+                        color:  Colors.black),
                   ),
                   Container(
                     width: 2,

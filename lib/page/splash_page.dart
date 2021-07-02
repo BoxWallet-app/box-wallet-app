@@ -160,16 +160,16 @@ class _SplashPageState extends State<SplashPage> {
           BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
         }
 
-        WalletCoinsManager.instance.getCoins().then((value) {
-          WalletCoinsManager.instance.getCurrentCoin().then((value) {
-            SharedPreferences.getInstance().then((sp) {
-              sp.setString('is_language', "true");
-              if (value.length > 1) {
-                Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
-              } else {
-                Navigator.pushReplacement(context, CustomRoute(LoginPage()));
-              }
-            });
+        BoxApp.getAddress().then((value) {
+          SharedPreferences.getInstance().then((sp) {
+            sp.setString('is_language', "true");
+            if (value.length > 10) {
+              Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
+            } else {
+              Navigator.pushReplacement(context, CustomRoute(LoginPage()));
+            }
+//            Navigator.pushReplacement(context, CustomRoute(ForumPage(url: "http://localhost:8080",)));
+//            Navigator.pushReplacement(context, CustomRoute(ForumPage(title:"123",signingKey:"",address:"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",url: "https://governance.aeternity.com/#/",)));
           });
         });
       });

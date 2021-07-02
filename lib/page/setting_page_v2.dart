@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -264,6 +265,7 @@ class _SettingPageV2State extends State<SettingPageV2>
                   HomePageV2.tokenABC = "loading...";
                   TokenDefiPage.model = null;
                   BoxApp.setAddress("");
+                  WalletCoinsManager.instance.setCoins(null);
                   BoxApp.setSigningKey("");
                   BoxApp.setMnemonic("");
                   Navigator.of(super.context).pushNamedAndRemoveUntil(

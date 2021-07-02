@@ -70,6 +70,25 @@ class _HomePageV2State extends State<HomePageV2>
       getAddress();
       netTopHeightData();
       netSwapDao();
+      netNameReverseData();
+    });
+    eventBus.on<AccountUpdateEvent>().listen((event) {
+      priceModel = null;
+      walletRecordModel = null;
+      blockTopModel = null;
+      namesModel = null;
+      HomePageV2.token = "loading...";
+      HomePageV2.tokenABC = "loading...";
+      setState(() {
+
+      });
+      netBaseData();
+      netAccountInfo();
+      netContractBalance();
+      getAddress();
+      netTopHeightData();
+      netSwapDao();
+      netNameReverseData();
     });
     netBaseData();
     netAccountInfo();
@@ -114,11 +133,8 @@ class _HomePageV2State extends State<HomePageV2>
     WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
       if (model.code == 200) {
         if (page == 1) {
-          page++;
           walletRecordModel = model;
           if (model.data == null || model.data.length == 0) {
-//            _easyRefreshController.finishRefresh();
-//            _easyRefreshController.finishLoad();
             setState(() {});
             return;
           }
@@ -159,8 +175,9 @@ class _HomePageV2State extends State<HomePageV2>
     });
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      print(account.address);
       HomePageV2.address = account.address;
       setState(() {});
     });
@@ -1334,6 +1351,10 @@ class _HomePageV2State extends State<HomePageV2>
     if (walletRecordModel == null || walletRecordModel.data.length <= index) {
       return Container();
     }
+    if (index == 0) {
+      print(walletRecordModel.data[index].hash);
+    }
+
     return Material(
       color: Colors.white,
       child: InkWell(

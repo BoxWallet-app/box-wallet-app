@@ -17,13 +17,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../main.dart';
 
+typedef AddAccountCallBackFuture = Future Function();
 
-class AccountLoginPage extends StatefulWidget {
+class AddAccountPage extends StatefulWidget {
+  final AddAccountCallBackFuture accountCallBackFuture;
+
+  const AddAccountPage({Key key, this.accountCallBackFuture}) : super(key: key);
+
   @override
-  _AccountLoginPageState createState() => _AccountLoginPageState();
+  _AddAccountPageState createState() => _AddAccountPageState();
 }
 
-class _AccountLoginPageState extends State<AccountLoginPage> {
+class _AddAccountPageState extends State<AddAccountPage> {
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -65,30 +70,35 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 24,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),
                 Container(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Text(
                     S.of(context).account_login_page_input_hint,
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 14,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),
-
                 Center(
                   child: Container(
                     height: 170,
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                    padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    margin: EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    padding:
+                        EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                        color: Color(0xFFEEEEEE),
+                        border: Border.all(color: Color(0xFFEEEEEE)),
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: TextField(
                       controller: _textEditingController,
 
@@ -99,7 +109,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       maxLines: 10,
 
                       decoration: InputDecoration(
-                        hintText: 'memory pool equip lesson limb naive endorse advice lift ...',
+                        hintText:
+                            'memory pool equip lesson limb naive endorse advice lift ...',
                         enabledBorder: new UnderlineInputBorder(
                           borderSide: BorderSide(color: Color(0x00000000)),
                         ),
@@ -109,7 +120,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                         ),
                         hintStyle: TextStyle(
                           fontSize: 19,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily:
+                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black.withAlpha(80),
                         ),
                       ),
@@ -119,16 +131,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                     ),
                   ),
                 ),
-//              Container(
-//                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-//                width: MediaQuery.of(context).size.width,
-//                child: Wrap(
-//                  spacing: 10, //主轴上子控件的间距
-//                  runSpacing: 10, //交叉轴上子控件之间的间距
-//                  children: childrenFalse,
-//                ),
-//              ),
-
                 Container(
                   margin: const EdgeInsets.only(top: 30, bottom: 50),
                   child: Container(
@@ -141,11 +143,16 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       child: Text(
                         S.of(context).account_login_page_conform,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily:
+                                BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            color: Color(0xffffffff)),
                       ),
                       color: Color(0xFFFC2365),
                       textColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                 ),
@@ -156,7 +163,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
   }
 
   clickLogin() {
-    if (_textEditingController.text == null || _textEditingController.text == "") {
+    if (_textEditingController.text == null ||
+        _textEditingController.text == "") {
       return;
     }
 
@@ -173,7 +181,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 400),
               transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                final curvedValue =
+                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
                     transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
@@ -182,29 +191,68 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       child: PayPasswordWidget(
                           title: S.of(context).password_widget_set_password,
                           passwordCallBackFuture: (String password) async {
-
+                            final key =
+                                Utils.generateMd5Int(password + address);
+                            var signingKeyAesEncode =
+                                Utils.aesEncode(signingKey, key);
+                            BoxApp.setSigningKey(signingKeyAesEncode);
+                            BoxApp.setAddress(address);
                             WalletCoinsManager.instance
                                 .getCoins()
                                 .then((walletCoinModel) {
-
-                              final key = Utils.generateMd5Int(password + address);
-                              var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-
-
-                              Account account = Account();
-                              account.signingKey = signingKeyAesEncode;
-                              account.address = address;
-                              account.isSelect = true;
-                              walletCoinModel.ae.add(account);
-                              WalletCoinsManager.instance
-                                  .setCoins(walletCoinModel)
-                                  .then((value) {
-                                BoxApp.setSigningKey(signingKeyAesEncode);
-                                BoxApp.setAddress(address);
-                                Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                              bool isExist = false;
+                              for (var i = 0;
+                                  i < walletCoinModel.ae.length;
+                                  i++) {
+                                if (walletCoinModel.ae[i].address == address) {
+                                  isExist = true;
+                                }
+                                walletCoinModel.ae[i].isSelect = false;
+                              }
+                              if (isExist){
+                                showPlatformDialog(
+                                  context: super.context,
+                                  builder: (_) => BasicDialogAlert(
+                                    title: Text("重复账户"),
+                                    content: Text("钱包已存在该账户"),
+                                    actions: <Widget>[
+                                      BasicDialogAction(
+                                        title: Text(
+                                          "Conform",
+                                          style: TextStyle(
+                                            color: Color(0xFFFC2365),
+                                            fontFamily: BoxApp.language == "cn"
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(super.context, rootNavigator: true)
+                                              .pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
                                 return;
-                              });
+                              }else{
 
+                                Account account = Account();
+                                account.signingKey = signingKeyAesEncode;
+                                account.address = address;
+                                account.isSelect = true;
+                                walletCoinModel.ae.add(account);
+                                WalletCoinsManager.instance
+                                    .setCoins(walletCoinModel)
+                                    .then((value) {
+                                      if(widget.accountCallBackFuture!=null){
+                                        widget.accountCallBackFuture();
+                                      }
+                                  Navigator.of(super.context)
+                                      .pop();
+                                      return;
+                                });
+                              }
 
                             });
                           }),
@@ -223,7 +271,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                   "Conform",
                   style: TextStyle(
                     color: Color(0xFFFC2365),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
                 onPressed: () {
@@ -237,7 +285,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     }, _textEditingController.text);
   }
 
-  Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
+  Future<void> netLogin(
+      BuildContext context, Function startLoading, Function stopLoading) async {
     //隐藏键盘
     startLoading();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -256,7 +305,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 400),
               transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                final curvedValue =
+                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
                     transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
@@ -265,11 +315,14 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                       child: PayPasswordWidget(
                           title: S.of(context).password_widget_input_password,
                           passwordCallBackFuture: (String password) async {
-                            final key = Utils.generateMd5Int(password + model.data.address);
-                            var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
+                            final key = Utils.generateMd5Int(
+                                password + model.data.address);
+                            var signingKeyAesEncode =
+                                Utils.aesEncode(model.data.signingKey, key);
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setAddress(model.data.address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil(
+                                "/home", ModalRoute.withName("/home"));
                           }),
                     ));
               });
@@ -295,7 +348,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         }
       }).catchError((e) {
         stopLoading();
-        EasyLoading.showToast('网络错误: ' + e.toString(), duration: Duration(seconds: 2));
+        EasyLoading.showToast('网络错误: ' + e.toString(),
+            duration: Duration(seconds: 2));
       });
     });
   }
