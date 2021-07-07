@@ -22,11 +22,10 @@ class WalletCoinsManager {
     }
 
     if (model.ae.length == 0) {
-
       var signingKey = prefs.getString('signingKey');
       var address = prefs.getString('address');
       var mnemonic = prefs.getString('mnemonic');
-      if(address !=null && address!=""){
+      if (address != null && address != "") {
         Account account = Account();
         account.signingKey = signingKey;
         account.address = address;
@@ -36,7 +35,6 @@ class WalletCoinsManager {
         setCoins(model);
         return getCoins();
       }
-
     }
     return model;
   }
@@ -61,13 +59,28 @@ class WalletCoinsManager {
     return null;
   }
 
-  Future<String> getCurrentCoin() async {
+  Future<List<Object>> getCurrentCoin() async {
     WalletCoinsModel coins = await getCoins();
     for (var i = 0; i < coins.ae.length; i++) {
       if (coins.ae[i].isSelect) {
-        return "ae";
+        return ["ae", 0];
       }
     }
-    return "";
+    for (var i = 0; i < coins.btc.length; i++) {
+      if (coins.ae[i].isSelect) {
+        return ["btc", 1];
+      }
+    }
+    for (var i = 0; i < coins.btc.length; i++) {
+      if (coins.ae[i].isSelect) {
+        return ["eth", 2];
+      }
+    }
+    for (var i = 0; i < coins.btc.length; i++) {
+      if (coins.ae[i].isSelect) {
+        return ["btm", 3];
+      }
+    }
+    return ["", -1];
   }
 }

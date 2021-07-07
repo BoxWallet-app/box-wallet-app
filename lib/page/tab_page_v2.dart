@@ -39,8 +39,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
   final StreamController<int> _streamController1 = StreamController<int>();
   final StreamController<int> _streamController2 = StreamController<int>();
   final StreamController<int> _streamController3 = StreamController<int>();
-  final StreamController<double> _streamControllerLine =
-      StreamController<double>();
+  final StreamController<double> _streamControllerLine = StreamController<double>();
 
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
@@ -60,10 +59,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     pageControllerBody.addListener(() {
-      if (pageControllerBody.offset < 0 ||
-          pageControllerBody.offset >
-              MediaQuery.of(context).size.width +
-                  MediaQuery.of(context).size.width) {
+      if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery.of(context).size.width + MediaQuery.of(context).size.width) {
         return;
       }
       pageControllerTitle.jumpTo(pageControllerBody.offset / 3);
@@ -92,8 +88,8 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamController2.sink.add(-1);
     _streamController3.sink.add(-1);
     _streamControllerLine.sink.add(0);
-    showHint();
-    // netVersion();
+
+    netVersion();
 //    netContractInfo();
     const timeout = const Duration(seconds: 1);
 //    Timer.periodic(timeout, (timer) { //callback function
@@ -104,9 +100,10 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 
     eventBus.on<AccountUpdateEvent>().listen((event) {
       getAddress();
+      showHint();
     });
     getAddress();
-
+    showHint();
   }
 
   Future<String> getAddress() {
@@ -115,6 +112,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
       setState(() {});
     });
   }
+
   void netContractInfo() {
     ContractInfoDao.fetch().then((ContractInfoModel model) {
       if (model.code == 200) {
@@ -171,9 +169,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 S.of(context).dialog_conform,
                                 style: TextStyle(
                                   color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
                               ),
                               onPressed: () {
@@ -204,9 +200,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                               S.of(context).dialog_conform,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -223,9 +217,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                               S.of(context).dialog_cancel,
                               style: TextStyle(
                                 color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                             onPressed: () {
@@ -299,42 +291,33 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                         barrierLabel: "",
                         transitionDuration: Duration(milliseconds: 400),
                         transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue =
-                              Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                           return Transform(
                             transform: Matrix4.translationValues(0.0, 0, 0.0),
                             child: Opacity(
                               opacity: anim1.value,
                               // ignore: missing_return
                               child: PayPasswordWidget(
-                                title: S
-                                    .of(context)
-                                    .password_widget_input_password,
+                                title: S.of(context).password_widget_input_password,
                                 dismissCallBackFuture: (String password) {
                                   return;
                                 },
-                                passwordCallBackFuture:
-                                    (String password) async {
+                                passwordCallBackFuture: (String password) async {
                                   var mnemonic = await BoxApp.getMnemonic();
                                   if (mnemonic == "") {
                                     showPlatformDialog(
                                       context: context,
                                       builder: (_) => BasicDialogAlert(
                                         title: Text(S.of(context).dialog_hint),
-                                        content: Text(S
-                                            .of(context)
-                                            .dialog_login_user_no_save),
+                                        content: Text(S.of(context).dialog_login_user_no_save),
                                         actions: <Widget>[
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(
-                                                  color: Color(0xFFFC2365)),
+                                              style: TextStyle(color: Color(0xFFFC2365)),
                                             ),
                                             onPressed: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop();
+                                              Navigator.of(context, rootNavigator: true).pop();
                                             },
                                           ),
                                         ],
@@ -343,32 +326,23 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                     return;
                                   }
                                   var address = await BoxApp.getAddress();
-                                  final key =
-                                      Utils.generateMd5Int(password + address);
-                                  var aesDecode =
-                                      Utils.aesDecode(mnemonic, key);
+                                  final key = Utils.generateMd5Int(password + address);
+                                  var aesDecode = Utils.aesDecode(mnemonic, key);
 
                                   if (aesDecode == "") {
                                     showPlatformDialog(
                                       context: context,
                                       builder: (_) => BasicDialogAlert(
-                                        title: Text(S
-                                            .of(context)
-                                            .dialog_hint_check_error),
-                                        content: Text(S
-                                            .of(context)
-                                            .dialog_hint_check_error_content),
+                                        title: Text(S.of(context).dialog_hint_check_error),
+                                        content: Text(S.of(context).dialog_hint_check_error_content),
                                         actions: <Widget>[
                                           BasicDialogAction(
                                             title: Text(
                                               S.of(context).dialog_conform,
-                                              style: TextStyle(
-                                                  color: Color(0xFFFC2365)),
+                                              style: TextStyle(color: Color(0xFFFC2365)),
                                             ),
                                             onPressed: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop();
+                                              Navigator.of(context, rootNavigator: true).pop();
                                             },
                                           ),
                                         ],
@@ -376,14 +350,8 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                     );
                                     return;
                                   }
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MnemonicCopyPage(
-                                                  mnemonic: aesDecode)));
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                                  Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
                             ),
@@ -409,8 +377,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         // ignore: missing_return
         onWillPop: () async {
           // 点击返回键的操作
-          if (lastPopTime == null ||
-              DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+          if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
             lastPopTime = DateTime.now();
             Fluttertoast.showToast(
                 msg: "再按一次退出",
@@ -452,8 +419,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                             decoration: new BoxDecoration(
                               //背景
                               //设置四周圆角 角度
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                             child: PageView.builder(
                               itemCount: 3,
@@ -465,8 +431,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 if (position == 0) {
                                   return Container(
                                     height: 52,
-                                    margin: EdgeInsets.only(
-                                        left: 20, right: 0, top: 0, bottom: 0),
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       S.of(context).tab_1,
@@ -485,8 +450,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 } else if (position == 1) {
                                   return Container(
                                     height: 52,
-                                    margin: EdgeInsets.only(
-                                        left: 20, right: 0, top: 0, bottom: 0),
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       S.of(context).tab_2,
@@ -505,8 +469,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 } else {
                                   return Container(
                                     height: 52,
-                                    margin: EdgeInsets.only(
-                                        left: 20, right: 0, top: 0, bottom: 0),
+                                    margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       S.of(context).tab_3,
@@ -537,10 +500,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height -
-                        MediaQueryData.fromWindow(window).padding.top -
-                        MediaQueryData.fromWindow(window).padding.bottom -
-                        52,
+                    height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
                     child: PageView.builder(
                       itemCount: 3,
                       controller: pageControllerBody,
@@ -573,27 +533,20 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
-                                pageControllerBody.animateToPage(0,
-                                    duration: new Duration(milliseconds: 1000),
-                                    curve: new ElasticOutCurve(4));
+                                pageControllerBody.animateToPage(0, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
                               },
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(60)),
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
                               child: StreamBuilder<Object>(
                                   stream: _streamController1.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
                                         width: 30,
                                         height: 30,
-                                        image: snapshot.data == 0xFFFC2365
-                                            ? AssetImage(
-                                                "images/tab_home_p.png")
-                                            : AssetImage("images/tab_home.png"),
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
                                       ),
                                     );
                                   }),
@@ -603,27 +556,20 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
-                                pageControllerBody.animateToPage(1,
-                                    duration: new Duration(milliseconds: 1000),
-                                    curve: new ElasticOutCurve(4));
+                                pageControllerBody.animateToPage(1, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
                               },
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(60)),
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
                               child: StreamBuilder<Object>(
                                   stream: _streamController2.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
                                         width: 30,
                                         height: 30,
-                                        image: snapshot.data == 0xFFFC2365
-                                            ? AssetImage(
-                                                "images/tab_swap_p.png")
-                                            : AssetImage("images/tab_swap.png"),
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap_p.png") : AssetImage("images/tab_swap.png"),
                                       ),
                                     );
                                   }),
@@ -633,26 +579,20 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
-                                pageControllerBody.animateToPage(2,
-                                    duration: new Duration(milliseconds: 1000),
-                                    curve: new ElasticOutCurve(4));
+                                pageControllerBody.animateToPage(2, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
                               },
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(60)),
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
                               child: StreamBuilder<Object>(
                                   stream: _streamController3.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
                                         width: 30,
                                         height: 30,
-                                        image: snapshot.data == 0xFFFC2365
-                                            ? AssetImage("images/tab_app_p.png")
-                                            : AssetImage("images/tab_app.png"),
+                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_app_p.png") : AssetImage("images/tab_app.png"),
                                       ),
                                     );
                                   }),
@@ -668,25 +608,14 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                                 left: snapshot.data,
                                 child: Container(
                                   height: 3,
-                                  margin: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          3 /
-                                          3,
-                                      right: MediaQuery.of(context).size.width /
-                                          3 /
-                                          3),
-                                  width: MediaQuery.of(context).size.width / 3 -
-                                      MediaQuery.of(context).size.width /
-                                          3 /
-                                          3 -
-                                      MediaQuery.of(context).size.width / 3 / 3,
+                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 3 / 3, right: MediaQuery.of(context).size.width / 3 / 3),
+                                  width: MediaQuery.of(context).size.width / 3 - MediaQuery.of(context).size.width / 3 / 3 - MediaQuery.of(context).size.width / 3 / 3,
                                   //边框设置
                                   decoration: new BoxDecoration(
                                     //背景
                                     color: Color(0xFFf7296e),
                                     //设置四周圆角 角度
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25)),
+                                    borderRadius: BorderRadius.all(Radius.circular(25)),
                                   ),
                                 ));
                           })
@@ -712,7 +641,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
 //      );
 //    }
     return Positioned(
-      right: 18,
+      right: 8,
       child: Container(
         height: 52,
         alignment: Alignment.center,
@@ -722,23 +651,17 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
               showMaterialModalBottomSheet(
-                  expand: false,
-                  context: context,
-                  enableDrag: false,
-                  backgroundColor:
-                  Colors.transparent.withAlpha(10),
-                  builder: (context) => WalletSelectPage()
-              );
+                  expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent.withAlpha(0), builder: (context) => WalletSelectPage());
             },
             child: Container(
               height: 35,
               decoration: new BoxDecoration(
-                //设置四周圆角 角度
-                borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                //设置四周边框
-                border: new Border.all(width: 1, color: Colors.black26),
-                //设置四周边框
-              ),
+                  //设置四周圆角 角度
+                  // borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  //设置四周边框
+                  // border: new Border.all(width: 1, color: Colors.black),
+                  //设置四周边框
+                  ),
               padding: EdgeInsets.only(left: 4, right: 4),
               margin: const EdgeInsets.only(top: 0),
               child: Row(
@@ -750,14 +673,10 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                       height: 27.0,
                       decoration: BoxDecoration(
                         border: Border(
-                            bottom: BorderSide(
-                                color: Color(0xFFEEEEEE), width: 1.0),
-                            top: BorderSide(
-                                color: Color(0xFFEEEEEE), width: 1.0),
-                            left: BorderSide(
-                                color: Color(0xFFEEEEEE), width: 1.0),
-                            right: BorderSide(
-                                color: Color(0xFFEEEEEE), width: 1.0)),
+                            bottom: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
+                            top: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
+                            left: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
+                            right: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(36.0),
                         image: DecorationImage(
@@ -772,12 +691,7 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                   Text(
                     Utils.formatAccountAddress(HomePageV2.address),
                     maxLines: 1,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        color:  Colors.black),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                   ),
                   Container(
                     width: 2,
@@ -785,14 +699,12 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
                   Container(
                     width: 15,
                     height: 15,
-                    margin:
-                    const EdgeInsets.only(right: 4),
+                    margin: const EdgeInsets.only(right: 4),
                     //边框设置
                     decoration: new BoxDecoration(
                       // color: Color(0xFFF5F5F5),
                       //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(25.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
                     ),
                     child: Icon(
                       Icons.arrow_forward_ios,

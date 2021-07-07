@@ -44,7 +44,7 @@ class Utils {
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return "ak_ " + address.substring(3, 6) + " "+address.substring(6, 8)+"... \n..." + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
+    return "ak_ " + address.substring(3, 6) + " "+address.substring(6, 9)+ " "+address.substring(9, 12)+"... \n" + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
   }
 
   static formatHomeCardAddress(String address) {

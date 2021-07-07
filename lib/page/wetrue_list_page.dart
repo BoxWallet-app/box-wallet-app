@@ -264,6 +264,7 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
+                                    width: 200,
                                     child: Text(
                                       wetrueListModels.data.data[index].users
                                                   .nickname ==

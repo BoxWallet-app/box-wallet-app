@@ -247,6 +247,7 @@ class _HomePageV2State extends State<HomePageV2>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
             child: EasyRefresh(
       header: AEHeader(),

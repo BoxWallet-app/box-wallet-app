@@ -597,6 +597,7 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                           ],
                         ),
                       );
+                      return;
                     }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data.allowance);
                     showChainLoading();
                   },

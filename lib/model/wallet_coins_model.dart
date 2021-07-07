@@ -2,6 +2,7 @@ class WalletCoinsModel {
   List<Account> ae =  new List<Account>();
   List<Account> btc =  new List<Account>();
   List<Account> eth =  new List<Account>();
+  List<Account> btm =  new List<Account>();
 
   WalletCoinsModel();
 
@@ -24,6 +25,11 @@ class WalletCoinsModel {
         eth.add(new Account.fromJson(v));
       });
     }
+    if (json['btm'] != null) {
+      json['btm'].forEach((v) {
+        btm.add(new Account.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +42,9 @@ class WalletCoinsModel {
     }
     if (this.eth != null) {
       data['eth'] = this.eth.map((v) => v.toJson()).toList();
+    }
+    if (this.btm != null) {
+      data['btm'] = this.btm.map((v) => v.toJson()).toList();
     }
     return data;
   }
