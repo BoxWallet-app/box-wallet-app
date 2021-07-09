@@ -33,7 +33,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("123->" + MediaQueryData.fromWindow(window).padding.top.toString());
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Material(
@@ -197,7 +196,6 @@ class _MainPageState extends State<MainPage> {
                                                   child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 onTap: () {
-                                                  print("123");
                                                 },
                                                 child: Row(
                                                   children: <Widget>[
@@ -246,7 +244,6 @@ class _MainPageState extends State<MainPage> {
                                                   child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 onTap: () {
-                                                  print("123");
                                                 },
                                                 child: Row(
                                                   children: <Widget>[
@@ -302,7 +299,6 @@ class _MainPageState extends State<MainPage> {
                                                   child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 onTap: () {
-                                                  print("123");
                                                 },
                                                 child: Row(
                                                   children: <Widget>[
@@ -351,7 +347,6 @@ class _MainPageState extends State<MainPage> {
                                                   child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 onTap: () {
-                                                  print("123");
                                                 },
                                                 child: Row(
                                                   children: <Widget>[

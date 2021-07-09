@@ -95,12 +95,10 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        print(model.data.balance);
         token = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
-      print(e.toString());
     });
   }
 
@@ -112,7 +110,6 @@ class _TokenDefiPageState extends State<TokenDefiPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-      print(e.toString());
       EasyLoading.dismiss(animation: true);
 //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });

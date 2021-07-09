@@ -12,7 +12,6 @@ class AppStoreDao {
     Map<String, String> params = new Map();
     Response response = await Dio().post(APP_STORE, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       AppStoreModel model = AppStoreModel.fromJson(data);
       return model;

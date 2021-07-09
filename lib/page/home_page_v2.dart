@@ -177,7 +177,6 @@ class _HomePageV2State extends State<HomePageV2>
 
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
-      print(account.address);
       HomePageV2.address = account.address;
       setState(() {});
     });
@@ -1353,7 +1352,6 @@ class _HomePageV2State extends State<HomePageV2>
       return Container();
     }
     if (index == 0) {
-      print(walletRecordModel.data[index].hash);
     }
 
     return Material(

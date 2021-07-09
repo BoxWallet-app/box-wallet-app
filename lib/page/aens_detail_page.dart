@@ -395,7 +395,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: tx));
                                 Navigator.of(context, rootNavigator: true).pop();
-                                print(tx);
                                 showFlush(context);
                               },
                             ),
@@ -540,7 +539,6 @@ class _AensDetailPageState extends State<AensDetailPage> {
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: tx));
                                 Navigator.of(context, rootNavigator: true).pop();
-                                print(tx);
                                 showFlush(context);
                               },
                             ),

@@ -306,7 +306,6 @@ class _NamePointPageState extends State<NamePointPage> {
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: tx));
                                 Navigator.of(context, rootNavigator: true).pop();
-                                print(tx);
                                 showFlush(context);
                               },
                             ),

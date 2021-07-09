@@ -37,7 +37,6 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
       mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
     }
 
-print(widget.mnemonic);
 //    for (String item in mnemonicList) {
 //      mnemonicWord[item] = false;
 //    }

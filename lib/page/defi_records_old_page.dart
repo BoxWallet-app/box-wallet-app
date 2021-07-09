@@ -204,7 +204,6 @@ class _DefiRecordsOldPageState extends State<DefiRecordsOldPage> with AutomaticK
                     );
                     // ignore: missing_return
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(

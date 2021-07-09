@@ -180,7 +180,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
         });
       }
 
-      print(dropdownValue.ctAddress);
       SwapCoinAccountDao.fetch(dropdownValue.ctAddress).then((SwapCoinAccountModel model) {
         if (model.code == 200) {
           if (swapModels != null) {
@@ -211,13 +210,11 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
           setState(() {});
         }
       }).catchError((e) {
-        print(e.toString());
         loadingType = LoadingType.error;
         controller.finishRefresh();
         setState(() {});
       });
     }).catchError((e) {
-      print(e.toString());
       loadingType = LoadingType.error;
       controller.finishRefresh();
       setState(() {});
@@ -653,7 +650,6 @@ class _SwapPageState extends State<SwapPage> with AutomaticKeepAliveClientMixin 
                       ),
                     );
                   }, (error) {
-                    print(error);
                     // ignore: missing_return, missing_return
                     showPlatformDialog(
                       context: context,

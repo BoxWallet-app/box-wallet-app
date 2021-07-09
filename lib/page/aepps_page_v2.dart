@@ -72,7 +72,6 @@ class _AeppsPageV2State extends State<AeppsPageV2>
         setState(() {});
       } else {}
     }).catchError((e) {
-      print(e.toString());
       EasyLoading.dismiss(animation: true);
 //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });

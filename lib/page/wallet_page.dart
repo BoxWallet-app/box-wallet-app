@@ -116,7 +116,6 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
                 buildItem(context, "发送币", "images/profile_display_currency.png", () {
                 }),
                 buildItem(context, "接收币", "images/profile_account_permissions.png", () {
-                  print("123");
                 }),
                 buildItem(context, "转账记录", "images/profile_lanuge.png", () {
                   print("123");

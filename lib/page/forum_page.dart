@@ -60,7 +60,6 @@ class _ForumPageState extends State<ForumPage> {
           onPressed: () {
             Future<bool> canGoBack = _webViewController.canGoBack();
             canGoBack.then((str) {
-              print(str);
               if (str) {
                 _webViewController.goBack();
               } else {
@@ -102,7 +101,6 @@ class _ForumPageState extends State<ForumPage> {
                 JavascriptChannel(
                     name: 'onSignData_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      print(message.message);
                       Map<String, dynamic> tx = jsonDecode(message.message);
                       showGeneralDialog(
                           context: context,

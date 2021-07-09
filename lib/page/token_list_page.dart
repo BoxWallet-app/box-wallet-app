@@ -44,7 +44,6 @@ class _TokenListPathState extends State<TokenListPage> {
         netContractBalance(i);
       }
     }).catchError((e) {
-      print(e);
       loadingType = LoadingType.error;
       setState(() {});
     });

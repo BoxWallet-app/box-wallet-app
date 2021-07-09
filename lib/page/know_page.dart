@@ -44,7 +44,6 @@ class _KnowPageState extends State<KnowPage> {
           onPressed: () {
             Future<bool> canGoBack = _webViewController.canGoBack();
             canGoBack.then((str) {
-              print(str);
               if (str) {
                 _webViewController.goBack();
               } else {

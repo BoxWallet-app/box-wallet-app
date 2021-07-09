@@ -128,7 +128,6 @@ class Utils {
       final encrypted = encrypter.encrypt(content, iv: encrypt.IV.fromBase64(base64Encode(password)));
       return encrypted.base64;
     } catch (err) {
-      print("aes encode error:$err");
       return content;
     }
   }
@@ -140,7 +139,6 @@ class Utils {
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
     } catch (err) {
-      print("aes decode error:$err");
       return "";
     }
   }
@@ -198,7 +196,6 @@ class Utils {
       }
       return msg;
     } else {
-      print(msg);
       if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
         return "The current account has been blacklisted";
       }

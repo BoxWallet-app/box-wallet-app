@@ -214,7 +214,6 @@ class _DefiRecordsPageState extends State<DefiRecordsPage> with AutomaticKeepAli
                     );
 
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       builder: (_) => BasicDialogAlert(

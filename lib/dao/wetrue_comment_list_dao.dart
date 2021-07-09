@@ -30,7 +30,6 @@ class WetrueCommentDao {
 
     Response response = await Dio().post(url, data: formData, options: options);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       WetrueCommentModel model = WetrueCommentModel.fromJson(data);
       return model;

@@ -14,7 +14,6 @@ class SwapDao {
     params['address'] =await BoxApp.getAddress();
     Response response = await Dio().post(SWAP_LIST, queryParameters: params);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       SwapModel model = SwapModel.fromJson(data);
       return model;

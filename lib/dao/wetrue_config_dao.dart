@@ -23,7 +23,6 @@ class WeTrueConfigDao {
     url = WE_TRUE_URL+"/Config/info";
     Response response = await Dio().post(url,options: options);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       WeTrueConfigModel model = WeTrueConfigModel.fromJson(data);
       return model;

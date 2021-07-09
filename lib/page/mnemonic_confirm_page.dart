@@ -114,8 +114,6 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: FlatButton(
                     onPressed: () {
-                      print(childrenWordTrue.toString());
-                      print(widget.mnemonic.split(" ").toString());
                       if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
                         showPlatformDialog(
                           context: context,

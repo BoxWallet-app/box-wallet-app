@@ -47,10 +47,6 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
   void netWeTrueConfig() {
     WeTrueConfigDao.fetch().then((WeTrueConfigModel model) {
       weTrueConfigModel = model;
-      print(Decimal.parse(
-              (weTrueConfigModel.data.commentAmount / 1000000000000000000)
-                  .toString())
-          .toString());
       setState(() {});
     }).catchError((e) {
       //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
@@ -224,7 +220,6 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
       return;
     }
 
-    print(_textEditingController.text);
 
     String content = Utils.encodeBase64('{"WeTrue":"' +
         weTrueConfigModel.data.weTrue +
@@ -287,15 +282,12 @@ class _WeTrueSendPageState extends State<WeTrueSendPage> {
                   // ignore: missing_return
                   BoxApp.spend((tx) {
                     // EasyLoading.show();
-                    print(tx);
                     WeTrueTopicDao.fetch(tx).then((bool model) {
                       EasyLoading.dismiss(animation: true);
 
-                      print(tx);
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
 
-                      print(tx);
                     });
                     showFlushSucess(context);
                     setState(() {});

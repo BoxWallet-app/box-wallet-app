@@ -737,7 +737,6 @@ class _WeTrueListPageState extends State<WeTrueListPage>
                       ),
                     );
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return

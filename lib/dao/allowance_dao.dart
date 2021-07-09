@@ -17,7 +17,6 @@ class AllowanceDao {
     params["address"] = address;
     params['ct_id'] = ctId;
     Response response = await Dio().post(AEX9_ALLOWANCE, queryParameters: params);
-    print(response.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AllowanceModel model = AllowanceModel.fromJson(data);

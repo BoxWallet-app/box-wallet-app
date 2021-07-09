@@ -52,7 +52,6 @@ class _WebPageState extends State<WebPage> {
           onPressed: () {
             Future<bool> canGoBack = _webViewController.canGoBack();
             canGoBack.then((str) {
-              print(str);
               if (str) {
                 _webViewController.goBack();
               } else {

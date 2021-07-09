@@ -63,9 +63,6 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
         return;
       }
       pageControllerTitle.jumpTo(pageControllerBody.offset / 3);
-
-      double zoom = (156) / (MediaQuery.of(context).size.width);
-      double offset = (pageControllerBody.offset * zoom);
       _streamControllerLine.sink.add(pageControllerBody.offset / 3);
       if (pageControllerBody.page < 0.5) {
         _streamController1.sink.add(0xFFFC2365);
@@ -89,39 +86,19 @@ class _TabPageV2State extends State<TabPageV2> with TickerProviderStateMixin {
     _streamController3.sink.add(-1);
     _streamControllerLine.sink.add(0);
 
-    netVersion();
-//    netContractInfo();
-    const timeout = const Duration(seconds: 1);
-//    Timer.periodic(timeout, (timer) { //callback function
-//      //1s 回调一次
-//      print('afterTimer='+DateTime.now().toString());
-//      getClipboardData();
-//    });
-
     eventBus.on<AccountUpdateEvent>().listen((event) {
       getAddress();
       showHint();
     });
+    netVersion();
     getAddress();
     showHint();
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       HomePageV2.address = account.address;
       setState(() {});
-    });
-  }
-
-  void netContractInfo() {
-    ContractInfoDao.fetch().then((ContractInfoModel model) {
-      if (model.code == 200) {
-        TokenDefiPage.model = model;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-      print(e.toString());
-//
     });
   }
 

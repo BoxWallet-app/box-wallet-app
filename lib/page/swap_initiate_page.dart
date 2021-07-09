@@ -481,13 +481,10 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
     }
     var inputTokenBalanceString = _textEditingControllerNode.text;
     if (double.parse(ctBalance) < double.parse(inputTokenBalanceString)) {
-      print("111");
       return;
     }
-    print("111");
     EasyLoading.show();
     AllowanceDao.fetch(dropdownValue.ctAddress).then((AllowanceModel model) {
-      print(model.data.allowance);
       EasyLoading.dismiss(animation: true);
       showGeneralDialog(
           context: context,
@@ -571,7 +568,6 @@ class _SwapInitiatePageState extends State<SwapInitiatePage> {
                         ),
                       );
                     }, (error) {
-                      print(error.toString());
                       // ignore: missing_return, missing_return
                       showPlatformDialog(
                         context: context,

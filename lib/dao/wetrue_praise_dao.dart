@@ -21,7 +21,6 @@ class WeTruePraiseDao {
     url = WE_TRUE_URL+"/Submit/praise";
     Response response = await Dio().post(url, data: formData,options: options);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       WeTruePraiseModel model = WeTruePraiseModel.fromJson(data);
       return model;

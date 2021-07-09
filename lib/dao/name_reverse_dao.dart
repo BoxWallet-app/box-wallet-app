@@ -13,7 +13,6 @@ class NameReverseDao {
     Response response = await Dio().get(NAME + address);
     if (response.statusCode == 200) {
       List responseJson = json.decode(json.encode(response.data));
-//      print(json.encode(response.data));
       List<NameReverseModel> data = new List<NameReverseModel>();
       responseJson.forEach((v) {
         data.add(new NameReverseModel.fromJson(v));

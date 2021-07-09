@@ -624,7 +624,6 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                       ),
                     );
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return

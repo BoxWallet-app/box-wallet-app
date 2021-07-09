@@ -492,7 +492,6 @@ class _AensRegisterState extends State<AensRegister> {
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(text: tx));
                                     Navigator.of(context, rootNavigator: true).pop();
-                                    print(tx);
                                     showFlush(context);
                                   },
                                 ),
@@ -587,7 +586,6 @@ class _AensRegisterState extends State<AensRegister> {
                       }
                       // ignore: missing_return
                       BoxApp.claimName((tx) {
-                        print(tx);
                         showFlush(context);
 
                         // ignore: missing_return

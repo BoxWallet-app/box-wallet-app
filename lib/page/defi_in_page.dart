@@ -73,7 +73,6 @@ class _DefiInPageState extends State<DefiInPage> {
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        print(model.data.balance);
         HomePageV2.token = model.data.balance;
         setState(() {});
       } else {}

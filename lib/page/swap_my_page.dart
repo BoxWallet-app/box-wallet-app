@@ -477,7 +477,6 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
                       ),
                     );
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return

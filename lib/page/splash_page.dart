@@ -46,26 +46,7 @@ class _SplashPageState extends State<SplashPage> {
       });
     });
 
-//    AppStoreDao.fetch().then((AppStoreModel model) {
-//      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-//        var newVersion = 0;
-//        if (Platform.isIOS) {
-//          newVersion = int.parse(model.data.version.replaceAll(".", ""));
-//          var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
-//          if (newVersion == oldVersion) {
-//            BoxApp.isOpenStore = model.data.isOpen;
-//            print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
-//            startService();
-//          }
-//        }
-//      });
-//    }).catchError((e) {
-//      BoxApp.isOpenStore = true;
-//      print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
-//      startService();
-//    });
     BoxApp.isOpenStore = false;
-    print(" BoxApp.isOpenStore :" + BoxApp.isOpenStore.toString());
     startService();
   }
 
@@ -78,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
         if (isLanguage == "true") {
           BoxApp.getLanguage().then((String value) {
             BoxApp.language = value;
-            print("getLanguage->" + value);
+            logger.info("APP LANGUAGE : " + value);
             S.load(Locale(value, value.toUpperCase()));
             setState(() {
               _value = value;

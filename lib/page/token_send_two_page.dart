@@ -174,7 +174,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
         setState(() {});
       }
     }).catchError((e) {
-      print(e);
       EasyLoading.dismiss(animation: true);
       loadingType = LoadingType.error;
       setState(() {});
@@ -699,7 +698,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(text: tx));
                                   Navigator.of(context, rootNavigator: true).pop();
-                                  print(tx);
                                   showFlushSucess(context);
                                 },
                               ),
@@ -813,7 +811,6 @@ class _TokenSendTwoPageState extends State<TokenSendTwoPage> {
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(text: tx));
                                   Navigator.of(context, rootNavigator: true).pop();
-                                  print(tx);
                                   showFlushSucess(context);
                                 },
                               ),

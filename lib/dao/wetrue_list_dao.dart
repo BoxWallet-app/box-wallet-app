@@ -34,7 +34,6 @@ class WeTrueListDao {
 
     Response response = await Dio().post(url, data: formData,options: options);
     if (response.statusCode == 200) {
-      print(response.toString());
       var data = jsonDecode(response.toString());
       WetrueListModel model = WetrueListModel.fromJson(data);
       return model;

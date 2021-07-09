@@ -52,7 +52,6 @@ class WalletCoinsManager {
     WalletCoinsModel coins = await getCoins();
     for (var i = 0; i < coins.ae.length; i++) {
       if (coins.ae[i].isSelect) {
-        print(coins.ae[i].address);
         return coins.ae[i];
       }
     }

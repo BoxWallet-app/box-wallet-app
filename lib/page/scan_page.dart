@@ -49,7 +49,6 @@ class _ScanPageState extends State<ScanPage> {
 
   Future onScan(String data) async {
     if(data == null){
-      print(data);
       return;
     }
     Navigator.pop(context,data);

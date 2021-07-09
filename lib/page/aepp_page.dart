@@ -40,7 +40,6 @@ class _AeppPageState extends State<AeppPage> with AutomaticKeepAliveClientMixin,
 
   @override
   Widget build(BuildContext context) {
-    print("update");
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Container(

@@ -300,7 +300,6 @@ class _WeTrueHomePageState extends State<WeTrueHomePage> with AutomaticKeepAlive
                       ),
                     );
                   }, (error) {
-                    print(error);
                     showPlatformDialog(
                       context: context,
                       // ignore: missing_return
