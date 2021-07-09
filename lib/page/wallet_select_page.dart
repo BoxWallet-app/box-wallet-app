@@ -53,256 +53,259 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     return Scaffold(
       backgroundColor: Colors.transparent.withAlpha(0),
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkResponse(
-              highlightColor: Colors.transparent,
-              radius: 0.0,
-              onTap: () {
-                Navigator.pop(context);
-              },
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkResponse(
+                highlightColor: Colors.transparent,
+                radius: 0.0,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width,
+                )),
+            Material(
+              color: Colors.transparent.withAlpha(0),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.75,
                 width: MediaQuery.of(context).size.width,
-              )),
-          Material(
-            color: Colors.transparent.withAlpha(0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.75,
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              decoration: ShapeDecoration(
-                color: Color(0xffffffff),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: ShapeDecoration(
+                  color: Color(0xffffffff),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: 52,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height: 52,
-                                width: 52,
-                                padding: EdgeInsets.all(15),
-                                child: Icon(
-                                  Icons.close,
-                                  size: 22,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 52,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 52,
+                                  width: 52,
+                                  padding: EdgeInsets.all(15),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 22,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: Container(
-                            height: 52,
-                            width: MediaQuery.of(context).size.width,
-                            alignment: Alignment.center,
-                            child: Text(
-                              "钱包",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            child: Container(
+                              height: 52,
+                              width: MediaQuery.of(context).size.width,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "钱包",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 1,
-                    color: Color(0xFFF5F5F5),
-                    width: MediaQuery.of(context).size.width,
-                  ),
+                    Container(
+                      height: 1,
+                      color: Color(0xFFF5F5F5),
+                      width: MediaQuery.of(context).size.width,
+                    ),
 
 
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.75 - 52-1,
-                    width: MediaQuery.of(context).size.width,
-                    color: Color(0xFFfafafa),
-                    child: Row(
-                      children: [
-                        MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context,
-                          child: Container(
-                            color: Color(0xFFF5F5F5),
-                            height: MediaQuery.of(context).size.height * 0.75 - 52,
-                            width: 56,
-                            child: ListView.builder(
-                              itemCount: 4,
-                              itemBuilder: (context, index) {
-                                return itemCoin(index);
-                              },
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.75 - 52-1,
+                      width: MediaQuery.of(context).size.width,
+                      color: Color(0xFFfafafa),
+                      child: Row(
+                        children: [
+                          MediaQuery.removePadding(
+                            removeTop: true,
+                            context: context,
+                            child: Container(
+                              color: Color(0xFFF5F5F5),
+                              height: MediaQuery.of(context).size.height * 0.75 - 52,
+                              width: 56,
+                              child: ListView.builder(
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return itemCoin(index);
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width - 56,
-                                padding: EdgeInsets.only(left: 18),
-                                height: 42,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        getCoinNmae(),
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                          color: Color(0xFF000000).withAlpha(200),
+                          MediaQuery.removePadding(
+                            removeTop: true,
+                            context: context,
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width - 56,
+                                  padding: EdgeInsets.only(left: 18),
+                                  height: 42,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          getCoinNmae(),
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            color: Color(0xFF000000).withAlpha(200),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                                        onTap: () async {
-                                          if (coinIndex != 0) {
-                                            showPlatformDialog(
-                                              context: context,
-                                              builder: (_) => BasicDialogAlert(
-                                                title: Text(
-                                                  "功能开发中",
-                                                ),
-                                                content: Text(
-                                                  "支持更多公链尽情期待",
-                                                  style: TextStyle(
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                                          onTap: () async {
+                                            if (coinIndex != 0) {
+                                              showPlatformDialog(
+                                                context: context,
+                                                builder: (_) => BasicDialogAlert(
+                                                  title: Text(
+                                                    "功能开发中",
                                                   ),
-                                                ),
-                                                actions: <Widget>[
-                                                  BasicDialogAction(
-                                                    title: Text(
-                                                      "确认",
-                                                      style: TextStyle(
-                                                        color: Color(0xFFFC2365),
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                      ),
+                                                  content: Text(
+                                                    "支持更多公链尽情期待",
+                                                    style: TextStyle(
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                     ),
-                                                    onPressed: () {
-                                                      Navigator.of(context, rootNavigator: true).pop();
-                                                    },
                                                   ),
-                                                ],
-                                              ),
-                                            );
-                                            return;
-                                          }
-                                          final result = await showConfirmationDialog<int>(
-                                            context: context,
-                                            cancelLabel: S.of(context).dialog_dismiss,
-                                            actions: [
-                                              ...List.generate(
-                                                2,
-                                                (index) => AlertDialogAction(
-                                                  label: index == 0 ? '导入' : "创建",
-                                                  key: index,
+                                                  actions: <Widget>[
+                                                    BasicDialogAction(
+                                                      title: Text(
+                                                        "确认",
+                                                        style: TextStyle(
+                                                          color: Color(0xFFFC2365),
+                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context, rootNavigator: true).pop();
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                            title: getCoinNmae() + " 钱包",
-                                          );
-                                          if (result == 0) {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => AddAccountPage(
-                                                          accountCallBackFuture: () {
-                                                            WalletCoinsManager.instance.getCoins().then((value) {
-                                                              walletCoinsModel = value;
-                                                              for (var i = 0; i < walletCoinsModel.ae.length; i++) {
-                                                                walletCoinsModel.ae[i].isSelect = false;
-                                                              }
-                                                              walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
-                                                              BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
-                                                              BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
-                                                              WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
-                                                                eventBus.fire(AccountUpdateEvent());
-                                                                Navigator.of(super.context).pop();
+                                              );
+                                              return;
+                                            }
+                                            final result = await showConfirmationDialog<int>(
+                                              context: context,
+                                              cancelLabel: S.of(context).dialog_dismiss,
+                                              actions: [
+                                                ...List.generate(
+                                                  2,
+                                                  (index) => AlertDialogAction(
+                                                    label: index == 0 ? '导入' : "创建",
+                                                    key: index,
+                                                  ),
+                                                ),
+                                              ],
+                                              title: getCoinNmae() + " 钱包",
+                                            );
+                                            if (result == 0) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => AddAccountPage(
+                                                            accountCallBackFuture: () {
+                                                              WalletCoinsManager.instance.getCoins().then((value) {
+                                                                walletCoinsModel = value;
+                                                                for (var i = 0; i < walletCoinsModel.ae.length; i++) {
+                                                                  walletCoinsModel.ae[i].isSelect = false;
+                                                                }
+                                                                walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
+                                                                BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
+                                                                BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
+                                                                WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
+                                                                  eventBus.fire(AccountUpdateEvent());
+                                                                  Navigator.of(super.context).pop();
+                                                                  return;
+                                                                });
                                                                 return;
                                                               });
                                                               return;
-                                                            });
-                                                            return;
-                                                          },
-                                                        )));
-                                          }
-                                          if (result == 1) {
-                                            BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-                                              showGeneralDialog(
-                                                  context: context,
-                                                  pageBuilder: (context, anim1, anim2) {},
-                                                  barrierColor: Colors.grey.withOpacity(.4),
-                                                  barrierDismissible: true,
-                                                  barrierLabel: "",
-                                                  transitionDuration: Duration(milliseconds: 400),
-                                                  transitionBuilder: (context, anim1, anim2, child) {
-                                                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                                                    return Transform(
-                                                        transform: Matrix4.translationValues(0.0, 0, 0.0),
-                                                        child: Opacity(
-                                                          opacity: anim1.value,
-                                                          // ignore: missing_return
-                                                          child: PayPasswordWidget(
-                                                              title: S.of(context).password_widget_set_password,
-                                                              passwordCallBackFuture: (String password) async {
-                                                                WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                                                                  final key = Utils.generateMd5Int(password + address);
-                                                                  var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                                                                  var keyAesEncode = Utils.aesEncode(mnemonic, key);
+                                                            },
+                                                          )));
+                                            }
+                                            if (result == 1) {
+                                              BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
+                                                showGeneralDialog(
+                                                    context: context,
+                                                    pageBuilder: (context, anim1, anim2) {},
+                                                    barrierColor: Colors.grey.withOpacity(.4),
+                                                    barrierDismissible: true,
+                                                    barrierLabel: "",
+                                                    transitionDuration: Duration(milliseconds: 400),
+                                                    transitionBuilder: (context, anim1, anim2, child) {
+                                                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                                      return Transform(
+                                                          transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                                          child: Opacity(
+                                                            opacity: anim1.value,
+                                                            // ignore: missing_return
+                                                            child: PayPasswordWidget(
+                                                                title: S.of(context).password_widget_set_password,
+                                                                passwordCallBackFuture: (String password) async {
+                                                                  WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
+                                                                    final key = Utils.generateMd5Int(password + address);
+                                                                    var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                                                                    var keyAesEncode = Utils.aesEncode(mnemonic, key);
 
-                                                                  Account account = Account();
-                                                                  account.signingKey = signingKeyAesEncode;
-                                                                  account.address = address;
-                                                                  account.mnemonic = keyAesEncode;
-                                                                  account.isSelect = true;
-                                                                  walletCoinModel.ae.add(account);
-                                                                  WalletCoinsManager.instance.setCoins(walletCoinModel).then((value) {
-                                                                    BoxApp.setSigningKey(signingKeyAesEncode);
-                                                                    BoxApp.setAddress(address);
-                                                                    BoxApp.setMnemonic(keyAesEncode);
-                                                                    WalletCoinsManager.instance.getCoins().then((value) {
-                                                                      walletCoinsModel = value;
-                                                                      for (var i = 0; i < walletCoinsModel.ae.length; i++) {
-                                                                        walletCoinsModel.ae[i].isSelect = false;
-                                                                      }
-                                                                      walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
-                                                                      BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
-                                                                      BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
-                                                                      BoxApp.setMnemonic(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].mnemonic);
-                                                                      WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
-                                                                        eventBus.fire(AccountUpdateEvent());
-                                                                        Navigator.of(super.context).pop();
+                                                                    Account account = Account();
+                                                                    account.signingKey = signingKeyAesEncode;
+                                                                    account.address = address;
+                                                                    account.mnemonic = keyAesEncode;
+                                                                    account.isSelect = true;
+                                                                    walletCoinModel.ae.add(account);
+                                                                    WalletCoinsManager.instance.setCoins(walletCoinModel).then((value) {
+                                                                      BoxApp.setSigningKey(signingKeyAesEncode);
+                                                                      BoxApp.setAddress(address);
+                                                                      BoxApp.setMnemonic(keyAesEncode);
+                                                                      WalletCoinsManager.instance.getCoins().then((value) {
+                                                                        walletCoinsModel = value;
+                                                                        for (var i = 0; i < walletCoinsModel.ae.length; i++) {
+                                                                          walletCoinsModel.ae[i].isSelect = false;
+                                                                        }
+                                                                        walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
+                                                                        BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
+                                                                        BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
+                                                                        BoxApp.setMnemonic(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].mnemonic);
+                                                                        WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
+                                                                          eventBus.fire(AccountUpdateEvent());
+                                                                          Navigator.of(super.context).pop();
+                                                                          return;
+                                                                        });
                                                                         return;
                                                                       });
                                                                       return;
@@ -310,70 +313,69 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                                     return;
                                                                   });
                                                                   return;
-                                                                });
-                                                                return;
-                                                              }),
-                                                        ));
-                                                  });
-                                              return;
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 60,
-                                          padding: EdgeInsets.all(4),
-                                          child: Image(
-                                            width: 36,
-                                            height: 36,
-                                            color: Colors.black,
-                                            image: AssetImage('images/token_add.png'),
+                                                                }),
+                                                          ));
+                                                    });
+                                                return;
+                                              });
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 60,
+                                            padding: EdgeInsets.all(4),
+                                            child: Image(
+                                              width: 36,
+                                              height: 36,
+                                              color: Colors.black,
+                                              image: AssetImage('images/token_add.png'),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                color: Color(0xFFfafafa),
-                                height: MediaQuery.of(context).size.height * 0.75 - 52 -1- 42,
-                                width: MediaQuery.of(context).size.width - 56,
-                                child: ListView.builder(
-                                  itemCount: walletCoinsModel == null ? 1 : getCoinAccount().length + 1,
-                                  itemBuilder: (context, index) {
-                                    return itemAccount(index);
-                                  },
+                                Container(
+                                  color: Color(0xFFfafafa),
+                                  height: MediaQuery.of(context).size.height * 0.75 - 52 -1- 42,
+                                  width: MediaQuery.of(context).size.width - 56,
+                                  child: ListView.builder(
+                                    itemCount: walletCoinsModel == null ? 1 : getCoinAccount().length + 1,
+                                    itemBuilder: (context, index) {
+                                      return itemAccount(index);
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  // Container(
-                  //   margin: const EdgeInsets.only(top: 16, bottom: 0),
-                  //   child: Container(
-                  //     height: 40,
-                  //     width: MediaQuery.of(context).size.width - 32,
-                  //     child: FlatButton(
-                  //       onPressed: () {
-                  //         Navigator.pop(context); //关闭对话框
-                  //       },
-                  //       color: Color(0xFFFC2365),
-                  //       textColor: Colors.white,
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(30)),
-                  //     ),
-                  //   ),
-                  // ),
+                    // Container(
+                    //   margin: const EdgeInsets.only(top: 16, bottom: 0),
+                    //   child: Container(
+                    //     height: 40,
+                    //     width: MediaQuery.of(context).size.width - 32,
+                    //     child: FlatButton(
+                    //       onPressed: () {
+                    //         Navigator.pop(context); //关闭对话框
+                    //       },
+                    //       color: Color(0xFFFC2365),
+                    //       textColor: Colors.white,
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(30)),
+                    //     ),
+                    //   ),
+                    // ),
 //          Text(text),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -391,6 +393,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (coinIndex == 3) {
       return "Bytom";
     }
+    return "";
   }
 
   List<Account> getCoinAccount() {

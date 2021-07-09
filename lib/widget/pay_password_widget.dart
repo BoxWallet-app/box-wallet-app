@@ -69,7 +69,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                     onTap: () {
                       Navigator.pop(context); //关闭对话框
                       // ignore: unnecessary_statements
-                      widget.dismissCallBackFuture("");
+                      if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
                     },
                     child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
@@ -81,7 +81,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   widget.title,
                   style: TextStyle(
                     fontSize: 18,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -142,7 +142,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 
               Container(
                 height: 40,
-                margin: EdgeInsets.only(left: 20, right: 20,top: 30),
+                margin: EdgeInsets.only(left: 20, right: 20, top: 30),
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                 //边框设置
                 decoration: new BoxDecoration(
@@ -162,7 +162,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
@@ -204,7 +204,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                     child: Text(
                       S.of(context).password_widget_conform,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
