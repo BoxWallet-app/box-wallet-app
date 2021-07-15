@@ -1,29 +1,20 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
-import 'numeric_keyboard.dart';
-
-//第一种自定义回调方法
 typedef ConformCallBackFuture = Future Function();
 typedef DismissCallBackFuture = Future Function();
 
-// ignore: must_be_immutable
 class ChainLoadingWidget extends StatefulWidget {
   final String status = "";
-  _TxConformWidgetWidgetState txConformWidgetWidgetState;
 
   @override
-  _TxConformWidgetWidgetState createState() => _TxConformWidgetWidgetState();
+  _ChainLoadingWidgetState createState() => _ChainLoadingWidgetState();
 }
 
-class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerProviderStateMixin {
+class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProviderStateMixin {
   AnimationController _controller;
   String text = 'Loading...';
   List<Widget> items = [];
@@ -39,7 +30,6 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerP
   void initState() {
     _controller = AnimationController(vsync: this);
     super.initState();
-    // ignore: missing_return
     BoxApp.getStatus((status) {
       if (status == "sucess" || status == "error") {
         Navigator.pop(context); //关闭对话框
@@ -57,7 +47,6 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerP
           break;
         case "aensPreclaim":
           text = S.of(context).ae_status_aensPreclaim;
-
           break;
         case "aensBid":
           text = S.of(context).ae_status_aensBid;
@@ -81,8 +70,8 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerP
           text = S.of(context).ae_status_decode;
           break;
       }
-
       setState(() {});
+      return;
     });
   }
 
@@ -91,7 +80,6 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerP
   @override
   Widget build(BuildContext context) {
     return Material(
-//          type: MaterialType.transparency, //透明类型
       color: Color(0x00000000),
       child: Stack(
         children: [
@@ -119,11 +107,9 @@ class _TxConformWidgetWidgetState extends State<ChainLoadingWidget> with TickerP
                       width: 70,
                       height: 70,
                       child: Lottie.asset(
-                        'images/lf30_editor_41iiftdt.json',
+                        'images/loading.json',
                         controller: _controller,
                         onLoaded: (composition) {
-                          // Configure the AnimationController with the duration of the
-                          // Lottie file and start the animation.
                           _controller
                             ..duration = Duration(milliseconds: 1000)
                             ..repeat();

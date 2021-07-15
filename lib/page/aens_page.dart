@@ -26,9 +26,7 @@ class _AensPageState extends State<AensPage> {
           appBar: AppBar(
             elevation: 0,
             // 隐藏阴影
-            leading: BoxApp.isOpenStore
-                ? null
-                : IconButton(
+            leading:  IconButton(
                     icon: Icon(
                       Icons.arrow_back_ios,
                       size: 17,
@@ -88,7 +86,7 @@ class _AensPageState extends State<AensPage> {
               ],
             ),
           ),
-          backgroundColor:Color(0xfffafafa),
+          backgroundColor: Color(0xfffafafa),
           body: Container(
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(
@@ -102,13 +100,6 @@ class _AensPageState extends State<AensPage> {
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => AensRegister()));
-//              BlockTopDao.fetch().then((BlockTopModel model) {
-//                print(model.toJson());
-//
-//              }).catchError((e) {
-//                print(e.toString() + "123123");
-//
-//              });
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

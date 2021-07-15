@@ -24,8 +24,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../main.dart';
-import 'ae_footer.dart';
-import 'ae_header.dart';
+import 'box_footer.dart';
+import 'box_header.dart';
 import 'chain_loading_widget.dart';
 import 'loading_widget.dart';
 
@@ -165,7 +165,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                         controller: controller,
                         topBouncing: false,
                         behavior: null,
-                        header: AEHeader(),
+                        header: BoxHeader(),
                         footer: MaterialFooter(
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Color(0xFFF22B79)),

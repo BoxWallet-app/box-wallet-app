@@ -5,7 +5,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/aens_page_model.dart';
 import 'package:box/page/aens_detail_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -85,7 +85,7 @@ class _AensListPageState extends State<AensListPage> with AutomaticKeepAliveClie
         child: EasyRefresh(
           onRefresh: _onRefresh,
           onLoad: _onLoad,
-          header: AEHeader(),
+          header: BoxHeader(),
 
           footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,

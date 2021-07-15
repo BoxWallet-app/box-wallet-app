@@ -17,7 +17,7 @@ import 'package:box/page/scan_page.dart';
 import 'package:box/page/swap_initiate_page.dart';
 import 'package:box/page/swaps_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -122,7 +122,7 @@ class _SwapPageMyState extends State<SwapMyPage> with AutomaticKeepAliveClientMi
             child: EasyRefresh(
               enableControlFinishRefresh: true,
               controller: controller,
-              header: AEHeader(),
+              header: BoxHeader(),
               onRefresh: _onRefresh,
               child: ListView.builder(
                 itemCount: swapModels == null ? 1 : swapModels.data.length + 1,

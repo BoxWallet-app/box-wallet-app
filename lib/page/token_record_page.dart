@@ -12,7 +12,7 @@ import 'package:box/page/token_send_one_page.dart';
 import 'package:box/page/token_tx_detail_page.dart';
 import 'package:box/page/tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -133,7 +133,7 @@ class _TokenRecordState extends State<TokenRecordPage> {
           _onRefresh();
         },
         child: EasyRefresh(
-          header: AEHeader(),
+          header: BoxHeader(),
           onLoad: _onLoad,
           onRefresh: _onRefresh,
           footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
@@ -219,7 +219,7 @@ class _TokenRecordState extends State<TokenRecordPage> {
                                       height: 50,
                                       child: Lottie.asset(
 //              'images/lf30_editor_nwcefvon.json',
-                                        'images/lf30_editor_41iiftdt.json',
+                                        'images/loading.json',
 //              'images/animation_khzuiqgg.json',
                                       ),
                                     )

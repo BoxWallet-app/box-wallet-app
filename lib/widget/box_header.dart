@@ -4,13 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:lottie/lottie.dart';
 
-class AEHeader extends Header {
+class BoxHeader extends Header {
   /// Key
   final Key key;
 
   final LinkHeaderNotifier linkNotifier = LinkHeaderNotifier();
 
-  AEHeader({
+  BoxHeader({
     this.key,
     bool enableHapticFeedback = true,
     Duration completeDuration: const Duration(seconds: 1),
@@ -74,7 +74,7 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
             height: 50,
             child: Lottie.asset(
 //              'images/lf30_editor_nwcefvon.json',
-              'images/lf30_editor_41iiftdt.json',
+              'images/loading.json',
 //              'images/animation_khzuiqgg.json',
               controller: _controller,
               onLoaded: (composition) {

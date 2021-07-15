@@ -20,7 +20,7 @@ import 'package:box/page/swap_initiate_page.dart';
 import 'package:box/page/wetrue_list_page.dart';
 import 'package:box/page/wetrue_sent_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';

@@ -17,7 +17,7 @@ import 'package:box/page/web_page.dart';
 import 'package:box/page/wetrue_home_page.dart';
 import 'package:box/page/wetrue_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +118,7 @@ class _AeppsPageV2State extends State<AeppsPageV2>
     return Scaffold(
         body: Container(
             child: EasyRefresh(
-      header: AEHeader(),
+      header: BoxHeader(),
       onRefresh: _onRefresh,
       child: Column(
         children: [
@@ -612,7 +612,6 @@ class _AeppsPageV2State extends State<AeppsPageV2>
               ),
             ),
           ),
-          if (!BoxApp.isOpenStore)
             Container(
               height: 48,
               margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
@@ -1154,18 +1153,10 @@ class _AeppsPageV2State extends State<AeppsPageV2>
                                 onTap: (startLoading, stopLoading,
                                     btnState) async {
                                   Navigator.pop(context); //关闭对话框
-                                  if (BoxApp.isOpenStore) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AensMyPage()));
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AensPage()));
-                                  }
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AensPage()));
                                 },
                                 child: Text(
                                   S.of(context).dialog_privacy_confirm,

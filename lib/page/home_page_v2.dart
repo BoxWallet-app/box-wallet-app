@@ -23,7 +23,7 @@ import 'package:box/model/wallet_record_model.dart';
 import 'package:box/page/records_page.dart';
 import 'package:box/page/token_defi_page_v2.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -249,7 +249,7 @@ class _HomePageV2State extends State<HomePageV2>
         resizeToAvoidBottomInset: false,
         body: Container(
             child: EasyRefresh(
-      header: AEHeader(),
+      header: BoxHeader(),
       onRefresh: _onRefresh,
       child: Container(
         child: Column(

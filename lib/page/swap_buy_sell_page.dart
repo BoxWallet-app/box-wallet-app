@@ -18,7 +18,7 @@ import 'package:box/page/photo_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/swap_initiate_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -73,6 +73,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
@@ -89,7 +90,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
               enableControlFinishRefresh: true,
               controller: controller,
 
-              header: AEHeader(),
+              header: BoxHeader(),
               onRefresh: _onRefresh,
               child: ListView.builder(
                 itemCount: swapModels == null ? 0 : swapModels.data.length,
@@ -129,207 +130,11 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
     setState(() {});
   }
 
-//  Widget getItem(BuildContext context, int index) {
-//    if (index == 0) {
-//      return Column(
-//        children: [
-//          swapModels != null
-//              ? Container()
-//              : Container(
-//                  height: 200,
-//                  child: Center(child: Text(S.of(context).loading_widget_no_data)),
-//                ),
-////          Container(
-////            child: Center(
-////              child: Container(
-////                width: 400,
-////                height: 400,
-////                child: Lottie.asset(
-////                  'images/16294-404-space-error.json',
-////
-////                ),
-////              ),
-////            )
-////          ),
-//        ],
-//      );
-//    }
-//
-//    return Material(
-//      color: Colors.white,
-//      child: InkWell(
-//        onTap: () {
-////          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
-//        },
-//        child: Container(
-//          color: Color(0xFFF5F5F5),
-//          child: Container(
-//            margin: EdgeInsets.only(left: 16, right: 16, bottom: 0, top: 12),
-//            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
-//            child: Column(
-//              children: [
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.start,
-////                  crossAxisAlignment: CrossAxisAlignment.center,
-//                  children: [
-//                    InkWell(
-//                      onTap: () {
-//                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].sellAddress)));
-//                      },
-//                      child: Container(
-//                        width: 30,
-//                        height: 30,
-//                        decoration: new BoxDecoration(
-//                          border: new Border.all(color: Color(0xFFe0e0e0), width: 0.5),
-//                          color: Color(0xFFFFFFFF), // 底色
-//                          //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-//                          borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
-//                        ),
-//                        child: ClipOval(
-//                          child: Image.network(
-//                            "https://www.gravatar.com/avatar/" + Utils.generateMD5(swapModels.data[index - 1].sellAddress) + "?s=100&d=robohash&r=PG",
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.only(left: 8),
-//                      child: Text(Utils.formatAddress(swapModels.data[index - 1].sellAddress), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
-//                    ),
-//                    Expanded(
-//                      child: Container(),
-//                    ),
-//                    Container(
-//                      margin: const EdgeInsets.only(top: 0, left: 0),
-//                      child: Row(
-//                        children: <Widget>[
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 0, left: 0),
-//                            child: Text(
-//                              S.of(context).swap_item_1 + " : ",
-//                              style: TextStyle(
-//                                fontSize: 14,
-//                                color: Color(0xFF666666),
-//                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                              ),
-//                            ),
-//                          ),
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 0, left: 0),
-//                            child: Text(
-//                              ((double.parse(swapModels.data[index - 1].ae)) / (double.parse(swapModels.data[index - 1].count))).toStringAsFixed(2),
-//                              style: TextStyle(
-//                                  fontSize: 14,
-//                                  letterSpacing: -1,
-//                                  //字体间距
-//                                  fontWeight: FontWeight.w600,
-//
-//                                  //词间距
-//                                  color: Color(0xFF666666),
-//                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//                Row(
-//                  children: [
-//                    Container(
-//                      width: MediaQuery.of(context).size.width / 2 - 32,
-//                      child: Column(
-//                        children: <Widget>[
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 18, left: 0),
-//                            child: Text(
-//                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coin + ")",
-//                              style: TextStyle(
-//                                fontSize: 14,
-//                                color: Color(0xFF666666),
-//                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                              ),
-//                            ),
-//                          ),
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 5, left: 0),
-//                            child: Text(
-//                              double.parse(swapModels.data[index - 1].count).toStringAsFixed(2) + " 个",
-//                              style: TextStyle(
-//                                  fontSize: 19,
-//                                  letterSpacing: -1,
-//                                  //字体间距
-//                                  fontWeight: FontWeight.w600,
-//
-//                                  //词间距
-//                                  color: Color(0xFF000000),
-//                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    Container(
-//                      width: MediaQuery.of(context).size.width / 2 - 32,
-//                      child: Column(
-//                        children: <Widget>[
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 18, left: 0),
-//                            child: Text(
-//                             widget.type == 0 ?"对方支付数量" :S.of(context).swap_item_3 + " (AE)",
-//                              style: TextStyle(
-//                                fontSize: 14,
-//                                color: Color(0xFF666666),
-//                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                              ),
-//                            ),
-//                          ),
-//                          Container(
-//                            alignment: Alignment.topLeft,
-//                            margin: const EdgeInsets.only(top: 5, left: 0),
-//                            child: Text(
-//                              double.parse(swapModels.data[index - 1].ae).toStringAsFixed(2) + " 个",
-//                              style: TextStyle(
-//                                  fontSize: 19,
-//                                  letterSpacing: -1,
-//                                  //字体间距
-//                                  fontWeight: FontWeight.w600,
-//                                  color: Color(0xFFF22B79),
-//                                  //词间距
-//                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//
-//              ],
-//            ),
-//            decoration: new BoxDecoration(
-//              color: Color(0xFFFFFFFF),
-//              //设置四周圆角 角度
-//              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//
-//              //设置四周边框
-//            ),
-//          ),
-//        ),
-//      ),
-//    );
-//  }
 
   Widget getItem(BuildContext context, int index) {
     return Material(
       child: InkWell(
         onTap: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
           color: Color(0xFFF5F5F5),
@@ -415,50 +220,6 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-//                      Container(
-//                        margin: EdgeInsets.only(top: 12),
-//                        width: MediaQuery.of(context).size.width - 18 * 4,
-//                        child: Row(
-//                          children: <Widget>[
-//                            Expanded(
-//                              child: Container(
-//                                child: Text(
-//                                  S.of(context).swap_buy_sell_order_item_5,
-//                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-//                                ),
-//                              ),
-//                            ),
-//                            Container(
-//                              child: Text(
-//                                  swapModels.data[index].createHeight.toString(),
-//                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                      Container(
-//                        margin: EdgeInsets.only(top: 12),
-//                        width: MediaQuery.of(context).size.width - 18 * 4,
-//                        child: Row(
-//                          children: <Widget>[
-//                            Expanded(
-//                              child: Container(
-//                                child: Text(
-//                                  S.of(context).swap_buy_sell_order_item_6,
-//                                  style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-//                                ),
-//                              ),
-//                            ),
-//                            Container(
-//                              child: Text(
-//                                swapModels.data[index].payHeight.toString(),
-//                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
                       Container(
                         margin: EdgeInsets.only(top: 12),
                         width: MediaQuery.of(context).size.width - 18 * 4,
@@ -551,12 +312,10 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 400),
         transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return Transform(
             transform: Matrix4.translationValues(0.0, 0, 0.0),
             child: Opacity(
               opacity: anim1.value,
-              // ignore: missing_return
               child: PayPasswordWidget(
                 title: S.of(context).password_widget_input_password,
                 dismissCallBackFuture: (String password) {
@@ -648,6 +407,7 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
                         ],
                       ),
                     );
+                    return;
                   }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
                 },
@@ -660,14 +420,14 @@ class _SwapBuySellPageState extends State<SwapBuySellPage> with AutomaticKeepAli
   void showChainLoading() {
     showGeneralDialog(
         context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {
+          return;
+        },
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 400),
         transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return ChainLoadingWidget();
         });
   }

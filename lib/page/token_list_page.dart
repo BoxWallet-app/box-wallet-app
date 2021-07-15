@@ -8,7 +8,7 @@ import 'package:box/model/price_model.dart';
 import 'package:box/model/token_list_model.dart';
 import 'package:box/page/token_add_page.dart';
 import 'package:box/page/token_record_page.dart';
-import 'package:box/widget/ae_header.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -313,7 +313,7 @@ class _TokenListPathState extends State<TokenListPage> {
           _onRefresh();
         },
         child: EasyRefresh(
-          header: AEHeader(),
+          header: BoxHeader(),
           onRefresh: _onRefresh,
           child: ListView.builder(
             itemCount: tokenListModel == null ? 0 : tokenListModel.data.length,
@@ -424,7 +424,7 @@ class _TokenListPathState extends State<TokenListPage> {
                                   height: 50,
                                   child: Lottie.asset(
 //              'images/lf30_editor_nwcefvon.json',
-                                    'images/lf30_editor_41iiftdt.json',
+                                    'images/loading.json',
 //              'images/animation_khzuiqgg.json',
                                   ),
                                 )

@@ -46,7 +46,6 @@ class _SplashPageState extends State<SplashPage> {
       });
     });
 
-    BoxApp.isOpenStore = false;
     startService();
   }
 
