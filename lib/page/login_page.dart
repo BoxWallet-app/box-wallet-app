@@ -274,13 +274,8 @@ class _LoginPageState extends State<LoginPage> {
                                             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
                                             var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
-                                            Account account = Account();
-                                            account.signingKey = signingKeyAesEncode;
-                                            account.address = address;
-                                            account.mnemonic = mnemonicAesEncode;
-                                            account.isSelect = true;
-                                            walletCoinModel.ae.add(account);
-                                            WalletCoinsManager.instance.setCoins(walletCoinModel).then((value) {
+                                            // walletCoinModel.ae.add(account);
+                                            WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode).then((value) {
                                               BoxApp.setSigningKey(signingKeyAesEncode);
                                               BoxApp.setMnemonic(mnemonicAesEncode);
                                               BoxApp.setAddress(address);

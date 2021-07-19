@@ -27,7 +27,6 @@ class WalletSelectPage extends StatefulWidget {
 
 class _WalletSelectPageState extends State<WalletSelectPage> {
   WalletCoinsModel walletCoinsModel;
-  String coinName;
   int coinIndex;
 
   @override
@@ -41,8 +40,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     WalletCoinsManager.instance.getCoins().then((value) {
       walletCoinsModel = value;
       WalletCoinsManager.instance.getCurrentCoin().then((value) {
-        coinName = value[0];
         coinIndex = value[1];
+
         setState(() {});
       });
     });
@@ -138,9 +137,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                       width: MediaQuery.of(context).size.width,
                     ),
 
-
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.75 - 52-1,
+                      height: MediaQuery.of(context).size.height * 0.75 - 52 - 1,
                       width: MediaQuery.of(context).size.width,
                       color: Color(0xFFfafafa),
                       child: Row(
@@ -153,7 +151,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               height: MediaQuery.of(context).size.height * 0.75 - 52,
                               width: 56,
                               child: ListView.builder(
-                                itemCount: 4,
+                                itemCount: walletCoinsModel == null ? 0 : walletCoinsModel.coins.length,
                                 itemBuilder: (context, index) {
                                   return itemCoin(index);
                                 },
@@ -173,7 +171,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          getCoinNmae(),
+                                          walletCoinsModel == null ? "" : walletCoinsModel.coins[coinIndex].fullName,
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 16,
@@ -231,7 +229,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                   ),
                                                 ),
                                               ],
-                                              title: getCoinNmae() + " 钱包",
+                                              title: walletCoinsModel.coins[coinIndex].fullName + " 钱包",
                                             );
                                             if (result == 0) {
                                               Navigator.push(
@@ -239,21 +237,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                   MaterialPageRoute(
                                                       builder: (context) => AeAccountAddPage(
                                                             accountCallBackFuture: () {
-                                                              WalletCoinsManager.instance.getCoins().then((value) {
-                                                                walletCoinsModel = value;
-                                                                for (var i = 0; i < walletCoinsModel.ae.length; i++) {
-                                                                  walletCoinsModel.ae[i].isSelect = false;
-                                                                }
-                                                                walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
-                                                                BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
-                                                                BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
-                                                                WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
-                                                                  eventBus.fire(AccountUpdateEvent());
-                                                                  Navigator.of(super.context).pop();
-                                                                  return;
-                                                                });
-                                                                return;
-                                                              });
+                                                              eventBus.fire(AccountUpdateEvent());
+                                                              Navigator.of(super.context).pop();
                                                               return;
                                                             },
                                                           )));
@@ -262,7 +247,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                               BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
                                                 showGeneralDialog(
                                                     context: context,
-                                                    pageBuilder: (context, anim1, anim2) {},
+                                                    pageBuilder: (context, anim1, anim2) {
+                                                      return;
+                                                    },
                                                     barrierColor: Colors.grey.withOpacity(.4),
                                                     barrierDismissible: true,
                                                     barrierLabel: "",
@@ -280,37 +267,15 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                                   WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
                                                                     final key = Utils.generateMd5Int(password + address);
                                                                     var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                                                                    var keyAesEncode = Utils.aesEncode(mnemonic, key);
+                                                                    var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
-                                                                    Account account = Account();
-                                                                    account.signingKey = signingKeyAesEncode;
-                                                                    account.address = address;
-                                                                    account.mnemonic = keyAesEncode;
-                                                                    account.isSelect = true;
-                                                                    walletCoinModel.ae.add(account);
-                                                                    WalletCoinsManager.instance.setCoins(walletCoinModel).then((value) {
-                                                                      BoxApp.setSigningKey(signingKeyAesEncode);
-                                                                      BoxApp.setAddress(address);
-                                                                      BoxApp.setMnemonic(keyAesEncode);
-                                                                      WalletCoinsManager.instance.getCoins().then((value) {
-                                                                        walletCoinsModel = value;
-                                                                        for (var i = 0; i < walletCoinsModel.ae.length; i++) {
-                                                                          walletCoinsModel.ae[i].isSelect = false;
-                                                                        }
-                                                                        walletCoinsModel.ae[walletCoinsModel.ae.length - 1].isSelect = true;
-                                                                        BoxApp.setSigningKey(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].signingKey);
-                                                                        BoxApp.setAddress(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].address);
-                                                                        BoxApp.setMnemonic(walletCoinsModel.ae[walletCoinsModel.ae.length - 1].mnemonic);
-                                                                        WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
-                                                                          eventBus.fire(AccountUpdateEvent());
-                                                                          Navigator.of(super.context).pop();
-                                                                          return;
-                                                                        });
-                                                                        return;
-                                                                      });
+                                                                    WalletCoinsManager.instance
+                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode)
+                                                                        .then((value) {
+                                                                      eventBus.fire(AccountUpdateEvent());
+                                                                      Navigator.of(super.context).pop();
                                                                       return;
                                                                     });
-                                                                    return;
                                                                   });
                                                                   return;
                                                                 }),
@@ -338,10 +303,10 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 ),
                                 Container(
                                   color: Color(0xFFfafafa),
-                                  height: MediaQuery.of(context).size.height * 0.75 - 52 -1- 42,
+                                  height: MediaQuery.of(context).size.height * 0.75 - 52 - 1 - 42,
                                   width: MediaQuery.of(context).size.width - 56,
                                   child: ListView.builder(
-                                    itemCount: walletCoinsModel == null ? 1 : getCoinAccount().length + 1,
+                                    itemCount: walletCoinsModel == null ? 1 : walletCoinsModel.coins[coinIndex].accounts.length + 1,
                                     itemBuilder: (context, index) {
                                       return itemAccount(index);
                                     },
@@ -380,73 +345,11 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
-  String getCoinNmae() {
-    if (coinIndex == 0) {
-      return "Aeternity";
-    }
-    if (coinIndex == 1) {
-      return "BTC";
-    }
-    if (coinIndex == 2) {
-      return "Ethereum";
-    }
-    if (coinIndex == 3) {
-      return "Bytom";
-    }
-    return "";
-  }
-
-  List<Account> getCoinAccount() {
-    if (coinIndex == 0) {
-      return walletCoinsModel.ae;
-    }
-    if (coinIndex == 1) {
-      return walletCoinsModel.btc;
-    }
-    if (coinIndex == 2) {
-      return walletCoinsModel.eth;
-    }
-    if (coinIndex == 3) {
-      return walletCoinsModel.btm;
-    }
-  }
-
   Widget itemCoin(int index) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          // if (index != 0) {
-          // showPlatformDialog(
-          //   context: context,
-          //   builder: (_) => BasicDialogAlert(
-          //     title: Text(
-          //       "功能开发中",
-          //     ),
-          //     content: Text(
-          //       "支持更多公链尽情期待",
-          //       style: TextStyle(
-          //         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-          //       ),
-          //     ),
-          //     actions: <Widget>[
-          //       BasicDialogAction(
-          //         title: Text(
-          //           "确认",
-          //           style: TextStyle(
-          //             color: Color(0xFFFC2365),
-          //             fontFamily:
-          //                 BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-          //           ),
-          //         ),
-          //         onPressed: () {
-          //           Navigator.of(context, rootNavigator: true).pop();
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // );
-          // }
           coinIndex = index;
           setState(() {});
         },
@@ -472,6 +375,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                   width: 27.0,
                   height: 27.0,
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     border: Border(
                         bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
                         top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
@@ -496,9 +400,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (walletCoinsModel == null) {
       return Container();
     }
-    var coinAccount = getCoinAccount();
-    if (coinAccount.length == index) {
-      if (coinAccount.length == 0)
+    if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
+      if (walletCoinsModel.coins[coinIndex].accounts.length == 0)
         return Container(
           height: 50,
           margin: EdgeInsets.only(left: 18, right: 18),
@@ -588,43 +491,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ]),
             ),
           ),
-          if (walletCoinsModel.ae[index].address == AeHomePage.address)
-            // Positioned(
-            //   right: 0,
-            //   top: 0,
-            //   height: 100,
-            //   child: Container(
-            //     height: 100,
-            //     margin: EdgeInsets.only(left: 18, right: 18),
-            //     alignment: Alignment.center,
-            //     child: Container(
-            //       height: 30,
-            //       alignment: Alignment.center,
-            //       decoration: new BoxDecoration(
-            //         //设置四周圆角 角度
-            //         borderRadius: BorderRadius.all(Radius.circular(50.0)),
-            //         //设置四周边框
-            //         border: new Border.all(
-            //           width: 1,
-            //           color: Color(0xffffffff).withAlpha(200),
-            //         ),
-            //         //设置四周边框
-            //       ),
-            //       padding: EdgeInsets.only(left: 18, right: 18),
-            //       margin: const EdgeInsets.only(top: 0),
-            //       child: Text(
-            //         "切 换",
-            //         maxLines: 1,
-            //         style: TextStyle(
-            //           fontSize: 14,
-            //           fontWeight: FontWeight.w500,
-            //           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //           color: Color(0xffffffff).withAlpha(200),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address == AeHomePage.address)
             Positioned(
               right: 0,
               top: 0,
@@ -670,17 +537,15 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ),
           InkWell(
             onTap: () {
-              for (var i = 0; i < walletCoinsModel.ae.length; i++) {
-                walletCoinsModel.ae[i].isSelect = false;
+              for (var i = 0; i < walletCoinsModel.coins[coinIndex].accounts.length; i++) {
+                walletCoinsModel.coins[coinIndex].accounts[i].isSelect = false;
               }
 
-              walletCoinsModel.ae[index].isSelect = true;
-              BoxApp.setSigningKey(walletCoinsModel.ae[index].signingKey);
-              BoxApp.setAddress(walletCoinsModel.ae[index].address);
-              WalletCoinsManager.instance.setCoins(walletCoinsModel).then((value) {
+              walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
+
+              WalletCoinsManager.instance.updateAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
                 eventBus.fire(AccountUpdateEvent());
                 Navigator.of(super.context).pop();
-                // Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
               });
             },
             child: Container(
@@ -688,7 +553,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               height: 100,
               alignment: Alignment.bottomLeft,
               padding: EdgeInsets.only(left: 18, right: 18, bottom: 16),
-              child: Text(Utils.formatHomeCardAccountAddress(walletCoinsModel.ae[index].address),
+              child: Text(Utils.formatHomeCardAccountAddress(walletCoinsModel.coins[coinIndex].accounts[index].address),
                   strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                   style: TextStyle(
                       fontSize: 16,
@@ -705,9 +570,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Clipboard.setData(ClipboardData(text: walletCoinsModel.ae[index].address));
+                  Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
                   Fluttertoast.showToast(
-                      msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.ae[index].address,
+                      msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address,
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                       timeInSecForIosWeb: 1,
@@ -763,7 +628,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       return "images/ETH.png";
     }
     if (index == 3) {
-      return "images/BTM.png";
+      return "images/CFX.png";
     }
     return "";
   }

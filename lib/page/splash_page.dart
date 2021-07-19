@@ -51,81 +51,81 @@ class _SplashPageState extends State<SplashPage> {
 
   void startService() {
     BoxApp.startAeService(context, () {
-      // ignore: missing_return
-      SharedPreferences.getInstance().then((sp) {
-        // ignore: missing_return
-        var isLanguage = sp.getString('is_language');
-        if (isLanguage == "true") {
-          BoxApp.getLanguage().then((String value) {
-            BoxApp.language = value;
-            logger.info("APP LANGUAGE : " + value);
-            S.load(Locale(value, value.toUpperCase()));
-            setState(() {
-              _value = value;
-            });
-            Future.delayed(Duration(seconds: 2), () {
-              S.load(Locale(value, value.toUpperCase()));
-              goHome();
-            });
-          });
-        } else {
-          Future.delayed(Duration.zero, () {
-            showPlatformDialog(
-              context: context,
-              builder: (_) => BasicDialogAlert(
-                title: Text(
-                  "选择语言 / Language",
-                ),
-                content: Text(
-                  "Please choose the language you want to use\n请选择你要使用的语言",
-                  style: TextStyle(
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-                actions: <Widget>[
-                  BasicDialogAction(
-                    title: Text(
-                      "中文",
-                      style: TextStyle(
-                        color: Color(0xFFFC2365),
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+      WalletCoinsManager.instance.init().then((value) => {
+            // ignore: missing_return
+            SharedPreferences.getInstance().then((sp) {
+              // ignore: missing_return
+              var isLanguage = sp.getString('is_language');
+              if (isLanguage == "true") {
+                BoxApp.getLanguage().then((String value) {
+                  BoxApp.language = value;
+                  logger.info("APP LANGUAGE : " + value);
+                  S.load(Locale(value, value.toUpperCase()));
+                  setState(() {
+                    _value = value;
+                  });
+                  Future.delayed(Duration(seconds: 2), () {
+                    S.load(Locale(value, value.toUpperCase()));
+                    goHome();
+                  });
+                });
+              } else {
+                Future.delayed(Duration.zero, () {
+                  showPlatformDialog(
+                    context: context,
+                    builder: (_) => BasicDialogAlert(
+                      title: Text(
+                        "选择语言 / Language",
                       ),
-                    ),
-                    onPressed: () {
-                      BoxApp.language = "cn";
-                      BoxApp.setLanguage("cn");
-                      //通知将第一页背景色变成红色
-                      S.load(Locale("cn", "cn".toUpperCase()));
-                      Navigator.of(context, rootNavigator: true).pop();
+                      content: Text(
+                        "Please choose the language you want to use\n请选择你要使用的语言",
+                        style: TextStyle(
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        ),
+                      ),
+                      actions: <Widget>[
+                        BasicDialogAction(
+                          title: Text(
+                            "中文",
+                            style: TextStyle(
+                              color: Color(0xFFFC2365),
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            ),
+                          ),
+                          onPressed: () {
+                            BoxApp.language = "cn";
+                            BoxApp.setLanguage("cn");
+                            //通知将第一页背景色变成红色
+                            S.load(Locale("cn", "cn".toUpperCase()));
+                            Navigator.of(context, rootNavigator: true).pop();
 
-                      goHome();
-                    },
-                  ),
-                  BasicDialogAction(
-                    title: Text(
-                      "English",
-                      style: TextStyle(
-                        color: Color(0xFFFC2365),
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                      ),
+                            goHome();
+                          },
+                        ),
+                        BasicDialogAction(
+                          title: Text(
+                            "English",
+                            style: TextStyle(
+                              color: Color(0xFFFC2365),
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            ),
+                          ),
+                          onPressed: () {
+                            BoxApp.language = "en";
+                            BoxApp.setLanguage("en");
+                            //通知将第一页背景色变成红色
+                            S.load(Locale("en", "en".toUpperCase()));
+                            Navigator.of(context, rootNavigator: true).pop();
+                            goHome();
+                          },
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      BoxApp.language = "en";
-                      BoxApp.setLanguage("en");
-                      //通知将第一页背景色变成红色
-                      S.load(Locale("en", "en".toUpperCase()));
-                      Navigator.of(context, rootNavigator: true).pop();
-                      goHome();
-                    },
-                  ),
-                ],
-              ),
-            );
+                  );
+                });
+              }
+            })
           });
-        }
-      });
       return;
     });
   }
@@ -133,10 +133,7 @@ class _SplashPageState extends State<SplashPage> {
   void goHome() {
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl != null &&
-            nodeUrl != "" &&
-            compilerUrl != null &&
-            compilerUrl != "") {
+        if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
           BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
         }
 

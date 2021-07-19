@@ -17,7 +17,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../main.dart';
 
-
 class AeAccountLoginPage extends StatefulWidget {
   @override
   _AeAccountLoginPageState createState() => _AeAccountLoginPageState();
@@ -65,7 +64,7 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 24,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),
@@ -77,11 +76,10 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 14,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),
-
                 Center(
                   child: Container(
                     height: 170,
@@ -91,13 +89,11 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                     decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: TextField(
                       controller: _textEditingController,
-
                       style: TextStyle(
                         fontSize: 19,
                         color: Colors.black,
                       ),
                       maxLines: 10,
-
                       decoration: InputDecoration(
                         hintText: 'memory pool equip lesson limb naive endorse advice lift ...',
                         enabledBorder: new UnderlineInputBorder(
@@ -109,7 +105,7 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                         ),
                         hintStyle: TextStyle(
                           fontSize: 19,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black.withAlpha(80),
                         ),
                       ),
@@ -118,7 +114,6 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                     ),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.only(top: 30, bottom: 50),
                   child: Container(
@@ -131,7 +126,7 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                       child: Text(
                         S.of(context).account_login_page_conform,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                       ),
                       color: Color(0xFFFC2365),
                       textColor: Colors.white,
@@ -149,13 +144,15 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
     if (_textEditingController.text == null || _textEditingController.text == "") {
       return;
     }
+    var mnemonic = _textEditingController.text;
     BoxApp.getValidationMnemonic((isSucess) {
-
       if (isSucess) {
         BoxApp.getSecretKey((address, signingKey) {
           showGeneralDialog(
               context: context,
-              pageBuilder: (context, anim1, anim2) {return;},
+              pageBuilder: (context, anim1, anim2) {
+                return;
+              },
               barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
@@ -170,37 +167,23 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                       child: PayPasswordWidget(
                           title: S.of(context).password_widget_set_password,
                           passwordCallBackFuture: (String password) async {
-
-                            WalletCoinsManager.instance
-                                .getCoins()
-                                .then((walletCoinModel) {
+                            WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
 
                               final key = Utils.generateMd5Int(password + address);
                               var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                              var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
-
-                              Account account = Account();
-                              account.signingKey = signingKeyAesEncode;
-                              account.address = address;
-                              account.isSelect = true;
-                              walletCoinModel.ae.add(account);
-                              WalletCoinsManager.instance
-                                  .setCoins(walletCoinModel)
-                                  .then((value) {
+                              WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode).then((value) {
                                 BoxApp.setSigningKey(signingKeyAesEncode);
                                 BoxApp.setAddress(address);
                                 Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                 return;
                               });
-
-                              return;
                             });
-
                           }),
-
                     ));
-
               });
+          return;
         }, _textEditingController.text);
       } else {
         showPlatformDialog(
@@ -214,7 +197,7 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                   "Conform",
                   style: TextStyle(
                     color: Color(0xFFFC2365),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
                 onPressed: () {
@@ -224,7 +207,6 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
             ],
           ),
         );
-
       }
       return;
     }, _textEditingController.text);

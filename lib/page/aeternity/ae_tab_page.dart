@@ -43,7 +43,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
-
+  BuildContext buildContext;
   @override
   void dispose() {
     super.dispose();
@@ -221,7 +221,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
       BoxApp.getMnemonic().then((account) {
         if (account != null && account.length > 0) {
           showPlatformDialog(
-            context: context,
+            context: buildContext,
             builder: (_) => BasicDialogAlert(
               title: Text(
                 S.of(context).dialog_save_word,
@@ -348,6 +348,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    buildContext = context;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: WillPopScope(
