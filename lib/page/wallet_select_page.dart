@@ -14,9 +14,9 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
-import 'account_login_page.dart';
-import 'add_account_page.dart';
-import 'home_page_v2.dart';
+import 'aeternity/ae_account_login_page.dart';
+import 'aeternity/ae_account_add_page.dart';
+import 'aeternity/ae_home_page.dart';
 
 class WalletSelectPage extends StatefulWidget {
   const WalletSelectPage({Key key}) : super(key: key);
@@ -237,7 +237,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => AddAccountPage(
+                                                      builder: (context) => AeAccountAddPage(
                                                             accountCallBackFuture: () {
                                                               WalletCoinsManager.instance.getCoins().then((value) {
                                                                 walletCoinsModel = value;
@@ -588,7 +588,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ]),
             ),
           ),
-          if (walletCoinsModel.ae[index].address == HomePageV2.address)
+          if (walletCoinsModel.ae[index].address == AeHomePage.address)
             // Positioned(
             //   right: 0,
             //   top: 0,

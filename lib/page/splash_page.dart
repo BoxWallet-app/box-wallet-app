@@ -8,7 +8,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/app_store_model.dart';
 import 'package:box/page/login_page.dart';
-import 'package:box/page/tab_page_v2.dart';
+import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
@@ -23,7 +23,7 @@ import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
-import 'forum_page.dart';
+import 'aeternity/ae_aex2_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -144,7 +144,7 @@ class _SplashPageState extends State<SplashPage> {
           SharedPreferences.getInstance().then((sp) {
             sp.setString('is_language', "true");
             if (value.length > 10) {
-              Navigator.pushReplacement(context, CustomRoute(TabPageV2()));
+              Navigator.pushReplacement(context, CustomRoute(AeTabPage()));
             } else {
               Navigator.pushReplacement(context, CustomRoute(LoginPage()));
             }

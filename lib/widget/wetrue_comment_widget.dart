@@ -7,7 +7,7 @@ import 'package:box/dao/wetrue_topic_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/wetrue_comment_model.dart';
 import 'package:box/model/wetrue_config_model.dart';
-import 'package:box/page/defi_ranking_page.dart';
+import 'package:box/page/aeternity/ae_defi_ranking_page.dart';
 import 'package:box/utils/RelativeDateFormat.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';

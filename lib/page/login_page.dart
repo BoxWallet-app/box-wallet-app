@@ -9,8 +9,8 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/block_top_model.dart';
 import 'package:box/model/user_model.dart';
 import 'package:box/model/wallet_coins_model.dart';
-import 'package:box/page/account_login_page.dart';
-import 'package:box/page/token_send_one_page.dart';
+import 'package:box/page/aeternity/ae_account_login_page.dart';
+import 'package:box/page/aeternity/ae_token_send_one_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:crypto/crypto.dart';
@@ -202,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AeAccountLoginPage()));
                         },
                         child: Text(
                           S.of(context).login_page_login,
