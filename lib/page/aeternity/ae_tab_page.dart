@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 
@@ -21,7 +22,6 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
@@ -44,6 +44,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
   BuildContext buildContext;
+
   @override
   void dispose() {
     super.dispose();
@@ -128,217 +129,199 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           if (newVersion > oldVersion) {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
-                  ? showPlatformDialog(
-                      androidBarrierDismissible: false,
-                      context: context,
-                      builder: (_) => WillPopScope(
-                        onWillPop: () async => false,
-                        child: BasicDialogAlert(
-                          title: Text(
-                            S.of(context).dialog_update_title,
-                          ),
-                          content: Text(
-                            S.of(context).dialog_update_content,
-                          ),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-//                        Navigator.of(context, rootNavigator: true).pop();
-                                if (Platform.isIOS) {
-                                  _launchURL(model.data.urlIos);
-                                } else if (Platform.isAndroid) {
-                                  _launchURL(model.data.urlAndroid);
-                                }
-                              },
-                            ),
-                          ],
+                  ?
+
+
+              showDialog<bool>(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return new AlertDialog(
+                    title: Text(
+                      S.of(context).dialog_update_title,
+                    ),
+                    content: Text(
+                      S.of(context).dialog_update_content,
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: new Text(
+                          S.of(context).dialog_conform,
                         ),
+                        onPressed: () {
+                          if (Platform.isIOS) {
+                            _launchURL(model.data.urlIos);
+                          } else if (Platform.isAndroid) {
+                            _launchURL(model.data.urlAndroid);
+                          }
+                        },
                       ),
-                    )
-                  : showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_update_title,
+                    ],
+                  );
+                },
+              )
+
+
+
+
+
+
+
+
+
+                  :
+
+
+
+              showDialog<bool>(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return new AlertDialog(
+                    title: Text(
+                      S.of(context).dialog_update_title,
+                    ),
+                    content: Text(
+                      S.of(context).dialog_update_content,
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: new Text(
+                          S.of(context).dialog_cancel,
                         ),
-                        content: Text(
-                          S.of(context).dialog_update_content,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              if (Platform.isIOS) {
-                                _launchURL(model.data.urlIos);
-                              } else if (Platform.isAndroid) {
-                                _launchURL(model.data.urlAndroid);
-                              }
-                            },
-                          ),
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_cancel,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop();
+                        },
                       ),
-                    );
+                      TextButton(
+                        child: new Text(
+                          S.of(context).dialog_conform,
+                        ),
+                        onPressed: () {
+                          if (Platform.isIOS) {
+                            _launchURL(model.data.urlIos);
+                          } else if (Platform.isAndroid) {
+                            _launchURL(model.data.urlAndroid);
+                          }
+                        },
+                      ),
+
+                    ],
+                  );
+                },
+              );
             });
           }
 
-//          String appName = packageInfo.appName;
-//          String packageName = packageInfo.packageName;
-//          String version = packageInfo.version;
-//          String buildNumber = packageInfo.buildNumber;
         });
       } else {}
     }).catchError((e) {});
   }
 
   void showHint() {
-    Future.delayed(Duration.zero, () {
-      BoxApp.getMnemonic().then((account) {
-        if (account != null && account.length > 0) {
-          showPlatformDialog(
-            context: buildContext,
-            builder: (_) => BasicDialogAlert(
-              title: Text(
-                S.of(context).dialog_save_word,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                ),
-              ),
-              content: Text(
-                S.of(context).dialog_save_word_hint,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  height: 1.2,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                ),
-              ),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    S.of(context).dialog_dismiss,
-                    style: TextStyle(
-                      color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-                BasicDialogAction(
-                  title: Text(
-                    S.of(context).dialog_save_go,
-                    style: TextStyle(
-                      color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                  onPressed: () {
-                    showGeneralDialog(
-                        context: context,
-                        pageBuilder: (context, anim1, anim2) {},
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: true,
-                        barrierLabel: "",
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (_, anim1, anim2, child) {
-                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                          return Transform(
-                            transform: Matrix4.translationValues(0.0, 0, 0.0),
-                            child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: PayPasswordWidget(
-                                title: S.of(context).password_widget_input_password,
-                                dismissCallBackFuture: (String password) {
-                                  return;
-                                },
-                                passwordCallBackFuture: (String password) async {
-                                  var mnemonic = await BoxApp.getMnemonic();
-                                  if (mnemonic == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint),
-                                        content: Text(S.of(context).dialog_login_user_no_save),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    return;
-                                  }
-                                  var address = await BoxApp.getAddress();
-                                  final key = Utils.generateMd5Int(password + address);
-                                  var aesDecode = Utils.aesDecode(mnemonic, key);
+    print("333");
+    Future.delayed(Duration(seconds: 0), () {
+      print("222");
+      BoxApp.getSaveMnemonic().then((account) {
+        if (account) {
 
-                                  if (aesDecode == "") {
-                                    showPlatformDialog(
-                                      context: context,
-                                      builder: (_) => BasicDialogAlert(
-                                        title: Text(S.of(context).dialog_hint_check_error),
-                                        content: Text(S.of(context).dialog_hint_check_error_content),
-                                        actions: <Widget>[
-                                          BasicDialogAction(
-                                            title: Text(
-                                              S.of(context).dialog_conform,
-                                              style: TextStyle(color: Color(0xFFFC2365)),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context, rootNavigator: true).pop();
-                                            },
-                                          ),
-                                        ],
+          print("111");
+          showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new AlertDialog(
+                title: Text(S.of(context).dialog_hint),
+                content: Text(S.of(context).dialog_save_word),
+                actions: <Widget>[
+                  TextButton(
+                    child: new Text(
+                        S.of(context).dialog_dismiss,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop(false);
+                    },
+                  ),  TextButton(
+                    child: new Text(
+                      S.of(context).dialog_save_go,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop(true);
+
+                    },
+                  ),
+                ],
+              );
+            },
+          ).then((val) {
+            if(val){
+              showGeneralDialog(
+                  context: super.context,
+                  pageBuilder: (context, anim1, anim2) {return;},
+                  barrierColor: Colors.grey.withOpacity(.4),
+                  barrierDismissible: true,
+                  barrierLabel: "",
+                  transitionDuration: Duration(milliseconds: 400),
+                  transitionBuilder: (_, anim1, anim2, child) {
+                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                    return Transform(
+                      transform: Matrix4.translationValues(0.0, 0, 0.0),
+                      child: Opacity(
+                        opacity: anim1.value,
+                        // ignore: missing_return
+                        child: PayPasswordWidget(
+                          title: S.of(context).password_widget_input_password,
+                          dismissCallBackFuture: (String password) {
+                            return;
+                          },
+                          passwordCallBackFuture: (String password) async {
+                            var mnemonic = await BoxApp.getMnemonic();
+                            if (mnemonic == "") {
+                              showDialog<bool>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return new AlertDialog(
+                                    title: Text(S.of(context).dialog_hint),
+                                    content: Text(S.of(context).dialog_login_user_no_save),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: new Text(
+                                          S.of(context).dialog_conform,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context, rootNavigator: true).pop();
+                                        },
                                       ),
-                                    );
-                                    return;
-                                  }
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
-                                  Navigator.of(context, rootNavigator: true).pop();
+                                    ],
+                                  );
                                 },
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                ),
-              ],
-            ),
-          );
+                              ).then((val) {});
+                              return;
+                            }
+                            var address = await BoxApp.getAddress();
+                            final key = Utils.generateMd5Int(password + address);
+                            var aesDecode = Utils.aesDecode(mnemonic, key);
+
+                            if (aesDecode == "") {
+                              showErrorDialog(context, null);
+                              return;
+                            }
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+
+                          },
+                        ),
+                      ),
+                    );
+                  });
+
+            }
+          });
+
+
+
+
+
         }
       });
     });
@@ -478,7 +461,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top - MediaQueryData.fromWindow(window).padding.bottom - 52,
                     child: PageView.builder(
                       itemCount: 3,
                       controller: pageControllerBody,
@@ -628,8 +610,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
-              showMaterialModalBottomSheet(
-                  expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => WalletSelectPage());
+              showMaterialModalBottomSheet(expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => WalletSelectPage());
             },
             child: Container(
               height: 35,
@@ -697,5 +678,31 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
   }
 }

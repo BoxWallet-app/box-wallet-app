@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
@@ -28,7 +29,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -41,7 +41,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../main.dart';
 import 'ae_aens_my_page.dart';
 import 'ae_defi_in_page.dart';
-import 'ae_defi_out_page.dart';
 import 'ae_defi_ranking_page.dart';
 
 class AeTokenDefiPage extends StatefulWidget {
@@ -97,8 +96,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         token = model.data.balance;
         setState(() {});
       } else {}
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   void netContractBalance() {
@@ -164,24 +162,11 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(
-                                  left: 18, top: 150, right: 18),
+                              margin: const EdgeInsets.only(left: 18, top: 150, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
-                                strutStyle: StrutStyle(
-                                    forceStrutHeight: true,
-                                    height: 1.5,
-                                    leading: 1,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu"),
-                                style: new TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                    color: Colors.white),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
                               ),
                             ),
                             buildContainerCount(context),
@@ -191,35 +176,20 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               alignment: Alignment.topLeft,
-                              margin:
-                                  EdgeInsets.only(left: 22, top: 10, right: 22),
+                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
                             ),
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base_content,
-                                strutStyle: StrutStyle(
-                                    forceStrutHeight: true,
-                                    height: 0.5,
-                                    leading: 1,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu"),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    letterSpacing: 1.0,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                    height: 1.5,
-                                    color: Color(0xFF999999)),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style:
+                                    TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
-                              margin:
-                                  EdgeInsets.only(left: 22, top: 10, right: 22),
+                              margin: EdgeInsets.only(left: 22, top: 10, right: 22),
                             ),
                             Container(
                               height: 50,
@@ -242,17 +212,14 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: MediaQueryData.fromWindow(window)
-                                      .padding
-                                      .top,
+                                  height: MediaQueryData.fromWindow(window).padding.top,
                                 ),
                                 Row(
                                   children: <Widget>[
                                     Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30)),
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
                                         onTap: () {
                                           Navigator.pop(context);
                                         },
@@ -335,16 +302,14 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                       child: Column(
                         children: [
                           Container(
-                            height:
-                                MediaQueryData.fromWindow(window).padding.top,
+                            height: MediaQueryData.fromWindow(window).padding.top,
                           ),
                           Row(
                             children: <Widget>[
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30)),
+                                  borderRadius: BorderRadius.all(Radius.circular(30)),
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
@@ -363,19 +328,13 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               Expanded(
                                 child: Container(),
                               ),
-                              if (AeHomePage.address ==
-                                  "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")
+                              if (AeHomePage.address == "ak_QyFYYpgJ1vUGk1Lnk8d79WJEVcAtcfuNHqquuP2ADfxsL6yKx")
                                 Material(
                                   color: Colors.transparent,
                                   child: InkWell(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
+                                    borderRadius: BorderRadius.all(Radius.circular(30)),
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AeDefiRankingPage()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => AeDefiRankingPage()));
                                     },
                                     child: Container(
                                       height: 50,
@@ -385,8 +344,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                         width: 36,
                                         height: 36,
                                         color: Colors.white,
-                                        image:
-                                            AssetImage('images/defi_info.png'),
+                                        image: AssetImage('images/defi_info.png'),
                                       ),
                                     ),
                                   ),
@@ -469,12 +427,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                 Container(
                   child: Text(
                     S.of(context).defi_card_my_get_hint,
-                    style: new TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        color: Color(0xFF666666)),
+                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
                   ),
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 20, top: 18),
@@ -486,16 +439,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                     children: [
                       Container(
                         child: Text(
-                          AeTokenDefiPage.model == null
-                              ? "loading..."
-                              : "≈" + AeTokenDefiPage.model.data.token,
+                          AeTokenDefiPage.model == null ? "loading..." : "≈" + AeTokenDefiPage.model.data.token,
                           style: new TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.5,
-                              fontFamily:
-                                  BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              color: Color(0xff3460ee)),
+                              fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
 //                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                         ),
                         alignment: Alignment.topLeft,
@@ -527,31 +473,20 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_my_token,
-                                style: new TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                    color: Color(0xFF666666)),
+                                style:
+                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
                             ),
                             Container(
                               child: Text(
-                                AeTokenDefiPage.model == null
-                                    ? "loading..."
-                                    : double.parse(
-                                            AeTokenDefiPage.model.data.count)
-                                        .toStringAsFixed(2),
+                                AeTokenDefiPage.model == null ? "loading..." : double.parse(AeTokenDefiPage.model.data.count).toStringAsFixed(2),
                                 style: new TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 1.5,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
@@ -571,29 +506,20 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_head_card_all_token,
-                                style: new TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                                    color: Color(0xFF666666)),
+                                style:
+                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
                             ),
                             Container(
                               child: Text(
-                                AeTokenDefiPage.model == null
-                                    ? "loading..."
-                                    : AeTokenDefiPage.model.data.allCount + "",
+                                AeTokenDefiPage.model == null ? "loading..." : AeTokenDefiPage.model.data.allCount + "",
                                 style: new TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 1.5,
-                                    fontFamily: BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
@@ -627,36 +553,29 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           if (AeTokenDefiPage.model.data.token == null) {
             return;
           }
-          if (AeTokenDefiPage.model.data.afterHeight <=
-              AeTokenDefiPage.model.data.minHeight) {
-            var waitHeight = (AeTokenDefiPage.model.data.minHeight +
-                    1 -
-                    AeTokenDefiPage.model.data.afterHeight) *
-                3;
-            showPlatformDialog(
+          if (AeTokenDefiPage.model.data.afterHeight <= AeTokenDefiPage.model.data.minHeight) {
+            var waitHeight = (AeTokenDefiPage.model.data.minHeight + 1 - AeTokenDefiPage.model.data.afterHeight) * 3;
+
+            showDialog<bool>(
               context: context,
-              builder: (_) => BasicDialogAlert(
-                title: Text(S.of(context).dialog_hint),
-                content: Text(S.of(context).dialog_defi_wait1 +
-                    waitHeight.toString() +
-                    S.of(context).dialog_defi_wait2),
-                actions: <Widget>[
-                  BasicDialogAction(
-                    title: Text(
-                      S.of(context).dialog_conform,
-                      style: TextStyle(
-                        color: Color(0xff3460ee),
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return new AlertDialog(
+                  title: Text(S.of(context).dialog_hint),
+                  content: Text(S.of(context).dialog_defi_wait1 + waitHeight.toString() + S.of(context).dialog_defi_wait2),
+                  actions: <Widget>[
+                    TextButton(
+                      child: new Text(
+                        S.of(context).dialog_conform,
                       ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                ],
-              ),
-            );
+                  ],
+                );
+              },
+            ).then((val) {});
             return;
           }
           showGeneralDialog(
@@ -668,8 +587,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 400),
               transitionBuilder: (_, anim1, anim2, child) {
-                final curvedValue =
-                    Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
                   transform: Matrix4.translationValues(0.0, 0, 0.0),
                   child: Opacity(
@@ -687,33 +605,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                         var aesDecode = Utils.aesDecode(signingKey, key);
 
                         if (aesDecode == "") {
-                          showPlatformDialog(
-                            context: context,
-                            builder: (_) => BasicDialogAlert(
-                              title:
-                                  Text(S.of(context).dialog_hint_check_error),
-                              content: Text(S
-                                  .of(context)
-                                  .dialog_hint_check_error_content),
-                              actions: <Widget>[
-                                BasicDialogAction(
-                                  title: Text(
-                                    S.of(context).dialog_conform,
-                                    style: TextStyle(
-                                      color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : "Ubuntu",
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
+                         showErrorDialog(context, null);
                           return;
                         }
                         // ignore: missing_return
@@ -721,88 +613,60 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           netContractBalance();
                           eventBus.fire(DefiEvent());
                           if ("-1" == tx) {
-                            showPlatformDialog(
+
+                            showDialog<bool>(
                               context: context,
-                              builder: (_) => BasicDialogAlert(
-                                title: Text(S.of(context).dialog_hint),
-                                content:
-                                    Text(S.of(context).dialog_defi_blacklist),
-                                actions: <Widget>[
-                                  BasicDialogAction(
-                                    title: Text(
-                                      S.of(context).dialog_conform,
-                                      style: TextStyle(
-                                        color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return new AlertDialog(
+                                  title: Text(S.of(context).dialog_hint),
+                                  content: Text(S.of(context).dialog_defi_blacklist),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: new Text(
+                                        S.of(context).dialog_conform,
                                       ),
+                                      onPressed: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                      },
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
+                                  ],
+                                );
+                              },
+                            ).then((val) {});
                             return;
                           }
 
-                          showPlatformDialog(
+
+                          showDialog<bool>(
                             context: context,
-                            builder: (_) => BasicDialogAlert(
-                              title: Text(S.of(context).dialog_defi_get),
-                              content: Text(S.of(context).dialog_defi_get_msg +
-                                  (double.parse(tx) / 1000000000000000000)
-                                      .toString() +
-                                  "ABC"),
-                              actions: <Widget>[
-                                BasicDialogAction(
-                                  title: Text(
-                                    S.of(context).dialog_conform,
-                                    style: TextStyle(
-                                      color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : "Ubuntu",
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return new AlertDialog(
+                                title: Text(S.of(context).dialog_defi_get),
+                                content: Text(S.of(context).dialog_defi_get_msg + (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: new Text(
+                                      S.of(context).dialog_conform,
                                     ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
+                                ],
+                              );
+                            },
+                          ).then((val) {});
+
+
+
+
+
+
                           // ignore: missing_return
                         }, (error) {
-                          showPlatformDialog(
-                            context: context,
-                            builder: (_) => BasicDialogAlert(
-                              title:
-                                  Text(S.of(context).dialog_hint_check_error),
-                              content: Text(Utils.formatABCLockV3Hint(error)),
-                              actions: <Widget>[
-                                BasicDialogAction(
-                                  title: Text(
-                                    S.of(context).dialog_conform,
-                                    style: TextStyle(
-                                      color: Color(0xff3460ee),
-                                      fontFamily: BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : "Ubuntu",
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
+                         showErrorDialog(context, error);
                         }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3);
 
                         showChainLoading();
@@ -815,10 +679,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         child: Text(
           S.of(context).defi_card_get,
           maxLines: 1,
-          style: TextStyle(
-              fontSize: 13,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-              color: Color(0xff3460ee)),
+          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,
@@ -837,16 +698,12 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AeDefiInPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AeDefiInPage()));
         },
         child: Text(
           S.of(context).defi_card_mine,
           maxLines: 1,
-          style: TextStyle(
-              fontSize: 16,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-              color: Color(0xffffffff)),
+          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
         ),
         color: Color(0xff3460ee),
         textColor: Colors.black,
@@ -866,188 +723,105 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          if (AeTokenDefiPage.model.data.afterHeight >
-              AeTokenDefiPage.model.data.minHeight) {
-            showPlatformDialog(
+          if (AeTokenDefiPage.model.data.afterHeight > AeTokenDefiPage.model.data.minHeight) {
+
+            showDialog<bool>(
               context: context,
-              builder: (_) => BasicDialogAlert(
-                title: Text(S.of(context).dialog_hint),
-                content: Text(S.of(context).dialog_ae_no_get),
-                actions: <Widget>[
-                  BasicDialogAction(
-                    title: Text(
-                      S.of(context).dialog_dismiss,
-                      style: TextStyle(
-                        color: Color(0xff3460ee),
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return new AlertDialog(
+                  title: Text(S.of(context).dialog_hint),
+                  content: Text(S.of(context).dialog_ae_no_get),
+                  actions: <Widget>[
+                    TextButton(
+                      child: new Text(
+                        S.of(context).dialog_dismiss,
                       ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                  BasicDialogAction(
-                    title: Text(
-                      S.of(context).dialog_conform,
-                      style: TextStyle(
-                        color: Color(0xff3460ee),
-                        fontFamily:
-                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    TextButton(
+                      child: new Text(
+                        S.of(context).dialog_conform,
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                      showGeneralDialog(
-                          context: context,
-                          // ignore: missing_return
-                          pageBuilder: (context, anim1, anim2) {},
-                          barrierColor: Colors.grey.withOpacity(.4),
-                          barrierDismissible: true,
-                          barrierLabel: "",
-                          transitionDuration: Duration(milliseconds: 400),
-                          transitionBuilder: (_, anim1, anim2, child) {
-                            final curvedValue =
-                                Curves.easeInOutBack.transform(anim1.value) -
-                                    1.0;
-                            return Transform(
-                              transform: Matrix4.translationValues(0.0, 0, 0.0),
-                              child: Opacity(
-                                opacity: anim1.value,
-                                // ignore: missing_return
-                                child: PayPasswordWidget(
-                                  title: S
-                                      .of(context)
-                                      .password_widget_input_password,
-                                  dismissCallBackFuture: (String password) {
-                                    return;
-                                  },
-                                  passwordCallBackFuture:
-                                      (String password) async {
-                                    var signingKey =
-                                        await BoxApp.getSigningKey();
-                                    var address = await BoxApp.getAddress();
-                                    final key = Utils.generateMd5Int(
-                                        password + address);
-                                    var aesDecode =
-                                        Utils.aesDecode(signingKey, key);
-
-                                    if (aesDecode == "") {
-                                      showPlatformDialog(
-                                        context: context,
-                                        builder: (_) => BasicDialogAlert(
-                                          title: Text(S
-                                              .of(context)
-                                              .dialog_hint_check_error),
-                                          content: Text(S
-                                              .of(context)
-                                              .dialog_hint_check_error_content),
-                                          actions: <Widget>[
-                                            BasicDialogAction(
-                                              title: Text(
-                                                S.of(context).dialog_conform,
-                                                style: TextStyle(
-                                                  color: Color(0xff3460ee),
-                                                  fontFamily:
-                                                      BoxApp.language == "cn"
-                                                          ? "Ubuntu"
-                                                          : "Ubuntu",
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context,
-                                                        rootNavigator: true)
-                                                    .pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        Navigator.of(context, rootNavigator: true).pop();
+                        showGeneralDialog(
+                            context: context,
+                            // ignore: missing_return
+                            pageBuilder: (context, anim1, anim2) {},
+                            barrierColor: Colors.grey.withOpacity(.4),
+                            barrierDismissible: true,
+                            barrierLabel: "",
+                            transitionDuration: Duration(milliseconds: 400),
+                            transitionBuilder: (_, anim1, anim2, child) {
+                              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                              return Transform(
+                                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                child: Opacity(
+                                  opacity: anim1.value,
+                                  // ignore: missing_return
+                                  child: PayPasswordWidget(
+                                    title: S.of(context).password_widget_input_password,
+                                    dismissCallBackFuture: (String password) {
                                       return;
-                                    }
-                                    // ignore: missing_return
-                                    BoxApp.contractDefiV2UnLock((tx) {
-                                      netContractBalance();
-                                      eventBus.fire(DefiEvent());
-                                      showPlatformDialog(
-                                        context: context,
-                                        builder: (_) => BasicDialogAlert(
-                                          title: Text(S
-                                              .of(context)
-                                              .dialog_unlock_sucess),
-                                          content: Text(S
-                                                  .of(context)
-                                                  .dialog_unlock_sucess_msg +
-                                              (double.parse(tx) /
-                                                      1000000000000000000)
-                                                  .toString() +
-                                              "AE"),
-                                          actions: <Widget>[
-                                            BasicDialogAction(
-                                              title: Text(
-                                                S.of(context).dialog_conform,
-                                                style: TextStyle(
-                                                  color: Color(0xff3460ee),
-                                                  fontFamily:
-                                                      BoxApp.language == "cn"
-                                                          ? "Ubuntu"
-                                                          : "Ubuntu",
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context,
-                                                        rootNavigator: true)
-                                                    .pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                      // ignore: missing_return
-                                    }, (error) {
-                                      showPlatformDialog(
-                                        context: context,
-                                        builder: (_) => BasicDialogAlert(
-                                          title: Text(S
-                                              .of(context)
-                                              .dialog_hint_check_error),
-                                          content: Text(
-                                              Utils.formatABCLockV3Hint(error)),
-                                          actions: <Widget>[
-                                            BasicDialogAction(
-                                              title: Text(
-                                                S.of(context).dialog_conform,
-                                                style: TextStyle(
-                                                  color: Color(0xff3460ee),
-                                                  fontFamily:
-                                                      BoxApp.language == "cn"
-                                                          ? "Ubuntu"
-                                                          : "Ubuntu",
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context,
-                                                        rootNavigator: true)
-                                                    .pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }, aesDecode, address,
-                                        BoxApp.DEFI_CONTRACT_V3, "0");
+                                    },
+                                    passwordCallBackFuture: (String password) async {
+                                      var signingKey = await BoxApp.getSigningKey();
+                                      var address = await BoxApp.getAddress();
+                                      final key = Utils.generateMd5Int(password + address);
+                                      var aesDecode = Utils.aesDecode(signingKey, key);
 
-                                    showChainLoading();
-                                  },
+                                      if (aesDecode == "") {
+                                        showErrorDialog(context, null);
+                                        return;
+                                      }
+                                      // ignore: missing_return
+                                      BoxApp.contractDefiV2UnLock((tx) {
+                                        netContractBalance();
+                                        eventBus.fire(DefiEvent());
+
+                                        showDialog<bool>(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return new AlertDialog(
+                                              title: Text(S.of(context).dialog_unlock_sucess),
+                                              content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: new Text(
+                                                    S.of(context).dialog_conform,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context, rootNavigator: true).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ).then((val) {});
+
+
+                                        // ignore: missing_return
+                                      }, (error) {
+                                        showErrorDialog(context, error);
+                                      }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
+
+                                      showChainLoading();
+                                    },
+                                  ),
                                 ),
-                              ),
-                            );
-                          });
-                    },
-                  ),
-                ],
-              ),
-            );
+                              );
+                            });
+                      },
+                    ),
+                  ],
+                );
+              },
+            ).then((val) {});
             return;
           } else {
             showGeneralDialog(
@@ -1059,8 +833,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                 barrierLabel: "",
                 transitionDuration: Duration(milliseconds: 400),
                 transitionBuilder: (_, anim1, anim2, child) {
-                  final curvedValue =
-                      Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                   return Transform(
                     transform: Matrix4.translationValues(0.0, 0, 0.0),
                     child: Opacity(
@@ -1078,90 +851,39 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           var aesDecode = Utils.aesDecode(signingKey, key);
 
                           if (aesDecode == "") {
-                            showPlatformDialog(
-                              context: context,
-                              builder: (_) => BasicDialogAlert(
-                                title:
-                                    Text(S.of(context).dialog_hint_check_error),
-                                content: Text(S
-                                    .of(context)
-                                    .dialog_hint_check_error_content),
-                                actions: <Widget>[
-                                  BasicDialogAction(
-                                    title: Text(
-                                      S.of(context).dialog_conform,
-                                      style: TextStyle(
-                                        color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
+                           showErrorDialog(context, null);
                             return;
                           }
                           // ignore: missing_return
                           BoxApp.contractDefiV2UnLock((tx) {
                             netContractBalance();
                             eventBus.fire(DefiEvent());
-                            showPlatformDialog(
-                              context: context,
-                              builder: (_) => BasicDialogAlert(
-                                title: Text(S.of(context).dialog_unlock_sucess),
 
-                                actions: <Widget>[
-                                  BasicDialogAction(
-                                    title: Text(
-                                      S.of(context).dialog_conform,
-                                      style: TextStyle(
-                                        color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
+                            showDialog<bool>(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return new AlertDialog(
+                                  title: Text(S.of(context).dialog_hint),
+                                  content: Text(S.of(context).dialog_unlock_sucess),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: new Text(
+                                        S.of(context).dialog_conform,
                                       ),
+                                      onPressed: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                      },
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
+                                  ],
+                                );
+                              },
+                            ).then((val) {});
+
+                            return;
                             // ignore: missing_return
                           }, (error) {
-                            showPlatformDialog(
-                              context: context,
-                              builder: (_) => BasicDialogAlert(
-                                title:
-                                    Text(S.of(context).dialog_hint_check_error),
-                                content: Text(Utils.formatABCLockV3Hint(error)),
-                                actions: <Widget>[
-                                  BasicDialogAction(
-                                    title: Text(
-                                      S.of(context).dialog_conform,
-                                      style: TextStyle(
-                                        color: Color(0xff3460ee),
-                                        fontFamily: BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
+                            showErrorDialog(context, error);
                           }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
 
                           showChainLoading();
@@ -1175,10 +897,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         child: Text(
           S.of(context).defi_card_out,
           maxLines: 1,
-          style: TextStyle(
-              fontSize: 16,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-              color: Color(0xff3460ee)),
+          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,
@@ -1201,232 +920,61 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           return ChainLoadingWidget();
         });
   }
-
-  void netContractTx(String tx, String function) {
-    errorCount++;
-    if (errorCount > 5) {
-      EasyLoading.dismiss();
-      Fluttertoast.showToast(
-          msg: "th error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      errorCount = 0;
-      return;
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
     }
-    EasyLoading.show();
-    Future.delayed(Duration(seconds: 2), () {
-      ContractDecodeDao.fetch(tx, function).then((ContractDecodeModel model) {
-        if (model.code == 200) {
-          errorCount = 0;
-          EasyLoading.dismiss(animation: true);
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text(
-                S.of(context).dialog_hint,
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
               ),
-              content: Text(S.of(context).dialog_defi_lock_sucess),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    S.of(context).dialog_conform,
-                    style: TextStyle(
-                      color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                  onPressed: () {
-                    EasyLoading.show();
-                    netContractBalance();
-                    netAccountInfo();
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
             ),
-          );
-        } else {
-          if (model.code == -1 && errorCount < 5) {
-            netContractTx(tx, function);
-            return;
-          }
-          EasyLoading.dismiss(animation: true);
-          showPlatformDialog(
-            context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text(
-                S.of(context).dialog_hint,
-              ),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    S.of(context).dialog_conform,
-                    style: TextStyle(
-                      color: Color(0xFFFC2365),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      }).catchError((e) {
-        EasyLoading.dismiss(animation: true);
-        Fluttertoast.showToast(
-            msg: e.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      });
-    });
+          ],
+        );
+      },
+    ).then((val) {});
   }
 
-//  void netLock() {
-//    var text = _textEditingController.text;
-//    var doubleInput = double.parse(text);
-//    if (100 > doubleInput) {
-//      showPlatformDialog(
-//        context: context,
-//        builder: (_) => BasicDialogAlert(
-//          title: Text(
-//            S.of(context).dialog_hint,
-//          ),
-//          content: Text(S.of(context).dialog_defi_token_low),
-//          actions: <Widget>[
-//            BasicDialogAction(
-//              title: Text(
-//                S.of(context).dialog_conform,
-//                style: TextStyle(color: Color(0xFFFC2365)),
-//              ),
-//              onPressed: () {
-//                Navigator.of(context, rootNavigator: true).pop();
-//              },
-//            ),
-//          ],
-//        ),
-//      );
-//      return;
-//    }
-//    showGeneralDialog(
-//        context: context,
-//        pageBuilder: (context, anim1, anim2) {},
-//        barrierColor: Colors.grey.withOpacity(.4),
-//        barrierDismissible: true,
-//        barrierLabel: "",
-//        transitionDuration: Duration(milliseconds: 400),
-//        transitionBuilder: (_, anim1, anim2, child) {
-//          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-//          return Transform(
-//              transform: Matrix4.translationValues(0.0, 0, 0.0),
-//              child: Opacity(
-//                opacity: anim1.value,
-//                // ignore: missing_return
-//                child: PayPasswordWidget(
-//                    title: S.of(context).password_widget_input_password,
-//                    color: 0xff3460ee,
-//                    dismissCallBackFuture: (String password) {
-//                      return;
-//                    },
-//                    passwordCallBackFuture: (String password) async {
-//                      var signingKey = await BoxApp.getSigningKey();
-//                      var address = await BoxApp.getAddress();
-//                      final key = Utils.generateMd5Int(password + address);
-//                      var aesDecode = Utils.aesDecode(signingKey, key);
-//
-//                      if (aesDecode == "") {
-//                        showPlatformDialog(
-//                          context: context,
-//                          builder: (_) => BasicDialogAlert(
-//                            title: Text(
-//                              S.of(context).dialog_hint_check_error,
-//                            ),
-//                            content: Text(
-//                              S.of(context).dialog_hint_check_error_content,
-//                            ),
-//                            actions: <Widget>[
-//                              BasicDialogAction(
-//                                title: Text(
-//                                  S.of(context).dialog_conform,
-//                                  style: TextStyle(
-//                                    color: Color(0xFFFC2365),
-//                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-//                                  ),
-//                                ),
-//                                onPressed: () {
-//                                  Navigator.of(context, rootNavigator: true).pop();
-//                                },
-//                              ),
-//                            ],
-//                          ),
-//                        );
-//                        return;
-//                      }
-//                      EasyLoading.show();
-//                      ContractCallDao.fetch("lock", day.toString(), aesDecode, _textEditingController.text).then((ContractCallModel model) {
-//                        if (model.code == 200) {
-//                          errorCount = 0;
-//                          netContractTx(model.data.tx, model.data.function);
-////                          showPlatformDialog(
-////                            context: context,
-////                            builder: (_) => BasicDialogAlert(
-////                              title: Text(
-////                                S.of(context).dialog_hint,
-////                              ),
-////                              content: Text(model.data.tx + "\n" + model.data.function),
-////                              actions: <Widget>[
-////                                BasicDialogAction(
-////                                  title: Text(
-////                                    S.of(context).dialog_conform,
-////                                    style: TextStyle(color: Color(0xFFFC2365)),
-////                                  ),
-////                                  onPressed: () {
-////                                    Navigator.of(context, rootNavigator: true).pop();
-////                                  },
-////                                ),
-////                              ],
-////                            ),
-////                          );
-//                        } else {
-//                          EasyLoading.dismiss(animation: true);
-//                          showPlatformDialog(
-//                            context: context,
-//                            builder: (_) => BasicDialogAlert(
-//                              title: Text(
-//                                S.of(context).dialog_hint,
-//                              ),
-//                              content: Text(model.msg),
-//                              actions: <Widget>[
-//                                BasicDialogAction(
-//                                  title: Text(
-//                                    S.of(context).dialog_conform,
-//                                    style: TextStyle(color: Color(0xFFFC2365)),
-//                                  ),
-//                                  onPressed: () {
-//                                    Navigator.of(context, rootNavigator: true).pop();
-//                                  },
-//                                ),
-//                              ],
-//                            ),
-//                          );
-//                        }
-//                      }).catchError((e) {
-//                        EasyLoading.dismiss(animation: true);
-//                        Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-//                      });
-//                    }),
-//              ));
-//        });
-//  }
+  void showCopyHashDialog(BuildContext context, String tx) {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text("交易凭证"),
+          content: Text(tx),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_copy,
+              ),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: tx));
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_dismiss,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
 }

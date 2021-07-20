@@ -14,7 +14,6 @@ import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -513,86 +512,41 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(S.of(context).dialog_hint_check_error_content),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
                     BoxApp.contractSwapSell((tx) {
                       focusNodeNode.unfocus();
                       focusNodeCompiler.unfocus();
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(
-                            S.of(context).dialog_send_sucess,
-                          ),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                focusNodeNode.unfocus();
-                                focusNodeCompiler.unfocus();
-                                eventBus.fire(SwapEvent());
 
-                                Navigator.of(context, rootNavigator: true).pop();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }, (error) {
-                      // ignore: missing_return, missing_return
-                      showPlatformDialog(
+                      showDialog<bool>(
                         context: context,
-                        // ignore: missing_return
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(Utils.formatSwapV2Hint(error)),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              // ignore: missing_return
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return new AlertDialog(
+                            title: Text(S.of(context).dialog_hint),
+                            content: Text(   S.of(context).dialog_send_sucess,),
+                            actions: <Widget>[
+                              TextButton(
+                                child: new Text(
+                                  S.of(context).dialog_conform,
                                 ),
+                                onPressed: () {
+                                  focusNodeNode.unfocus();
+                                  focusNodeCompiler.unfocus();
+                                  eventBus.fire(SwapEvent());
+
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.pop(context);
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                                // ignore: missing_return
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                            ],
+                          );
+                        },
+                      ).then((val) {});
+                    }, (error) {
+                      showErrorDialog(context, error);
                       return;
                     }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data.allowance);
                     showChainLoading();
@@ -623,5 +577,30 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return ChainLoadingWidget();
         });
+  }
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
   }
 }

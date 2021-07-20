@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 import 'dart:ui';
 
@@ -16,7 +17,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -63,8 +63,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     if (model != null || model.code == 200) {
       wetrueCommentModel = model;
       loadingType = LoadingType.finish;
-      if (wetrueCommentModel.data.data == null ||
-          wetrueCommentModel.data.data.length == 0) {
+      if (wetrueCommentModel.data.data == null || wetrueCommentModel.data.data.length == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -88,8 +87,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     if (model != null || model.code == 200) {
       wetrueCommentModel.data.data.addAll(model.data.data);
       loadingType = LoadingType.finish;
-      if (wetrueCommentModel.data == null ||
-          wetrueCommentModel.data.size == 0) {
+      if (wetrueCommentModel.data == null || wetrueCommentModel.data.size == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -153,10 +151,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height / 3 * 2 -
-                      50 -
-                      kToolbarHeight -
-                      MediaQueryData.fromWindow(window).padding.bottom,
+                  height: MediaQuery.of(context).size.height / 3 * 2 - 50 - kToolbarHeight - MediaQueryData.fromWindow(window).padding.bottom,
                   child: LoadingWidget(
                     type: loadingType,
                     child: AnimationLimiter(
@@ -167,8 +162,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                         behavior: null,
                         header: BoxHeader(),
                         footer: MaterialFooter(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Color(0xFFF22B79)),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
                         ),
                         onRefresh: _onRefresh,
                         onLoad: _onLoad,
@@ -180,9 +174,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                           children: ListTile.divideTiles(
                               context: context,
                               tiles: List.generate(
-                                wetrueCommentModel == null
-                                    ? 0
-                                    : wetrueCommentModel.data.data.length,
+                                wetrueCommentModel == null ? 0 : wetrueCommentModel.data.data.length,
                                 (index) => getItem(context, index),
                               )).toList(),
                         ),
@@ -201,11 +193,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                           bounce: true,
                           backgroundColor: Colors.transparent.withAlpha(0),
                           builder: (context) => WeTrueCommentInputWidget(
-                              title: Decimal.parse(
-                                      (weTrueConfigModel.data.commentAmount /
-                                              1000000000000000000)
-                                          .toString())
-                                  .toString(),
+                              title: Decimal.parse((weTrueConfigModel.data.commentAmount / 1000000000000000000).toString()).toString(),
                               passwordCallBackFuture: (String content) async {
                                 if (content == null || content == "") {
                                   return;
@@ -217,13 +205,10 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     },
                     child: Container(
                       height: 50,
-                      margin: EdgeInsets.only(
-                          bottom:
-                              MediaQueryData.fromWindow(window).padding.bottom),
+                      margin: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        margin:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                        margin: EdgeInsets.only(left: 16, right: 16, bottom: 10),
                         height: 11,
                         padding: EdgeInsets.only(left: 10),
                         alignment: Alignment.centerLeft,
@@ -233,12 +218,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                         ),
                         child: Text(
                           "有爱评论，说点好听的~",
-                          style: TextStyle(
-                              color: Colors.black.withAlpha(156),
-                              fontSize: 15,
-                              fontFamily: BoxApp.language == "cn"
-                                  ? "Ubuntu"
-                                  : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
                     ),
@@ -262,7 +242,6 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
       EasyLoading.showToast('请输入内容', duration: Duration(seconds: 2));
       return;
     }
-
 
     String content = Utils.encodeBase64('{"WeTrue":"' +
         weTrueConfigModel.data.weTrue +
@@ -298,30 +277,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                   var aesDecode = Utils.aesDecode(signingKey, key);
 
                   if (aesDecode == "") {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content:
-                            Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                    showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
@@ -330,71 +286,39 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     WeTrueTopicDao.fetch(tx).then((bool model) {
                       EasyLoading.dismiss(animation: true);
 
-
                       setState(() {});
                     }).catchError((e) {
                       EasyLoading.dismiss(animation: true);
 
                       setState(() {});
-
                     });
-                    showPlatformDialog(
+
+                    showDialog<bool>(
                       context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text("发布成功"),
-                        content: Text("区块同步中，稍后将展示"),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text("发布成功"),
+                          content: Text("区块同步中，稍后将展示"),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
                               ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                          ],
+                        );
+                      },
+                    ).then((val) {});
+
                     setState(() {});
                     // ignore: missing_return
                   }, (error) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                      aesDecode,
-                      address,
-                      weTrueConfigModel.data.receivingAccount,
-                      Decimal.parse((weTrueConfigModel.data.commentAmount /
-                                  1000000000000000000)
-                              .toString())
-                          .toString(),
+                    showErrorDialog(context, error);
+                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((weTrueConfigModel.data.commentAmount / 1000000000000000000).toString()).toString(),
                       content);
                   showChainLoading();
                 },
@@ -435,9 +359,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
 
               //设置四周边框
             ),
-            margin: index == wetrueCommentModel.data.size - 1
-                ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0)
-                : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
+            margin: index == wetrueCommentModel.data.size - 1 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0) : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
             padding: EdgeInsets.only(left: 18, right: 18, top: 14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,11 +374,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             Stack(
                               children: <Widget>[
                                 ClipOval(
-                                  child: Image.network(
-                                      wetrueCommentModel
-                                          .data.data[index].users.portrait,
-                                      width: 35,
-                                      height: 35),
+                                  child: Image.network(wetrueCommentModel.data.data[index].users.portrait, width: 35, height: 35),
                                 ),
                                 Positioned(
                                   right: 0,
@@ -479,12 +397,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                       height: 12,
                                       child: Center(
                                         child: Text(
-                                          "v" +
-                                              wetrueCommentModel.data
-                                                  .data[index].users.userActive
-                                                  .toString(),
-                                          style: TextStyle(
-                                              color: Colors.white, fontSize: 8),
+                                          "v" + wetrueCommentModel.data.data[index].users.userActive.toString(),
+                                          style: TextStyle(color: Colors.white, fontSize: 8),
                                         ),
                                       ),
                                     ),
@@ -499,18 +413,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      wetrueCommentModel.data.data[index].users
-                                                  .nickname ==
-                                              ""
-                                          ? "匿名用户"
-                                          : wetrueCommentModel
-                                              .data.data[index].users.nickname,
-                                      style: TextStyle(
-                                          color: Colors.black.withAlpha(156),
-                                          fontSize: 15,
-                                          fontFamily: BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu"),
+                                      wetrueCommentModel.data.data[index].users.nickname == "" ? "匿名用户" : wetrueCommentModel.data.data[index].users.nickname,
+                                      style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),
                                   // Container(
@@ -574,22 +478,9 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             margin: EdgeInsets.only(top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
-                              wetrueCommentModel.data.data[index].payload
-                                  .replaceAll("<br>", "\r\n"),
-                              strutStyle: StrutStyle(
-                                  forceStrutHeight: true,
-                                  height: 0.8,
-                                  leading: 1.2,
-                                  fontFamily: BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : "Ubuntu"),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  letterSpacing: 1.5,
-                                  fontFamily: BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : "Ubuntu"),
+                              wetrueCommentModel.data.data[index].payload.replaceAll("<br>", "\r\n"),
+                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1.2, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],
@@ -597,14 +488,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                       Container(
                         margin: EdgeInsets.only(bottom: 14, top: 5),
                         child: Text(
-                          RelativeDateFormat.format(
-                              wetrueCommentModel.data.data[index].utcTime),
-                          style: TextStyle(
-                              color: Colors.black.withAlpha(100),
-                              fontSize: 13,
-                              fontFamily: BoxApp.language == "cn"
-                                  ? "Ubuntu"
-                                  : "Ubuntu"),
+                          RelativeDateFormat.format(wetrueCommentModel.data.data[index].utcTime),
+                          style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
                     ],
@@ -620,5 +505,60 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
         ),
       ),
     );
+  }
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
+
+  void showCopyHashDialog(BuildContext context, String tx) {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text("交易凭证"),
+          content: Text(tx),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_copy,
+              ),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_dismiss,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
   }
 }

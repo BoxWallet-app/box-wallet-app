@@ -30,7 +30,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -217,121 +216,6 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
   }
 
 
-  void netBuy(int index) {
-    showGeneralDialog(
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, 0, 0.0),
-            child: Opacity(
-              opacity: anim1.value,
-              // ignore: missing_return
-              child: PayPasswordWidget(
-                title: S.of(context).password_widget_input_password,
-                dismissCallBackFuture: (String password) {
-                  return;
-                },
-                passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
-                  var address = await BoxApp.getAddress();
-                  final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                  if (aesDecode == "") {
-                    _onRefresh();
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                    return;
-                  }
-                  // ignore: missing_return
-                  BoxApp.contractSwapCancel((data) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_dismiss_sucess,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              eventBus.fire(SwapEvent());
-                              swapModels.data.removeAt(index - 1);
-                              setState(() {});
-                              loadingType = LoadingType.loading;
-                              setState(() {});
-                              _onRefresh();
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, (error) {
-                    showPlatformDialog(
-                      context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              return;
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
-                  showChainLoading();
-                },
-              ),
-            ),
-          );
-        });
-  }
 
   void showChainLoading() {
     showGeneralDialog(

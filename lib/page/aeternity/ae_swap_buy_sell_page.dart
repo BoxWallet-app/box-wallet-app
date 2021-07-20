@@ -27,7 +27,6 @@ import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -329,84 +328,45 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
 
                   if (aesDecode == "") {
                     _onRefresh();
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                   showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
                   BoxApp.contractSwapCancel((data) {
-                    showPlatformDialog(
+
+
+
+
+                    showDialog<bool>(
                       context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_dismiss_sucess,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              eventBus.fire(SwapEvent());
-                              swapModels.data.removeAt(index - 1);
-                              setState(() {});
-                              loadingType = LoadingType.loading;
-                              setState(() {});
-                              _onRefresh();
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(S.of(context).dialog_hint),
+                          content:  Text(
+                            S.of(context).dialog_dismiss_sucess,
                           ),
-                        ],
-                      ),
-                    );
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
+                              ),
+                              onPressed: () {
+                                eventBus.fire(SwapEvent());
+                                swapModels.data.removeAt(index - 1);
+                                setState(() {});
+                                loadingType = LoadingType.loading;
+                                setState(() {});
+                                _onRefresh();
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((val) {});
                   }, (error) {
-                    showPlatformDialog(
-                      context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              return;
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                    showErrorDialog(context, error);
                     return;
                   }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
@@ -523,4 +483,30 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
 }

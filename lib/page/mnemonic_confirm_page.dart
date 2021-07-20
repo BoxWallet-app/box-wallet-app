@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/page/aeternity/ae_tab_page.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MnemonicConfirmPage extends StatefulWidget {
@@ -30,10 +32,10 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 //    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
 //    List mnemonicList = mnemonic.split(" ");
     List mnemonicList = widget.mnemonic.split(" ");
-    mnemonicList.shuffle();
+    // mnemonicList.shuffle();
 //    mnemonicList.sort((left,right)=>left.compareTo(right));
-    for( var i = 0 ; i < mnemonicList.length; i++ ) {
-      mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
+    for (var i = 0; i < mnemonicList.length; i++) {
+      mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
 
     updateData();
@@ -65,7 +67,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   style: TextStyle(
                     color: Color(0xFF000000),
                     fontSize: 24,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -77,14 +79,13 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   style: TextStyle(
                     color: Color(0xFF000000),
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
               Center(
                 child: Container(
                   height: 170,
-                  
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
@@ -115,58 +116,66 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   child: FlatButton(
                     onPressed: () {
                       if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
-                        showPlatformDialog(
+                        showDialog<bool>(
                           context: context,
-                          builder: (_) => BasicDialogAlert(
-                            title: Text(S.of(context).dialog_save_sucess),
-                            content: Text(S.of(context).dialog_save_sucess_hint),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_conform,
-                                  style: TextStyle(
-                                    color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return new AlertDialog(
+                              title: Text(S.of(context).dialog_save_sucess),
+                              content: Text(
+                                S.of(context).dialog_save_sucess_hint,
+                                style: TextStyle(
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: new Text(
+                                    S.of(context).dialog_conform,
                                   ),
+                                  onPressed: () {
+                                    Navigator.of(context, rootNavigator: true).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) {
+                          WalletCoinsManager.instance.updateAccountSaveMnemonic(false).then((value) => {Navigator.pop(context)});
+
+                          // Navigator.replace(context,newRoute:CustomRoute(AeTabPage()), oldRoute: CustomRoute(AeTabPage()));
+                          // Navigator.of(context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                        });
+                        return;
+                      }
+
+                      showDialog<bool>(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return new AlertDialog(
+                            title: Text(S.of(context).dialog_save_error),
+                            content: Text(S.of(context).dialog_save_error_hint),
+                            actions: <Widget>[
+                              TextButton(
+                                child: new Text(
+                                  S.of(context).dialog_conform,
                                 ),
                                 onPressed: () {
-                                  BoxApp.setMnemonic("");
                                   Navigator.of(context, rootNavigator: true).pop();
-                                  Navigator.of(context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                 },
                               ),
                             ],
-                          ),
-                        );
-                        return;
-                      }
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_save_error),
-                          content: Text(S.of(context).dialog_save_error_hint),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                          );
+                        },
+                      ).then((val) {});
+
                       return;
                     },
                     child: Text(
                       S.of(context).dialog_conform,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -174,9 +183,6 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   ),
                 ),
               ),
-
-
-
             ],
           ),
         ));
@@ -205,9 +211,9 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
             if (!isSelect) {
-              childrenWordTrue.add( item.split("_")[0]);
+              childrenWordTrue.add(item.split("_")[0]);
             } else {
-              childrenWordTrue.remove( item.split("_")[0]);
+              childrenWordTrue.remove(item.split("_")[0]);
             }
             mnemonicWord[item] = !isSelect;
             updateData();

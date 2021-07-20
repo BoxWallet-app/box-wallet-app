@@ -245,54 +245,52 @@ class _AeHomePageState extends State<AeHomePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-            child: EasyRefresh(
-      header: BoxHeader(),
-      onRefresh: _onRefresh,
-      child: Container(
-        child: Column(
-          children: [
-            // Container(
-            //   height: 8,
-            // ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                children: [
-                  Positioned(
-                    child: Container(
+    return  Container(
+        child: EasyRefresh(
+          header: BoxHeader(),
+          onRefresh: _onRefresh,
+          child: Container(
+            child: Column(
+              children: [
+                // Container(
+                //   height: 8,
+                // ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: Container(
 //                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
-                        boxShadow: [
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80.0),
+                            boxShadow: [
 //                                BoxShadow(
 //                                    color: Color(0xFFFC2365).withAlpha(20),
 //                                    offset: Offset(0.0, 55.0), //阴影xy轴偏移量
 //                                    blurRadius: 50.0, //阴影模糊程度
 //                                    spreadRadius: 0.1 //阴影扩散程度
 //                                    )
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 120,
-                            margin: const EdgeInsets.only(left: 16, right: 16),
-                            decoration: new BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color(0xFFFC2365).withAlpha(20),
-                                    offset: Offset(0.0, 55.0),
-                                    //阴影xy轴偏移量
-                                    blurRadius: 50.0,
-                                    //阴影模糊程度
-                                    spreadRadius: 0.1 //阴影扩散程度
-                                    )
-                              ],
-                            ),
+                            ],
                           ),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 120,
+                                margin: const EdgeInsets.only(left: 16, right: 16),
+                                decoration: new BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color(0xFFFC2365).withAlpha(20),
+                                        offset: Offset(0.0, 55.0),
+                                        //阴影xy轴偏移量
+                                        blurRadius: 50.0,
+                                        //阴影模糊程度
+                                        spreadRadius: 0.1 //阴影扩散程度
+                                    )
+                                  ],
+                                ),
+                              ),
 //                          Container(
 //                            height: 90,
 //                            margin: const EdgeInsets.only(left: 16, right: 16),
@@ -307,85 +305,85 @@ class _AeHomePageState extends State<AeHomePage>
 //                              ],
 //                            ),
 //                          ),
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 16, right: 16),
-                      child: Column(
-                        children: [
-                          Stack(
+                      Positioned(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 16, right: 16),
+                          child: Column(
                             children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 160,
-                                decoration: new BoxDecoration(
-                                  borderRadius:
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 160,
+                                    decoration: new BoxDecoration(
+                                      borderRadius:
                                       BorderRadius.all(Radius.circular(15.0)),
-                                  gradient: const LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      colors: [
-                                        Color(0xFFE51363),
-                                        Color(0xFFFF428F),
-                                      ]),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 32,
-                                  height: 35,
-                                  decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(15.0),
-                                        bottomLeft: Radius.circular(15.0)),
-                                    color: Color(0xffd12869),
+                                      gradient: const LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          colors: [
+                                            Color(0xFFE51363),
+                                            Color(0xFFFF428F),
+                                          ]),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 3,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 32,
-                                  height: 40,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 32,
+                                      height: 35,
+                                      decoration: new BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(15.0),
+                                            bottomLeft: Radius.circular(15.0)),
+                                        color: Color(0xffd12869),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 3,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 32,
+                                      height: 40,
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      mainAxisAlignment:
+                                          mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 12, left: 15),
-                                          child: Row(
-                                            children: <Widget>[
-                                              priceModel == null
-                                                  ? Container()
-                                                  : Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              bottom: 5,
-                                                              left: 2,
-                                                              top: 2),
-                                                      child: Text(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 12, left: 15),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  priceModel == null
+                                                      ? Container()
+                                                      : Container(
+                                                    margin:
+                                                    const EdgeInsets.only(
+                                                        bottom: 5,
+                                                        left: 2,
+                                                        top: 2),
+                                                    child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                        getAePrice(),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.white,
-                                                            letterSpacing: 1.0,
-                                                            fontFamily:
-                                                                BoxApp.language ==
-                                                                        "cn"
-                                                                    ? "Ubuntu"
-                                                                    : "Ubuntu"),
-                                                      ),
+                                                      getAePrice(),
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                          letterSpacing: 1.0,
+                                                          fontFamily:
+                                                          BoxApp.language ==
+                                                              "cn"
+                                                              ? "Ubuntu"
+                                                              : "Ubuntu"),
                                                     ),
+                                                  ),
 
 //                            buildTypewriterAnimatedTextKit(),
 
@@ -414,91 +412,91 @@ class _AeHomePageState extends State<AeHomePage>
 //                                                    ),
 //                                                  ),
 //                                                ),
-                                              Expanded(child: Container()),
-                                              Text(
-                                                AeHomePage.tokenABC ==
+                                                  Expanded(child: Container()),
+                                                  Text(
+                                                    AeHomePage.tokenABC ==
                                                         "loading..."
-                                                    ? "loading..."
-                                                    : double.parse(AeHomePage
-                                                                .tokenABC) >
-                                                            1000
-                                                        ? double.parse(AeHomePage
-                                                                    .tokenABC)
-                                                                .toStringAsFixed(
-                                                                    2) +
-                                                            " ABC"
+                                                        ? "loading..."
                                                         : double.parse(AeHomePage
-                                                                    .tokenABC)
-                                                                .toStringAsFixed(
-                                                                    2) +
-                                                            " ABC",
+                                                        .tokenABC) >
+                                                        1000
+                                                        ? double.parse(AeHomePage
+                                                        .tokenABC)
+                                                        .toStringAsFixed(
+                                                        2) +
+                                                        " ABC"
+                                                        : double.parse(AeHomePage
+                                                        .tokenABC)
+                                                        .toStringAsFixed(
+                                                        2) +
+                                                        " ABC",
 //                                      "9999999.00000",
-                                                overflow: TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
 
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white,
-                                                    letterSpacing: 1.0,
-                                                    fontFamily:
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white,
+                                                        letterSpacing: 1.0,
+                                                        fontFamily:
                                                         BoxApp.language == "cn"
                                                             ? "Ubuntu"
                                                             : "Ubuntu"),
+                                                  ),
+                                                  Container(
+                                                    width: 20,
+                                                  ),
+                                                ],
                                               ),
-                                              Container(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Clipboard.setData(
-                                      ClipboardData(text: AeHomePage.address));
-                                  Fluttertoast.showToast(
-                                      msg: S
-                                          .of(context)
-                                          .token_receive_page_copy_sucess,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 160,
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(left: 20, right: 50),
-                                  child: Text(
-                                      Utils.formatHomeCardAddress(
-                                          AeHomePage.address),
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xffbd2a67),
-                                          letterSpacing: 1.3,
-                                          fontFamily: BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu")),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 87,
-                                  height: 58,
-                                  child: Image(
-                                    image: AssetImage("images/card_top.png"),
+                                  InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                          ClipboardData(text: AeHomePage.address));
+                                      Fluttertoast.showToast(
+                                          msg: S
+                                              .of(context)
+                                              .token_receive_page_copy_sucess,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.black,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 160,
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(left: 20, right: 50),
+                                      child: Text(
+                                          Utils.formatHomeCardAddress(
+                                              AeHomePage.address),
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xffbd2a67),
+                                              letterSpacing: 1.3,
+                                              fontFamily: BoxApp.language == "cn"
+                                                  ? "Ubuntu"
+                                                  : "Ubuntu")),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      width: 87,
+                                      height: 58,
+                                      child: Image(
+                                        image: AssetImage("images/card_top.png"),
+                                      ),
+                                    ),
+                                  ),
 //                              Positioned(
 //                                left: 60,
 //                                bottom: 20,
@@ -523,65 +521,65 @@ class _AeHomePageState extends State<AeHomePage>
 //                                  ),
 //                                ),
 //                              ),
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  width: 120,
-                                  height: 46,
-                                  child: Image(
-                                    image: AssetImage("images/card_bottom.png"),
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      width: 120,
+                                      height: 46,
+                                      child: Image(
+                                        image: AssetImage("images/card_bottom.png"),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
 
-                              Container(
-                                height: 130,
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 20, left: 18),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            S.of(context).home_page_my_count +
-                                                " (AE）",
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                color: Colors.white70,
-                                                fontFamily:
+                                  Container(
+                                    height: 130,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 20, left: 18),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                S.of(context).home_page_my_count +
+                                                    " (AE）",
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white70,
+                                                    fontFamily:
                                                     BoxApp.language == "cn"
                                                         ? "Ubuntu"
                                                         : "Ubuntu"),
-                                          ),
-                                          Expanded(child: Container()),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 2, right: 20),
-                                            child: Text(
-                                              namesModel == null
-                                                  ? ""
-                                                  : namesModel[0].name,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.white70,
-                                                  letterSpacing: 1.0,
-                                                  fontFamily:
+                                              ),
+                                              Expanded(child: Container()),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 2, right: 20),
+                                                child: Text(
+                                                  namesModel == null
+                                                      ? ""
+                                                      : namesModel[0].name,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.white70,
+                                                      letterSpacing: 1.0,
+                                                      fontFamily:
                                                       BoxApp.language == "cn"
                                                           ? "Ubuntu"
                                                           : "Ubuntu"),
-                                            ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 20, left: 15),
-                                      child: Row(
-                                        children: <Widget>[
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 20, left: 15),
+                                          child: Row(
+                                            children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
 //                                          Container(
 //                                            width: 36.0,
@@ -608,10 +606,10 @@ class _AeHomePageState extends State<AeHomePage>
 //                                              ),
 //                                            ),
 //                                          ),
-                                          Expanded(child: Container()),
+                                              Expanded(child: Container()),
 
-                                          Row(
-                                            children: [
+                                              Row(
+                                                children: [
 //                                              priceModel == null
 //                                                  ? Container()
 //                                                  : Container(
@@ -624,46 +622,46 @@ class _AeHomePageState extends State<AeHomePage>
 //                                                ),
 //                                              ),
 
-                                              Text(
-                                                AeHomePage.token == "loading..."
-                                                    ? "loading..."
-                                                    : double.parse(AeHomePage
-                                                                .token) >
-                                                            1000
+                                                  Text(
+                                                    AeHomePage.token == "loading..."
+                                                        ? "loading..."
+                                                        : double.parse(AeHomePage
+                                                        .token) >
+                                                        1000
                                                         ? double.parse(
-                                                                    AeHomePage
-                                                                        .token)
-                                                                .toStringAsFixed(
-                                                                    2) +
-                                                            ""
+                                                        AeHomePage
+                                                            .token)
+                                                        .toStringAsFixed(
+                                                        2) +
+                                                        ""
                                                         : double.parse(
-                                                                    AeHomePage
-                                                                        .token)
-                                                                .toStringAsFixed(
-                                                                    5) +
-                                                            "",
+                                                        AeHomePage
+                                                            .token)
+                                                        .toStringAsFixed(
+                                                        5) +
+                                                        "",
 //                                      "9999999.00000",
-                                                overflow: TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
 
-                                                style: TextStyle(
-                                                    fontSize: 38,
-                                                    color: Colors.white,
-                                                    letterSpacing: 1.0,
-                                                    fontFamily:
+                                                    style: TextStyle(
+                                                        fontSize: 38,
+                                                        color: Colors.white,
+                                                        letterSpacing: 1.0,
+                                                        fontFamily:
                                                         BoxApp.language == "cn"
                                                             ? "Ubuntu"
                                                             : "Ubuntu"),
+                                                  ),
+                                                ],
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                              ),
+                                              Container(
+                                                width: 20,
                                               ),
                                             ],
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
                                           ),
-                                          Container(
-                                            width: 20,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
 
 //                                    Container(
 //                                      alignment: Alignment.topLeft,
@@ -674,9 +672,9 @@ class _AeHomePageState extends State<AeHomePage>
 //                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
 //                                      ),
 //                                    ),
-                                  ],
-                                ),
-                              ),
+                                      ],
+                                    ),
+                                  ),
 //                              Positioned(
 //                                right: 0,
 //                                top: 0,
@@ -696,204 +694,102 @@ class _AeHomePageState extends State<AeHomePage>
 //                                  ),
 //                                ),
 //                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 48,
-                            margin: EdgeInsets.only(
-                                left: 5, right: 0, top: 0, bottom: 0),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              S.of(context).home_send_receive,
-                              style: TextStyle(
-                                color: Color(0xFF000000),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 90,
-                                  alignment: Alignment.centerLeft,
-                                  margin: const EdgeInsets.only(top: 0),
-                                  //边框设置
-                                  decoration: new BoxDecoration(
-                                    color: Color(0xE6FFFFFF),
-                                    //设置四周圆角 角度
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                  ),
-                                  child: Material(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    color: Colors.white,
-                                    child: InkWell(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AeTokenSendOnePage()));
-                                      },
-                                      child: Container(
-                                        height: 90,
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage(
-                                                          "images/home_send_token.png"),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 5),
-                                                      child: Text(
-                                                        S
-                                                            .of(context)
-                                                            .home_page_function_send,
-                                                        style: new TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                BoxApp.language ==
-                                                                        "cn"
-                                                                    ? "Ubuntu"
-                                                                    : "Ubuntu",
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-//                                            Positioned(
-//                                              right: 23,
-//                                              child: Container(
-//                                                width: 25,
-//                                                height: 25,
-//                                                padding: const EdgeInsets.only(left: 0),
-//                                                //边框设置
-//                                                decoration: new BoxDecoration(
-//                                                  color: Color(0xFFF5F5F5),
-//                                                  //设置四周圆角 角度
-//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                                                ),
-//                                                child: Icon(
-//                                                  Icons.arrow_forward_ios,
-//                                                  size: 15,
-//                                                  color: Color(0xFFCCCCCC),
-//                                                ),
-//                                              ),
-//                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                ],
                               ),
                               Container(
-                                width: 12,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 90,
-                                  alignment: Alignment.centerLeft,
-                                  margin: const EdgeInsets.only(top: 0),
-                                  //边框设置
-                                  decoration: new BoxDecoration(
-                                    color: Color(0xE6FFFFFF),
-                                    //设置四周圆角 角度
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
+                                height: 48,
+                                margin: EdgeInsets.only(
+                                    left: 5, right: 0, top: 0, bottom: 0),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  S.of(context).home_send_receive,
+                                  style: TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : BoxApp.language == "cn"
+                                        ? "Ubuntu"
+                                        : "Ubuntu",
                                   ),
-                                  child: Material(
-                                    borderRadius:
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 90,
+                                      alignment: Alignment.centerLeft,
+                                      margin: const EdgeInsets.only(top: 0),
+                                      //边框设置
+                                      decoration: new BoxDecoration(
+                                        color: Color(0xE6FFFFFF),
+                                        //设置四周圆角 角度
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                      ),
+                                      child: Material(
+                                        borderRadius:
                                         BorderRadius.all(Radius.circular(15)),
-                                    color: Colors.white,
-                                    child: InkWell(
-                                      borderRadius:
+                                        color: Colors.white,
+                                        child: InkWell(
+                                          borderRadius:
                                           BorderRadius.all(Radius.circular(15)),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    TokenReceivePage()));
-                                      },
-                                      child: Container(
-                                        height: 90,
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin:
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AeTokenSendOnePage()));
+                                          },
+                                          child: Container(
+                                            height: 90,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                Container(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin:
                                                         const EdgeInsets.only(
                                                             top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage(
-                                                          "images/home_receive_token.png"),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      padding:
+                                                        child: Image(
+                                                          width: 56,
+                                                          height: 56,
+                                                          image: AssetImage(
+                                                              "images/home_send_token.png"),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
                                                           const EdgeInsets.only(
                                                               left: 5),
-                                                      child: Text(
-                                                        S
-                                                            .of(context)
-                                                            .home_page_function_receive,
-                                                        style: new TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
+                                                          child: Text(
+                                                            S
+                                                                .of(context)
+                                                                .home_page_function_send,
+                                                            style: new TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
                                                                 FontWeight.w600,
-                                                            fontFamily:
+                                                                fontFamily:
                                                                 BoxApp.language ==
-                                                                        "cn"
+                                                                    "cn"
                                                                     ? "Ubuntu"
                                                                     : "Ubuntu",
-                                                            color:
+                                                                color:
                                                                 Colors.black),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
 //                                            Positioned(
 //                                              right: 23,
 //                                              child: Container(
@@ -913,123 +809,225 @@ class _AeHomePageState extends State<AeHomePage>
 //                                                ),
 //                                              ),
 //                                            ),
-                                          ],
+                                              ],
+                                            ),
+                                          ),
                                         ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 12,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      height: 90,
+                                      alignment: Alignment.centerLeft,
+                                      margin: const EdgeInsets.only(top: 0),
+                                      //边框设置
+                                      decoration: new BoxDecoration(
+                                        color: Color(0xE6FFFFFF),
+                                        //设置四周圆角 角度
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                      ),
+                                      child: Material(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                        color: Colors.white,
+                                        child: InkWell(
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TokenReceivePage()));
+                                          },
+                                          child: Container(
+                                            height: 90,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: <Widget>[
+                                                Container(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                        child: Image(
+                                                          width: 56,
+                                                          height: 56,
+                                                          image: AssetImage(
+                                                              "images/home_receive_token.png"),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                          const EdgeInsets.only(
+                                                              left: 5),
+                                                          child: Text(
+                                                            S
+                                                                .of(context)
+                                                                .home_page_function_receive,
+                                                            style: new TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                FontWeight.w600,
+                                                                fontFamily:
+                                                                BoxApp.language ==
+                                                                    "cn"
+                                                                    ? "Ubuntu"
+                                                                    : "Ubuntu",
+                                                                color:
+                                                                Colors.black),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+//                                            Positioned(
+//                                              right: 23,
+//                                              child: Container(
+//                                                width: 25,
+//                                                height: 25,
+//                                                padding: const EdgeInsets.only(left: 0),
+//                                                //边框设置
+//                                                decoration: new BoxDecoration(
+//                                                  color: Color(0xFFF5F5F5),
+//                                                  //设置四周圆角 角度
+//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+//                                                ),
+//                                                child: Icon(
+//                                                  Icons.arrow_forward_ios,
+//                                                  size: 15,
+//                                                  color: Color(0xFFCCCCCC),
+//                                                ),
+//                                              ),
+//                                            ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 90,
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(top: 12),
+                                //边框设置
+                                decoration: new BoxDecoration(
+                                  color: Color(0xE6FFFFFF),
+                                  //设置四周圆角 角度
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                child: Material(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                                  color: Colors.white,
+                                  child: InkWell(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AeTokenListPage()));
+                                    },
+                                    child: Container(
+                                      height: 90,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.only(left: 5),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
+                                                  child: Image(
+                                                    width: 56,
+                                                    height: 56,
+                                                    image: AssetImage(
+                                                        "images/home_token.png"),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 5),
+                                                    child: Text(
+                                                      S.of(context).home_token,
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight.w600,
+                                                          fontFamily:
+                                                          BoxApp.language ==
+                                                              "cn"
+                                                              ? "Ubuntu"
+                                                              : "Ubuntu",
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 23,
+                                            child: Container(
+                                              width: 25,
+                                              height: 25,
+                                              padding:
+                                              const EdgeInsets.only(left: 0),
+                                              //边框设置
+                                              decoration: new BoxDecoration(
+                                                color: Color(0xFFF5F5F5),
+                                                //设置四周圆角 角度
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0)),
+                                              ),
+                                              child: Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 15,
+                                                color: Color(0xFFCCCCCC),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
+                              getRecordContainer(context),
                             ],
                           ),
-                          Container(
-                            height: 90,
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 12),
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              color: Color(0xE6FFFFFF),
-                              //设置四周圆角 角度
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                            ),
-                            child: Material(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              color: Colors.white,
-                              child: InkWell(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AeTokenListPage()));
-                                },
-                                child: Container(
-                                  height: 90,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Image(
-                                                width: 56,
-                                                height: 56,
-                                                image: AssetImage(
-                                                    "images/home_token.png"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Text(
-                                                  S.of(context).home_token,
-                                                  style: new TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily:
-                                                          BoxApp.language ==
-                                                                  "cn"
-                                                              ? "Ubuntu"
-                                                              : "Ubuntu",
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 23,
-                                        child: Container(
-                                          width: 25,
-                                          height: 25,
-                                          padding:
-                                              const EdgeInsets.only(left: 0),
-                                          //边框设置
-                                          decoration: new BoxDecoration(
-                                            color: Color(0xFFF5F5F5),
-                                            //设置四周圆角 角度
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(25.0)),
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 15,
-                                            color: Color(0xFFCCCCCC),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          getRecordContainer(context),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  height: 8,
+                ),
+              ],
             ),
-            Container(
-              height: 8,
-            ),
-          ],
-        ),
-      ),
-    )));
+          ),
+        ));
   }
 
   Container getRecordContainer(BuildContext context) {

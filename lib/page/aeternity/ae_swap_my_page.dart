@@ -27,7 +27,6 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -421,86 +420,44 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
 
                   if (aesDecode == "") {
                     _onRefresh();
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                    showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
                   BoxApp.contractSwapCancel((data) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_dismiss_sucess,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              eventBus.fire(SwapEvent());
-                              swapModels.data.removeAt(index - 1);
-                              setState(() {});
-                              if(swapModels.data.length == 0){
-                                loadingType = LoadingType.no_data;
-                                setState(() {});
-                              }
 
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, (error) {
-                    showPlatformDialog(
+
+                    showDialog<bool>(
                       context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(Utils.formatSwapV2Hint(error)),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(S.of(context).dialog_hint),
+                          content: Text( S.of(context).dialog_dismiss_sucess),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
                               ),
+                              onPressed: () {
+                                eventBus.fire(SwapEvent());
+                                swapModels.data.removeAt(index - 1);
+                                setState(() {});
+                                if(swapModels.data.length == 0){
+                                  loadingType = LoadingType.no_data;
+                                  setState(() {});
+                                }
+
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              return;
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                          ],
+                        );
+                      },
+                    ).then((val) {});
+                  }, (error) {
+                    showErrorDialog(context, error);
+                    return;
                   }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels.data[index-1].token);
                   showChainLoading();
                 },
@@ -616,4 +573,30 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
 }

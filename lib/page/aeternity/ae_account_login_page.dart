@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -173,7 +172,7 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                               var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
                               var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
-                              WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode).then((value) {
+                              WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode,false).then((value) {
                                 Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                 return;
                               });
@@ -184,27 +183,56 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
           return;
         }, _textEditingController.text);
       } else {
-        showPlatformDialog(
+
+        showDialog<bool>(
           context: context,
-          builder: (_) => BasicDialogAlert(
-            title: Text("Login Error"),
-            content: Text("mnemonic error"),
-            actions: <Widget>[
-              BasicDialogAction(
-                title: Text(
-                  "Conform",
-                  style: TextStyle(
-                    color: Color(0xFFFC2365),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return new AlertDialog(
+              title: Text("登录错误"),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    Text("助记词错误"),
+                  ],
                 ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
               ),
-            ],
-          ),
-        );
+              actions: <Widget>[
+                TextButton(
+                  child: new Text(S.of(context).dialog_conform),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+
+              ],
+            );
+          },
+        ).then((val) {
+          print(val);
+        });
+
+        // showPlatformDialog(
+        //   context: context,
+        //   builder: (_) => BasicDialogAlert(
+        //     title: Text("Login Error"),
+        //     content: Text("mnemonic error"),
+        //     actions: <Widget>[
+        //       BasicDialogAction(
+        //         title: Text(
+        //           "Conform",
+        //           style: TextStyle(
+        //             color: Color(0xFFFC2365),
+        //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+        //           ),
+        //         ),
+        //         onPressed: () {
+        //           Navigator.of(context, rootNavigator: true).pop();
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // );
       }
       return;
     }, _textEditingController.text);
@@ -247,24 +275,26 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                     ));
               });
         } else {
-          showPlatformDialog(
+          showDialog<bool>(
             context: context,
-            builder: (_) => BasicDialogAlert(
-              title: Text("Login Error"),
-              content: Text(model.msg),
-              actions: <Widget>[
-                BasicDialogAction(
-                  title: Text(
-                    "确定",
-                    style: TextStyle(color: Color(0xFFFC2365)),
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new AlertDialog(
+                title: new Text('Login Error'),
+                actions: <Widget>[
+                  TextButton(
+                    child: new Text('确定'),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            ),
-          );
+                ],
+              );
+            },
+          ).then((val) {
+            print(val);
+          });
+
         }
       }).catchError((e) {
         stopLoading();

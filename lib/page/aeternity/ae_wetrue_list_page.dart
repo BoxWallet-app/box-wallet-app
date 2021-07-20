@@ -33,7 +33,6 @@ import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
@@ -649,129 +648,6 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     return !isLiked;
   }
 
-  void netBuy(int index) {
-    showGeneralDialog(
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, 0, 0.0),
-            child: Opacity(
-              opacity: anim1.value,
-              // ignore: missing_return
-              child: PayPasswordWidget(
-                title: S.of(context).password_widget_input_password,
-                dismissCallBackFuture: (String password) {
-                  return;
-                },
-                passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
-                  var address = await BoxApp.getAddress();
-                  final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                  if (aesDecode == "") {
-                    _onRefresh();
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content:
-                            Text(S.of(context).dialog_hint_check_error_content),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                    return;
-                  }
-                  // ignore: missing_return
-                  BoxApp.contractSwapCancel((data) {
-                    showPlatformDialog(
-                      context: context,
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(
-                          S.of(context).dialog_dismiss_sucess,
-                        ),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              eventBus.fire(SwapEvent());
-                              wetrueListModels.data.data.removeAt(index - 1);
-                              setState(() {});
-                              loadingType = LoadingType.loading;
-                              setState(() {});
-                              _onRefresh();
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, (error) {
-                    showPlatformDialog(
-                      context: context,
-                      // ignore: missing_return
-                      builder: (_) => BasicDialogAlert(
-                        title: Text(S.of(context).dialog_hint_check_error),
-                        content: Text(error),
-                        actions: <Widget>[
-                          BasicDialogAction(
-                            // ignore: missing_return
-                            title: Text(
-                              S.of(context).dialog_conform,
-                              style: TextStyle(
-                                color: Color(0xFFFC2365),
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                              return;
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT,
-                      BoxApp.SWAP_CONTRACT_ABC);
-                  showChainLoading();
-                },
-              ),
-            ),
-          );
-        });
-  }
 
   void showChainLoading() {
     showGeneralDialog(
@@ -886,4 +762,62 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
+
+  void showCopyHashDialog(BuildContext context, String tx) {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text("交易凭证"),
+          content: Text(tx),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_copy,
+              ),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: tx));
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_dismiss,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
 }

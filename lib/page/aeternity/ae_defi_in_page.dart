@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/account_info_dao.dart';
@@ -27,7 +28,6 @@ import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -441,25 +441,28 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
     focusNode.unfocus();
 
     if( double.parse(_textEditingController.text)> double.parse(AeHomePage.token)){
-      showPlatformDialog(
-        context: context,
-        builder: (_) => BasicDialogAlert(
-          title: Text("提示"),
-          content: Text("映射数量不可大于钱包数量"),
-          actions: <Widget>[
-            BasicDialogAction(
-              title: Text(
-                S.of(context).dialog_conform,
-                style: TextStyle(color: Color(0xff3460ee)),
-              ),
-              onPressed: () {
 
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-          ],
-        ),
-      );
+      showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: Text("提示"),
+            content: Text("映射数量不可大于钱包数量"),
+            actions: <Widget>[
+              TextButton(
+                child: new Text(
+                  S.of(context).dialog_conform,
+                ),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                },
+              ),
+            ],
+          );
+        },
+      ).then((val) {});
+
       return;
     }
 
@@ -494,25 +497,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(S.of(context).dialog_hint_check_error_content),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(color: Color(0xff3460ee)),
-                              ),
-                              onPressed: () {
-
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
@@ -522,28 +507,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
 
                       // ignore: missing_return
                     }, (error) {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(Utils.formatABCLockV3Hint(error)),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                    showErrorDialog(context, error);
 
                     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, _textEditingController.text);
                     showChainLoading();
@@ -582,28 +546,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(S.of(context).dialog_hint_check_error_content),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
@@ -660,5 +603,30 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
     )..show(context).then((result) {
         Navigator.pop(context);
       });
+  }
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
   }
 }

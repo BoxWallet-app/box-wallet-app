@@ -10,7 +10,6 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
@@ -52,7 +51,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     return Scaffold(
       backgroundColor: Colors.transparent.withAlpha(0),
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -187,34 +186,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                           borderRadius: BorderRadius.all(Radius.circular(50)),
                                           onTap: () async {
                                             if (coinIndex != 0) {
-                                              showPlatformDialog(
-                                                context: context,
-                                                builder: (_) => BasicDialogAlert(
-                                                  title: Text(
-                                                    "功能开发中",
-                                                  ),
-                                                  content: Text(
-                                                    "支持更多公链尽情期待",
-                                                    style: TextStyle(
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                    ),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    BasicDialogAction(
-                                                      title: Text(
-                                                        "确认",
-                                                        style: TextStyle(
-                                                          color: Color(0xFFFC2365),
-                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context, rootNavigator: true).pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
+
                                               return;
                                             }
                                             final result = await showConfirmationDialog<int>(
@@ -223,7 +195,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                               actions: [
                                                 ...List.generate(
                                                   2,
-                                                  (index) => AlertDialogAction(
+                                                      (index) => AlertDialogAction(
                                                     label: index == 0 ? '导入' : "创建",
                                                     key: index,
                                                   ),
@@ -236,12 +208,13 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) => AeAccountAddPage(
-                                                            accountCallBackFuture: () {
-                                                              eventBus.fire(AccountUpdateEvent());
-                                                              Navigator.of(super.context).pop();
-                                                              return;
-                                                            },
-                                                          )));
+                                                        accountCallBackFuture: () {
+                                                          Navigator.of(super.context).pop();
+                                                          eventBus.fire(AccountUpdateEvent());
+
+                                                          return;
+                                                        },
+                                                      )));
                                             }
                                             if (result == 1) {
                                               BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
@@ -270,10 +243,11 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                                     var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
                                                                     WalletCoinsManager.instance
-                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode)
+                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode,true)
                                                                         .then((value) {
-                                                                      eventBus.fire(AccountUpdateEvent());
                                                                       Navigator.of(super.context).pop();
+                                                                      eventBus.fire(AccountUpdateEvent());
+
                                                                       return;
                                                                     });
                                                                   });
@@ -412,34 +386,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               borderRadius: BorderRadius.all(Radius.circular(15)),
               onTap: () {
                 if (coinIndex != 0) {
-                  showPlatformDialog(
-                    context: context,
-                    builder: (_) => BasicDialogAlert(
-                      title: Text(
-                        "功能开发中",
-                      ),
-                      content: Text(
-                        "支持更多公链尽情期待",
-                        style: TextStyle(
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        ),
-                      ),
-                      actions: <Widget>[
-                        BasicDialogAction(
-                          title: Text(
-                            "确认",
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
                 }
               },
               child: Container(
@@ -544,8 +490,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
 
               WalletCoinsManager.instance.updateAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
+                Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
-                Navigator.of(super.context).pop();
+
               });
             },
             child: Container(
@@ -619,46 +566,80 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  showPlatformDialog(
+
+                  showDialog<bool>(
                     context: context,
-                    builder: (_) => BasicDialogAlert(
-                      title: Text(
-                        "删除账户",
-                      ),
-                      content: Text(
-                        "删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？",
-                        style: TextStyle(
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        ),
-                      ),
-                      actions: <Widget>[
-                        BasicDialogAction(
-                          title: Text(
-                            "取消",
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return new AlertDialog(
+                        title: new Text('删除账户'),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text('删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？'),
+                            ],
                           ),
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
                         ),
-                        BasicDialogAction(
-                          title: Text(
-                            "确认",
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: new Text('取消'),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
+                          new TextButton(
+                            child: new Text('确定'),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ).then((val) {
+                    print(val);
+                  });
+
+                  // showPlatformDialog(
+                  //   context: context,
+                  //   builder: (_) => BasicDialogAlert(
+                  //     title: Text(
+                  //       "删除账户",
+                  //     ),
+                  //     content: Text(
+                  //       "删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？",
+                  //       style: TextStyle(
+                  //         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  //       ),
+                  //     ),
+                  //     actions: <Widget>[
+                  //       BasicDialogAction(
+                  //         title: Text(
+                  //           "取消",
+                  //           style: TextStyle(
+                  //             color: Color(0xFFFC2365),
+                  //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  //           ),
+                  //         ),
+                  //         onPressed: () {
+                  //           Navigator.of(context, rootNavigator: true).pop();
+                  //         },
+                  //       ),
+                  //       BasicDialogAction(
+                  //         title: Text(
+                  //           "确认",
+                  //           style: TextStyle(
+                  //             color: Color(0xFFFC2365),
+                  //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  //           ),
+                  //         ),
+                  //         onPressed: () {
+                  //           Navigator.of(context, rootNavigator: true).pop();
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // );
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 18, right: 18, top: 14),

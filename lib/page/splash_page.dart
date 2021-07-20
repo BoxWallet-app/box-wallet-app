@@ -16,7 +16,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:package_info/package_info.dart';
@@ -71,57 +70,56 @@ class _SplashPageState extends State<SplashPage> {
                 });
               } else {
                 Future.delayed(Duration.zero, () {
-                  showPlatformDialog(
-                    context: context,
-                    builder: (_) => BasicDialogAlert(
-                      title: Text(
-                        "选择语言 / Language",
-                      ),
-                      content: Text(
-                        "Please choose the language you want to use\n请选择你要使用的语言",
-                        style: TextStyle(
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        ),
-                      ),
-                      actions: <Widget>[
-                        BasicDialogAction(
-                          title: Text(
-                            "中文",
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
-                          ),
-                          onPressed: () {
-                            BoxApp.language = "cn";
-                            BoxApp.setLanguage("cn");
-                            //通知将第一页背景色变成红色
-                            S.load(Locale("cn", "cn".toUpperCase()));
-                            Navigator.of(context, rootNavigator: true).pop();
 
-                            goHome();
-                          },
+                  showDialog<bool>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return new AlertDialog(
+                        title: Text(
+                          "选择语言 / Language",
                         ),
-                        BasicDialogAction(
-                          title: Text(
-                            "English",
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
+                        content: Text(
+                          "Please choose the language you want to use\n请选择你要使用的语言",
+                          style: TextStyle(
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           ),
-                          onPressed: () {
-                            BoxApp.language = "en";
-                            BoxApp.setLanguage("en");
-                            //通知将第一页背景色变成红色
-                            S.load(Locale("en", "en".toUpperCase()));
-                            Navigator.of(context, rootNavigator: true).pop();
-                            goHome();
-                          },
                         ),
-                      ],
-                    ),
-                  );
+                        actions: <Widget>[
+                          TextButton(
+                            child: new Text(
+                              "中文",
+                            ),
+                            onPressed: () {
+                              BoxApp.language = "cn";
+                              BoxApp.setLanguage("cn");
+                              //通知将第一页背景色变成红色
+                              S.load(Locale("cn", "cn".toUpperCase()));
+                              Navigator.of(context, rootNavigator: true).pop();
+
+                              goHome();
+                            },
+                          ),
+                          TextButton(
+                            child: new Text(
+                              "English",
+                            ),
+                            onPressed: () {
+                              BoxApp.language = "en";
+                              BoxApp.setLanguage("en");
+                              //通知将第一页背景色变成红色
+                              S.load(Locale("en", "en".toUpperCase()));
+                              Navigator.of(context, rootNavigator: true).pop();
+                              goHome();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ).then((val) {});
+
+
+
                 });
               }
             })
@@ -200,3 +198,4 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 }
+

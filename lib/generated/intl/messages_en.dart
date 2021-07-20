@@ -154,7 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_save_error_hint" : MessageLookupByLibrary.simpleMessage("Please enter the mnemonic phrase in the normal order."),
     "dialog_save_go" : MessageLookupByLibrary.simpleMessage("Go to backup"),
     "dialog_save_sucess" : MessageLookupByLibrary.simpleMessage("Backup successful"),
-    "dialog_save_sucess_hint" : MessageLookupByLibrary.simpleMessage("You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer."),
+    "dialog_save_sucess_hint" : MessageLookupByLibrary.simpleMessage("You have successfully backed up the mnemonic phrase"),
     "dialog_save_word" : MessageLookupByLibrary.simpleMessage("Please backup the mnemonic phrase"),
     "dialog_save_word_hint" : MessageLookupByLibrary.simpleMessage("For the safety of your assets, please back up your mnemonic phrase in time. If you lose your mnemonic phrase, your wallet and assets will also be lost"),
     "dialog_send_sucess" : MessageLookupByLibrary.simpleMessage("Successful initiation"),

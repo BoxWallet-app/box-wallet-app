@@ -28,7 +28,6 @@ import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -652,83 +651,16 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(S.of(context).dialog_hint_check_error_content),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                     showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
                     BoxApp.spend((tx) {
-                      showPlatformDialog(
-                        androidBarrierDismissible: false,
-                        context: context,
-                        builder: (_) => WillPopScope(
-                          onWillPop: () async => false,
-                          child: BasicDialogAlert(
-                            content: Text(
-                              tx,
-                            ),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_copy,
-                                  style: TextStyle(
-                                    color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: tx));
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                  showFlushSucess(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                     showCopyHashDialog(context, tx);
 
                       // ignore: missing_return
                     }, (error) {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(error),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, error);
                     }, aesDecode, address, widget.address, _textEditingController.text,Utils.encodeBase64("Box aepp"));
                     showChainLoading();
                   },
@@ -765,82 +697,15 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(S.of(context).dialog_hint_check_error_content),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
-                      showPlatformDialog(
-                        androidBarrierDismissible: false,
-                        context: context,
-                        builder: (_) => WillPopScope(
-                          onWillPop: () async => false,
-                          child: BasicDialogAlert(
-                            content: Text(
-                              tx,
-                            ),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_copy,
-                                  style: TextStyle(
-                                    color: Color(0xFFFC2365),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: tx));
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                  showFlushSucess(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                    showCopyHashDialog(context, tx);
                       // ignore: missing_return
                     }, (error) {
-                      showPlatformDialog(
-                        context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_hint_check_error),
-                          content: Text(error),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xFFFC2365),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      showErrorDialog(context, error);
                       // ignore: missing_return
                     }, aesDecode, address, tokenListModel.data[currentPosition].ctAddress, widget.address, _textEditingController.text, tokenListModel.data[currentPosition].type);
                     showChainLoading();
@@ -981,5 +846,64 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         ),
       ),
     );
+  }
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
+
+  void showCopyHashDialog(BuildContext context, String tx) {
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text("交易凭证"),
+          content: Text(tx),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_copy,
+              ),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: tx));
+                Navigator.of(context, rootNavigator: true).pop();
+                showFlushSucess(context);
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_dismiss,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
   }
 }

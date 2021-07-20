@@ -1575,10 +1575,10 @@ class S {
     );
   }
 
-  /// `You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.`
+  /// `You have successfully backed up the mnemonic phrase`
   String get dialog_save_sucess_hint {
     return Intl.message(
-      'You have successfully backed up the mnemonic phrase, please keep it safe. We will delete the local mnemonic phrase to make your account safer.',
+      'You have successfully backed up the mnemonic phrase',
       name: 'dialog_save_sucess_hint',
       desc: '',
       args: [],

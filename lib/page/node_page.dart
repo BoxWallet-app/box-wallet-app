@@ -7,7 +7,6 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NodePage extends StatefulWidget {
@@ -258,73 +257,88 @@ class _NodePageState extends State<NodePage> {
                         BoxApp.setCompilerUrl(_textEditingControllerCompiler.text);
                         BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
 
-                        showPlatformDialog(
+
+                        showDialog<bool>(
                           context: context,
-                          builder: (_) => BasicDialogAlert(
-                            title: Text(S.of(context).dialog_node_set_sucess),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_conform,
-                                  style: TextStyle(
-                                    color: Color(0xff3460ee),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                  ),
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return new AlertDialog(
+                              title: Text(S.of(context).dialog_hint),
+                              content: Text(
+                                S.of(context).dialog_node_set_sucess,
+                                style: TextStyle(
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
-                                onPressed: () {
-                                  stopLoading();
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                },
                               ),
-                            ],
-                          ),
-                        );
+                              actions: <Widget>[
+                                TextButton(
+                                  child: new Text(
+                                    S.of(context).dialog_conform,
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) {});
                       } else {
-                        showPlatformDialog(
+                        showDialog<bool>(
                           context: context,
-                          builder: (_) => BasicDialogAlert(
-                            title: Text(S.of(context).dialog_node_set_error),
-                            actions: <Widget>[
-                              BasicDialogAction(
-                                title: Text(
-                                  S.of(context).dialog_conform,
-                                  style: TextStyle(
-                                    color: Color(0xff3460ee),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                  ),
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return new AlertDialog(
+                              title: Text(S.of(context).dialog_hint),
+                              content: Text(
+                                S.of(context).dialog_node_set_error,
+                                style: TextStyle(
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
-                                onPressed: () {
-                                  stopLoading();
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                },
                               ),
-                            ],
-                          ),
-                        );
+                              actions: <Widget>[
+                                TextButton(
+                                  child: new Text(
+                                    S.of(context).dialog_conform,
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) {});
                       }
+
+
                     }).catchError((e) {
                       stopLoading();
-                      showPlatformDialog(
+                      showDialog<bool>(
                         context: context,
-                        builder: (_) => BasicDialogAlert(
-                          title: Text(S.of(context).dialog_node_set_error),
-                          actions: <Widget>[
-                            BasicDialogAction(
-                              title: Text(
-                                S.of(context).dialog_conform,
-                                style: TextStyle(
-                                  color: Color(0xff3460ee),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
-                                ),
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return new AlertDialog(
+                            title: Text(S.of(context).dialog_hint),
+                            content: Text(
+                              S.of(context).dialog_node_set_error,
+                              style: TextStyle(
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
-                              onPressed: () {
-                                stopLoading();
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
                             ),
-                          ],
-                        ),
-                      );
+                            actions: <Widget>[
+                              TextButton(
+                                child: new Text(
+                                  S.of(context).dialog_conform,
+                                ),
+                                onPressed: () {
+
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ).then((val) {});
                     });
                   },
                   child: Text(
