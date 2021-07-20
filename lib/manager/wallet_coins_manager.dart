@@ -118,10 +118,11 @@ class WalletCoinsManager {
   }
 
   Future<bool> updateAccount(WalletCoinsModel walletCoinsModel, String address) async {
-    setCoins(walletCoinsModel);
-    BoxApp.setSigningKey(Utils.generateMD5(address + "signingKey"));
-    BoxApp.setMnemonic(Utils.generateMD5(address + "mnemonic"));
-    BoxApp.setAddress(address);
+    await setCoins(walletCoinsModel);
+    var prefs = await SharedPreferences.getInstance();
+    await BoxApp.setSigningKey(prefs.getString(Utils.generateMD5(address + "signingKey")));
+    await BoxApp.setMnemonic(prefs.getString((Utils.generateMD5(address + "mnemonic"))));
+    await BoxApp.setAddress(address);
     return true;
   }
 

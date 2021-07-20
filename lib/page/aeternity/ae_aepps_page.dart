@@ -136,6 +136,7 @@ class _AeAeppsPageState extends State<AeAeppsPage>
                       _launchURL(
                         bannerModel == null
                             ? ""
+
                             : BoxApp.language == "cn"
                                 ? bannerModel.cn.url
                                 : bannerModel.en.url,

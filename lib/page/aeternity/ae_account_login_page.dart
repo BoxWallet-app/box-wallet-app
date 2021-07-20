@@ -174,8 +174,6 @@ class _AeAccountLoginPageState extends State<AeAccountLoginPage> {
                               var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
                               WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode).then((value) {
-                                BoxApp.setSigningKey(signingKeyAesEncode);
-                                BoxApp.setAddress(address);
                                 Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
                                 return;
                               });

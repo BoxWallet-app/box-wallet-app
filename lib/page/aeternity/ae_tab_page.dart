@@ -629,7 +629,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
               showMaterialModalBottomSheet(
-                  expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent.withAlpha(0), builder: (context) => WalletSelectPage());
+                  expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => WalletSelectPage());
             },
             child: Container(
               height: 35,

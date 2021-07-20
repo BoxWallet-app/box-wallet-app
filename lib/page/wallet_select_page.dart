@@ -384,7 +384,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 //                                                      shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(36.0),
                     image: DecorationImage(
-                      image: AssetImage(getCoinIcon(index)),
+                      image: AssetImage("images/"+walletCoinsModel.coins[coinIndex].name+".png"),
                     ),
                   ),
                 ),
@@ -612,24 +612,82 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address != AeHomePage.address) Positioned(
+            right: 0,
+            top: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  showPlatformDialog(
+                    context: context,
+                    builder: (_) => BasicDialogAlert(
+                      title: Text(
+                        "删除账户",
+                      ),
+                      content: Text(
+                        "删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？",
+                        style: TextStyle(
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        ),
+                      ),
+                      actions: <Widget>[
+                        BasicDialogAction(
+                          title: Text(
+                            "取消",
+                            style: TextStyle(
+                              color: Color(0xFFFC2365),
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                        ),
+                        BasicDialogAction(
+                          title: Text(
+                            "确认",
+                            style: TextStyle(
+                              color: Color(0xFFFC2365),
+                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 18, right: 18, top: 14),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Container(
+                        height: 22,
+                        width: 22,
+                        padding: EdgeInsets.all(4),
+                        child: Image(
+                          width: 36,
+                          height: 36,
+                          color: Colors.white,
+                          image: AssetImage('images/wallet_select_delete.png'),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  String getCoinIcon(int index) {
-    if (index == 0) {
-      return "images/AE.png";
-    }
-    if (index == 1) {
-      return "images/BTC.png";
-    }
-    if (index == 2) {
-      return "images/ETH.png";
-    }
-    if (index == 3) {
-      return "images/CFX.png";
-    }
-    return "";
-  }
+
 }
