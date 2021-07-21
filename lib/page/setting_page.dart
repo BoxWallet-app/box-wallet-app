@@ -44,132 +44,140 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     return Container(
       child: Column(
         children: <Widget>[
-
-
-          Material(
-            child: InkWell(
-              onTap: () {
-                showGeneralDialog(
-                    context: context,
-                    pageBuilder: (context, anim1, anim2) {},
-                    barrierColor: Colors.grey.withOpacity(.4),
-                    barrierDismissible: true,
-                    barrierLabel: "",
-                    transitionDuration: Duration(milliseconds: 400),
-                    transitionBuilder: (_, anim1, anim2, child) {
-                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                      return Transform(
-                        transform: Matrix4.translationValues(0.0, 0, 0.0),
-                        child: Opacity(
-                          opacity: anim1.value,
-                          // ignore: missing_return
-                          child: PayPasswordWidget(
-                            title: S.of(context).password_widget_input_password,
-                            dismissCallBackFuture: (String password) {
-                              return;
-                            },
-                            passwordCallBackFuture: (String password) async {
-                              var mnemonic = await BoxApp.getMnemonic();
-                              var getSaveMnemonic = await BoxApp.getSaveMnemonic();
-                              if (!getSaveMnemonic) {
-                                showDialog<bool>(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return new AlertDialog(
-                                      title: Text(S.of(context).dialog_hint),
-                                      content: Text(S.of(context).dialog_login_user_no_save),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: new Text(
-                                            S.of(context).dialog_conform,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(false);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).then((val) {
-                                  print(val);
-                                });
-
+          Container(
+//              color: Colors.white,
+            height: 12,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 18, right: 18),
+            child: Material(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                onTap: () {
+                  showGeneralDialog(
+                      context: context,
+                      pageBuilder: (context, anim1, anim2) {},
+                      barrierColor: Colors.grey.withOpacity(.4),
+                      barrierDismissible: true,
+                      barrierLabel: "",
+                      transitionDuration: Duration(milliseconds: 400),
+                      transitionBuilder: (_, anim1, anim2, child) {
+                        final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                        return Transform(
+                          transform: Matrix4.translationValues(0.0, 0, 0.0),
+                          child: Opacity(
+                            opacity: anim1.value,
+                            // ignore: missing_return
+                            child: PayPasswordWidget(
+                              title: S.of(context).password_widget_input_password,
+                              dismissCallBackFuture: (String password) {
                                 return;
-                              }
-                              var address = await BoxApp.getAddress();
-                              final key = Utils.generateMd5Int(password + address);
-                              var aesDecode = Utils.aesDecode(mnemonic, key);
-
-                              if (aesDecode == "") {
-                                showDialog<bool>(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return new AlertDialog(
-                                      title: Text(S.of(context).dialog_hint_check_error),
-                                      content: Text(S.of(context).dialog_hint_check_error_content),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: new Text(
-                                            S.of(context).dialog_conform,
+                              },
+                              passwordCallBackFuture: (String password) async {
+                                var mnemonic = await BoxApp.getMnemonic();
+                                var getSaveMnemonic = await BoxApp.getSaveMnemonic();
+                                if (!getSaveMnemonic) {
+                                  showDialog<bool>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return new AlertDialog(
+                                        title: Text(S.of(context).dialog_hint),
+                                        content: Text(S.of(context).dialog_login_user_no_save),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: new Text(
+                                              S.of(context).dialog_conform,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
                                           ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(false);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).then((val) {
-                                  print(val);
-                                });
-                                return;
-                              }
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
-                            },
+                                        ],
+                                      );
+                                    },
+                                  ).then((val) {
+                                    print(val);
+                                  });
+
+                                  return;
+                                }
+                                var address = await BoxApp.getAddress();
+                                final key = Utils.generateMd5Int(password + address);
+                                var aesDecode = Utils.aesDecode(mnemonic, key);
+
+                                if (aesDecode == "") {
+                                  showDialog<bool>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return new AlertDialog(
+                                        title: Text(S.of(context).dialog_hint_check_error),
+                                        content: Text(S.of(context).dialog_hint_check_error_content),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: new Text(
+                                              S.of(context).dialog_conform,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ).then((val) {
+                                    print(val);
+                                  });
+                                  return;
+                                }
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    });
-              },
-              child: Container(
-                height: 60,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: <Widget>[
+                        );
+                      });
+                },
+                child: Container(
+                  height: 60,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: <Widget>[
 //                    Image(
 //                      width: 30,
 //                      height: 30,
 //                      image: AssetImage(assetImage),
 //                    ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 7),
-                            child: Text(
-                              S.of(context).setting_page_item_save,
-                              style: new TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            Container(
+                              padding: const EdgeInsets.only(left: 7),
+                              child: Text(
+                                S.of(context).setting_page_item_save,
+                                style: new TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      right: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
-                        color: Color(0xFFe0e0e0),
+                      Positioned(
+                        right: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
+                          color: Color(0xFFe0e0e0),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -177,57 +185,63 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
           Container(
 //              color: Colors.white,
-            height: 5,
+            height: 12,
           ),
           buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
           }, isLine: false),
           Container(
 //              color: Colors.white,
-            height: 5,
+            height: 12,
           ),
           buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
           }, isLine: false),
           Container(
 //              color: Colors.white,
-            height: 5,
+            height: 12,
           ),
-          Material(
-            child: InkWell(
-              child: Container(
-                height: 60,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 18, right: 18),
+            child: Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                child: Container(
+                  height: 60,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: <Widget>[
 //                            Image(
 //                              width: 30,
 //                              height: 30,
 //                              image: AssetImage("images/setting_version.png"),
 //                            ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 7),
-                            child: Text(
-                              S.of(context).setting_page_item_version,
-                              style: new TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            Container(
+                              padding: const EdgeInsets.only(left: 7),
+                              child: Text(
+                                S.of(context).setting_page_item_version,
+                                style: new TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      right: 35,
-                      child: Text("v" + version),
-                    ),
-                  ],
+                      Positioned(
+                        right: 35,
+                        child: Text("v" + version),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -237,90 +251,130 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 //            }, isLine: true),
           Container(
 //              color: Colors.white,
-            height: 5,
+            height: 12,
           ),
-          Material(
-            child: InkWell(
-              onTap: () {
-                if (BoxApp.language == "cn") {
-                  Share.share('AeBox 一个AE去中心化魔法盒子 https://aebox.io');
-                } else {
-                  Share.share('AeBox is an AE decentralized magic box https://aebox.io');
-                }
-              },
-              child: Container(
-                height: 60,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 18, right: 18),
+            child: Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                onTap: () {
+                  if (BoxApp.language == "cn") {
+                    Share.share('AeBox 一个AE去中心化魔法盒子 https://aebox.io');
+                  } else {
+                    Share.share('AeBox is an AE decentralized magic box https://aebox.io');
+                  }
+                },
+                child: Container(
+                  height: 60,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: <Widget>[
 //                    Image(
 //                      width: 30,
 //                      height: 30,
 //                      image: AssetImage(assetImage),
 //                    ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 7),
-                            child: Text(
-                              S.of(context).setting_page_item_share,
-                              style: new TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            Container(
+                              padding: const EdgeInsets.only(left: 7),
+                              child: Text(
+                                S.of(context).setting_page_item_share,
+                                style: new TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          Material(
-            child: InkWell(
-              onTap: () {
-                AeHomePage.tokenABC = "loading...";
-                AeTokenDefiPage.model = null;
-                BoxApp.setAddress("");
-                WalletCoinsManager.instance.setCoins(null);
-                BoxApp.setSigningKey("");
-                BoxApp.setMnemonic("");
-                Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
-              },
-              child: Container(
-                height: 60,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: <Widget>[
-//                    Image(
-//                      width: 30,
-//                      height: 30,
-//                      image: AssetImage(assetImage),
-//                    ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 7),
-                            child: Text(
-                              S.of(context).setting_page_item_logout,
-                              style: new TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                          )
+          Container(
+//              color: Colors.white,
+            height: 12,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 18, right: 18),
+            child: Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                onTap: () {
+                  showDialog<bool>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return new AlertDialog(
+                        title: new Text('清除全部数据'),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text('清空钱包所有数据（包括所有账户），不可挽回，请谨慎操作。是否确认？'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: new Text('取消'),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          new TextButton(
+                            child: new Text('确定'),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ).then((val) {
+                    if (val) {
+                      AeHomePage.tokenABC = "loading...";
+                      AeTokenDefiPage.model = null;
+                      BoxApp.setAddress("");
+                      BoxApp.setSigningKey("");
+                      BoxApp.setMnemonic("");
+                      BoxApp.setSaveMnemonic(false);
+                      WalletCoinsManager.instance.setCoins(null);
+                      Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
+                    }
+                  });
+                },
+                child: Container(
+                  height: 60,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: Container(
+                        padding: const EdgeInsets.only(left: 7),
+                        alignment: Alignment.center,
+                        child: Text(
+                          S.of(context).setting_page_item_logout,
+                          style: new TextStyle(
+                            fontSize: 17,
+                            color: Colors.red,
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          ),
+                        ),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -422,53 +476,59 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     });
   }
 
-  Material buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
-    return Material(
-      child: InkWell(
-        onTap: tab,
-        child: Container(
-          height: 60,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(
-                  children: <Widget>[
+  Widget buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
+    return Container(
+      margin: EdgeInsets.only(left: 18, right: 18),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          onTap: tab,
+          child: Container(
+            height: 60,
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Row(
+                    children: <Widget>[
 //                    Image(
 //                      width: 30,
 //                      height: 30,
 //                      image: AssetImage(assetImage),
 //                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 7),
-                      child: Text(
-                        content,
-                        style: new TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      Container(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Text(
+                          content,
+                          style: new TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Positioned(
-                right: 30,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                  color: Color(0xFFe0e0e0),
-                ),
-              ),
-              if (isLine)
                 Positioned(
-                  bottom: 0,
-                  left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
-                )
-            ],
+                  right: 30,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                    color: Color(0xFFe0e0e0),
+                  ),
+                ),
+                if (isLine)
+                  Positioned(
+                    bottom: 0,
+                    left: 20,
+                    child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  )
+              ],
+            ),
           ),
         ),
       ),

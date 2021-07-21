@@ -37,6 +37,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
   getWallet() {
     WalletCoinsManager.instance.getCoins().then((value) {
+      print(value.toJson());
       walletCoinsModel = value;
       WalletCoinsManager.instance.getCurrentCoin().then((value) {
         coinIndex = value[1];
@@ -489,7 +490,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
               walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
 
-              WalletCoinsManager.instance.updateAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
+              WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
                 Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
 
@@ -597,7 +598,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                       );
                     },
                   ).then((val) {
-                    print(val);
+                    if(val){
+                      var removeAddress = walletCoinsModel.coins[coinIndex].accounts[index].address;
+                      walletCoinsModel.coins[coinIndex].accounts.removeAt(index);
+
+
+                      WalletCoinsManager.instance.removeAccount(walletCoinsModel, removeAddress).then((value) {
+                       getWallet();
+
+                      });
+                    }
                   });
 
                   // showPlatformDialog(

@@ -213,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "scan_page_content" : MessageLookupByLibrary.simpleMessage("Scan the QR code for payment"),
     "setting_page_compiler_url" : MessageLookupByLibrary.simpleMessage("Editor Address"),
     "setting_page_item_language" : MessageLookupByLibrary.simpleMessage("Language"),
-    "setting_page_item_logout" : MessageLookupByLibrary.simpleMessage("Logout"),
+    "setting_page_item_logout" : MessageLookupByLibrary.simpleMessage("Rest All Data"),
     "setting_page_item_save" : MessageLookupByLibrary.simpleMessage("Save mnemonic phrase"),
     "setting_page_item_share" : MessageLookupByLibrary.simpleMessage("Share"),
     "setting_page_item_version" : MessageLookupByLibrary.simpleMessage("Version"),

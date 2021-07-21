@@ -665,10 +665,10 @@ class S {
     );
   }
 
-  /// `Logout`
+  /// `Rest All Data`
   String get setting_page_item_logout {
     return Intl.message(
-      'Logout',
+      'Rest All Data',
       name: 'setting_page_item_logout',
       desc: '',
       args: [],

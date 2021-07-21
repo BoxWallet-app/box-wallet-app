@@ -122,11 +122,18 @@ class WalletCoinsManager {
         }
       }
     }
-    await updateAccount(coins, address);
+    await changeAccount(coins, address);
     return true;
   }
 
-  Future<bool> updateAccount(WalletCoinsModel walletCoinsModel, String address) async {
+  Future<bool>removeAccount (WalletCoinsModel walletCoinsModel, String address) async {
+    await setCoins(walletCoinsModel);
+    await setMnemonicAndSigningKey(address,"","",false);
+    return true;
+  }
+
+
+  Future<bool> changeAccount(WalletCoinsModel walletCoinsModel, String address) async {
     await setCoins(walletCoinsModel);
     var prefs = await SharedPreferences.getInstance();
     await BoxApp.setSigningKey(prefs.getString(Utils.generateMD5(address + "signingKey")));

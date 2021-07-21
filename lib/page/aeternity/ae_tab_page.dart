@@ -601,12 +601,13 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //      );
 //    }
     return Positioned(
-      right: 8,
+      right: 18,
       child: Container(
         height: 52,
         alignment: Alignment.center,
         child: Material(
-          color: Colors.transparent,
+          color: Colors.white,
+          borderRadius:BorderRadius.all(Radius.circular(50.0)),
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
@@ -616,9 +617,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
               height: 35,
               decoration: new BoxDecoration(
                   //设置四周圆角 角度
-                  // borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   //设置四周边框
-                  // border: new Border.all(width: 1, color: Colors.black),
+                  border: new Border.all(width: 1, color:Color(0xFFF5F5F5)),
                   //设置四周边框
                   ),
               padding: EdgeInsets.only(left: 4, right: 4),
@@ -632,10 +633,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                       height: 27.0,
                       decoration: BoxDecoration(
                         border: Border(
-                            bottom: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
-                            top: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
-                            left: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0),
-                            right: BorderSide(color: Color(0xFF000000).withAlpha(40), width: 1.0)),
+                            bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                            top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                            left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                            right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(36.0),
                         image: DecorationImage(
