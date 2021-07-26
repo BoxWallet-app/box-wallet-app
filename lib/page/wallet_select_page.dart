@@ -5,12 +5,15 @@ import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/page/select_chain_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../main.dart';
 import 'aeternity/ae_account_login_page.dart';
@@ -52,7 +55,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     return Scaffold(
       backgroundColor: Colors.transparent.withAlpha(0),
       resizeToAvoidBottomInset: false,
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -74,7 +77,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                 decoration: ShapeDecoration(
-                  color: Color(0xffffffff),
+                  // color: Color(0xffffffff),
+                  color: Color(0xFFF5F5F5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -133,7 +137,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     ),
                     Container(
                       height: 1,
-                      color: Color(0xFFF5F5F5),
+                      // color: Color(0xFFF5F5F5),
                       width: MediaQuery.of(context).size.width,
                     ),
 
@@ -151,7 +155,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               height: MediaQuery.of(context).size.height * 0.75 - 52,
                               width: 56,
                               child: ListView.builder(
-                                itemCount: walletCoinsModel == null ? 0 : walletCoinsModel.coins.length,
+                                itemCount: walletCoinsModel == null ? 0 : walletCoinsModel.coins.length + 1,
                                 itemBuilder: (context, index) {
                                   return itemCoin(index);
                                 },
@@ -166,6 +170,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 Container(
                                   width: MediaQuery.of(context).size.width - 56,
                                   padding: EdgeInsets.only(left: 18),
+                                  color: Color(0xFFF5F5F5),
                                   height: 42,
                                   child: Row(
                                     children: [
@@ -187,7 +192,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                           borderRadius: BorderRadius.all(Radius.circular(50)),
                                           onTap: () async {
                                             if (coinIndex != 0) {
-
                                               return;
                                             }
                                             final result = await showConfirmationDialog<int>(
@@ -196,26 +200,26 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                               actions: [
                                                 ...List.generate(
                                                   2,
-                                                      (index) => AlertDialogAction(
+                                                  (index) => AlertDialogAction(
                                                     label: index == 0 ? '导入' : "创建",
                                                     key: index,
                                                   ),
                                                 ),
                                               ],
-                                              title: walletCoinsModel.coins[coinIndex].fullName + " 钱包",
+                                              title: "添加 " + walletCoinsModel.coins[coinIndex].fullName + " 账户",
                                             );
                                             if (result == 0) {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) => AeAccountAddPage(
-                                                        accountCallBackFuture: () {
-                                                          Navigator.of(super.context).pop();
-                                                          eventBus.fire(AccountUpdateEvent());
+                                                            accountCallBackFuture: () {
+                                                              Navigator.of(super.context).pop();
+                                                              eventBus.fire(AccountUpdateEvent());
 
-                                                          return;
-                                                        },
-                                                      )));
+                                                              return;
+                                                            },
+                                                          )));
                                             }
                                             if (result == 1) {
                                               BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
@@ -244,10 +248,10 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                                                     var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
                                                                     WalletCoinsManager.instance
-                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode,true)
+                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true)
                                                                         .then((value) {
-                                                                      Navigator.of(super.context).pop();
                                                                       eventBus.fire(AccountUpdateEvent());
+                                                                      Navigator.of(super.context).pop();
 
                                                                       return;
                                                                     });
@@ -277,7 +281,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                   ),
                                 ),
                                 Container(
-                                  color: Color(0xFFfafafa),
+                                  color: Color(0xFFF5F5F5),
                                   height: MediaQuery.of(context).size.height * 0.75 - 52 - 1 - 42,
                                   width: MediaQuery.of(context).size.width - 56,
                                   child: ListView.builder(
@@ -321,6 +325,103 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   Widget itemCoin(int index) {
+    if (walletCoinsModel.coins.length == index) {
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            showMaterialModalBottomSheet(
+                expand: true,
+                context: context,
+                enableDrag: false,
+                backgroundColor: Colors.transparent,
+                builder: (context) => SelectChainPage(
+                      type: 2,
+                      selectChainPageCallBackFuture: (model) {
+
+                        WalletCoinsManager.instance.addChain(model.name, model.nameFull).then((walletCoinModel) {
+                          if (walletCoinModel != null) {
+                            this.walletCoinsModel = walletCoinModel;
+                            coinIndex = index;
+                            setState(() {});
+                            return;
+                          }
+                          showDialog<bool>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return new AlertDialog(
+                                title: new Text("提示"),
+                                content: new SingleChildScrollView(
+                                  child: new ListBody(
+                                    children: <Widget>[
+                                      new Text('已存在该钱包，请直接创建账户即可'),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+
+                                  new TextButton(
+                                    child: new Text('确定'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ).then((val) {
+                            if (val) {
+
+                            }
+                          });
+                        });
+                        return;
+
+                        return;
+                      },
+                    ));
+          },
+          child: Container(
+            width: 56.0,
+            height: 52.0,
+            margin: EdgeInsets.all(2),
+            decoration: new BoxDecoration(
+              color: index == coinIndex ? Colors.black12 : Colors.transparent,
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              //设置四周边框
+              // border: new Border.all(
+              //   width: 1,
+              //   color: Color(0xFFE51363).withAlpha(200),
+              // ),
+              //设置四周边框
+            ),
+            child: Center(
+              child: Container(
+                child: Container(
+                  width: 27.0,
+                  height: 27.0,
+                  decoration: BoxDecoration(
+                    // color: Colors.white,
+                    // border: Border(
+                    //     bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                    //     top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                    //     left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                    //     right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+//                       borderRadius: BorderRadius.circular(36.0),
+                    image: DecorationImage(
+                      image: AssetImage("images/chain_add.png"),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -359,7 +460,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 //                                                      shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(36.0),
                     image: DecorationImage(
-                      image: AssetImage("images/"+walletCoinsModel.coins[coinIndex].name+".png"),
+                      image: AssetImage("images/" + walletCoinsModel.coins[index].name + ".png"),
                     ),
                   ),
                 ),
@@ -386,8 +487,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               onTap: () {
-                if (coinIndex != 0) {
-                }
+                if (coinIndex != 0) {}
               },
               child: Container(
                 height: 50,
@@ -493,7 +593,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
                 Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
-
               });
             },
             child: Container(
@@ -560,125 +659,120 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address != AeHomePage.address) Positioned(
-            right: 0,
-            top: 0,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-
-                  showDialog<bool>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return new AlertDialog(
-                        title: new Text('删除账户'),
-                        content: new SingleChildScrollView(
-                          child: new ListBody(
-                            children: <Widget>[
-                              new Text('删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？'),
-                            ],
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address != AeHomePage.address)
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    showDialog<bool>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: new Text('删除账户'),
+                          content: new SingleChildScrollView(
+                            child: new ListBody(
+                              children: <Widget>[
+                                new Text('删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: new Text('取消'),
-                            onPressed: () {
-                              Navigator.of(context).pop(false);
-                            },
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text('取消'),
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                            ),
+                            new TextButton(
+                              child: new Text('确定'),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((val) {
+                      if (val) {
+                        var removeAddress = walletCoinsModel.coins[coinIndex].accounts[index].address;
+                        walletCoinsModel.coins[coinIndex].accounts.removeAt(index);
+
+                        WalletCoinsManager.instance.removeAccount(walletCoinsModel, removeAddress).then((value) {
+                          getWallet();
+                        });
+                      }
+                    });
+
+                    // showPlatformDialog(
+                    //   context: context,
+                    //   builder: (_) => BasicDialogAlert(
+                    //     title: Text(
+                    //       "删除账户",
+                    //     ),
+                    //     content: Text(
+                    //       "删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？",
+                    //       style: TextStyle(
+                    //         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    //       ),
+                    //     ),
+                    //     actions: <Widget>[
+                    //       BasicDialogAction(
+                    //         title: Text(
+                    //           "取消",
+                    //           style: TextStyle(
+                    //             color: Color(0xFFFC2365),
+                    //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    //           ),
+                    //         ),
+                    //         onPressed: () {
+                    //           Navigator.of(context, rootNavigator: true).pop();
+                    //         },
+                    //       ),
+                    //       BasicDialogAction(
+                    //         title: Text(
+                    //           "确认",
+                    //           style: TextStyle(
+                    //             color: Color(0xFFFC2365),
+                    //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    //           ),
+                    //         ),
+                    //         onPressed: () {
+                    //           Navigator.of(context, rootNavigator: true).pop();
+                    //         },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 18, right: 18, top: 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 22,
+                          width: 22,
+                          padding: EdgeInsets.all(4),
+                          child: Image(
+                            width: 36,
+                            height: 36,
+                            color: Colors.white,
+                            image: AssetImage('images/wallet_select_delete.png'),
                           ),
-                          new TextButton(
-                            child: new Text('确定'),
-                            onPressed: () {
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ).then((val) {
-                    if(val){
-                      var removeAddress = walletCoinsModel.coins[coinIndex].accounts[index].address;
-                      walletCoinsModel.coins[coinIndex].accounts.removeAt(index);
-
-
-                      WalletCoinsManager.instance.removeAccount(walletCoinsModel, removeAddress).then((value) {
-                       getWallet();
-
-                      });
-                    }
-                  });
-
-                  // showPlatformDialog(
-                  //   context: context,
-                  //   builder: (_) => BasicDialogAlert(
-                  //     title: Text(
-                  //       "删除账户",
-                  //     ),
-                  //     content: Text(
-                  //       "删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？",
-                  //       style: TextStyle(
-                  //         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  //       ),
-                  //     ),
-                  //     actions: <Widget>[
-                  //       BasicDialogAction(
-                  //         title: Text(
-                  //           "取消",
-                  //           style: TextStyle(
-                  //             color: Color(0xFFFC2365),
-                  //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  //           ),
-                  //         ),
-                  //         onPressed: () {
-                  //           Navigator.of(context, rootNavigator: true).pop();
-                  //         },
-                  //       ),
-                  //       BasicDialogAction(
-                  //         title: Text(
-                  //           "确认",
-                  //           style: TextStyle(
-                  //             color: Color(0xFFFC2365),
-                  //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  //           ),
-                  //         ),
-                  //         onPressed: () {
-                  //           Navigator.of(context, rootNavigator: true).pop();
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 18, right: 18, top: 14),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-
-                      Container(
-                        height: 22,
-                        width: 22,
-                        padding: EdgeInsets.all(4),
-                        child: Image(
-                          width: 36,
-                          height: 36,
-                          color: Colors.white,
-                          image: AssetImage('images/wallet_select_delete.png'),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
-
-
 }

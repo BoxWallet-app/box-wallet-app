@@ -276,7 +276,7 @@ class _NodePageState extends State<NodePage> {
                                     S.of(context).dialog_conform,
                                   ),
                                   onPressed: () {
-
+                                    Navigator.of(context, rootNavigator: true).pop();
                                   },
                                 ),
                               ],
@@ -302,7 +302,7 @@ class _NodePageState extends State<NodePage> {
                                     S.of(context).dialog_conform,
                                   ),
                                   onPressed: () {
-
+                                    Navigator.of(context, rootNavigator: true).pop();
                                   },
                                 ),
                               ],
@@ -332,7 +332,7 @@ class _NodePageState extends State<NodePage> {
                                   S.of(context).dialog_conform,
                                 ),
                                 onPressed: () {
-
+                                  Navigator.of(context, rootNavigator: true).pop();
                                 },
                               ),
                             ],

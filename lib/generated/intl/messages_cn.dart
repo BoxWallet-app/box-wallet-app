@@ -192,7 +192,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
     "login_page_create" : MessageLookupByLibrary.simpleMessage("创建新账户"),
-    "login_page_login" : MessageLookupByLibrary.simpleMessage("登录"),
+    "login_page_login" : MessageLookupByLibrary.simpleMessage("开始使用"),
     "mnemonic_confirm_content" : MessageLookupByLibrary.simpleMessage("为了确认您的助记词正确抄写,请按照对应的顺序点击助记词"),
     "mnemonic_confirm_title" : MessageLookupByLibrary.simpleMessage("请确认助记词"),
     "mnemonic_copy_confrom" : MessageLookupByLibrary.simpleMessage("我已安全保存"),

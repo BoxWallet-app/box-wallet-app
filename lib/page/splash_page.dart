@@ -23,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 import 'aeternity/ae_aex2_page.dart';
+import 'login_page_new.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -141,7 +142,7 @@ class _SplashPageState extends State<SplashPage> {
             if (value.length > 10) {
               Navigator.pushReplacement(context, CustomRoute(AeTabPage()));
             } else {
-              Navigator.pushReplacement(context, CustomRoute(LoginPage()));
+              Navigator.pushReplacement(context, CustomRoute(LoginPageNew()));
             }
 //            Navigator.pushReplacement(context, CustomRoute(ForumPage(url: "http://localhost:8080",)));
 //            Navigator.pushReplacement(context, CustomRoute(ForumPage(title:"123",signingKey:"",address:"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",url: "https://governance.aeternity.com/#/",)));

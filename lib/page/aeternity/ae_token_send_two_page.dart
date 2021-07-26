@@ -39,6 +39,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../main.dart';
 
 import 'ae_home_page.dart';
+import 'ae_select_token_list_page.dart';
 
 class AeTokenSendTwoPage extends StatefulWidget {
   final String address;
@@ -54,132 +55,23 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String address = '';
-  int currentPosition = -1;
   var loadingType = LoadingType.loading;
-  TokenListModel tokenListModel;
   List<Widget> items = List<Widget>();
+
+  String tokenName;
+  String tokenCount;
+  String tokenImage;
+  String tokenContract;
 
   @override
   void initState() {
     super.initState();
+    this.tokenName = "AE";
+    this.tokenCount = AeHomePage.token ;
+    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png";
     netAccountInfo();
     getAddress();
-    netTokenList();
   }
-  void netContractBalance(int index) {
-    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        tokenListModel.data[index].countStr = model.data.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
-
-  void netTokenList() {
-    EasyLoading.show();
-    TokenListDao.fetch(AeHomePage.address,"").then((TokenListModel model) {
-      EasyLoading.dismiss(animation: true);
-      if (model != null || model.code == 200) {
-        tokenListModel = model;
-        loadingType = LoadingType.finish;
-        if (tokenListModel == null) {
-          return;
-        }
-
-        items.add(
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  currentPosition = -1;
-                });
-              },
-              child: Container(
-                height: 70,
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 36.0,
-                            height: 36.0,
-                            decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(36.0),
-                              image: DecorationImage(
-                                image: AssetImage("images/apple-touch-icon.png"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 17),
-                            child: Text(
-                              "AE",
-                              style: new TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      child: Row(
-                        children: [
-                          Text(
-                            AeHomePage.token + " ",
-                            style: TextStyle(
-                              color: Color(0xFF666666),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              fontSize: 14,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 15,
-                            color: Color(0xFF666666),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-        for (var i = 0; i < tokenListModel.data.length; i++) {
-          var item = itemListView(context, i);
-
-          items.add(item);
-        }
-
-        setState(() {});
-      } else {
-        tokenListModel = null;
-        loadingType = LoadingType.error;
-        setState(() {});
-      }
-    }).catchError((e) {
-      EasyLoading.dismiss(animation: true);
-      loadingType = LoadingType.error;
-      setState(() {});
-    });
-  }
-
-
 
   void netAccountInfo() {
     AccountInfoDao.fetch().then((AccountInfoModel model) {
@@ -188,7 +80,14 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "error" + e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
@@ -423,48 +322,24 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
-                                        if (tokenListModel == null) {
-                                          return;
-                                        }
                                         showMaterialModalBottomSheet(
                                             context: context,
-                                            backgroundColor: Color(0xFFFFFFFF).withAlpha(0),
-                                            builder: (context) => Container(
-                                                height: MediaQuery.of(context).size.height / 2,
-                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                decoration: new BoxDecoration(color: Color(0xFFFFFFFF),
-                                                    //设置四周圆角 角度
-//                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                                                    boxShadow: []),
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      height: 20,
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(left: 20),
-                                                      alignment: Alignment.topLeft,
-                                                      child: Text(
-                                                        S.of(context).token_send_two_page_coin,
-                                                        style: TextStyle(
-                                                          color: Color(0xFF666666),
-                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                          fontSize: 19,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: SingleChildScrollView(
-                                                        child: Column(
-                                                          children: items,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ))
+                                            expand: true,
+                                            enableDrag: false,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) => AeSelectTokenListPage(
+                                                  aeCount: AeHomePage.token,
+                                                  aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
+                                                    this.tokenName = tokenName;
+                                                    this.tokenCount = tokenCount;
+                                                    this.tokenImage = tokenImage;
+                                                    this.tokenContract = tokenContract;
+                                                    setState(() {
+
+                                                    });
+                                                    return;
+                                                  },
+                                                )
 //
                                             );
                                       },
@@ -481,20 +356,18 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                                     width: 36.0,
                                                     height: 36.0,
                                                     decoration: BoxDecoration(
-                                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                      border: Border(
+                                                          bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                       borderRadius: BorderRadius.circular(36.0),
-                                                      image: currentPosition == -1
-                                                          ? DecorationImage(
-                                                              image: AssetImage("images/apple-touch-icon.png"),
-//                                                        image: AssetImage("images/apple-touch-icon.png"),
-                                                            )
-                                                          : null,
                                                     ),
-                                                    child: currentPosition != -1
+                                                    child: tokenImage != null
                                                         ? ClipOval(
                                                             child: Image.network(
-                                                              tokenListModel.data[currentPosition].image,
+                                                              tokenImage,
                                                               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                                 if (wasSynchronouslyLoaded) return child;
 
@@ -512,7 +385,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
-                                                      currentPosition == -1 ? "AE" : tokenListModel.data[currentPosition].name,
+                                                      tokenName == null ? "" : tokenName,
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
@@ -529,7 +402,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    currentPosition == -1 ? AeHomePage.token + " " : tokenListModel.data[currentPosition].count,
+                                                    tokenCount ==null? "":tokenCount,
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -586,7 +459,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (currentPosition == -1) {
+    if (tokenCount != null) {
       if (AeHomePage.token == "loading...") {
         _textEditingController.text = "0";
       } else {
@@ -597,10 +470,10 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         }
       }
     } else {
-      if (double.parse(tokenListModel.data[currentPosition].count) > 1) {
-        _textEditingController.text = (double.parse(tokenListModel.data[currentPosition].count) - 0.1).toString();
+      if (double.parse(tokenCount) > 1) {
+        _textEditingController.text = (double.parse(tokenCount) - 0.1).toString();
       } else {
-        _textEditingController.text = tokenListModel.data[currentPosition].count;
+        _textEditingController.text = tokenCount;
       }
 
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
@@ -622,7 +495,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   Future<void> netSendV2(BuildContext context) async {
     focusNode.unfocus();
     var senderID = await BoxApp.getAddress();
-    if (currentPosition == -1) {
+    if (tokenContract == null) {
 //      startLoading();
       showGeneralDialog(
           context: context,
@@ -651,17 +524,17 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     var aesDecode = Utils.aesDecode(signingKey, key);
 
                     if (aesDecode == "") {
-                     showErrorDialog(context, null);
+                      showErrorDialog(context, null);
                       return;
                     }
                     // ignore: missing_return
                     BoxApp.spend((tx) {
-                     showCopyHashDialog(context, tx);
+                      showCopyHashDialog(context, tx);
 
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
-                    }, aesDecode, address, widget.address, _textEditingController.text,Utils.encodeBase64("Box aepp"));
+                    }, aesDecode, address, widget.address, _textEditingController.text, Utils.encodeBase64("Box aepp"));
                     showChainLoading();
                   },
                 ),
@@ -702,12 +575,12 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     }
                     // ignore: missing_return
                     BoxApp.contractTransfer((tx) {
-                    showCopyHashDialog(context, tx);
+                      showCopyHashDialog(context, tx);
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, address, tokenListModel.data[currentPosition].ctAddress, widget.address, _textEditingController.text, tokenListModel.data[currentPosition].type);
+                    }, aesDecode, address, tokenContract, widget.address, _textEditingController.text, "full");
                     showChainLoading();
                   },
                 ),
@@ -763,90 +636,6 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       });
   }
 
-  Widget itemListView(BuildContext context, int index) {
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            currentPosition = index;
-          });
-          Navigator.pop(context);
-        },
-        child: Container(
-          height: 70,
-          margin: EdgeInsets.only(left: 20, right: 20),
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 36.0,
-                      height: 36.0,
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(36.0),
-                      ),
-                      child: ClipOval(
-                        child: Image.network(
-                          tokenListModel.data[index].image,
-                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                            if (wasSynchronouslyLoaded) return child;
-
-                            return AnimatedOpacity(
-                              child: child,
-                              opacity: frame == null ? 0 : 1,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.easeOut,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 17),
-                      child: Text(
-                        tokenListModel.data[index].name,
-                        style: new TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Positioned(
-                right: 10,
-                child: Row(
-                  children: [
-                    Text(
-                      tokenListModel.data[index].count,
-                      style: TextStyle(
-                        color: Color(0xFF666666),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        fontSize: 14,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                      color: Color(0xFF666666),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
   void showErrorDialog(BuildContext context, String content) {
     if (content == null) {
       content = S.of(context).dialog_hint_check_error_content;
@@ -887,10 +676,9 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                 S.of(context).dialog_copy,
               ),
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: tx));
-                Navigator.of(context, rootNavigator: true).pop();
-                showFlushSucess(context);
-                Navigator.of(context).pop(true);
+
+                Navigator.of(context, rootNavigator: true).pop(true);
+
               },
             ),
             TextButton(
@@ -898,12 +686,20 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                 S.of(context).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context, rootNavigator: true).pop(false);
+
               },
             ),
           ],
         );
       },
-    ).then((val) {});
+    ).then((val) {
+      if(val){
+        Clipboard.setData(ClipboardData(text: tx));
+        showFlushSucess(context);
+      }else{
+        showFlushSucess(context);
+      }
+    });
   }
 }

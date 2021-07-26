@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:box/model/chains_model.dart';
 import 'package:box/model/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -106,17 +107,21 @@ class WalletCoinsManager {
       await setMnemonicAndSigningKey(address, mnemonic, signingKey,isSaveMnemonic);
     } else {
       for (var i = 0; i < coins.coins.length; i++) {
+        if(coins.coins[i].accounts!=null){
+          for (var j = 0; j < coins.coins[i].accounts.length; j++) {
+            coins.coins[i].accounts[j].isSelect = false;
+          }
+        }
+
         if (coinName == coins.coins[i].name) {
+          if (coins.coins[i].accounts == null) {
+            coins.coins[i].accounts = [];
+          }
+
           Account account = Account();
           account.address = address;
           account.isSelect = true;
           account.coin = coinName;
-          if (coins.coins[i].accounts == null) {
-            coins.coins[i].accounts = [];
-          }
-          for (var j = 0; j < coins.coins.length; j++) {
-            coins.coins[i].accounts[j].isSelect = false;
-          }
           coins.coins[i].accounts.add(account);
           await setMnemonicAndSigningKey(address, mnemonic, signingKey,isSaveMnemonic);
         }
@@ -175,4 +180,54 @@ class WalletCoinsManager {
     }
     return null;
   }
+
+  Future<WalletCoinsModel>  addChain(String coinName,String fullName) async {
+    WalletCoinsModel walletCoinsModel = await getCoins();
+
+
+    for (var i = 0; i < walletCoinsModel.coins.length; i++) {
+      if (walletCoinsModel.coins[i].name == coinName) {
+        return null;
+      }
+    }
+
+    if (walletCoinsModel.coins != null) {
+      Coin coin = new Coin();
+      coin.fullName = fullName;
+      coin.name = coinName;
+
+      coin.accounts = [];
+      walletCoinsModel.coins.add(coin);
+    }
+    await setCoins(walletCoinsModel);
+    return walletCoinsModel;
+  }
+
+  List<ChainsModel> getChains() {
+    List<ChainsModel> chains = [];
+
+    ChainsModel ae = ChainsModel();
+    ae.name = "AE";
+    ae.nameFull = "Aeternity";
+    chains.add(ae);
+
+    ChainsModel eth = ChainsModel();
+    eth.name = "ETH";
+    eth.nameFull = "Ethereum";
+    chains.add(eth);
+
+    ChainsModel cfx = ChainsModel();
+    cfx.name = "CFX";
+    cfx.nameFull = "Conflux";
+    chains.add(cfx);
+    return chains;
+  }
+
+
+
+
+
+
+
+
 }

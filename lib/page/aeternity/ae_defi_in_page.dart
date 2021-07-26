@@ -614,7 +614,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       builder: (BuildContext context) {
         return new AlertDialog(
           title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(Utils.formatABCLockV3Hint(content)),
           actions: <Widget>[
             TextButton(
               child: new Text(

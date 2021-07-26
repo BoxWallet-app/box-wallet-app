@@ -44,6 +44,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
   BuildContext buildContext;
+  Account account;
 
   @override
   void dispose() {
@@ -99,6 +100,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
+      this.account = account;
       setState(() {});
     });
   }
@@ -129,90 +131,72 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           if (newVersion > oldVersion) {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
-                  ?
-
-
-              showDialog<bool>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return new AlertDialog(
-                    title: Text(
-                      S.of(context).dialog_update_title,
-                    ),
-                    content: Text(
-                      S.of(context).dialog_update_content,
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: new Text(
-                          S.of(context).dialog_conform,
-                        ),
-                        onPressed: () {
-                          if (Platform.isIOS) {
-                            _launchURL(model.data.urlIos);
-                          } else if (Platform.isAndroid) {
-                            _launchURL(model.data.urlAndroid);
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                },
-              )
-
-
-
-
-
-
-
-
-
-                  :
-
-
-
-              showDialog<bool>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return new AlertDialog(
-                    title: Text(
-                      S.of(context).dialog_update_title,
-                    ),
-                    content: Text(
-                      S.of(context).dialog_update_content,
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: new Text(
-                          S.of(context).dialog_cancel,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: new Text(
-                          S.of(context).dialog_conform,
-                        ),
-                        onPressed: () {
-                          if (Platform.isIOS) {
-                            _launchURL(model.data.urlIos);
-                          } else if (Platform.isAndroid) {
-                            _launchURL(model.data.urlAndroid);
-                          }
-                        },
-                      ),
-
-                    ],
-                  );
-                },
-              );
+                  ? showDialog<bool>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(
+                            S.of(context).dialog_update_title,
+                          ),
+                          content: Text(
+                            S.of(context).dialog_update_content,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
+                              ),
+                              onPressed: () {
+                                if (Platform.isIOS) {
+                                  _launchURL(model.data.urlIos);
+                                } else if (Platform.isAndroid) {
+                                  _launchURL(model.data.urlAndroid);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  : showDialog<bool>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(
+                            S.of(context).dialog_update_title,
+                          ),
+                          content: Text(
+                            S.of(context).dialog_update_content,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_cancel,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
+                              ),
+                              onPressed: () {
+                                if (Platform.isIOS) {
+                                  _launchURL(model.data.urlIos);
+                                } else if (Platform.isAndroid) {
+                                  _launchURL(model.data.urlAndroid);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
             });
           }
-
         });
       } else {}
     }).catchError((e) {});
@@ -224,7 +208,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
       print("222");
       BoxApp.getSaveMnemonic().then((account) {
         if (account) {
-
           print("111");
           showDialog<bool>(
             context: context,
@@ -236,28 +219,30 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 actions: <Widget>[
                   TextButton(
                     child: new Text(
-                        S.of(context).dialog_dismiss,
+                      S.of(context).dialog_dismiss,
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop(false);
                     },
-                  ),  TextButton(
+                  ),
+                  TextButton(
                     child: new Text(
                       S.of(context).dialog_save_go,
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop(true);
-
                     },
                   ),
                 ],
               );
             },
           ).then((val) {
-            if(val){
+            if (val) {
               showGeneralDialog(
                   context: super.context,
-                  pageBuilder: (context, anim1, anim2) {return;},
+                  pageBuilder: (context, anim1, anim2) {
+                    return;
+                  },
                   barrierColor: Colors.grey.withOpacity(.4),
                   barrierDismissible: true,
                   barrierLabel: "",
@@ -308,20 +293,13 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               return;
                             }
                             Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
-
                           },
                         ),
                       ),
                     );
                   });
-
             }
           });
-
-
-
-
-
         }
       });
     });
@@ -607,7 +585,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         alignment: Alignment.center,
         child: Material(
           color: Colors.white,
-          borderRadius:BorderRadius.all(Radius.circular(50.0)),
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
@@ -616,35 +594,36 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             child: Container(
               height: 35,
               decoration: new BoxDecoration(
-                  //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  //设置四周边框
-                  border: new Border.all(width: 1, color:Color(0xFFF5F5F5)),
-                  //设置四周边框
-                  ),
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                //设置四周边框
+                border: new Border.all(width: 1, color: Color(0xFFF5F5F5)),
+                //设置四周边框
+              ),
               padding: EdgeInsets.only(left: 4, right: 4),
               margin: const EdgeInsets.only(top: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ClipOval(
-                    child: Container(
-                      width: 27.0,
-                      height: 27.0,
-                      decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                            top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                            left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                            right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
+                  if (account != null)
+                    ClipOval(
+                      child: Container(
+                        width: 27.0,
+                        height: 27.0,
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                              top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                              left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
+                              right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(36.0),
-                        image: DecorationImage(
-                          image: AssetImage("images/AE.png"),
+                          borderRadius: BorderRadius.circular(36.0),
+                          image: DecorationImage(
+                            image: AssetImage("images/" + account.coin + ".png"),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   Container(
                     width: 4,
                   ),

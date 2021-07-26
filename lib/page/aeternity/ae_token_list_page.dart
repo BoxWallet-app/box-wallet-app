@@ -339,141 +339,146 @@ class _TokenListPathState extends State<AeTokenListPage> {
     });
   }
 
-  Material itemListView(BuildContext context, int index) {
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AeTokenRecordPage(
-                        ctId: tokenListModel.data[index].ctAddress,
-                        coinCount: tokenListModel.data[index].count,
-                        coinImage: tokenListModel.data[index].image,
-                        coinName: tokenListModel.data[index].name,
-                      )));
-        },
-        child: Container(
-          child: Row(
-            children: [
-              Container(
-                height: 90,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(top: 0, left: 15),
-                      child: Row(
-                        children: <Widget>[
+  Widget itemListView(BuildContext context, int index) {
+    return Container(
+      margin: const EdgeInsets.only(top: 12, left: 18,right: 18),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AeTokenRecordPage(
+                          ctId: tokenListModel.data[index].ctAddress,
+                          coinCount: tokenListModel.data[index].count,
+                          coinImage: tokenListModel.data[index].image,
+                          coinName: tokenListModel.data[index].name,
+                        )));
+          },
+          child: Container(
+            child: Row(
+              children: [
+                Container(
+                  height: 90,
+                  width: MediaQuery.of(context).size.width-36,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(top: 0, left: 15),
+                        child: Row(
+                          children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
 
-                          Container(
-                            width: 36.0,
-                            height: 36.0,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Color(0xFFEEEEEE), width: 1.0),
-                                  top: BorderSide(
-                                      color: Color(0xFFEEEEEE), width: 1.0),
-                                  left: BorderSide(
-                                      color: Color(0xFFEEEEEE), width: 1.0),
-                                  right: BorderSide(
-                                      color: Color(0xFFEEEEEE), width: 1.0)),
+                            Container(
+                              width: 36.0,
+                              height: 36.0,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Color(0xFFEEEEEE), width: 1.0),
+                                    top: BorderSide(
+                                        color: Color(0xFFEEEEEE), width: 1.0),
+                                    left: BorderSide(
+                                        color: Color(0xFFEEEEEE), width: 1.0),
+                                    right: BorderSide(
+                                        color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                tokenListModel.data[index].image,
-                                frameBuilder: (context, child, frame,
-                                    wasSynchronouslyLoaded) {
-                                  if (wasSynchronouslyLoaded) return child;
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: ClipOval(
+                                child: Image.network(
+                                  tokenListModel.data[index].image,
+                                  frameBuilder: (context, child, frame,
+                                      wasSynchronouslyLoaded) {
+                                    if (wasSynchronouslyLoaded) return child;
 
-                                  return AnimatedOpacity(
-                                    child: child,
-                                    opacity: frame == null ? 0 : 1,
-                                    duration: const Duration(seconds: 2),
-                                    curve: Curves.easeOut,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 18, right: 18),
-                            child: Text(
-                              tokenListModel.data[index].name,
-                              style: new TextStyle(
-                                fontSize: 20,
-                                color: Color(0xff333333),
-//                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : "Ubuntu",
-                              ),
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          tokenListModel.data[index].countStr == null
-                              ? Container(
-                                  width: 50,
-                                  height: 50,
-                                  child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                    'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                  ),
-                                )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      double.parse(tokenListModel
-                                              .data[index].countStr)
-                                          .toStringAsFixed(2),
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: Color(0xff333333),
-                                          letterSpacing: 1.3,
-                                          fontFamily: BoxApp.language == "cn"
-                                              ? "Ubuntu"
-                                              : "Ubuntu"),
-                                    ),
-                                    if (getAePrice(index) != "")
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        child: Text(
-                                          getAePrice(index),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Color(0xff999999),
-                                              letterSpacing: 1.3,
-                                              fontFamily:
-                                                  BoxApp.language == "cn"
-                                                      ? "Ubuntu"
-                                                      : "Ubuntu"),
-                                        ),
-                                      ),
-                                  ],
+                                    return AnimatedOpacity(
+                                      child: child,
+                                      opacity: frame == null ? 0 : 1,
+                                      duration: const Duration(seconds: 2),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
                                 ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(left: 18, right: 18),
+                              child: Text(
+                                tokenListModel.data[index].name,
+                                style: new TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xff333333),
+//                                            fontWeight: FontWeight.w600,
+                                  fontFamily: BoxApp.language == "cn"
+                                      ? "Ubuntu"
+                                      : "Ubuntu",
+                                ),
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            tokenListModel.data[index].countStr == null
+                                ? Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                      'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                    ),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        double.parse(tokenListModel
+                                                .data[index].countStr)
+                                            .toStringAsFixed(2),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: Color(0xff333333),
+                                            letterSpacing: 1.3,
+                                            fontFamily: BoxApp.language == "cn"
+                                                ? "Ubuntu"
+                                                : "Ubuntu"),
+                                      ),
+                                      if (getAePrice(index) != "")
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            getAePrice(index),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: Color(0xff999999),
+                                                letterSpacing: 1.3,
+                                                fontFamily:
+                                                    BoxApp.language == "cn"
+                                                        ? "Ubuntu"
+                                                        : "Ubuntu"),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
 
-                          Container(
-                            width: 20,
-                          ),
-                        ],
+                            Container(
+                              width: 20,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

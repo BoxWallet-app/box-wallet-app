@@ -408,10 +408,7 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                 S.of(context).dialog_copy,
               ),
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: tx));
-                Navigator.of(context, rootNavigator: true).pop();
-                showFlush(context);
-                Navigator.of(context).pop(true);
+                Navigator.of(context, rootNavigator: true).pop(true);
               },
             ),
             TextButton(
@@ -419,13 +416,21 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                 S.of(context).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context, rootNavigator: true).pop(false);
               },
             ),
           ],
         );
       },
-    ).then((val) {});
+    ).then((val) {
+      if(val){
+        Clipboard.setData(ClipboardData(text: tx));
+        showFlush(context);
+      }else{
+        showFlush(context);
+      }
+    }
+    );
   }
 
   void showChainLoading() {
