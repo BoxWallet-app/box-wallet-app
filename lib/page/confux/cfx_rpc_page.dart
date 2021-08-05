@@ -29,6 +29,24 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   String title = "";
 
+
+  final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false,
+      ),
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+      ),
+      ios: IOSInAppWebViewOptions(
+        allowsInlineMediaPlayback: true,
+      ));
+
+   PullToRefreshController pullToRefreshController;
+
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -107,6 +125,9 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     return Text("");
                   }
                   return InAppWebView(
+                    key: webViewKey,
+                    initialOptions: options,
+                    pullToRefreshController: pullToRefreshController,
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://localhost:8080/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://10.53.5.66:9999/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://moondex.io/")),
