@@ -13,6 +13,7 @@ import 'package:box/model/contract_info_model.dart';
 import 'package:box/page/aeternity/ae_swap_my_page.dart';
 import 'package:box/page/aeternity/ae_swap_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
+import 'package:box/page/confux/cfx_rpc_page.dart';
 import 'package:box/page/web_page.dart';
 import 'package:box/page/aeternity/ae_wetrue_home_page.dart';
 import 'package:box/page/aeternity/ae_wetrue_page.dart';
@@ -1151,10 +1152,15 @@ class _AeAeppsPageState extends State<AeAeppsPage>
                                 onTap: (startLoading, stopLoading,
                                     btnState) async {
                                   Navigator.pop(context); //关闭对话框
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => AeAensPage()));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AeAensPage()));
+                                          builder: (context) => CfxRpcPage()));
+                                          // builder: (context) => AeAex2Page(url:"http://10.53.5.66:9999",title:"title",signingKey:"",address: "",)));
                                 },
                                 child: Text(
                                   S.of(context).dialog_privacy_confirm,
