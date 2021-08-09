@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/widget/tx_conform_widget.dart';
@@ -29,23 +30,20 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   String title = "";
 
+  // final GlobalKey webViewKey = GlobalKey();
 
-  final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-      crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-      ),
-      android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
-      ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-      ));
+    crossPlatform: InAppWebViewOptions(
+      // useShouldOverrideUrlLoading: true,
+      // mediaPlaybackRequiresUserGesture: false,
+      cacheEnabled: false,
+      clearCache: true,
+    ),
 
-   PullToRefreshController pullToRefreshController;
+  );
 
+  PullToRefreshController pullToRefreshController;
 
   @override
   void dispose() {
@@ -55,7 +53,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
 //异步加载方法
   Future<String> _loadFuture() async {
-    return  await rootBundle.loadString( "assets/conflux.js");
+    return await rootBundle.loadString("assets/conflux.js");
   }
 
   @override
@@ -120,42 +118,41 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
             child: FutureBuilder<String>(
                 future: _loadFuture(), //异步加载方法
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  // print(snapshot.data);
-                  if(snapshot == null || snapshot.data == null){
+
+                  if (snapshot == null || snapshot.data == null) {
                     return Text("");
                   }
+                  print("加载了");
                   return InAppWebView(
-                    key: webViewKey,
+                    // key: webViewKey,
                     initialOptions: options,
-                    pullToRefreshController: pullToRefreshController,
+                    // pullToRefreshController: pullToRefreshController,
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://localhost:8080/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://10.53.5.66:9999/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://moondex.io/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://stampers.app/#/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://guguo.io/home")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/dapp")),
+                    // initialUrlRequest: URLRequest(url: Uri.parse("https://app.moonswap.fi/#/")),
                     initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://app.tspace.io/#/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://nft.tspace.io/exchange_list")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://fccfx.confluxscan.io/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://www.boxnft.io/#/")),
                     // pullToRefreshController: pullToRefreshController,
-                    initialUserScripts: UnmodifiableListView<UserScript>([
+                   initialUserScripts:   Platform.isIOS ?UnmodifiableListView<UserScript>([
                       UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
                       UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
-                    ]),
-                    onTitleChanged: (controller, t){
+                    ]):UnmodifiableListView<UserScript>([
+                   ]),
+                    onTitleChanged: (controller, t) {
                       title = t;
                       print(title);
-                      setState(() {
-
-                      });
+                      setState(() {});
                     },
                     onWebViewCreated: (controller) {
-                      print("onWebViewCreated");
                       _webViewController = controller;
 
-                      print("openJoyBridge add");
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTypedMessage",
                           callback: (List<dynamic> arguments) {
@@ -172,7 +169,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                             // ignore: unnecessary_statements
                             LinkedHashMap<String, dynamic> map = arguments[1];
                             print("signTransaction" + jsonEncode(arguments));
-                            print("signTransaction" +(int.parse(map['value'])/1000000000000000000).toString());
+                            print("signTransaction" + (int.parse(map['value']) / 1000000000000000000).toString());
                             print("signTransaction" + (int.parse(map['value'])).toRadixString(10));
                           });
                       _webViewController.addJavaScriptHandler(
@@ -186,19 +183,23 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                             params['result'] = "cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts";
                             var json = jsonEncode(params);
                             print(json);
-                            // String jsStr = "javascript:(function () {var event; var data = {'data': '" +
-                            //     jsonEncode(params) +
-                            //     "'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event);})()";
+                            String jsStr = "javascript:(function () {var event; var data = {'data': '" +
+                                jsonEncode(params) +
+                                "'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event);})()";
 
-                            String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
-                            print(result3);
+                            String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + "))");
+                            print("window.conflux "+result3);
 
-                            await controller.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
+                            // await _webViewController.evaluateJavascript(source:"javascript:"+jsStr);
+                            await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
 
+                            String result1 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
+
+                            print("window.conflux "+result1);
                             return "";
                           });
                     },
-                    onLoadStart: (controller, url) async {
+                    onLoadStart: (controller, url)  async {
                       // setState(() {});
                       // inject javascript file from an url
                       // await controller.injectJavascriptFileFromUrl(urlFile:Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
@@ -207,7 +208,15 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       // String result3 = await controller.evaluateJavascript(source:"\$('body').html();");
                       // print(result3); // prints the body html
                       print("onLoadStart");
+
+                      if(Platform.isAndroid){
+                        var js = await _loadFuture();
+                        await _webViewController.evaluateJavascript(source: js);
+                      }
+
                       // await _webViewController.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
+                      // String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
+                      // print(result3);
                       // controller.injectJavascriptFileFromUrl(urlFile: Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
                       // String source = await rootBundle.loadString( "assets/conflux.js");
                       // source = source.replaceAll("window.flutter_inappwebview.callHandler('getChainAddress','17')", "'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts'");
@@ -241,9 +250,10 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
                       return NavigationActionPolicy.ALLOW;
                     },
-                    onLoadStop: (controller, url) async {
+                    onLoadStop: (controller, url) {
                       print(url);
                       print("onLoadStop");
+                      // _webViewController.addUserScript(userScript:  UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END));
                       // await _webViewController.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
                       // String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
                       // print(result3);
@@ -263,12 +273,10 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       print("onLoadError" + message);
                     },
                     onProgressChanged: (controller, pro) {
-                      print("progress:" + progress.toString());
+                      // print("progress:" + progress.toString());
 
-                      progress = (pro/100);
-                      setState(() {
-
-                      });
+                      progress = (pro / 100);
+                      setState(() {});
                     },
                     onUpdateVisitedHistory: (controller, url, androidIsReload) {},
                     onConsoleMessage: (controller, consoleMessage) {
@@ -278,11 +286,11 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                 }),
           ),
           new LinearPercentIndicator(
-            width:MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width,
             lineHeight: 2.0,
             backgroundColor: Colors.transparent,
             percent: progress,
-            padding:const EdgeInsets.symmetric(horizontal: 0.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             progressColor: Colors.blue,
           ),
           isFinish == false
