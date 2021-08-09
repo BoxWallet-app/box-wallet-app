@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:box/manager/plugin_manager.dart';
 import 'package:box/widget/tx_conform_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,17 +31,19 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   String title = "";
 
-  // final GlobalKey webViewKey = GlobalKey();
+
+
+  String textContent = 'Flutter端初始文字';
+
 
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
-      // useShouldOverrideUrlLoading: true,
-      // mediaPlaybackRequiresUserGesture: false,
-      cacheEnabled: false,
-      clearCache: true,
-    ),
-
+        // useShouldOverrideUrlLoading: true,
+        // mediaPlaybackRequiresUserGesture: false,
+        // cacheEnabled: false,
+        // clearCache: true,
+        ),
   );
 
   PullToRefreshController pullToRefreshController;
@@ -80,16 +83,23 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
             color: Colors.black,
             size: 17,
           ),
-          onPressed: () {
-            Future<bool> canGoBack = _webViewController.canGoBack();
-            canGoBack.then((str) {
-              if (str) {
-                // _webViewController.goBack();
-                _webViewController.reload();
-              } else {
-                Navigator.of(context).pop();
-              }
-            });
+          onPressed: () async {
+            // Future<bool> canGoBack = _webViewController.canGoBack();
+            // canGoBack.then((str) {
+            //   if (str) {
+            //     // _webViewController.goBack();
+            //     _webViewController.reload();
+            //   } else {
+            //     Navigator.of(context).pop();
+            //   }
+            // });
+            String resultString;
+            try {
+              resultString = await PluginManager.pushFirstActivity({'key': 'value'});
+            } on PlatformException {
+              resultString = '失败';
+            }
+            print(resultString);
 //              Navigator.pop(context);
           },
         ),
@@ -118,7 +128,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
             child: FutureBuilder<String>(
                 future: _loadFuture(), //异步加载方法
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-
                   if (snapshot == null || snapshot.data == null) {
                     return Text("");
                   }
@@ -133,18 +142,19 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://stampers.app/#/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://guguo.io/home")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/dapp")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://app.moonswap.fi/#/")),
-                    initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/")),
+                    initialUrlRequest: URLRequest(url: Uri.parse("https://app.moonswap.fi/#/")),
+                    // initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://app.tspace.io/#/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("http://nft.tspace.io/exchange_list")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://fccfx.confluxscan.io/")),
                     // initialUrlRequest: URLRequest(url: Uri.parse("https://www.boxnft.io/#/")),
                     // pullToRefreshController: pullToRefreshController,
-                   initialUserScripts:   Platform.isIOS ?UnmodifiableListView<UserScript>([
-                      UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
-                      UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
-                    ]):UnmodifiableListView<UserScript>([
-                   ]),
+                    initialUserScripts: Platform.isIOS
+                        ? UnmodifiableListView<UserScript>([
+                            UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
+                            UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
+                          ])
+                        : UnmodifiableListView<UserScript>([]),
                     onTitleChanged: (controller, t) {
                       title = t;
                       print(title);
@@ -183,23 +193,21 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                             params['result'] = "cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts";
                             var json = jsonEncode(params);
                             print(json);
-                            String jsStr = "javascript:(function () {var event; var data = {'data': '" +
-                                jsonEncode(params) +
-                                "'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event);})()";
+                            String jsStr = "javascript:(function () {var event; var data = {'data': '" + jsonEncode(params) + "'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event);})()";
 
                             String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + "))");
-                            print("window.conflux "+result3);
+                            print("window.conflux " + result3);
 
                             // await _webViewController.evaluateJavascript(source:"javascript:"+jsStr);
                             await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
 
                             String result1 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
 
-                            print("window.conflux "+result1);
+                            print("window.conflux " + result1);
                             return "";
                           });
                     },
-                    onLoadStart: (controller, url)  async {
+                    onLoadStart: (controller, url) async {
                       // setState(() {});
                       // inject javascript file from an url
                       // await controller.injectJavascriptFileFromUrl(urlFile:Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
@@ -209,7 +217,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       // print(result3); // prints the body html
                       print("onLoadStart");
 
-                      if(Platform.isAndroid){
+                      if (Platform.isAndroid) {
                         var js = await _loadFuture();
                         await _webViewController.evaluateJavascript(source: js);
                       }
