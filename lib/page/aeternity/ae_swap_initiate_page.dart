@@ -538,13 +538,14 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                                   eventBus.fire(SwapEvent());
 
                                   Navigator.of(context, rootNavigator: true).pop();
-                                  Navigator.pop(context);
                                 },
                               ),
                             ],
                           );
                         },
-                      ).then((val) {});
+                      ).then((val) {
+                        Navigator.pop(context);
+                      });
                     }, (error) {
                       showErrorDialog(context, error);
                       return;
