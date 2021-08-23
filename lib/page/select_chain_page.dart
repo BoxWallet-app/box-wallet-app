@@ -145,7 +145,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                             child: GridView.builder(
                               itemCount: chains.length,
                               itemBuilder: (context, index) {
-                                return itemCoin(index);
+                                return itemCoin(context,index);
                               },
                               padding: EdgeInsets.all(10),
                               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -199,7 +199,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
     return "选择公链";
   }
 
-  Widget itemCoin(int index) {
+  Widget itemCoin(BuildContext context,int index) {
     return Container(
       child: Material(
         color: Colors.white,
@@ -218,14 +218,16 @@ class _SelectChainPageState extends State<SelectChainPage> {
 
                 break;
               case 1:
+                Navigator.of(context).pop();
                 if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
+                print("123123");
 
-                Navigator.pop(context);
+
                 break;
               case 2:
                 if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
 
-                Navigator.pop(context);
+                Navigator.of(context).pop();
                 break;
             }
           },

@@ -27,6 +27,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'confux/cfx_account_login_page.dart';
 import 'mnemonic_copy_page.dart';
 
 class LoginPageNew extends StatefulWidget {
@@ -156,7 +157,15 @@ class _LoginPageNewState extends State<LoginPageNew> {
                                 builder: (context) => SelectChainPage(
                                       type: 1,
                                       selectChainPageCallBackFuture: (model) {
-                                        print(model.nameFull);
+                                        print(model.name);
+                                        if(model.name == "AE"){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AeAccountLoginPage()));
+                                          return;
+                                        }
+                                        if(model.name == "CFX"){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAccountLoginPage()));
+                                          return;
+                                        }
                                         return;
                                       },
                                     ));

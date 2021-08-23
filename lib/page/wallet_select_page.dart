@@ -19,6 +19,7 @@ import '../main.dart';
 import 'aeternity/ae_account_login_page.dart';
 import 'aeternity/ae_account_add_page.dart';
 import 'aeternity/ae_home_page.dart';
+import 'confux/cfx_account_add_page.dart';
 
 class WalletSelectPage extends StatefulWidget {
   const WalletSelectPage({Key key}) : super(key: key);
@@ -810,17 +811,37 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       title: "添加 " + walletCoinsModel.coins[coinIndex].fullName + " 账户",
     );
     if (result == 0) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AeAccountAddPage(
-                accountCallBackFuture: () {
-                  Navigator.of(super.context).pop();
-                  eventBus.fire(AccountUpdateEvent());
 
-                  return;
-                },
-              )));
+      if(walletCoinsModel.coins[coinIndex].name == "AE"){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AeAccountAddPage(
+                  accountCallBackFuture: () {
+                    Navigator.of(super.context).pop();
+                    eventBus.fire(AccountUpdateEvent());
+
+                    return;
+                  },
+                )));
+        return;
+      }
+      if(walletCoinsModel.coins[coinIndex].name == "CFX"){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CfxAccountAddPage(
+                  accountCallBackFuture: () {
+                    Navigator.of(super.context).pop();
+                    eventBus.fire(AccountUpdateEvent());
+
+                    return;
+                  },
+                )));
+        return;
+      }
+
+
     }
     if (result == 1) {
       if(walletCoinsModel.coins[coinIndex].name == "AE"){

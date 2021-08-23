@@ -57,6 +57,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       getAddress();
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
+      if (!mounted)
+        return;
       priceModel = null;
       CfxHomePage.token = "0.00000";
       CfxHomePage.tokenABC = "0.00000";
