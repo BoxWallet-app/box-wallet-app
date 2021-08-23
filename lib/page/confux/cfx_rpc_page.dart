@@ -31,11 +31,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   String title = "";
 
-
-
   String textContent = 'Flutter端初始文字';
-
-
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
@@ -48,6 +44,8 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   PullToRefreshController pullToRefreshController;
 
+
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -57,6 +55,30 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 //异步加载方法
   Future<String> _loadFuture() async {
     return await rootBundle.loadString("assets/conflux.js");
+  }
+
+
+  @override
+  void initState() {
+
+    super.initState();
+    print('setMethodCallHandler');
+
+    MethodChannel _platform = const MethodChannel('samples.flutter.dev/batte');
+    _platform.setMethodCallHandler(myUtilsHandler);
+  }
+
+
+  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
+    print('myUtilsHandler');
+    switch (methodCall.method) {
+      case 'foo':
+        return 'some string';
+      case 'bar':
+        return 123.0;
+      default:
+        throw MissingPluginException('notImplemented');
+    }
   }
 
   @override
@@ -131,7 +153,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                   if (snapshot == null || snapshot.data == null) {
                     return Text("");
                   }
-                  print("加载了");
                   return InAppWebView(
                     // key: webViewKey,
                     initialOptions: options,
@@ -167,6 +188,11 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                           handlerName: "signTypedMessage",
                           callback: (List<dynamic> arguments) {
                             print("signTypedMessage" + arguments.toString());
+                          });
+                      _webViewController.addJavaScriptHandler(
+                          handlerName: "signMessage",
+                          callback: (List<dynamic> arguments) {
+                            print("signMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "postMessage",

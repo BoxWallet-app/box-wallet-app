@@ -58,80 +58,82 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: Text(
-                  S.of(context).mnemonic_copy_title,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
-                ),
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                child: Text(
-                  S.of(context).mnemonic_copy_content,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
-                ),
-              ),
+        body: SingleChildScrollView(
 
-              Container(
-                height: 60,
-                padding: EdgeInsets.only(left: 18, right: 18),
-                color: Color(0xFFEEEEEE),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: 50,
-                        height: 50,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                  child: Text(
+                    S.of(context).mnemonic_copy_title,
+                    style: TextStyle(color: Color(0xFF000000), fontSize: 24,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  child: Text(
+                    S.of(context).mnemonic_copy_content,
+                    style: TextStyle(color: Color(0xFF000000), fontSize: 14,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                  ),
+                ),
+
+                Container(
+                  height: 60,
+                  padding: EdgeInsets.only(left: 18, right: 18),
+                  color: Color(0xFFEEEEEE),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          width: 50,
+                          height: 50,
 //                      color: Color(0xFF000000),
-                        child: const Icon(
-                          Icons.report,
-                          size: 50,
-                          color: Colors.red,
-                        )),
-                    Container(
-                      width: 10,
-                    ),
-                    Container(
-                      child: Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(color: Color(0xffff0000), fontSize: 14.0),
-                            children: <TextSpan>[
-                              TextSpan(text: S.of(context).mnemonic_copy_hint1),
-                              TextSpan(
-                                  text: S.of(context).mnemonic_copy_hint2,
-                                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
+                          child: const Icon(
+                            Icons.report,
+                            size: 50,
+                            color: Colors.red,
+                          )),
+                      Container(
+                        width: 10,
+                      ),
+                      Container(
+                        child: Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(color: Color(0xffff0000), fontSize: 14.0),
+                              children: <TextSpan>[
+                                TextSpan(text: S.of(context).mnemonic_copy_hint1),
+                                TextSpan(
+                                    text: S.of(context).mnemonic_copy_hint2,
+                                    style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
 //                        }
-                                    }),
-                            ],
+                                      }),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                  decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: Wrap(
-                    spacing: 10, //主轴上子控件的间距
-                    runSpacing: 10, //交叉轴上子控件之间的间距
-                    children: childrenFalse,
+                    ],
                   ),
                 ),
-              ),
+
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
+                    padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Wrap(
+                      spacing: 10, //主轴上子控件的间距
+                      runSpacing: 10, //交叉轴上子控件之间的间距
+                      children: childrenFalse,
+                    ),
+                  ),
+                ),
 //              Container(
 //                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
 //                width: MediaQuery.of(context).size.width,
@@ -142,29 +144,30 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 //                ),
 //              ),
 
-              Container(
-                margin: const EdgeInsets.only(top: 30, bottom: 30),
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage(mnemonic:widget.mnemonic)));
+                Container(
+                  margin: const EdgeInsets.only(top: 30, bottom: 30),
+                  child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage(mnemonic:widget.mnemonic)));
 
-                    },
-                    child: Text(
-                      S.of(context).mnemonic_copy_confrom,
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      },
+                      child: Text(
+                        S.of(context).mnemonic_copy_confrom,
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      ),
+                      color: Color(0xFFFC2365),
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
-                    color: Color(0xFFFC2365),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
-              ),
 
-            ],
+              ],
+            ),
           ),
         ));
   }

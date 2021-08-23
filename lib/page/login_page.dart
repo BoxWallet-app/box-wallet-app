@@ -176,6 +176,7 @@ class _LoginPageState extends State<LoginPage> {
           // 退出app
           exit(0);
         }
+        return;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

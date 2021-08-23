@@ -50,14 +50,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
         // ignore: missing_return, missing_return
         if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
           lastPopTime = DateTime.now();
-          Fluttertoast.showToast(
-              msg: "再按一次退出",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
+          Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
         } else {
           lastPopTime = DateTime.now();
           // 退出app
@@ -72,41 +65,6 @@ class _LoginPageNewState extends State<LoginPageNew> {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              // //约束性盒子
-              // ConstrainedBox(
-              //   constraints: const BoxConstraints.expand(),
-              //   child: Image.network("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F29%2F20141129212359_cLvTh.thumb.700_0.jpeg&refer=http%3A%2F%2Fcdn.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1629443524&t=062fde18e3afc8848991223096f34e82"),
-              // ),
-              // Center(
-              //   //可裁切的矩形
-              //   child: ClipRect(
-              //     //背景过滤器
-              //     child: BackdropFilter(
-              //       filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0),
-              //       child: Opacity(
-              //         opacity: 0.2,
-              //         child: Container(
-              //           width: MediaQuery.of(context).size.width,
-              //           height: MediaQuery.of(context).size.height,
-              //           decoration: BoxDecoration(
-              //               color: Colors.grey.shade200
-              //           ),
-              //           /*  child: Center(
-              //         child: Text("天河区扛把子",style:TextStyle(fontSize: 40,color: Colors.black),),
-              //       ),*/
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Positioned(
-              //     top: 55,
-              //     child: Image(
-              //       width: 315,
-              //       height: 314,
-              //       image: AssetImage('images/login_logo.png'),
-              //     ),
-              //   ),
               Positioned(
                   top: MediaQuery.of(context).size.height / 4,
                   left: 20,
@@ -135,22 +93,18 @@ class _LoginPageNewState extends State<LoginPageNew> {
                               TypewriterAnimatedText(
                                 '更好用的多币种 多链钱包',
                                 speed: const Duration(milliseconds: 130),
-                                textStyle:
-                                    TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 '优秀公链孵化器 好项目值得被发现',
                                 speed: const Duration(milliseconds: 130),
-                                textStyle:
-                                    TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 '匠心精神，做好每一条公链的生态建设',
                                 speed: const Duration(milliseconds: 130),
-                                textStyle:
-                                    TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
-
                             ],
                             onTap: () {
                               print("Tap Event");
@@ -173,8 +127,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: FlatButton(
                           onPressed: () {
-                            showMaterialModalBottomSheet(
-                                expand: true, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => SelectChainPage(type:0));
+                            showMaterialModalBottomSheet(expand: true, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => SelectChainPage(type: 0));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),

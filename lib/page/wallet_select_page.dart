@@ -191,78 +191,10 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                         child: InkWell(
                                           borderRadius: BorderRadius.all(Radius.circular(50)),
                                           onTap: () async {
-                                            if (coinIndex != 0) {
-                                              return;
-                                            }
-                                            final result = await showConfirmationDialog<int>(
-                                              context: context,
-                                              cancelLabel: S.of(context).dialog_dismiss,
-                                              actions: [
-                                                ...List.generate(
-                                                  2,
-                                                  (index) => AlertDialogAction(
-                                                    label: index == 0 ? '导入' : "创建",
-                                                    key: index,
-                                                  ),
-                                                ),
-                                              ],
-                                              title: "添加 " + walletCoinsModel.coins[coinIndex].fullName + " 账户",
-                                            );
-                                            if (result == 0) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => AeAccountAddPage(
-                                                            accountCallBackFuture: () {
-                                                              Navigator.of(super.context).pop();
-                                                              eventBus.fire(AccountUpdateEvent());
-
-                                                              return;
-                                                            },
-                                                          )));
-                                            }
-                                            if (result == 1) {
-                                              BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-                                                showGeneralDialog(
-                                                    context: context,
-                                                    pageBuilder: (context, anim1, anim2) {
-                                                      return;
-                                                    },
-                                                    barrierColor: Colors.grey.withOpacity(.4),
-                                                    barrierDismissible: true,
-                                                    barrierLabel: "",
-                                                    transitionDuration: Duration(milliseconds: 400),
-                                                    transitionBuilder: (context, anim1, anim2, child) {
-                                                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                                                      return Transform(
-                                                          transform: Matrix4.translationValues(0.0, 0, 0.0),
-                                                          child: Opacity(
-                                                            opacity: anim1.value,
-                                                            // ignore: missing_return
-                                                            child: PayPasswordWidget(
-                                                                title: S.of(context).password_widget_set_password,
-                                                                passwordCallBackFuture: (String password) async {
-                                                                  WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                                                                    final key = Utils.generateMd5Int(password + address);
-                                                                    var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                                                                    var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-
-                                                                    WalletCoinsManager.instance
-                                                                        .addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true)
-                                                                        .then((value) {
-                                                                      eventBus.fire(AccountUpdateEvent());
-                                                                      Navigator.of(super.context).pop();
-
-                                                                      return;
-                                                                    });
-                                                                  });
-                                                                  return;
-                                                                }),
-                                                          ));
-                                                    });
-                                                return;
-                                              });
-                                            }
+                                            // if (coinIndex != 0) {
+                                            //   return;
+                                            // }
+                                            createImportAccount();
                                           },
                                           child: Container(
                                             height: 30,
@@ -324,6 +256,87 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
+  void createAE(BuildContext context) {
+     BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {
+            return;
+          },
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (context, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: S.of(context).password_widget_set_password,
+                      passwordCallBackFuture: (String password) async {
+                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
+                          final key = Utils.generateMd5Int(password + address);
+                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+
+                          WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
+                            eventBus.fire(AccountUpdateEvent());
+                            Navigator.of(super.context).pop();
+
+                            return;
+                          });
+                        });
+                        return;
+                      }),
+                ));
+          });
+      return;
+    });
+  }
+  void createCFX(BuildContext context) {
+     BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {
+            return;
+          },
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (context, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: S.of(context).password_widget_set_password,
+                      passwordCallBackFuture: (String password) async {
+                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
+                          final key = Utils.generateMd5Int(password + address);
+                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+
+                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
+                            eventBus.fire(AccountUpdateEvent());
+                            Navigator.of(super.context).pop();
+
+                            return;
+                          });
+                        });
+                        return;
+                      }),
+                ));
+          });
+      return;
+    });
+  }
+
   Widget itemCoin(int index) {
     if (walletCoinsModel.coins.length == index) {
       return Material(
@@ -338,7 +351,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 builder: (context) => SelectChainPage(
                       type: 2,
                       selectChainPageCallBackFuture: (model) {
-
                         WalletCoinsManager.instance.addChain(model.name, model.nameFull).then((walletCoinModel) {
                           if (walletCoinModel != null) {
                             this.walletCoinsModel = walletCoinModel;
@@ -360,7 +372,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                   ),
                                 ),
                                 actions: <Widget>[
-
                                   new TextButton(
                                     child: new Text('确定'),
                                     onPressed: () {
@@ -371,9 +382,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               );
                             },
                           ).then((val) {
-                            if (val) {
-
-                            }
+                            if (val) {}
                           });
                         });
                         return;
@@ -452,11 +461,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                   height: 27.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border(
-                        bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                        top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                        left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                        right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                    border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(36.0),
                     image: DecorationImage(
@@ -487,7 +492,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               onTap: () {
-                if (coinIndex != 0) {}
+                createImportAccount();
               },
               child: Container(
                 height: 50,
@@ -527,17 +532,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       margin: EdgeInsets.only(left: 18, right: 18, bottom: 10),
       child: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                Color(0xFFE51363),
-                Color(0xFFFF428F),
-              ]),
-            ),
-          ),
+          getCoinBg(),
           if (walletCoinsModel.coins[coinIndex].accounts[index].address == AeHomePage.address)
             Positioned(
               right: 0,
@@ -584,12 +579,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ),
           InkWell(
             onTap: () {
-              for (var i = 0; i < walletCoinsModel.coins[coinIndex].accounts.length; i++) {
-                walletCoinsModel.coins[coinIndex].accounts[i].isSelect = false;
+              print(coinIndex);
+
+              for (var i = 0; i < walletCoinsModel.coins.length; i++) {
+                for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
+                  walletCoinsModel.coins[i].accounts[j].isSelect = false;
+                }
               }
 
               walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
-
+              print(walletCoinsModel.coins[coinIndex].accounts[index].address);
               WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
                 Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
@@ -600,14 +599,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               height: 100,
               alignment: Alignment.bottomLeft,
               padding: EdgeInsets.only(left: 18, right: 18, bottom: 16),
-              child: Text(Utils.formatHomeCardAccountAddress(walletCoinsModel.coins[coinIndex].accounts[index].address),
-                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xffffffff).withAlpha(250),
-                      letterSpacing: 1.5,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(250), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
             ),
           ),
           Positioned(
@@ -618,14 +610,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               child: InkWell(
                 onTap: () {
                   Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
-                  Fluttertoast.showToast(
-                      msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address,
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.black,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 18, right: 18, top: 14),
@@ -634,13 +619,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Text("账户-" + (index + 1).toString(),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffffffff).withAlpha(200),
-                                letterSpacing: 1.3,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                        child: Text("账户-" + (index + 1).toString(), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                       ),
                       Container(
                         height: 20,
@@ -774,5 +753,84 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ],
       ),
     );
+  }
+
+  String getCoinFormatAddress(int index) {
+    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+      return Utils.formatHomeCardAccountAddress(walletCoinsModel.coins[coinIndex].accounts[index].address);
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+      return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
+    }
+    return "";
+  }
+
+  Container getCoinBg() {
+    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        decoration: new BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+            Color(0xFFE51363),
+            Color(0xFFFF428F),
+          ]),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        decoration: new BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+            Color(0xFF3292C7),
+            Color(0xFF37A1DB),
+          ]),
+        ),
+      );
+    }
+  }
+
+  void createImportAccount() async{
+    final result = await showConfirmationDialog<int>(
+      context: context,
+      cancelLabel: S.of(context).dialog_dismiss,
+      actions: [
+        ...List.generate(
+          2,
+              (index) => AlertDialogAction(
+            label: index == 0 ? '导入' : "创建",
+            key: index,
+          ),
+        ),
+      ],
+      title: "添加 " + walletCoinsModel.coins[coinIndex].fullName + " 账户",
+    );
+    if (result == 0) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AeAccountAddPage(
+                accountCallBackFuture: () {
+                  Navigator.of(super.context).pop();
+                  eventBus.fire(AccountUpdateEvent());
+
+                  return;
+                },
+              )));
+    }
+    if (result == 1) {
+      if(walletCoinsModel.coins[coinIndex].name == "AE"){
+        createAE(context);
+        return;
+      }
+      if(walletCoinsModel.coins[coinIndex].name == "CFX"){
+        createCFX(context);
+        return;
+      }
+    }
   }
 }

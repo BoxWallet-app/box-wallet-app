@@ -142,11 +142,18 @@ class _SelectChainPageState extends State<SelectChainPage> {
                             color: Color(0xFFF5F5F5),
                             // height: MediaQuery.of(context).size.height * 0.75 - 52,
                             width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
+                            child: GridView.builder(
                               itemCount: chains.length,
                               itemBuilder: (context, index) {
                                 return itemCoin(index);
                               },
+                              padding: EdgeInsets.all(10),
+                              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+                                childAspectRatio: 1.5,
+                                mainAxisSpacing: 20,
+                                crossAxisSpacing: 14,
+                              ),
                             ),
                           ),
                         ),
@@ -194,8 +201,6 @@ class _SelectChainPageState extends State<SelectChainPage> {
 
   Widget itemCoin(int index) {
     return Container(
-      height: 70,
-      margin: EdgeInsets.only(left: 18, right: 18, top: 12),
       child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -203,10 +208,14 @@ class _SelectChainPageState extends State<SelectChainPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             switch (widget.type) {
-
               case 0:
+                if (chains[index].name == "AE") {
+                  createAe();
+                }
+                if (chains[index].name == "CFX") {
+                  createCFX();
+                }
 
-                createAe();
                 break;
               case 1:
                 if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
@@ -220,20 +229,18 @@ class _SelectChainPageState extends State<SelectChainPage> {
                 break;
             }
           },
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 18, right: 0),
+                margin: EdgeInsets.only(right: 0),
                 child: ClipOval(
                   child: Container(
                     width: 45.0,
                     height: 45.0,
                     decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                          top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                          left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                          right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
+                      border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(36.0),
                       image: DecorationImage(
@@ -245,7 +252,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
               ),
               Container(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10, top: 5),
                   child: Text(
                     chains[index].nameFull + " (" + chains[index].name + ")",
                     style: new TextStyle(
@@ -289,6 +296,47 @@ class _SelectChainPageState extends State<SelectChainPage> {
 
                           // walletCoinModel.ae.add(account);
                           WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
+                            BoxApp.setSigningKey(signingKeyAesEncode);
+                            BoxApp.setMnemonic(mnemonicAesEncode);
+                            BoxApp.setAddress(address);
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                          });
+                          return;
+                        });
+                        return;
+                      }),
+                ));
+          });
+      return;
+    });
+  }
+
+  void createCFX() {
+    BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {},
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (context, anim1, anim2, child) {
+            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+            return Transform(
+                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                child: Opacity(
+                  opacity: anim1.value,
+                  // ignore: missing_return
+                  child: PayPasswordWidget(
+                      title: S.of(context).password_widget_set_password,
+                      passwordCallBackFuture: (String password) async {
+                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
+                          final key = Utils.generateMd5Int(password + address);
+                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+
+                          // walletCoinModel.ae.add(account);
+                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setMnemonic(mnemonicAesEncode);
                             BoxApp.setAddress(address);

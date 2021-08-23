@@ -210,11 +210,11 @@ class WalletCoinsManager {
     ae.name = "AE";
     ae.nameFull = "Aeternity";
     chains.add(ae);
-
-    ChainsModel eth = ChainsModel();
-    eth.name = "ETH";
-    eth.nameFull = "Ethereum";
-    chains.add(eth);
+    //
+    // ChainsModel eth = ChainsModel();
+    // eth.name = "ETH";
+    // eth.nameFull = "Ethereum";
+    // chains.add(eth);
 
     ChainsModel cfx = ChainsModel();
     cfx.name = "CFX";

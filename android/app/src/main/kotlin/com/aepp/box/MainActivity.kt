@@ -10,8 +10,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 
-class MainActivity: FlutterActivity() {
-
+class MainActivity : FlutterActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +31,11 @@ class MainActivity: FlutterActivity() {
         MobclickAgent.onResume(this)
         Log.i("UMLog", "onResume@MainActivity")
     }
+
     private val CHANNEL = "plugin_demo"
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        engine = flutterEngine;
 //        super.configureFlutterEngine(flutterEngine)
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor, CHANNEL).setMethodCallHandler { call, result ->
@@ -50,6 +52,11 @@ class MainActivity: FlutterActivity() {
                 result.notImplemented()
             }
         }
+
+    }
+    companion object instance {
+
+        public lateinit var engine: FlutterEngine;
 
     }
 
