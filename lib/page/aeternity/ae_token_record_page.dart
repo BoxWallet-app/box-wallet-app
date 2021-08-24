@@ -1,11 +1,11 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/contract_balance_dao.dart';
-import 'package:box/dao/token_list_dao.dart';
-import 'package:box/dao/token_record_dao.dart';
+import 'package:box/dao/aeternity/contract_balance_dao.dart';
+import 'package:box/dao/aeternity/token_list_dao.dart';
+import 'package:box/dao/aeternity/token_record_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/contract_balance_model.dart';
-import 'package:box/model/token_list_model.dart';
-import 'package:box/model/token_record_model.dart';
+import 'package:box/model/aeternity/contract_balance_model.dart';
+import 'package:box/model/aeternity/token_list_model.dart';
+import 'package:box/model/aeternity/token_record_model.dart';
 import 'package:box/page/aeternity/ae_token_add_page.dart';
 import 'package:box/page/aeternity/ae_token_receive_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';

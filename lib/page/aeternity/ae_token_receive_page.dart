@@ -1,8 +1,8 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aens_register_dao.dart';
+import 'package:box/dao/aeternity/aens_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/model/aens_register_model.dart';
+import 'package:box/model/aeternity/aens_register_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:flushbar/flushbar.dart';

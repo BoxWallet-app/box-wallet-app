@@ -1,14 +1,14 @@
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/allowance_dao.dart';
-import 'package:box/dao/contract_balance_dao.dart';
-import 'package:box/dao/swap_coin_dao.dart';
+import 'package:box/dao/aeternity/allowance_dao.dart';
+import 'package:box/dao/aeternity/contract_balance_dao.dart';
+import 'package:box/dao/aeternity/swap_coin_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/allowance_model.dart';
-import 'package:box/model/contract_balance_model.dart';
-import 'package:box/model/swap_coin_model.dart';
+import 'package:box/model/aeternity/allowance_model.dart';
+import 'package:box/model/aeternity/contract_balance_model.dart';
+import 'package:box/model/aeternity/swap_coin_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';

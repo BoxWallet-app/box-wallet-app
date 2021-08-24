@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:box/dao/contract_ranking_dao.dart';
+import 'package:box/dao/aeternity/contract_ranking_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/contract_ranking_model.dart';
+import 'package:box/model/aeternity/contract_ranking_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/cupertino.dart';

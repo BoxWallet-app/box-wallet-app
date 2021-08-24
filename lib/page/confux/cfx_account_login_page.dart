@@ -1,9 +1,9 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/user_login_dao.dart';
+import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/user_model.dart';
-import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/model/aeternity/user_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';

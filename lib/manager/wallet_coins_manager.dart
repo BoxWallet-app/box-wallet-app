@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:box/model/chains_model.dart';
-import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/model/aeternity/chains_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

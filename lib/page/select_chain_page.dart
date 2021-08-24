@@ -1,7 +1,7 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/chains_model.dart';
-import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/model/aeternity/chains_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';

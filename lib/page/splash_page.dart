@@ -3,10 +3,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/app_store_dao.dart';
+import 'package:box/dao/aeternity/app_store_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/app_store_model.dart';
+import 'package:box/model/aeternity/app_store_model.dart';
 import 'package:box/page/login_page.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/widget/custom_route.dart';

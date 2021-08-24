@@ -2,12 +2,12 @@ import 'dart:ffi';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:box/dao/wetrue_comment_list_dao.dart';
-import 'package:box/dao/wetrue_config_dao.dart';
-import 'package:box/dao/wetrue_topic_dao.dart';
+import 'package:box/dao/aeternity/wetrue_comment_list_dao.dart';
+import 'package:box/dao/aeternity/wetrue_config_dao.dart';
+import 'package:box/dao/aeternity/wetrue_topic_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/wetrue_comment_model.dart';
-import 'package:box/model/wetrue_config_model.dart';
+import 'package:box/model/aeternity/wetrue_comment_model.dart';
+import 'package:box/model/aeternity/wetrue_config_model.dart';
 import 'package:box/page/aeternity/ae_defi_ranking_page.dart';
 import 'package:box/utils/RelativeDateFormat.dart';
 import 'package:box/utils/utils.dart';

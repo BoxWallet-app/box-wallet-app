@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:box/dao/aens_page_dao.dart';
-import 'package:box/dao/wallet_record_dao.dart';
+import 'package:box/dao/aeternity/aens_page_dao.dart';
+import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aens_page_model.dart';
-import 'package:box/model/wallet_record_model.dart';
+import 'package:box/model/aeternity/aens_page_model.dart';
+import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_aens_detail_page.dart';
 import 'package:box/page/aeternity/ae_tx_detail_page.dart';
 import 'package:box/utils/utils.dart';

@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aens_info_dao.dart';
-import 'package:box/dao/aens_preclaim_dao.dart';
-import 'package:box/dao/aens_register_dao.dart';
-import 'package:box/dao/th_hash_dao.dart';
-import 'package:box/dao/tx_broadcast_dao.dart';
+import 'package:box/dao/aeternity/aens_info_dao.dart';
+import 'package:box/dao/aeternity/aens_preclaim_dao.dart';
+import 'package:box/dao/aeternity/aens_register_dao.dart';
+import 'package:box/dao/aeternity/th_hash_dao.dart';
+import 'package:box/dao/aeternity/tx_broadcast_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aens_info_model.dart';
-import 'package:box/model/aens_register_model.dart';
-import 'package:box/model/msg_sign_model.dart';
+import 'package:box/model/aeternity/aens_info_model.dart';
+import 'package:box/model/aeternity/aens_register_model.dart';
+import 'package:box/model/aeternity/msg_sign_model.dart';
 import 'package:box/page/aeternity/ae_aens_detail_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';

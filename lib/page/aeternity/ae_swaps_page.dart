@@ -1,7 +1,7 @@
-import 'package:box/dao/aens_page_dao.dart';
-import 'package:box/dao/block_top_dao.dart';
+import 'package:box/dao/aeternity/aens_page_dao.dart';
+import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/block_top_model.dart';
+import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/page/aeternity/ae_aens_register.dart';
 import 'package:box/page/aeternity/ae_swap_buy_sell_page.dart';
 import 'package:flutter/cupertino.dart';

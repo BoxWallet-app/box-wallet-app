@@ -1,4 +1,4 @@
-import 'package:box/dao/aens_page_dao.dart';
+import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';

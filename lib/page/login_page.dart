@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/block_top_dao.dart';
-import 'package:box/dao/user_register_dao.dart';
+import 'package:box/dao/aeternity/block_top_dao.dart';
+import 'package:box/dao/aeternity/user_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/block_top_model.dart';
-import 'package:box/model/user_model.dart';
-import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/model/aeternity/block_top_model.dart';
+import 'package:box/model/aeternity/user_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_account_login_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';
 import 'package:box/utils/utils.dart';

@@ -3,16 +3,17 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/dao/contract_info_dao.dart';
-import 'package:box/dao/version_dao.dart';
+import 'package:box/dao/aeternity/contract_info_dao.dart';
+import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/contract_info_model.dart';
-import 'package:box/model/version_model.dart';
-import 'package:box/model/wallet_coins_model.dart';
+import 'package:box/model/aeternity/contract_info_model.dart';
+import 'package:box/model/aeternity/version_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
+import 'package:box/page/confux/cfx_aepps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
 import 'package:box/page/setting_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
@@ -62,13 +63,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     pageControllerBody.addListener(() {
-      if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery
-          .of(context)
-          .size
-          .width + MediaQuery
-          .of(context)
-          .size
-          .width) {
+      if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery.of(context).size.width + MediaQuery.of(context).size.width) {
         return;
       }
       pageControllerTitle.jumpTo(pageControllerBody.offset / 3);
@@ -140,83 +135,69 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
                   ? showDialog<bool>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return new AlertDialog(
-                    title: Text(
-                      S
-                          .of(context)
-                          .dialog_update_title,
-                    ),
-                    content: Text(
-                      S
-                          .of(context)
-                          .dialog_update_content,
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: new Text(
-                          S
-                              .of(context)
-                              .dialog_conform,
-                        ),
-                        onPressed: () {
-                          if (Platform.isIOS) {
-                            _launchURL(model.data.urlIos);
-                          } else if (Platform.isAndroid) {
-                            _launchURL(model.data.urlAndroid);
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                },
-              )
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(
+                            S.of(context).dialog_update_title,
+                          ),
+                          content: Text(
+                            S.of(context).dialog_update_content,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
+                              ),
+                              onPressed: () {
+                                if (Platform.isIOS) {
+                                  _launchURL(model.data.urlIos);
+                                } else if (Platform.isAndroid) {
+                                  _launchURL(model.data.urlAndroid);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    )
                   : showDialog<bool>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return new AlertDialog(
-                    title: Text(
-                      S
-                          .of(context)
-                          .dialog_update_title,
-                    ),
-                    content: Text(
-                      S
-                          .of(context)
-                          .dialog_update_content,
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: new Text(
-                          S
-                              .of(context)
-                              .dialog_cancel,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: new Text(
-                          S
-                              .of(context)
-                              .dialog_conform,
-                        ),
-                        onPressed: () {
-                          if (Platform.isIOS) {
-                            _launchURL(model.data.urlIos);
-                          } else if (Platform.isAndroid) {
-                            _launchURL(model.data.urlAndroid);
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return new AlertDialog(
+                          title: Text(
+                            S.of(context).dialog_update_title,
+                          ),
+                          content: Text(
+                            S.of(context).dialog_update_content,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_cancel,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: new Text(
+                                S.of(context).dialog_conform,
+                              ),
+                              onPressed: () {
+                                if (Platform.isIOS) {
+                                  _launchURL(model.data.urlIos);
+                                } else if (Platform.isAndroid) {
+                                  _launchURL(model.data.urlAndroid);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
             });
           }
         });
@@ -236,18 +217,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             barrierDismissible: false,
             builder: (BuildContext context) {
               return new AlertDialog(
-                title: Text(S
-                    .of(context)
-                    .dialog_hint),
-                content: Text(S
-                    .of(context)
-                    .dialog_save_word),
+                title: Text(S.of(context).dialog_hint),
+                content: Text(S.of(context).dialog_save_word),
                 actions: <Widget>[
                   TextButton(
                     child: new Text(
-                      S
-                          .of(context)
-                          .dialog_dismiss,
+                      S.of(context).dialog_dismiss,
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop(false);
@@ -255,9 +230,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   ),
                   TextButton(
                     child: new Text(
-                      S
-                          .of(context)
-                          .dialog_save_go,
+                      S.of(context).dialog_save_go,
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop(true);
@@ -285,9 +258,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         opacity: anim1.value,
                         // ignore: missing_return
                         child: PayPasswordWidget(
-                          title: S
-                              .of(context)
-                              .password_widget_input_password,
+                          title: S.of(context).password_widget_input_password,
                           dismissCallBackFuture: (String password) {
                             return;
                           },
@@ -299,18 +270,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return new AlertDialog(
-                                    title: Text(S
-                                        .of(context)
-                                        .dialog_hint),
-                                    content: Text(S
-                                        .of(context)
-                                        .dialog_login_user_no_save),
+                                    title: Text(S.of(context).dialog_hint),
+                                    content: Text(S.of(context).dialog_login_user_no_save),
                                     actions: <Widget>[
                                       TextButton(
                                         child: new Text(
-                                          S
-                                              .of(context)
-                                              .dialog_conform,
+                                          S.of(context).dialog_conform,
                                         ),
                                         onPressed: () {
                                           Navigator.of(context, rootNavigator: true).pop();
@@ -356,14 +321,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           // 点击返回键的操作
           if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
             lastPopTime = DateTime.now();
-            Fluttertoast.showToast(
-                msg: "再按一次退出",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.black,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
           } else {
             lastPopTime = DateTime.now();
             // 退出app
@@ -379,27 +337,18 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
               children: [
                 Container(
                   color: Color(0xfffafafa),
-                  height: MediaQueryData
-                      .fromWindow(window)
-                      .padding
-                      .top,
+                  height: MediaQueryData.fromWindow(window).padding.top,
                 ),
                 Container(
                   color: Color(0xfffafafa),
 //              color: Colors.blue,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   height: 52,
                   child: Stack(
                     children: [
                       Positioned(
                         height: 52,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 3,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: Container(
                           child: Container(
                             decoration: new BoxDecoration(
@@ -420,9 +369,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      S
-                                          .of(context)
-                                          .tab_1,
+                                      S.of(context).tab_1,
                                       style: TextStyle(
                                         color: Color(0xFF000000),
                                         fontWeight: FontWeight.w500,
@@ -430,8 +377,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                         fontFamily: BoxApp.language == "cn"
                                             ? "Ubuntu"
                                             : BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
                                       ),
                                     ),
                                   );
@@ -441,9 +388,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      S
-                                          .of(context)
-                                          .tab_2,
+                                      S.of(context).tab_2,
                                       style: TextStyle(
                                         color: Color(0xFF000000),
                                         fontWeight: FontWeight.w500,
@@ -451,8 +396,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                         fontFamily: BoxApp.language == "cn"
                                             ? "Ubuntu"
                                             : BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
                                       ),
                                     ),
                                   );
@@ -462,9 +407,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      S
-                                          .of(context)
-                                          .tab_3,
+                                      S.of(context).tab_3,
                                       style: TextStyle(
                                         color: Color(0xFF000000),
                                         fontWeight: FontWeight.w500,
@@ -472,18 +415,15 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                         fontFamily: BoxApp.language == "cn"
                                             ? "Ubuntu"
                                             : BoxApp.language == "cn"
-                                            ? "Ubuntu"
-                                            : "Ubuntu",
+                                                ? "Ubuntu"
+                                                : "Ubuntu",
                                       ),
                                     ),
                                   );
                                 }
                               },
                             ),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width / 2,
+                            width: MediaQuery.of(context).size.width / 2,
                             height: 52,
                           ),
                         ),
@@ -494,10 +434,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 ),
                 Expanded(
                   child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     child: PageView.builder(
                       itemCount: 3,
                       controller: pageControllerBody,
@@ -506,7 +443,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           if (account == null) {
                             return Container();
                           }
-                          print(account.coin);
                           if (account.coin == "AE") {
                             return AeHomePage();
                           }
@@ -514,7 +450,17 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             return CfxHomePage();
                           }
                         } else if (position == 1) {
-                          return AeAeppsPage();
+
+                          if (account == null) {
+                            return Container();
+                          }
+                          if (account.coin == "AE") {
+                            return AeAeppsPage();
+                          }
+                          if (account.coin == "CFX") {
+                            return CfxDappsPage();
+                          }
+
                         } else {
                           return SettingPage();
                         }
@@ -524,20 +470,14 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: Color(0xffeeeeee),
                 ),
                 Container(
                   color: Colors.green,
                   height: 52,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   child: Stack(
                     children: [
                       Row(
@@ -553,10 +493,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                   stream: _streamController1.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
@@ -579,10 +516,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                   stream: _streamController2.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
@@ -605,10 +539,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                   stream: _streamController3.stream,
                                   builder: (context, snapshot) {
                                     return Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width / 3,
+                                      width: MediaQuery.of(context).size.width / 3,
                                       padding: EdgeInsets.all(12),
                                       height: 52,
                                       child: Image(
@@ -630,23 +561,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 left: snapshot.data,
                                 child: Container(
                                   height: 3,
-                                  margin: EdgeInsets.only(left: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 3 / 3, right: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 3 / 3),
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 3 - MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 3 / 3 - MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 3 / 3,
+                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 3 / 3, right: MediaQuery.of(context).size.width / 3 / 3),
+                                  width: MediaQuery.of(context).size.width / 3 - MediaQuery.of(context).size.width / 3 / 3 - MediaQuery.of(context).size.width / 3 / 3,
                                   //边框设置
                                   decoration: new BoxDecoration(
                                     //背景
@@ -660,10 +576,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                  height: MediaQueryData
-                      .fromWindow(window)
-                      .padding
-                      .bottom,
+                  height: MediaQueryData.fromWindow(window).padding.bottom,
                   color: Colors.white,
                 )
               ],
@@ -691,11 +604,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
-              showMaterialModalBottomSheet(expand: false,
-                  context: context,
-                  enableDrag: false,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => WalletSelectPage());
+              showMaterialModalBottomSheet(expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => WalletSelectPage());
             },
             child: Container(
               height: 35,
@@ -717,11 +626,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         width: 27.0,
                         height: 27.0,
                         decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                              top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                              left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0),
-                              right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
+                          border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(36.0),
                           image: DecorationImage(
@@ -768,25 +673,19 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   void showErrorDialog(BuildContext context, String content) {
     if (content == null) {
-      content = S
-          .of(context)
-          .dialog_hint_check_error_content;
+      content = S.of(context).dialog_hint_check_error_content;
     }
     showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: Text(S
-              .of(context)
-              .dialog_hint_check_error),
+          title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S
-                    .of(context)
-                    .dialog_conform,
+                S.of(context).dialog_conform,
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);
