@@ -8,6 +8,7 @@ import 'package:box/dao/aeternity/name_reverse_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/aeternity/swap_dao.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
+import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
@@ -20,6 +21,7 @@ import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
+import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/utils/utils.dart';
@@ -34,8 +36,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../main.dart';
 
 class CfxHomePage extends StatefulWidget {
-  static var token = "0.00000";
-  static var tokenABC = "0.00000";
+  static var token = "loading...";
+  static var tokenABC = "loading...";
   static var height = 0;
   static var address = "";
 
@@ -55,22 +57,31 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     eventBus.on<LanguageEvent>().listen((event) {
       netBaseData();
       getAddress();
+      netCfxBalance();
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
-      if (!mounted)
-        return;
+      if (!mounted) return;
       priceModel = null;
-      CfxHomePage.token = "0.00000";
-      CfxHomePage.tokenABC = "0.00000";
+      CfxHomePage.token = "loading...";
+      CfxHomePage.tokenABC = "loading...";
       setState(() {});
       netBaseData();
       getAddress();
+      netCfxBalance();
     });
     netBaseData();
     getAddress();
+    netCfxBalance();
   }
 
-
+  void netCfxBalance() {
+    CfxBalanceDao.fetch().then((CfxBalanceModel model) {
+      CfxHomePage.token = (double.parse(model.balance) / 1000000000000000000).toStringAsFixed(5);
+      setState(() {});
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
@@ -86,7 +97,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     } else {
       type = "usd";
     }
-    PriceDao.fetch(type).then((PriceModel model) {
+    PriceDao.fetch("conflux-token",type).then((PriceModel model) {
       priceModel = model;
       setState(() {});
     }).catchError((e) {
@@ -98,21 +109,21 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     if (CfxHomePage.token == "loading...") {
       return "";
     }
-    if (BoxApp.language == "cn" && priceModel.aeternity != null) {
-      if (priceModel.aeternity.cny == null) {
+    if (BoxApp.language == "cn" && priceModel.conflux != null) {
+      if (priceModel.conflux.cny == null) {
         return "";
       }
       if (double.parse(CfxHomePage.token) < 1000) {
-        return "¥" + (priceModel.aeternity.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModel.aeternity.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
       }
     } else {
-      if (priceModel.aeternity.usd == null) {
+      if (priceModel.conflux.usd == null) {
         return "";
       }
-      return "\$" + (priceModel.aeternity.usd * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+      return "\$" + (priceModel.conflux.usd * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
     }
   }
 
@@ -197,7 +208,6 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                   gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
                                     Color(0xFF3292C7),
                                     Color(0xFF37A1DB),
-
                                   ]),
                                 ),
                               ),
@@ -357,14 +367,14 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       child: Row(
                                         children: <Widget>[
                                           Text(
-                                            S.of(context).home_page_my_count + " (AE）",
+                                            S.of(context).home_page_my_count + " (CFX）",
                                             style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                           ),
                                           Expanded(child: Container()),
                                           Container(
                                             margin: const EdgeInsets.only(left: 2, right: 20),
                                             child: Text(
-                                              "",
+                                              "baixin.cfx",
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
@@ -834,7 +844,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     //       ),
                     //     ),
                     //   ),
-                    if ("null"!= null && null == null)
+                    if ("null" != null && null == null)
                       Container(
                           child: Center(
                               child: Container(
@@ -1062,7 +1072,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                     "",
+                        "",
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
@@ -1071,7 +1081,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                       "",
+                        "",
                         style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
@@ -1088,7 +1098,6 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       ),
     );
   }
-
 
   Text getFeeWidget(int index) {
     return Text(
@@ -1120,7 +1129,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   Future<void> _onRefresh() async {
     netBaseData();
     getAddress();
-    eventBus.fire(DefiEvent());
+    netCfxBalance();
   }
 
   @override

@@ -1,4 +1,4 @@
-class CfxBalance {
+class CfxBalanceModel {
   String address;
   String balance;
   String stakingBalance;
@@ -8,7 +8,7 @@ class CfxBalance {
   String admin;
   String codeHash;
 
-  CfxBalance(
+  CfxBalanceModel(
       {this.address,
         this.balance,
         this.stakingBalance,
@@ -18,7 +18,7 @@ class CfxBalance {
         this.admin,
         this.codeHash});
 
-  CfxBalance.fromJson(Map<String, dynamic> json) {
+  CfxBalanceModel.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     balance = json['balance'];
     stakingBalance = json['stakingBalance'];

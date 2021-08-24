@@ -73,14 +73,15 @@ class _AeHomePageState extends State<AeHomePage>
       netNameReverseData();
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
-      if (!mounted)
-        return;
+
       priceModel = null;
       walletRecordModel = null;
       blockTopModel = null;
       namesModel = null;
       AeHomePage.token = "loading...";
       AeHomePage.tokenABC = "loading...";
+      if (!mounted)
+        return;
       setState(() {
 
       });
@@ -196,7 +197,7 @@ class _AeHomePageState extends State<AeHomePage>
     } else {
       type = "usd";
     }
-    PriceDao.fetch(type).then((PriceModel model) {
+    PriceDao.fetch("aeternity",type).then((PriceModel model) {
       priceModel = model;
       setState(() {});
     }).catchError((e) {

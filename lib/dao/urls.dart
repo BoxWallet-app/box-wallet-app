@@ -1,8 +1,9 @@
 //域名
-// const BASE_HOST = 'http://192.168.0.105:7070';
-// const BASE_HOST = 'http://10.53.5.158:7070';
-const BASE_HOST = 'https://aebox.io';
-//const BASE_HOST = 'http://localhost:7070';
+// const BASE_HOST = 'http://192.168.0.190:7070';
+const BASE_HOST = 'http://10.53.6.190:7070';
+
+// const BASE_HOST = 'https://aebox.io';
+// const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度
@@ -128,3 +129,6 @@ const APP_STORE = BASE_HOST + '/api/config/store';
 const AEX9_RECORD = BASE_HOST + '/api/tokens/record';
 
 const WE_TRUE_URL = 'https://api.wetrue.io';
+
+//Cfx
+const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';

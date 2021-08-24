@@ -66,7 +66,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
     } else {
       type = "usd";
     }
-    PriceDao.fetch(type).then((PriceModel model) {
+    PriceDao.fetch("aeternity",type).then((PriceModel model) {
       priceModel = model;
       setState(() {});
     }).catchError((e) {
