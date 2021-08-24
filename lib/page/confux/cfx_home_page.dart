@@ -37,7 +37,7 @@ import '../../main.dart';
 
 class CfxHomePage extends StatefulWidget {
   static var token = "loading...";
-  static var tokenABC = "loading...";
+  static var tokenABC = "0.000000";
   static var height = 0;
   static var address = "";
 
@@ -63,7 +63,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       if (!mounted) return;
       priceModel = null;
       CfxHomePage.token = "loading...";
-      CfxHomePage.tokenABC = "loading...";
+      CfxHomePage.tokenABC = "0.000000";
       setState(() {});
       netBaseData();
       getAddress();
