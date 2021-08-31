@@ -1,10 +1,10 @@
-class TokensListModel {
+class CfxTokensListModel {
   int total;
   List<TokenList> list;
 
-  TokensListModel({this.total, this.list});
+  CfxTokensListModel({this.total, this.list});
 
-  TokensListModel.fromJson(Map<String, dynamic> json) {
+  CfxTokensListModel.fromJson(Map<String, dynamic> json) {
     total = json['total'];
     if (json['list'] != null) {
       list = new List<TokenList>();

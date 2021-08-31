@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
+import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/aens_page_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
+import 'package:box/model/conflux/cfx_transfer_model.dart';
 import 'package:box/page/aeternity/ae_aens_detail_page.dart';
 import 'package:box/page/aeternity/ae_tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
@@ -18,17 +20,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 
-class AeRecordsPage extends StatefulWidget {
-  const AeRecordsPage({Key key}) : super(key: key);
+class CfxRecordsPage extends StatefulWidget {
+  const CfxRecordsPage({Key key}) : super(key: key);
 
   @override
-  _AeRecordsPageState createState() => _AeRecordsPageState();
+  _CfxRecordsPageState createState() => _CfxRecordsPageState();
 }
 
-class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveClientMixin {
+class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  WalletTransferRecordModel walletRecordModel;
+  CfxTransfer cfxTransfer;
   int page = 1;
   var address = '';
 
@@ -39,24 +41,33 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     getAddress();
   }
 
+  void netCfxTransfer() {
+    CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
+      cfxTransfer = model;
+      setState(() {});
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   Future<void> netData() async {
-    WalletTransferRecordModel model = await WalletRecordDao.fetch(page);
+    CfxTransfer model = await CfxTransferDao.fetch(page.toString(), "");
     if (!mounted) {
       return;
     }
     _loadingType = LoadingType.finish;
     if (page == 1) {
-      walletRecordModel = model;
+      cfxTransfer = model;
     } else {
-      walletRecordModel.data.addAll(model.data);
+      cfxTransfer.list.addAll(model.list);
     }
     setState(() {});
-    if (walletRecordModel.data.length == 0) {
+    if (cfxTransfer.list.length == 0) {
       _loadingType = LoadingType.no_data;
     }
     page++;
 
-    if (model.data.length < 20) {
+    if (model.list.length < 20) {
       _controller.finishLoad(noMore: true);
     }
 
@@ -97,10 +108,9 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
 
   Future<String> getAddress() {
     BoxApp.getAddress().then((String address) {
+      this.address = address;
       netData();
-      setState(() {
-        this.address = address;
-      });
+      setState(() {});
     });
   }
 
@@ -136,7 +146,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
 //          controller: _controller,
           child: ListView.builder(
             itemBuilder: buildColumn,
-            itemCount: walletRecordModel == null ? 0 : walletRecordModel.data.length,
+            itemCount: cfxTransfer == null ? 0 : cfxTransfer.list.length,
           ),
         ),
         type: _loadingType,
@@ -162,13 +172,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
   Widget getItem(BuildContext context, int index) {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: cfxTransfer.data[index])));
           },
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
@@ -179,13 +190,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                   child: Column(
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width -40- 36,
+                        width: MediaQuery.of(context).size.width - 40 - 36,
                         child: Row(
                           children: <Widget>[
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  getTxType(index),
+                                  getCfxMethod(index),
                                   style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
                               ),
@@ -199,16 +210,16 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                       Container(
                         margin: EdgeInsets.only(top: 8),
                         child: Text(
-                          walletRecordModel.data[index].hash,
+                          cfxTransfer.list[index].hash,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
-                        width: MediaQuery.of(context).size.width - 40-36,
+                        width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
-                          DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
+                          DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
                           style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
@@ -227,75 +238,41 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     );
   }
 
-  getTxType(int index) {
-    if (BoxApp.language == "cn") {
-      switch (walletRecordModel.data[index].tx['type']) {
-        case "SpendTx":
-          if ("ak_dMyzpooJ4oGnBVX35SCvHspJrq55HAAupCwPQTDZmRDT5SSSW" == walletRecordModel.data[index].tx['recipient_id']) {
-            return "WeTrue调用";
-          }
-          return "转账";
-        case "OracleRegisterTx":
-          return "预言机注册";
-        case "OracleExtendTx":
-          return "预言机扩展";
-        case "OracleQueryTx":
-          return "预言机查询";
-        case "OracleResponseTx":
-          return "预言机响应";
-        case "NamePreclaimTx":
-          return "域名声明";
-        case "NameClaimTx":
-          return "域名注册";
-        case "NameUpdateTx":
-          return "域名更新";
-        case "NameTransferTx":
-          return "域名转移";
-        case "NameRevokeTx":
-          return "域名销毁";
-        case "GAAttachTx":
-          return "GA账户附加";
-        case "GAMetaTx":
-          return "GA账户变换";
-        case "ContractCallTx":
-          return "合约调用";
-        case "ContractCreateTx":
-          return "合约创建";
-        case "ChannelCreateTx":
-          return "状态通道创建";
-        case "ChannelDepositTx":
-          return "状态通道存款";
-        case "ChannelDepositTx":
-          return "状态通道撤销";
-        case "ChannelCloseMutualTx":
-          return "状态通道关闭";
-        case "ChannelSnapshotSoloTx":
-          return "状态通道Settle";
-      }
-      return walletRecordModel.data[index].tx['type'];
+  String getCfxMethod(int index) {
+    // if(cfxTransfer.list[index].method == "0x"){
+    //   return "Spend";
+    // }
+    // if (cfxTransfer.list[index].method.length > 10) {
+    //   return cfxTransfer.list[index].method.substring(0, 10) + "...";
+    // } else {
+    //   return cfxTransfer.list[index].method;
+    // }
+    var split = address.split(":");
+    if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
+      return "发送";
+    } else {
+      return "接收";
     }
-    return walletRecordModel.data[index].tx['type'];
   }
 
   Text getFeeWidget(int index) {
-    if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
-      // ignore: unrelated_type_equality_checks
-
-      if (walletRecordModel.data[index].tx['recipient_id'].toString() == address) {
-        return Text(
-          "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-        );
-      } else {
-        return Text(
-          "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-        );
-      }
+    // return Text(
+    //   "-" + "" + " CFX",
+    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+    // );
+    // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
+    //   // ignore: unrelated_type_equality_checks
+    //
+    var split = address.split(":");
+    if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
+      return Text(
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      );
     } else {
       return Text(
-        "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
   }

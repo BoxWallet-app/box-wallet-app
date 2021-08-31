@@ -22,6 +22,14 @@ class Utils {
     return hex.encode(digest.bytes);
   }
 
+  static String cfxFormatAsFixed(String balance,int fixed) {
+   if(fixed>0){
+    return (double.parse(balance) / 1000000000000000000).toStringAsFixed(fixed);
+   }else{
+     return (double.parse(balance) / 1000000000000000000).toString();
+   }
+  }
+
   static formatAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";

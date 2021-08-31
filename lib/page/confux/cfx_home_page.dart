@@ -9,6 +9,7 @@ import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/aeternity/swap_dao.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
+import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
@@ -22,6 +23,7 @@ import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
+import 'package:box/model/conflux/cfx_transfer_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/utils/utils.dart';
@@ -34,6 +36,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../main.dart';
+import 'cfx_records_page.dart';
+import 'cfx_token_list_page.dart';
+import 'cfx_token_receive_page.dart';
+import 'cfx_token_send_one_page.dart';
 
 class CfxHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -47,6 +53,7 @@ class CfxHomePage extends StatefulWidget {
 
 class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
+  CfxTransfer cfxTransfer;
   var page = 1;
 
   @override
@@ -58,25 +65,38 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       netBaseData();
       getAddress();
       netCfxBalance();
+      netCfxTransfer();
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       if (!mounted) return;
       priceModel = null;
+      cfxTransfer = null;
       CfxHomePage.token = "loading...";
       CfxHomePage.tokenABC = "0.000000";
       setState(() {});
       netBaseData();
       getAddress();
       netCfxBalance();
+      netCfxTransfer();
     });
     netBaseData();
     getAddress();
     netCfxBalance();
+    netCfxTransfer();
   }
 
   void netCfxBalance() {
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
-      CfxHomePage.token = (double.parse(model.balance) / 1000000000000000000).toStringAsFixed(5);
+      CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
+      setState(() {});
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  void netCfxTransfer() {
+    CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
+      cfxTransfer = model;
       setState(() {});
     }).catchError((e) {
       print(e);
@@ -97,7 +117,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     } else {
       type = "usd";
     }
-    PriceDao.fetch("conflux-token",type).then((PriceModel model) {
+    PriceDao.fetch("conflux-token", type).then((PriceModel model) {
       priceModel = model;
       setState(() {});
     }).catchError((e) {
@@ -519,7 +539,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     child: InkWell(
                                       borderRadius: BorderRadius.all(Radius.circular(15)),
                                       onTap: () {
-                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
                                       },
                                       child: Container(
                                         height: 90,
@@ -596,7 +616,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     child: InkWell(
                                       borderRadius: BorderRadius.all(Radius.circular(15)),
                                       onTap: () {
-                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
                                       },
                                       child: Container(
                                         height: 90,
@@ -671,7 +691,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                               child: InkWell(
                                 borderRadius: BorderRadius.all(Radius.circular(15)),
                                 onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
                                 },
                                 child: Container(
                                   height: 90,
@@ -767,7 +787,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
           },
           child: Column(
             children: [
@@ -821,12 +841,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if ("" != null)
+              if (cfxTransfer != null&& cfxTransfer.total>0)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
                   child: Text(
-                    S.of(context).home_page_transaction_conform,
+                    "随机数",
                     style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                   ),
                   height: 23,
@@ -835,16 +855,16 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                 padding: EdgeInsets.only(bottom: 10),
                 child: Column(
                   children: [
-                    // if (null == null)
-                    //   Container(
-                    //     height: 150,
-                    //     child: new Center(
-                    //       child: new CircularProgressIndicator(
-                    //         valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                    //       ),
-                    //     ),
-                    //   ),
-                    if ("null" != null && null == null)
+                    if (cfxTransfer == null )
+                      Container(
+                        height: 150,
+                        child: new Center(
+                          child: new CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                          ),
+                        ),
+                      ),
+                    if (cfxTransfer != null && cfxTransfer.total == 0)
                       Container(
                           child: Center(
                               child: Container(
@@ -1019,10 +1039,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   Widget getItem(BuildContext context, int index) {
-    return Container();
-    // if (walletRecordModel == null || walletRecordModel.data.length <= index) {
-    //   return Container();
-    // }
+    if (cfxTransfer == null || cfxTransfer.list.length <= index) {
+      return Container();
+    }
     if (index == 0) {}
 
     return Material(
@@ -1040,8 +1059,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                 //边框设置
 
                 child: Text(
-                  "",
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  cfxEpochNumber(index),
+                  style: TextStyle(color: Color(0xFF37A1DB), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -1058,7 +1077,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                           Expanded(
                             child: Container(
                               child: Text(
-                                "",
+                                getCfxMethod(index),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                               ),
                             ),
@@ -1072,7 +1091,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                        "",
+                        cfxTransfer.list[index].hash,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
@@ -1081,7 +1100,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        "",
+                        DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
                         style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
@@ -1099,37 +1118,54 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     );
   }
 
+  String getCfxMethod(int index) {
+    // if(cfxTransfer.list[index].method == "0x"){
+    //   return "Spend";
+    // }
+    // if (cfxTransfer.list[index].method.length > 10) {
+    //   return cfxTransfer.list[index].method.substring(0, 10) + "...";
+    // } else {
+    //   return cfxTransfer.list[index].method;
+    // }
+    var split = CfxHomePage.address.split(":");
+    if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
+      return "发送";
+    } else {
+      return "接收";
+    }
+  }
+
+  String cfxEpochNumber(int index) {
+    return cfxTransfer.list[index].nonce.toString();
+  }
+
   Text getFeeWidget(int index) {
-    return Text(
-      "-" + "" + " AE",
-      style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-    );
+    // return Text(
+    //   "-" + "" + " CFX",
+    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+    // );
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
-    //   if (walletRecordModel.data[index].tx['recipient_id'].toString() == CfxHomePage.address) {
-    //     return Text(
-    //       "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-    //       style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-    //     );
-    //   } else {
-    //     return Text(
-    //       "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
-    //       style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-    //     );
-    //   }
-    // } else {
-    //   return Text(
-    //     "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-    //     style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-    //   );
-    // }
+    var split = CfxHomePage.address.split(":");
+    if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
+      return Text(
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      );
+    } else {
+      return Text(
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      );
+    }
   }
 
   Future<void> _onRefresh() async {
     netBaseData();
     getAddress();
     netCfxBalance();
+    netCfxTransfer();
   }
 
   @override

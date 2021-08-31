@@ -132,3 +132,6 @@ const WE_TRUE_URL = 'https://api.wetrue.io';
 
 //Cfx
 const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
+const CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
+const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens';
+const CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
