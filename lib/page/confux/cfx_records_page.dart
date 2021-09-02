@@ -19,6 +19,7 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import 'cfx_tx_detail_page.dart';
 
 class CfxRecordsPage extends StatefulWidget {
   const CfxRecordsPage({Key key}) : super(key: key);
@@ -179,7 +180,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: cfxTransfer.data[index])));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
           },
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),

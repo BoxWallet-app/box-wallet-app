@@ -135,3 +135,4 @@ const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
 const CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
 const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens';
 const CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
+const CFX_CRC20_TRANSACTION_HASH = BASE_HOST + '/cfx/api/crc20/transaction';

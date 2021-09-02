@@ -10,13 +10,10 @@ import 'package:dio/dio.dart';
 
 import '../../main.dart';
 
-class CfxBalanceDao {
-  static Future<CfxTransactionHashModel> fetch(String page, ctAddress) async {
+class CfxTransactionHashDao {
+  static Future<CfxTransactionHashModel> fetch(String hash) async {
     Map<String, String> params = new Map();
-    var address = await BoxApp.getAddress();
-    params["address"] = address;
-    params["page"] = page;
-    params["ct_address"] = ctAddress;
+    params["hash"] = hash;
     Response response = await Dio().post(CFX_TRANSACTION_HASH, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

@@ -40,6 +40,7 @@ import 'cfx_records_page.dart';
 import 'cfx_token_list_page.dart';
 import 'cfx_token_receive_page.dart';
 import 'cfx_token_send_one_page.dart';
+import 'cfx_tx_detail_page.dart';
 
 class CfxHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -917,7 +918,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
           },
           child: Column(
             children: [
@@ -1048,7 +1049,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

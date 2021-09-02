@@ -21,9 +21,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
+import 'cfx_token_record_page.dart';
 
 class CfxTokenListPage extends StatefulWidget {
   @override
@@ -37,6 +39,9 @@ class _TokenListPathState extends State<CfxTokenListPage> {
 
   Future<void> _onRefresh() async {
     CfxTokenListDao.fetch().then((CfxTokensListModel model) {
+      model.list.sort((t1,t2){
+        return (double.parse(t2.price)*double.parse(t2.balance)).compareTo((double.parse(t1.price)*double.parse(t1.balance)));
+      });
       tokenListModel = model;
       if(tokenListModel.total == 0){
         loadingType = LoadingType.no_data;
@@ -155,15 +160,15 @@ class _TokenListPathState extends State<CfxTokenListPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => AeTokenRecordPage(
-            //               ctId: tokenListModel.data[index].ctAddress,
-            //               coinCount: tokenListModel.data[index].count,
-            //               coinImage: tokenListModel.data[index].image,
-            //               coinName: tokenListModel.data[index].name,
-            //             )));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CfxTokenRecordPage(
+                          ctId: tokenListModel.list[index].address,
+                          coinCount: tokenListModel.list[index].balance,
+                          coinImage: tokenListModel.list[index].icon,
+                          coinName: tokenListModel.list[index].symbol,
+                        )));
           },
           child: Container(
             child: Row(
@@ -190,7 +195,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                               child: ClipOval(
-                                child: getIconImage(tokenListModel.list[index].icon),
+                                child: getIconImage(tokenListModel.list[index].icon,tokenListModel.list[index].symbol),
                               ),
                             ),
                             Container(
@@ -244,9 +249,55 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     );
   }
 
-  Image getIconImage(String icon) {
-    icon = icon.split(',')[1]; //
-    Uint8List bytes = Base64Decoder().convert(icon);
-    return Image.memory(bytes, fit: BoxFit.contain);
+  Widget getIconImage(String data,String name) {
+    if(name=="FC"){
+      return Container(
+        width: 27.0,
+        height: 27.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(36.0),
+          image: DecorationImage(
+            image: AssetImage("images/" + name+ ".png"),
+          ),
+        ),
+      );
+    }
+    String icon = data.split(',')[1]; //
+    if(data.contains("data:image/png")){
+      Uint8List bytes = Base64Decoder().convert(icon);
+      return Image.memory(bytes, fit: BoxFit.contain);
+    }
+
+    if(data.contains("data:image/svg")){
+      Uint8List bytes = Base64Decoder().convert(icon);
+
+      return SvgPicture.memory(
+        bytes,
+        semanticsLabel: 'A shark?!',
+        placeholderBuilder: (BuildContext context) => Container(
+            padding: const EdgeInsets.all(30.0),
+            child: const CircularProgressIndicator()),
+      );
+
+
+    }
+
+      return Container(
+        width: 27.0,
+        height: 27.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(36.0),
+          image: DecorationImage(
+            image: AssetImage("images/" + "CFX"+ ".png"),
+          ),
+        ),
+      );
+
   }
 }

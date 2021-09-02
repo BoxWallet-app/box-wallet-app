@@ -30,6 +30,12 @@ class Utils {
    }
   }
 
+  static String cfxFormatTypeAddress(String address) {
+    var split = address.split(":");
+
+    return (split[0]+":"+split[2]).toLowerCase();
+  }
+
   static formatAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";
@@ -46,6 +52,17 @@ class Utils {
     return  address.substring(0, 5) + "..." +  address.substring(address.length - 4, address.length);
 
   }
+
+
+  static formatAEHash(String hash) {
+    if (hash == "" || hash.length <= 4) {
+      return "";
+    }
+//    print(address);
+    return  hash.substring(0, 10) + "..." +  hash.substring(hash.length - 10, hash.length);
+
+  }
+
   static formatHomeCardAccountAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";
