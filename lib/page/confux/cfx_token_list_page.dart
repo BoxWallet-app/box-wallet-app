@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
+import 'cfx_home_page.dart';
 import 'cfx_token_record_page.dart';
 
 class CfxTokenListPage extends StatefulWidget {
@@ -36,6 +38,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
   var loadingType = LoadingType.loading;
   CfxTokensListModel tokenListModel;
   PriceModel priceModel;
+  PriceModel priceModelCfx;
 
   Future<void> _onRefresh() async {
     CfxTokenListDao.fetch().then((CfxTokensListModel model) {
@@ -60,13 +63,13 @@ class _TokenListPathState extends State<CfxTokenListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    netBaseData();
+    netTokenBaseData();
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
   }
 
-  void netBaseData() {
+  void netTokenBaseData() {
     var type = "usd";
     if (BoxApp.language == "cn") {
       type = "cny";
@@ -81,7 +84,11 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     });
   }
 
-  String getAePrice(int index) {
+
+
+
+
+  String getTokenPrice(int index) {
     if (priceModel == null) {
       return "";
     }
@@ -137,14 +144,18 @@ class _TokenListPathState extends State<CfxTokenListPage> {
         onPressedError: () {
           _onRefresh();
         },
-        child: EasyRefresh(
-          header: BoxHeader(),
-          onRefresh: _onRefresh,
-          child: ListView.builder(
-            itemCount: tokenListModel == null ? 0 : tokenListModel.total,
-            itemBuilder: (BuildContext context, int index) {
-              return itemListView(context, index);
-            },
+        child: Container(
+
+          child: EasyRefresh(
+            header: BoxHeader(),
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
+              itemCount: tokenListModel == null ? 0 : tokenListModel.total,
+              itemBuilder: (BuildContext context, int index) {
+                return itemListView(context, index);
+              },
+            ),
           ),
         ),
       ),
@@ -220,11 +231,11 @@ class _TokenListPathState extends State<CfxTokenListPage> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
-                                if (getAePrice(index) != "")
+                                if (getTokenPrice(index) != "")
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(
-                                      getAePrice(index),
+                                      getTokenPrice(index),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

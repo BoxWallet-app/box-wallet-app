@@ -19,6 +19,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
+import 'cfx_token_send_two_page.dart';
 
 class CfxTokenSendOnePage extends StatefulWidget {
   @override
@@ -270,45 +271,35 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
   }
 
   clickNext() {
-    if (!_textEditingController.text.contains("ak_")) {
+    _textEditingController.text = "cfx:aamdc4g7d69z916ns7ufcsje58jkr8nx4pkme17dwf";
+    if (!_textEditingController.text.contains("cfx:")) {
       String address = _textEditingController.text;
 
-      if (!address.contains(".chain")) {
-        address = _textEditingController.text + ".chain";
+      if (!address.contains(".cfx")) {
+        address = _textEditingController.text + ".cfx";
       }
       EasyLoading.show();
-      NameOwnerDao.fetch(address).then((NameOwnerModel model) {
-        EasyLoading.dismiss(animation: true);
-        if (model != null && model.owner.isNotEmpty) {
-          var accountPubkey = "";
-          model.pointers.forEach((element) {
-            if (element.key == "account_pubkey") {
-              accountPubkey = element.id;
-            }
-          });
-          if (accountPubkey == "") {
-            accountPubkey = model.owner;
-          }
 
-          _textEditingController.text = accountPubkey;
-          final length = accountPubkey.length;
-          _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
-          _focus.unfocus();
-        } else {
-          Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-          EasyLoading.dismiss(animation: true);
-        }
-      }).catchError((e) {
+      BoxApp.getNameToAddressCFX((address) {
         EasyLoading.dismiss(animation: true);
-      });
+        if ("ERROR" == address) {
+          Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+          return;
+        }
+        _textEditingController.text = address;
+        final length = address.length;
+        _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
+        _focus.unfocus();
+        return;
+      }, "baixin.cfx");
       return;
     }
 
-    if (_textEditingController.text.length < 10 && _textEditingController.text.contains("ak_")) {
+    if (_textEditingController.text.length < 10 && _textEditingController.text.contains("cfx:")) {
       Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AeTokenSendTwoPage(address: _textEditingController.text)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CfxTokenSendTwoPage(address: _textEditingController.text)));
     }
   }
 }

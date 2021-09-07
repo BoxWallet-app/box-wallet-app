@@ -1152,14 +1152,11 @@ class _AeAeppsPageState extends State<AeAeppsPage>
                                 onTap: (startLoading, stopLoading,
                                     btnState) async {
                                   Navigator.pop(context); //关闭对话框
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => AeAensPage()));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => CfxRpcPage()));
+                                          builder: (context) => AeAensPage()));
+
                                           // builder: (context) => AeAex2Page(url:"http://10.53.5.66:9999",title:"title",signingKey:"",address: "",)));
                                 },
                                 child: Text(

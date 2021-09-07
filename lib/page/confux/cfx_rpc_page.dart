@@ -3,20 +3,30 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:box/generated/l10n.dart';
 import 'package:box/manager/plugin_manager.dart';
+import 'package:box/page/confux/cfx_home_page.dart';
+import 'package:box/page/confux/cfx_transfer_confirm_page.dart';
+import 'package:box/utils/utils.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:box/widget/tx_conform_widget.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../main.dart';
+import '../select_chain_page.dart';
 
 class CfxRpcPage extends StatefulWidget {
-  const CfxRpcPage({Key key}) : super(key: key);
+  final String url;
+
+  const CfxRpcPage({Key key, this.url}) : super(key: key);
 
   @override
   _CfxRpcPageState createState() => _CfxRpcPageState();
@@ -44,8 +54,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
   PullToRefreshController pullToRefreshController;
 
-
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -54,20 +62,19 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
 //异步加载方法
   Future<String> _loadFuture() async {
-    return await rootBundle.loadString("assets/conflux.js");
+    String confluxJs = await rootBundle.loadString("assets/conflux.js");
+    confluxJs = confluxJs.replaceAll("cfx:xxxxxxxx", CfxHomePage.address);
+    return confluxJs;
   }
-
 
   @override
   void initState() {
-
     super.initState();
     print('setMethodCallHandler');
 
     MethodChannel _platform = const MethodChannel('samples.flutter.dev/batte');
     _platform.setMethodCallHandler(myUtilsHandler);
   }
-
 
   Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
     print('myUtilsHandler');
@@ -106,23 +113,22 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
             size: 17,
           ),
           onPressed: () async {
-            // Future<bool> canGoBack = _webViewController.canGoBack();
-            // canGoBack.then((str) {
-            //   if (str) {
-            //     // _webViewController.goBack();
-            //     _webViewController.reload();
-            //   } else {
-            //     Navigator.of(context).pop();
-            //   }
-            // });
+            Future<bool> canGoBack = _webViewController.canGoBack();
+            canGoBack.then((str) {
+              if (str) {
+                _webViewController.goBack();
+                // _webViewController.reload();
+              } else {
+                Navigator.of(context).pop();
+              }
+            });
             String resultString;
-            try {
-              resultString = await PluginManager.pushFirstActivity({'key': 'value'});
-            } on PlatformException {
-              resultString = '失败';
-            }
-            print(resultString);
-//              Navigator.pop(context);
+            // try {
+            //   resultString = await PluginManager.pushFirstActivity({'key': 'value'});
+            // } on PlatformException {
+            //   resultString = '失败';
+            // }
+            // print(resultString);
           },
         ),
         actions: <Widget>[
@@ -154,22 +160,8 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     return Text("");
                   }
                   return InAppWebView(
-                    // key: webViewKey,
                     initialOptions: options,
-                    // pullToRefreshController: pullToRefreshController,
-                    // initialUrlRequest: URLRequest(url: Uri.parse("http://localhost:8080/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("http://10.53.5.66:9999/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://moondex.io/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://stampers.app/#/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://guguo.io/home")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/dapp")),
-                    initialUrlRequest: URLRequest(url: Uri.parse("https://app.moonswap.fi/#/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://moonswap.fi/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://app.tspace.io/#/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("http://nft.tspace.io/exchange_list")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://fccfx.confluxscan.io/")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://www.boxnft.io/#/")),
-                    // pullToRefreshController: pullToRefreshController,
+                    initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
                     initialUserScripts: Platform.isIOS
                         ? UnmodifiableListView<UserScript>([
                             UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
@@ -204,111 +196,156 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                           callback: (List<dynamic> arguments) {
                             // ignore: unnecessary_statements
                             LinkedHashMap<String, dynamic> map = arguments[1];
-                            print("signTransaction" + jsonEncode(arguments));
-                            print("signTransaction" + (int.parse(map['value']) / 1000000000000000000).toString());
-                            print("signTransaction" + (int.parse(map['value'])).toRadixString(10));
+
+                            print(arguments.toString());
+                            print(map['from']);
+                            print(map['to']);
+                            print(map['value'] != null ? map['value'] : "0");
+                            print(map['data']);
+
+                            BoxApp.getGasCFX((data) {
+                              var split = data.split("#");
+                              print(data);
+                              map['storageLimit'] = split[2];
+                              map['gasPrice'] = "1";
+                              map['gas'] = split[0];
+                              showMaterialModalBottomSheet(
+                                  expand: true,
+                                  context: context,
+                                  enableDrag: false,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => CfxTransferConfirmPage(
+                                        data: map,
+                                        cfxTransferConfirmPageCallBackFuture: (signingKey) async {
+                                          if(signingKey == ""){
+                                            Map<String, String> params = new Map();
+                                            params['id'] = arguments[0].toString();
+                                            params['jsonrpc'] = "2.0";
+                                            var json = jsonEncode(params);
+                                            await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
+                                            return;
+                                          }
+                                          BoxApp.signTransactionCFX((hash) async {
+                                            print(hash);
+
+                                            Map<String, String> params = new Map();
+                                            params['id'] = arguments[0].toString();
+                                            params['jsonrpc'] = "2.0";
+                                            params['result'] = hash;
+                                            // params['result'] = "false";
+                                            var json = jsonEncode(params);
+                                            await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
+
+                                            return;
+                                          }, (error) {
+                                            print(error.toString());
+                                            return;
+                                          }, signingKey, map['storageLimit'] != null ? (int.parse(map['storageLimit'])).toString() : "0", map['gas'] != null ? (int.parse(map['gas'])).toString() : "0", map['gasPrice'] != null ? (int.parse(map['gasPrice'])).toString() : "0", map['value'] != null ? ((map['value'])).toString() : "0", map['to'], map['data']);
+                                          return;
+                                        },
+                                      ));
+
+                              // showGeneralDialog(
+                              //     context: context,
+                              //     // ignore: missing_return
+                              //     pageBuilder: (context, anim1, anim2) {},
+                              //     barrierColor: Colors.grey.withOpacity(.4),
+                              //     barrierDismissible: true,
+                              //     barrierLabel: "",
+                              //     transitionDuration: Duration(milliseconds: 400),
+                              //     transitionBuilder: (_, anim1, anim2, child) {
+                              //       final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                              //       return Transform(
+                              //         transform: Matrix4.translationValues(0.0, 0, 0.0),
+                              //         child: Opacity(
+                              //           opacity: anim1.value,
+                              //           // ignore: missing_return
+                              //           child: PayPasswordWidget(
+                              //             title: S.of(context).password_widget_input_password,
+                              //             dismissCallBackFuture: (String password) {
+                              //               return;
+                              //             },
+                              //             passwordCallBackFuture: (String password) async {
+                              //               var signingKey = await BoxApp.getSigningKey();
+                              //               var address = await BoxApp.getAddress();
+                              //               final key = Utils.generateMd5Int(password + address);
+                              //               var aesDecode = Utils.aesDecode(signingKey, key);
+                              //
+                              //               // if (aesDecode == "") {
+                              //               //   showErrorDialog(context, null);
+                              //               //   return;
+                              //               // }
+                              //               // ignore: missing_return
+                              //               BoxApp.signTransactionCFX((hash) async {
+                              //                 print(hash);
+                              //
+                              //                 Map<String, String> params = new Map();
+                              //                 params['id'] = arguments[0].toString();
+                              //                 params['jsonrpc'] = "2.0";
+                              //                 params['result'] = hash;
+                              //                 var json = jsonEncode(params);
+                              //                 await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
+                              //
+                              //                 return;
+                              //               }, (error) {
+                              //                 print(error.toString());
+                              //                 return;
+                              //               }, aesDecode, (int.parse(map['storageLimit'])).toString(), (int.parse(map['gas'])).toString(), (int.parse(map['gasPrice'])).toString(), map['value'] != null ? (int.parse(map['value'])).toString() : "0", map['to'], map['data']);
+                              //               // showChainLoading();
+                              //             },
+                              //           ),
+                              //         ),
+                              //       );
+                              //     });
+                              return;
+                            }, map['from'], map['to'], map['value'] != null ? map['value'] : "0", map['data']);
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "requestAccounts",
                           callback: (List<dynamic> arguments) async {
                             print("requestAccounts" + arguments.toString());
-
                             Map<String, String> params = new Map();
                             params['id'] = arguments[0].toString();
                             params['jsonrpc'] = "2.0";
-                            params['result'] = "cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts";
+                            params['result'] = CfxHomePage.address;
                             var json = jsonEncode(params);
-                            print(json);
-                            String jsStr = "javascript:(function () {var event; var data = {'data': '" + jsonEncode(params) + "'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event);})()";
-
-                            String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + "))");
-                            print("window.conflux " + result3);
-
-                            // await _webViewController.evaluateJavascript(source:"javascript:"+jsStr);
                             await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
-
-                            String result1 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
-
-                            print("window.conflux " + result1);
                             return "";
                           });
                     },
                     onLoadStart: (controller, url) async {
-                      // setState(() {});
-                      // inject javascript file from an url
-                      // await controller.injectJavascriptFileFromUrl(urlFile:Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
-                      // wait for jquery to be loaded
-                      // await Future.delayed(Duration(milliseconds: 1000));
-                      // String result3 = await controller.evaluateJavascript(source:"\$('body').html();");
-                      // print(result3); // prints the body html
                       print("onLoadStart");
+                      setState(() {
+                        isFinish = false;
+                      });
 
                       if (Platform.isAndroid) {
                         var js = await _loadFuture();
                         await _webViewController.evaluateJavascript(source: js);
                       }
-
-                      // await _webViewController.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
-                      // String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
-                      // print(result3);
-                      // controller.injectJavascriptFileFromUrl(urlFile: Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
-                      // String source = await rootBundle.loadString( "assets/conflux.js");
-                      // source = source.replaceAll("window.flutter_inappwebview.callHandler('getChainAddress','17')", "'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts'");
-                      // print(source);
-                      // await _webViewController.evaluateJavascript(source: source);
-                      // await _webViewController.evaluateJavascript(source: "var config = {address: 'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts', chainId: '1029', rpcUrl: 'https://mainnet-rpc.conflux-chain.org.cn/v2'};const provider = new window.ConfluxPortal(config);window.conflux = provider;window.conflux.on = () => {};window.confluxJS.provider = provider;window.confluxJS.setProvider = function () {};window.confluxJS.defaultAccount = config.address;window.confluxJS.chainId = parseInt(config.chainId);window.confluxJS.networkId = parseInt(config.chainId);").then((value) => {print(value)});
-
-                      // String source = await rootBundle.loadString( "assets/conflux.js");
-                      // source = source.replaceAll("window.flutter_inappwebview.callHandler('getChainAddress','17')", "'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts'");
-                      // await _webViewController.evaluateJavascript(source: source);
-                      // await controller.evaluateJavascript(source: "var config = {address: 'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts', chainId: '1029', rpcUrl: 'https://mainnet-rpc.conflux-chain.org.cn/v2'};const provider = new window.ConfluxPortal(config);window.conflux = provider;window.conflux.on = () => {};window.confluxJS.provider = provider;window.confluxJS.setProvider = function () {};window.confluxJS.defaultAccount = config.address;window.confluxJS.chainId = parseInt(config.chainId);window.confluxJS.networkId = parseInt(config.chainId);").then((value) => {print(value)});
-
-                      // await controller.evaluateJavascript(source: "var config = {address: 'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts', chainId: '1029', rpcUrl: 'https://mainnet-rpc.conflux-chain.org.cn/v2'};const provider = new window.ConfluxPortal(config);window.conflux = provider;window.conflux.on = () => {};window.confluxJS.provider = provider;window.confluxJS.setProvider = function () {};window.confluxJS.defaultAccount = config.address;window.confluxJS.chainId = parseInt(config.chainId);window.confluxJS.networkId = parseInt(config.chainId);").then((value) => {print(value)});
                     },
                     androidOnPermissionRequest: (controller, origin, resources) async {
                       return PermissionRequestResponse(resources: resources, action: PermissionRequestResponseAction.GRANT);
                     },
                     shouldOverrideUrlLoading: (controller, navigationAction) async {
                       var uri = navigationAction.request.url;
-
-                      if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
-                        // if (await canLaunch(url)) {
-                        //   // Launch the App
-                        //   await launch(
-                        //     url,
-                        //   );
-                        //   // and cancel the request
-                        //   return NavigationActionPolicy.CANCEL;
-                        // }
-                      }
-
+                      print(uri.scheme);
+                      if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {}
                       return NavigationActionPolicy.ALLOW;
                     },
                     onLoadStop: (controller, url) {
-                      print(url);
                       print("onLoadStop");
-                      // _webViewController.addUserScript(userScript:  UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END));
-                      // await _webViewController.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
-                      // String result3 = await _webViewController.evaluateJavascript(source: "JSON.stringify(window.conflux)");
-                      // print(result3);
-                      // controller.injectJavascriptFileFromUrl(urlFile: Uri.parse("http://10.53.5.66:9999/js/conflux.js"));
-                      // String source = await rootBundle.loadString( "assets/conflux.js");
-                      // source = source.replaceAll("window.flutter_inappwebview.callHandler('getChainAddress','17')", "'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts'");
-                      // print(source);
-                      // await _webViewController.evaluateJavascript(source: source);
-                      // await _webViewController.evaluateJavascript(source: "var config = {address: 'cfx:aajmbd017x2dw07dxbnsw5grrc4gdd48pautvt8pts', chainId: '1029', rpcUrl: 'https://mainnet-rpc.conflux-chain.org.cn/v2'};const provider = new window.ConfluxPortal(config);window.conflux = provider;window.conflux.on = () => {};window.confluxJS.provider = provider;window.confluxJS.setProvider = function () {};window.confluxJS.defaultAccount = config.address;window.confluxJS.chainId = parseInt(config.chainId);window.confluxJS.networkId = parseInt(config.chainId);").then((value) => {print(value)});
+                      setState(() {
+                        isFinish = true;
+                      });
                     },
                     onLoadResource: (controller, url) async {
                       print("onLoadResource");
-                      // await controller.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
-                      // await controller.injectJavascriptFileFromAsset(assetFilePath: "assets/conflux.js");
                     },
                     onLoadError: (controller, url, code, message) {
                       print("onLoadError" + message);
                     },
                     onProgressChanged: (controller, pro) {
-                      // print("progress:" + progress.toString());
-
                       progress = (pro / 100);
                       setState(() {});
                     },
@@ -319,26 +356,14 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                   );
                 }),
           ),
-          new LinearPercentIndicator(
-            width: MediaQuery.of(context).size.width,
-            lineHeight: 2.0,
-            backgroundColor: Colors.transparent,
-            percent: progress,
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-            progressColor: Colors.blue,
-          ),
           isFinish == false
-              ? Container(
-                  color: Colors.white,
-                  child: Center(
-                    child: Container(
-                      width: 40.0,
-                      height: 40.0,
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                      ),
-                    ),
-                  ),
+              ? LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width,
+                  lineHeight: 2.0,
+                  backgroundColor: Colors.transparent,
+                  percent: progress,
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  progressColor: Colors.blue,
                 )
               : Container(),
         ],

@@ -165,24 +165,21 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
 
   Widget itemHeaderView(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(left: 18,right: 18),
+      margin: EdgeInsets.only(left: 18, right: 18),
       padding: EdgeInsets.only(bottom: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        
         color: Colors.white,
         child: InkWell(
           onTap: () {},
           child: Column(
             children: [
               Container(
-
                 child: Row(
                   children: [
                     Container(
                       height: 80,
-
-                      width: MediaQuery.of(context).size.width-36,
+                      width: MediaQuery.of(context).size.width - 36,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -240,7 +237,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                 children: [
                   Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.width / 2 - 25-18,
+                    width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                     margin: const EdgeInsets.only(top: 0),
                     child: FlatButton(
                       onPressed: () {
@@ -261,7 +258,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                   ),
                   Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.width / 2 - 25-18,
+                    width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                     margin: const EdgeInsets.only(top: 0),
                     child: FlatButton(
                       onPressed: () {
@@ -349,11 +346,12 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
 
   Widget itemView(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(left: 18,right: 18,bottom: 12),
+      margin: EdgeInsets.only(left: 18, right: 18, bottom: 12),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
         child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             _launchURL("https://confluxscan.io/transaction/" + tokenListModel.data.list[index].transactionHash);
           },
@@ -364,7 +362,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                   children: [
                     Container(
                       height: 90,
-                      width: MediaQuery.of(context).size.width-36,
+                      width: MediaQuery.of(context).size.width - 36,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -446,7 +444,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      tokenListModel.data.list[index - 1].from == CfxHomePage.address ? "+ " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName : "- " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName,
+                                      tokenListModel.data.list[index - 1].from == CfxHomePage.address ? "- " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName : "+ " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName,
                                       style: TextStyle(fontSize: 17, color: tokenListModel.data.list[index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(

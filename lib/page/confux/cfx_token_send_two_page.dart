@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/account_info_dao.dart';
@@ -8,6 +9,7 @@ import 'package:box/dao/aeternity/contract_transfer_call_dao.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/dao/aeternity/token_send_dao.dart';
 import 'package:box/dao/aeternity/tx_broadcast_dao.dart';
+import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/msg_sign_model.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
@@ -16,6 +18,7 @@ import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/contract_call_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/token_send_model.dart';
+import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -30,6 +33,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -37,20 +41,19 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
+import 'cfx_home_page.dart';
+import 'cfx_select_token_list_page.dart';
 
-import 'ae_home_page.dart';
-import 'ae_select_token_list_page.dart';
-
-class AeTokenSendTwoPage extends StatefulWidget {
+class CfxTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  AeTokenSendTwoPage({Key key, @required this.address}) : super(key: key);
+  CfxTokenSendTwoPage({Key key, @required this.address}) : super(key: key);
 
   @override
-  _AeTokenSendTwoPageState createState() => _AeTokenSendTwoPageState();
+  _CfxTokenSendTwoPageState createState() => _CfxTokenSendTwoPageState();
 }
 
-class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
+class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
@@ -66,21 +69,20 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   @override
   void initState() {
     super.initState();
-    this.tokenName = "AE";
-    this.tokenCount = AeHomePage.token;
-    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png";
-    netAccountInfo();
+    this.tokenName = "CFX";
+    this.tokenCount = CfxHomePage.token;
+    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png";
+    netCfxBalance();
     getAddress();
   }
 
-  void netAccountInfo() {
-    AccountInfoDao.fetch().then((AccountInfoModel model) {
-      if (model.code == 200) {
-        AeHomePage.token = model.data.balance;
-        setState(() {});
-      } else {}
+  void netCfxBalance() {
+    CfxBalanceDao.fetch().then((CfxBalanceModel model) {
+      CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
+      this.tokenCount = CfxHomePage.token;
+      setState(() {});
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      print(e);
     });
   }
 
@@ -92,7 +94,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xFFFC2365),
+          backgroundColor: Color(0xFF37A1DB),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -123,12 +125,12 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: 130,
-                              color: Color(0xFFFC2365),
+                              color: Color(0xFF37A1DB),
                             ),
                             Container(
                               decoration: new BoxDecoration(
                                 gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xFFFC2365),
+                                  Color(0xFF37A1DB),
                                   Color(0xFFEEEEEE),
                                 ]),
                               ),
@@ -170,7 +172,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    Utils.formatAddress(address),
+                                    Utils.formatAddressCFX(address),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -273,14 +275,14 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFC2365)),
+                                              borderSide: BorderSide(color: Color(0xFF37A1DB)),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
-                                          cursorColor: Color(0xFFFC2365),
+                                          cursorColor: Color(0xFF37A1DB),
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
@@ -297,9 +299,9 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
                                               ),
-                                              color: Color(0xFFE61665).withAlpha(16),
+                                              color: Color(0xFF37A1DB).withAlpha(16),
                                               textColor: Colors.black,
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
@@ -320,8 +322,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                             expand: true,
                                             enableDrag: false,
                                             backgroundColor: Colors.transparent,
-                                            builder: (context) => AeSelectTokenListPage(
-                                                  aeCount: AeHomePage.token,
+                                            builder: (context) => CfxSelectTokenListPage(
+                                                  aeCount: CfxHomePage.token,
                                                   aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
                                                     this.tokenName = tokenName;
                                                     this.tokenCount = tokenCount;
@@ -344,31 +346,16 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               child: Row(
                                                 children: <Widget>[
                                                   Container(
-                                                    width: 36.0,
-                                                    height: 36.0,
-                                                    decoration: BoxDecoration(
-                                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                      width: 36.0,
+                                                      height: 36.0,
+                                                      decoration: BoxDecoration(
+                                                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
-                                                      borderRadius: BorderRadius.circular(36.0),
-                                                    ),
-                                                    child: tokenImage != null
-                                                        ? ClipOval(
-                                                            child: Image.network(
-                                                              tokenImage,
-                                                              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                                                if (wasSynchronouslyLoaded) return child;
-
-                                                                return AnimatedOpacity(
-                                                                  child: child,
-                                                                  opacity: frame == null ? 0 : 1,
-                                                                  duration: const Duration(seconds: 2),
-                                                                  curve: Curves.easeOut,
-                                                                );
-                                                              },
-                                                            ),
-                                                          )
-                                                        : null,
-                                                  ),
+                                                        borderRadius: BorderRadius.circular(36.0),
+                                                      ),
+                                                      child: ClipOval(
+                                                        child: getIconImage(tokenImage, tokenName),
+                                                      )),
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
@@ -431,7 +418,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFFFC2365),
+                        color: Color(0xFF37A1DB),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
@@ -446,13 +433,14 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (double.parse(tokenCount) > 1) {
-      _textEditingController.text = (double.parse(tokenCount) - 0.1).toString();
-    } else {
-      _textEditingController.text = tokenCount;
-    }
 
-    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+      if (double.parse(tokenCount) > 1) {
+        _textEditingController.text = (double.parse(tokenCount) - 0.1).toStringAsFixed(2);
+      } else {
+        _textEditingController.text = tokenCount;
+      }
+
+      _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
   Future<String> getAddress() {
@@ -463,12 +451,60 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     });
   }
 
+  Widget getIconImage(String data, String name) {
+    if ("CFX" != name) {
+      if (name == "FC") {
+        return Container(
+          width: 27.0,
+          height: 27.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(36.0),
+            image: DecorationImage(
+              image: AssetImage("images/" + name + ".png"),
+            ),
+          ),
+        );
+      }
+      String icon = data.split(',')[1]; //
+      if (data.contains("data:image/png")) {
+        Uint8List bytes = Base64Decoder().convert(icon);
+        return Image.memory(bytes, fit: BoxFit.contain);
+      }
+
+      if (data.contains("data:image/svg")) {
+        Uint8List bytes = Base64Decoder().convert(icon);
+
+        return SvgPicture.memory(
+          bytes,
+          semanticsLabel: 'A shark?!',
+          placeholderBuilder: (BuildContext context) => Container(padding: const EdgeInsets.all(30.0), child: const CircularProgressIndicator()),
+        );
+      }
+    }
+    return Container(
+      width: 27.0,
+      height: 27.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(36.0),
+        image: DecorationImage(
+          image: AssetImage("images/" + "CFX" + ".png"),
+        ),
+      ),
+    );
+  }
+
   String getReceiveAddress() {
-    return Utils.formatAddress(widget.address);
+    return Utils.formatAddressCFX(widget.address);
   }
 
   Future<void> netSendV2(BuildContext context) async {
-    if (_textEditingController.text == "") {
+    if( _textEditingController.text == ""){
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
@@ -477,6 +513,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
             title: Text(S.of(context).dialog_hint),
             content: Text("请输入数量"),
             actions: <Widget>[
+
               TextButton(
                 child: new Text(
                   S.of(context).dialog_conform,
@@ -488,12 +525,13 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
             ],
           );
         },
-      ).then((val) {});
+      ).then((val) {
+
+      });
       return;
     }
     focusNode.unfocus();
-    var senderID = await BoxApp.getAddress();
-    if (tokenContract == null || tokenContract == "") {
+    if (tokenContract == null || tokenContract =="") {
 //      startLoading();
       showGeneralDialog(
           context: context,
@@ -526,13 +564,13 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.spend((tx) {
+                    BoxApp.spendCFX((tx) {
                       showCopyHashDialog(context, tx);
 
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
-                    }, aesDecode, address, widget.address, _textEditingController.text, Utils.encodeBase64("Box aepp"));
+                    }, aesDecode, widget.address, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
@@ -572,13 +610,13 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.contractTransfer((tx) {
+                    BoxApp.spendErc20CFX((tx) {
                       showCopyHashDialog(context, tx);
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, address, tokenContract, widget.address, _textEditingController.text, "full");
+                    }, aesDecode,  widget.address,tokenContract, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
@@ -607,8 +645,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
+      backgroundGradient: LinearGradient(colors: [Color(0xFF37A1DB), Color(0xFF37A1DB)]),
+      backgroundColor: Color(0xFF37A1DB),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,

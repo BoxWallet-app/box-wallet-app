@@ -60,7 +60,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                 decoration: ShapeDecoration(
                   // color: Color(0xffffffff),
                   // color: Color(0xFFfafafa),
-                  color: Color(0xFFF5F5F5),
+                  color: Color(0xFFfafbfc),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),

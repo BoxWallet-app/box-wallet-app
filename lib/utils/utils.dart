@@ -44,6 +44,14 @@ class Utils {
     return "ak_..." + address.substring(address.length - 4, address.length);
   }
 
+  static formatAddressCFX(String address) {
+    if (address == "" || address.length <= 4) {
+      return "";
+    }
+//    print(address);
+    return "cfx..." + address.substring(address.length - 4, address.length);
+  }
+
   static formatAccountAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";
@@ -109,7 +117,7 @@ class Utils {
       return "";
     }
 //    print(address);
-    return "ct_***" + address.substring(address.length - 4, address.length);
+    return "ct_...." + address.substring(address.length - 4, address.length);
   }
 
   static formatHomeAddress(String address) {
