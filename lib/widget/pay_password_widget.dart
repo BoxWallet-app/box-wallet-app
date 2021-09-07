@@ -1,6 +1,7 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -199,7 +200,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.pop(context); //关闭对话框
-                      widget.passwordCallBackFuture(_textEditingController.text);
+                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text));
                     },
                     child: Text(
                       S.of(context).password_widget_conform,

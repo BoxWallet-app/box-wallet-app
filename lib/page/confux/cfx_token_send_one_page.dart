@@ -271,7 +271,6 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
   }
 
   clickNext() {
-    _textEditingController.text = "cfx:aamdc4g7d69z916ns7ufcsje58jkr8nx4pkme17dwf";
     if (!_textEditingController.text.contains("cfx:")) {
       String address = _textEditingController.text;
 

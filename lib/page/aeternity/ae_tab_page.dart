@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
@@ -7,20 +9,24 @@ import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/plugin_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/model/aeternity/version_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/model/conflux/cfx_rpc_model.dart';
 import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/confux/cfx_aepps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
+import 'package:box/page/confux/cfx_rpc_page.dart';
 import 'package:box/page/setting_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/wallet_select_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -47,6 +53,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   PageController pageControllerTitle = PageController();
   BuildContext buildContext;
   Account account;
+  CfxRpcModel cfxRpcModel;
 
   @override
   void dispose() {
@@ -97,6 +104,97 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     netVersion();
     getAddress();
     showHint();
+
+    MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
+    _platform.setMethodCallHandler(myUtilsHandler);
+  }
+
+  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
+    print('BOX_NAV_TO_DART');
+    switch (methodCall.method) {
+      case 'getGasCFX':
+        var data = jsonDecode(methodCall.arguments.toString());
+        cfxRpcModel = CfxRpcModel.fromJson(data);
+
+        await BoxApp.getGasCFX((data) async {
+          var split = data.split("#");
+          print(data);
+          cfxRpcModel.payload.storageLimit = split[2].toString();
+          cfxRpcModel.payload.gasPrice = "1";
+          cfxRpcModel.payload.gas = split[0].toString();
+
+          String value = "- 0 CFX";
+          var decimal = Decimal.parse('1000000000000000000');
+          if (cfxRpcModel.payload.value != null) {
+            value = "- " + ( Decimal.parse(int.parse(cfxRpcModel.payload.value).toString())/decimal).toString() + " CFX";
+          }
+
+
+          var decimal2 = Decimal.parse(int.parse(cfxRpcModel.payload.gas).toString());
+          var decimal3 = decimal2 / decimal;
+          var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
+          var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
+          await PluginManager.getGasCFX({
+            'type': methodCall.method,
+            'from': cfxRpcModel.payload.from,
+            'to': cfxRpcModel.payload.to,
+            'value':value,
+            'gas': "- "+formatGas.toString()+" CFX",
+            'data': cfxRpcModel.payload.data,
+          });
+          return;
+        }, cfxRpcModel.payload.from, cfxRpcModel.payload.to, cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.data);
+
+        return 'SUCCESS';
+      case 'signTransaction':
+        print("signTransaction");
+        if (cfxRpcModel == null) {
+          print("cfxRpcModel == null");
+          return 'SUCCESS';
+        }
+        var password = methodCall.arguments.toString();
+        password = Utils.generateMD5(password);
+        print(password);
+        var signingKey = await BoxApp.getSigningKey();
+        var address = await BoxApp.getAddress();
+        final key = Utils.generateMd5Int(password + address);
+        print(key);
+        var aesDecode;
+        try {
+          aesDecode = Utils.aesDecode(signingKey, key);
+        } catch (err) {
+          await PluginManager.signTransactionError({
+            'type': "signTransactionError",
+            'data': "ERROR:password error",
+          });
+          return "SUCCESS";
+        }
+
+        print(aesDecode);
+        if (aesDecode == "") {
+          await PluginManager.signTransactionError({
+            'type': "signTransactionError",
+            'data': "ERROR:password error",
+          });
+          return 'SUCCESS';
+        }
+        BoxApp.signTransactionCFX((hash) async {
+          print(hash);
+          await PluginManager.signTransaction({
+            'type': methodCall.method,
+            'data': hash,
+          });
+          return 'SUCCESS';
+        }, (error) {
+          print(error.toString());
+          return;
+        }, aesDecode, cfxRpcModel.payload.storageLimit != null ? cfxRpcModel.payload.storageLimit : "0", cfxRpcModel.payload.gas != null ? cfxRpcModel.payload.gas : "0", cfxRpcModel.payload.gasPrice != null ? cfxRpcModel.payload.gasPrice : "0", cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.to, cfxRpcModel.payload.data);
+
+        return 'SUCCESS';
+
+      default:
+        throw MissingPluginException('notImplemented');
+    }
   }
 
   getAddress() {
@@ -450,7 +548,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             return CfxHomePage();
                           }
                         } else if (position == 1) {
-
                           if (account == null) {
                             return Container();
                           }
@@ -460,7 +557,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           if (account.coin == "CFX") {
                             return CfxDappsPage();
                           }
-
                         } else {
                           return SettingPage();
                         }

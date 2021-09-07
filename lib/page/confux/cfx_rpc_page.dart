@@ -67,26 +67,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
     return confluxJs;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    print('setMethodCallHandler');
-
-    MethodChannel _platform = const MethodChannel('samples.flutter.dev/batte');
-    _platform.setMethodCallHandler(myUtilsHandler);
-  }
-
-  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
-    print('myUtilsHandler');
-    switch (methodCall.method) {
-      case 'foo':
-        return 'some string';
-      case 'bar':
-        return 123.0;
-      default:
-        throw MissingPluginException('notImplemented');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,13 +102,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                 Navigator.of(context).pop();
               }
             });
-            String resultString;
-            // try {
-            //   resultString = await PluginManager.pushFirstActivity({'key': 'value'});
-            // } on PlatformException {
-            //   resultString = '失败';
-            // }
-            // print(resultString);
+
           },
         ),
         actions: <Widget>[

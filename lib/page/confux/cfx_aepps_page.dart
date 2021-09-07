@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -8,6 +9,7 @@ import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/dao/conflux/cfx_dapp_list_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/plugin_manager.dart';
 import 'package:box/model/aeternity/banner_model.dart';
 import 'package:box/model/aeternity/base_name_data_model.dart';
 import 'package:box/model/aeternity/contract_info_model.dart';
@@ -24,6 +26,7 @@ import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -204,7 +207,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
           ),
 //          if (!BoxApp.isOpenStore)
           Column(
-            children:childrens,
+            children: childrens,
           ),
 
           Container(
@@ -234,11 +237,29 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
             children: [
               InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                onTap: () {
+                onTap: () async {
+                  if (Platform.isAndroid) {
+                    String resultString;
+                    try {
+                      resultString = await PluginManager.pushActivity({
+                        'url':data.url,
+                        'address':await BoxApp.getAddress(),
+                        'language': await BoxApp.getLanguage(),
+                        'signingKey':await  BoxApp.getSigningKey()
+                      });
+                    } on PlatformException {
+                      resultString = '失败';
+                    }
+                    print(resultString);
+                    return;
+                  }
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CfxRpcPage(url: data.url,)));
+                          builder: (context) => CfxRpcPage(
+                                url: data.url,
+                              )));
                 },
                 child: Column(
                   children: [
@@ -326,7 +347,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                     Container(
                       margin: const EdgeInsets.only(top: 8, left: 20, bottom: 18),
                       child: Row(
-                        children:    getTabs(data.tabs),
+                        children: getTabs(data.tabs),
                       ),
                     ),
                   ],

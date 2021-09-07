@@ -68,10 +68,13 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     baseItems.add(cfx);
     var decimal = Decimal.parse('1000000000000000000');
     var decimal2 = Decimal.parse((int.parse(widget.data['gas']).toString()));
-        var decimal3 = decimal2/decimal;
+    var decimal3 = decimal2 / decimal;
+
+
+    var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
+    var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
     if (widget.data['gas'] != null) {
-      var gas = buildItem("手续费", (int.parse(widget.data['gas']).toString() + " drip\n ≈ -" +
-          decimal3.toString() + " CFX"));
+      var gas = buildItem("矿工费", "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
       baseItems.add(gas);
     }
 
@@ -321,88 +324,6 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
   String getTitleText() {
     return "交易详情";
-  }
-
-  void createAe() {
-    BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-      showGeneralDialog(
-          context: context,
-          pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 400),
-          transitionBuilder: (context, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                      title: S.of(context).password_widget_set_password,
-                      passwordCallBackFuture: (String password) async {
-                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                          final key = Utils.generateMd5Int(password + address);
-                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-
-                          // walletCoinModel.ae.add(account);
-                          WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
-                            BoxApp.setSigningKey(signingKeyAesEncode);
-                            BoxApp.setMnemonic(mnemonicAesEncode);
-                            BoxApp.setAddress(address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
-                          });
-                          return;
-                        });
-                        return;
-                      }),
-                ));
-          });
-      return;
-    });
-  }
-
-  void createCFX() {
-    BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
-      showGeneralDialog(
-          context: context,
-          pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 400),
-          transitionBuilder: (context, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                      title: S.of(context).password_widget_set_password,
-                      passwordCallBackFuture: (String password) async {
-                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                          final key = Utils.generateMd5Int(password + address);
-                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-
-                          // walletCoinModel.ae.add(account);
-                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
-                            BoxApp.setSigningKey(signingKeyAesEncode);
-                            BoxApp.setMnemonic(mnemonicAesEncode);
-                            BoxApp.setAddress(address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
-                          });
-                          return;
-                        });
-                        return;
-                      }),
-                ));
-          });
-      return;
-    });
   }
 
   Widget buildItem2(String key, Widget text) {
