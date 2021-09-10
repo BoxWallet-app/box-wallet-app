@@ -32,7 +32,10 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 //    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
 //    List mnemonicList = mnemonic.split(" ");
     List mnemonicList = widget.mnemonic.split(" ");
-    // mnemonicList.shuffle();
+    if(BoxApp.inProduct){
+      mnemonicList.shuffle();
+    }
+
 //    mnemonicList.sort((left,right)=>left.compareTo(right));
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
@@ -89,7 +92,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                  decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                  decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: SingleChildScrollView(
                     child: Wrap(
                       spacing: 10, //主轴上子控件的间距

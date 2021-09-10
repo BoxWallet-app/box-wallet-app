@@ -126,20 +126,19 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           String value = "- 0 CFX";
           var decimal = Decimal.parse('1000000000000000000');
           if (cfxRpcModel.payload.value != null) {
-            value = "- " + ( Decimal.parse(int.parse(cfxRpcModel.payload.value).toString())/decimal).toString() + " CFX";
+            value = "- " + (Decimal.parse(int.parse(cfxRpcModel.payload.value).toString()) / decimal).toString() + " CFX";
           }
-
 
           var decimal2 = Decimal.parse(int.parse(cfxRpcModel.payload.gas).toString());
           var decimal3 = decimal2 / decimal;
           var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
-          var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
+          var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString()) / 1024);
           await PluginManager.getGasCFX({
             'type': methodCall.method,
             'from': cfxRpcModel.payload.from,
             'to': cfxRpcModel.payload.to,
-            'value':value,
-            'gas': "- "+formatGas.toString()+" CFX",
+            'value': value,
+            'gas': "- " + formatGas.toString() + " CFX",
             'data': cfxRpcModel.payload.data,
           });
           return;
@@ -208,7 +207,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
-      await launch(url);
+      launch(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -228,38 +227,54 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //          var oldVersion = 100;
 //          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
-//return;
+          oldVersion = 1000;
           if (newVersion > oldVersion) {
+            if(model.data.msgCN == null){
+              model.data.msgCN = "发现新版本";
+            }
+            if(model.data.msgEN == null){
+              model.data.msgEN = "Discover a new version";
+            }
             Future.delayed(Duration.zero, () {
               model.data.isMandatory == "1"
                   ? showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
-                        return new AlertDialog(
-                          title: Text(
-                            S.of(context).dialog_update_title,
-                          ),
-                          content: Text(
-                            S.of(context).dialog_update_content,
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_conform,
-                              ),
-                              onPressed: () {
-                                if (Platform.isIOS) {
-                                  _launchURL(model.data.urlIos);
-                                } else if (Platform.isAndroid) {
-                                  _launchURL(model.data.urlAndroid);
-                                }
-                              },
+
+                        return WillPopScope(
+                          onWillPop: () async {
+                            return Future.value(false);
+                          },
+                          child: new AlertDialog(
+                            title: Text(
+                              S.of(context).dialog_update_title,
                             ),
-                          ],
+                            content: Text(
+                              BoxApp.language == "cn" ? model.data.msgCN : model.data.msgEN,
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: new Text(
+                                  S.of(context).dialog_conform,
+                                ),
+                                onPressed: () {
+                                  if (Platform.isIOS) {
+                                    _launchURL(model.data.urlIos);
+                                  } else if (Platform.isAndroid) {
+                                    _launchURL(model.data.urlAndroid);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
-                    )
+                    ).then((value) {
+                      if (value) {
+
+                      }
+                    })
                   : showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
@@ -269,7 +284,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             S.of(context).dialog_update_title,
                           ),
                           content: Text(
-                            S.of(context).dialog_update_content,
+                            BoxApp.language == "cn" ? model.data.msgCN : model.data.msgEN,
                           ),
                           actions: <Widget>[
                             TextButton(
@@ -277,7 +292,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 S.of(context).dialog_cancel,
                               ),
                               onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
+                                Navigator.of(context).pop(false);
                               },
                             ),
                             TextButton(
@@ -295,7 +310,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           ],
                         );
                       },
-                    );
+                    ).then((value) {
+
+                    });
             });
           }
         });
@@ -314,27 +331,25 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
-              return new AlertDialog(
-                title: Text(S.of(context).dialog_hint),
-                content: Text(S.of(context).dialog_save_word),
-                actions: <Widget>[
-                  TextButton(
-                    child: new Text(
-                      S.of(context).dialog_dismiss,
+              return WillPopScope(
+                onWillPop: () async {
+                  return Future.value(false);
+                },
+                child: new AlertDialog(
+                  title: Text(S.of(context).dialog_hint),
+                  content: Text(S.of(context).dialog_save_word),
+                  actions: <Widget>[
+
+                    TextButton(
+                      child: new Text(
+                        S.of(context).dialog_save_go,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: false).pop(true);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(false);
-                    },
-                  ),
-                  TextButton(
-                    child: new Text(
-                      S.of(context).dialog_save_go,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(true);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ).then((val) {

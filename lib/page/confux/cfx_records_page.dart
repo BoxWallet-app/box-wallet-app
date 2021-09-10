@@ -250,9 +250,9 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     // }
     var split = address.split(":");
     if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
-      return "发送";
+      return S.current.cfx_home_page_transfer_send;
     } else {
-      return "接收";
+      return S.current.cfx_home_page_transfer_receive;
     }
   }
 

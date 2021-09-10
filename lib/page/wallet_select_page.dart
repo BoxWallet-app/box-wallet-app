@@ -124,7 +124,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               width: MediaQuery.of(context).size.width,
                               alignment: Alignment.center,
                               child: Text(
-                                "钱包",
+                               S.of(context).select_wallet_page_wallet,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
@@ -364,17 +364,17 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                             barrierDismissible: false,
                             builder: (BuildContext context) {
                               return new AlertDialog(
-                                title: new Text("提示"),
+                                title: new Text(S.of(context).dialog_hint),
                                 content: new SingleChildScrollView(
                                   child: new ListBody(
                                     children: <Widget>[
-                                      new Text('已存在该钱包，请直接创建账户即可'),
+                                      new Text(S.of(context).dialog_add_wallet_error),
                                     ],
                                   ),
                                 ),
                                 actions: <Widget>[
                                   new TextButton(
-                                    child: new Text('确定'),
+                                    child: new Text(S.of(context).dialog_conform),
                                     onPressed: () {
                                       Navigator.of(context).pop(true);
                                     },
@@ -511,7 +511,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 padding: EdgeInsets.only(left: 18, right: 18),
                 margin: const EdgeInsets.only(top: 0),
                 child: Text(
-                  "添加新账户",
+                  S.of(context).select_wallet_page_add_account,
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 16,
@@ -620,7 +620,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Text("账户-" + (index + 1).toString(), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                        child: Text( S.of(context).select_wallet_page_add_account_2+"-" + (index + 1).toString(), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                       ),
                       Container(
                         height: 20,
@@ -652,23 +652,23 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return new AlertDialog(
-                          title: new Text('删除账户'),
+                          title: new Text( S.of(context).dialog_delete_account),
                           content: new SingleChildScrollView(
                             child: new ListBody(
                               children: <Widget>[
-                                new Text('删除账户将在本地清空该账户的一切数据，不可挽回，是否确认？'),
+                                new Text( S.of(context).dialog_delete_account_msg),
                               ],
                             ),
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: new Text('取消'),
+                              child: new Text( S.of(context).dialog_dismiss),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                             ),
                             new TextButton(
-                              child: new Text('确定'),
+                              child: new Text( S.of(context).dialog_conform),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
@@ -803,12 +803,12 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ...List.generate(
           2,
               (index) => AlertDialogAction(
-            label: index == 0 ? '导入' : "创建",
+            label: index == 0 ?  S.of(context).select_wallet_page_input_account :  S.of(context).select_wallet_page_create_account ,
             key: index,
           ),
         ),
       ],
-      title: "添加 " + walletCoinsModel.coins[coinIndex].fullName + " 账户",
+      title:  S.of(context).select_wallet_page_add_account_1+" " + walletCoinsModel.coins[coinIndex].fullName + " "+ S.of(context).select_wallet_page_add_account_2,
     );
     if (result == 0) {
 

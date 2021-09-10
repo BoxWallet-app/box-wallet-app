@@ -59,7 +59,7 @@
             android:value="2" />
 
         <activity
-            android:name=".FirstActivity"
+            android:name=".CfxWebViewActivity"
             android:launchMode="singleTop"/>
     </application>
 </manifest>

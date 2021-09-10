@@ -452,7 +452,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                       color: Color(0xFFfafbfc),
                                     ),
                                     Text(
-                                      "纪元号:" + tokenListModel.data.list[index - 1].epochNumber.toString() + " ",
+                                      S.current.cfx_tx_detail_page_jiyuan+":" + tokenListModel.data.list[index - 1].epochNumber.toString() + " ",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

@@ -82,8 +82,10 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 
                 Container(
                   height: 60,
+                  margin: EdgeInsets.only(left: 18, right: 18),
+                  decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+
                   padding: EdgeInsets.only(left: 18, right: 18),
-                  color: Color(0xFFEEEEEE),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -91,7 +93,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                           height: 50,
 //                      color: Color(0xFF000000),
                           child: const Icon(
-                            Icons.report,
+                            Icons.report_problem,
                             size: 50,
                             color: Colors.red,
                           )),
@@ -124,9 +126,9 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                 Center(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 10),
                     padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Wrap(
                       spacing: 10, //主轴上子控件的间距
                       runSpacing: 10, //交叉轴上子控件之间的间距
@@ -190,7 +192,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
     return Material(
       color: Color(0x00000000),
       child: Ink(
-        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(15))),
         child: InkWell(
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {},

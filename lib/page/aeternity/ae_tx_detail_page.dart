@@ -45,7 +45,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
     super.initState();
     _loadingType = LoadingType.finish;
 
-    var height = buildItem2("高度",  Container(
+    var height = buildItem2(S.current.ae_tx_detail_page_height,  Container(
       height: 30,
       margin: const EdgeInsets.only(top: 0),
       child: Row(
@@ -65,7 +65,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           ),
           Container(
             margin: EdgeInsets.only(left: 10),
-            padding: EdgeInsets.only(left: 10,right: 10),
+            padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
             decoration: new BoxDecoration(
               color:Colors.green,
               //设置四周圆角 角度
@@ -74,7 +74,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
               //设置四周边框
             ),
             child: Text(
-              (AeHomePage.height - widget.recordData.blockHeight).toString()+" 个区块确认",
+              (AeHomePage.height - widget.recordData.blockHeight).toString()+" "+S.current.ae_tx_detail_page_height_confirm,
               maxLines: 1,
               style: TextStyle(
                   fontSize: 13,
@@ -90,62 +90,77 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
     ),);
 
     baseItems.add(height);
-    var hash = buildItem("凭证（Hash）", widget.recordData.hash);
+    var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData.hash);
 
     baseItems.add(hash);
 
-    var itemType = buildItem("类型", widget.recordData.tx["type"]);
+    var itemType = buildItem(S.current.ae_tx_detail_page_type, widget.recordData.tx["type"]);
 
     baseItems.add(itemType);
 
-    var itemFee = buildItem2("数量", getFeeWidget(14));
+    var itemFee = buildItem2(S.current.ae_tx_detail_page_count, getFeeWidget(14));
 
     baseItems.add(itemFee);
 
     if (widget.recordData.tx["type"] == "SpendTx") {
-      var senderId = buildItem("发送者", widget.recordData.tx["sender_id"]);
+      var senderId = buildItem(S.current.ae_tx_detail_page_from, widget.recordData.tx["sender_id"]);
       baseItems.add(senderId);
 
-      var recipientId = buildItem("接收者", widget.recordData.tx["recipient_id"]);
+      var recipientId = buildItem(S.current.ae_tx_detail_page_to, widget.recordData.tx["recipient_id"]);
       baseItems.add(recipientId);
     } else {
-      var senderId = buildItem("调用者", AeHomePage.address);
+      var senderId = buildItem(S.current.ae_tx_detail_page_from, AeHomePage.address);
       baseItems.add(senderId);
     }
-    baseItems.add(Container(height:  MediaQueryData.fromWindow(window).padding.bottom+30,width: 1,));
-    widget.recordData.tx.forEach(
-            (key, value) {
-          var payload = widget.recordData.tx['payload'].toString();
-          if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
-            try {
-              widget.recordData.tx['payload'] = Utils.formatPayload(payload);
-            } catch (e) {
-              widget.recordData.tx['payload'] = payload;
-            }
+    var time = buildItem(S.current.cfx_tx_detail_page_time,    DateTime.fromMicrosecondsSinceEpoch(
+        widget.recordData.time * 1000)
+        .toLocal()
+        .toString());
+
+    baseItems.add(time);
+
+    if(null!=widget.recordData.tx['payload']){
+      var payload = widget.recordData.tx['payload'].toString();
+      print(widget.recordData.tx['payload'].toString());
+      if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
+        try {
+
+          if (payload.contains("ba_")) {
+            payload = payload.substring(3);
           }
+          BoxApp.aeDecodePayload((data) {
 
-          var item = buildItem(key.toString(), value.toString());
-          allItems.add(item);
-          allItems.add(
-            Container(
-                child: Container(
-                  color: Color(0xFFEEEEEE),
-                ),
-                padding: EdgeInsets.only(left: 18, right: 18),
-                height: 1.0,
-                color: Color(0xFFFFFFFF)),
-          );
-        },
+            var item = buildItem(S.current.ae_tx_detail_page_payload, data);
+            baseItems.add(item);
+            baseItems.add(Container(height:  MediaQueryData.fromWindow(window).padding.bottom+30,width: 1,));
 
-    );
+            baseItems.add(
+              Container(
+                color: Color(0xFFfafafa),
+                height: 50.0,
+              ),
+            );
+            setState(() {
+
+            });
+            return;
+          }, payload);
+        } catch (e) {
+        }
+      }else{
+        baseItems.add(Container(height:  MediaQueryData.fromWindow(window).padding.bottom+30,width: 1,));
+
+        baseItems.add(
+          Container(
+            color: Color(0xFFfafafa),
+            height: 50.0,
+          ),
+        );
+      }
 
 
-    baseItems.add(
-      Container(
-        color: Color(0xFFfafafa),
-        height: 50.0,
-      ),
-    );
+    }
+
     netTopHeightData();
   }
 
@@ -195,7 +210,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           ),
         ],
         title: Text(
-          "详情",
+          S.current.ae_tx_detail_page_title,
           style: TextStyle(
             fontSize: 18,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",

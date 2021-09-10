@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -130,16 +131,21 @@ class Utils {
   static formatPayload(String payload) {
     if (payload != "" && payload != null && payload != "null") {
       try {
+        print("payload:"+payload);
         if (payload.contains("ba_")) {
           var substring = payload.substring(3);
-          var base64decode = Utils.base64Decode(substring);
+          print("substring:"+substring);
+          var base64decode = Utils.aeBase64Decode(substring);
+          print(base64decode);
           substring = base64decode.substring(0, base64decode.length - 4);
           return substring;
         } else {
-          var base64decode = Utils.base64Decode(payload);
+          var base64decode = Utils.aeBase64Decode(payload);
+          print("base64decode:"+base64decode);
           return base64decode;
         }
       } catch (e) {
+        print("e:"+e);
         return payload;
       }
     }
@@ -158,12 +164,14 @@ class Utils {
     return price.substring(0, price.length - 3);
   }
 
-  static String base64Decode(String data) {
-    List<int> bytes = convert.base64Decode(data);
-    // 网上找的很多都是String.fromCharCodes，这个中文会乱码
-    String txt1 = String.fromCharCodes(bytes);
-//    String result = convert.utf8.decode(bytes);
-    return txt1;
+  static String aeBase64Decode(String data) {
+    Uint8List bytes = base64Decode(data);
+    print("bytes:"+bytes.toString());
+    print("bytes:"+bytes.toString());
+    print("bytes:"+String.fromCharCodes(bytes));
+    String result = Utf8Decoder().convert(bytes );
+    print("result:"+result);
+    return result;
   }
 
   // md5 加密

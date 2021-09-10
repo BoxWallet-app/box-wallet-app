@@ -19,7 +19,6 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -75,8 +74,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                       Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Box Wallet pro",
-                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                            "Box Wallet",
+                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                           )),
                       Container(
                         height: 30,
@@ -92,18 +91,18 @@ class _LoginPageNewState extends State<LoginPageNew> {
                             repeatForever: true,
                             animatedTexts: [
                               TypewriterAnimatedText(
-                                '更好用的多币种 多链钱包',
-                                speed: const Duration(milliseconds: 130),
+                                S.of(context).login_sg1,
+                                speed: const Duration(milliseconds: 80),
                                 textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
-                                '优秀公链孵化器 好项目值得被发现',
-                                speed: const Duration(milliseconds: 130),
+                                S.of(context).login_sg2,
+                                speed: const Duration(milliseconds: 80),
                                 textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
-                                '匠心精神，做好每一条公链的生态建设',
-                                speed: const Duration(milliseconds: 130),
+                                S.of(context).login_sg3,
+                                speed: const Duration(milliseconds: 80),
                                 textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                               ),
                             ],
@@ -133,7 +132,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
                             child: Text(
-                              "创建新钱包",
+                              S.of(context).login_btn_create,
                               maxLines: 1,
                               style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFC2365)),
                             ),
@@ -173,7 +172,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
                             child: Text(
-                              "已有钱包",
+                              S.of(context).login_btn_input,
                               maxLines: 1,
                               style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                             ),

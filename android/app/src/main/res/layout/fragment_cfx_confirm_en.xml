@@ -26,8 +26,9 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:lineSpacingExtra="0sp"
-                android:text="转账确认"
+                android:text="Sign Confirm"
                 android:textColor="#000820"
+                android:typeface="monospace"
                 android:textSize="18dp"
                  />
 
@@ -80,7 +81,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="发送方"
+                        android:text="From"
+                        android:typeface="monospace"
                         android:textColor="#000000" />
 
 
@@ -110,7 +112,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="接收方"
+                        android:text="To"
+                        android:typeface="monospace"
                         android:textColor="#000000" />
 
 
@@ -139,7 +142,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="数量"
+                        android:text="Amount"
+                        android:typeface="monospace"
                         android:textColor="#000000" />
 
 
@@ -169,7 +173,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="手续费"
+                        android:text="Fee"
+                        android:typeface="monospace"
                         android:textColor="#000000" />
 
 
@@ -199,7 +204,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="数据"
+                        android:text="Data"
+                        android:typeface="monospace"
                         android:textColor="#000000" />
 
 
@@ -247,8 +253,9 @@
                     android:layout_marginRight="50dp"
                     android:background="@drawable/button_select"
                     android:gravity="center"
-                    android:text="确 认"
+                    android:text="Confirm"
                     android:textSize="16dp"
+                    android:typeface="monospace"
                     android:textColor="#ffffff" />
 
                 <LinearLayout

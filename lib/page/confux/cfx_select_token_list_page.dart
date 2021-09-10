@@ -153,7 +153,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                            "选择积分",
+                           S.current.cfx_select_token_page_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,

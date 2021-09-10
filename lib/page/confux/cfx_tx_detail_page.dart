@@ -17,6 +17,7 @@ import 'package:box/model/conflux/cfx_transaction_hash_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
   void addData() {
     baseItems.clear();
     var height = buildItem2(
-      "高度",
+      S.current.cfx_tx_detail_page_height,
       Container(
         height: 30,
         child: Row(
@@ -75,7 +76,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
             ),
             Container(
               margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: EdgeInsets.only(left: 10, right: 10,top:5,bottom: 5),
               decoration: new BoxDecoration(
                 color: Colors.green,
                 //设置四周圆角 角度
@@ -84,7 +85,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                 //设置四周边框
               ),
               child: Text(
-                cfxTransactionHashModel.confirmedEpochCount.toString() + " 个区块确认",
+                cfxTransactionHashModel.confirmedEpochCount.toString() + " "+S.current.cfx_tx_detail_page_height_confirm,
                 maxLines: 1,
                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),
@@ -95,7 +96,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
     );
 
     baseItems.add(height);
-    var hash = buildItem("凭证（Hash）", cfxTransactionHashModel.hash.toString());
+    var hash = buildItem(S.current.cfx_tx_detail_page_hash, cfxTransactionHashModel.hash.toString());
 
     baseItems.add(hash);
     //
@@ -103,22 +104,22 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
     //
     // baseItems.add(itemType);
 
-    var itemCount = buildItem2("数量", getCfxWidget(14));
+    var itemCount = buildItem2(S.current.cfx_tx_detail_page_count, getCfxWidget(14));
 
     baseItems.add(itemCount);
 
-    var itemFee = buildItem2("燃气费", getFeeWidget(14));
+    var itemFee = buildItem2(S.current.cfx_tx_detail_page_fee, getFeeWidget(14));
 
     baseItems.add(itemFee);
 
-    var senderId = buildItem("发送者", Utils.cfxFormatTypeAddress(cfxTransactionHashModel.from));
+    var senderId = buildItem(S.current.cfx_tx_detail_page_from, Utils.cfxFormatTypeAddress(cfxTransactionHashModel.from));
     baseItems.add(senderId);
 
-    var recipientId = buildItem("接收者", Utils.cfxFormatTypeAddress(cfxTransactionHashModel.to));
+    var recipientId = buildItem(S.current.cfx_tx_detail_page_to, Utils.cfxFormatTypeAddress(cfxTransactionHashModel.to));
     baseItems.add(recipientId);
 
     var time = buildItem(
-      "时间",
+      S.current.cfx_tx_detail_page_time,
       DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel.timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel.timestamp * 1000000).toLocal().toString().length - 4),
     );
     baseItems.add(time);
@@ -176,7 +177,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
           ),
         ],
         title: Text(
-          "详情",
+         S.current.cfx_tx_detail_page_title,
           style: TextStyle(
             fontSize: 18,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -243,8 +244,13 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
   }
 
   Text getFeeWidget(double size) {
+    var decimal = Decimal.parse('1000000000000000000');
+    var decimal2 = Decimal.parse(int.parse(cfxTransactionHashModel.gas).toString());
+    var decimal3 = decimal2 / decimal;
+    var storageLimit = Decimal.parse((int.parse(cfxTransactionHashModel.storageLimit).toString()));
+    var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
     return Text(
-      double.parse(((( double.parse(cfxTransactionHashModel.gasFee)))).toString()).toStringAsFixed(2) + " drip",
+      Decimal.parse(formatGas.toString()).toString() + " Cfx",
       style: TextStyle(color: Colors.black, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
     );
   }

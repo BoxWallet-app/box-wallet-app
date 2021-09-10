@@ -112,7 +112,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                            "选择积分",
+                           S.of(context).ae_select_token_page_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,

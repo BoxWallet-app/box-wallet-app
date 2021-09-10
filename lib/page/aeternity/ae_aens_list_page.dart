@@ -107,15 +107,19 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
 
   Widget _renderRow(BuildContext context, int index) {
 //    if (index < list.length) {
-    return buildColumn(context, index);
+    return Container(
+        margin: EdgeInsets.only(left: 18, right: 18,top: 12),
+        child: buildColumn(context, index));
   }
 
   Column buildColumn(BuildContext context, int position) {
     return Column(
       children: <Widget>[
         Material(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
           color: Colors.white,
           child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               Navigator.push(
                   context,
@@ -191,7 +195,6 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
             ),
           ),
         ),
-        Container(margin: const EdgeInsets.only(left: 18), height: 1.0, width: MediaQuery.of(context).size.width - 18, color: Color(0xFFEEEEEE),),
       ],
     );
   }

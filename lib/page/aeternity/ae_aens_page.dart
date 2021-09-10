@@ -24,6 +24,7 @@ class _AeAensPageState extends State<AeAensPage> {
       length: 3,
       child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Color(0xFFfafbfc),
             elevation: 0,
             // 隐藏阴影
             leading:  IconButton(

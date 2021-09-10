@@ -85,7 +85,7 @@ class _CfxAccountLoginPageState extends State<CfxAccountLoginPage> {
                     width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
+                    decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: TextField(
                       controller: _textEditingController,
                       style: TextStyle(

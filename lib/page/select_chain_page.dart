@@ -126,7 +126,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                       alignment: Alignment.topLeft,
                       margin: const EdgeInsets.only(left: 18, right: 18),
                       child: Text(
-                        "选择公链",
+                       S.of(context).select_chain_page_select_chain,
                         maxLines: 1,
                         style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
                       ),
@@ -134,12 +134,12 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     Expanded(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        color: Color(0xFFfafafa),
+                        color: Color(0xFFfafbfc),
                         child: MediaQuery.removePadding(
                           removeTop: true,
                           context: context,
                           child: Container(
-                            color: Color(0xFFF5F5F5),
+                            color: Color(0xFFfafbfc),
                             // height: MediaQuery.of(context).size.height * 0.75 - 52,
                             width: MediaQuery.of(context).size.width,
                             child: GridView.builder(
@@ -190,13 +190,13 @@ class _SelectChainPageState extends State<SelectChainPage> {
   String getTitleText() {
     switch (widget.type) {
       case 0:
-        return "创建新钱包";
+        return  S.of(context).select_chain_page_create_wallet;
       case 1:
-        return "导入新钱包";
+        return  S.of(context).select_chain_page_add_chain;
       case 2:
-        return "添加新公链";
+        return  S.of(context).select_chain_page_add_chain;
     }
-    return "选择公链";
+    return  S.of(context).select_chain_page_select_chain;
   }
 
   Widget itemCoin(BuildContext context,int index) {

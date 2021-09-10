@@ -61,8 +61,9 @@ class _NodePageState extends State<NodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEEEEEE),
+      backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
+        backgroundColor: Color(0xFFfafbfc),
         // 隐藏阴影
         elevation: 0,
         leading: IconButton(
@@ -103,8 +104,9 @@ class _NodePageState extends State<NodePage> {
           focusNodeCompiler.unfocus();
         },
         child: Container(
-          height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
-          color: Colors.white,
+          // height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
+          color: Color(0xFFfafbfc),
+          // color: Color(0xFFFFFFFF),
           child: Column(
             children: [
               Container(

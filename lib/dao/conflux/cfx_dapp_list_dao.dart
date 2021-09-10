@@ -9,8 +9,8 @@ import 'package:dio/dio.dart';
 
 
 class CfxDappListDao {
-  static Future<CfxDappListModel> fetch() async {
-    Response response = await Dio().get(CFX_DAPP_LIST+"cfx_dapp_cn.json");
+  static Future<CfxDappListModel> fetch(String language) async {
+    Response response = await Dio().get(CFX_DAPP_LIST+"cfx_dapp_"+language+".json");
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxDappListModel model = CfxDappListModel.fromJson(data);

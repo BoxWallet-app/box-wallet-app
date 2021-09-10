@@ -48,6 +48,7 @@ class CfxHomePage extends StatefulWidget {
   static var height = 0;
   static var address = "";
 
+
   @override
   _CfxHomePageState createState() => _CfxHomePageState();
 }
@@ -55,6 +56,7 @@ class CfxHomePage extends StatefulWidget {
 class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
   CfxTransfer cfxTransfer;
+  var domain = "";
   var page = 1;
 
   @override
@@ -103,10 +105,22 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       print(e);
     });
   }
+  getDomainName(String address) {
+    print(address);
+   BoxApp.getAddressToNameCFX((name) {
+     print(name);
+     if("ERROR"!=name){
+       domain = name;
+       setState(() {});
+     }
 
+     return;
+   }, address);
+  }
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       CfxHomePage.address = account.address;
+      getDomainName(CfxHomePage.address);
       setState(() {});
     });
   }
@@ -395,7 +409,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                           Container(
                                             margin: const EdgeInsets.only(left: 2, right: 20),
                                             child: Text(
-                                              "baixin.cfx",
+                                              domain,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
@@ -847,7 +861,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
                   child: Text(
-                    "随机数",
+                    S.current.cfx_home_page_transfer_random,
                     style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                   ),
                   height: 23,
@@ -1130,9 +1144,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     // }
     var split = CfxHomePage.address.split(":");
     if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
-      return "发送";
+      return S.current.cfx_home_page_transfer_send;
     } else {
-      return "接收";
+      return S.current.cfx_home_page_transfer_receive;
     }
   }
 

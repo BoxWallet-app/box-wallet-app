@@ -290,7 +290,7 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
         _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
         _focus.unfocus();
         return;
-      }, "baixin.cfx");
+      },  address);
       return;
     }
 

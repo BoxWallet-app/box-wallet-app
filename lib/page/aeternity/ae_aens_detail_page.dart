@@ -98,6 +98,7 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xfffafafa),
       appBar: AppBar(
+          backgroundColor: Color(0xFFfafbfc),
           // 隐藏阴影
           elevation: 0,
           leading: IconButton(
@@ -174,19 +175,12 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
         child: Column(
           children: <Widget>[
             buildItem(S.of(context).aens_detail_page_name, _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem("TxHash", _aensInfoModel.data == null ? "" : _aensInfoModel.data.thHash),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(S.of(context).aens_detail_page_balance + "(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(S.of(context).aens_detail_page_height, _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(getTypeKey(), getTypeValue()),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(S.of(context).aens_detail_page_owner, _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildItem(S.of(context).name_point, accountPubkey),
-            Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFEEEEEE)),
             buildBtnAdd(context),
             buildBtnUpdate(context),
 //            buildBtnPoint(context),
@@ -560,56 +554,62 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
   }
 
   Widget buildItem(String key, String value) {
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          Clipboard.setData(ClipboardData(text: value));
-          Fluttertoast.showToast(
-              msg: S.of(context).token_receive_page_copy_sucess,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
-        },
-        child: Container(
-          padding: const EdgeInsets.all(18),
-          child: Row(
-            children: [
-              /*1*/
-              Column(
-                children: [
-                  /*2*/
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      key,
+    return Container(
+      margin: EdgeInsets.only(left: 18, right: 18,top: 12),
+      child: Material(
+
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          onTap: () {
+            Clipboard.setData(ClipboardData(text: value));
+            Fluttertoast.showToast(
+                msg: S.of(context).token_receive_page_copy_sucess,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(18),
+            child: Row(
+              children: [
+                /*1*/
+                Column(
+                  children: [
+                    /*2*/
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        key,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                /*3*/
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: new Text(
+                      value,
+                      textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
+                    margin: const EdgeInsets.only(left: 30.0),
                   ),
-                ],
-              ),
-              /*3*/
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: new Text(
-                    value,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                  margin: const EdgeInsets.only(left: 30.0),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

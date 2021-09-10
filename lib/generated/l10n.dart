@@ -2574,6 +2574,486 @@ class S {
       args: [],
     );
   }
+
+  /// `Better use of multi - chain wallet`
+  String get login_sg1 {
+    return Intl.message(
+      'Better use of multi - chain wallet',
+      name: 'login_sg1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good corporate incubators`
+  String get login_sg2 {
+    return Intl.message(
+      'Good corporate incubators',
+      name: 'login_sg2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ingenuity spirit`
+  String get login_sg3 {
+    return Intl.message(
+      'Ingenuity spirit',
+      name: 'login_sg3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a new wallet`
+  String get login_btn_create {
+    return Intl.message(
+      'Create a new wallet',
+      name: 'login_btn_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import existing wallet`
+  String get login_btn_input {
+    return Intl.message(
+      'Import existing wallet',
+      name: 'login_btn_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select chain`
+  String get select_chain_page_select_chain {
+    return Intl.message(
+      'Select chain',
+      name: 'select_chain_page_select_chain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a new Wallet`
+  String get select_chain_page_create_wallet {
+    return Intl.message(
+      'Create a new Wallet',
+      name: 'select_chain_page_create_wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a new chain`
+  String get select_chain_page_add_chain {
+    return Intl.message(
+      'Add a new chain',
+      name: 'select_chain_page_add_chain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet`
+  String get select_wallet_page_wallet {
+    return Intl.message(
+      'Wallet',
+      name: 'select_wallet_page_wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new account`
+  String get select_wallet_page_add_account {
+    return Intl.message(
+      'Add new account',
+      name: 'select_wallet_page_add_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get select_wallet_page_account {
+    return Intl.message(
+      'Account',
+      name: 'select_wallet_page_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import`
+  String get select_wallet_page_input_account {
+    return Intl.message(
+      'Import',
+      name: 'select_wallet_page_input_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get select_wallet_page_create_account {
+    return Intl.message(
+      'Create',
+      name: 'select_wallet_page_create_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get select_wallet_page_add_account_1 {
+    return Intl.message(
+      'Add',
+      name: 'select_wallet_page_add_account_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get select_wallet_page_add_account_2 {
+    return Intl.message(
+      'Account',
+      name: 'select_wallet_page_add_account_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The wallet already exists, please create an account directly`
+  String get dialog_add_wallet_error {
+    return Intl.message(
+      'The wallet already exists, please create an account directly',
+      name: 'dialog_add_wallet_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get dialog_delete_account {
+    return Intl.message(
+      'Delete Account',
+      name: 'dialog_delete_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleting an account will clear all data of the account locally. It is irreversible. Are you sure?`
+  String get dialog_delete_account_msg {
+    return Intl.message(
+      'Deleting an account will clear all data of the account locally. It is irreversible. Are you sure?',
+      name: 'dialog_delete_account_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Points`
+  String get ae_select_token_page_title {
+    return Intl.message(
+      'Select Points',
+      name: 'ae_select_token_page_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details`
+  String get ae_tx_detail_page_title {
+    return Intl.message(
+      'Details',
+      name: 'ae_tx_detail_page_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Height`
+  String get ae_tx_detail_page_height {
+    return Intl.message(
+      'Height',
+      name: 'ae_tx_detail_page_height',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get ae_tx_detail_page_height_confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'ae_tx_detail_page_height_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certificate (hash)`
+  String get ae_tx_detail_page_hash {
+    return Intl.message(
+      'Certificate (hash)',
+      name: 'ae_tx_detail_page_hash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get ae_tx_detail_page_type {
+    return Intl.message(
+      'Type',
+      name: 'ae_tx_detail_page_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get ae_tx_detail_page_count {
+    return Intl.message(
+      'Amount',
+      name: 'ae_tx_detail_page_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender`
+  String get ae_tx_detail_page_from {
+    return Intl.message(
+      'Sender',
+      name: 'ae_tx_detail_page_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipient`
+  String get ae_tx_detail_page_to {
+    return Intl.message(
+      'Recipient',
+      name: 'ae_tx_detail_page_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fee`
+  String get ae_tx_detail_page_fee {
+    return Intl.message(
+      'Fee',
+      name: 'ae_tx_detail_page_fee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payload`
+  String get ae_tx_detail_page_payload {
+    return Intl.message(
+      'Payload',
+      name: 'ae_tx_detail_page_payload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get cfx_home_page_transfer_send {
+    return Intl.message(
+      'Send',
+      name: 'cfx_home_page_transfer_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive`
+  String get cfx_home_page_transfer_receive {
+    return Intl.message(
+      'Receive',
+      name: 'cfx_home_page_transfer_receive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Random`
+  String get cfx_home_page_transfer_random {
+    return Intl.message(
+      'Random',
+      name: 'cfx_home_page_transfer_random',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Points`
+  String get cfx_select_token_page_title {
+    return Intl.message(
+      'Select Points',
+      name: 'cfx_select_token_page_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detail`
+  String get cfx_tx_detail_page_title {
+    return Intl.message(
+      'Detail',
+      name: 'cfx_tx_detail_page_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Height`
+  String get cfx_tx_detail_page_height {
+    return Intl.message(
+      'Height',
+      name: 'cfx_tx_detail_page_height',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get cfx_tx_detail_page_height_confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'cfx_tx_detail_page_height_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certificate (hash)`
+  String get cfx_tx_detail_page_hash {
+    return Intl.message(
+      'Certificate (hash)',
+      name: 'cfx_tx_detail_page_hash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get cfx_tx_detail_page_type {
+    return Intl.message(
+      'Type',
+      name: 'cfx_tx_detail_page_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get cfx_tx_detail_page_count {
+    return Intl.message(
+      'Amount',
+      name: 'cfx_tx_detail_page_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get cfx_tx_detail_page_from {
+    return Intl.message(
+      'Send',
+      name: 'cfx_tx_detail_page_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive`
+  String get cfx_tx_detail_page_to {
+    return Intl.message(
+      'Receive',
+      name: 'cfx_tx_detail_page_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fee`
+  String get cfx_tx_detail_page_fee {
+    return Intl.message(
+      'Fee',
+      name: 'cfx_tx_detail_page_fee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get cfx_tx_detail_page_time {
+    return Intl.message(
+      'Time',
+      name: 'cfx_tx_detail_page_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Era`
+  String get cfx_tx_detail_page_jiyuan {
+    return Intl.message(
+      'Era',
+      name: 'cfx_tx_detail_page_jiyuan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you are accessing a third party DAPP, your use of the third party DAPP will be governed by the User Agreement and Privacy Policy of the third party DAapp`
+  String get cfx_dapp_mag1 {
+    return Intl.message(
+      'If you are accessing a third party DAPP, your use of the third party DAPP will be governed by the User Agreement and Privacy Policy of the third party DAapp',
+      name: 'cfx_dapp_mag1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Directly and solely responsible to you.`
+  String get cfx_dapp_mag2 {
+    return Intl.message(
+      'Directly and solely responsible to you.',
+      name: 'cfx_dapp_mag2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear all data`
+  String get setting_clear_data_title {
+    return Intl.message(
+      'Clear all data',
+      name: 'setting_clear_data_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty all wallet data (including all accounts), irreversible, please exercise caution. Are you sure?`
+  String get setting_clear_data_content {
+    return Intl.message(
+      'Empty all wallet data (including all accounts), irreversible, please exercise caution. Are you sure?',
+      name: 'setting_clear_data_content',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

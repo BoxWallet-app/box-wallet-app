@@ -52,7 +52,8 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
     netBanner();
     netDapp();
     eventBus.on<LanguageEvent>().listen((event) {
-      setState(() {});
+      netBanner();
+      netDapp();
     });
   }
 
@@ -77,7 +78,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   }
 
   void netDapp() {
-    CfxDappListDao.fetch().then((CfxDappListModel model) {
+    CfxDappListDao.fetch(BoxApp.language).then((CfxDappListModel model) {
       cfxDappListModel = model;
       updateData();
       setState(() {});
@@ -206,9 +207,21 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
             ),
           ),
 //          if (!BoxApp.isOpenStore)
-          Column(
-            children: childrens,
-          ),
+
+          cfxDappListModel == null
+              ? Container(
+                  alignment: Alignment.center,
+                  child: new Center(
+                    child: new CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                    ),
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2,
+                )
+              : Column(
+                  children: childrens,
+                ),
 
           Container(
             height: 8,
@@ -238,28 +251,161 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
               InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 onTap: () async {
-                  if (Platform.isAndroid) {
-                    String resultString;
-                    try {
-                      resultString = await PluginManager.pushActivity({
-                        'url':data.url,
-                        'address':await BoxApp.getAddress(),
-                        'language': await BoxApp.getLanguage(),
-                        'signingKey':await  BoxApp.getSigningKey()
-                      });
-                    } on PlatformException {
-                      resultString = '失败';
-                    }
-                    print(resultString);
-                    return;
-                  }
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CfxRpcPage(
-                                url: data.url,
-                              )));
+
+                  showGeneralDialog(
+                      context: context,
+                      pageBuilder: (context, anim1, anim2) {},
+                      barrierColor: Colors.grey.withOpacity(.4),
+                      barrierDismissible: true,
+                      barrierLabel: "",
+                      transitionDuration: Duration(milliseconds: 0),
+                      transitionBuilder: (context, anim1, anim2, child) {
+                        final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                        return Transform(
+                            transform: Matrix4.translationValues(0.0, 0, 0.0),
+                            child: Opacity(
+                                opacity: anim1.value,
+                                // ignore: missing_return
+                                child: Material(
+                                  type: MaterialType.transparency, //透明类型
+                                  child: Center(
+                                    child: Container(
+                                      height: 470,
+                                      width: MediaQuery.of(context).size.width - 40,
+                                      margin: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      decoration: ShapeDecoration(
+                                        color: Color(0xffffffff),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            width: MediaQuery.of(context).size.width - 40,
+                                            alignment: Alignment.topLeft,
+                                            child: Material(
+                                              color: Colors.transparent,
+                                              child: InkWell(
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(60)),
+                                                onTap: ()async {
+                                                  Navigator.pop(context); //关闭对话框
+
+                                                  // ignore: unnecessary_statements
+                                                  //                                  widget.dismissCallBackFuture("");
+                                                },
+                                                child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: Icon(Icons.clear,
+                                                        color: Colors.black.withAlpha(80))),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 20, right: 20),
+                                            child: Text(
+                                              S.of(context).dialog_privacy_hint,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontFamily: BoxApp.language == "cn"
+                                                    ? "Ubuntu"
+                                                    : "Ubuntu",
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 270,
+                                            margin:
+                                            EdgeInsets.only(left: 20, right: 20, top: 20),
+                                            child: SingleChildScrollView(
+                                              child: Container(
+                                                child: Text(
+                                                  S.of(context).cfx_dapp_mag1+" "+data.name+" "+S.of(context).cfx_dapp_mag2,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: BoxApp.language == "cn"
+                                                          ? "Ubuntu"
+                                                          : "Ubuntu",
+                                                      letterSpacing: 2,
+                                                      height: 2),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Container(
+                                            margin:
+                                            const EdgeInsets.only(top: 30, bottom: 20),
+                                            child: ArgonButton(
+                                              height: 40,
+                                              roundLoadingShape: true,
+                                              width: 120,
+                                              onTap: (startLoading, stopLoading,
+                                                  btnState) async {
+
+                                                Navigator.pop(context); //关闭对话框
+                                                if (Platform.isAndroid) {
+                                                  String resultString;
+                                                  try {
+                                                    resultString = await PluginManager.pushActivity({'url': data.url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                                  } on PlatformException {
+                                                    resultString = '失败';
+                                                  }
+                                                  print(resultString);
+                                                  return;
+                                                }
+
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => CfxRpcPage(
+                                                          url: data.url,
+                                                        )));
+
+                                              },
+                                              child: Text(
+                                                S.of(context).dialog_conform,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: BoxApp.language == "cn"
+                                                      ? "Ubuntu"
+                                                      : "Ubuntu",
+                                                ),
+                                              ),
+                                              loader: Container(
+                                                padding: EdgeInsets.all(10),
+                                                child: SpinKitRing(
+                                                  lineWidth: 4,
+                                                  color: Colors.white,
+                                                  // size: loaderWidth ,
+                                                ),
+                                              ),
+                                              borderRadius: 30.0,
+                                              color: Color(0xFFFC2365),
+                                            ),
+                                          ),
+
+                                          //          Text(text),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )));
+                      });
+
+
+
+
+
+
                 },
                 child: Column(
                   children: [
@@ -330,12 +476,13 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                     ),
                     Container(
                       alignment: Alignment.topLeft,
-                      margin: const EdgeInsets.only(top: 5, left: 20, bottom: 0),
+                      margin: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 0),
                       child: Text(
                         data.content,
                         style: TextStyle(
                           fontSize: 14,
                           letterSpacing: 1.2,
+
                           //字体间距
 
                           //词间距

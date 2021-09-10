@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -26,6 +28,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
+  String coin = "AE";
 
   @override
   void initState() {
@@ -36,6 +39,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
       setState(() {
         version = packageInfo.version;
       });
+    });
+    eventBus.on<AccountUpdateEvent>().listen((event) {
+      getAddress();
+    });
+    getAddress();
+  }
+
+  getAddress() {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      coin = account.coin;
+
+      setState(() {});
     });
   }
 
@@ -187,13 +202,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 //              color: Colors.white,
             height: 12,
           ),
-          buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
-          }, isLine: false),
-          Container(
+          "AE" == coin
+              ? buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
+                }, isLine: false)
+              : Container(),
+
+          "AE" == coin
+              ? Container(
 //              color: Colors.white,
-            height: 12,
-          ),
+                  height: 12,
+                )
+              : Container(),
           buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
           }, isLine: false),
@@ -318,23 +338,23 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return new AlertDialog(
-                        title: new Text('清除全部数据'),
+                        title: new Text(S.current.setting_clear_data_title),
                         content: new SingleChildScrollView(
                           child: new ListBody(
                             children: <Widget>[
-                              new Text('清空钱包所有数据（包括所有账户），不可挽回，请谨慎操作。是否确认？'),
+                              new Text(S.current.setting_clear_data_content),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           TextButton(
-                            child: new Text('取消'),
+                            child: new Text(S.current.dialog_dismiss),
                             onPressed: () {
                               Navigator.of(context).pop(false);
                             },
                           ),
                           new TextButton(
-                            child: new Text('确定'),
+                            child: new Text(S.current.dialog_conform),
                             onPressed: () {
                               Navigator.of(context).pop(true);
                             },

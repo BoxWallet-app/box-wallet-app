@@ -15,7 +15,6 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        GeneratedPluginRegistrant.registerWith(this)
         UmengSdkPlugin.setContext(this)
         Log.i("UMLog", "onCreate@MainActivity")
     }
@@ -44,62 +43,40 @@ class MainActivity : FlutterActivity() {
                 val address = call.argument<String>("address")
                 val language = call.argument<String>("language")
                 val signingKey = call.argument<String>("signingKey")
-
                 // 跳转
-                val intent = Intent(this@MainActivity, FirstActivity::class.java)
+                val intent = Intent(this@MainActivity, CfxWebViewActivity::class.java)
                 intent.putExtra("url", url)
                 intent.putExtra("address", address)
                 intent.putExtra("language", language)
                 intent.putExtra("signingKey", signingKey)
                 startActivity(intent)
-                result.success("sucess")
+                result.success("success")
             } else if (call.method == "getGasCFX") {
                 val it = Intent()
                 it.action = "BOX_DART_TO_NAV"
-
-
-                val type = call.argument<String>("type")
-                val from = call.argument<String>("from")
-                val to = call.argument<String>("to")
-                val value = call.argument<String>("value")
-                val gas = call.argument<String>("gas")
-                val data = call.argument<String>("data")
-
-                it.putExtra("type", type)
-                it.putExtra("from", from)
-                it.putExtra("to", to)
-                it.putExtra("value", value)
-                it.putExtra("gas", gas)
-                it.putExtra("data", data)
+                it.putExtra("type", call.argument<String>("type"))
+                it.putExtra("from", call.argument<String>("from"))
+                it.putExtra("to", call.argument<String>("to"))
+                it.putExtra("value", call.argument<String>("value"))
+                it.putExtra("gas", call.argument<String>("gas"))
+                it.putExtra("data", call.argument<String>("data"))
                 sendBroadcast(it)
-
+                result.success("success")
 
             } else if (call.method == "signTransaction") {
                 val it = Intent()
                 it.action = "BOX_DART_TO_NAV"
-
-
-                val type = call.argument<String>("type")
-                val data = call.argument<String>("data")
-
-                it.putExtra("type", type)
-                it.putExtra("data", data)
+                it.putExtra("type", call.argument<String>("type"))
+                it.putExtra("data",  call.argument<String>("data"))
                 sendBroadcast(it)
-
-
+                result.success("success")
             } else if (call.method == "signTransactionError") {
                 val it = Intent()
                 it.action = "BOX_DART_TO_NAV"
-
-
-                val type = call.argument<String>("type")
-                val data = call.argument<String>("data")
-
-                it.putExtra("type", type)
-                it.putExtra("data", data)
+                it.putExtra("type", call.argument<String>("type"))
+                it.putExtra("data",  call.argument<String>("data"))
                 sendBroadcast(it)
-
-
+                result.success("success")
             } else {
                 result.notImplemented()
             }

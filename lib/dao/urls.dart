@@ -1,8 +1,8 @@
 //域名
 // const BASE_HOST = 'http://192.168.0.190:7070';
-const BASE_HOST = 'http://10.53.6.190:7070';
+// const BASE_HOST = 'http://10.53.6.190:7070';
 
-// const BASE_HOST = 'https://aebox.io';
+const BASE_HOST = 'https://aebox.io';
 // const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
