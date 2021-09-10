@@ -309,7 +309,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
+        transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
           return Transform(
             transform: Matrix4.translationValues(0.0, 0, 0.0),
@@ -386,7 +386,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
+        transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
           return ChainLoadingWidget();
         });

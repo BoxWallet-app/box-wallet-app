@@ -585,7 +585,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
               barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
-              transitionDuration: Duration(milliseconds: 400),
+              transitionDuration: Duration(milliseconds: 0),
               transitionBuilder: (_, anim1, anim2, child) {
                 final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                 return Transform(
@@ -755,7 +755,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             barrierColor: Colors.grey.withOpacity(.4),
                             barrierDismissible: true,
                             barrierLabel: "",
-                            transitionDuration: Duration(milliseconds: 400),
+                            transitionDuration: Duration(milliseconds: 0),
                             transitionBuilder: (_, anim1, anim2, child) {
                               final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                               return Transform(
@@ -831,7 +831,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                 barrierColor: Colors.grey.withOpacity(.4),
                 barrierDismissible: true,
                 barrierLabel: "",
-                transitionDuration: Duration(milliseconds: 400),
+                transitionDuration: Duration(milliseconds: 0),
                 transitionBuilder: (_, anim1, anim2, child) {
                   final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                   return Transform(
@@ -914,7 +914,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 400),
+        transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
           return ChainLoadingWidget();

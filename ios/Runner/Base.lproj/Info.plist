@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Box aepp</string>
+	<string>Box Wallet</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -39,7 +39,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>boxaepp</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Box aepp需要获取相机权限，用于获取接收账户的地址</string>
+	<string>BoxWallet需要获取相机权限，用于获取接收账户的地址</string>
 	<key>NSContactsUsageDescription</key>
 	<string>boxaepp</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -47,11 +47,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>boxaepp</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Box aepp需要获取麦克风权限</string>
+	<string>BoxWallet需要获取麦克风权限</string>
 	<key>NSMotionUsageDescription</key>
 	<string>boxaepp</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Box aepp需要获取相册权限，用于获取接收账户的地址</string>
+	<string>BoxWallet需要获取相册权限，用于获取接收账户的地址</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>boxaepp</string>
 	<key>UILaunchStoryboardName</key>

@@ -68,9 +68,11 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
-                      Navigator.pop(context); //关闭对话框
+
+                      print("关闭了");
                       // ignore: unnecessary_statements
                       if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                      Navigator.pop(context); //关闭对话框
                     },
                     child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
