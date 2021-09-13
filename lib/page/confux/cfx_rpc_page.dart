@@ -131,7 +131,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                 future: _loadFuture(), //异步加载方法
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot == null || snapshot.data == null) {
-                    return Text("");
+                    return Container();
                   }
                   return InAppWebView(
                     initialOptions: options,
@@ -144,7 +144,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                         : UnmodifiableListView<UserScript>([]),
                     onTitleChanged: (controller, t) {
                       title = t;
-                      print(title);
                       setState(() {});
                     },
                     onWebViewCreated: (controller) {
@@ -153,17 +152,17 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTypedMessage",
                           callback: (List<dynamic> arguments) {
-                            print("signTypedMessage" + arguments.toString());
+                            // print("signTypedMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signMessage",
                           callback: (List<dynamic> arguments) {
-                            print("signMessage" + arguments.toString());
+                            // print("signMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "postMessage",
                           callback: (List<dynamic> arguments) {
-                            print("postMessage" + arguments.toString());
+                            // print("postMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTransaction",
@@ -171,15 +170,14 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                             // ignore: unnecessary_statements
                             LinkedHashMap<String, dynamic> map = arguments[1];
 
-                            print(arguments.toString());
-                            print(map['from']);
-                            print(map['to']);
-                            print(map['value'] != null ? map['value'] : "0");
-                            print(map['data']);
+                            // print(arguments.toString());
+                            // print(map['from']);
+                            // print(map['to']);
+                            // print(map['value'] != null ? map['value'] : "0");
+                            // print(map['data']);
 
                             BoxApp.getGasCFX((data) {
                               var split = data.split("#");
-                              print(data);
                               map['storageLimit'] = split[2];
                               map['gasPrice'] = "1";
                               map['gas'] = split[0];
@@ -277,7 +275,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       _webViewController.addJavaScriptHandler(
                           handlerName: "requestAccounts",
                           callback: (List<dynamic> arguments) async {
-                            print("requestAccounts" + arguments.toString());
+                            // print("requestAccounts" + arguments.toString());
                             Map<String, String> params = new Map();
                             params['id'] = arguments[0].toString();
                             params['jsonrpc'] = "2.0";
@@ -303,18 +301,15 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     },
                     shouldOverrideUrlLoading: (controller, navigationAction) async {
                       var uri = navigationAction.request.url;
-                      print(uri.scheme);
                       if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {}
                       return NavigationActionPolicy.ALLOW;
                     },
                     onLoadStop: (controller, url) {
-                      print("onLoadStop");
                       setState(() {
                         isFinish = true;
                       });
                     },
                     onLoadResource: (controller, url) async {
-                      print("onLoadResource");
                     },
                     onLoadError: (controller, url, code, message) {
                       print("onLoadError" + message);

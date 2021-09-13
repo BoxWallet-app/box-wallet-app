@@ -357,7 +357,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                   } on PlatformException {
                                                     resultString = '失败';
                                                   }
-                                                  print(resultString);
+                                                  // print(resultString);
                                                   return;
                                                 }
 

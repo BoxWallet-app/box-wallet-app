@@ -1,6 +1,7 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/a.dart';
 import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -69,7 +70,6 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
 
-                      print("关闭了");
                       // ignore: unnecessary_statements
                       if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
                       Navigator.pop(context); //关闭对话框
@@ -202,7 +202,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.pop(context); //关闭对话框
-                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text));
+                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text+a));
                     },
                     child: Text(
                       S.of(context).password_widget_conform,

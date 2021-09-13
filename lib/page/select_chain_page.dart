@@ -192,7 +192,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
       case 0:
         return  S.of(context).select_chain_page_create_wallet;
       case 1:
-        return  S.of(context).select_chain_page_add_chain;
+        return  S.of(context).select_chain_page_select_chain;
       case 2:
         return  S.of(context).select_chain_page_add_chain;
     }

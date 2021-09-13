@@ -17,6 +17,7 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import 'ae_home_page.dart';
 
 class AeRecordsPage extends StatefulWidget {
   const AeRecordsPage({Key key}) : super(key: key);
@@ -179,7 +180,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                   child: Column(
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width -40- 36,
+                        width: MediaQuery.of(context).size.width - 40 - 36,
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -203,7 +204,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
-                        width: MediaQuery.of(context).size.width - 40-36,
+                        width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 6),
@@ -281,21 +282,28 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (walletRecordModel.data[index].tx['recipient_id'].toString() == address) {
+      if (walletRecordModel.data[index].tx['recipient_id'].toString() == AeHomePage.address) {
         return Text(
-          "+" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
+          "+" + double.parse(((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
           style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       } else {
         return Text(
-          "-" + ((walletRecordModel.data[index].tx['amount'].toDouble()) / 1000000000000000000).toString() + " AE",
+          "-" + double.parse((((walletRecordModel.data[index].tx['amount'].toDouble() + walletRecordModel.data[index].tx['fee'].toDouble()) / 1000000000000000000)).toString()).toStringAsFixed(8) + " AE",
           style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       }
     } else {
+      if (walletRecordModel.data[index].tx['type'].toString() == "NameClaimTx") {
+        return Text(
+          "-" + double.parse(((walletRecordModel.data[index].tx['fee'].toDouble() + walletRecordModel.data[index].tx['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        );
+      }
+
       return Text(
-        "-" + (walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
-        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        "-" + double.parse((walletRecordModel.data[index].tx['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
   }

@@ -378,8 +378,8 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                     border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
                                   ),
                                   child: Image(
-                                    width: 20,
-                                    height: 20,
+                                    width: 25,
+                    height: 25,
                                     color: tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
                                     image: tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                                   ),

@@ -14,7 +14,7 @@ class CfxDappListDao {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxDappListModel model = CfxDappListModel.fromJson(data);
-      print(response.toString());
+      // print(response.toString());
       return model;
     } else {
       throw Exception('Failed to load CfxDappListModel.json');

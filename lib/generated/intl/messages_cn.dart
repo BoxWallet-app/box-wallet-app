@@ -172,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_hint_add_error" : MessageLookupByLibrary.simpleMessage("注册失败"),
     "dialog_hint_check_error" : MessageLookupByLibrary.simpleMessage("校验失败"),
     "dialog_hint_check_error_content" : MessageLookupByLibrary.simpleMessage("安全密码不正确"),
+    "dialog_hint_hash" : MessageLookupByLibrary.simpleMessage("交易凭证"),
     "dialog_hint_register_error" : MessageLookupByLibrary.simpleMessage("注册失败"),
     "dialog_hint_send_error" : MessageLookupByLibrary.simpleMessage("发送失败"),
     "dialog_hint_update_error" : MessageLookupByLibrary.simpleMessage("更新失败"),

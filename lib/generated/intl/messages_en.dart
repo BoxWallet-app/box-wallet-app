@@ -172,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_hint_add_error" : MessageLookupByLibrary.simpleMessage("Fare increase failed"),
     "dialog_hint_check_error" : MessageLookupByLibrary.simpleMessage("Verification failed"),
     "dialog_hint_check_error_content" : MessageLookupByLibrary.simpleMessage("The security password is incorrect"),
+    "dialog_hint_hash" : MessageLookupByLibrary.simpleMessage("Proof of trading"),
     "dialog_hint_register_error" : MessageLookupByLibrary.simpleMessage("Register failed"),
     "dialog_hint_send_error" : MessageLookupByLibrary.simpleMessage("Send failed"),
     "dialog_hint_update_error" : MessageLookupByLibrary.simpleMessage("Update failed"),

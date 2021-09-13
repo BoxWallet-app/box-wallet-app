@@ -3054,6 +3054,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Proof of trading`
+  String get dialog_hint_hash {
+    return Intl.message(
+      'Proof of trading',
+      name: 'dialog_hint_hash',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

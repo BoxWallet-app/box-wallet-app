@@ -396,8 +396,8 @@ class _NodePageState extends State<NodePage> {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: Image(
-                    width: 20,
-                    height: 20,
+                    width: 25,
+                    height: 25,
                     image: AssetImage(isSelect ? "images/check_box_select.png" : "images/check_box_normal.png"),
                   ),
                   margin: const EdgeInsets.only(left: 30.0),

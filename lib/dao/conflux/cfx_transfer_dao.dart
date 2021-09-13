@@ -22,7 +22,7 @@ class CfxTransferDao {
     Response response = await Dio().post(CFX_TRANSACTION, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
+      // print(response.toString());
       CfxTransfer model = CfxTransfer.fromJson(data);
       return model;
     } else {

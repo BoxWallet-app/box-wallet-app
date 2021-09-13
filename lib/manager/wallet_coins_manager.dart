@@ -5,6 +5,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../a.dart';
 import '../main.dart';
 
 class WalletCoinsManager {
@@ -15,7 +16,8 @@ class WalletCoinsManager {
   Future<bool> init() async {
     var prefs = await SharedPreferences.getInstance();
     var walletCoinsJson = prefs.getString('wallet_coins');
-
+    final key = Utils.generateMd5Int(b);
+    walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
     WalletCoinsModel model;
     if (walletCoinsJson == null || walletCoinsJson == "") {
       model = new WalletCoinsModel();
@@ -46,19 +48,19 @@ class WalletCoinsManager {
         await setCoins(model);
 
         var isSaveMnemonic = false;
-        if(mnemonic == null || mnemonic == ""){
+        if (mnemonic == null || mnemonic == "") {
           isSaveMnemonic = false;
-        }else{
+        } else {
           isSaveMnemonic = true;
         }
 
-        await setMnemonicAndSigningKey(address, mnemonic, signingKey,isSaveMnemonic);
+        await setMnemonicAndSigningKey(address, mnemonic, signingKey, isSaveMnemonic);
       }
     }
     return true;
   }
 
-  setMnemonicAndSigningKey(String address, String mnemonic, String signingKey,bool isSaveMnemonic) async {
+  setMnemonicAndSigningKey(String address, String mnemonic, String signingKey, bool isSaveMnemonic) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(Utils.generateMD5(address + "mnemonic"), mnemonic);
     prefs.setString(Utils.generateMD5(address + "signingKey"), signingKey);
@@ -68,6 +70,8 @@ class WalletCoinsManager {
   Future<WalletCoinsModel> getCoins() async {
     var prefs = await SharedPreferences.getInstance();
     var walletCoinsJson = prefs.getString('wallet_coins');
+    final key = Utils.generateMd5Int(b);
+    walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
     WalletCoinsModel model;
     if (walletCoinsJson == null || walletCoinsJson == "") {
       model = new WalletCoinsModel();
@@ -83,11 +87,12 @@ class WalletCoinsManager {
     if (model == null) {
       return prefs.setString('wallet_coins', "");
     } else {
-      return prefs.setString('wallet_coins', jsonEncode(model));
+      final key = Utils.generateMd5Int(b);
+      return prefs.setString('wallet_coins', Utils.aesEncode(jsonEncode(model), key));
     }
   }
 
-  Future<bool> addAccount(String coinName, String fullName, String address, String mnemonic, String signingKey,isSaveMnemonic) async {
+  Future<bool> addAccount(String coinName, String fullName, String address, String mnemonic, String signingKey, isSaveMnemonic) async {
     WalletCoinsModel coins = await getCoins();
 
     if (coins.coins == null) {
@@ -104,10 +109,10 @@ class WalletCoinsManager {
         coins.coins = [];
       }
       coins.coins.add(coin);
-      await setMnemonicAndSigningKey(address, mnemonic, signingKey,isSaveMnemonic);
+      await setMnemonicAndSigningKey(address, mnemonic, signingKey, isSaveMnemonic);
     } else {
       for (var i = 0; i < coins.coins.length; i++) {
-        if(coins.coins[i].accounts!=null){
+        if (coins.coins[i].accounts != null) {
           for (var j = 0; j < coins.coins[i].accounts.length; j++) {
             coins.coins[i].accounts[j].isSelect = false;
           }
@@ -123,7 +128,7 @@ class WalletCoinsManager {
           account.isSelect = true;
           account.coin = coinName;
           coins.coins[i].accounts.add(account);
-          await setMnemonicAndSigningKey(address, mnemonic, signingKey,isSaveMnemonic);
+          await setMnemonicAndSigningKey(address, mnemonic, signingKey, isSaveMnemonic);
         }
       }
     }
@@ -131,12 +136,11 @@ class WalletCoinsManager {
     return true;
   }
 
-  Future<bool>removeAccount (WalletCoinsModel walletCoinsModel, String address) async {
+  Future<bool> removeAccount(WalletCoinsModel walletCoinsModel, String address) async {
     await setCoins(walletCoinsModel);
-    await setMnemonicAndSigningKey(address,"","",false);
+    await setMnemonicAndSigningKey(address, "", "", false);
     return true;
   }
-
 
   Future<bool> changeAccount(WalletCoinsModel walletCoinsModel, String address) async {
     await setCoins(walletCoinsModel);
@@ -154,8 +158,6 @@ class WalletCoinsManager {
     await BoxApp.setSaveMnemonic(prefs.getBool((Utils.generateMD5(await BoxApp.getAddress() + "isSaveMnemonic"))));
     return true;
   }
-
-
 
   Future<Account> getCurrentAccount() async {
     WalletCoinsModel coins = await getCoins();
@@ -181,9 +183,8 @@ class WalletCoinsManager {
     return null;
   }
 
-  Future<WalletCoinsModel>  addChain(String coinName,String fullName) async {
+  Future<WalletCoinsModel> addChain(String coinName, String fullName) async {
     WalletCoinsModel walletCoinsModel = await getCoins();
-
 
     for (var i = 0; i < walletCoinsModel.coins.length; i++) {
       if (walletCoinsModel.coins[i].name == coinName) {
@@ -203,6 +204,7 @@ class WalletCoinsManager {
     return walletCoinsModel;
   }
 
+  //获取可用的公链
   List<ChainsModel> getChains() {
     List<ChainsModel> chains = [];
 
@@ -210,24 +212,16 @@ class WalletCoinsManager {
     ae.name = "AE";
     ae.nameFull = "Aeternity";
     chains.add(ae);
-    //
-    // ChainsModel eth = ChainsModel();
-    // eth.name = "ETH";
-    // eth.nameFull = "Ethereum";
-    // chains.add(eth);
 
     ChainsModel cfx = ChainsModel();
     cfx.name = "CFX";
     cfx.nameFull = "Conflux";
     chains.add(cfx);
+
+    // ChainsModel eth = ChainsModel();
+    // eth.name = "ETH";
+    // eth.nameFull = "Ethereum";
+    // chains.add(eth);
     return chains;
   }
-
-
-
-
-
-
-
-
 }

@@ -40,7 +40,6 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       setState(() {});
     } else {
       BoxApp.toFormatCfx((amount) {
-        print(amount);
         setData(amount);
 
         setState(() {});

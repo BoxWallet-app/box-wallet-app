@@ -405,7 +405,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 5),
+            margin: EdgeInsets.only(bottom: 10),
             child: Text(
               S.of(context).settings_contact,
               style: new TextStyle(
@@ -421,24 +421,54 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Telegram: ",
-                  style: new TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                InkWell(
+                  onTap: () {
+                    _launchURL("https://ae-source.oss-cn-hongkong.aliyuncs.com/shere_weixin.jpeg");
+                  },
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    child: Image(
+                      image: AssetImage("images/weixin.png"),
+                    ),
                   ),
                 ),
+                Container(width: 40,),
+                InkWell(
+                  onTap: () {
+                    _launchURL("https://qm.qq.com/cgi-bin/qm/qr?k=jnFWHm16iJM888smlrKE5PUkbshkdUT5&authKey=dGXI17gaZNaGwlDfLxFt1vWYqQLrvxrzGZiEMWgSKytSjWabHnSLz/f/PG9EQsre&noverify=0");
+                  },
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    child: Image(
+                      image: AssetImage("images/qq.png"),
+                    ),
+                  ),
+                ),
+                Container(width: 40,),
+                InkWell(
+                  onTap: () {
+                    _launchURL("https://twitter.com/Baixin25080316");
+                  },
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    child: Image(
+                      image: AssetImage("images/twitter.png"),
+                    ),
+                  ),
+                ),
+                Container(width: 40,),
                 InkWell(
                   onTap: () {
                     _launchURL("https://t.me/boxaepp");
                   },
-                  child: Text(
-                    "https://t.me/boxaepp",
-                    style: new TextStyle(
-                      fontSize: 14,
-                      color: Colors.blue,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    child: Image(
+                      image: AssetImage("images/telegram.png"),
                     ),
                   ),
                 ),
@@ -447,33 +477,6 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Btok: ",
-                  style: new TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    _launchURL("https://0.plus/boxaepp");
-                  },
-                  child: Text(
-                    "https://0.plus/boxaepp",
-                    style: new TextStyle(
-                      fontSize: 14,
-                      color: Colors.blue,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
-                  ),
-                ),
-              ],
-            ),
           )
         ],
       ),

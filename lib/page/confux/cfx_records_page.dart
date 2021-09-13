@@ -47,7 +47,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
       cfxTransfer = model;
       setState(() {});
     }).catchError((e) {
-      print(e);
+      // print(e);
     });
   }
 

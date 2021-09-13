@@ -394,7 +394,7 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: Text("交易凭证"),
+          title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[
             TextButton(

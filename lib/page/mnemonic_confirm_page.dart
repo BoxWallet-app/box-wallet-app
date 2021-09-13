@@ -209,7 +209,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     return Material(
       color: Color(0x00000000),
       child: Ink(
-        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(15))),
         child: InkWell(
 //          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {

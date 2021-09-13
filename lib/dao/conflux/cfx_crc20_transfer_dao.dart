@@ -23,7 +23,7 @@ class CfxCrc20TransferDao {
     Response response = await Dio().post(CFX_CRC20_TRANSACTION_HASH, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
+      // print(response.toString());
       CfxCrc20TransferModel model = CfxCrc20TransferModel.fromJson(data);
       return model;
     } else {
