@@ -42,19 +42,24 @@ class _TokenListPathState extends State<CfxTokenListPage> {
 
   Future<void> _onRefresh() async {
     CfxTokenListDao.fetch().then((CfxTokensListModel model) {
-      model.list.sort((t1,t2){
-        return (double.parse(t2.price)*double.parse(t2.balance)).compareTo((double.parse(t1.price)*double.parse(t1.balance)));
-      });
+
       tokenListModel = model;
       if(tokenListModel.total == 0){
         loadingType = LoadingType.no_data;
         setState(() {});
         return;
       }
+      tokenListModel.list.sort((t1,t2){
+        if(t2.price == null || t1.price == null){
+          return 0;
+        }
+        return (double.parse(t2.price)*double.parse(t2.balance)).compareTo((double.parse(t1.price)*double.parse(t1.balance)));
+      });
       loadingType = LoadingType.finish;
       setState(() {});
     }).catchError((e) {
       loadingType = LoadingType.error;
+      print(e.toString());
       setState(() {});
     });
   }
@@ -89,7 +94,12 @@ class _TokenListPathState extends State<CfxTokenListPage> {
 
 
   String getTokenPrice(int index) {
+
     if (priceModel == null) {
+      return "";
+    }
+
+    if(tokenListModel.list[index].price==null){
       return "";
     }
     if (BoxApp.language == "cn" && priceModel.tether != null) {
@@ -261,6 +271,21 @@ class _TokenListPathState extends State<CfxTokenListPage> {
   }
 
   Widget getIconImage(String data,String name) {
+    if(data == null){
+      return Container(
+        width: 27.0,
+        height: 27.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(36.0),
+          image: DecorationImage(
+            image: AssetImage("images/" + "CFX"+ ".png"),
+          ),
+        ),
+      );
+    }
     if(name=="FC"){
       return Container(
         width: 27.0,

@@ -20,10 +20,12 @@ import '../main.dart';
 import 'aeternity/ae_account_login_page.dart';
 import 'aeternity/ae_account_add_page.dart';
 import 'aeternity/ae_home_page.dart';
+import 'aeternity/ae_token_send_one_page.dart';
 import 'confux/cfx_account_add_page.dart';
 
 class WalletSelectPage extends StatefulWidget {
-  const WalletSelectPage({Key key}) : super(key: key);
+  final BuildContext buildContext;
+  const WalletSelectPage({Key key, this.buildContext}) : super(key: key);
 
   @override
   _WalletSelectPageState createState() => _WalletSelectPageState();
@@ -796,11 +798,83 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     }
   }
 
+
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
+
   void createImportAccount() async{
 
     // ignore: unnecessary_statements
     var coin = walletCoinsModel.coins[coinIndex];
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin)));
+
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          return;
+        },
+        barrierColor: Colors.grey.withOpacity(.4),
+        barrierDismissible: true,
+        barrierLabel: "",
+        transitionDuration: Duration(milliseconds: 0),
+        transitionBuilder: (context, anim1, anim2, child) {
+          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+          return Transform(
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
+              child: Opacity(
+                opacity: anim1.value,
+                // ignore: missing_return
+                child: PayPasswordWidget(
+                    title: S.of(context).password_widget_input_password,
+                    passwordCallBackFuture: (String password) async {
+                      var signingKey = await BoxApp.getSigningKey();
+                      var address = await BoxApp.getAddress();
+                      final key = Utils.generateMd5Int(password + address);
+                      var aesDecode = Utils.aesDecode(signingKey, key);
+
+                      if (aesDecode == "") {
+                        showErrorDialog(context, null);
+                        return;
+                      }
+                      // Navigator.push(widget.buildContext, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+                      Navigator.push(widget.buildContext, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin,password: password,accountCallBackFuture: (){
+                        eventBus.fire(AccountUpdateEvent());
+                                        Navigator.of(super.context).pop();
+
+                        return;
+                      },)));
+
+
+
+                      return;
+                    }),
+              ));
+        });
+    return;
+
+
 
     // final result = await showConfirmationDialog<int>(
     //   context: context,

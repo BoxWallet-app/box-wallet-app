@@ -152,12 +152,12 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTypedMessage",
                           callback: (List<dynamic> arguments) {
-                            // print("signTypedMessage" + arguments.toString());
+                            print("signTypedMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signMessage",
                           callback: (List<dynamic> arguments) {
-                            // print("signMessage" + arguments.toString());
+                            print("signMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "postMessage",

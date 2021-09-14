@@ -12,10 +12,12 @@ import 'create_mnemonic_confirm_page.dart';
 
 // ignore: must_be_immutable
 class CreateMnemonicCopyPage extends StatefulWidget {
-
+  static final int LOGIN = 0;
+  static final int ADD = 1;
   final String mnemonic;
+  final int type;
 
-  const CreateMnemonicCopyPage({Key key, this.mnemonic}) : super(key: key);
+  const CreateMnemonicCopyPage({Key key, this.mnemonic, this.type}) : super(key: key);
 
   @override
   _MnemonicCopyPagePageState createState() => _MnemonicCopyPagePageState();
@@ -36,18 +38,16 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
 //    List mnemonicList = mnemonic.split(" ");
 
     List mnemonicList = widget.mnemonic.split(" ");
-    for( var i = 0 ; i < mnemonicList.length; i++ ) {
-      mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
+    for (var i = 0; i < mnemonicList.length; i++) {
+      mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
 
 //    for (String item in mnemonicList) {
 //      mnemonicWord[item] = false;
 //    }
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       updateData();
     });
-
-
   }
 
   @override
@@ -59,7 +59,11 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
           elevation: 0,
           title: Text(
             "备份助记词",
-            style: TextStyle(color: Color(0xFF000000), fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+            style: TextStyle(
+              color: Color(0xFF000000),
+              fontSize: 18,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            ),
           ),
           // 隐藏阴影
           leading: IconButton(
@@ -71,46 +75,43 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
           ),
         ),
         body: SingleChildScrollView(
-
           child: Container(
             child: Column(
               children: AnimationConfiguration.toStaggeredList(
-            duration: const Duration(milliseconds: 375),
-            childAnimationBuilder: (widget) => SlideAnimation(
-              verticalOffset: 50.0,
-              child: FadeInAnimation(
-                child: widget,
-              ),
-            ),
-            children: [
-
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                child: Text(
-                  S.of(context).mnemonic_copy_content,
-                  style:TextStyle(
-                    fontSize: 18,
-                    color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                duration: const Duration(milliseconds: 375),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: widget,
                   ),
                 ),
-              ),
-
-
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                  decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: Wrap(
-                    spacing: 10, //主轴上子控件的间距
-                    runSpacing: 10, //交叉轴上子控件之间的间距
-                    children: childrenFalse,
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    child: Text(
+                      S.of(context).mnemonic_copy_content,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black.withAlpha(180),
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      ),
+                    ),
                   ),
-                ),
-              ),
+
+                  Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Wrap(
+                        spacing: 10, //主轴上子控件的间距
+                        runSpacing: 10, //交叉轴上子控件之间的间距
+                        children: childrenFalse,
+                      ),
+                    ),
+                  ),
 //              Container(
 //                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
 //                width: MediaQuery.of(context).size.width,
@@ -120,46 +121,48 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
 //                  children: childrenFalse,
 //                ),
 //              ),
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                child: Text(
-                  "注意\n"
+                  Container(
+                    alignment: Alignment.topLeft,
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    child: Text(
+                      "注意\n"
                       "· 请勿将助记词透漏给任何人\n"
                       "· 助记词一旦丢失，资产将无法恢复\n"
                       "· 请勿通过任何截屏，网络传输的方式进行备份\n"
                       "· 遇到任何情况，请不要轻易卸载钱包APP",
-                  style:TextStyle(
-                    fontSize: 14,
-                    color: Colors.red,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 30, bottom: 30),
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic:widget.mnemonic)));
-
-                    },
-                    child: Text(
-                      S.of(context).mnemonic_copy_confrom,
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red,
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      ),
                     ),
-                    color: Color(0xFFFC2365),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 30, bottom: 30),
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: FlatButton(
+                        onPressed: () {
+                          if (widget.type == CreateMnemonicCopyPage.LOGIN) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
+                          } else {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                          }
+                        },
+                        child: Text(
+                          S.of(context).mnemonic_copy_confrom,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                        ),
+                        color: Color(0xFFFC2365),
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-
-            ],
-          ),
             ),
           ),
         ));
@@ -181,13 +184,17 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
 
   Widget getItemContainer(String item, bool isSelect) {
     return Container(
-      width: MediaQuery.of(context).size.width/3-26,
+      width: MediaQuery.of(context).size.width / 3 - 26,
       child: Material(
         color: Color(0x00000000),
         child: Ink(
-          decoration: BoxDecoration(color: Color(0xFFFFFFFF),  border: Border.all(color: Color(0xFFCCCCCC)),borderRadius: BorderRadius.all(Radius.circular(10)),),
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFFFF),
+            border: Border.all(color: Color(0xFFCCCCCC)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
           child: InkWell(
-         // borderRadius: BorderRadius.all(Radius.circular(15)),
+            // borderRadius: BorderRadius.all(Radius.circular(15)),
             onTap: () {},
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: Center(
@@ -196,7 +203,10 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                 child: Text(
                   item.split("_")[0],
-                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  ),
                 ),
               ),
             ),

@@ -37,6 +37,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 import '../../main.dart';
 import '../mnemonic_copy_page.dart';
+import 'ae_token_send_one_page.dart';
 
 class AeTabPage extends StatefulWidget {
   @override
@@ -229,10 +230,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
           oldVersion = 1000;
           if (newVersion > oldVersion) {
-            if(model.data.msgCN == null){
+            if (model.data.msgCN == null) {
               model.data.msgCN = "发现新版本";
             }
-            if(model.data.msgEN == null){
+            if (model.data.msgEN == null) {
               model.data.msgEN = "Discover a new version";
             }
             Future.delayed(Duration.zero, () {
@@ -241,7 +242,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
-
                         return WillPopScope(
                           onWillPop: () async {
                             return Future.value(false);
@@ -271,9 +271,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         );
                       },
                     ).then((value) {
-                      if (value) {
-
-                      }
+                      if (value) {}
                     })
                   : showDialog<bool>(
                       context: context,
@@ -310,9 +308,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           ],
                         );
                       },
-                    ).then((value) {
-
-                    });
+                    ).then((value) {});
             });
           }
         });
@@ -339,7 +335,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   title: Text(S.of(context).dialog_hint),
                   content: Text(S.of(context).dialog_save_word),
                   actions: <Widget>[
-
                     TextButton(
                       child: new Text(
                         S.of(context).dialog_save_go,
@@ -541,7 +536,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      buildTitleRightIcon(),
+                      buildTitleRightIcon(context),
                     ],
                   ),
                 ),
@@ -698,12 +693,13 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     );
   }
 
-  Positioned buildTitleRightIcon() {
+  Positioned buildTitleRightIcon(BuildContext context) {
 //    if (TokenDefiPage.model == null || TokenDefiPage.model.data.height == -1) {
 //      return Positioned(
 //        child: Container(),
 //      );
-//    }
+
+
     return Positioned(
       right: 18,
       child: Container(
@@ -715,7 +711,16 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(50)),
             onTap: () {
-              showMaterialModalBottomSheet(expand: false, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => WalletSelectPage());
+              showMaterialModalBottomSheet(
+                  expand: false,
+                  context: context,
+                  enableDrag: false,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) {
+                    return WalletSelectPage(buildContext: context,);
+                  });
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin,password: password,)));
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
             },
             child: Container(
               height: 35,

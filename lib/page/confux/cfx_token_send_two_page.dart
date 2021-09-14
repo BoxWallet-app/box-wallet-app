@@ -452,6 +452,21 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   Widget getIconImage(String data, String name) {
+    if(data == null){
+      return Container(
+        width: 27.0,
+        height: 27.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(36.0),
+          image: DecorationImage(
+            image: AssetImage("images/" + "CFX"+ ".png"),
+          ),
+        ),
+      );
+    }
     if ("CFX" != name) {
       if (name == "FC") {
         return Container(

@@ -48,7 +48,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
       color: Color(0x00000000).withAlpha(100),
       child: Center(
         child: Container(
-          height: 250,
+          height: 260,
           width: MediaQuery.of(context).size.width - 40,
           margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           decoration: ShapeDecoration(
@@ -79,6 +79,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 ),
               ),
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   widget.title,
@@ -144,12 +145,12 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 //              ),
 
               Container(
-                height: 40,
+                height: 45,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                 //边框设置
                 decoration: new BoxDecoration(
-                  color: Color(0xFFeeeeee),
+                  color: Color(0xFFedf3f7),
                   //设置四周圆角 角度
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),

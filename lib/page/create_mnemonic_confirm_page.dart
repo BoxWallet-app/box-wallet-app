@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
@@ -12,10 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'create_mnemonic_copy_page.dart';
+
 class CreateMnemonicConfirmPage extends StatefulWidget {
   final String mnemonic;
+  final int type;
 
-  const CreateMnemonicConfirmPage({Key key, this.mnemonic}) : super(key: key);
+  const CreateMnemonicConfirmPage({Key key, this.mnemonic, this.type}) : super(key: key);
 
   @override
   _AccountRegisterPageState createState() => _AccountRegisterPageState();
@@ -32,14 +36,14 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
     // TODO: implement initState
     super.initState();
     List mnemonicList = widget.mnemonic.split(" ");
-    if(BoxApp.inProduct){
+    if (BoxApp.inProduct) {
       mnemonicList.shuffle();
     }
 
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       updateData();
     });
   }
@@ -51,7 +55,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          title:Text(
+          title: Text(
             S.of(context).mnemonic_confirm_title,
             style: TextStyle(
               color: Color(0xFF000000),
@@ -84,14 +88,13 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                   margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Text(
                     S.of(context).mnemonic_confirm_content,
-                    style:TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       color: Colors.black.withAlpha(180),
                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     ),
                   ),
                 ),
-
                 Center(
                   child: Container(
                     height: 210,
@@ -125,7 +128,13 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                     child: FlatButton(
                       onPressed: () {
                         if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic:widget.mnemonic)));
+                          if (widget.type == CreateMnemonicCopyPage.LOGIN) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: widget.mnemonic)));
+                          } else {
+                            eventBus.fire(AddAccount());
+                            Navigator.pop(context);
+                          }
+
                           return;
                         }
 
@@ -165,7 +174,6 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                 ),
               ],
             ),
-
           ),
         ));
   }
@@ -186,7 +194,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
 
   Widget getItemContainer(String item, bool isSelect) {
     return Container(
-      width: MediaQuery.of(context).size.width/3-26,
+      width: MediaQuery.of(context).size.width / 3 - 26,
       child: Material(
         color: Color(0x00000000),
         child: Ink(
@@ -208,7 +216,10 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                 child: Text(
                   item.split("_")[0],
-                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  ),
                 ),
               ),
             ),

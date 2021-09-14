@@ -5,6 +5,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
+import 'package:box/page/login_page_new.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import '../main.dart';
 
 import 'aeternity/ae_home_page.dart';
 import 'language_page.dart';
+import 'look_mnemonic_page.dart';
 import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
 
@@ -93,32 +95,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                               passwordCallBackFuture: (String password) async {
                                 var mnemonic = await BoxApp.getMnemonic();
                                 var getSaveMnemonic = await BoxApp.getSaveMnemonic();
-                                if (!getSaveMnemonic) {
-                                  showDialog<bool>(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return new AlertDialog(
-                                        title: Text(S.of(context).dialog_hint),
-                                        content: Text(S.of(context).dialog_login_user_no_save),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: new Text(
-                                              S.of(context).dialog_conform,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(false);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ).then((val) {
-                                    print(val);
-                                  });
 
-                                  return;
-                                }
                                 var address = await BoxApp.getAddress();
                                 final key = Utils.generateMd5Int(password + address);
                                 var aesDecode = Utils.aesDecode(mnemonic, key);
@@ -148,7 +125,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                   });
                                   return;
                                 }
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode)));
                               },
                             ),
                           ),
@@ -172,7 +149,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                             Container(
                               padding: const EdgeInsets.only(left: 7),
                               child: Text(
-                                S.of(context).setting_page_item_save,
+                               "助记词",
                                 style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
@@ -371,7 +348,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                       BoxApp.setMnemonic("");
                       BoxApp.setSaveMnemonic(false);
                       WalletCoinsManager.instance.setCoins(null);
-                      Navigator.of(super.context).pushNamedAndRemoveUntil("/login", ModalRoute.withName("/login"));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPageNew()));
                     }
                   });
                 },

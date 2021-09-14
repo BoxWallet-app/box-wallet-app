@@ -5,6 +5,11 @@ EventBus eventBus = EventBus();
 class SwapEvent {
   SwapEvent();
 }
+
+class AddAccount {
+  AddAccount();
+}
+
 class LanguageEvent {
   LanguageEvent();
 }

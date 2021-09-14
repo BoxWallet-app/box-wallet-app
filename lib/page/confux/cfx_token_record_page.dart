@@ -55,7 +55,6 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   Future<void> _onRefresh() async {
     page = 1;
     netTokenRecord();
-    netContractBalance();
   }
 
   Future<void> netTokenRecord() async {
@@ -88,16 +87,6 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
     await netTokenRecord();
   }
 
-  void netContractBalance() {
-    ContractBalanceDao.fetch(widget.ctId).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        count = model.data.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
 
   @override
   void initState() {
@@ -156,7 +145,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   }
 
   int itemCount() {
-    if (tokenListModel == null || tokenListModel.data.list == null) {
+    if (tokenListModel == null || tokenListModel.data.list == null ||  tokenListModel.data.list.length == 0) {
       return 1;
     } else {
       return tokenListModel.data.list.length;
@@ -290,6 +279,22 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   }
 
   Widget getIconImage(String data, String name) {
+
+    if(data == null){
+      return Container(
+        width: 27.0,
+        height: 27.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(36.0),
+          image: DecorationImage(
+            image: AssetImage("images/" + "CFX"+ ".png"),
+          ),
+        ),
+      );
+    }
     if (name == "FC") {
       return Container(
         width: 27.0,

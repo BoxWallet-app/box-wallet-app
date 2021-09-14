@@ -255,7 +255,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CreateMnemonicCopyPage(
-                                            mnemonic: mnemonic,
+                                            mnemonic: mnemonic,type: CreateMnemonicCopyPage.LOGIN,
                                           )));
                               return;
                             });
@@ -301,7 +301,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                             //             return;
                             //           },
                             //         ));
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
