@@ -443,17 +443,17 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         },
 
         child: Scaffold(
-          backgroundColor: Color(0xfffafafa),
+          backgroundColor: Color(0xFFfafbfc),
           resizeToAvoidBottomInset: false,
           body: Container(
             child: Column(
               children: [
                 Container(
-                  color: Color(0xfffafafa),
+                  color: Color(0xFFfafbfc),
                   height: MediaQueryData.fromWindow(window).padding.top,
                 ),
                 Container(
-                  color: Color(0xfffafafa),
+                  color: Color(0xFFfafbfc),
 //              color: Colors.blue,
                   width: MediaQuery.of(context).size.width,
                   height: 52,
@@ -723,7 +723,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 //设置四周边框
-                border: new Border.all(width: 1, color: Color(0xFFF5F5F5)),
+                border: new Border.all(width: 1, color: Color(0xFFfafbfc)),
                 //设置四周边框
               ),
               padding: EdgeInsets.only(left: 4, right: 4),
@@ -737,7 +737,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         width: 27.0,
                         height: 27.0,
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
+                          border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(36.0),
                           image: DecorationImage(
@@ -763,7 +763,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                     margin: const EdgeInsets.only(right: 4),
                     //边框设置
                     decoration: new BoxDecoration(
-                      // color: Color(0xFFF5F5F5),
+                      // color: Color(0xFFfafbfc),
                       //设置四周圆角 角度
                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
                     ),

@@ -548,7 +548,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                   Positioned(
                     bottom: 0,
                     left: 20,
-                    child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                    child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
                   )
               ],
             ),

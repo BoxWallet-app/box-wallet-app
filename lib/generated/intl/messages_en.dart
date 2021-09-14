@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "account_login_page_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "account_login_page_input_hint" : MessageLookupByLibrary.simpleMessage("Mnemonic phrase is used to log in to the wallet, fill in 12 words in order, and use spaces to fill in between the words"),
-    "account_login_page_input_mnemonic" : MessageLookupByLibrary.simpleMessage("Please enter the mnemonic phrase"),
+    "account_login_page_input_mnemonic" : MessageLookupByLibrary.simpleMessage("Enter the mnemonic"),
     "ae_select_token_page_title" : MessageLookupByLibrary.simpleMessage("Select Points"),
     "ae_status_aensBid" : MessageLookupByLibrary.simpleMessage("Domain is being bound"),
     "ae_status_aensClaim" : MessageLookupByLibrary.simpleMessage("Domain is being auctioned"),

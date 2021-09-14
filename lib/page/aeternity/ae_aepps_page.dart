@@ -492,7 +492,7 @@ class _AeAeppsPageState extends State<AeAeppsPage>
                                   padding: const EdgeInsets.only(left: 0),
                                   //边框设置
                                   decoration: new BoxDecoration(
-                                    color: Color(0xFFF5F5F5),
+                                    color: Color(0xFFfafbfc),
                                     //设置四周圆角 角度
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(25.0)),

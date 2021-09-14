@@ -189,7 +189,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
 //
         },
         child: Container(
-          color: Color(0xFFF5F5F5),
+          color: Color(0xFFfafbfc),
           child: Container(
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
@@ -715,7 +715,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                   child: Container(
                       height: 1.0,
                       width: MediaQuery.of(context).size.width - 30,
-                      color: Color(0xFFF5F5F5)),
+                      color: Color(0xFFfafbfc)),
                 )
             ],
           ),

@@ -55,10 +55,10 @@ class S {
     );
   }
 
-  /// `Please enter the mnemonic phrase`
+  /// `Enter the mnemonic`
   String get account_login_page_input_mnemonic {
     return Intl.message(
-      'Please enter the mnemonic phrase',
+      'Enter the mnemonic',
       name: 'account_login_page_input_mnemonic',
       desc: '',
       args: [],

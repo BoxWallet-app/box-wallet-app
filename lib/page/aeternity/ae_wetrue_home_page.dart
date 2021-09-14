@@ -149,7 +149,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
               ],
             ),
           ),
-          backgroundColor: Color(0xFFF5F5F5),
+          backgroundColor: Color(0xFFfafbfc),
           body: Container(
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(
@@ -277,7 +277,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
                 )
             ],
           ),

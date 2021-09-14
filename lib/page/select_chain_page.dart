@@ -119,7 +119,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     ),
                     // Container(
                     //   height: 1,
-                    //   color: Color(0xFFF5F5F5),
+                    //   color: Color(0xFFfafbfc),
                     //   width: MediaQuery.of(context).size.width,
                     // ),
                     Container(
@@ -242,7 +242,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     width: 45.0,
                     height: 45.0,
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), top: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), left: BorderSide(color: Color(0xFFF5F5F5), width: 1.0), right: BorderSide(color: Color(0xFFF5F5F5), width: 1.0)),
+                      border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(36.0),
                       image: DecorationImage(

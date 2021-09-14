@@ -26,8 +26,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'account_login_page.dart';
 import 'confux/cfx_account_login_page.dart';
+import 'create_mnemonic_copy_page.dart';
 import 'mnemonic_copy_page.dart';
+import 'select_chain_create_page.dart';
 
 class LoginPageNew extends StatefulWidget {
   @override
@@ -244,7 +247,20 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: FlatButton(
                           onPressed: () {
-                            showMaterialModalBottomSheet(expand: true, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => SelectChainPage(type: 0));
+                            // showMaterialModalBottomSheet(expand: true, context: context, enableDrag: false, backgroundColor: Colors.transparent, builder: (context) => SelectChainPage(type: 0));
+                            EasyLoading.show();
+                            BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
+                              EasyLoading.dismiss(animation: true);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateMnemonicCopyPage(
+                                            mnemonic: mnemonic,
+                                          )));
+                              return;
+                            });
+
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => SelectChainCreatePage()));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
@@ -265,26 +281,27 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         height: 50,
                         child: FlatButton(
                           onPressed: () {
-                            showMaterialModalBottomSheet(
-                                expand: true,
-                                context: context,
-                                enableDrag: false,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => SelectChainPage(
-                                      type: 1,
-                                      selectChainPageCallBackFuture: (model) {
-                                        print(model.name);
-                                        if(model.name == "AE"){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AeAccountLoginPage()));
-                                          return;
-                                        }
-                                        if(model.name == "CFX"){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAccountLoginPage()));
-                                          return;
-                                        }
-                                        return;
-                                      },
-                                    ));
+                            // showMaterialModalBottomSheet(
+                            //     expand: true,
+                            //     context: context,
+                            //     enableDrag: false,
+                            //     backgroundColor: Colors.transparent,
+                            //     builder: (context) => SelectChainPage(
+                            //           type: 1,
+                            //           selectChainPageCallBackFuture: (model) {
+                            //             print(model.name);
+                            //             if (model.name == "AE") {
+                            //
+                            //               return;
+                            //             }
+                            //             if (model.name == "CFX") {
+                            //               Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAccountLoginPage()));
+                            //               return;
+                            //             }
+                            //             return;
+                            //           },
+                            //         ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage()));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),

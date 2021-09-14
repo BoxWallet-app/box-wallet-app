@@ -25,7 +25,7 @@ class _AeSwapsPageState extends State<AeSwapsPage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFF5F5F5),
+          backgroundColor: Color(0xFFfafbfc),
           elevation: 0,
           // 隐藏阴影
           leading: IconButton(

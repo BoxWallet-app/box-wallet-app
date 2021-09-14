@@ -74,10 +74,10 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Color(0xFFfafbfc),
         // 隐藏阴影
         leading: IconButton(
           icon: Icon(
@@ -189,7 +189,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
-          color: Color(0xFFF5F5F5),
+          color: Color(0xFFfafbfc),
           child: Container(
             margin: EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
@@ -527,7 +527,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
                 )
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/page/add_account_page.dart';
 import 'package:box/page/select_chain_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -79,7 +80,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                 decoration: ShapeDecoration(
                   // color: Color(0xffffffff),
-                  color: Color(0xFFF5F5F5),
+                  color: Color(0xFFfafbfc),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -138,7 +139,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     ),
                     Container(
                       height: 1,
-                      // color: Color(0xFFF5F5F5),
+                      // color: Color(0xFFfafbfc),
                       width: MediaQuery.of(context).size.width,
                     ),
 
@@ -152,7 +153,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                             removeTop: true,
                             context: context,
                             child: Container(
-                              color: Color(0xFFF5F5F5),
+                              color: Color(0xFFfafbfc),
                               height: MediaQuery.of(context).size.height * 0.75 - 52,
                               width: 56,
                               child: ListView.builder(
@@ -171,7 +172,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 Container(
                                   width: MediaQuery.of(context).size.width - 56,
                                   padding: EdgeInsets.only(left: 18),
-                                  color: Color(0xFFF5F5F5),
+                                  color: Color(0xFFfafbfc),
                                   height: 42,
                                   child: Row(
                                     children: [
@@ -214,7 +215,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                   ),
                                 ),
                                 Container(
-                                  color: Color(0xFFF5F5F5),
+                                  color: Color(0xFFfafbfc),
                                   height: MediaQuery.of(context).size.height * 0.75 - 52 - 1 - 42,
                                   width: MediaQuery.of(context).size.width - 56,
                                   child: ListView.builder(
@@ -796,62 +797,67 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   void createImportAccount() async{
-    final result = await showConfirmationDialog<int>(
-      context: context,
-      cancelLabel: S.of(context).dialog_dismiss,
-      actions: [
-        ...List.generate(
-          2,
-              (index) => AlertDialogAction(
-            label: index == 0 ?  S.of(context).select_wallet_page_input_account :  S.of(context).select_wallet_page_create_account ,
-            key: index,
-          ),
-        ),
-      ],
-      title:  S.of(context).select_wallet_page_add_account_1+" " + walletCoinsModel.coins[coinIndex].fullName + " "+ S.of(context).select_wallet_page_add_account_2,
-    );
-    if (result == 0) {
 
-      if(walletCoinsModel.coins[coinIndex].name == "AE"){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AeAccountAddPage(
-                  accountCallBackFuture: () {
-                    Navigator.of(super.context).pop();
-                    eventBus.fire(AccountUpdateEvent());
+    // ignore: unnecessary_statements
+    var coin = walletCoinsModel.coins[coinIndex];
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin)));
 
-                    return;
-                  },
-                )));
-        return;
-      }
-      if(walletCoinsModel.coins[coinIndex].name == "CFX"){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CfxAccountAddPage(
-                  accountCallBackFuture: () {
-                    Navigator.of(super.context).pop();
-                    eventBus.fire(AccountUpdateEvent());
-
-                    return;
-                  },
-                )));
-        return;
-      }
-
-
-    }
-    if (result == 1) {
-      if(walletCoinsModel.coins[coinIndex].name == "AE"){
-        createAE(context);
-        return;
-      }
-      if(walletCoinsModel.coins[coinIndex].name == "CFX"){
-        createCFX(context);
-        return;
-      }
-    }
+    // final result = await showConfirmationDialog<int>(
+    //   context: context,
+    //   cancelLabel: S.of(context).dialog_dismiss,
+    //   actions: [
+    //     ...List.generate(
+    //       2,
+    //           (index) => AlertDialogAction(
+    //         label: index == 0 ?  S.of(context).select_wallet_page_input_account :  S.of(context).select_wallet_page_create_account ,
+    //         key: index,
+    //       ),
+    //     ),
+    //   ],
+    //   title:  S.of(context).select_wallet_page_add_account_1+" " + walletCoinsModel.coins[coinIndex].fullName + " "+ S.of(context).select_wallet_page_add_account_2,
+    // );
+    // if (result == 0) {
+    //
+    //   if(walletCoinsModel.coins[coinIndex].name == "AE"){
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => AeAccountAddPage(
+    //               accountCallBackFuture: () {
+    //                 Navigator.of(super.context).pop();
+    //                 eventBus.fire(AccountUpdateEvent());
+    //
+    //                 return;
+    //               },
+    //             )));
+    //     return;
+    //   }
+    //   if(walletCoinsModel.coins[coinIndex].name == "CFX"){
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) => CfxAccountAddPage(
+    //               accountCallBackFuture: () {
+    //                 Navigator.of(super.context).pop();
+    //                 eventBus.fire(AccountUpdateEvent());
+    //
+    //                 return;
+    //               },
+    //             )));
+    //     return;
+    //   }
+    //
+    //
+    // }
+    // if (result == 1) {
+    //   if(walletCoinsModel.coins[coinIndex].name == "AE"){
+    //     createAE(context);
+    //     return;
+    //   }
+    //   if(walletCoinsModel.coins[coinIndex].name == "CFX"){
+    //     createCFX(context);
+    //     return;
+    //   }
+    // }
   }
 }

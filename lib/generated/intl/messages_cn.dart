@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "account_login_page_conform" : MessageLookupByLibrary.simpleMessage("确认"),
     "account_login_page_input_hint" : MessageLookupByLibrary.simpleMessage("助记词用于登录钱包,按照顺序将12个单词进行填写,单词之间使用空格填充"),
-    "account_login_page_input_mnemonic" : MessageLookupByLibrary.simpleMessage("请输入助记词"),
+    "account_login_page_input_mnemonic" : MessageLookupByLibrary.simpleMessage("输入助记词"),
     "ae_select_token_page_title" : MessageLookupByLibrary.simpleMessage("选择积分"),
     "ae_status_aensBid" : MessageLookupByLibrary.simpleMessage("正在绑定域名"),
     "ae_status_aensClaim" : MessageLookupByLibrary.simpleMessage("正在注册域名"),
@@ -224,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading_widget_no_net" : MessageLookupByLibrary.simpleMessage("网络错误,请确认重试"),
     "loading_widget_no_net_try" : MessageLookupByLibrary.simpleMessage("重试"),
     "login_btn_create" : MessageLookupByLibrary.simpleMessage("创建新钱包"),
-    "login_btn_input" : MessageLookupByLibrary.simpleMessage("导入已有钱包"),
+    "login_btn_input" : MessageLookupByLibrary.simpleMessage("恢复钱包"),
     "login_page_create" : MessageLookupByLibrary.simpleMessage("创建新账户"),
     "login_page_login" : MessageLookupByLibrary.simpleMessage("开始使用"),
     "login_sg1" : MessageLookupByLibrary.simpleMessage("更好用的多币种 多链钱包"),

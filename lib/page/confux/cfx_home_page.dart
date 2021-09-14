@@ -32,6 +32,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -193,95 +194,102 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                         ],
                       ),
                       child: Column(
-                        children: [
-                          Container(
-                            height: 120,
-                            margin: const EdgeInsets.only(left: 16, right: 16),
-                            decoration: new BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color(0xFF37A1DB).withAlpha(20),
-                                    offset: Offset(0.0, 55.0),
-                                    //阴影xy轴偏移量
-                                    blurRadius: 50.0,
-                                    //阴影模糊程度
-                                    spreadRadius: 0.1 //阴影扩散程度
-                                    )
-                              ],
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 375),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: widget,
                             ),
                           ),
-//                          Container(
-//                            height: 90,
-//                            margin: const EdgeInsets.only(left: 16, right: 16),
-//                            decoration: new BoxDecoration(
-//                              boxShadow: [
-//                                BoxShadow(
-//                                    color: Color(0xFF3C5DE3).withAlpha(20),
-//                                    offset: Offset(0.0, 55.0), //阴影xy轴偏移量
-//                                    blurRadius: 50.0, //阴影模糊程度
-//                                    spreadRadius: 0.1 //阴影扩散程度
-//                                    )
-//                              ],
-//                            ),
-//                          ),
-                        ],
+                          children: [
+                            Container(
+                              height: 120,
+                              margin: const EdgeInsets.only(left: 16, right: 16),
+                              decoration: new BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color(0xFF37A1DB).withAlpha(20),
+                                      offset: Offset(0.0, 55.0),
+                                      //阴影xy轴偏移量
+                                      blurRadius: 50.0,
+                                      //阴影模糊程度
+                                      spreadRadius: 0.1 //阴影扩散程度
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment:  CrossAxisAlignment.center,
                       ),
+
                     ),
                   ),
                   Positioned(
                     child: Container(
                       margin: const EdgeInsets.only(left: 16, right: 16),
                       child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 160,
-                                decoration: new BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                                    Color(0xFF3292C7),
-                                    Color(0xFF37A1DB),
-                                  ]),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 32,
-                                  height: 35,
+                        children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 375),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: widget,
+                            ),
+                          ),
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 160,
                                   decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
-                                    color: Color(0xFF3F7FB5),
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                    gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+                                      Color(0xFF3292C7),
+                                      Color(0xFF37A1DB),
+                                    ]),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 3,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 32,
-                                  height: 40,
+                                Positioned(
+                                  bottom: 0,
                                   child: Container(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 12, left: 15),
-                                          child: Row(
-                                            children: <Widget>[
-                                              priceModel == null
-                                                  ? Container()
-                                                  : Container(
-                                                      margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
-                                                      child: Text(
+                                    width: MediaQuery.of(context).size.width - 32,
+                                    height: 35,
+                                    decoration: new BoxDecoration(
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
+                                      color: Color(0xFF3F7FB5),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 3,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width - 32,
+                                    height: 40,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.only(top: 12, left: 15),
+                                            child: Row(
+                                              children: <Widget>[
+                                                priceModel == null
+                                                    ? Container()
+                                                    : Container(
+                                                  margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
+                                                  child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                        getAePrice(),
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                                      ),
-                                                    ),
+                                                    getAePrice(),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  ),
+                                                ),
 
 //                            buildTypewriterAnimatedTextKit(),
 
@@ -310,53 +318,53 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                    ),
 //                                                  ),
 //                                                ),
-                                              Expanded(child: Container()),
-                                              Text(
-                                                CfxHomePage.tokenABC == "loading..."
-                                                    ? "loading..."
-                                                    : double.parse(CfxHomePage.tokenABC) > 1000
-                                                        ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
-                                                        : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
+                                                Expanded(child: Container()),
+                                                Text(
+                                                  CfxHomePage.tokenABC == "loading..."
+                                                      ? "loading..."
+                                                      : double.parse(CfxHomePage.tokenABC) > 1000
+                                                      ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
+                                                      : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
 //                                      "9999999.00000",
-                                                overflow: TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
 
-                                                style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                              ),
-                                              Container(
-                                                width: 20,
-                                              ),
-                                            ],
+                                                  style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                ),
+                                                Container(
+                                                  width: 20,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Clipboard.setData(ClipboardData(text: CfxHomePage.address));
-                                  Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 160,
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(left: 20, right: 50),
-                                  child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(120), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 87,
-                                  height: 58,
-                                  child: Image(
-                                    image: AssetImage("images/card_top.png"),
+                                InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(text: CfxHomePage.address));
+                                    Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 160,
+                                    alignment: Alignment.centerLeft,
+                                    margin: EdgeInsets.only(left: 20, right: 50),
+                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(120), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
-                              ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: Container(
+                                    width: 87,
+                                    height: 58,
+                                    child: Image(
+                                      image: AssetImage("images/card_top.png"),
+                                    ),
+                                  ),
+                                ),
 //                              Positioned(
 //                                left: 60,
 //                                bottom: 20,
@@ -381,46 +389,46 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                  ),
 //                                ),
 //                              ),
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  width: 120,
-                                  height: 46,
-                                  child: Image(
-                                    image: AssetImage("images/card_bottom.png"),
+                                Positioned(
+                                  right: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    width: 120,
+                                    height: 46,
+                                    child: Image(
+                                      image: AssetImage("images/card_bottom.png"),
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              Container(
-                                height: 130,
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 20, left: 18),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            S.of(context).home_page_my_count + " (CFX）",
-                                            style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                          ),
-                                          Expanded(child: Container()),
-                                          Container(
-                                            margin: const EdgeInsets.only(left: 2, right: 20),
-                                            child: Text(
-                                              domain,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                Container(
+                                  height: 130,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 20, left: 18),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              S.of(context).home_page_my_count + " (CFX）",
+                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
-                                          ),
-                                        ],
+                                            Expanded(child: Container()),
+                                            Container(
+                                              margin: const EdgeInsets.only(left: 2, right: 20),
+                                              child: Text(
+                                                domain,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 20, left: 15),
-                                      child: Row(
-                                        children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 20, left: 15),
+                                        child: Row(
+                                          children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
 //                                          Container(
 //                                            width: 36.0,
@@ -447,10 +455,10 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                              ),
 //                                            ),
 //                                          ),
-                                          Expanded(child: Container()),
+                                            Expanded(child: Container()),
 
-                                          Row(
-                                            children: [
+                                            Row(
+                                              children: [
 //                                              priceModel == null
 //                                                  ? Container()
 //                                                  : Container(
@@ -463,26 +471,26 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                ),
 //                                              ),
 
-                                              Text(
-                                                CfxHomePage.token == "loading..."
-                                                    ? "loading..."
-                                                    : double.parse(CfxHomePage.token) > 1000
-                                                        ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
-                                                        : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",
+                                                Text(
+                                                  CfxHomePage.token == "loading..."
+                                                      ? "loading..."
+                                                      : double.parse(CfxHomePage.token) > 1000
+                                                      ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
+                                                      : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
-                                                overflow: TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
 
-                                                style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                              ),
-                                            ],
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                          ),
-                                          Container(
-                                            width: 20,
-                                          ),
-                                        ],
+                                                  style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                ),
+                                              ],
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                            ),
+                                            Container(
+                                              width: 20,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
 
 //                                    Container(
 //                                      alignment: Alignment.topLeft,
@@ -493,9 +501,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
 //                                      ),
 //                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
 //                              Positioned(
 //                                right: 0,
 //                                top: 0,
@@ -515,256 +523,262 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                  ),
 //                                ),
 //                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 48,
-                            margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              S.of(context).home_send_receive,
-                              style: TextStyle(
-                                color: Color(0xFF000000),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                fontFamily: BoxApp.language == "cn"
-                                    ? "Ubuntu"
-                                    : BoxApp.language == "cn"
-                                        ? "Ubuntu"
-                                        : "Ubuntu",
-                              ),
+                              ],
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 90,
-                                  alignment: Alignment.centerLeft,
-                                  margin: const EdgeInsets.only(top: 0),
-                                  //边框设置
-                                  decoration: new BoxDecoration(
-                                    color: Color(0xE6FFFFFF),
-                                    //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  ),
-                                  child: Material(
-                                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                                    color: Colors.white,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
-                                      },
-                                      child: Container(
-                                        height: 90,
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              padding: const EdgeInsets.only(left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: const EdgeInsets.only(top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage("images/home_send_token.png"),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      padding: const EdgeInsets.only(left: 5),
-                                                      child: Text(
-                                                        S.of(context).home_page_function_send,
-                                                        style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-//                                            Positioned(
-//                                              right: 23,
-//                                              child: Container(
-//                                                width: 25,
-//                                                height: 25,
-//                                                padding: const EdgeInsets.only(left: 0),
-//                                                //边框设置
-//                                                decoration: new BoxDecoration(
-//                                                  color: Color(0xFFF5F5F5),
-//                                                  //设置四周圆角 角度
-//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                                                ),
-//                                                child: Icon(
-//                                                  Icons.arrow_forward_ios,
-//                                                  size: 15,
-//                                                  color: Color(0xFFCCCCCC),
-//                                                ),
-//                                              ),
-//                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                            Container(
+                              height: 48,
+                              margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                S.of(context).home_send_receive,
+                                style: TextStyle(
+                                  color: Color(0xFF000000),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  fontFamily: BoxApp.language == "cn"
+                                      ? "Ubuntu"
+                                      : BoxApp.language == "cn"
+                                      ? "Ubuntu"
+                                      : "Ubuntu",
                                 ),
                               ),
-                              Container(
-                                width: 12,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 90,
-                                  alignment: Alignment.centerLeft,
-                                  margin: const EdgeInsets.only(top: 0),
-                                  //边框设置
-                                  decoration: new BoxDecoration(
-                                    color: Color(0xE6FFFFFF),
-                                    //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  ),
-                                  child: Material(
-                                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                                    color: Colors.white,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
-                                      },
-                                      child: Container(
-                                        height: 90,
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              padding: const EdgeInsets.only(left: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: const EdgeInsets.only(top: 10),
-                                                    child: Image(
-                                                      width: 56,
-                                                      height: 56,
-                                                      image: AssetImage("images/home_receive_token.png"),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      padding: const EdgeInsets.only(left: 5),
-                                                      child: Text(
-                                                        S.of(context).home_page_function_receive,
-                                                        style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-//                                            Positioned(
-//                                              right: 23,
-//                                              child: Container(
-//                                                width: 25,
-//                                                height: 25,
-//                                                padding: const EdgeInsets.only(left: 0),
-//                                                //边框设置
-//                                                decoration: new BoxDecoration(
-//                                                  color: Color(0xFFF5F5F5),
-//                                                  //设置四周圆角 角度
-//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                                                ),
-//                                                child: Icon(
-//                                                  Icons.arrow_forward_ios,
-//                                                  size: 15,
-//                                                  color: Color(0xFFCCCCCC),
-//                                                ),
-//                                              ),
-//                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 90,
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 12),
-                            //边框设置
-                            decoration: new BoxDecoration(
-                              color: Color(0xE6FFFFFF),
-                              //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
                             ),
-                            child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                              color: Colors.white,
-                              child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
-                                },
-                                child: Container(
-                                  height: 90,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: const EdgeInsets.only(top: 10),
-                                              child: Image(
-                                                width: 56,
-                                                height: 56,
-                                                image: AssetImage("images/home_token.png"),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 90,
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 0),
+                                    //边框设置
+                                    decoration: new BoxDecoration(
+                                      color: Color(0xE6FFFFFF),
+                                      //设置四周圆角 角度
+                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                    ),
+                                    child: Material(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      color: Colors.white,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                                        },
+                                        child: Container(
+                                          height: 90,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: <Widget>[
+                                              Container(
                                                 padding: const EdgeInsets.only(left: 5),
-                                                child: Text(
-                                                  S.of(context).home_token,
-                                                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 10),
+                                                      child: Image(
+                                                        width: 56,
+                                                        height: 56,
+                                                        image: AssetImage("images/home_send_token.png"),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding: const EdgeInsets.only(left: 5),
+                                                        child: Text(
+                                                          S.of(context).home_page_function_send,
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                            )
-                                          ],
+//                                            Positioned(
+//                                              right: 23,
+//                                              child: Container(
+//                                                width: 25,
+//                                                height: 25,
+//                                                padding: const EdgeInsets.only(left: 0),
+//                                                //边框设置
+//                                                decoration: new BoxDecoration(
+//                                                  color: Color(0xFFfafbfc),
+//                                                  //设置四周圆角 角度
+//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+//                                                ),
+//                                                child: Icon(
+//                                                  Icons.arrow_forward_ios,
+//                                                  size: 15,
+//                                                  color: Color(0xFFCCCCCC),
+//                                                ),
+//                                              ),
+//                                            ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      Positioned(
-                                        right: 23,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 12,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 90,
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 0),
+                                    //边框设置
+                                    decoration: new BoxDecoration(
+                                      color: Color(0xE6FFFFFF),
+                                      //设置四周圆角 角度
+                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                    ),
+                                    child: Material(
+                                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      color: Colors.white,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
+                                        },
                                         child: Container(
-                                          width: 25,
-                                          height: 25,
-                                          padding: const EdgeInsets.only(left: 0),
-                                          //边框设置
-                                          decoration: new BoxDecoration(
-                                            color: Color(0xFFF5F5F5),
-                                            //设置四周圆角 角度
-                                            borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 15,
-                                            color: Color(0xFFCCCCCC),
+                                          height: 90,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                padding: const EdgeInsets.only(left: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 10),
+                                                      child: Image(
+                                                        width: 56,
+                                                        height: 56,
+                                                        image: AssetImage("images/home_receive_token.png"),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding: const EdgeInsets.only(left: 5),
+                                                        child: Text(
+                                                          S.of(context).home_page_function_receive,
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+//                                            Positioned(
+//                                              right: 23,
+//                                              child: Container(
+//                                                width: 25,
+//                                                height: 25,
+//                                                padding: const EdgeInsets.only(left: 0),
+//                                                //边框设置
+//                                                decoration: new BoxDecoration(
+//                                                  color: Color(0xFFfafbfc),
+//                                                  //设置四周圆角 角度
+//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+//                                                ),
+//                                                child: Icon(
+//                                                  Icons.arrow_forward_ios,
+//                                                  size: 15,
+//                                                  color: Color(0xFFCCCCCC),
+//                                                ),
+//                                              ),
+//                                            ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 90,
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(top: 12),
+                              //边框设置
+                              decoration: new BoxDecoration(
+                                color: Color(0xE6FFFFFF),
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              ),
+                              child: Material(
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                                color: Colors.white,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
+                                  },
+                                  child: Container(
+                                    height: 90,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 10),
+                                                child: Image(
+                                                  width: 56,
+                                                  height: 56,
+                                                  image: AssetImage("images/home_token.png"),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.only(left: 5),
+                                                  child: Text(
+                                                    S.of(context).home_token,
+                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 23,
+                                          child: Container(
+                                            width: 25,
+                                            height: 25,
+                                            padding: const EdgeInsets.only(left: 0),
+                                            //边框设置
+                                            decoration: new BoxDecoration(
+                                              color: Color(0xFFfafbfc),
+                                              //设置四周圆角 角度
+                                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                            ),
+                                            child: Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 15,
+                                              color: Color(0xFFCCCCCC),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          getRecordContainer(context),
-                        ],
+                            getRecordContainer(context),
+
+                          ],
+                        ),
+
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment:  CrossAxisAlignment.center,
                       ),
+
                     ),
                   ),
                 ],
@@ -842,7 +856,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                         padding: const EdgeInsets.only(left: 0),
                         //边框设置
                         decoration: new BoxDecoration(
-                          color: Color(0xFFF5F5F5),
+                          color: Color(0xFFfafbfc),
                           //设置四周圆角 角度
                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
                         ),
@@ -856,7 +870,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (cfxTransfer != null&& cfxTransfer.total>0)
+              if (cfxTransfer != null&& cfxTransfer.list.length>0)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -972,7 +986,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                         padding: const EdgeInsets.only(left: 0),
                         //边框设置
                         decoration: new BoxDecoration(
-                          color: Color(0xFFF5F5F5),
+                          color: Color(0xFFfafbfc),
                           //设置四周圆角 角度
                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
                         ),

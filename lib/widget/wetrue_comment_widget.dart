@@ -350,7 +350,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
-          color: Color(0xFFF5F5F5),
+          color: Color(0xFFfafbfc),
           child: Container(
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),

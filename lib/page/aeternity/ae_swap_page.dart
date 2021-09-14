@@ -84,10 +84,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
 //    print("update_swap");
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
         // 隐藏阴影
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Color(0xFFfafbfc),
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -356,7 +356,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
 //          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
-          color: Color(0xFFF5F5F5),
+          color: Color(0xFFfafbfc),
           child: Container(
             margin: index == swapModels.data.length ? EdgeInsets.only(left: 16, right: 16, bottom: 180 + MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
@@ -696,7 +696,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
                 )
             ],
           ),

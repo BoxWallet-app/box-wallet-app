@@ -84,7 +84,31 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
   }
 
   void updateData() {}
-
+  void showErrorDialog(BuildContext context, String content) {
+    if (content == null) {
+      content = S.of(context).dialog_hint_check_error_content;
+    }
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text(S.of(context).dialog_hint_check_error),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: new Text(
+                S.of(context).dialog_conform,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,7 +255,10 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                           var address = await BoxApp.getAddress();
                                           final key = Utils.generateMd5Int(password + address);
                                           var aesDecode = Utils.aesDecode(signingKey, key);
-
+                                          if (aesDecode == "") {
+                                            showErrorDialog(context,null);
+                                            return;
+                                          }
                                           if (widget.cfxTransferConfirmPageCallBackFuture != null) {
                                             widget.cfxTransferConfirmPageCallBackFuture(aesDecode);
                                           }

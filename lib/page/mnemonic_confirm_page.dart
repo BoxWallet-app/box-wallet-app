@@ -29,27 +29,34 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
-//    List mnemonicList = mnemonic.split(" ");
     List mnemonicList = widget.mnemonic.split(" ");
     if(BoxApp.inProduct){
       mnemonicList.shuffle();
     }
 
-//    mnemonicList.sort((left,right)=>left.compareTo(right));
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-
-    updateData();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      updateData();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
+          title:Text(
+            S.of(context).mnemonic_confirm_title,
+            style: TextStyle(
+              color: Color(0xFF000000),
+              fontSize: 18,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            ),
+          ),
           // 隐藏阴影
           leading: IconButton(
             icon: Icon(
@@ -62,37 +69,28 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
         body: Container(
           child: Column(
             children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: Text(
-                  S.of(context).mnemonic_confirm_title,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 24,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-              ),
+
+
               Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   S.of(context).mnemonic_confirm_content,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 14,
+                  style:TextStyle(
+                    fontSize: 18,
+                    color: Colors.black.withAlpha(180),
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
+
               Center(
                 child: Container(
-                  height: 170,
+                  height: 210,
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                  decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                  margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: SingleChildScrollView(
                     child: Wrap(
                       spacing: 10, //主轴上子控件的间距
@@ -103,7 +101,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                margin: EdgeInsets.only(left: 28, right: 28, top: 10, bottom: 10),
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
                   spacing: 10, //主轴上子控件的间距
@@ -206,28 +204,31 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
   }
 
   Widget getItemContainer(String item, bool isSelect) {
-    return Material(
-      color: Color(0x00000000),
-      child: Ink(
-        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(15))),
-        child: InkWell(
-//          borderRadius: BorderRadius.all(Radius.circular(5)),
-          onTap: () {
-            if (!isSelect) {
-              childrenWordTrue.add(item.split("_")[0]);
-            } else {
-              childrenWordTrue.remove(item.split("_")[0]);
-            }
-            mnemonicWord[item] = !isSelect;
-            updateData();
-          },
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          child: Container(
-            child: Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-              child: Text(
-                item.split("_")[0],
-                style: TextStyle(color: Color(0xFF000000)),
+    return Container(
+      width: MediaQuery.of(context).size.width/3-26,
+      child: Material(
+        color: Color(0x00000000),
+        child: Ink(
+          decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: InkWell(
+            onTap: () {
+              if (!isSelect) {
+                childrenWordTrue.add(item.split("_")[0]);
+              } else {
+                childrenWordTrue.remove(item.split("_")[0]);
+              }
+              mnemonicWord[item] = !isSelect;
+              updateData();
+            },
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                child: Text(
+                  item.split("_")[0],
+                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                ),
               ),
             ),
           ),

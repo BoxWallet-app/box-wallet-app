@@ -70,12 +70,13 @@ class WalletCoinsManager {
   Future<WalletCoinsModel> getCoins() async {
     var prefs = await SharedPreferences.getInstance();
     var walletCoinsJson = prefs.getString('wallet_coins');
-    final key = Utils.generateMd5Int(b);
-    walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
     WalletCoinsModel model;
     if (walletCoinsJson == null || walletCoinsJson == "") {
       model = new WalletCoinsModel();
     } else {
+      final key = Utils.generateMd5Int(b);
+      walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
+
       var data = jsonDecode(walletCoinsJson.toString());
       model = WalletCoinsModel.fromJson(data);
     }
@@ -185,6 +186,11 @@ class WalletCoinsManager {
 
   Future<WalletCoinsModel> addChain(String coinName, String fullName) async {
     WalletCoinsModel walletCoinsModel = await getCoins();
+
+    if (walletCoinsModel.coins == null) {
+
+      walletCoinsModel.coins = [];
+    }
 
     for (var i = 0; i < walletCoinsModel.coins.length; i++) {
       if (walletCoinsModel.coins[i].name == coinName) {

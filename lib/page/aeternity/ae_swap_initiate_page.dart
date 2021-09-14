@@ -182,7 +182,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                       //边框设置
                       decoration: new BoxDecoration(
-                        color: Color(0xFFf5f5f5),
+                        color: Color(0xFFfafbfc),
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
@@ -301,7 +301,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                           //边框设置
                           height: 40,
                           decoration: new BoxDecoration(
-                            color: Color(0xFFf5f5f5),
+                            color: Color(0xFFfafbfc),
                             //设置四周圆角 角度
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           ),
@@ -374,7 +374,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                           //边框设置
                           height: 40,
                           decoration: new BoxDecoration(
-                            color: Color(0xFFf5f5f5),
+                            color: Color(0xFFfafbfc),
                             //设置四周圆角 角度
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           ),

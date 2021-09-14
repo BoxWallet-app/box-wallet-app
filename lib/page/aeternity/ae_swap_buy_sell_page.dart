@@ -75,7 +75,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Color(0xFFfafbfc),
       body: LoadingWidget(
         type: loadingType,
         onPressedError: () {
@@ -136,7 +136,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
         onTap: () {
         },
         child: Container(
-          color: Color(0xFFF5F5F5),
+          color: Color(0xFFfafbfc),
           child: Container(
             decoration: new BoxDecoration(
               color: Color(0xFFFFFFFF),
@@ -437,7 +437,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                 Positioned(
                   bottom: 0,
                   left: 20,
-                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFF5F5F5)),
+                  child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
                 )
             ],
           ),
