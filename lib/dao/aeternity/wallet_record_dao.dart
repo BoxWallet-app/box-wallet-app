@@ -17,7 +17,6 @@ class WalletRecordDao {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
       WalletTransferRecordModel model = WalletTransferRecordModel.fromJson(data);
       return model;
     } else {

@@ -2,9 +2,6 @@ import 'dart:collection';
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:decimal/decimal.dart';
@@ -50,12 +47,12 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
   void setData(String amount) {
     if (widget.data['from'] != null) {
-      var from = buildItem("发送方", (widget.data['from']).toString());
+      var from = buildItem(S.of(context).CfxTransferConfirmPage_from, (widget.data['from']).toString());
       baseItems.add(from);
     }
 
     if (widget.data['to'] != null) {
-      var to = buildItem("接收方", (widget.data['to']).toString());
+      var to = buildItem(S.of(context).CfxTransferConfirmPage_to, (widget.data['to']).toString());
       baseItems.add(to);
     }
 
@@ -63,7 +60,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " CFX"),
       style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
     );
-    var cfx = buildItem2("数量", text);
+    var cfx = buildItem2(S.of(context).CfxTransferConfirmPage_count, text);
     baseItems.add(cfx);
     var decimal = Decimal.parse('1000000000000000000');
     var decimal2 = Decimal.parse((int.parse(widget.data['gas']).toString()));
@@ -73,12 +70,12 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
     var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
     if (widget.data['gas'] != null) {
-      var gas = buildItem("矿工费", "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
+      var gas = buildItem(S.of(context).CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
       baseItems.add(gas);
     }
 
     if (widget.data['data'] != null) {
-      var data = buildItem("输入数据", (widget.data['data']).toString());
+      var data = buildItem(S.of(context).CfxTransferConfirmPage_data, (widget.data['data']).toString());
       baseItems.add(data);
     }
   }
@@ -230,11 +227,11 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: FlatButton(
                           onPressed: () {
-                            showGeneralDialog(
+                            showGeneralDialog(useRootNavigator:false,
                                 context: context,
                                 // ignore: missing_return
                                 pageBuilder: (context, anim1, anim2) {},
-                                barrierColor: Colors.grey.withOpacity(.4),
+                                //barrierColor: Colors.grey.withOpacity(.4),
                                 barrierDismissible: true,
                                 barrierLabel: "",
                                 transitionDuration: Duration(milliseconds: 0),
@@ -270,7 +267,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                 });
                           },
                           child: Text(
-                            "确 认",
+                           S.of(context).dialog_conform,
                             maxLines: 1,
                             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                           ),
@@ -349,7 +346,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
   }
 
   String getTitleText() {
-    return "交易详情";
+    return S.of(context).CfxTransferConfirmPage_title;
   }
 
   Widget buildItem2(String key, Widget text) {

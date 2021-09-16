@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/allowance_dao.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/swap_coin_dao.dart';
@@ -15,12 +14,8 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../main.dart';
-
-import 'ae_home_page.dart';
 
 class AeSwapInitiatePage extends StatefulWidget {
   @override
@@ -178,11 +173,11 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 child: Stack(
                   children: [
                     Container(
-                      height: 40,
+                      height: 45,
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                       //边框设置
                       decoration: new BoxDecoration(
-                        color: Color(0xFFfafbfc),
+                        color: Color(0xFFedf3f7),
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
@@ -233,7 +228,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       child: swapCoinModel == null
                           ? Container()
                           : Container(
-                              height: 40,
+                              height: 45,
                               child: DropdownButton<SwapCoinModelData>(
                                 underline: Container(),
                                 value: dropdownValue,
@@ -299,9 +294,9 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                         Container(
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                           //边框设置
-                          height: 40,
+                          height: 45,
                           decoration: new BoxDecoration(
-                            color: Color(0xFFfafbfc),
+                            color: Color(0xFFedf3f7),
                             //设置四周圆角 角度
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           ),
@@ -350,7 +345,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                         Positioned(
                           right: 15,
                           child: Container(
-                              height: 40,
+                              height: 45,
                               alignment: Alignment.center,
                               child: Text(
                                 "AE",
@@ -372,9 +367,9 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                         Container(
 //                      padding: EdgeInsets.only(left: 10, right: 10),
                           //边框设置
-                          height: 40,
+                          height: 45,
                           decoration: new BoxDecoration(
-                            color: Color(0xFFfafbfc),
+                            color: Color(0xFFedf3f7),
                             //设置四周圆角 角度
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           ),
@@ -425,7 +420,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 ],
               ),
               Container(
-                height: 40,
+                height: 45,
                 width: MediaQuery.of(context).size.width - 45,
                 margin: const EdgeInsets.only(top: 28),
                 child:Container(
@@ -485,11 +480,11 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
     EasyLoading.show();
     AllowanceDao.fetch(dropdownValue.ctAddress).then((AllowanceModel model) {
       EasyLoading.dismiss(animation: true);
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -566,11 +561,11 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

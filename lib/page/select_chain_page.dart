@@ -1,7 +1,6 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
@@ -274,10 +273,10 @@ class _SelectChainPageState extends State<SelectChainPage> {
 
   void createAe() {
     BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -315,10 +314,10 @@ class _SelectChainPageState extends State<SelectChainPage> {
 
   void createCFX() {
     BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),

@@ -7,6 +7,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/login_page_new.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,11 +16,9 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
-
 import 'aeternity/ae_home_page.dart';
 import 'language_page.dart';
 import 'look_mnemonic_page.dart';
-import 'mnemonic_copy_page.dart';
 import 'node_page.dart';
 
 class SettingPage extends StatefulWidget {
@@ -73,10 +72,10 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 onTap: () {
-                  showGeneralDialog(
+                  showGeneralDialog(useRootNavigator:false,
                       context: context,
                       pageBuilder: (context, anim1, anim2) {},
-                      barrierColor: Colors.grey.withOpacity(.4),
+                      //barrierColor: Colors.grey.withOpacity(.4),
                       barrierDismissible: true,
                       barrierLabel: "",
                       transitionDuration: Duration(milliseconds: 0),
@@ -125,7 +124,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                   });
                                   return;
                                 }
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode)));
+                                Navigator.push(context, SlideRoute( LookMnemonicPage(mnemonic: aesDecode)));
                               },
                             ),
                           ),
@@ -149,7 +148,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                             Container(
                               padding: const EdgeInsets.only(left: 7),
                               child: Text(
-                               "助记词",
+                                S.of(context).SettingPage_mnemonic,
                                 style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
@@ -181,7 +180,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
           ),
           "AE" == coin
               ? buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
+                  Navigator.push(context, SlideRoute( NodePage()));
                 }, isLine: false)
               : Container(),
 
@@ -192,7 +191,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 )
               : Container(),
           buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
+            Navigator.push(context, SlideRoute( LanguagePage()));
           }, isLine: false),
           Container(
 //              color: Colors.white,
@@ -315,23 +314,23 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return new AlertDialog(
-                        title: new Text(S.current.setting_clear_data_title),
+                        title: new Text(S.of(context).setting_clear_data_title),
                         content: new SingleChildScrollView(
                           child: new ListBody(
                             children: <Widget>[
-                              new Text(S.current.setting_clear_data_content),
+                              new Text(S.of(context).setting_clear_data_content),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           TextButton(
-                            child: new Text(S.current.dialog_dismiss),
+                            child: new Text(S.of(context).dialog_dismiss),
                             onPressed: () {
                               Navigator.of(context).pop(false);
                             },
                           ),
                           new TextButton(
-                            child: new Text(S.current.dialog_conform),
+                            child: new Text(S.of(context).dialog_conform),
                             onPressed: () {
                               Navigator.of(context).pop(true);
                             },
@@ -348,7 +347,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                       BoxApp.setMnemonic("");
                       BoxApp.setSaveMnemonic(false);
                       WalletCoinsManager.instance.setCoins(null);
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPageNew()));
+                      Navigator.pushReplacement(context, SlideRoute( LoginPageNew()));
                     }
                   });
                 },
@@ -400,7 +399,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               children: [
                 InkWell(
                   onTap: () {
-                    _launchURL("https://ae-source.oss-cn-hongkong.aliyuncs.com/shere_weixin.jpeg");
+                    _launchURL("https://ae-source.oss-cn-hongkong.aliyuncs.com/share_weixin.jpeg");
                   },
                   child: Container(
                     width: 25,

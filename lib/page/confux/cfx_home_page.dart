@@ -1,40 +1,24 @@
 import 'dart:ui';
 
-import 'package:box/dao/aeternity/account_info_dao.dart';
-import 'package:box/dao/aeternity/block_top_dao.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/contract_info_dao.dart';
-import 'package:box/dao/aeternity/name_reverse_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
-import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
-import 'package:box/model/aeternity/block_top_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/contract_info_model.dart';
-import 'package:box/model/aeternity/name_reverse_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
-import 'package:box/page/aeternity/ae_records_page.dart';
-import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../main.dart';
 import 'cfx_records_page.dart';
@@ -94,7 +78,6 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
       setState(() {});
     }).catchError((e) {
-      print(e);
     });
   }
 
@@ -103,13 +86,10 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       cfxTransfer = model;
       setState(() {});
     }).catchError((e) {
-      print(e);
     });
   }
   getDomainName(String address) {
-    print(address);
    BoxApp.getAddressToNameCFX((name) {
-     print(name);
      if("ERROR"!=name){
        domain = name;
        setState(() {});
@@ -562,7 +542,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
                                         },
                                         child: Container(
                                           height: 90,
@@ -639,7 +619,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
+                                          Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
                                         },
                                         child: Container(
                                           height: 90,
@@ -714,7 +694,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
+                                    Navigator.push(context, SlideRoute( CfxTokenListPage()));
                                   },
                                   child: Container(
                                     height: 90,
@@ -816,7 +796,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
+            Navigator.push(context, SlideRoute( CfxRecordsPage()));
           },
           child: Column(
             children: [
@@ -875,7 +855,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
                   child: Text(
-                    S.current.cfx_home_page_transfer_random,
+                    S.of(context).cfx_home_page_transfer_random,
                     style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                   ),
                   height: 23,
@@ -946,7 +926,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
+            Navigator.push(context, SlideRoute( CfxRecordsPage()));
           },
           child: Column(
             children: [
@@ -1021,7 +1001,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          // Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
@@ -1077,7 +1057,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

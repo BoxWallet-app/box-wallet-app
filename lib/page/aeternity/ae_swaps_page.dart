@@ -1,17 +1,10 @@
-import 'package:box/dao/aeternity/aens_page_dao.dart';
-import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/block_top_model.dart';
-import 'package:box/page/aeternity/ae_aens_register.dart';
 import 'package:box/page/aeternity/ae_swap_buy_sell_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:underline_indicator/underline_indicator.dart';
 
 import '../../main.dart';
-import 'ae_aens_list_page.dart';
-import 'ae_aens_my_page.dart';
 
 class AeSwapsPage extends StatefulWidget {
   @override

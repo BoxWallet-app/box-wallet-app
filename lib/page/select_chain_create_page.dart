@@ -1,19 +1,10 @@
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
-import 'package:box/page/set_password_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -21,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:lottie/lottie.dart';
 
 import '../a.dart';
 
@@ -116,7 +105,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                       }
                     }
                     if (!isSelect) {
-                      EasyLoading.showToast('请选择至少一条公链', duration: Duration(seconds: 1));
+                      EasyLoading.showToast( S.of(context).SelectChainCreatePage_error, duration: Duration(seconds: 1));
                       return;
                     }
 
@@ -124,7 +113,6 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
 
                     EasyLoading.show();
                     var value = await WalletCoinsManager.instance.getCoins();
-                    print(value);
 
                     await createChain();
 
@@ -152,8 +140,6 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
       if (chains[i].isSelect) {
         if (chains[i].name == "AE") {
           BoxApp.getSecretKey((address, signingKey) async {
-            print(address);
-            print(signingKey);
             var password = Utils.generateMD5(widget.password + a);
             final key = Utils.generateMd5Int(password + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
@@ -161,14 +147,11 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode, false);
             chains[i].isSelect = false;
-            print("创建AE成功");
             checkSuccess();
           }, widget.mnemonic);
         }
         if (chains[i].name == "CFX") {
           BoxApp.getSecretKeyCFX((address, signingKey) async {
-            print(address);
-            print(signingKey);
             var password = Utils.generateMD5(widget.password + a);
             final key = Utils.generateMd5Int(password + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
@@ -176,7 +159,6 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode, false);
             chains[i].isSelect = false;
-            print("创建CFX成功");
             checkSuccess();
           }, widget.mnemonic);
         }
@@ -191,7 +173,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
         child: Text(
-          "选择你要创建的公链，可以同时创建多条",
+          S.of(context).SelectChainCreatePage_select_chain,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black.withAlpha(180),
@@ -300,7 +282,6 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
       }
     }
     EasyLoading.dismiss(animation: true);
-    WalletCoinsManager.instance.getCoins().then((value) => print(value.toJson()));
 
     Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
   }

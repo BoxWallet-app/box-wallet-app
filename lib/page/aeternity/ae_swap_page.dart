@@ -1,51 +1,27 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/swap_coin_account_dao.dart';
 import 'package:box/dao/aeternity/swap_coin_dao.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/swap_coin_account_model.dart';
 import 'package:box/model/aeternity/swap_coin_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
-import 'package:box/page/language_page.dart';
-import 'package:box/page/photo_page.dart';
-import 'package:box/page/scan_page.dart';
 import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/page/aeternity/ae_swap_my_page.dart';
-import 'package:box/page/aeternity/ae_aex2_page.dart';
+import 'package:box/page/photo_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/taurus_header.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-
-import '../login_page.dart';
-import '../mnemonic_copy_page.dart';
-import '../node_page.dart';
 
 class AeSwapPage extends StatefulWidget {
   @override
@@ -256,7 +232,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                               child: InkWell(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapInitiatePage()));
+                                  Navigator.push(context, SlideRoute( AeSwapInitiatePage()));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -289,8 +265,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                               child: InkWell(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 onTap: () {
-//                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ForumPage()));
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapMyPage()));
+//                                  Navigator.push(context, SlideRoute( ForumPage()));
+                                  Navigator.push(context, SlideRoute( AeSwapMyPage()));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -353,7 +329,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       color: Colors.white,
       child: InkWell(
         onTap: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+//          Navigator.push(context, SlideRoute( TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
           color: Color(0xFFfafbfc),
@@ -377,7 +353,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                       ),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].account)));
+                          Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
                         },
                         child: ClipOval(
                             child: CircularProfileAvatar(
@@ -563,11 +539,11 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   }
 
   void netBuy(int index) {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -637,11 +613,11 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

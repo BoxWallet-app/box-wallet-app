@@ -1,44 +1,19 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/account_info_dao.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/contract_transfer_call_dao.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
-import 'package:box/dao/aeternity/token_send_dao.dart';
-import 'package:box/dao/aeternity/tx_broadcast_dao.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/msg_sign_model.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/contract_call_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
-import 'package:box/model/aeternity/token_send_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
-import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/tx_conform_widget.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
 import 'cfx_home_page.dart';
@@ -548,11 +523,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
     focusNode.unfocus();
     if (tokenContract == null || tokenContract =="") {
 //      startLoading();
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -594,11 +569,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           });
     } else {
 //      startLoading();
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -642,11 +617,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -719,7 +694,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return new AlertDialog(
-          title: Text(S.current.dialog_hint_hash),
+          title: Text(S.of(context).dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[
             TextButton(

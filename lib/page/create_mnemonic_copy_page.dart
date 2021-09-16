@@ -1,10 +1,7 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/page/mnemonic_confirm_page.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../main.dart';
@@ -56,9 +53,10 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
+          centerTitle:true,
           elevation: 0,
           title: Text(
-            "备份助记词",
+            S.of(context).CreateMnemonicCopyPage_title,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -125,11 +123,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     child: Text(
-                      "注意\n"
-                      "· 请勿将助记词透漏给任何人\n"
-                      "· 助记词一旦丢失，资产将无法恢复\n"
-                      "· 请勿通过任何截屏，网络传输的方式进行备份\n"
-                      "· 遇到任何情况，请不要轻易卸载钱包APP",
+                     S.of(context).CreateMnemonicCopyPage_tips,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.red,
@@ -145,9 +139,9 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       child: FlatButton(
                         onPressed: () {
                           if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
+                            Navigator.push(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
                           } else {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                            Navigator.pushReplacement(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
                           }
                         },
                         child: Text(

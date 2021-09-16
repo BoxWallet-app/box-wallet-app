@@ -1,19 +1,10 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class BoxCodeMnemonicPage extends StatefulWidget {
@@ -94,7 +85,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
-                               "请妥善保存你的安全码，可用于恢复钱包时使用",
+                              S.of(context).BoxCodeMnemonicPage_title,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -151,7 +142,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                                         Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                                       },
                                       child: Text(
-                                        contentText == "" ? "复制安全码" : S.of(context).token_receive_page_copy_sucess,
+                                        contentText == "" ? S.of(context).BoxCodeMnemonicPage_btn : S.of(context).token_receive_page_copy_sucess,
                                         maxLines: 1,
                                         style: TextStyle(
                                           fontSize: 13,

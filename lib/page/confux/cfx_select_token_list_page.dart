@@ -2,28 +2,18 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/dao/conflux/cfx_token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import 'cfx_home_page.dart';
@@ -156,7 +146,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                           S.current.cfx_select_token_page_title,
+                           S.of(context).cfx_select_token_page_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,

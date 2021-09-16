@@ -755,6 +755,16 @@ class S {
     );
   }
 
+  /// `The mnemonic is incorrect`
+  String get dialog_hint_mnemonic {
+    return Intl.message(
+      'The mnemonic is incorrect',
+      name: 'dialog_hint_mnemonic',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send failed`
   String get dialog_hint_send_error {
     return Intl.message(
@@ -2485,10 +2495,10 @@ class S {
     );
   }
 
-  /// `You can receive the income in minutes`
+  /// `minutes receive the income in `
   String get dialog_defi_wait2 {
     return Intl.message(
-      'You can receive the income in minutes',
+      'minutes receive the income in ',
       name: 'dialog_defi_wait2',
       desc: '',
       args: [],
@@ -2555,10 +2565,10 @@ class S {
     );
   }
 
-  /// `According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.。`
+  /// `According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.`
   String get dialog_defi_temp_hint2 {
     return Intl.message(
-      'According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.。',
+      'According to the strong demand of the community, this mapping is a temporary pre-hyperchain mapping, not the final version, and the output multiplier will be different from the normal version. Is a temporary mapped version to reward old users.',
       name: 'dialog_defi_temp_hint2',
       desc: '',
       args: [],
@@ -3060,6 +3070,346 @@ class S {
     return Intl.message(
       'Proof of trading',
       name: 'dialog_hint_hash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup mnemonic phrase`
+  String get CreateMnemonicCopyPage_title {
+    return Intl.message(
+      'Backup mnemonic phrase',
+      name: 'CreateMnemonicCopyPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attention\n· Do not disclose the mnemonic words to anyone\n· Once the mnemonic words are lost, the assets cannot be restored\n· Please do not use any screenshots or network transmission to make backups\n· In any case, please do not uninstall the wallet app easily`
+  String get CreateMnemonicCopyPage_tips {
+    return Intl.message(
+      'Attention\n· Do not disclose the mnemonic words to anyone\n· Once the mnemonic words are lost, the assets cannot be restored\n· Please do not use any screenshots or network transmission to make backups\n· In any case, please do not uninstall the wallet app easily',
+      name: 'CreateMnemonicCopyPage_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set a secure password`
+  String get SetPasswordPage_set_password {
+    return Intl.message(
+      'Set a secure password',
+      name: 'SetPasswordPage_set_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Security Password`
+  String get SetPasswordPage_set_password_re {
+    return Intl.message(
+      'Confirm Security Password',
+      name: 'SetPasswordPage_set_password_re',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The two passwords are inconsistent`
+  String get SetPasswordPage_set_error_pas_2 {
+    return Intl.message(
+      'The two passwords are inconsistent',
+      name: 'SetPasswordPage_set_error_pas_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a password of at least 8 digits`
+  String get SetPasswordPage_set_error_pas_size {
+    return Intl.message(
+      'Enter a password of at least 8 digits',
+      name: 'SetPasswordPage_set_error_pas_size',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tip: The password is used to protect the private key authorization, please do not use too simple password; \nBoxWallet will not store the password, nor can it help you retrieve the password, please remember the password.`
+  String get SetPasswordPage_set_tips {
+    return Intl.message(
+      'Tip: The password is used to protect the private key authorization, please do not use too simple password; \nBoxWallet will not store the password, nor can it help you retrieve the password, please remember the password.',
+      name: 'SetPasswordPage_set_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the public chain you want to create, you can create multiple chains at the same time`
+  String get SelectChainCreatePage_select_chain {
+    return Intl.message(
+      'Select the public chain you want to create, you can create multiple chains at the same time',
+      name: 'SelectChainCreatePage_select_chain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select at least one public chain`
+  String get SelectChainCreatePage_error {
+    return Intl.message(
+      'Please select at least one public chain',
+      name: 'SelectChainCreatePage_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add New Account`
+  String get AddAccountPage_title {
+    return Intl.message(
+      'Add New Account',
+      name: 'AddAccountPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can add or create your new account under the public chain in the following ways`
+  String get AddAccountPage_title_2 {
+    return Intl.message(
+      'You can add or create your new account under the public chain in the following ways',
+      name: 'AddAccountPage_title_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or quickly import mnemonic words from other accounts (the same mnemonic phrase can create multiple public chain accounts)`
+  String get AddAccountPage_title_3 {
+    return Intl.message(
+      'Or quickly import mnemonic words from other accounts (the same mnemonic phrase can create multiple public chain accounts)',
+      name: 'AddAccountPage_title_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create mnemonic`
+  String get AddAccountPage_create {
+    return Intl.message(
+      'Create mnemonic',
+      name: 'AddAccountPage_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import mnemonic`
+  String get AddAccountPage_import {
+    return Intl.message(
+      'Import mnemonic',
+      name: 'AddAccountPage_import',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Select mnemonics`
+  String get AddAccountPage_copy {
+    return Intl.message(
+      ' Select mnemonics',
+      name: 'AddAccountPage_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Mnemonic Word`
+  String get SelectMnemonicPage_title {
+    return Intl.message(
+      'Select Mnemonic Word',
+      name: 'SelectMnemonicPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select one of the existing mnemonic words in other public chains for quick login`
+  String get SelectMnemonicPage_title2 {
+    return Intl.message(
+      'Please select one of the existing mnemonic words in other public chains for quick login',
+      name: 'SelectMnemonicPage_title2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mnemonic`
+  String get SettingPage_mnemonic {
+    return Intl.message(
+      'Mnemonic',
+      name: 'SettingPage_mnemonic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mnemonic Word`
+  String get LookMnemonicPage_title {
+    return Intl.message(
+      'Mnemonic Word',
+      name: 'LookMnemonicPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The following mnemonic phrase of the current account can be used to restore the wallet, please do not disclose it to others`
+  String get LookMnemonicPage_title2 {
+    return Intl.message(
+      'The following mnemonic phrase of the current account can be used to restore the wallet, please do not disclose it to others',
+      name: 'LookMnemonicPage_title2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate a quick wallet quick recovery code, which can be used to quickly log in to the wallet without the trouble of typing mnemonic words`
+  String get LookMnemonicPage_title3 {
+    return Intl.message(
+      'Generate a quick wallet quick recovery code, which can be used to quickly log in to the wallet without the trouble of typing mnemonic words',
+      name: 'LookMnemonicPage_title3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set protection code`
+  String get LookMnemonicPage_msg {
+    return Intl.message(
+      'Set protection code',
+      name: 'LookMnemonicPage_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate`
+  String get LookMnemonicPage_btn {
+    return Intl.message(
+      'Generate',
+      name: 'LookMnemonicPage_btn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please keep your security code properly, it can be used when restoring your wallet`
+  String get BoxCodeMnemonicPage_title {
+    return Intl.message(
+      'Please keep your security code properly, it can be used when restoring your wallet',
+      name: 'BoxCodeMnemonicPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy security code`
+  String get BoxCodeMnemonicPage_btn {
+    return Intl.message(
+      'Copy security code',
+      name: 'BoxCodeMnemonicPage_btn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details`
+  String get CfxTransferConfirmPage_title {
+    return Intl.message(
+      'Details',
+      name: 'CfxTransferConfirmPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From`
+  String get CfxTransferConfirmPage_from {
+    return Intl.message(
+      'From',
+      name: 'CfxTransferConfirmPage_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to`
+  String get CfxTransferConfirmPage_to {
+    return Intl.message(
+      'to',
+      name: 'CfxTransferConfirmPage_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get CfxTransferConfirmPage_count {
+    return Intl.message(
+      'Amount',
+      name: 'CfxTransferConfirmPage_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fee`
+  String get CfxTransferConfirmPage_fee {
+    return Intl.message(
+      'Fee',
+      name: 'CfxTransferConfirmPage_fee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data`
+  String get CfxTransferConfirmPage_data {
+    return Intl.message(
+      'Data',
+      name: 'CfxTransferConfirmPage_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a mnemonic consisting of 12 words separated by Spaces`
+  String get account_login_msg {
+    return Intl.message(
+      'Please enter a mnemonic consisting of 12 words separated by Spaces',
+      name: 'account_login_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set nickname`
+  String get SetAddressNamePage_title {
+    return Intl.message(
+      'Set nickname',
+      name: 'SetAddressNamePage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set an alias for the address`
+  String get SetAddressNamePage_title2 {
+    return Intl.message(
+      'Set an alias for the address',
+      name: 'SetAddressNamePage_title2',
       desc: '',
       args: [],
     );

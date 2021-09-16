@@ -1,33 +1,18 @@
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
-import 'package:box/page/set_password_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../a.dart';
 
 typedef SelectMnemonicCallBackFuture = Future Function(String);
 
@@ -82,7 +67,6 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if(mnemonicAesEncode == element){
-            print("重复了"+mnemonicAesEncode);
             mnemonics.remove(element);
           }
         }
@@ -98,18 +82,18 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle:true,
         backgroundColor: Color(0xFFfafbfc),
         elevation: 0,
         // 隐藏阴影
         title: Text(
-         "选择助记词",
+       S.of(context).SelectMnemonicPage_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
-        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -157,7 +141,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
         child: Text(
-          "请在其他公链已存在助记词中选择一个，用于快速登录",
+          S.of(context).SelectMnemonicPage_title2,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black.withAlpha(180),

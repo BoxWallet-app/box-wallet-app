@@ -1,17 +1,14 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/dao/aeternity/contract_info_dao.dart';
+import 'package:box/a.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/plugin_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/model/aeternity/version_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_rpc_model.dart';
@@ -19,13 +16,11 @@ import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/confux/cfx_aepps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
-import 'package:box/page/confux/cfx_rpc_page.dart';
 import 'package:box/page/setting_page.dart';
-import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/wallet_select_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,10 +29,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share/share.dart';
+
 import '../../main.dart';
 import '../mnemonic_copy_page.dart';
-import 'ae_token_send_one_page.dart';
 
 class AeTabPage extends StatefulWidget {
   @override
@@ -102,6 +96,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
       getAddress();
       showHint();
     });
+
+    eventBus.on<AccountUpdateNameEvent>().listen((event) {
+      getAddress();
+    });
     netVersion();
     getAddress();
     showHint();
@@ -111,7 +109,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
-    print('BOX_NAV_TO_DART');
     switch (methodCall.method) {
       case 'getGasCFX':
         var data = jsonDecode(methodCall.arguments.toString());
@@ -119,7 +116,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
         await BoxApp.getGasCFX((data) async {
           var split = data.split("#");
-          print(data);
           cfxRpcModel.payload.storageLimit = split[2].toString();
           cfxRpcModel.payload.gasPrice = "1";
           cfxRpcModel.payload.gas = split[0].toString();
@@ -147,18 +143,14 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
         return 'SUCCESS';
       case 'signTransaction':
-        print("signTransaction");
         if (cfxRpcModel == null) {
-          print("cfxRpcModel == null");
           return 'SUCCESS';
         }
         var password = methodCall.arguments.toString();
-        password = Utils.generateMD5(password);
-        print(password);
+        password = Utils.generateMD5(password+a);
         var signingKey = await BoxApp.getSigningKey();
         var address = await BoxApp.getAddress();
         final key = Utils.generateMd5Int(password + address);
-        print(key);
         var aesDecode;
         try {
           aesDecode = Utils.aesDecode(signingKey, key);
@@ -170,7 +162,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return "SUCCESS";
         }
 
-        print(aesDecode);
         if (aesDecode == "") {
           await PluginManager.signTransactionError({
             'type': "signTransactionError",
@@ -179,14 +170,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return 'SUCCESS';
         }
         BoxApp.signTransactionCFX((hash) async {
-          print(hash);
           await PluginManager.signTransaction({
             'type': methodCall.method,
             'data': hash,
           });
           return 'SUCCESS';
         }, (error) {
-          print(error.toString());
           return;
         }, aesDecode, cfxRpcModel.payload.storageLimit != null ? cfxRpcModel.payload.storageLimit : "0", cfxRpcModel.payload.gas != null ? cfxRpcModel.payload.gas : "0", cfxRpcModel.payload.gasPrice != null ? cfxRpcModel.payload.gasPrice : "0", cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.to, cfxRpcModel.payload.data);
 
@@ -200,7 +189,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
-      print(account.address);
       this.account = account;
       setState(() {});
     });
@@ -317,12 +305,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   void showHint() {
-    print("333");
     Future.delayed(Duration(seconds: 0), () {
-      print("222");
       BoxApp.getSaveMnemonic().then((account) {
         if (account) {
-          print("111");
           showDialog<bool>(
             context: context,
             barrierDismissible: false,
@@ -349,12 +334,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             },
           ).then((val) {
             if (val) {
-              showGeneralDialog(
+              showGeneralDialog(useRootNavigator:false,
                   context: super.context,
                   pageBuilder: (context, anim1, anim2) {
                     return;
                   },
-                  barrierColor: Colors.grey.withOpacity(.4),
+                  //barrierColor: Colors.grey.withOpacity(.4),
                   barrierDismissible: true,
                   barrierLabel: "",
                   transitionDuration: Duration(milliseconds: 0),
@@ -403,7 +388,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               showErrorDialog(context, null);
                               return;
                             }
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                            Navigator.push(context, SlideRoute( MnemonicCopyPage(mnemonic: aesDecode)));
                           },
                         ),
                       ),
@@ -717,10 +702,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   enableDrag: false,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return WalletSelectPage(buildContext: context,);
+                    return WalletSelectPage();
                   });
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin,password: password,)));
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+              // Navigator.push(context, SlideRoute( AddAccountPage(coin:coin,password: password,)));
+              // Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
             },
             child: Container(
               height: 35,
@@ -755,7 +740,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                     width: 4,
                   ),
                   Text(
-                    Utils.formatAccountAddress(AeHomePage.address),
+                    getAccountName(),
                     maxLines: 1,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                   ),
@@ -785,6 +770,17 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  getAccountName() {
+    if(account == null){
+      return "";
+    }
+    if(account.name == null ||account.name == ""){
+      return Utils.formatAccountAddress(account.address);
+    }else{
+      return account.name;
+    }
   }
 
   void showErrorDialog(BuildContext context, String content) {

@@ -1,19 +1,10 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class TokenReceivePage extends StatefulWidget {
@@ -29,11 +20,9 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
 
   @override
   void initState() {
-
     super.initState();
 
     getAddress();
-
   }
 
   @override
@@ -72,10 +61,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               height: 70,
                               color: Color(0xFFFC2365),
                             ),
@@ -96,21 +82,18 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(left: 20, top: 10,right: 20),
+                              margin: const EdgeInsets.only(left: 20, top: 10, right: 20),
                               child: Text(
                                 S.of(context).token_receive_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   fontSize: 19,
                                 ),
                               ),
                             ),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
                               //边框设置
                               decoration: new BoxDecoration(
@@ -125,8 +108,8 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
 //                                        spreadRadius: 1.0 //阴影扩散程度
 //                                        )
                                   ]
-                                //设置四周边框
-                              ),
+                                  //设置四周边框
+                                  ),
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -143,15 +126,9 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                     child: Text(
                                       address,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15,
-                                          color: Colors.black.withAlpha(200),
-                                          height: 1.3,
-                                          letterSpacing: 1.0,
-
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),
-
                                   Container(
                                     height: 30,
                                     margin: const EdgeInsets.only(top: 20, bottom: 40),
@@ -159,26 +136,22 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(text: address));
                                         setState(() {
-                                          contentText =  S.of(context).token_receive_page_copy_sucess;
+                                          contentText = S.of(context).token_receive_page_copy_sucess;
                                         });
-                                        Fluttertoast.showToast(msg:  S.of(context).token_receive_page_copy_sucess,
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.black,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
+                                        Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                                       },
                                       child: Text(
-                                        contentText == "" ?S.of(context).token_receive_page_copy:S.of(context).token_receive_page_copy_sucess,
+                                        contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 13, color: Color(0xFFF22B79),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Color(0xFFF22B79),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
                                       ),
                                       color: Color(0xFFE61665).withAlpha(16),
                                       textColor: Colors.black,
-                                      shape: RoundedRectangleBorder(
-
-                                          borderRadius: BorderRadius.circular(30)),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                     ),
                                   ),
                                 ],
@@ -200,13 +173,10 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
   }
 
   Future<String> getAddress() {
-    BoxApp.getAddress().then((String address){
+    BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
       });
-
     });
   }
-
-
 }

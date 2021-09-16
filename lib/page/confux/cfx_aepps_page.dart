@@ -1,26 +1,15 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/banner_dao.dart';
-import 'package:box/dao/aeternity/base_name_data_dao.dart';
-import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/dao/conflux/cfx_dapp_list_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/plugin_manager.dart';
 import 'package:box/model/aeternity/banner_model.dart';
-import 'package:box/model/aeternity/base_name_data_model.dart';
-import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/model/conflux/cfx_dapp_list_model.dart';
-import 'package:box/page/aeternity/ae_swap_my_page.dart';
-import 'package:box/page/aeternity/ae_swap_page.dart';
-import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/confux/cfx_rpc_page.dart';
-import 'package:box/page/web_page.dart';
-import 'package:box/page/aeternity/ae_wetrue_home_page.dart';
-import 'package:box/page/aeternity/ae_wetrue_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -28,7 +17,6 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,11 +46,11 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -251,12 +239,10 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
               InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 onTap: () async {
-
-
-                  showGeneralDialog(
+                  showGeneralDialog(useRootNavigator:false,
                       context: context,
                       pageBuilder: (context, anim1, anim2) {},
-                      barrierColor: Colors.grey.withOpacity(.4),
+                      //barrierColor: Colors.grey.withOpacity(.4),
                       barrierDismissible: true,
                       barrierLabel: "",
                       transitionDuration: Duration(milliseconds: 0),
@@ -273,8 +259,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                     child: Container(
                                       height: 470,
                                       width: MediaQuery.of(context).size.width - 40,
-                                      margin: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                       decoration: ShapeDecoration(
                                         color: Color(0xffffffff),
                                         shape: RoundedRectangleBorder(
@@ -291,19 +276,14 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                             child: Material(
                                               color: Colors.transparent,
                                               child: InkWell(
-                                                borderRadius:
-                                                BorderRadius.all(Radius.circular(60)),
-                                                onTap: ()async {
+                                                borderRadius: BorderRadius.all(Radius.circular(60)),
+                                                onTap: () async {
                                                   Navigator.pop(context); //关闭对话框
 
                                                   // ignore: unnecessary_statements
                                                   //                                  widget.dismissCallBackFuture("");
                                                 },
-                                                child: Container(
-                                                    width: 50,
-                                                    height: 50,
-                                                    child: Icon(Icons.clear,
-                                                        color: Colors.black.withAlpha(80))),
+                                                child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                                               ),
                                             ),
                                           ),
@@ -313,42 +293,30 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                               S.of(context).dialog_privacy_hint,
                                               style: TextStyle(
                                                 fontSize: 18,
-                                                fontFamily: BoxApp.language == "cn"
-                                                    ? "Ubuntu"
-                                                    : "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                               ),
                                             ),
                                           ),
                                           Container(
                                             height: 270,
-                                            margin:
-                                            EdgeInsets.only(left: 20, right: 20, top: 20),
+                                            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                                             child: SingleChildScrollView(
                                               child: Container(
                                                 child: Text(
-                                                  S.of(context).cfx_dapp_mag1+" "+data.name+" "+S.of(context).cfx_dapp_mag2,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontFamily: BoxApp.language == "cn"
-                                                          ? "Ubuntu"
-                                                          : "Ubuntu",
-                                                      letterSpacing: 2,
-                                                      height: 2),
+                                                  S.of(context).cfx_dapp_mag1 + " " + data.name + " " + S.of(context).cfx_dapp_mag2,
+                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
                                                 ),
                                               ),
                                             ),
                                           ),
 
                                           Container(
-                                            margin:
-                                            const EdgeInsets.only(top: 30, bottom: 20),
+                                            margin: const EdgeInsets.only(top: 30, bottom: 20),
                                             child: ArgonButton(
                                               height: 40,
                                               roundLoadingShape: true,
                                               width: 120,
-                                              onTap: (startLoading, stopLoading,
-                                                  btnState) async {
-
+                                              onTap: (startLoading, stopLoading, btnState) async {
                                                 Navigator.pop(context); //关闭对话框
                                                 if (Platform.isAndroid) {
                                                   String resultString;
@@ -362,12 +330,11 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                 }
 
                                                 Navigator.push(
-                                                    context,
+                                                    navigatorKey.currentState.overlay.context,
                                                     MaterialPageRoute(
                                                         builder: (context) => CfxRpcPage(
-                                                          url: data.url,
-                                                        )));
-
+                                                              url: data.url,
+                                                            )));
                                               },
                                               child: Text(
                                                 S.of(context).dialog_conform,
@@ -375,9 +342,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                   color: Colors.white,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
-                                                  fontFamily: BoxApp.language == "cn"
-                                                      ? "Ubuntu"
-                                                      : "Ubuntu",
+                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                 ),
                                               ),
                                               loader: Container(
@@ -400,12 +365,6 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                   ),
                                 )));
                       });
-
-
-
-
-
-
                 },
                 child: Column(
                   children: [
@@ -557,11 +516,11 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   }
 
   showPay() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

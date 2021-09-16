@@ -6,7 +6,6 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
 import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -148,10 +147,10 @@ class _TokenListPathState extends State<AeTokenListPage> {
             child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(50)),
               onTap: () {
-                showGeneralDialog(
+                showGeneralDialog(useRootNavigator:false,
                     context: context,
                     pageBuilder: (context, anim1, anim2) {},
-                    barrierColor: Colors.grey.withOpacity(.4),
+                    //barrierColor: Colors.grey.withOpacity(.4),
                     barrierDismissible: true,
                     barrierLabel: "",
                     transitionDuration: Duration(milliseconds: 0),

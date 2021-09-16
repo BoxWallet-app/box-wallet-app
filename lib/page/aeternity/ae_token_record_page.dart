@@ -1,23 +1,17 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/dao/aeternity/token_record_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/token_record_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
 import 'package:box/page/aeternity/ae_token_receive_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';
-import 'package:box/page/aeternity/ae_token_tx_detail_page.dart';
-import 'package:box/page/aeternity/ae_tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -254,7 +248,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                     margin: const EdgeInsets.only(top: 0),
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+                        Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
                       },
                       child: Text(
                         S.of(context).home_page_function_send,
@@ -277,7 +271,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                       onPressed: () {
 //                  goDefi(context);
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                        Navigator.push(context, SlideRoute( TokenReceivePage()));
                       },
                       child: Text(
                         S.of(context).home_page_function_receive,

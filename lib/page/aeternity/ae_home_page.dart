@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/dao/aeternity/name_reverse_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/aeternity/swap_dao.dart';
@@ -14,23 +13,21 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/model/aeternity/name_reverse_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
-import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../main.dart';
 import 'ae_token_list_page.dart';
@@ -586,7 +583,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+                                          Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
                                         },
                                         child: Container(
                                           height: 90,
@@ -663,7 +660,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                                          Navigator.push(context, SlideRoute( TokenReceivePage()));
                                         },
                                         child: Container(
                                           height: 90,
@@ -738,7 +735,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
+                                    Navigator.push(context, SlideRoute( AeTokenListPage()));
                                   },
                                   child: Container(
                                     height: 90,
@@ -835,7 +832,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+            Navigator.push(context, SlideRoute( AeRecordsPage()));
           },
           child: Column(
             children: [
@@ -965,7 +962,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+            Navigator.push(context, SlideRoute( AeRecordsPage()));
           },
           child: Column(
             children: [
@@ -1040,7 +1037,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
@@ -1096,7 +1093,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

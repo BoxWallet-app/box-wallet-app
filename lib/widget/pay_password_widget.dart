@@ -72,7 +72,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 
                       // ignore: unnecessary_statements
                       if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
-                      Navigator.pop(context); //关闭对话框
+                      Navigator.of(context).pop(); //关闭对话框
                     },
                     child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                   ),
@@ -202,7 +202,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   width: 120,
                   child: FlatButton(
                     onPressed: () {
-                      Navigator.pop(context); //关闭对话框
+                      Navigator.of(context).pop(); //关闭对话框
                       widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text+a));
                     },
                     child: Text(

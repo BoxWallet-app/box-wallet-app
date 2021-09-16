@@ -1,28 +1,15 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/app_store_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/app_store_model.dart';
-import 'package:box/page/login_page.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/tx_conform_widget.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
-import 'aeternity/ae_aex2_page.dart';
 import 'login_page_new.dart';
 
 class SplashPage extends StatefulWidget {

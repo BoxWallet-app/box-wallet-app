@@ -3,34 +3,18 @@ import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/block_top_dao.dart';
-import 'package:box/dao/aeternity/user_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/block_top_model.dart';
-import 'package:box/model/aeternity/user_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_account_login_page.dart';
-import 'package:box/page/aeternity/ae_token_send_one_page.dart';
-import 'package:box/page/select_chain_page.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:crypto/crypto.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_color_plugin/flutter_color_plugin.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'account_login_page.dart';
-import 'confux/cfx_account_login_page.dart';
 import 'create_mnemonic_copy_page.dart';
-import 'mnemonic_copy_page.dart';
-import 'select_chain_create_page.dart';
 
 class LoginPageNew extends StatefulWidget {
   @override
@@ -45,10 +29,10 @@ class _LoginPageNewState extends State<LoginPageNew> {
       SharedPreferences.getInstance().then((value) {
         String isShow = value.getString("is_show_hint");
         if (isShow == null || isShow == "")
-          showGeneralDialog(
+          showGeneralDialog(useRootNavigator:false,
               context: context,
               pageBuilder: (context, anim1, anim2) {},
-              barrierColor: Colors.grey.withOpacity(.4),
+              //barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 0),
@@ -260,7 +244,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                               return;
                             });
 
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => SelectChainCreatePage()));
+                            // Navigator.push(context, SlideRoute( SelectChainCreatePage()));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
@@ -295,13 +279,13 @@ class _LoginPageNewState extends State<LoginPageNew> {
                             //               return;
                             //             }
                             //             if (model.name == "CFX") {
-                            //               Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAccountLoginPage()));
+                            //               Navigator.push(context, SlideRoute( CfxAccountLoginPage()));
                             //               return;
                             //             }
                             //             return;
                             //           },
                             //         ));
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+                            Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
@@ -336,10 +320,10 @@ class _LoginPageNewState extends State<LoginPageNew> {
 // //                    netUserRegisterData();
 //                       // ignore: missing_return
 //                       BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-//                         showGeneralDialog(
+//                         showGeneralDialog(useRootNavigator:false,
 //                             context: context,
 //                             pageBuilder: (context, anim1, anim2) {},
-//                             barrierColor: Colors.grey.withOpacity(.4),
+//                             //barrierColor: Colors.grey.withOpacity(.4),
 //                             barrierDismissible: true,
 //                             barrierLabel: "",
 //                             transitionDuration: Duration(milliseconds: 0),

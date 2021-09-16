@@ -1,31 +1,26 @@
 import 'dart:ui';
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/add_account_page.dart';
 import 'package:box/page/select_chain_page.dart';
+import 'package:box/page/set_address_name_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../main.dart';
-import 'aeternity/ae_account_login_page.dart';
-import 'aeternity/ae_account_add_page.dart';
 import 'aeternity/ae_home_page.dart';
-import 'aeternity/ae_token_send_one_page.dart';
-import 'confux/cfx_account_add_page.dart';
 
 class WalletSelectPage extends StatefulWidget {
-  final BuildContext buildContext;
-  const WalletSelectPage({Key key, this.buildContext}) : super(key: key);
+  const WalletSelectPage({Key key}) : super(key: key);
 
   @override
   _WalletSelectPageState createState() => _WalletSelectPageState();
@@ -34,7 +29,7 @@ class WalletSelectPage extends StatefulWidget {
 class _WalletSelectPageState extends State<WalletSelectPage> {
   WalletCoinsModel walletCoinsModel;
   int coinIndex;
-
+  int coinLength;
   @override
   void initState() {
     // TODO: implement initState
@@ -43,14 +38,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   getWallet() {
+    coinLength = WalletCoinsManager.instance.getChains().length;
     WalletCoinsManager.instance.getCoins().then((value) {
-      print(value.toJson());
       walletCoinsModel = value;
-      WalletCoinsManager.instance.getCurrentCoin().then((value) {
-        coinIndex = value[1];
 
-        setState(() {});
-      });
+      if (coinIndex == null || coinIndex == 0) {
+        WalletCoinsManager.instance.getCurrentCoin().then((value) {
+          coinIndex = value[1];
+          setState(() {});
+        });
+      }
     });
   }
 
@@ -127,7 +124,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               width: MediaQuery.of(context).size.width,
                               alignment: Alignment.center,
                               child: Text(
-                               S.of(context).select_wallet_page_wallet,
+                                S.of(context).select_wallet_page_wallet,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
@@ -198,7 +195,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                             // if (coinIndex != 0) {
                                             //   return;
                                             // }
-                                            createImportAccount();
+                                            createImportAccount(context);
                                           },
                                           child: Container(
                                             height: 30,
@@ -223,7 +220,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                   child: ListView.builder(
                                     itemCount: walletCoinsModel == null ? 1 : walletCoinsModel.coins[coinIndex].accounts.length + 1,
                                     itemBuilder: (context, index) {
-                                      return itemAccount(index);
+                                      return itemAccount(context, index);
                                     },
                                   ),
                                 ),
@@ -261,13 +258,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   void createAE(BuildContext context) {
-     BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
+    BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
       showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           pageBuilder: (context, anim1, anim2) {
             return;
           },
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -300,14 +298,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       return;
     });
   }
+
   void createCFX(BuildContext context) {
-     BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
+    BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
       showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           pageBuilder: (context, anim1, anim2) {
             return;
           },
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -343,97 +343,100 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
   Widget itemCoin(int index) {
     if (walletCoinsModel.coins.length == index) {
-      return Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            showMaterialModalBottomSheet(
-                expand: true,
-                context: context,
-                enableDrag: false,
-                backgroundColor: Colors.transparent,
-                builder: (context) => SelectChainPage(
-                      type: 2,
-                      selectChainPageCallBackFuture: (model) {
-                        WalletCoinsManager.instance.addChain(model.name, model.nameFull).then((walletCoinModel) {
-                          if (walletCoinModel != null) {
-                            this.walletCoinsModel = walletCoinModel;
-                            coinIndex = index;
-                            setState(() {});
-                            return;
-                          }
-                          showDialog<bool>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return new AlertDialog(
-                                title: new Text(S.of(context).dialog_hint),
-                                content: new SingleChildScrollView(
-                                  child: new ListBody(
-                                    children: <Widget>[
-                                      new Text(S.of(context).dialog_add_wallet_error),
-                                    ],
-                                  ),
+      if(coinLength > walletCoinsModel.coins.length){
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              showMaterialModalBottomSheet(
+                  expand: true,
+                  context: context,
+                  enableDrag: false,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => SelectChainPage(
+                    type: 2,
+                    selectChainPageCallBackFuture: (model) {
+                      WalletCoinsManager.instance.addChain(model.name, model.nameFull).then((walletCoinModel) {
+                        if (walletCoinModel != null) {
+                          this.walletCoinsModel = walletCoinModel;
+                          coinIndex = index;
+                          setState(() {});
+                          return;
+                        }
+                        showDialog<bool>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return new AlertDialog(
+                              title: new Text(S.of(context).dialog_hint),
+                              content: new SingleChildScrollView(
+                                child: new ListBody(
+                                  children: <Widget>[
+                                    new Text(S.of(context).dialog_add_wallet_error),
+                                  ],
                                 ),
-                                actions: <Widget>[
-                                  new TextButton(
-                                    child: new Text(S.of(context).dialog_conform),
-                                    onPressed: () {
-                                      Navigator.of(context).pop(true);
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {
-                            if (val) {}
-                          });
+                              ),
+                              actions: <Widget>[
+                                new TextButton(
+                                  child: new Text(S.of(context).dialog_conform),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((val) {
+                          if (val) {}
                         });
-                        return;
+                      });
+                      return;
 
-                        return;
-                      },
-                    ));
-          },
-          child: Container(
-            width: 56.0,
-            height: 52.0,
-            margin: EdgeInsets.all(2),
-            decoration: new BoxDecoration(
-              color: index == coinIndex ? Colors.black12 : Colors.transparent,
-              //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              //设置四周边框
-              // border: new Border.all(
-              //   width: 1,
-              //   color: Color(0xFFE51363).withAlpha(200),
-              // ),
-              //设置四周边框
-            ),
-            child: Center(
-              child: Container(
+                      return;
+                    },
+                  ));
+            },
+            child: Container(
+              width: 56.0,
+              height: 52.0,
+              margin: EdgeInsets.all(2),
+              decoration: new BoxDecoration(
+                color: index == coinIndex ? Colors.black12 : Colors.transparent,
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                //设置四周边框
+                // border: new Border.all(
+                //   width: 1,
+                //   color: Color(0xFFE51363).withAlpha(200),
+                // ),
+                //设置四周边框
+              ),
+              child: Center(
                 child: Container(
-                  width: 27.0,
-                  height: 27.0,
-                  decoration: BoxDecoration(
-                    // color: Colors.white,
-                    // border: Border(
-                    //     bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                    //     top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                    //     left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                    //     right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                  child: Container(
+                    width: 27.0,
+                    height: 27.0,
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      // border: Border(
+                      //     bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                      //     top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                      //     left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                      //     right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
 //                       borderRadius: BorderRadius.circular(36.0),
-                    image: DecorationImage(
-                      image: AssetImage("images/chain_add.png"),
+                      image: DecorationImage(
+                        image: AssetImage("images/chain_add.png"),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      }
+      return Container();
     }
     return Material(
       color: Colors.transparent,
@@ -481,55 +484,68 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
-  Widget itemAccount(int index) {
+  Widget itemAccount(BuildContext context, int index) {
     if (walletCoinsModel == null) {
       return Container();
     }
     if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
-      if (walletCoinsModel.coins[coinIndex].accounts.length == 0)
-        return Container(
-          height: 50,
-          margin: EdgeInsets.only(left: 18, right: 18),
-          alignment: Alignment.center,
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              onTap: () {
-                createImportAccount();
-              },
-              child: Container(
-                height: 50,
-                alignment: Alignment.center,
-                decoration: new BoxDecoration(
-                  //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  //设置四周边框
-                  border: new Border.all(
-                    width: 1,
-                    color: Color(0xFFE51363).withAlpha(200),
-                  ),
-                  //设置四周边框
+      return Container(
+        height: 50,
+        margin: EdgeInsets.only(left: 18, right: 18),
+        alignment: Alignment.center,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            onTap: () {
+              createImportAccount(context);
+            },
+            child: Container(
+              height: 50,
+              alignment: Alignment.center,
+              decoration: new BoxDecoration(
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                //设置四周边框
+                border: new Border.all(
+                  width: 1,
+                  color: Color(0xFFE51363).withAlpha(200),
                 ),
-                padding: EdgeInsets.only(left: 18, right: 18),
-                margin: const EdgeInsets.only(top: 0),
-                child: Text(
-                  S.of(context).select_wallet_page_add_account,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    color: Color(0xFFE51363).withAlpha(200),
+                //设置四周边框
+              ),
+              padding: EdgeInsets.only(left: 18, right: 18),
+              margin: const EdgeInsets.only(top: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 20,
+                    width: 20,
+                    margin: EdgeInsets.only(left: 4,right: 5),
+                    padding: EdgeInsets.all(1),
+                    child: Image(
+                      width: 36,
+                      height: 36,
+                      color: Color(0xFFE51363).withAlpha(200),
+                      image: AssetImage('images/wallet_select_account_add.png'),
+                    ),
                   ),
-                ),
+                  Text(
+                    S.of(context).select_wallet_page_add_account,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      color: Color(0xFFE51363).withAlpha(200),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        );
-      else {
-        return Container();
-      }
+        ),
+      );
     }
     return Container(
       height: 100.0,
@@ -583,7 +599,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ),
           InkWell(
             onTap: () {
-              print(coinIndex);
 
               for (var i = 0; i < walletCoinsModel.coins.length; i++) {
                 for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
@@ -592,7 +607,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               }
 
               walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
-              print(walletCoinsModel.coins[coinIndex].accounts[index].address);
               WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
                 Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
@@ -603,7 +617,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               height: 100,
               alignment: Alignment.bottomLeft,
               padding: EdgeInsets.only(left: 18, right: 18, bottom: 16),
-              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(250), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
             ),
           ),
           Positioned(
@@ -611,34 +625,84 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
             top: 0,
             child: Material(
               color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
-                  Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 18, right: 18, top: 14),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text( S.of(context).select_wallet_page_add_account_2+"-" + (index + 1).toString(), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+              child: Row(
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          SlideRoute(SetAddressNamePage(
+                            name: getAccountName(index, context),
+                            address: walletCoinsModel.coins[coinIndex].accounts[index].address,
+                            setAddressNamePageCallBackFuture: () {
+                              getWallet();
+
+                              return;
+                            },
+                          )));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 18, right: 2, top: 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(getAccountName(index, context), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                          ),
+                          Container(
+                            height: 20,
+                            width: 20,
+                            margin: EdgeInsets.only(left: 4),
+                            padding: EdgeInsets.all(2),
+                            child: Image(
+                              width: 36,
+                              height: 36,
+                              color: Color(0xffffffff).withAlpha(200),
+                              image: AssetImage('images/wallet_select_edit.png'),
+                            ),
+                          )
+                        ],
                       ),
-                      Container(
-                        height: 20,
-                        width: 20,
-                        padding: EdgeInsets.all(4),
-                        child: Image(
-                          width: 36,
-                          height: 36,
-                          color: Colors.white,
-                          image: AssetImage('images/wallet_select_copy.png'),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                  InkWell(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
+                      Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 2, right: 6, top: 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 20,
+                            width: 20,
+                            padding: EdgeInsets.all(4),
+                            child: Image(
+                              width: 36,
+                              height: 36,
+                              color: Color(0xffffffff).withAlpha(200),
+                              image: AssetImage('images/wallet_select_copy.png'),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -649,29 +713,33 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
                   onTap: () {
                     showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return new AlertDialog(
-                          title: new Text( S.of(context).dialog_delete_account),
+                          title: new Text(S.of(context).dialog_delete_account),
                           content: new SingleChildScrollView(
                             child: new ListBody(
                               children: <Widget>[
-                                new Text( S.of(context).dialog_delete_account_msg),
+                                new Text(S.of(context).dialog_delete_account_msg),
                               ],
                             ),
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: new Text( S.of(context).dialog_dismiss),
+                              child: new Text(S.of(context).dialog_dismiss),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                             ),
                             new TextButton(
-                              child: new Text( S.of(context).dialog_conform),
+                              child: new Text(S.of(context).dialog_conform),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
@@ -744,7 +812,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                           child: Image(
                             width: 36,
                             height: 36,
-                            color: Colors.white,
+                            color: Color(0xffffffff).withAlpha(200),
                             image: AssetImage('images/wallet_select_delete.png'),
                           ),
                         )
@@ -757,6 +825,15 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ],
       ),
     );
+  }
+
+  String getAccountName(int index, BuildContext context) {
+    var name = walletCoinsModel.coins[coinIndex].accounts[index].name;
+    if (name == null || name == "") {
+      return S.of(context).select_wallet_page_add_account_2 + "-" + (index + 1).toString();
+    } else {
+      return walletCoinsModel.coins[coinIndex].accounts[index].name;
+    }
   }
 
   String getCoinFormatAddress(int index) {
@@ -798,7 +875,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     }
   }
 
-
   void showErrorDialog(BuildContext context, String content) {
     if (content == null) {
       content = S.of(context).dialog_hint_check_error_content;
@@ -825,17 +901,17 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     ).then((val) {});
   }
 
-  void createImportAccount() async{
-
+  void createImportAccount(BuildContext buildContext) async {
     // ignore: unnecessary_statements
     var coin = walletCoinsModel.coins[coinIndex];
 
     showGeneralDialog(
-        context: context,
+        useRootNavigator: false,
+        context: buildContext,
         pageBuilder: (context, anim1, anim2) {
           return;
         },
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -858,23 +934,24 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         showErrorDialog(context, null);
                         return;
                       }
-                      // Navigator.push(widget.buildContext, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
-                      Navigator.push(widget.buildContext, MaterialPageRoute(builder: (context) => AddAccountPage(coin:coin,password: password,accountCallBackFuture: (){
-                        eventBus.fire(AccountUpdateEvent());
-                                        Navigator.of(super.context).pop();
-
-                        return;
-                      },)));
-
-
+                      // Navigator.push(widget.buildContext, SlideRoute( AeTokenSendOnePage()));
+                      Navigator.push(
+                          buildContext,
+                          SlideRoute(AddAccountPage(
+                            coin: coin,
+                            password: password,
+                            accountCallBackFuture: () {
+                              eventBus.fire(AccountUpdateEvent());
+                              Navigator.of(super.context).pop();
+                              return;
+                            },
+                          )));
 
                       return;
                     }),
               ));
         });
     return;
-
-
 
     // final result = await showConfirmationDialog<int>(
     //   context: context,

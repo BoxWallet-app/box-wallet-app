@@ -250,11 +250,11 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
         '","content":"' +
         conetnt.replaceAll("\n", "\\n") +
         '"}');
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -329,11 +329,11 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -347,7 +347,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     return Material(
       child: InkWell(
         onTap: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+//          Navigator.push(context, SlideRoute( TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
           color: Color(0xFFfafbfc),

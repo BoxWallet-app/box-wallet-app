@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:box/a.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:crypto/crypto.dart';
@@ -131,17 +132,14 @@ class Utils {
   static formatPayload(String payload) {
     if (payload != "" && payload != null && payload != "null") {
       try {
-        print("payload:"+payload);
         if (payload.contains("ba_")) {
           var substring = payload.substring(3);
-          print("substring:"+substring);
           var base64decode = Utils.aeBase64Decode(substring);
           print(base64decode);
           substring = base64decode.substring(0, base64decode.length - 4);
           return substring;
         } else {
           var base64decode = Utils.aeBase64Decode(payload);
-          print("base64decode:"+base64decode);
           return base64decode;
         }
       } catch (e) {
@@ -166,11 +164,11 @@ class Utils {
 
   static String aeBase64Decode(String data) {
     Uint8List bytes = base64Decode(data);
-    print("bytes:"+bytes.toString());
-    print("bytes:"+bytes.toString());
-    print("bytes:"+String.fromCharCodes(bytes));
+    // print("bytes:"+bytes.toString());
+    // print("bytes:"+bytes.toString());
+    // print("bytes:"+String.fromCharCodes(bytes));
     String result = Utf8Decoder().convert(bytes );
-    print("result:"+result);
+    // print("result:"+result);
     return result;
   }
 
@@ -185,7 +183,7 @@ class Utils {
   //aes加密
   static String aesEncode(String content, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password));
+      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(c)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       final encrypted = encrypter.encrypt(content, iv: encrypt.IV.fromBase64(base64Encode(password)));
       return encrypted.base64;
@@ -197,7 +195,7 @@ class Utils {
   //aes解密
   static dynamic aesDecode(dynamic base64, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password));
+      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(c)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
     } catch (err) {

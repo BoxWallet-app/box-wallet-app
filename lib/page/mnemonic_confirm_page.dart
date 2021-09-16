@@ -30,7 +30,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     // TODO: implement initState
     super.initState();
     List mnemonicList = widget.mnemonic.split(" ");
-    if(BoxApp.inProduct){
+    if(!BoxApp.isDev()){
       mnemonicList.shuffle();
     }
 

@@ -36,7 +36,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
     // TODO: implement initState
     super.initState();
     List mnemonicList = widget.mnemonic.split(" ");
-    if (BoxApp.inProduct) {
+    if (!BoxApp.isDev()) {
       mnemonicList.shuffle();
     }
 
@@ -54,6 +54,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
+          centerTitle:true,
           elevation: 0,
           title: Text(
             S.of(context).mnemonic_confirm_title,
@@ -129,7 +130,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                       onPressed: () {
                         if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
                           if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: widget.mnemonic)));
+                            Navigator.push(context, SlideRoute( SetPasswordPage(mnemonic: widget.mnemonic)));
                           } else {
                             eventBus.fire(AddAccount());
                             Navigator.pop(context);

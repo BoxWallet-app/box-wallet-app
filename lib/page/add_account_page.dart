@@ -1,35 +1,24 @@
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_add_page.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/select_mnemonic_page.dart';
-import 'package:box/page/set_password_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../a.dart';
 import 'account_login_page.dart';
 import 'create_mnemonic_copy_page.dart';
 typedef AddAccountCallBackFuture = Future Function();
@@ -90,13 +79,11 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if(mnemonicAesEncode == mnemonics[i]){
-            print("重复了"+mnemonicAesEncode);
             mnemonics.remove(mnemonicAesEncode);
 
           }
         }
       };
-      print(mnemonics);
       if(mnemonics.length!=0){
         isOtherAccount = true;
       }
@@ -117,18 +104,18 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle:true,
         backgroundColor: Color(0xFFfafbfc),
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "添加新账户",
+         S.of(context).AddAccountPage_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
-        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -163,7 +150,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
                         child: Text(
-                          "你可以用下面几种方式来添加或者创建你的公链下新账户",
+                          S.of(context).AddAccountPage_title_2,
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.black.withAlpha(180),
@@ -182,8 +169,8 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                               EasyLoading.show();
                               BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
                                 mnemonicTemp = mnemonic;
-                                EasyLoading.dismiss(animation: true);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                EasyLoading.dismiss();
+                                Navigator.push(context, SlideRoute( CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
                                 return;
                               });
                             },
@@ -223,7 +210,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                               Container(
                                                 padding: const EdgeInsets.only(left: 18, right: 18),
                                                 child: Text(
-                                                  "创建新的助记词",
+                                                  S.of(context).AddAccountPage_create,
                                                   style: new TextStyle(
                                                     fontSize: 20,
                                                     color: Color(0xff333333),
@@ -258,7 +245,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                               // setState(() {
                               //   chains[index].isSelect = !chains[index].isSelect;
                               // });
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type:CreateMnemonicCopyPage.ADD,accountLoginCallBackFuture: (mnemonic){
+                              Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.ADD,accountLoginCallBackFuture: (mnemonic){
                                 mnemonicTemp = mnemonic;
                                 createChain();
                                 return;
@@ -300,7 +287,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                               Container(
                                                 padding: const EdgeInsets.only(left: 18, right: 18),
                                                 child: Text(
-                                                  "使用助记词导入",
+                                                  S.of(context).AddAccountPage_import,
                                                   style: new TextStyle(
                                                     fontSize: 20,
                                                     color: Color(0xff333333),
@@ -329,7 +316,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                           alignment: Alignment.topLeft,
                           margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
                           child: Text(
-                            "或者从其他公链复制过来",
+                            S.of(context).AddAccountPage_title_3,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black.withAlpha(180),
@@ -349,7 +336,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                 // setState(() {
                                 //   chains[index].isSelect = !chains[index].isSelect;
                                 // });
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectMnemonicPage(password: widget.password,coin: widget.coin,selectMnemonicCallBackFuture: (mnemonic){
+                                Navigator.push(context, SlideRoute( SelectMnemonicPage(password: widget.password,coin: widget.coin,selectMnemonicCallBackFuture: (mnemonic){
 
 
                                   mnemonicTemp = mnemonic;
@@ -395,7 +382,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                 Container(
                                                   padding: const EdgeInsets.only(left: 18, right: 18),
                                                   child: Text(
-                                                    "使用同一套助记词",
+                                                    S.of(context).AddAccountPage_copy,
                                                     style: new TextStyle(
                                                       fontSize: 20,
                                                       color: Color(0xff333333),
@@ -456,8 +443,6 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
     EasyLoading.show();
     if (widget.coin.name == "AE") {
       BoxApp.getSecretKey((address, signingKey) async {
-        print(address);
-        print(signingKey);
 
         if(!await checkAccount(address))return;
 
@@ -469,21 +454,17 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 
         await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
         await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode, false);
-        print("创建AE成功");
         checkSuccess();
       }, mnemonicTemp);
     }
     if (widget.coin.name == "CFX") {
       BoxApp.getSecretKeyCFX((address, signingKey) async {
-        print(address);
-        print(signingKey);
         if(!await checkAccount(address))return;
         final key = Utils.generateMd5Int(widget.password + address);
         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
         var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
         await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
         await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode, false);
-        print("创建CFX成功");
         checkSuccess();
       }, mnemonicTemp);
     }
@@ -523,7 +504,6 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
           );
         },
       ).then((val) {
-        print(val);
       });
 
       return false;

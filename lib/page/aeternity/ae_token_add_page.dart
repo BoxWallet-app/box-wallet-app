@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
-import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
-import 'ae_home_page.dart';
 
 class AeTokenAddPage extends StatefulWidget {
   @override
@@ -265,7 +263,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                       margin: const EdgeInsets.only(top: 0, left: 18),
                       child: FlatButton(
                         onPressed: () {
-//                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenDefiPage()));
+//                          Navigator.push(context, SlideRoute( TokenDefiPage()));
                         },
                         child: Text(
                           "复制",

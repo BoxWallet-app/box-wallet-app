@@ -3,9 +3,7 @@ import 'dart:ui';
 
 import 'package:box/widget/tx_conform_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../main.dart';
@@ -102,10 +100,10 @@ class _AeAex2PageState extends State<AeAex2Page> {
                     name: 'onSignData_JS',
                     onMessageReceived: (JavascriptMessage message) {
                       Map<String, dynamic> tx = jsonDecode(message.message);
-                      showGeneralDialog(
+                      showGeneralDialog(useRootNavigator:false,
                           context: context,
                           pageBuilder: (context, anim1, anim2) {},
-                          barrierColor: Colors.grey.withOpacity(.4),
+                          //barrierColor: Colors.grey.withOpacity(.4),
                           barrierDismissible: true,
                           barrierLabel: "",
                           transitionDuration: Duration(milliseconds: 0),

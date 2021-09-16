@@ -1,25 +1,17 @@
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/aens_info_dao.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
-import 'package:box/dao/aeternity/aens_update_dao.dart';
 import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/model/aeternity/aens_update_model.dart';
 import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
-import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -121,7 +113,6 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
 
     if(null!=widget.recordData.tx['payload']){
       var payload = widget.recordData.tx['payload'].toString();
-      print(widget.recordData.tx['payload'].toString());
       if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
         try {
 

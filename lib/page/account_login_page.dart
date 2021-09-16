@@ -1,22 +1,15 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/a.dart';
 import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/user_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/create_mnemonic_copy_page.dart';
-import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/page/set_password_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -43,8 +36,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
   void initState() {
     super.initState();
     // _textEditingController.text = "";
-    if (!BoxApp.inProduct) {
-      // _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+    if (BoxApp.isDev()) {
+      _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
     }
 
     if (widget.mnemonic != null) {
@@ -52,7 +45,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     }
 
     _textEditingController.addListener(() {
-      print("11111111111111111");
       inputPassword(_textEditingController.text.toString());
     });
 
@@ -64,6 +56,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          centerTitle:true,
           elevation: 0,
           title: Text(
             S.of(context).account_login_page_input_mnemonic,
@@ -161,7 +154,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                                   onTap: () async {
                                     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                                     if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                      final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                                      final data = await Navigator.push(context, SlideRoute( ScanPage()));
                                       inputPassword(data);
                                     } else {
                                       EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
@@ -233,12 +226,12 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     }
     var mnemonic = data.toString().replaceAll("box_", "");
     _textEditingController.text = "";
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
         },
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -263,6 +256,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                         return;
                       }
                       _textEditingController.text = aesDecode;
+                      clickLogin();
+
                     }),
               ));
         });
@@ -296,14 +291,19 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
 
 
   clickLogin() {
+    FocusScope.of(context).requestFocus(FocusNode());
     if (_textEditingController.text == null || _textEditingController.text == "") {
+      EasyLoading.showToast(S.of(context).account_login_msg, duration: Duration(seconds: 2));
       return;
     }
     var mnemonic = _textEditingController.text;
+    EasyLoading.show();
     BoxApp.getValidationMnemonic((isSucess) {
+      EasyLoading.dismiss();
       if (isSucess) {
+        _textEditingController.text = "";
         if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));
+          Navigator.push( navigatorKey.currentState.overlay.context, SlideRoute( SetPasswordPage(mnemonic: mnemonic)));
         } else {
           if (widget.accountLoginCallBackFuture != null) {
             widget.accountLoginCallBackFuture(mnemonic);
@@ -316,11 +316,11 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return new AlertDialog(
-              title: Text("登录错误"),
+              title: Text( S.of(context).dialog_hint),
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    Text("助记词错误"),
+                    Text(S.of(context).dialog_hint_mnemonic),
                   ],
                 ),
               ),
@@ -335,7 +335,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
             );
           },
         ).then((val) {
-          print(val);
         });
 
         // showPlatformDialog(
@@ -375,10 +374,10 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         }
         stopLoading();
         if (model.code == 200) {
-          showGeneralDialog(
+          showGeneralDialog(useRootNavigator:false,
               context: context,
               pageBuilder: (context, anim1, anim2) {},
-              barrierColor: Colors.grey.withOpacity(.4),
+              //barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
               transitionDuration: Duration(milliseconds: 0),
@@ -418,7 +417,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
               );
             },
           ).then((val) {
-            print(val);
           });
         }
       }).catchError((e) {

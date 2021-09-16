@@ -1,48 +1,24 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/swap_coin_account_dao.dart';
 import 'package:box/dao/aeternity/swap_coin_my_dao.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
-import 'package:box/dao/aeternity/swap_my_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/swap_coin_account_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
-import 'package:box/page/language_page.dart';
-import 'package:box/page/photo_page.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/page/aeternity/ae_swaps_page.dart';
+import 'package:box/page/photo_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/taurus_header.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../login_page.dart';
-import '../mnemonic_copy_page.dart';
-import '../node_page.dart';
 
 class AeSwapMyPage extends StatefulWidget {
   @override
@@ -104,7 +80,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
               ),
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapsPage()));
+              Navigator.push(context, SlideRoute( AeSwapsPage()));
             },
           ),
         ],
@@ -186,7 +162,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+//          Navigator.push(context, SlideRoute( TxDetailPage(recordData: contractRecordModel.data[index])));
         },
         child: Container(
           color: Color(0xFFfafbfc),
@@ -201,7 +177,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].account)));
+                        Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
                       },
                       child: Container(
                         width: 30,
@@ -392,11 +368,11 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   }
 
   void netBuy(int index) {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -468,11 +444,11 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

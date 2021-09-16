@@ -1,5 +1,6 @@
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:underline_indicator/underline_indicator.dart';
 
 import '../../main.dart';
 import 'ae_aens_list_page.dart';
-import 'ae_aens_my_page.dart';
 import 'ae_aens_page.dart';
 import 'ae_aens_register.dart';
 
@@ -79,7 +79,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
+            Navigator.push(context, SlideRoute( AeAensRegister()));
           },
           child: new Icon(Icons.add),
           elevation: 3.0,

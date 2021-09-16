@@ -1,19 +1,10 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class CfxTokenReceivePage extends StatefulWidget {

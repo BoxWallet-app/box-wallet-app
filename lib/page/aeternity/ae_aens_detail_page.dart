@@ -1,38 +1,22 @@
-import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/aens_info_dao.dart';
-import 'package:box/dao/aeternity/aens_preclaim_dao.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
-import 'package:box/dao/aeternity/aens_update_dao.dart';
-import 'package:box/dao/aeternity/contract_decode_dao.dart';
 import 'package:box/dao/aeternity/name_owner_dao.dart';
-import 'package:box/dao/aeternity/th_hash_dao.dart';
-import 'package:box/dao/aeternity/tx_broadcast_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/model/aeternity/aens_update_model.dart';
-import 'package:box/model/aeternity/contract_decode_model.dart';
-import 'package:box/model/aeternity/msg_sign_model.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
-import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/aeternity/ae_aens_point_page.dart';
 import 'package:box/page/aeternity/ae_aens_transfer_page.dart';
+import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/tx_conform_widget.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AeAensDetailPage extends StatefulWidget {
@@ -315,11 +299,11 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
   }
 
   Future<void> netUpdateV2(BuildContext context) async {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -428,11 +412,11 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -443,11 +427,11 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
   }
 
   Future<void> netPreclaimV2(BuildContext context) async {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

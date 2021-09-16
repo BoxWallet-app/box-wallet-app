@@ -1,56 +1,22 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/swap_coin_order_dao.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
-import 'package:box/dao/aeternity/swap_my_buy_dao.dart';
-import 'package:box/dao/aeternity/swap_my_dao.dart';
-import 'package:box/dao/aeternity/swap_my_sell_dao.dart';
 import 'package:box/event/language_event.dart';
-import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/swap_coin_order_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
-import 'package:box/model/aeternity/swap_order_model.dart';
-import 'package:box/page/language_page.dart';
-import 'package:box/page/photo_page.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/page/aeternity/ae_wetrue_list_page.dart';
 import 'package:box/page/aeternity/ae_wetrue_sent_page.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:like_button/like_button.dart';
-import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:package_info/package_info.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'ae_aens_my_page.dart';
 import 'ae_aens_page.dart';
-import '../login_page.dart';
-import '../mnemonic_copy_page.dart';
-import '../node_page.dart';
 
 class AeWeTrueHomePage extends StatefulWidget {
   final int type;
@@ -154,15 +120,15 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(
               children: <Widget>[
-                AeWeTrueListPage(type:0),
-                AeWeTrueListPage(type:1),
-                AeWeTrueListPage(type:2),
+                AeWeTrueListPage(type: 0),
+                AeWeTrueListPage(type: 1),
+                AeWeTrueListPage(type: 2),
               ],
             ),
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-//              Navigator.push(context, MaterialPageRoute(builder: (context) => AensRegister()));
+//              Navigator.push(context, SlideRoute( AensRegister()));
 //              BlockTopDao.fetch().then((BlockTopModel model) {
 //                print(model.toJson());
 //
@@ -170,10 +136,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
 //                print(e.toString() + "123123");
 //
 //              });
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AeWeTrueSendPage()));
+              Navigator.push(context, SlideRoute( AeWeTrueSendPage()));
             },
             child: new Icon(Icons.add),
             elevation: 3.0,
@@ -183,6 +146,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
           floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50)),
     );
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -190,6 +154,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
       throw 'Could not launch $url';
     }
   }
+
   Future<void> _onRefresh() async {
     var model;
     if (widget.type == 0) {
@@ -215,14 +180,12 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
     setState(() {});
   }
 
-
-
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

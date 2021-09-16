@@ -1,6 +1,7 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/mnemonic_confirm_page.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +134,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicConfirmPage(mnemonic:widget.mnemonic)));
+                        Navigator.push(context, SlideRoute( MnemonicConfirmPage(mnemonic:widget.mnemonic)));
 
                       },
                       child: Text(

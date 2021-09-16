@@ -1,8 +1,7 @@
 import 'package:box/dao/aeternity/aens_page_dao.dart';
-import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/page/aeternity/ae_aens_register.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class _AeAensPageState extends State<AeAensPage> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensMyPage()));
+                  Navigator.push(context, SlideRoute( AeAensMyPage()));
                 },
               ),
             ],
@@ -100,7 +99,7 @@ class _AeAensPageState extends State<AeAensPage> {
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
+              Navigator.push(context, SlideRoute( AeAensRegister()));
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

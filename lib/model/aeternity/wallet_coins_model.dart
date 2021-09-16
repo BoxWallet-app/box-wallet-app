@@ -52,6 +52,7 @@ class Coin {
 
 class Account {
   String address;
+  String name;
   bool isSelect;
   String coin;
 
@@ -61,6 +62,7 @@ class Account {
     address = json['address'];
     isSelect = json['isSelect'];
     coin = json['coin'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -68,6 +70,7 @@ class Account {
     data['address'] = this.address;
     data['isSelect'] = this.isSelect;
     data['coin'] = this.coin;
+    data['name'] = this.name;
     return data;
   }
 }

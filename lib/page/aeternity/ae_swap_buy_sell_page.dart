@@ -1,48 +1,19 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/swap_coin_order_dao.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
-import 'package:box/dao/aeternity/swap_my_buy_dao.dart';
-import 'package:box/dao/aeternity/swap_my_dao.dart';
-import 'package:box/dao/aeternity/swap_my_sell_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/swap_coin_order_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
-import 'package:box/model/aeternity/swap_order_model.dart';
-import 'package:box/page/language_page.dart';
-import 'package:box/page/photo_page.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:package_info/package_info.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../login_page.dart';
-import '../mnemonic_copy_page.dart';
-import '../node_page.dart';
 
 class AeSwapBuySellPage extends StatefulWidget {
   final int type;
@@ -302,11 +273,11 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
   }
 
   void netBuy(int index) {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -378,12 +349,12 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
         },
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

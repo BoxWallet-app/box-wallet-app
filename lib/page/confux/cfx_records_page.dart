@@ -1,22 +1,14 @@
 import 'dart:async';
 
-import 'package:box/dao/aeternity/aens_page_dao.dart';
-import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/aens_page_model.dart';
-import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
-import 'package:box/page/aeternity/ae_aens_detail_page.dart';
-import 'package:box/page/aeternity/ae_tx_detail_page.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 import 'cfx_tx_detail_page.dart';
@@ -180,7 +172,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
           },
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),

@@ -1,21 +1,15 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
 import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
-import 'package:box/page/scan_page.dart';
 import 'package:box/page/aeternity/ae_token_send_two_page.dart';
+import 'package:box/page/scan_page.dart';
+import 'package:box/widget/custom_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
@@ -163,7 +157,7 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
                                                 onTap: () async {
                                                   Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                                                   if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                                    final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                                                    final data = await Navigator.push(context, SlideRoute( ScanPage()));
                                                     _textEditingController.text = data;
                                                   } else {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
@@ -308,7 +302,7 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
       Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AeTokenSendTwoPage(address: _textEditingController.text)));
+      Navigator.pushReplacement(context, SlideRoute( AeTokenSendTwoPage(address: _textEditingController.text)));
     }
   }
 }

@@ -1,43 +1,19 @@
-import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/account_info_dao.dart';
-import 'package:box/dao/aeternity/aens_register_dao.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/contract_transfer_call_dao.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
-import 'package:box/dao/aeternity/token_send_dao.dart';
-import 'package:box/dao/aeternity/tx_broadcast_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/msg_sign_model.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
-import 'package:box/model/aeternity/aens_register_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/contract_call_model.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
-import 'package:box/model/aeternity/token_send_model.dart';
-import 'package:box/page/scan_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/tx_conform_widget.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
-
 import 'ae_home_page.dart';
 import 'ae_select_token_list_page.dart';
 
@@ -495,11 +471,11 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     var senderID = await BoxApp.getAddress();
     if (tokenContract == null || tokenContract == "") {
 //      startLoading();
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -541,11 +517,11 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           });
     } else {
 //      startLoading();
-      showGeneralDialog(
+      showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
-          barrierColor: Colors.grey.withOpacity(.4),
+          //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
           transitionDuration: Duration(milliseconds: 0),
@@ -589,11 +565,11 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

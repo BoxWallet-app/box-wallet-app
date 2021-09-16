@@ -1,13 +1,7 @@
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/dao/aeternity/wetrue_config_dao.dart';
 import 'package:box/dao/aeternity/wetrue_topic_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/banner_model.dart';
-import 'package:box/model/aeternity/user_model.dart';
-import 'package:box/model/aeternity/we_true_praise_model.dart';
 import 'package:box/model/aeternity/wetrue_config_model.dart';
-import 'package:box/page/mnemonic_confirm_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -18,11 +12,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
-
 import 'ae_home_page.dart';
 
 class AeWeTrueSendPage extends StatefulWidget {
@@ -225,11 +216,11 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
         '","type":"topic","source":"Box æpp","content":"' +
         _textEditingController.text.replaceAll("\n", "\\n") +
         '"}');
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
@@ -288,11 +279,11 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

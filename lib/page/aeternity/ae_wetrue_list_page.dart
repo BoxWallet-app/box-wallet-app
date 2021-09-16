@@ -1,59 +1,27 @@
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:box/dao/aeternity/swap_coin_order_dao.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
-import 'package:box/dao/aeternity/swap_my_buy_dao.dart';
-import 'package:box/dao/aeternity/swap_my_dao.dart';
-import 'package:box/dao/aeternity/swap_my_sell_dao.dart';
 import 'package:box/dao/aeternity/wetrue_list_dao.dart';
 import 'package:box/dao/aeternity/wetrue_praise_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/WetrueListModel.dart';
-import 'package:box/model/aeternity/swap_coin_order_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
-import 'package:box/model/aeternity/swap_order_model.dart';
-import 'package:box/page/aeternity/ae_aens_register.dart';
-import 'package:box/page/language_page.dart';
 import 'package:box/page/photo_page.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/utils/RelativeDateFormat.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/wetrue_comment_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/taurus_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:like_button/like_button.dart';
-import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:package_info/package_info.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:snapping_sheet/snapping_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'ae_home_page.dart';
-import '../login_page.dart';
-import '../mnemonic_copy_page.dart';
-import '../node_page.dart';
 
 class AeWeTrueListPage extends StatefulWidget {
   final int type;
@@ -175,7 +143,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     return Material(
       child: InkWell(
         onTap: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TxDetailPage(recordData: contractRecordModel.data[index])));
+//          Navigator.push(context, SlideRoute( TxDetailPage(recordData: contractRecordModel.data[index])));
 //           showMaterialModalBottomSheet(
 //               expand: false,
 //               context: context,
@@ -650,11 +618,11 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
 
 
   void showChainLoading() {
-    showGeneralDialog(
+    showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
-        barrierColor: Colors.grey.withOpacity(.4),
+        //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),

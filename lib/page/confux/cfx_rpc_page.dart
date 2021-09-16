@@ -3,25 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/generated/l10n.dart';
-import 'package:box/manager/plugin_manager.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
 import 'package:box/page/confux/cfx_transfer_confirm_page.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:box/widget/tx_conform_widget.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../main.dart';
-import '../select_chain_page.dart';
 
 class CfxRpcPage extends StatefulWidget {
   final String url;
@@ -67,7 +59,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
     return confluxJs;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +93,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                 Navigator.of(context).pop();
               }
             });
-
           },
         ),
         actions: <Widget>[
@@ -151,13 +141,20 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTypedMessage",
-                          callback: (List<dynamic> arguments) {
-                            print("signTypedMessage" + arguments.toString());
+                          callback: (List<dynamic> arguments) async {
+                            //print("signTypedMessage" + arguments.toString());
+                            Map<String, String> params = new Map();
+                            params['id'] = arguments[0].toString();
+                            params['jsonrpc'] = "2.0";
+                            params['result'] = "";
+                            var json = jsonEncode(params);
+                            await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
+                            return;
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signMessage",
                           callback: (List<dynamic> arguments) {
-                            print("signMessage" + arguments.toString());
+                           // print("signMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "postMessage",
@@ -167,6 +164,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signTransaction",
                           callback: (List<dynamic> arguments) {
+                            //print("signTransaction:" + arguments.toString());
                             // ignore: unnecessary_statements
                             LinkedHashMap<String, dynamic> map = arguments[1];
 
@@ -175,8 +173,9 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                             // print(map['to']);
                             // print(map['value'] != null ? map['value'] : "0");
                             // print(map['data']);
-
+                            EasyLoading.show();
                             BoxApp.getGasCFX((data) {
+                              EasyLoading.dismiss(animation: true);
                               var split = data.split("#");
                               map['storageLimit'] = split[2];
                               map['gasPrice'] = "1";
@@ -189,16 +188,22 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                                   builder: (context) => CfxTransferConfirmPage(
                                         data: map,
                                         cfxTransferConfirmPageCallBackFuture: (signingKey) async {
-                                          if(signingKey == ""){
-                                            Map<String, String> params = new Map();
+                                          if (signingKey == "") {
+                                            Map<String, dynamic> params = new Map();
                                             params['id'] = arguments[0].toString();
                                             params['jsonrpc'] = "2.0";
+
+                                            Map<String, dynamic> error =new Map();
+                                            error['code'] = 4001;
+                                            error['message'] = "拒绝交易";
+                                            params["error"] = error;
+
+
                                             var json = jsonEncode(params);
                                             await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
                                             return;
                                           }
                                           BoxApp.signTransactionCFX((hash) async {
-                                            print(hash);
 
                                             Map<String, String> params = new Map();
                                             params['id'] = arguments[0].toString();
@@ -210,65 +215,13 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
 
                                             return;
                                           }, (error) {
-                                            print(error.toString());
                                             return;
                                           }, signingKey, map['storageLimit'] != null ? (int.parse(map['storageLimit'])).toString() : "0", map['gas'] != null ? (int.parse(map['gas'])).toString() : "0", map['gasPrice'] != null ? (int.parse(map['gasPrice'])).toString() : "0", map['value'] != null ? ((map['value'])).toString() : "0", map['to'], map['data']);
                                           return;
                                         },
                                       ));
 
-                              // showGeneralDialog(
-                              //     context: context,
-                              //     // ignore: missing_return
-                              //     pageBuilder: (context, anim1, anim2) {},
-                              //     barrierColor: Colors.grey.withOpacity(.4),
-                              //     barrierDismissible: true,
-                              //     barrierLabel: "",
-                              //     transitionDuration: Duration(milliseconds: 0),
-                              //     transitionBuilder: (_, anim1, anim2, child) {
-                              //       final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                              //       return Transform(
-                              //         transform: Matrix4.translationValues(0.0, 0, 0.0),
-                              //         child: Opacity(
-                              //           opacity: anim1.value,
-                              //           // ignore: missing_return
-                              //           child: PayPasswordWidget(
-                              //             title: S.of(context).password_widget_input_password,
-                              //             dismissCallBackFuture: (String password) {
-                              //               return;
-                              //             },
-                              //             passwordCallBackFuture: (String password) async {
-                              //               var signingKey = await BoxApp.getSigningKey();
-                              //               var address = await BoxApp.getAddress();
-                              //               final key = Utils.generateMd5Int(password + address);
-                              //               var aesDecode = Utils.aesDecode(signingKey, key);
-                              //
-                              //               // if (aesDecode == "") {
-                              //               //   showErrorDialog(context, null);
-                              //               //   return;
-                              //               // }
-                              //               // ignore: missing_return
-                              //               BoxApp.signTransactionCFX((hash) async {
-                              //                 print(hash);
-                              //
-                              //                 Map<String, String> params = new Map();
-                              //                 params['id'] = arguments[0].toString();
-                              //                 params['jsonrpc'] = "2.0";
-                              //                 params['result'] = hash;
-                              //                 var json = jsonEncode(params);
-                              //                 await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
-                              //
-                              //                 return;
-                              //               }, (error) {
-                              //                 print(error.toString());
-                              //                 return;
-                              //               }, aesDecode, (int.parse(map['storageLimit'])).toString(), (int.parse(map['gas'])).toString(), (int.parse(map['gasPrice'])).toString(), map['value'] != null ? (int.parse(map['value'])).toString() : "0", map['to'], map['data']);
-                              //               // showChainLoading();
-                              //             },
-                              //           ),
-                              //         ),
-                              //       );
-                              //     });
+                              // sh
                               return;
                             }, map['from'], map['to'], map['value'] != null ? map['value'] : "0", map['data']);
                           });
@@ -309,8 +262,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                         isFinish = true;
                       });
                     },
-                    onLoadResource: (controller, url) async {
-                    },
+                    onLoadResource: (controller, url) async {},
                     onLoadError: (controller, url, code, message) {
                       print("onLoadError" + message);
                     },
@@ -320,7 +272,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     },
                     onUpdateVisitedHistory: (controller, url, androidIsReload) {},
                     onConsoleMessage: (controller, consoleMessage) {
-                      print(consoleMessage);
+                      //print(consoleMessage);
                     },
                   );
                 }),

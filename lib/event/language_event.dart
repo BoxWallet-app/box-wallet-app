@@ -21,6 +21,10 @@ class AccountUpdateEvent {
   AccountUpdateEvent();
 }
 
+class AccountUpdateNameEvent {
+  AccountUpdateNameEvent();
+}
+
 
 class NameEvent {
   NameEvent();
