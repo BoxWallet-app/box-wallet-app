@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "AddAccountPage_copy" : MessageLookupByLibrary.simpleMessage("使用同一套助记词"),
     "AddAccountPage_create" : MessageLookupByLibrary.simpleMessage("创建新的助记词"),
-    "AddAccountPage_import" : MessageLookupByLibrary.simpleMessage("创建新的助记词"),
+    "AddAccountPage_import" : MessageLookupByLibrary.simpleMessage("导入已有助记词"),
     "AddAccountPage_title" : MessageLookupByLibrary.simpleMessage("添加新账户"),
     "AddAccountPage_title_2" : MessageLookupByLibrary.simpleMessage("您可以用下面几种方式来添加或者创建你的公链下新账户"),
     "AddAccountPage_title_3" : MessageLookupByLibrary.simpleMessage("或者从其他账户的助记词快速导入（同一助记词可以创建多条公链账户）"),

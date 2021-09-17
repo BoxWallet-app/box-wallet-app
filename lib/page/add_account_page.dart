@@ -12,6 +12,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -128,195 +129,30 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
           },
         ),
       ),
-      body: LoadingWidget(
-        type: loadingType,
-        onPressedError: () {},
-        child: Column(
-          children: [
-            Expanded(
-              child: EasyRefresh(
-                header: BoxHeader(),
-                child: Column(
-                  children: AnimationConfiguration.toStaggeredList(
-                    duration: const Duration(milliseconds: 375),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: widget,
-                      ),
-                    ),
-                    children: [
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                        child: Text(
-                          S.of(context).AddAccountPage_title_2,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black.withAlpha(180),
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                          ),
+      body: CupertinoPageScaffold(
+        child: LoadingWidget(
+          type: loadingType,
+          onPressedError: () {},
+          child: Column(
+            children: [
+              Expanded(
+                child: EasyRefresh(
+                  header: BoxHeader(),
+                  child: Column(
+                    children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 375),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: widget,
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                        child: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          color: Colors.white,
-                          child: InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            onTap: () {
-                              EasyLoading.show();
-                              BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
-                                mnemonicTemp = mnemonic;
-                                EasyLoading.dismiss();
-                                Navigator.push(context, SlideRoute( CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
-                                return;
-                              });
-                            },
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 90,
-                                    width: MediaQuery.of(context).size.width - 36,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 0, left: 15),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                width: 36.0,
-                                                height: 36.0,
-                                                decoration: BoxDecoration(
-//                                                      shape: BoxShape.rectangle,
-                                                ),
-                                                child: ClipOval(
-                                                  child: Container(
-                                                    width: 45.0,
-                                                    height: 45.0,
-                                                    decoration: BoxDecoration(
-//                                                      shape: BoxShape.rectangle,
-                                                      image: DecorationImage(
-                                                        image: AssetImage("images/account_create.png"),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.only(left: 18, right: 18),
-                                                child: Text(
-                                                  S.of(context).AddAccountPage_create,
-                                                  style: new TextStyle(
-                                                    fontSize: 20,
-                                                    color: Color(0xff333333),
-//                                            fontWeight: FontWeight.w600,
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                        child: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          color: Colors.white,
-                          child: InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            onTap: () {
-                              // setState(() {
-                              //   chains[index].isSelect = !chains[index].isSelect;
-                              // });
-                              Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.ADD,accountLoginCallBackFuture: (mnemonic){
-                                mnemonicTemp = mnemonic;
-                                createChain();
-                                return;
-                              },)));
-                            },
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 90,
-                                    width: MediaQuery.of(context).size.width - 36,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 0, left: 15),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                width: 36.0,
-                                                height: 36.0,
-                                                decoration: BoxDecoration(),
-                                                child: ClipOval(
-                                                  child: Container(
-                                                    width: 45.0,
-                                                    height: 45.0,
-                                                    decoration: BoxDecoration(
-                                                      border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                                                      borderRadius: BorderRadius.circular(36.0),
-                                                      image: DecorationImage(
-                                                        image: AssetImage("images/account_import.png"),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.only(left: 18, right: 18),
-                                                child: Text(
-                                                  S.of(context).AddAccountPage_import,
-                                                  style: new TextStyle(
-                                                    fontSize: 20,
-                                                    color: Color(0xff333333),
-//                                            fontWeight: FontWeight.w600,
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (isOtherAccount)
+                      children: [
                         Container(
                           alignment: Alignment.topLeft,
                           margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
                           child: Text(
-                            S.of(context).AddAccountPage_title_3,
+                            S.of(context).AddAccountPage_title_2,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black.withAlpha(180),
@@ -324,7 +160,82 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                             ),
                           ),
                         ),
-                      if (isOtherAccount)
+                        Container(
+                          margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                          child: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            color: Colors.white,
+                            child: InkWell(
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              onTap: () {
+                                EasyLoading.show();
+                                BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
+                                  mnemonicTemp = mnemonic;
+                                  EasyLoading.dismiss();
+                                  Navigator.push(context, SlideRoute( CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                  return;
+                                });
+                              },
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 90,
+                                      width: MediaQuery.of(context).size.width - 36,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: const EdgeInsets.only(top: 0, left: 15),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 36.0,
+                                                  height: 36.0,
+                                                  decoration: BoxDecoration(
+//                                                      shape: BoxShape.rectangle,
+                                                  ),
+                                                  child: ClipOval(
+                                                    child: Container(
+                                                      width: 45.0,
+                                                      height: 45.0,
+                                                      decoration: BoxDecoration(
+//                                                      shape: BoxShape.rectangle,
+                                                        image: DecorationImage(
+                                                          image: AssetImage("images/account_create.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.only(left: 18, right: 18),
+                                                  child: Text(
+                                                    S.of(context).AddAccountPage_create,
+                                                    style: new TextStyle(
+                                                      fontSize: 20,
+                                                      color: Color(0xff333333),
+//                                            fontWeight: FontWeight.w600,
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         Container(
                           margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
                           child: Material(
@@ -336,13 +247,9 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                 // setState(() {
                                 //   chains[index].isSelect = !chains[index].isSelect;
                                 // });
-                                Navigator.push(context, SlideRoute( SelectMnemonicPage(password: widget.password,coin: widget.coin,selectMnemonicCallBackFuture: (mnemonic){
-
-
+                                Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.ADD,accountLoginCallBackFuture: (mnemonic){
                                   mnemonicTemp = mnemonic;
                                   createChain();
-
-
                                   return;
                                 },)));
                               },
@@ -373,7 +280,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 //                                                      shape: BoxShape.rectangle,
                                                         borderRadius: BorderRadius.circular(36.0),
                                                         image: DecorationImage(
-                                                          image: AssetImage("images/account_copy.png"),
+                                                          image: AssetImage("images/account_import.png"),
                                                         ),
                                                       ),
                                                     ),
@@ -382,7 +289,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                 Container(
                                                   padding: const EdgeInsets.only(left: 18, right: 18),
                                                   child: Text(
-                                                    S.of(context).AddAccountPage_copy,
+                                                    S.of(context).AddAccountPage_import,
                                                     style: new TextStyle(
                                                       fontSize: 20,
                                                       color: Color(0xff333333),
@@ -406,13 +313,109 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                ),
+                        if (isOtherAccount)
+                          Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                            child: Text(
+                              S.of(context).AddAccountPage_title_3,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black.withAlpha(180),
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                          ),
+                        if (isOtherAccount)
+                          Container(
+                            margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                            child: Material(
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              color: Colors.white,
+                              child: InkWell(
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                onTap: () {
+                                  // setState(() {
+                                  //   chains[index].isSelect = !chains[index].isSelect;
+                                  // });
+                                  Navigator.push(context, SlideRoute( SelectMnemonicPage(password: widget.password,coin: widget.coin,selectMnemonicCallBackFuture: (mnemonic){
 
+
+                                    mnemonicTemp = mnemonic;
+                                    createChain();
+
+
+                                    return;
+                                  },)));
+                                },
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 90,
+                                        width: MediaQuery.of(context).size.width - 36,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 0, left: 15),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 36.0,
+                                                    height: 36.0,
+                                                    decoration: BoxDecoration(),
+                                                    child: ClipOval(
+                                                      child: Container(
+                                                        width: 45.0,
+                                                        height: 45.0,
+                                                        decoration: BoxDecoration(
+                                                          border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                                                          borderRadius: BorderRadius.circular(36.0),
+                                                          image: DecorationImage(
+                                                            image: AssetImage("images/account_copy.png"),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.only(left: 18, right: 18),
+                                                    child: Text(
+                                                      S.of(context).AddAccountPage_copy,
+                                                      style: new TextStyle(
+                                                        fontSize: 20,
+                                                        color: Color(0xff333333),
+//                                            fontWeight: FontWeight.w600,
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 20,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

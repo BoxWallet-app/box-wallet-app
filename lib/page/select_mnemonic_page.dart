@@ -161,7 +161,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
           onTap: () {
             Navigator.of(context).pop();
             if(widget.selectMnemonicCallBackFuture!=null) {
-              widget.selectMnemonicCallBackFuture(mnemonics[index]);
+              widget.selectMnemonicCallBackFuture(getMnemonicContent(index));
             }
 
           },
@@ -186,7 +186,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
                               child: Container(
                                 padding: const EdgeInsets.only(top: 10,bottom: 15,right: 10,left: 10),
                                 child: Text(
-                                  mnemonics[index],
+                                  getMnemonicContent(index),
                                   style: new TextStyle(
                                     fontSize: 20,
                                     height: 1.5,
@@ -210,6 +210,12 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
         ),
       ),
     );
+  }
+
+  String getMnemonicContent(int index) {
+    var mnemonic = mnemonics[index];
+    var list = mnemonic.split(" ");
+    return list[0]+ " "+list[1]+" "+list[2]+ " "+list[3]+ " * * * * "+list[list.length-4]+ " "+list[list.length-3]+list[list.length-2]+list[list.length-1];
   }
 
 }

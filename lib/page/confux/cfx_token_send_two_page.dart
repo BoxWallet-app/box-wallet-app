@@ -410,9 +410,9 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   void clickAllCount() {
 
       if (double.parse(tokenCount) > 1) {
-        _textEditingController.text = (double.parse(tokenCount) - 0.1).toStringAsFixed(2);
+        _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
       } else {
-        _textEditingController.text = tokenCount;
+        _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
       }
 
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));

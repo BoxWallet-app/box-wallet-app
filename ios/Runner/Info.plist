@@ -18,7 +18,7 @@
 		<string>de_DE</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Box æpp</string>
+	<string>BoxWallet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,25 +35,25 @@
 		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Box wallet needs to get camera permissions, which are used to get the address of the receiving account。Box aepp需要获取相机权限，用于识别接收账户地址。</string>
+	<string>Box wallet needs to get camera permissions, which are used to get the address of the receiving account。Box Wallet需要获取相机权限，用于识别接收账户地址。</string>
 	<key>NSContactsUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>BoxWallet需要获取麦克风权限，用于识别接收账户地址</string>
 	<key>NSMotionUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>BoxWallet需要获取相册权限，用于识别接收账户地址</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>boxaepp</string>
+	<string>BoxWallet</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

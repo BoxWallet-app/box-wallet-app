@@ -48,6 +48,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           setState(() {});
         });
       }
+      setState(() {});
     });
   }
 
@@ -138,21 +139,21 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     ),
                     Container(
                       height: 1,
-                      // color: Color(0xFFfafbfc),
+                      color: Color(0xFFedf3f7),
                       width: MediaQuery.of(context).size.width,
                     ),
 
                     Container(
                       height: MediaQuery.of(context).size.height * 0.75 - 52 - 1,
                       width: MediaQuery.of(context).size.width,
-                      color: Color(0xFFfafafa),
+                      color: Color(0xFFedf3f7),
                       child: Row(
                         children: [
                           MediaQuery.removePadding(
                             removeTop: true,
                             context: context,
                             child: Container(
-                              color: Color(0xFFfafbfc),
+                              color: Color(0xfff8f8f8),
                               height: MediaQuery.of(context).size.height * 0.75 - 52,
                               width: 56,
                               child: ListView.builder(
@@ -163,13 +164,18 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               ),
                             ),
                           ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.75 - 52 - 1,
+                            color: Color(0xFFedf3f7),
+                            width:1,
+                          ),
                           MediaQuery.removePadding(
                             removeTop: true,
                             context: context,
                             child: Column(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width - 56,
+                                  width: MediaQuery.of(context).size.width - 56-1,
                                   padding: EdgeInsets.only(left: 18),
                                   color: Color(0xFFfafbfc),
                                   height: 42,
@@ -216,7 +222,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 Container(
                                   color: Color(0xFFfafbfc),
                                   height: MediaQuery.of(context).size.height * 0.75 - 52 - 1 - 42,
-                                  width: MediaQuery.of(context).size.width - 56,
+                                  width: MediaQuery.of(context).size.width - 56-1,
                                   child: ListView.builder(
                                     itemCount: walletCoinsModel == null ? 1 : walletCoinsModel.coins[coinIndex].accounts.length + 1,
                                     itemBuilder: (context, index) {
@@ -257,89 +263,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
-  void createAE(BuildContext context) {
-    BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
-      showGeneralDialog(
-          useRootNavigator: false,
-          context: context,
-          pageBuilder: (context, anim1, anim2) {
-            return;
-          },
-          //barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 0),
-          transitionBuilder: (context, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                      title: S.of(context).password_widget_set_password,
-                      passwordCallBackFuture: (String password) async {
-                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                          final key = Utils.generateMd5Int(password + address);
-                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
-                          WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
-                            eventBus.fire(AccountUpdateEvent());
-                            Navigator.of(super.context).pop();
-
-                            return;
-                          });
-                        });
-                        return;
-                      }),
-                ));
-          });
-      return;
-    });
-  }
-
-  void createCFX(BuildContext context) {
-    BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
-      showGeneralDialog(
-          useRootNavigator: false,
-          context: context,
-          pageBuilder: (context, anim1, anim2) {
-            return;
-          },
-          //barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 0),
-          transitionBuilder: (context, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                      title: S.of(context).password_widget_set_password,
-                      passwordCallBackFuture: (String password) async {
-                        WalletCoinsManager.instance.getCoins().then((walletCoinModel) {
-                          final key = Utils.generateMd5Int(password + address);
-                          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-                          var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-
-                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
-                            eventBus.fire(AccountUpdateEvent());
-                            Navigator.of(super.context).pop();
-
-                            return;
-                          });
-                        });
-                        return;
-                      }),
-                ));
-          });
-      return;
-    });
-  }
 
   Widget itemCoin(int index) {
     if (walletCoinsModel.coins.length == index) {
@@ -413,21 +337,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
               child: Center(
                 child: Container(
-                  child: Container(
-                    width: 27.0,
-                    height: 27.0,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      // border: Border(
-                      //     bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                      //     top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                      //     left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                      //     right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-//                       borderRadius: BorderRadius.circular(36.0),
-                      image: DecorationImage(
-                        image: AssetImage("images/chain_add.png"),
-                      ),
+                  child:  Container(
+                    height: 25,
+                    width: 25,
+                    margin: EdgeInsets.only(left: 4,right: 5),
+                    padding: EdgeInsets.all(1),
+                    child: Image(
+                      width: 36,
+                      height: 36,
+                      color: Color(0xFF000000).withAlpha(200),
+                      image: AssetImage('images/chain_add.png'),
                     ),
                   ),
                 ),
@@ -448,7 +367,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         child: Container(
           width: 56.0,
           height: 52.0,
-          margin: EdgeInsets.all(2),
+          margin: EdgeInsets.all(4),
           decoration: new BoxDecoration(
             color: index == coinIndex ? Colors.black12 : Colors.transparent,
             //设置四周圆角 角度
@@ -509,7 +428,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 //设置四周边框
                 border: new Border.all(
                   width: 1,
-                  color: Color(0xFFE51363).withAlpha(200),
+                  color: getCoinColor().withAlpha(200),
                 ),
                 //设置四周边框
               ),
@@ -526,7 +445,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     child: Image(
                       width: 36,
                       height: 36,
-                      color: Color(0xFFE51363).withAlpha(200),
+                      color: getCoinColor().withAlpha(200),
                       image: AssetImage('images/wallet_select_account_add.png'),
                     ),
                   ),
@@ -537,7 +456,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                      color: Color(0xFFE51363).withAlpha(200),
+                      color: getCoinColor().withAlpha(200),
                     ),
                   ),
                 ],
@@ -872,6 +791,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ]),
         ),
       );
+    }
+  }
+  Color getCoinColor() {
+    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+      return  Color(0xFFE51363);
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+      return               Color(0xFF37A1DB);
     }
   }
 

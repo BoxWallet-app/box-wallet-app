@@ -713,7 +713,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 //设置四周边框
-                border: new Border.all(width: 1, color: Color(0xFFfafbfc)),
+                border: new Border.all(width: 1, color: Color(0xFFedf3f7)),
                 //设置四周边框
               ),
               padding: EdgeInsets.only(left: 4, right: 4),
@@ -727,7 +727,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         width: 27.0,
                         height: 27.0,
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
+                          border: Border(bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(36.0),
                           image: DecorationImage(
