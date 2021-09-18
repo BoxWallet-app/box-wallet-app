@@ -147,7 +147,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return 'SUCCESS';
         }
         var password = methodCall.arguments.toString();
-        password = Utils.generateMD5(password+a);
+        password = Utils.generateMD5(password + a);
         var signingKey = await BoxApp.getSigningKey();
         var address = await BoxApp.getAddress();
         final key = Utils.generateMd5Int(password + address);
@@ -235,6 +235,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             return Future.value(false);
                           },
                           child: new AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                             title: Text(
                               S.of(context).dialog_update_title,
                             ),
@@ -266,6 +267,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return new AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                           title: Text(
                             S.of(context).dialog_update_title,
                           ),
@@ -317,6 +319,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   return Future.value(false);
                 },
                 child: new AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                   title: Text(S.of(context).dialog_hint),
                   content: Text(S.of(context).dialog_save_word),
                   actions: <Widget>[
@@ -334,7 +337,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             },
           ).then((val) {
             if (val) {
-              showGeneralDialog(useRootNavigator:false,
+              showGeneralDialog(
+                  useRootNavigator: false,
                   context: super.context,
                   pageBuilder: (context, anim1, anim2) {
                     return;
@@ -363,6 +367,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return new AlertDialog(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                                     title: Text(S.of(context).dialog_hint),
                                     content: Text(S.of(context).dialog_login_user_no_save),
                                     actions: <Widget>[
@@ -388,7 +393,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               showErrorDialog(context, null);
                               return;
                             }
-                            Navigator.push(context, SlideRoute( MnemonicCopyPage(mnemonic: aesDecode)));
+                            Navigator.push(context, SlideRoute(MnemonicCopyPage(mnemonic: aesDecode)));
                           },
                         ),
                       ),
@@ -684,7 +689,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //        child: Container(),
 //      );
 
-
     return Positioned(
       right: 18,
       child: Container(
@@ -727,7 +731,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         width: 27.0,
                         height: 27.0,
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
+                          border: Border(
+                            bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                            top: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                            left: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                            right: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                          ),
 //                                                      shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(36.0),
                           image: DecorationImage(
@@ -773,12 +782,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   getAccountName() {
-    if(account == null){
+    if (account == null) {
       return "";
     }
-    if(account.name == null ||account.name == ""){
+    if (account.name == null || account.name == "") {
       return Utils.formatAccountAddress(account.address);
-    }else{
+    } else {
       return account.name;
     }
   }
@@ -792,6 +801,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[

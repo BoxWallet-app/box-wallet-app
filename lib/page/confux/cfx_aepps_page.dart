@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
@@ -113,91 +114,99 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
         child: EasyRefresh(
       header: BoxHeader(),
       onRefresh: _onRefresh,
-      child: Column(
-        children: [
-          Container(
-            height: 170,
-            width: MediaQuery.of(context).size.width - 30,
-            alignment: Alignment.center,
-            child: Stack(
+          child: Column(
+            children: AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 375),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: widget,
+                ),
+              ),
               children: [
-                if (bannerModel != null)
-                  InkWell(
-                    onTap: () {
-                      if (bannerModel == null) {
-                        return;
-                      }
-                      _launchURL(
-                        bannerModel == null
-                            ? ""
-                            : BoxApp.language == "cn"
-                                ? bannerModel.cn.url
-                                : bannerModel.en.url,
-                      );
-                    },
-                    child: Container(
-                      height: 170,
-                      width: MediaQuery.of(context).size.width - 30,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        child: Image.network(
-                          bannerModel == null
-                              ? ""
-                              : BoxApp.language == "cn"
-                                  ? bannerModel.cn.image
-                                  : bannerModel.en.image,
-                          fit: BoxFit.cover,
-
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-
-                            return Container(
-                              alignment: Alignment.center,
-                              child: new Center(
-                                child: new CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                                ),
-                              ),
-                              width: 160.0,
-                              height: 90.0,
+                Container(
+                  height: 170,
+                  width: MediaQuery.of(context).size.width - 30,
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      if (bannerModel != null)
+                        InkWell(
+                          onTap: () {
+                            if (bannerModel == null) {
+                              return;
+                            }
+                            _launchURL(
+                              bannerModel == null
+                                  ? ""
+                                  : BoxApp.language == "cn"
+                                  ? bannerModel.cn.url
+                                  : bannerModel.en.url,
                             );
                           },
-                          //设置图片的填充样式
+                          child: Container(
+                            height: 170,
+                            width: MediaQuery.of(context).size.width - 30,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              child: Image.network(
+                                bannerModel == null
+                                    ? ""
+                                    : BoxApp.language == "cn"
+                                    ? bannerModel.cn.image
+                                    : bannerModel.en.image,
+                                fit: BoxFit.cover,
+
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: new Center(
+                                      child: new CircularProgressIndicator(
+                                        valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                                      ),
+                                    ),
+                                    width: 160.0,
+                                    height: 90.0,
+                                  );
+                                },
+                                //设置图片的填充样式
 //                        fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ),
+                        ),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 30,
+                          child: Container(
+                            decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              color: Color(0x99000000),
+                            ),
+                            padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+                            margin: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 5),
+                            alignment: Alignment.center,
+                            child: Text(
+                              bannerModel == null
+                                  ? "-"
+                                  : BoxApp.language == "cn"
+                                  ? bannerModel.cn.title
+                                  : bannerModel.en.title,
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 30,
-                    child: Container(
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        color: Color(0x99000000),
-                      ),
-                      padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-                      margin: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 5),
-                      alignment: Alignment.center,
-                      child: Text(
-                        bannerModel == null
-                            ? "-"
-                            : BoxApp.language == "cn"
-                                ? bannerModel.cn.title
-                                : bannerModel.en.title,
-                        style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
 //          if (!BoxApp.isOpenStore)
 
-          cfxDappListModel == null
-              ? Container(
+                cfxDappListModel == null
+                    ? Container(
                   alignment: Alignment.center,
                   child: new Center(
                     child: new CircularProgressIndicator(
@@ -207,15 +216,17 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2,
                 )
-              : Column(
+                    : Column(
                   children: childrens,
                 ),
 
-          Container(
-            height: 8,
+                Container(
+                  height: 8,
+                ),
+               ],
+            ),
           ),
-        ],
-      ),
+
     ));
   }
 
@@ -309,14 +320,40 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                               ),
                                             ),
                                           ),
-
                                           Container(
                                             margin: const EdgeInsets.only(top: 30, bottom: 20),
-                                            child: ArgonButton(
-                                              height: 40,
-                                              roundLoadingShape: true,
-                                              width: 120,
-                                              onTap: (startLoading, stopLoading, btnState) async {
+                                            child: TextButton(
+                                              //定义一下文本样式
+                                              style: ButtonStyle(
+                                                //更优美的方式来设置
+                                                shape: MaterialStateProperty.all(StadiumBorder()),
+                                                //设置水波纹颜色
+                                                overlayColor: MaterialStateProperty.all( Color(0xFFFC2365).withAlpha(150)),
+
+
+                                                //背景颜色
+                                                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                                  //设置按下时的背景颜色
+                                                  if (states.contains(MaterialState.pressed)) {
+                                                    return Color(0xFFFC2365).withAlpha(200);
+                                                  }
+                                                  //默认不使用背景颜色
+                                                  return Color(0xFFFC2365);
+                                                }),
+                                                //设置按钮内边距
+                                                padding: MaterialStateProperty.all(EdgeInsets.only(left: 25,right: 25)),
+
+                                              ),
+
+                                              child: Text(
+                                                S.of(context).dialog_privacy_confirm,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                ),
+                                              ),
+                                              onPressed: () async {
                                                 Navigator.pop(context); //关闭对话框
                                                 if (Platform.isAndroid) {
                                                   String resultString;
@@ -333,28 +370,9 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                     navigatorKey.currentState.overlay.context,
                                                     MaterialPageRoute(
                                                         builder: (context) => CfxRpcPage(
-                                                              url: data.url,
-                                                            )));
+                                                          url: data.url,
+                                                        )));
                                               },
-                                              child: Text(
-                                                S.of(context).dialog_conform,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                ),
-                                              ),
-                                              loader: Container(
-                                                padding: EdgeInsets.all(10),
-                                                child: SpinKitRing(
-                                                  lineWidth: 4,
-                                                  color: Colors.white,
-                                                  // size: loaderWidth ,
-                                                ),
-                                              ),
-                                              borderRadius: 30.0,
-                                              color: Color(0xFFFC2365),
                                             ),
                                           ),
 
@@ -566,7 +584,9 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[

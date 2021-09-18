@@ -38,7 +38,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     super.initState();
 
     Future.delayed(Duration(milliseconds: 800), () {
-      FocusScope.of(context).requestFocus(_commentFocus);
+      if (mounted) FocusScope.of(context).requestFocus(_commentFocus);
     });
   }
 
@@ -69,7 +69,6 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(60)),
                     onTap: () {
-
                       // ignore: unnecessary_statements
                       if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
                       Navigator.of(context).pop(); //关闭对话框
@@ -203,7 +202,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.of(context).pop(); //关闭对话框
-                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text+a));
+                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
                     },
                     child: Text(
                       S.of(context).password_widget_conform,

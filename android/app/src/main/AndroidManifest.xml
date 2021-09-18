@@ -22,7 +22,7 @@
     <application
         android:name=".BoxApplication"
         android:icon="@mipmap/ic_launcher"
-        android:label="Box æpp"
+        android:label="BoxWallet"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

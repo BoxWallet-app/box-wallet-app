@@ -539,7 +539,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return new AlertDialog(
+                return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                   title: Text(S.of(context).dialog_hint),
                   content: Text(S.of(context).dialog_defi_wait1 +" "+ waitHeight.toString()+" " + S.of(context).dialog_defi_wait2),
                   actions: <Widget>[
@@ -597,7 +599,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               context: context,
                               barrierDismissible: false,
                               builder: (BuildContext context) {
-                                return new AlertDialog(
+                                return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                                   title: Text(S.of(context).dialog_hint),
                                   content: Text(S.of(context).dialog_defi_blacklist),
                                   actions: <Widget>[
@@ -621,7 +625,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              return new AlertDialog(
+                              return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                                 title: Text(S.of(context).dialog_defi_get),
                                 content: Text(S.of(context).dialog_defi_get_msg + (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
                                 actions: <Widget>[
@@ -708,7 +714,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return new AlertDialog(
+                return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                   title: Text(S.of(context).dialog_hint),
                   content: Text(S.of(context).dialog_ae_no_get),
                   actions: <Widget>[
@@ -766,7 +774,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                           context: context,
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
-                                            return new AlertDialog(
+                                            return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                                               title: Text(S.of(context).dialog_unlock_sucess),
                                               content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
                                               actions: <Widget>[
@@ -842,7 +852,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               context: context,
                               barrierDismissible: false,
                               builder: (BuildContext context) {
-                                return new AlertDialog(
+                                return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                                   title: Text(S.of(context).dialog_hint),
                                   content: Text(S.of(context).dialog_unlock_sucess),
                                   actions: <Widget>[
@@ -907,7 +919,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -930,7 +944,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[

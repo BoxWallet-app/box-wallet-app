@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
@@ -159,64 +160,80 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
       margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        color: Colors.white,
-        child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {
-            Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
-          },
-          child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width - 40 - 36,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  getTxType(index),
-                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        child: OpenContainer(
+          transitionType: ContainerTransitionType.fadeThrough,
+
+          transitionDuration:  Duration(milliseconds: 500),
+          closedElevation: 0,
+          closedShape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+          closedBuilder: (BuildContext context, void Function() action) {
+            ///条目显示的一张图片
+            return InkWell(
+              onTap: action,
+              child: Container(
+                margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width - 40 - 36,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    child: Text(
+                                      getTxType(index),
+                                      style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  child: getFeeWidget(index),
+                                ),
+                              ],
                             ),
-                            Container(
-                              child: getFeeWidget(index),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Text(
+                              walletRecordModel.data[index].hash,
+                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
-                          ],
-                        ),
+                            width: MediaQuery.of(context).size.width - 40 - 36,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 6),
+                            child: Text(
+                              DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
+                              style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            ),
+                          ),
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: 8),
-                        child: Text(
-                          walletRecordModel.data[index].hash,
-                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        ),
-                        width: MediaQuery.of(context).size.width - 40 - 36,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 6),
-                        child: Text(
-                          DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        ),
-                      ),
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  ),
+                    ),
+                    Expanded(
+                      child: Text(""),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(""),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
+
+            ///openBuilder配置的Widget的背景色
+            openColor: Colors.white,
+            openElevation: 1.0,
+            openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+          ///点击打开的页面
+          openBuilder: (BuildContext context, void Function({Object returnValue}) action) {
+            return AeTxDetailPage(recordData: walletRecordModel.data[index]);
+          },
         ),
       ),
     );

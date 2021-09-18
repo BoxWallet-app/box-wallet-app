@@ -42,7 +42,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     WalletCoinsManager.instance.getCoins().then((value) {
       walletCoinsModel = value;
 
-      if (coinIndex == null || coinIndex == 0) {
+      if (coinIndex == null) {
         WalletCoinsManager.instance.getCurrentCoin().then((value) {
           coinIndex = value[1];
           setState(() {});
@@ -291,7 +291,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                           context: context,
                           barrierDismissible: false,
                           builder: (BuildContext context) {
-                            return new AlertDialog(
+                            return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                               title: new Text(S.of(context).dialog_hint),
                               content: new SingleChildScrollView(
                                 child: new ListBody(
@@ -641,7 +643,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
-                        return new AlertDialog(
+                        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                           title: new Text(S.of(context).dialog_delete_account),
                           content: new SingleChildScrollView(
                             child: new ListBody(
@@ -810,7 +814,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[

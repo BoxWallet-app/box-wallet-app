@@ -426,7 +426,9 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return new AlertDialog(
+          return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
             title: Text("提示"),
             content: Text("映射数量不可大于钱包数量"),
             actions: <Widget>[
@@ -592,7 +594,9 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(Utils.formatABCLockV3Hint(content)),
           actions: <Widget>[

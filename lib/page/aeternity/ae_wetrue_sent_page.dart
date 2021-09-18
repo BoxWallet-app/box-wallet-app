@@ -333,7 +333,9 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -356,7 +358,9 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return new AlertDialog(
+        return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[

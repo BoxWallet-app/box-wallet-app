@@ -137,6 +137,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
   }
 
   Widget itemListView(BuildContext context, int index) {
+
     if (index == 0) {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
@@ -151,6 +152,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
       );
     }
     index = index - 1;
+    print(mnemonics[index]);
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
       child: Material(
@@ -161,7 +163,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
           onTap: () {
             Navigator.of(context).pop();
             if(widget.selectMnemonicCallBackFuture!=null) {
-              widget.selectMnemonicCallBackFuture(getMnemonicContent(index));
+              widget.selectMnemonicCallBackFuture(mnemonics[index]);
             }
 
           },
@@ -186,7 +188,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
                               child: Container(
                                 padding: const EdgeInsets.only(top: 10,bottom: 15,right: 10,left: 10),
                                 child: Text(
-                                  getMnemonicContent(index),
+                                  getMnemonicContent(mnemonics[index],index),
                                   style: new TextStyle(
                                     fontSize: 20,
                                     height: 1.5,
@@ -212,8 +214,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
     );
   }
 
-  String getMnemonicContent(int index) {
-    var mnemonic = mnemonics[index];
+  String getMnemonicContent(String mnemonic ,int index) {
     var list = mnemonic.split(" ");
     return list[0]+ " "+list[1]+" "+list[2]+ " "+list[3]+ " * * * * "+list[list.length-4]+ " "+list[list.length-3]+list[list.length-2]+list[list.length-1];
   }

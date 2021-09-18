@@ -63,7 +63,9 @@ class _SplashPageState extends State<SplashPage> {
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      return new AlertDialog(
+                      return new AlertDialog(shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
                         title: Text(
                           "选择语言 / Language",
                         ),
