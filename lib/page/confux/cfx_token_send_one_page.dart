@@ -262,7 +262,7 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
   }
 
   clickNext() {
-    if (!_textEditingController.text.contains("cfx:")) {
+    if (!_textEditingController.text.contains("cfx:") && !_textEditingController.text.contains("0x") ) {
       String address = _textEditingController.text;
 
       if (!address.contains(".cfx")) {
@@ -285,7 +285,7 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
       return;
     }
 
-    if (_textEditingController.text.length < 10 && _textEditingController.text.contains("cfx:")) {
+    if (_textEditingController.text.length < 10 && (_textEditingController.text.contains("cfx:")||_textEditingController.text.contains("0x"))) {
       Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     } else {

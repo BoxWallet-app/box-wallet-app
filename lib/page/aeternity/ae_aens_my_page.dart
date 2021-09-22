@@ -29,6 +29,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
+              color:Colors.black,
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),
@@ -37,6 +38,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
             S.of(context).aens_my_page_title,
             style: TextStyle(
               fontSize: 18,
+              color: Colors.black,
               fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
             ),
           ),
@@ -58,6 +60,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                   icon: Text(
                 S.of(context).aens_my_page_title_tab_1,
                 style: TextStyle(
+                  color: Color(0xFF666666),
                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               )),
@@ -65,6 +68,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                   icon: Text(
                 S.of(context).aens_my_page_title_tab_2,
                 style: TextStyle(
+                  color: Color(0xFF666666),
                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               )),

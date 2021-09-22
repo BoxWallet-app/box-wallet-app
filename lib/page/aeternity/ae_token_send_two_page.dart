@@ -448,7 +448,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) {
+        builder: (BuildContext dialogContext) {
           return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -460,7 +460,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                   S.of(context).dialog_conform,
                 ),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop(false);
+                  Navigator.of(dialogContext, rootNavigator: true).pop(false);
                 },
               ),
             ],
@@ -612,26 +612,26 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       });
   }
 
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],
@@ -640,11 +640,11 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     ).then((val) {});
   }
 
-  void showCopyHashDialog(BuildContext context, String tx) {
+  void showCopyHashDialog(BuildContext buildContext, String tx) {
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -656,7 +656,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                 S.of(context).dialog_copy,
               ),
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(true);
+                Navigator.of(buildContext, rootNavigator: true).pop(true);
               },
             ),
             TextButton(
@@ -664,7 +664,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                 S.of(context).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(false);
+                Navigator.of(buildContext, rootNavigator: true).pop(false);
               },
             ),
           ],

@@ -735,10 +735,10 @@ class S {
     );
   }
 
-  /// `Scan the QR code for payment`
+  /// `Scan the QR code`
   String get scan_page_content {
     return Intl.message(
-      'Scan the QR code for payment',
+      'Scan the QR code',
       name: 'scan_page_content',
       desc: '',
       args: [],

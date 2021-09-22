@@ -139,6 +139,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -169,6 +170,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
          S.current.cfx_tx_detail_page_title,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),

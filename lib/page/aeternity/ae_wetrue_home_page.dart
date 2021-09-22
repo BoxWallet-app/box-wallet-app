@@ -100,17 +100,17 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
                 Tab(
                     icon: Text(
                   "最新发布",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
                 Tab(
                     icon: Text(
                   "热门推荐",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
                 Tab(
                     icon: Text(
                   "最新图片",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
               ],
             ),

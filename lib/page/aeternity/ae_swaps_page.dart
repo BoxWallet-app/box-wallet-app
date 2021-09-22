@@ -23,7 +23,9 @@ class _AeSwapsPageState extends State<AeSwapsPage> {
           // 隐藏阴影
           leading: IconButton(
             icon: Icon(
+
               Icons.arrow_back_ios,
+              color: Colors.black,
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),
@@ -32,6 +34,7 @@ class _AeSwapsPageState extends State<AeSwapsPage> {
             S.of(context).swap_buy_sell_order_title,
             style: TextStyle(
               fontSize: 18,
+              color: Colors.black,
               fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
             ),
           ),

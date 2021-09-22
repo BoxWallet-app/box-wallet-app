@@ -173,7 +173,9 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
         backgroundColor: Color(0xFFfafbfc),
         leading: IconButton(
           icon: Icon(
+
             Icons.arrow_back_ios,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -204,6 +206,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           S.current.ae_tx_detail_page_title,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),

@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../main.dart';
 import 'ae_defi_in_page.dart';
@@ -51,17 +50,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     // TODO: implement initState
     super.initState();
     // Subscribe
-    KeyboardVisibility.onChange.listen((bool visible) {
-//      if (visible) {
-//        isInput = false;
-//      } else {
-//        isInput = true;
-//      }
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
+
     eventBus.on<DefiEvent>().listen((event) {
       netContractBalance();
     });
@@ -596,9 +585,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           if ("-1" == tx) {
 
                             showDialog<bool>(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                                 return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -622,9 +611,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
 
 
                           showDialog<bool>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                               return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -771,9 +760,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                         eventBus.fire(DefiEvent());
 
                                         showDialog<bool>(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                                             return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -849,9 +838,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             eventBus.fire(DefiEvent());
 
                             showDialog<bool>(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                                 return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -911,26 +900,26 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           return ChainLoadingWidget();
         });
   }
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],
@@ -939,11 +928,11 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     ).then((val) {});
   }
 
-  void showCopyHashDialog(BuildContext context, String tx) {
+  void showCopyHashDialog(BuildContext buildContext, String tx) {
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -952,7 +941,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_copy,
+                S.of(buildContext).dialog_copy,
               ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: tx));
@@ -961,7 +950,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
             ),
             TextButton(
               child: new Text(
-                S.of(context).dialog_dismiss,
+                S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);

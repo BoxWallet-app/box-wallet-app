@@ -586,26 +586,26 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
         Navigator.pop(context);
       });
   }
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(Utils.formatABCLockV3Hint(content)),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

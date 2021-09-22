@@ -282,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "password_widget_conform" : MessageLookupByLibrary.simpleMessage("确 认"),
     "password_widget_input_password" : MessageLookupByLibrary.simpleMessage("输入安全密码"),
     "password_widget_set_password" : MessageLookupByLibrary.simpleMessage("设置安全密码"),
-    "scan_page_content" : MessageLookupByLibrary.simpleMessage("扫二维码进行付款"),
+    "scan_page_content" : MessageLookupByLibrary.simpleMessage("扫二维码进行登录或付款"),
     "select_chain_page_add_chain" : MessageLookupByLibrary.simpleMessage("添加新公链"),
     "select_chain_page_create_wallet" : MessageLookupByLibrary.simpleMessage("创建新钱包"),
     "select_chain_page_select_chain" : MessageLookupByLibrary.simpleMessage("选择公链"),

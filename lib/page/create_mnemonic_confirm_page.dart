@@ -52,8 +52,9 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFfafbfc),
         appBar: AppBar(
+          backgroundColor: Color(0xFFfafbfc),
           centerTitle:true,
           elevation: 0,
           title: Text(
@@ -68,6 +69,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
+              color: Colors.black,
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),
@@ -140,9 +142,9 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                         }
 
                         showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                             return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),

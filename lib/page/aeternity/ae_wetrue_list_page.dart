@@ -731,26 +731,26 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],
@@ -759,11 +759,11 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     ).then((val) {});
   }
 
-  void showCopyHashDialog(BuildContext context, String tx) {
+  void showCopyHashDialog(BuildContext buildContext, String tx) {
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -772,7 +772,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_copy,
+                S.of(buildContext).dialog_copy,
               ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: tx));
@@ -781,7 +781,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
             ),
             TextButton(
               child: new Text(
-                S.of(context).dialog_dismiss,
+                S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);

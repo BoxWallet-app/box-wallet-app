@@ -482,7 +482,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) {
+        builder: (BuildContext buildContext) {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
             title: Text("重复账户"),
@@ -491,7 +491,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
               TextButton(
                 child: new Text(S.of(context).dialog_conform),
                 onPressed: () {
-                  Navigator.of(context).pop(false);
+                  Navigator.of(buildContext).pop(false);
                 },
               ),
             ],

@@ -68,6 +68,7 @@ class _NodePageState extends State<NodePage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+           color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -76,6 +77,7 @@ class _NodePageState extends State<NodePage> {
           S.of(context).setting_page_node_set,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
           ),
         ),
@@ -260,9 +262,9 @@ class _NodePageState extends State<NodePage> {
 
 
                         showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                             return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -288,9 +290,9 @@ class _NodePageState extends State<NodePage> {
                         ).then((val) {});
                       } else {
                         showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                             return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -320,9 +322,9 @@ class _NodePageState extends State<NodePage> {
                     }).catchError((e) {
                       stopLoading();
                       showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                           return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),

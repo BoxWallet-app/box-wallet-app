@@ -125,13 +125,15 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEEEEEE),
+      backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
+        backgroundColor: Color(0xFFfafbfc),
         // 隐藏阴影
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -140,6 +142,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
           S.of(context).swap_title_send,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
@@ -154,7 +157,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
         },
         child: Container(
           height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
-          color: Colors.white,
+          color:  Color(0xFFfafbfc),
           child: Column(
             children: [
               Container(
@@ -516,9 +519,9 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       focusNodeCompiler.unfocus();
 
                       showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                           return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -576,26 +579,26 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
           return ChainLoadingWidget();
         });
   }
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

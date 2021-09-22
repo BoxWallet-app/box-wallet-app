@@ -26,17 +26,19 @@ class _AeAensPageState extends State<AeAensPage> {
             backgroundColor: Color(0xFFfafbfc),
             elevation: 0,
             // 隐藏阴影
-            leading:  IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      size: 17,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+                size: 17,
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
             title: Text(
               S.of(context).aens_page_title,
               style: TextStyle(
                 fontSize: 18,
+                color: Colors.black,
                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
               ),
             ),
@@ -47,11 +49,12 @@ class _AeAensPageState extends State<AeAensPage> {
                 child: new Text(
                   S.of(context).aens_page_title_my,
                   style: TextStyle(
+                    color: Colors.black,
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(context, SlideRoute( AeAensMyPage()));
+                  Navigator.push(context, SlideRoute(AeAensMyPage()));
                 },
               ),
             ],
@@ -71,17 +74,17 @@ class _AeAensPageState extends State<AeAensPage> {
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_1,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_2,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_3,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
               ],
             ),
@@ -99,7 +102,7 @@ class _AeAensPageState extends State<AeAensPage> {
           ),
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
-              Navigator.push(context, SlideRoute( AeAensRegister()));
+              Navigator.push(context, SlideRoute(AeAensRegister()));
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

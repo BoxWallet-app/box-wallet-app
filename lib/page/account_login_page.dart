@@ -54,8 +54,9 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFfafbfc),
         appBar: AppBar(
+          backgroundColor: Color(0xFFfafbfc),
           centerTitle:true,
           elevation: 0,
           title: Text(
@@ -70,6 +71,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
+              color: Color(0xFF000000),
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),
@@ -263,14 +265,14 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         });
     return;
   }
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -282,7 +284,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                 S.of(context).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

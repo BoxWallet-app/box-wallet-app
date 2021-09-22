@@ -54,7 +54,7 @@ class Utils {
       return "";
     }
 //    print(address);
-    return "cfx..." + address.substring(address.length - 4, address.length);
+    return address.substring(0,3)+"..." + address.substring(address.length - 4, address.length);
   }
 
   static formatAccountAddress(String address) {
@@ -99,7 +99,7 @@ class Utils {
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return  address.substring(0, 4) +" "+  address.substring(4, 6) +" "+  address.substring(6, 8)+ " ...\n" + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
+    return  address.substring(0, 4) +" "+  address.substring(4, 6) +" "+  address.substring(6, 7)+ " ...\n" + address.substring(address.length - 8, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
   }
 
 

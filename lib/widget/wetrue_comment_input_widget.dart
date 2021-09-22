@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'numeric_keyboard.dart';
 
 

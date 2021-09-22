@@ -21,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import 'aeternity/ae_home_page.dart';
 import 'language_page.dart';
+import 'local_auth_page.dart';
 import 'look_mnemonic_page.dart';
 import 'node_page.dart';
 
@@ -103,7 +104,6 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                 child: PayPasswordWidget(
                                   title: S.of(context).password_widget_input_password,
                                   dismissCallBackFuture: (String password) {
-                                    return;
                                   },
                                   passwordCallBackFuture: (String password) async {
                                     var mnemonic = await BoxApp.getMnemonic();
@@ -115,9 +115,9 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
                                     if (aesDecode == "") {
                                       showDialog<bool>(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                                           return new AlertDialog(
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                                             title: Text(S.of(context).dialog_hint_check_error),
@@ -272,6 +272,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                   child: InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     onTap: () {
+                      // Navigator.push(context, SlideRoute(MyApp()));
                       if (BoxApp.language == "cn") {
                         Share.share('AeBox 一个AE去中心化魔法盒子 https://aebox.io');
                       } else {
@@ -325,9 +326,9 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     onTap: () {
                       showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                           return new AlertDialog(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                             title: new Text(S.of(context).setting_clear_data_title),

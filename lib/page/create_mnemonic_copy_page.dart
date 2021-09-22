@@ -51,9 +51,10 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFfafbfc),
         appBar: AppBar(
           centerTitle:true,
+          backgroundColor: Color(0xFFfafbfc),
           elevation: 0,
           title: Text(
             S.of(context).CreateMnemonicCopyPage_title,
@@ -67,6 +68,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
+              color: Colors.black,
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),

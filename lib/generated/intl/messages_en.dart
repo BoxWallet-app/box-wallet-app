@@ -282,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "password_widget_conform" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "password_widget_input_password" : MessageLookupByLibrary.simpleMessage("Enter a secure password"),
     "password_widget_set_password" : MessageLookupByLibrary.simpleMessage("Set a secure password"),
-    "scan_page_content" : MessageLookupByLibrary.simpleMessage("Scan the QR code for payment"),
+    "scan_page_content" : MessageLookupByLibrary.simpleMessage("Scan the QR code"),
     "select_chain_page_add_chain" : MessageLookupByLibrary.simpleMessage("Add a new chain"),
     "select_chain_page_create_wallet" : MessageLookupByLibrary.simpleMessage("Create a new Wallet"),
     "select_chain_page_select_chain" : MessageLookupByLibrary.simpleMessage("Select chain"),

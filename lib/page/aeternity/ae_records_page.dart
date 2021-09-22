@@ -109,7 +109,9 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         // 隐藏阴影
         leading: IconButton(
           icon: Icon(
+
             Icons.arrow_back_ios,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -118,6 +120,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
           S.of(context).home_page_transaction,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),

@@ -229,7 +229,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   ? showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
-                      builder: (BuildContext context) {
+                      builder: (BuildContext dialogContext) {
                         return WillPopScope(
                           onWillPop: () async {
                             return Future.value(false);
@@ -265,7 +265,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   : showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
-                      builder: (BuildContext context) {
+                      builder: (BuildContext dialogContext) {
                         return new AlertDialog(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                           title: Text(
@@ -363,9 +363,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             var mnemonic = await BoxApp.getMnemonic();
                             if (mnemonic == "") {
                               showDialog<bool>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                                   return new AlertDialog(
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                                     title: Text(S.of(context).dialog_hint),
@@ -792,25 +792,25 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }
   }
 
-  void showErrorDialog(BuildContext context, String content) {
+  void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
-      content = S.of(context).dialog_hint_check_error_content;
+      content = S.of(buildContext).dialog_hint_check_error_content;
     }
     showDialog<bool>(
-      context: context,
+      context: buildContext,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-          title: Text(S.of(context).dialog_hint_check_error),
+          title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
             TextButton(
               child: new Text(
-                S.of(context).dialog_conform,
+                S.of(buildContext).dialog_conform,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

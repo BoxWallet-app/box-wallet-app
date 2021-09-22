@@ -41,13 +41,15 @@ class _LanguagePageState extends State<LanguagePage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+            color: Color(0xFF000000),
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           S.of(context).setting_page_item_language,
-          style: TextStyle(fontSize: 18,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+
+          style: TextStyle(fontSize: 18,  color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
         ),
         centerTitle: true,
       ),

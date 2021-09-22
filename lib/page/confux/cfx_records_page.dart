@@ -117,6 +117,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -125,6 +126,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
           S.of(context).home_page_transaction,
           style: TextStyle(
             fontSize: 18,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),

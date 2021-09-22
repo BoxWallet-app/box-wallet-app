@@ -68,49 +68,101 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
         backgroundColor: Color(0xFFfafbfc),
         elevation: 0,
         // 隐藏阴影
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-          ),
-        ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-            size: 17,
-          ),
-          onPressed: () async {
-            Future<bool> canGoBack = _webViewController.canGoBack();
-            canGoBack.then((str) {
-              if (str) {
-                _webViewController.goBack();
-                // _webViewController.reload();
-              } else {
-                Navigator.of(context).pop();
-              }
-            });
-          },
-        ),
-        actions: <Widget>[
-          Container(
-            width: 50,
-            child: IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Colors.black,
-                size: 20,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0.0,
+
+        title: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            children: [
+              Container(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                    size: 17,
+                  ),
+                  onPressed: () async {
+                    Future<bool> canGoBack = _webViewController.canGoBack();
+                    canGoBack.then((str) {
+                      if (str) {
+                        _webViewController.goBack();
+                        // _webViewController.reload();
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    });
+                  },
+                ),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-//              Navigator.pop(context);
-              },
-            ),
+
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.black,
+                  size: 20,
+                ),
+                onPressed: () async {
+                  Future<bool> canGoBack = _webViewController.canGoBack();
+                  canGoBack.then((str) {
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.transparent,
+                  size: 22,
+                ),
+
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.black,
+                  size: 20,
+                ),
+                onPressed: () async {
+                  Future<bool> canGoBack = _webViewController.canGoBack();
+                  canGoBack.then((str) {
+                    _webViewController.reload();
+                  });
+                },
+              ),
+            ],
           ),
-        ],
+        ),
+//         actions: <Widget>[
+//           Container(
+//             width: 50,
+//             child: IconButton(
+//               icon: Icon(
+//                 Icons.close,
+//                 color: Colors.black,
+//                 size: 20,
+//               ),
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+// //              Navigator.pop(context);
+//               },
+//             ),
+//           ),
+//
+//         ],
       ),
       backgroundColor: Color(0xFFffffff),
       body: Stack(
@@ -154,7 +206,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                       _webViewController.addJavaScriptHandler(
                           handlerName: "signMessage",
                           callback: (List<dynamic> arguments) {
-                           // print("signMessage" + arguments.toString());
+                            // print("signMessage" + arguments.toString());
                           });
                       _webViewController.addJavaScriptHandler(
                           handlerName: "postMessage",
@@ -193,18 +245,16 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                                             params['id'] = arguments[0].toString();
                                             params['jsonrpc'] = "2.0";
 
-                                            Map<String, dynamic> error =new Map();
+                                            Map<String, dynamic> error = new Map();
                                             error['code'] = 4001;
                                             error['message'] = "拒绝交易";
                                             params["error"] = error;
-
 
                                             var json = jsonEncode(params);
                                             await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
                                             return;
                                           }
                                           BoxApp.signTransactionCFX((hash) async {
-
                                             Map<String, String> params = new Map();
                                             params['id'] = arguments[0].toString();
                                             params['jsonrpc'] = "2.0";

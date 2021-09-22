@@ -118,9 +118,9 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                     onPressed: () {
                       if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
                         showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                             return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -153,9 +153,9 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                       }
 
                       showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
                           return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),

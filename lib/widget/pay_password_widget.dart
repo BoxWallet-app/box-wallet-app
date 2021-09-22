@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
@@ -162,6 +161,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   inputFormatters: [
 //                    WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                   ],
+                  obscureText:true,
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: 16,
