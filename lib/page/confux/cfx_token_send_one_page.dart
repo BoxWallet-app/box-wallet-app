@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/scan_page.dart';
 import 'package:box/widget/custom_route.dart';
@@ -155,7 +157,13 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
                                                 onTap: () async {
                                                   Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                                                   if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                                    final data = await Navigator.push(context, SlideRoute( ScanPage()));
+                                                    var data;
+                                                    if (Platform.isIOS) {
+                                                      data = Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                                                    } else {
+                                                      data = await Navigator.push(context, SlideRoute(ScanPage()));
+                                                    }
+
                                                     _textEditingController.text = data;
                                                   } else {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
@@ -262,7 +270,7 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
   }
 
   clickNext() {
-    if (!_textEditingController.text.contains("cfx:") && !_textEditingController.text.contains("0x") ) {
+    if (!_textEditingController.text.contains("cfx:") && !_textEditingController.text.contains("0x")) {
       String address = _textEditingController.text;
 
       if (!address.contains(".cfx")) {
@@ -281,15 +289,20 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
         _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
         _focus.unfocus();
         return;
-      },  address);
+      }, address);
       return;
     }
 
-    if (_textEditingController.text.length < 10 && (_textEditingController.text.contains("cfx:")||_textEditingController.text.contains("0x"))) {
+    if (_textEditingController.text.length < 10 && (_textEditingController.text.contains("cfx:") || _textEditingController.text.contains("0x"))) {
       Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     } else {
-      Navigator.pushReplacement(context, SlideRoute( CfxTokenSendTwoPage(address: _textEditingController.text)));
-    }
+      if (Platform.isIOS) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CfxTokenSendTwoPage(address: _textEditingController.text)));
+      } else {
+        Navigator.pushReplacement(context, SlideRoute(CfxTokenSendTwoPage(address: _textEditingController.text)));
+      }
+      }
+
   }
 }

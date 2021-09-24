@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/swap_coin_account_dao.dart';
@@ -234,7 +235,12 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                               child: InkWell(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 onTap: () {
-                                  Navigator.push(context, SlideRoute( AeSwapInitiatePage()));
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapInitiatePage()));
+                                  } else {
+                                    Navigator.push(context, SlideRoute( AeSwapInitiatePage()));
+                                  }
+
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -267,8 +273,12 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                               child: InkWell(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 onTap: () {
-//                                  Navigator.push(context, SlideRoute( ForumPage()));
-                                  Navigator.push(context, SlideRoute( AeSwapMyPage()));
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>AeSwapMyPage()));
+                                  } else {
+                                    Navigator.push(context, SlideRoute( AeSwapMyPage()));
+                                  }
+
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -355,7 +365,12 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                       ),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
+                          // if (Platform.isIOS) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoPage(address: swapModels.data[index - 1].account)));
+                          // } else {
+                          //   Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
+                          // }
+
                         },
                         child: ClipOval(
                             child: CircularProfileAvatar(

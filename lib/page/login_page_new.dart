@@ -265,27 +265,14 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         height: 50,
                         child: FlatButton(
                           onPressed: () {
-                            // showMaterialModalBottomSheet(
-                            //     expand: true,
-                            //     context: context,
-                            //     enableDrag: false,
-                            //     backgroundColor: Colors.transparent,
-                            //     builder: (context) => SelectChainPage(
-                            //           type: 1,
-                            //           selectChainPageCallBackFuture: (model) {
-                            //             print(model.name);
-                            //             if (model.name == "AE") {
-                            //
-                            //               return;
-                            //             }
-                            //             if (model.name == "CFX") {
-                            //               Navigator.push(context, SlideRoute( CfxAccountLoginPage()));
-                            //               return;
-                            //             }
-                            //             return;
-                            //           },
-                            //         ));
-                            Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+
+                            if (Platform.isIOS) {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+                            } else {
+                              Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+                            }
+
+
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),

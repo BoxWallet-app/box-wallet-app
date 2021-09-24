@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
@@ -128,7 +129,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                                   S.of(context).dialog_conform,
                                                 ),
                                                 onPressed: () {
-                                                  Navigator.of(context).pop(false);
+                                                  Navigator.of(dialogContext).pop(false);
                                                 },
                                               ),
                                             ],
@@ -139,7 +140,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                       });
                                       return;
                                     }
-                                    Navigator.push(context, SlideRoute(LookMnemonicPage(mnemonic: aesDecode)));
+                                    if (Platform.isIOS) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode)));
+                                    } else {
+                                      Navigator.push(context, SlideRoute(LookMnemonicPage(mnemonic: aesDecode)));
+                                    }
+
                                   },
                                 ),
                               ),
@@ -195,7 +201,13 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               ),
               "AE" == coin
                   ? buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
-                Navigator.push(context, SlideRoute(NodePage()));
+
+                if (Platform.isIOS) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
+                } else {
+                  Navigator.push(context, SlideRoute(NodePage()));
+                }
+
               }, isLine: false)
                   : Container(),
 
@@ -206,7 +218,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               )
                   : Container(),
               buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
-                Navigator.push(context, SlideRoute(LanguagePage()));
+                if (Platform.isIOS) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>LanguagePage()));
+                } else {
+                  Navigator.push(context, SlideRoute(LanguagePage()));
+                }
+
               }, isLine: false),
               Container(
 //              color: Colors.white,
@@ -343,13 +360,13 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                               TextButton(
                                 child: new Text(S.of(context).dialog_dismiss),
                                 onPressed: () {
-                                  Navigator.of(context).pop(false);
+                                  Navigator.of(dialogContext).pop(false);
                                 },
                               ),
                               new TextButton(
                                 child: new Text(S.of(context).dialog_conform),
                                 onPressed: () {
-                                  Navigator.of(context).pop(true);
+                                  Navigator.of(dialogContext).pop(true);
                                 },
                               ),
                             ],

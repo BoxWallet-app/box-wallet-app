@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/account_info_dao.dart';
@@ -583,7 +584,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                                          if (Platform.isIOS) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  AeTokenSendOnePage()));
+                                          } else {
+                                            Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                                          }
+
                                         },
                                         child: Container(
                                           height: 90,
@@ -660,7 +666,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, SlideRoute( TokenReceivePage()));
+                                          if (Platform.isIOS) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>TokenReceivePage()));
+                                          } else {
+                                            Navigator.push(context, SlideRoute( TokenReceivePage()));
+                                          }
+
                                         },
                                         child: Container(
                                           height: 90,
@@ -735,7 +746,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, SlideRoute( AeTokenListPage()));
+                                    if (Platform.isIOS) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
+                                    } else {
+                                      Navigator.push(context, SlideRoute( AeTokenListPage()));
+                                    }
+
                                   },
                                   child: Container(
                                     height: 90,
@@ -832,7 +848,11 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            Navigator.push(context, SlideRoute( AeRecordsPage()));
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>AeRecordsPage()));
+            } else {
+               Navigator.push(context, SlideRoute(AeRecordsPage()));
+            }
           },
           child: Column(
             children: [
@@ -962,7 +982,11 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, SlideRoute( AeRecordsPage()));
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+            } else {
+              Navigator.push(context, SlideRoute( AeRecordsPage()));
+            }
           },
           child: Column(
             children: [
@@ -1037,7 +1061,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          if (Platform.isIOS) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          } else {
+            Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          }
+
         },
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
@@ -1093,7 +1122,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          if (Platform.isIOS) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          } else {
+            Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+          }
+
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

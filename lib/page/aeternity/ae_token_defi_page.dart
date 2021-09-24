@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/account_info_dao.dart';
@@ -302,7 +303,12 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.all(Radius.circular(30)),
                                     onTap: () {
-                                      Navigator.push(context, SlideRoute( AeDefiRankingPage()));
+                                      if (Platform.isIOS) {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>AeDefiRankingPage()));
+                                      } else {
+                                        Navigator.push(context, SlideRoute( AeDefiRankingPage()));
+                                      }
+
                                     },
                                     child: Container(
                                       height: 50,
@@ -672,7 +678,12 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          Navigator.push(context, SlideRoute( AeDefiInPage()));
+          if (Platform.isIOS) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>AeDefiInPage()));
+          } else {
+            Navigator.push(context, SlideRoute( AeDefiInPage()));
+          }
+
         },
         child: Text(
           S.of(context).defi_card_mine,
@@ -953,7 +964,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                 S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

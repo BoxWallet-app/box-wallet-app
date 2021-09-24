@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/swap_coin_my_dao.dart';
@@ -82,7 +83,12 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
               ),
             ),
             onPressed: () {
-              Navigator.push(context, SlideRoute( AeSwapsPage()));
+              if (Platform.isIOS) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapsPage()));
+              } else {
+                Navigator.push(context, SlideRoute( AeSwapsPage()));
+              }
+
             },
           ),
         ],
@@ -179,7 +185,12 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
+                        // if (Platform.isIOS) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) =>PhotoPage(address: swapModels.data[index - 1].account)));
+                        // } else {
+                        //   Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
+                        // }
+
                       },
                       child: Container(
                         width: 30,

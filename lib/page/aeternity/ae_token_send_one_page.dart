@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
@@ -302,7 +304,11 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
       Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     } else {
-      Navigator.pushReplacement(context, SlideRoute( AeTokenSendTwoPage(address: _textEditingController.text)));
+      if (Platform.isIOS) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AeTokenSendTwoPage(address: _textEditingController.text)));
+      } else {
+        Navigator.pushReplacement(context, SlideRoute( AeTokenSendTwoPage(address: _textEditingController.text)));
+      }
     }
   }
 }

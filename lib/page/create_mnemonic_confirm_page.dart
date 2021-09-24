@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/event/language_event.dart';
@@ -132,7 +133,12 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                       onPressed: () {
                         if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
                           if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-                            Navigator.push(context, SlideRoute( SetPasswordPage(mnemonic: widget.mnemonic)));
+                            if (Platform.isIOS) {
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: widget.mnemonic)));
+                            } else {
+                              Navigator.push(context, SlideRoute( SetPasswordPage(mnemonic: widget.mnemonic)));
+                            }
+
                           } else {
                             eventBus.fire(AddAccount());
                             Navigator.pop(context);

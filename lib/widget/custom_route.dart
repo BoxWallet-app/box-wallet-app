@@ -100,6 +100,9 @@ class SlideRoute extends PageRouteBuilder{
           Widget child,
           ){
 
+
+
+
         // 需要什么效果把注释打开就行了
         // 渐变效果
         // return FadeTransition(

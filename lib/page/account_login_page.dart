@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/user_model.dart';
@@ -48,7 +50,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
       inputPassword(_textEditingController.text.toString());
     });
 
- ;
+    ;
   }
 
   @override
@@ -57,7 +59,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         backgroundColor: Color(0xFFfafbfc),
         appBar: AppBar(
           backgroundColor: Color(0xFFfafbfc),
-          centerTitle:true,
+          centerTitle: true,
           elevation: 0,
           title: Text(
             S.of(context).account_login_page_input_mnemonic,
@@ -156,7 +158,13 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                                   onTap: () async {
                                     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                                     if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                                      final data = await Navigator.push(context, SlideRoute( ScanPage()));
+                                      var data;
+                                      if (Platform.isIOS) {
+                                        data = Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                                      } else {
+                                        data = await Navigator.push(context, SlideRoute(ScanPage()));
+                                      }
+
                                       inputPassword(data);
                                     } else {
                                       EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
@@ -228,7 +236,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     }
     var mnemonic = data.toString().replaceAll("box_", "");
     _textEditingController.text = "";
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
@@ -246,25 +255,24 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                 // ignore: missing_return
                 child: PayPasswordWidget(
                     title: S.of(context).password_widget_input_password,
-                    dismissCallBackFuture: (password){
-
+                    dismissCallBackFuture: (password) {
                       return;
-                    }
-                    ,passwordCallBackFuture: (String password) async {
+                    },
+                    passwordCallBackFuture: (String password) async {
                       final key = Utils.generateMd5Int(password);
                       var aesDecode = Utils.aesDecode(mnemonic, key);
-                      if(aesDecode==""){
-                        showErrorDialog(context,null);
+                      if (aesDecode == "") {
+                        showErrorDialog(context, null);
                         return;
                       }
                       _textEditingController.text = aesDecode;
                       clickLogin();
-
                     }),
               ));
         });
     return;
   }
+
   void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
@@ -273,9 +281,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(context).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -293,7 +300,6 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     ).then((val) {});
   }
 
-
   clickLogin() {
     FocusScope.of(context).requestFocus(FocusNode());
     if (_textEditingController.text == null || _textEditingController.text == "") {
@@ -307,7 +313,14 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
       if (isSucess) {
         _textEditingController.text = "";
         if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-          Navigator.push( navigatorKey.currentState.overlay.context, SlideRoute( SetPasswordPage(mnemonic: mnemonic)));
+
+          if (Platform.isIOS) {
+             Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));
+          } else {
+            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(mnemonic: mnemonic)));
+          }
+
+
         } else {
           if (widget.accountLoginCallBackFuture != null) {
             widget.accountLoginCallBackFuture(mnemonic);
@@ -318,11 +331,10 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         showDialog<bool>(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) {
-            return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-              title: Text( S.of(context).dialog_hint),
+          builder: (BuildContext dialogContext) {
+            return new AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+              title: Text(S.of(context).dialog_hint),
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
@@ -334,14 +346,13 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                 TextButton(
                   child: new Text(S.of(context).dialog_conform),
                   onPressed: () {
-                    Navigator.of(context).pop(false);
+                    Navigator.of(dialogContext).pop(false);
                   },
                 ),
               ],
             );
           },
-        ).then((val) {
-        });
+        ).then((val) {});
 
         // showPlatformDialog(
         //   context: context,
@@ -380,7 +391,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
         }
         stopLoading();
         if (model.code == 200) {
-          showGeneralDialog(useRootNavigator:false,
+          showGeneralDialog(
+              useRootNavigator: false,
               context: context,
               pageBuilder: (context, anim1, anim2) {},
               //barrierColor: Colors.grey.withOpacity(.4),
@@ -410,9 +422,8 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
-              return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+              return new AlertDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                 title: new Text('Login Error'),
                 actions: <Widget>[
                   TextButton(
@@ -424,8 +435,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                 ],
               );
             },
-          ).then((val) {
-          });
+          ).then((val) {});
         }
       }).catchError((e) {
         stopLoading();

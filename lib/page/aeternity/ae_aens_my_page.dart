@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/widget/custom_route.dart';
@@ -83,7 +85,12 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, SlideRoute( AeAensRegister()));
+            if (Platform.isIOS) {
+               Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
+            } else {
+              Navigator.push(context, SlideRoute( AeAensRegister()));
+            }
+
           },
           child: new Icon(Icons.add),
           elevation: 3.0,

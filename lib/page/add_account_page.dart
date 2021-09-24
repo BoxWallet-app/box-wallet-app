@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
@@ -169,7 +170,15 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                 BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
                                   mnemonicTemp = mnemonic;
                                   EasyLoading.dismiss();
-                                  Navigator.push(context, SlideRoute(CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                  } else {
+                                    Navigator.push(context, SlideRoute(CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                  }
+
+
+
                                   return;
                                 });
                               },
@@ -244,16 +253,30 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                 // setState(() {
                                 //   chains[index].isSelect = !chains[index].isSelect;
                                 // });
-                                Navigator.push(
-                                    context,
-                                    SlideRoute(AccountLoginPage(
-                                      type: CreateMnemonicCopyPage.ADD,
-                                      accountLoginCallBackFuture: (mnemonic) {
-                                        mnemonicTemp = mnemonic;
-                                        createChain();
-                                        return;
-                                      },
-                                    )));
+
+
+                                if (Platform.isIOS) {
+                                 Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(
+                                   type: CreateMnemonicCopyPage.ADD,
+                                   accountLoginCallBackFuture: (mnemonic) {
+                                     mnemonicTemp = mnemonic;
+                                     createChain();
+                                     return;
+                                   },
+                                 )));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      SlideRoute(AccountLoginPage(
+                                        type: CreateMnemonicCopyPage.ADD,
+                                        accountLoginCallBackFuture: (mnemonic) {
+                                          mnemonicTemp = mnemonic;
+                                          createChain();
+                                          return;
+                                        },
+                                      )));
+                                }
+
                               },
                               child: Container(
                                 child: Row(
@@ -340,18 +363,34 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                   // setState(() {
                                   //   chains[index].isSelect = !chains[index].isSelect;
                                   // });
-                                  Navigator.push(
-                                      context,
-                                      SlideRoute(SelectMnemonicPage(
-                                        password: widget.password,
-                                        coin: widget.coin,
-                                        selectMnemonicCallBackFuture: (mnemonic) {
-                                          mnemonicTemp = mnemonic;
-                                          createChain();
 
-                                          return;
-                                        },
-                                      )));
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>SelectMnemonicPage(
+                                      password: widget.password,
+                                      coin: widget.coin,
+                                      selectMnemonicCallBackFuture: (mnemonic) {
+                                        mnemonicTemp = mnemonic;
+                                        createChain();
+
+                                        return;
+                                      },
+                                    )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        SlideRoute(SelectMnemonicPage(
+                                          password: widget.password,
+                                          coin: widget.coin,
+                                          selectMnemonicCallBackFuture: (mnemonic) {
+                                            mnemonicTemp = mnemonic;
+                                            createChain();
+
+                                            return;
+                                          },
+                                        )));
+                                  }
+
+
                                 },
                                 child: Container(
                                   child: Row(

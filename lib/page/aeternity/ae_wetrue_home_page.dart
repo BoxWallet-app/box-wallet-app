@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/swap_coin_order_dao.dart';
@@ -136,7 +137,12 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
 //                print(e.toString() + "123123");
 //
 //              });
-              Navigator.push(context, SlideRoute( AeWeTrueSendPage()));
+              if (Platform.isIOS) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AeWeTrueSendPage()));
+              } else {
+                Navigator.push(context, SlideRoute( AeWeTrueSendPage()));
+              }
+
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

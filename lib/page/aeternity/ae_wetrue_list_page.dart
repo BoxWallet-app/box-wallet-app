@@ -784,7 +784,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                 S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

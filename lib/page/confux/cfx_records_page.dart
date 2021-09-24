@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -174,7 +175,12 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            } else {
+              Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            }
+
           },
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),

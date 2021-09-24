@@ -38,6 +38,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
 
   Future<void> _onRefresh() async {
     CfxTokenListDao.fetch().then((CfxTokensListModel model) {
+
       model.list.sort((t1, t2) {
         if(t2.price == null || t1.price == null){
           return 0;
@@ -192,7 +193,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                       onRefresh: _onRefresh,
                       child: ListView.builder(
                         padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                        itemCount: tokenListModel == null ? 0 : tokenListModel.total,
+                        itemCount: tokenListModel == null ? 0 : tokenListModel.total+1,
                         itemBuilder: (BuildContext context, int index) {
                           return itemListView(context, index);
                         },
@@ -303,6 +304,9 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
       );
     }
     index = index - 1;
+    print(tokenListModel.list[1].symbol);
+    print(tokenListModel.list.length);
+    print(index);
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
       child: Material(

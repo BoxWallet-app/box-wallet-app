@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
@@ -254,7 +255,13 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                           }
                         }
 
-                        Navigator.push(context, SlideRoute( SelectChainCreatePage(mnemonic:widget.mnemonic,password: _textEditingControllerNode.text,)));
+
+                        if (Platform.isIOS) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>SelectChainCreatePage(mnemonic:widget.mnemonic,password: _textEditingControllerNode.text,)));
+                        } else {
+                          Navigator.push(context, SlideRoute( SelectChainCreatePage(mnemonic:widget.mnemonic,password: _textEditingControllerNode.text,)));
+
+                        }
 
                         return;
                       },

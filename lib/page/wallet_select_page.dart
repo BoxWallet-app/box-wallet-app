@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
@@ -13,6 +14,7 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -127,7 +129,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               child: Text(
                                 S.of(context).select_wallet_page_wallet,
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 18.sp,
                                   color: Colors.black,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),
@@ -306,7 +308,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 new TextButton(
                                   child: new Text(S.of(context).dialog_conform),
                                   onPressed: () {
-                                    Navigator.of(context).pop(true);
+                                    Navigator.of(dialogContext).pop(true);
                                   },
                                 ),
                               ],
@@ -555,17 +557,32 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          SlideRoute(SetAddressNamePage(
-                            name: getAccountName(index, context),
-                            address: walletCoinsModel.coins[coinIndex].accounts[index].address,
-                            setAddressNamePageCallBackFuture: () {
-                              getWallet();
 
-                              return;
-                            },
-                          )));
+                      if (Platform.isIOS) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>SetAddressNamePage(
+                          name: getAccountName(index, context),
+                          address: walletCoinsModel.coins[coinIndex].accounts[index].address,
+                          setAddressNamePageCallBackFuture: () {
+                            getWallet();
+
+                            return;
+                          },
+                        )));
+                      } else {
+                        Navigator.push(
+                            context,
+                            SlideRoute(SetAddressNamePage(
+                              name: getAccountName(index, context),
+                              address: walletCoinsModel.coins[coinIndex].accounts[index].address,
+                              setAddressNamePageCallBackFuture: () {
+                                getWallet();
+
+                                return;
+                              },
+                            )));
+                      }
+
+
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 18, right: 2, top: 14),
@@ -868,17 +885,30 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         return;
                       }
                       // Navigator.push(widget.buildContext, SlideRoute( AeTokenSendOnePage()));
-                      Navigator.push(
-                          buildContext,
-                          SlideRoute(AddAccountPage(
-                            coin: coin,
-                            password: password,
-                            accountCallBackFuture: () {
-                              eventBus.fire(AccountUpdateEvent());
-                              Navigator.of(super.context).pop();
-                              return;
-                            },
-                          )));
+                      if (Platform.isIOS) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>AddAccountPage(
+                          coin: coin,
+                          password: password,
+                          accountCallBackFuture: () {
+                            eventBus.fire(AccountUpdateEvent());
+                            Navigator.of(super.context).pop();
+                            return;
+                          },
+                        )));
+                      } else {
+                        Navigator.push(
+                            buildContext,
+                            SlideRoute(AddAccountPage(
+                              coin: coin,
+                              password: password,
+                              accountCallBackFuture: () {
+                                eventBus.fire(AccountUpdateEvent());
+                                Navigator.of(super.context).pop();
+                                return;
+                              },
+                            )));
+                      }
+
 
                       return;
                     }),

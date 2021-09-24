@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
@@ -173,7 +174,12 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                                 },
                                 passwordCallBackFuture: (String password) async {
                                   var aesDecode = Utils.aesEncode(widget.mnemonic, Utils.generateMd5Int(password));
-                                  Navigator.push(context, SlideRoute( BoxCodeMnemonicPage(code: "box_"+aesDecode)));
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>BoxCodeMnemonicPage(code: "box_"+aesDecode)));
+                                  } else {
+                                    Navigator.push(context, SlideRoute( BoxCodeMnemonicPage(code: "box_"+aesDecode)));
+                                  }
+
 
                                 },
                               ),

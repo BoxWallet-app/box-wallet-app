@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/generated/l10n.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -141,9 +143,18 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       child: FlatButton(
                         onPressed: () {
                           if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-                            Navigator.push(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
+                            if (Platform.isIOS) {
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
+                            } else {
+                              Navigator.push(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
+                            }
+
                           } else {
-                            Navigator.pushReplacement(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                            if (Platform.isIOS) {
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                            } else {
+                              Navigator.pushReplacement(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                            }
                           }
                         },
                         child: Text(

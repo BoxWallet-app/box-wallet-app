@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -601,7 +602,13 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                   title: '请选择版本',
                                 );
                                 if (result == 0) {
-                                  Navigator.push(context, SlideRoute(AeWeTrueHomePage()));
+                                  if (Platform.isIOS) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeWeTrueHomePage()));
+                                  } else {
+                                    Navigator.push(context, SlideRoute(AeWeTrueHomePage()));
+                                  }
+
+
                                 }
                                 if (result == 1) {
                                   _launchURL("https://wetrue.io/");
@@ -1055,7 +1062,13 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         ),
                         onPressed: () async {
                           Navigator.pop(context); //关闭对话框
-                          Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeAensPage()));
+
+                          if (Platform.isIOS) {
+                            Navigator.push(navigatorKey.currentState.overlay.context, MaterialPageRoute(builder: (context) => AeAensPage()));
+                          } else {
+                            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeAensPage()));
+                          }
+
                         },
                       ),
                     ),
@@ -1339,7 +1352,12 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           );
                           if (result == OkCancelResult.ok) {
                             Navigator.of(context).pop(); //关闭对话框
-                            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeTokenDefiPage()));
+                            if (Platform.isIOS) {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTokenDefiPage()));
+                            } else {
+                              Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeTokenDefiPage()));
+                            }
+
                           }
                         },
                       ),
@@ -1455,7 +1473,12 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         ),
                         onPressed: () async {
                           Navigator.pop(transitionBuilderContext); //关闭对话框
-                          Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeSwapPage()));
+                          if (Platform.isIOS) {
+                             Navigator.push(navigatorKey.currentState.overlay.context, MaterialPageRoute(builder: (context) =>AeSwapPage()));
+                          } else {
+                            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeSwapPage()));
+                          }
+
                         },
                       ),
                     ),

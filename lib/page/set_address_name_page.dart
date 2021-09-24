@@ -90,7 +90,7 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
               ),
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 18, top: 10),
+                  margin: EdgeInsets.only(left: 18, top: 10,right: 18),
                   alignment: Alignment.topLeft,
                   child: Text(
                   S.of(context).SetAddressNamePage_title2,
@@ -102,7 +102,7 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 18, top: 10),
+                  margin: EdgeInsets.only(left: 18, top: 10,right: 18),
                   alignment: Alignment.topLeft,
                   child: Text(
                     widget.address,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:box/dao/conflux/cfx_crc20_transfer_dao.dart';
@@ -215,7 +216,12 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                     margin: const EdgeInsets.only(top: 0),
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                        if (Platform.isIOS) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                        } else {
+                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                        }
+
                       },
                       child: Text(
                         S.of(context).home_page_function_send,
@@ -237,8 +243,12 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                     child: FlatButton(
                       onPressed: () {
 //                  goDefi(context);
+                        if (Platform.isIOS) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  CfxTokenReceivePage()));
+                        } else {
+                          Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
+                        }
 
-                        Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
                       },
                       child: Text(
                         S.of(context).home_page_function_receive,

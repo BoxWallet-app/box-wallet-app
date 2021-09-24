@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/price_model.dart';
@@ -542,7 +543,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                                          if (Platform.isIOS) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                                          } else {
+                                            Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                                          }
+
                                         },
                                         child: Container(
                                           height: 90,
@@ -619,7 +625,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
+                                          if (Platform.isIOS) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
+                                          } else {
+                                            Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
+                                          }
+
                                         },
                                         child: Container(
                                           height: 90,
@@ -694,7 +705,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    Navigator.push(context, SlideRoute( CfxTokenListPage()));
+                                    if (Platform.isIOS) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>CfxTokenListPage()));
+                                    } else {
+                                      Navigator.push(context, SlideRoute( CfxTokenListPage()));
+                                    }
+
                                   },
                                   child: Container(
                                     height: 90,
@@ -796,7 +812,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            Navigator.push(context, SlideRoute( CfxRecordsPage()));
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  CfxRecordsPage()));
+            } else {
+              Navigator.push(context, SlideRoute( CfxRecordsPage()));
+            }
           },
           child: Column(
             children: [
@@ -926,7 +946,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            Navigator.push(context, SlideRoute( CfxRecordsPage()));
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>CfxRecordsPage()));
+            } else {
+              Navigator.push(context, SlideRoute( CfxRecordsPage()));
+            }
+
           },
           child: Column(
             children: [
@@ -1057,7 +1082,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          if (Platform.isIOS) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          } else {
+            Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          }
+
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

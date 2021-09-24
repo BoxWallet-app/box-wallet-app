@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/token_record_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -248,7 +250,12 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                     margin: const EdgeInsets.only(top: 0),
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                        if (Platform.isIOS) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTokenSendOnePage()));
+                        } else {
+                          Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                        }
+
                       },
                       child: Text(
                         S.of(context).home_page_function_send,
@@ -270,8 +277,12 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                     child: FlatButton(
                       onPressed: () {
 //                  goDefi(context);
+                        if (Platform.isIOS) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                        } else {
+                          Navigator.push(context, SlideRoute( TokenReceivePage()));
+                        }
 
-                        Navigator.push(context, SlideRoute( TokenReceivePage()));
                       },
                       child: Text(
                         S.of(context).home_page_function_receive,

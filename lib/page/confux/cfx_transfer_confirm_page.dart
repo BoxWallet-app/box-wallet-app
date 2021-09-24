@@ -47,12 +47,12 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
   void setData(String amount) {
     if (widget.data['from'] != null) {
-      var from = buildItem(S.of(context).CfxTransferConfirmPage_from, (widget.data['from']).toString());
+      var from = buildItem(S.current.CfxTransferConfirmPage_from, (widget.data['from']).toString());
       baseItems.add(from);
     }
 
     if (widget.data['to'] != null) {
-      var to = buildItem(S.of(context).CfxTransferConfirmPage_to, (widget.data['to']).toString());
+      var to = buildItem(S.current.CfxTransferConfirmPage_to, (widget.data['to']).toString());
       baseItems.add(to);
     }
 
@@ -60,7 +60,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " CFX"),
       style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
     );
-    var cfx = buildItem2(S.of(context).CfxTransferConfirmPage_count, text);
+    var cfx = buildItem2(S.current.CfxTransferConfirmPage_count, text);
     baseItems.add(cfx);
     var decimal = Decimal.parse('1000000000000000000');
     var decimal2 = Decimal.parse((int.parse(widget.data['gas']).toString()));
@@ -70,12 +70,12 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
     var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
     if (widget.data['gas'] != null) {
-      var gas = buildItem(S.of(context).CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
+      var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
       baseItems.add(gas);
     }
 
     if (widget.data['data'] != null) {
-      var data = buildItem(S.of(context).CfxTransferConfirmPage_data, (widget.data['data']).toString());
+      var data = buildItem(S.current.CfxTransferConfirmPage_data, (widget.data['data']).toString());
       baseItems.add(data);
     }
   }

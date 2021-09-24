@@ -380,7 +380,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                 S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

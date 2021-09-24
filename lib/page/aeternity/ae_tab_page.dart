@@ -216,7 +216,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //          var oldVersion = 100;
 //          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
-          oldVersion = 1000;
           if (newVersion > oldVersion) {
             if (model.data.msgCN == null) {
               model.data.msgCN = "发现新版本";
@@ -280,7 +279,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 S.of(context).dialog_cancel,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop(false);
+                                Navigator.of(dialogContext).pop(false);
                               },
                             ),
                             TextButton(
@@ -393,7 +392,12 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               showErrorDialog(context, null);
                               return;
                             }
-                            Navigator.push(context, SlideRoute(MnemonicCopyPage(mnemonic: aesDecode)));
+                            if (Platform.isIOS) {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
+                            } else {
+                              Navigator.push(context, SlideRoute(MnemonicCopyPage(mnemonic: aesDecode)));
+                            }
+
                           },
                         ),
                       ),
