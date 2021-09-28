@@ -345,7 +345,7 @@ class _AeAensTransferPageState extends State<AeAensTransferPage> {
     showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -358,9 +358,8 @@ class _AeAensTransferPageState extends State<AeAensTransferPage> {
               ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: tx));
-                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(dialogContext, rootNavigator: true).pop();
                 showFlush(context);
-                Navigator.of(context).pop(true);
               },
             ),
             TextButton(
@@ -368,7 +367,7 @@ class _AeAensTransferPageState extends State<AeAensTransferPage> {
                 S.of(buildContext).dialog_dismiss,
               ),
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(dialogContext).pop(true);
               },
             ),
           ],

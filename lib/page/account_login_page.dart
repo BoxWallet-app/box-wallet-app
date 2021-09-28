@@ -421,7 +421,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
           showDialog<bool>(
             context: context,
             barrierDismissible: false,
-            builder: (BuildContext context) {
+            builder: (BuildContext dialogContext) {
               return new AlertDialog(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                 title: new Text('Login Error'),
@@ -429,7 +429,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                   TextButton(
                     child: new Text('确定'),
                     onPressed: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(dialogContext).pop(true);
                     },
                   ),
                 ],

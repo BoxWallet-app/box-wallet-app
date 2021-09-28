@@ -425,7 +425,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) {
+        builder: (BuildContext dialogContext) {
           return new AlertDialog(shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
@@ -437,7 +437,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                   S.of(context).dialog_conform,
                 ),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
+                  Navigator.of(dialogContext, rootNavigator: true).pop();
                 },
               ),
             ],
