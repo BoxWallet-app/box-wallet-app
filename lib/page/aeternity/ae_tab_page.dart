@@ -94,7 +94,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
     eventBus.on<AccountUpdateEvent>().listen((event) {
       getAddress();
-      showHint();
     });
 
     eventBus.on<AccountUpdateNameEvent>().listen((event) {
@@ -102,7 +101,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     });
     netVersion();
     getAddress();
-    showHint();
 
     MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
     _platform.setMethodCallHandler(myUtilsHandler);
@@ -203,6 +201,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   void netVersion() {
+    if(BoxApp.isDev()){
+      return;
+    }
     VersionDao.fetch().then((VersionModel model) {
       if (model.code == 200) {
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
@@ -305,110 +306,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }).catchError((e) {});
   }
 
-  void showHint() {
-    Future.delayed(Duration(seconds: 0), () {
-      BoxApp.getSaveMnemonic().then((account) {
-        if (account) {
-          showDialog<bool>(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return WillPopScope(
-                onWillPop: () async {
-                  return Future.value(false);
-                },
-                child: new AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                  title: Text(S.of(context).dialog_hint),
-                  content: Text(S.of(context).dialog_save_word),
-                  actions: <Widget>[
-                    TextButton(
-                      child: new Text(
-                        S.of(context).dialog_save_go,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: false).pop(true);
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ).then((val) {
-            if (val) {
-              showGeneralDialog(
-                  useRootNavigator: false,
-                  context: super.context,
-                  pageBuilder: (context, anim1, anim2) {
-                    return;
-                  },
-                  //barrierColor: Colors.grey.withOpacity(.4),
-                  barrierDismissible: true,
-                  barrierLabel: "",
-                  transitionDuration: Duration(milliseconds: 0),
-                  transitionBuilder: (_, anim1, anim2, child) {
-                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                    return Transform(
-                      transform: Matrix4.translationValues(0.0, 0, 0.0),
-                      child: Opacity(
-                        opacity: anim1.value,
-                        // ignore: missing_return
-                        child: PayPasswordWidget(
-                          title: S.of(context).password_widget_input_password,
-                          dismissCallBackFuture: (String password) {
-                            return;
-                          },
-                          passwordCallBackFuture: (String password) async {
-                            var mnemonic = await BoxApp.getMnemonic();
-                            if (mnemonic == "") {
-                              showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                                  return new AlertDialog(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                                    title: Text(S.of(context).dialog_hint),
-                                    content: Text(S.of(context).dialog_login_user_no_save),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: new Text(
-                                          S.of(context).dialog_conform,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context, rootNavigator: true).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ).then((val) {});
-                              return;
-                            }
-                            var address = await BoxApp.getAddress();
-                            final key = Utils.generateMd5Int(password + address);
-                            var aesDecode = Utils.aesDecode(mnemonic, key);
-
-                            if (aesDecode == "") {
-                              showErrorDialog(context, null);
-                              return;
-                            }
-                            if (Platform.isIOS) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MnemonicCopyPage(mnemonic: aesDecode)));
-                            } else {
-                              Navigator.push(context, SlideRoute(MnemonicCopyPage(mnemonic: aesDecode)));
-                            }
-
-                          },
-                        ),
-                      ),
-                    );
-                  });
-            }
-          });
-        }
-      });
-    });
-  }
 
   DateTime lastPopTime;
 

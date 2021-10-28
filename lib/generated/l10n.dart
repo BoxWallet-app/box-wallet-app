@@ -55,20 +55,20 @@ class S {
     );
   }
 
-  /// `Enter the mnemonic`
+  /// `Enter the seed phrase`
   String get account_login_page_input_mnemonic {
     return Intl.message(
-      'Enter the mnemonic',
+      'Enter the seed phrase',
       name: 'account_login_page_input_mnemonic',
       desc: '',
       args: [],
     );
   }
 
-  /// `Mnemonic phrase is used to log in to the wallet, fill in 12 words in order, and use spaces to fill in between the words`
+  /// `The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type spaces between the words.`
   String get account_login_page_input_hint {
     return Intl.message(
-      'Mnemonic phrase is used to log in to the wallet, fill in 12 words in order, and use spaces to fill in between the words',
+      'The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type spaces between the words.',
       name: 'account_login_page_input_hint',
       desc: '',
       args: [],
@@ -85,10 +85,10 @@ class S {
     );
   }
 
-  /// `Set a secure password`
+  /// `Set a security password`
   String get password_widget_set_password {
     return Intl.message(
-      'Set a secure password',
+      'Set a security password',
       name: 'password_widget_set_password',
       desc: '',
       args: [],
@@ -2505,10 +2505,10 @@ class S {
     );
   }
 
-  /// `Warning Risk Warning`
+  /// `Risk Warning Statement`
   String get dialog_privacy_hint {
     return Intl.message(
-      'Warning Risk Warning',
+      'Risk Warning Statement',
       name: 'dialog_privacy_hint',
       desc: '',
       args: [],
@@ -2585,30 +2585,30 @@ class S {
     );
   }
 
-  /// `Better use of multi - chain wallet`
+  /// `User-friendly multi-chain wallet`
   String get login_sg1 {
     return Intl.message(
-      'Better use of multi - chain wallet',
+      'User-friendly multi-chain wallet',
       name: 'login_sg1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Good corporate incubators`
+  /// `Strong project incubator`
   String get login_sg2 {
     return Intl.message(
-      'Good corporate incubators',
+      'Strong project incubator',
       name: 'login_sg2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Ingenuity spirit`
+  /// `Customized ecological support`
   String get login_sg3 {
     return Intl.message(
-      'Ingenuity spirit',
+      'Customized ecological support',
       name: 'login_sg3',
       desc: '',
       args: [],
@@ -3025,20 +3025,20 @@ class S {
     );
   }
 
-  /// `If you are accessing a third party DAPP, your use of the third party DAPP will be governed by the User Agreement and Privacy Policy of the third party DAapp`
+  /// `Please notice that you are accessing a third party DApp. Your use of the third party DApp will be subject to the User Agreement and Privacy Policy of the third party DApp, and the third DApp`
   String get cfx_dapp_mag1 {
     return Intl.message(
-      'If you are accessing a third party DAPP, your use of the third party DAPP will be governed by the User Agreement and Privacy Policy of the third party DAapp',
+      'Please notice that you are accessing a third party DApp. Your use of the third party DApp will be subject to the User Agreement and Privacy Policy of the third party DApp, and the third DApp',
       name: 'cfx_dapp_mag1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Directly and solely responsible to you.`
+  /// `itself will be directly and solely responsible to you.`
   String get cfx_dapp_mag2 {
     return Intl.message(
-      'Directly and solely responsible to you.',
+      'itself will be directly and solely responsible to you.',
       name: 'cfx_dapp_mag2',
       desc: '',
       args: [],
@@ -3055,10 +3055,10 @@ class S {
     );
   }
 
-  /// `Empty all wallet data (including all accounts), irreversible, please exercise caution. Are you sure?`
+  /// `This action will irreversibly empty all data of \nthe wallet (including all accounts), please operate with caution. Confirm to continue?`
   String get setting_clear_data_content {
     return Intl.message(
-      'Empty all wallet data (including all accounts), irreversible, please exercise caution. Are you sure?',
+      'This action will irreversibly empty all data of \nthe wallet (including all accounts), please operate with caution. Confirm to continue?',
       name: 'setting_clear_data_content',
       desc: '',
       args: [],
@@ -3095,20 +3095,20 @@ class S {
     );
   }
 
-  /// `Set a secure password`
+  /// `Set a security password`
   String get SetPasswordPage_set_password {
     return Intl.message(
-      'Set a secure password',
+      'Set a security password',
       name: 'SetPasswordPage_set_password',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm Security Password`
+  /// `Confirm security Password`
   String get SetPasswordPage_set_password_re {
     return Intl.message(
-      'Confirm Security Password',
+      'Confirm security Password',
       name: 'SetPasswordPage_set_password_re',
       desc: '',
       args: [],
@@ -3135,10 +3135,10 @@ class S {
     );
   }
 
-  /// `Tip: The password is used to protect the private key authorization, please do not use too simple password; \nBoxWallet will not store the password, nor can it help you retrieve the password, please remember the password.`
+  /// `Tip: The security password is used for protecting your private key. Please avoid choosing a simple password. BoxWallet will not store your password, nor can it help you retrieve your password. Please keep your password safe.`
   String get SetPasswordPage_set_tips {
     return Intl.message(
-      'Tip: The password is used to protect the private key authorization, please do not use too simple password; \nBoxWallet will not store the password, nor can it help you retrieve the password, please remember the password.',
+      'Tip: The security password is used for protecting your private key. Please avoid choosing a simple password. BoxWallet will not store your password, nor can it help you retrieve your password. Please keep your password safe.',
       name: 'SetPasswordPage_set_tips',
       desc: '',
       args: [],

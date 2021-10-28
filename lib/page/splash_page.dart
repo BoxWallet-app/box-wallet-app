@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:umeng_common_sdk/umeng_common_sdk.dart';
 
 import '../main.dart';
 import 'login_page_new.dart';
@@ -20,10 +22,33 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   String _value = "";
 
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = (await UmengCommonSdk.platformVersion);
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    print("platformVersion:" + platformVersion);
+  }
+
   @override
   Future<void> initState() {
     super.initState();
-
+    initPlatformState();
+    if (Platform.isIOS) {
+      UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603de7826ee47d382b6d2a8b', 'App Store');
+    } else {
+      UmengCommonSdk.initCommon('603dd6d86ee47d382b6cecb0', '603dd6d86ee47d382b6cecb0', 'Google');
+    }
+    UmengCommonSdk.setPageCollectionModeManual();
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if (nodeUrl == null || compilerUrl == null) {
