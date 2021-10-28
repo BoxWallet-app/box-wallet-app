@@ -624,7 +624,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
                                 title: Text(S.of(context).dialog_defi_get),
-                                content: Text(S.of(context).dialog_defi_get_msg + (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
+                                content: Text(S.of(context).dialog_defi_get_msg +" "+ (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
                                 actions: <Widget>[
                                   TextButton(
                                     child: new Text(
