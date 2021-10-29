@@ -162,7 +162,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
 
   Widget itemListView(BuildContext context, int index) {
     return Container(
-      margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
@@ -208,7 +208,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 18, right: 18),
+                              padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
                                 tokenListModel.list[index].symbol,
                                 style: new TextStyle(

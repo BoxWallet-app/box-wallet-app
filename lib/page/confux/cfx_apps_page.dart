@@ -13,6 +13,8 @@ import 'package:box/page/confux/cfx_rpc_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
+import 'package:box/widget/custom_route.dart';
+import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,13 +25,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import 'cfx_token_list_page.dart';
 
-class CfxDappsPage extends StatefulWidget {
+class CfxAppsPage extends StatefulWidget {
   @override
-  _CfxDappsPageState createState() => _CfxDappsPageState();
+  _CfxAppsPageState createState() => _CfxAppsPageState();
 }
 
-class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClientMixin {
+class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClientMixin {
   BannerModel bannerModel;
   CfxDappListModel cfxDappListModel;
   List<Widget> childrens = List<Widget>();
@@ -38,31 +41,10 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   void initState() {
     // TODO: implement initState
     super.initState();
-    netBanner();
     netDapp();
-    eventBus.on<LanguageEvent>().listen((event) {
-      netBanner();
-      netDapp();
-    });
-  }
-
-  void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget();
-        });
   }
 
   Future<void> _onRefresh() async {
-    netBanner();
     netDapp();
   }
 
@@ -80,6 +62,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
     if (cfxDappListModel == null) {
       return;
     }
+    typeLoading = LoadingType.finish;
     childrens.clear();
     for (var i = 0; i < cfxDappListModel.data.length; i++) {
       var groupTitle = getGroupTitle(cfxDappListModel.data[i].type);
@@ -100,134 +83,66 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
     });
   }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  var typeLoading = LoadingType.loading;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: EasyRefresh(
-      header: BoxHeader(),
-      onRefresh: _onRefresh,
-          child: Column(
-            children: AnimationConfiguration.toStaggeredList(
-              duration: const Duration(milliseconds: 375),
-              childAnimationBuilder: (widget) => SlideAnimation(
-                verticalOffset: 50.0,
-                child: FadeInAnimation(
-                  child: widget,
-                ),
-              ),
-              children: [
-                Container(
-                  height: 170,
-                  width: MediaQuery.of(context).size.width - 30,
-                  alignment: Alignment.center,
-                  child: Stack(
-                    children: [
-                      if (bannerModel != null)
-                        InkWell(
-                          onTap: () {
-                            if (bannerModel == null) {
-                              return;
-                            }
-                            _launchURL(
-                              bannerModel == null
-                                  ? ""
-                                  : BoxApp.language == "cn"
-                                  ? bannerModel.cn.url
-                                  : bannerModel.en.url,
-                            );
-                          },
-                          child: Container(
-                            height: 170,
-                            width: MediaQuery.of(context).size.width - 30,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              child: Image.network(
-                                bannerModel == null
-                                    ? ""
-                                    : BoxApp.language == "cn"
-                                    ? bannerModel.cn.image
-                                    : bannerModel.en.image,
-                                fit: BoxFit.cover,
+    return Scaffold(
+      backgroundColor: Color(0xFFfafbfc),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFfafbfc),
+        // 隐藏阴影
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          "应用中心",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+          ),
+        ),
+        centerTitle: true,
 
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: new Center(
-                                      child: new CircularProgressIndicator(
-                                        valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                                      ),
-                                    ),
-                                    width: 160.0,
-                                    height: 90.0,
-                                  );
-                                },
-                                //设置图片的填充样式
-//                        fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
-                        ),
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 30,
-                          child: Container(
-                            decoration: new BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              color: Color(0x99000000),
-                            ),
-                            padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-                            margin: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 5),
-                            alignment: Alignment.center,
-                            child: Text(
-                              bannerModel == null
-                                  ? "-"
-                                  : BoxApp.language == "cn"
-                                  ? bannerModel.cn.title
-                                  : bannerModel.en.title,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-//          if (!BoxApp.isOpenStore)
-
-                cfxDappListModel == null
-                    ? Container(
-                  alignment: Alignment.center,
-                  child: new Center(
-                    child: new CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+      ),
+      body: LoadingWidget(
+        type:typeLoading,
+        child: Container(
+            child: EasyRefresh(
+          header: BoxHeader(),
+          onRefresh: _onRefresh,
+              child: Column(
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 375),
+                  childAnimationBuilder: (widget) => SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: widget,
                     ),
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2,
-                )
-                    : Column(
-                  children: childrens,
-                ),
+                  children: [
 
-                Container(
-                  height: 8,
-                ),
-               ],
-            ),
-          ),
+                    Column(
+                      children: childrens,
+                    ),
 
-    ));
+                    Container(
+                      height: MediaQueryData.fromWindow(window).padding.bottom+12,
+                    ),
+                   ],
+                ),
+              ),
+
+        )),
+      ),
+    );
   }
 
   Container getChildItem(DataList data) {

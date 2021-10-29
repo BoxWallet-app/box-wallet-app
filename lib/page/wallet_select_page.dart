@@ -414,7 +414,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
       return Container(
         height: 50,
-        margin: EdgeInsets.only(left: 18, right: 18),
+        margin: EdgeInsets.only(left: 15, right: 15),
         alignment: Alignment.center,
         child: Material(
           color: Colors.transparent,
@@ -436,7 +436,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                 ),
                 //设置四周边框
               ),
-              padding: EdgeInsets.only(left: 18, right: 18),
+              padding: EdgeInsets.only(left: 15, right: 15),
               margin: const EdgeInsets.only(top: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -472,7 +472,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     }
     return Container(
       height: 100.0,
-      margin: EdgeInsets.only(left: 18, right: 18, bottom: 10),
+      margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
       child: Stack(
         children: [
           getCoinBg(),
@@ -483,7 +483,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               height: 100,
               child: Container(
                 height: 100,
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 alignment: Alignment.center,
                 child: Container(
                   height: 30,
@@ -539,7 +539,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               width: MediaQuery.of(context).size.width,
               height: 100,
               alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.only(left: 18, right: 18, bottom: 16),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 16),
               child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
             ),
           ),
@@ -740,7 +740,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     // );
                   },
                   child: Container(
-                    margin: EdgeInsets.only(left: 18, right: 18, top: 14),
+                    margin: EdgeInsets.only(left: 15, right: 15, top: 14),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

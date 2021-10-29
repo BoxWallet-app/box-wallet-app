@@ -123,7 +123,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     // ),
                     Container(
                       alignment: Alignment.topLeft,
-                      margin: const EdgeInsets.only(left: 18, right: 18),
+                      margin: const EdgeInsets.only(left: 15, right: 15),
                       child: Text(
                        S.of(context).select_chain_page_select_chain,
                         maxLines: 1,

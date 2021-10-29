@@ -93,7 +93,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                  margin: EdgeInsets.only(top: 12, left: 15, right: 15),
                   child: Stack(
                     children: [
                       Container(
@@ -166,7 +166,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                  margin: EdgeInsets.only(top: 12, left: 15, right: 15),
                   child: Stack(
                     children: [
                       Container(

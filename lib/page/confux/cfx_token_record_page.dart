@@ -140,7 +140,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
 
   Widget itemHeaderView(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(left: 18, right: 18),
+      margin: EdgeInsets.only(left: 15, right: 15),
       padding: EdgeInsets.only(bottom: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -178,7 +178,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.only(left: 18, right: 18),
+                                  padding: const EdgeInsets.only(left: 15, right: 15),
                                   child: Text(
                                     widget.coinName,
                                     style: new TextStyle(
@@ -346,7 +346,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
 
   Widget itemView(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(left: 18, right: 18, bottom: 12),
+      margin: EdgeInsets.only(left: 15, right: 15, bottom: 12),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,

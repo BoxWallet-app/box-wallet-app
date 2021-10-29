@@ -211,7 +211,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                 //设置四周圆角 角度
                                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               ),
-                              margin: EdgeInsets.only(left: 18, right: 18),
+                              margin: EdgeInsets.only(left: 15, right: 15),
                               child: Material(
                                 child: Column(
                                   children: baseItems,

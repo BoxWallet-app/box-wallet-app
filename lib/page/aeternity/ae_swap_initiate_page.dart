@@ -172,7 +172,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 12, left: 18, right: 18),
+                margin: EdgeInsets.only(top: 12, left: 15, right: 15),
                 child: Stack(
                   children: [
                     Container(
@@ -455,7 +455,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18, top: 8),
+                margin: EdgeInsets.only(left: 15, right: 15, top: 8),
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_5,

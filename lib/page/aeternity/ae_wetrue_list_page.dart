@@ -178,7 +178,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                   child: Column(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(left: 18, right: 18,),
+                        margin: EdgeInsets.only(left: 15, right: 15,),
                         width: MediaQuery.of(context).size.width - 18 * 2,
                         child: Row(
                           children: [
@@ -322,7 +322,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                       Wrap(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 18, right: 18,top: 10),
+                            margin: EdgeInsets.only(left: 15, right: 15,top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
                               wetrueListModels.data.data[index].payload
@@ -358,7 +358,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                             .data.data[index].imgTx)));
                           },
                           child: Container(
-                            margin: EdgeInsets.only(left: 18, right: 18,top: 10),
+                            margin: EdgeInsets.only(left: 15, right: 15,top: 10),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(0.1),
                               child: Image.network(

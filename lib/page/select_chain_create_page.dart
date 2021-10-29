@@ -171,7 +171,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
   Widget itemListView(BuildContext context, int index) {
     if (index == 0) {
       return Container(
-        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+        margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
         child: Text(
           S.of(context).SelectChainCreatePage_select_chain,
           style: TextStyle(
@@ -184,7 +184,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
     }
     index = index - 1;
     return Container(
-      margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
@@ -235,7 +235,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 18, right: 18),
+                              padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
                                 chains[index].nameFull + " (" + chains[index].name + ")",
                                 style: new TextStyle(

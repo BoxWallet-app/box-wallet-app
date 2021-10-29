@@ -407,7 +407,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 18, right: 18),
+                              padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
                                 tokenListModel.data[index].name,
                                 style: new TextStyle(

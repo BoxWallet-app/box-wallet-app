@@ -362,7 +362,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
               //设置四周边框
             ),
             margin: index == wetrueCommentModel.data.size - 1 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0) : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
-            padding: EdgeInsets.only(left: 18, right: 18, top: 14),
+            padding: EdgeInsets.only(left: 15, right: 15, top: 14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

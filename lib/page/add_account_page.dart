@@ -148,7 +148,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                       children: [
                         Container(
                           alignment: Alignment.topLeft,
-                          margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                           child: Text(
                             S.of(context).AddAccountPage_title_2,
                             style: TextStyle(
@@ -159,7 +159,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                           child: Material(
                             borderRadius: BorderRadius.all(Radius.circular(15.0)),
                             color: Colors.white,
@@ -216,7 +216,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  padding: const EdgeInsets.only(left: 18, right: 18),
+                                                  padding: const EdgeInsets.only(left: 15, right: 15),
                                                   child: Text(
                                                     S.of(context).AddAccountPage_create,
                                                     style: new TextStyle(
@@ -243,7 +243,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                          margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                           child: Material(
                             borderRadius: BorderRadius.all(Radius.circular(15.0)),
                             color: Colors.white,
@@ -312,7 +312,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  padding: const EdgeInsets.only(left: 18, right: 18),
+                                                  padding: const EdgeInsets.only(left: 15, right: 15),
                                                   child: Text(
                                                     S.of(context).AddAccountPage_import,
                                                     style: new TextStyle(
@@ -341,7 +341,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                         if (isOtherAccount)
                           Container(
                             alignment: Alignment.topLeft,
-                            margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                             child: Text(
                               S.of(context).AddAccountPage_title_3,
                               style: TextStyle(
@@ -353,7 +353,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                           ),
                         if (isOtherAccount)
                           Container(
-                            margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                            margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                             child: Material(
                               borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               color: Colors.white,
@@ -426,7 +426,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: const EdgeInsets.only(left: 18, right: 18),
+                                                    padding: const EdgeInsets.only(left: 15, right: 15),
                                                     child: Text(
                                                       S.of(context).AddAccountPage_copy,
                                                       style: new TextStyle(

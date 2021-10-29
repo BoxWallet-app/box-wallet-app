@@ -71,7 +71,7 @@ class _LanguagePageState extends State<LanguagePage> {
 //              }),
 //              Container(
 //                height: 1.0,
-//                padding: EdgeInsets.only(left: 18, right: 18),
+//                padding: EdgeInsets.only(left: 15, right: 15),
 //                color: Colors.white,
 //                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
 //              ),
@@ -80,7 +80,7 @@ class _LanguagePageState extends State<LanguagePage> {
 //              }),
 //              Container(
 //                height: 1.0,
-//                padding: EdgeInsets.only(left: 18, right: 18),
+//                padding: EdgeInsets.only(left: 15, right: 15),
 //                color: Colors.white,
 //                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
 //              ),
@@ -89,7 +89,7 @@ class _LanguagePageState extends State<LanguagePage> {
 //              }),
 //              Container(
 //                height: 1.0,
-//                padding: EdgeInsets.only(left: 18, right: 18),
+//                padding: EdgeInsets.only(left: 15, right: 15),
 //                color: Colors.white,
 //                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
 //              ),
@@ -98,7 +98,7 @@ class _LanguagePageState extends State<LanguagePage> {
 //              }),
 //              Container(
 //                height: 1.0,
-//                padding: EdgeInsets.only(left: 18, right: 18),
+//                padding: EdgeInsets.only(left: 15, right: 15),
 //                color: Colors.white,
 //                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
 //              ),
@@ -107,7 +107,7 @@ class _LanguagePageState extends State<LanguagePage> {
 //              }),
 //              Container(
 //                height: 1.0,
-//                padding: EdgeInsets.only(left: 18, right: 18),
+//                padding: EdgeInsets.only(left: 15, right: 15),
 //                color: Colors.white,
 //                child: Container(width: MediaQuery.of(context).size.width - 36, color: Color(0xFFEEEEEE)),
 //              ),
@@ -143,7 +143,7 @@ class _LanguagePageState extends State<LanguagePage> {
       padding: const EdgeInsets.only(top: 12.0),
 
       child: Container(
-        margin: EdgeInsets.only(left: 18, right: 18),
+        margin: EdgeInsets.only(left: 15, right: 15),
         child: Material(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           color: Colors.white,

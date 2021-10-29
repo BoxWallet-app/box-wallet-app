@@ -68,7 +68,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           child: Container(
             color: Color(0xFFEEEEEE),
           ),
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: EdgeInsets.only(left: 15, right: 15),
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
@@ -80,7 +80,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           child: Container(
             color: Color(0xFFEEEEEE),
           ),
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: EdgeInsets.only(left: 15, right: 15),
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
@@ -93,7 +93,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           child: Container(
             color: Color(0xFFEEEEEE),
           ),
-          padding: EdgeInsets.only(left: 18, right: 18),
+          padding: EdgeInsets.only(left: 15, right: 15),
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
@@ -157,7 +157,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
               child: Container(
                 color: Color(0xFFEEEEEE),
               ),
-              padding: EdgeInsets.only(left: 18, right: 18),
+              padding: EdgeInsets.only(left: 15, right: 15),
               height: 1.0,
               color: Color(0xFFFFFFFF)),
         );

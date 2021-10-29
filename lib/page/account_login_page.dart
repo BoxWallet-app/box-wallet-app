@@ -116,7 +116,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
                           child: Container(
                             height: 170,
                             width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
+                            margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                             padding: EdgeInsets.only(left: 16, right: 16),
                             decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                             child: TextField(

@@ -94,7 +94,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                 Center(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
+                    margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                     padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                     decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Wrap(

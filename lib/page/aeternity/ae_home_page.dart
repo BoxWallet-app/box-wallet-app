@@ -174,6 +174,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
+      if(!mounted)
+        return;
       setState(() {});
     });
   }

@@ -122,7 +122,7 @@ class _NodePageState extends State<NodePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Stack(
                   children: [
                     Container(
@@ -209,7 +209,7 @@ class _NodePageState extends State<NodePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: TextField(
 //                                          autofocus: true,
 

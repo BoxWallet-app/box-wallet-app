@@ -117,7 +117,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
               //设置四周边框
             ),
             margin: index == swapModels.data.length-1 ? EdgeInsets.only(left: 16, right: 16, bottom:  MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
-            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18, top: 18),
+            padding: EdgeInsets.only(left: 15, right: 15, bottom: 18, top: 18),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

@@ -80,7 +80,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 height: 12,
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Material(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   color: Colors.white,
@@ -230,7 +230,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 height: 12,
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -282,7 +282,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 height: 12,
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -335,7 +335,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 height: 12,
               ),
               Container(
-                margin: EdgeInsets.only(left: 18, right: 18),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -526,7 +526,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
   Widget buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
     return Container(
-      margin: EdgeInsets.only(left: 18, right: 18),
+      margin: EdgeInsets.only(left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,

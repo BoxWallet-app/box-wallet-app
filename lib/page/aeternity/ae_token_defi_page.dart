@@ -371,7 +371,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     return Container(
       width: MediaQuery.of(context).size.width,
 //      height: 355,
-      margin: const EdgeInsets.only(top: 38, left: 18, right: 18),
+      margin: const EdgeInsets.only(top: 38, left: 15, right: 15),
       //边框设置
       padding: const EdgeInsets.only(bottom: 30),
 //                              height: MediaQuery.of(context).size.height,
@@ -431,7 +431,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                     child: Container(
                       color: Color(0xFFEEEEEE),
                     ),
-                    padding: EdgeInsets.only(left: 18, right: 18),
+                    padding: EdgeInsets.only(left: 15, right: 15),
                     height: 1.0,
                     color: Color(0xFFFFFFFF)),
                 Container(

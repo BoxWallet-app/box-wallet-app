@@ -279,7 +279,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
     return Container(
       color: index % 2 == 1 ? Colors.white : Color(0x66eeeeee),
       height: 50,
-      padding: EdgeInsets.only(left: 18, right: 18),
+      padding: EdgeInsets.only(left: 15, right: 15),
       child: Row(
         children: [
           Container(
@@ -352,7 +352,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
     return Container(
       color: Colors.white,
       height: 50,
-      padding: EdgeInsets.only(left: 18, right: 18),
+      padding: EdgeInsets.only(left: 15, right: 15),
       child: Row(
         children: [
           Container(

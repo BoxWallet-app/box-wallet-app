@@ -107,7 +107,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
   Widget _renderRow(BuildContext context, int index) {
 //    if (index < list.length) {
     return Container(
-        margin: EdgeInsets.only(left: 18, right: 18,top: 12),
+        margin: EdgeInsets.only(left: 15, right: 15,top: 12),
         child: buildColumn(context, index));
   }
 

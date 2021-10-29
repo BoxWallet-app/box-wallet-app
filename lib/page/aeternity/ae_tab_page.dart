@@ -14,7 +14,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_rpc_model.dart';
 import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
-import 'package:box/page/confux/cfx_aepps_page.dart';
+import 'package:box/page/confux/cfx_dapps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
 import 'package:box/page/setting_page.dart';
 import 'package:box/page/wallet_select_page.dart';

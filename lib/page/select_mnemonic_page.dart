@@ -140,7 +140,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
     if (index == 0) {
       return Container(
-        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+        margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
         child: Text(
           S.of(context).SelectMnemonicPage_title2,
           style: TextStyle(
@@ -154,7 +154,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
     index = index - 1;
     print(mnemonics[index]);
     return Container(
-      margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color:  Color(0xFFedf3f7),
