@@ -5,6 +5,7 @@ import 'package:box/dao/conflux/cfx_nft_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/page/aeternity/ae_aens_register.dart';
+import 'package:box/page/confux/cfx_nft_list_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,12 +22,13 @@ class CfxNftPage extends StatefulWidget {
 
 class _CfxNftPageState extends State<CfxNftPage> {
   List<Widget> tabs = List<Widget>();
+  List<Widget> tabsView = List<Widget>();
+
   @override
   void initState() {
     super.initState();
     netNftBalance();
   }
-
 
   void netNftBalance() {
     CfxNftBalanceDao.fetch().then((CfxNftBalanceModel model) {
@@ -34,20 +36,20 @@ class _CfxNftPageState extends State<CfxNftPage> {
         return;
       }
       tabs.clear();
+      tabsView.clear();
       for (var i = 0; i < model.data.length; i++) {
-        var tab = createTab(context, model.data[i].name.zh+"("+model.data.length.toString()+")");
+        var tab = createTab(context, model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
         tabs.add(tab);
+        tabsView.add(CfxNftListPage(data: model.data[i]));
       }
-      print(tabs);
       setState(() {});
     }).catchError((e) {
-      //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if(tabs.isEmpty){
+    if (tabs.isEmpty) {
       return Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFFfafbfc),
@@ -70,17 +72,12 @@ class _CfxNftPageState extends State<CfxNftPage> {
               ),
             ),
             centerTitle: true,
-
-
           ),
           backgroundColor: Color(0xfffafafa),
           body: LoadingWidget(
             type: LoadingType.loading,
-            child: Container(
-
-            ),
-          )
-      );
+            child: Container(),
+          ));
     }
     return DefaultTabController(
       length: tabs.length,
@@ -107,7 +104,6 @@ class _CfxNftPageState extends State<CfxNftPage> {
             ),
             centerTitle: true,
 
-
             bottom: TabBar(
               unselectedLabelColor: Colors.black54,
               indicatorSize: TabBarIndicatorSize.label,
@@ -127,20 +123,19 @@ class _CfxNftPageState extends State<CfxNftPage> {
           body: Container(
             padding: const EdgeInsets.only(top: 0),
             child: TabBarView(
-              children: tabs,
+              children: tabsView,
             ),
           ),
-
           floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.endFloat, -20, -50)),
     );
   }
 
-  Tab createTab(BuildContext context,String tab) {
+  Tab createTab(BuildContext context, String tab) {
     return Tab(
-                  icon: Text(
-                    tab,
-                style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
-              ));
+        icon: Text(
+      tab,
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+    ));
   }
 }
 

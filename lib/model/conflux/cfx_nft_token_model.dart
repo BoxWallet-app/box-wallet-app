@@ -6,7 +6,7 @@ class CfxNftTokenModel {
 
   CfxNftTokenModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'].cast<String>();
+    data = json['data'].cast<dynamic>();
   }
 
   Map<String, dynamic> toJson() {

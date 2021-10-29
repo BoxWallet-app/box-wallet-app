@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import 'cfx_apps_page.dart';
+import 'cfx_nft_new_page.dart';
 
 class CfxDappsPage extends StatefulWidget {
   @override
@@ -184,9 +185,9 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     onTap: () {
                       if (Platform.isIOS) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxNftPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CfxNftNewPage()));
                       } else {
-                        Navigator.push(context, SlideRoute(CfxNftPage()));
+                        Navigator.push(context, SlideRoute(CfxNftNewPage()));
                       }
                     },
                     child: Column(
