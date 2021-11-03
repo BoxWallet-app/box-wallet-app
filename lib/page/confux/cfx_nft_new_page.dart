@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/dao/conflux/cfx_nft_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/plugin_manager.dart';
 import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/page/aeternity/ae_aens_register.dart';
 import 'package:box/page/confux/cfx_nft_list_page.dart';
@@ -11,10 +12,13 @@ import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:underline_indicator/underline_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import 'cfx_rpc_page.dart';
 
 class CfxNftNewPage extends StatefulWidget {
   @override
@@ -23,6 +27,7 @@ class CfxNftNewPage extends StatefulWidget {
 
 class _CfxNftNewPageState extends State<CfxNftNewPage> {
   List<String> tabs = List<String>();
+  List<String> tabsCt = List<String>();
   var _loadingType = LoadingType.loading;
 
   @override
@@ -39,8 +44,14 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
       tabs.clear();
       for (var i = 0; i < model.data.length; i++) {
         tabs.add(model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
+        tabsCt.add(model.data[i].address);
       }
-      _loadingType = LoadingType.finish;
+      if(tabs.isEmpty){
+        _loadingType = LoadingType.no_data;
+      }else{
+        _loadingType = LoadingType.finish;
+      }
+
       setState(() {});
     }).catchError((e) {});
   }
@@ -61,7 +72,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "收藏品",
+          "NFTs",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -69,6 +80,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           ),
         ),
         centerTitle: true,
+
       ),
       backgroundColor: Color(0xfffafafa),
       body: LoadingWidget(
@@ -103,7 +115,11 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           color: Colors.white,
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            onTap: () {},
+            onTap: () async {
+              String url = "https://confluxscan.io/nft-checker/"+await BoxApp.getAddress()+"?NFTAddress="+ tabsCt[position];
+              _launchURL(url);
+              return;
+            },
             child: Container(
               padding: const EdgeInsets.all(18),
               child: Column(
@@ -142,7 +158,13 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
       ],
     );
   }
-
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   Tab createTab(BuildContext context, String tab) {
     return Tab(
         icon: Text(

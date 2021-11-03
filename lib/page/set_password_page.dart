@@ -122,7 +122,6 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                             fontSize: 18,
                             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                             color: Colors.black,
-                            letterSpacing: 1.0,
                           ),
                           decoration: InputDecoration(
                             // contentPadding: EdgeInsets.only(left: 10.0),

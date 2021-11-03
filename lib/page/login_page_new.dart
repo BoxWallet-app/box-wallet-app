@@ -29,7 +29,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
       SharedPreferences.getInstance().then((value) {
         String isShow = value.getString("is_show_hint");
         if (isShow == null || isShow == "")
-          showGeneralDialog(useRootNavigator:false,
+          showGeneralDialog(
+              useRootNavigator: false,
               context: context,
               pageBuilder: (context, anim1, anim2) {},
               //barrierColor: Colors.grey.withOpacity(.4),
@@ -154,7 +155,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
         // ignore: missing_return, missing_return
         if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
           lastPopTime = DateTime.now();
-          Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+          Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
         } else {
           lastPopTime = DateTime.now();
           // 退出app
@@ -163,12 +164,95 @@ class _LoginPageNewState extends State<LoginPageNew> {
         return;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Color(0xFFFC2365),
         body: Container(
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
+              Positioned(
+                  top: MediaQueryData.fromWindow(window).padding.top,
+                  right: 0,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 0, bottom: 0),
+                        child: Container(
+                          height: 50,
+                          child: FlatButton(
+                            onPressed: () {
+                              Future.delayed(Duration.zero, () {
+
+                                showDialog<bool>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return new AlertDialog(shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                    ),
+                                      title: Text(
+                                        "选择语言 / Language",
+                                      ),
+                                      content: Text(
+                                        "Please choose the language you want to use\n请选择你要使用的语言",
+                                        style: TextStyle(
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: new Text(
+                                            "中文",
+                                          ),
+                                          onPressed: () {
+                                            BoxApp.language = "cn";
+                                            BoxApp.setLanguage("cn");
+                                            //通知将第一页背景色变成红色
+                                            S.load(Locale("cn", "cn".toUpperCase()));
+                                            Navigator.of(context, rootNavigator: true).pop();
+
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: new Text(
+                                            "English",
+                                          ),
+                                          onPressed: () {
+                                            BoxApp.language = "en";
+                                            BoxApp.setLanguage("en");
+                                            //通知将第一页背景色变成红色
+                                            S.load(Locale("en", "en".toUpperCase()));
+                                            Navigator.of(context, rootNavigator: true).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ).then((val) {
+                                  setState(() {
+
+                                  });
+                                });
+
+
+
+                              });
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 10, right: 10),
+                              child: Text(
+                                "中文/English",
+                                maxLines: 1,
+                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
               Positioned(
                   top: MediaQuery.of(context).size.height / 4,
                   left: 20,
@@ -239,7 +323,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CreateMnemonicCopyPage(
-                                            mnemonic: mnemonic,type: CreateMnemonicCopyPage.LOGIN,
+                                            mnemonic: mnemonic,
+                                            type: CreateMnemonicCopyPage.LOGIN,
                                           )));
                               return;
                             });
@@ -265,14 +350,11 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         height: 50,
                         child: FlatButton(
                           onPressed: () {
-
                             if (Platform.isIOS) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type: CreateMnemonicCopyPage.LOGIN)));
                             } else {
-                              Navigator.push(context, SlideRoute( AccountLoginPage(type:CreateMnemonicCopyPage.LOGIN)));
+                              Navigator.push(context, SlideRoute(AccountLoginPage(type: CreateMnemonicCopyPage.LOGIN)));
                             }
-
-
                           },
                           child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),

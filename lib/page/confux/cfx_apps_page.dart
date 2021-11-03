@@ -102,7 +102,7 @@ class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClient
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "应用中心",
+          S.of(context).CfxDappPage_app,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -110,7 +110,38 @@ class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClient
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          MaterialButton(
+            minWidth: 10,
+            child: new Text(
+              S.of(context).CfxDappPage_app_more,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              ),
+            ),
+            onPressed: () async {
 
+              String url = "https://123cfx.com/";
+              if (Platform.isAndroid) {
+                String resultString;
+                try {
+                  resultString = await PluginManager.pushActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                } on PlatformException {
+                }
+                return;
+              }
+
+              Navigator.push(
+                  navigatorKey.currentState.overlay.context,
+                  MaterialPageRoute(
+                      builder: (context) => CfxRpcPage(
+                        url: url,
+                      )));
+
+            },
+          ),
+        ],
       ),
       body: LoadingWidget(
         type:typeLoading,

@@ -13,7 +13,6 @@ class CfxNftBalanceDao {
   static Future<CfxNftBalanceModel> fetch() async {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
-    address = "cfx:aat43r14sv2sb3wy1mz58w0k0r3m1xtseas22zv9ew";
     params["address"] = address;
     Response response = await Dio().post(CFX_NFT_BALANCE,queryParameters: params);
     if (response.statusCode == 200) {

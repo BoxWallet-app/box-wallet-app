@@ -16,10 +16,11 @@ typedef PayDismissCallBackFuture = Future Function(String password);
 class PayPasswordWidget extends StatefulWidget {
   final String title;
   final int color;
+  final bool isSignOld;
   final PayPasswordCallBackFuture passwordCallBackFuture;
   final PayPasswordCallBackFuture dismissCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365}) : super(key: key);
+  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() => _PayPasswordWidgetState();
@@ -88,60 +89,6 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 ),
               ),
 
-//              Container(
-//                height: 50,
-//                width: MediaQuery.of(context).size.width,
-//                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-//                padding: EdgeInsets.only(left: 15, right: 15),
-//                decoration: BoxDecoration(color: Color(0xFFEEEEEE), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(10))),
-//                child: Row(
-//                  children: <Widget>[
-//                    Expanded(
-//                      child: Center(
-//                        child: Container(
-//                          width: MediaQuery.of(context).size.width,
-//                          padding: EdgeInsets.only(left: 15, right: 15),
-//                          child: TextField(
-//                            textAlign: TextAlign.center,
-////                            autofocus: true,
-//                            //是否自动获取焦点
-//                            controller: _textEditingController,
-//                            focusNode: _commentFocus,
-//                            keyboardType: TextInputType.multiline,
-//                            style: TextStyle(
-//                              textBaseline: TextBaseline.alphabetic,
-//                              fontSize: 19,
-//                              color: Colors.black,
-//                            ),
-//                            maxLines: 1,
-//                            maxLength: 20,
-//                            decoration: InputDecoration(
-//                              counterText: '',
-//                              hintText: '',
-//                              enabledBorder: new UnderlineInputBorder(
-//                                borderSide: BorderSide(color: Color(0x00000000)),
-//                              ),
-//// and:
-//                              focusedBorder: new UnderlineInputBorder(
-//                                borderSide: BorderSide(color: Color(0x00000000)),
-//                              ),
-//                              hintStyle: TextStyle(
-//                                fontSize: 19,
-//                                textBaseline: TextBaseline.alphabetic,
-//                                color: Colors.black.withAlpha(80),
-//                              ),
-//                            ),
-//                            cursorColor: Color(widget.color),
-//                            cursorWidth: 2,
-////                                cursorRadius: Radius.elliptical(20, 8),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
-
               Container(
                 height: 45,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
@@ -155,11 +102,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                 child: TextField(
                   controller: _textEditingController,
                   focusNode: _commentFocus,
-//              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
-//              ],
                   inputFormatters: [
-//                    WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                   ],
                   obscureText:true,
                   maxLines: 1,
@@ -202,7 +145,12 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   child: FlatButton(
                     onPressed: () {
                       Navigator.of(context).pop(); //关闭对话框
-                      widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
+                      if(widget.isSignOld){
+                        widget.passwordCallBackFuture(_textEditingController.text);
+                      }else{
+                        widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
+                      }
+
                     },
                     child: Text(
                       S.of(context).password_widget_conform,

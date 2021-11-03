@@ -113,8 +113,6 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
   Widget build(BuildContext context) {
     return Container(
         child: EasyRefresh(
-      header: BoxHeader(),
-      onRefresh: _onRefresh,
           child: Column(
             children: AnimationConfiguration.toStaggeredList(
               duration: const Duration(milliseconds: 375),
@@ -133,6 +131,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                     children: [
                       if (bannerModel != null)
                         InkWell(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
                           onTap: () {
                             if (bannerModel == null) {
                               return;
@@ -148,6 +147,14 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           child: Container(
                             height: 170,
                             width: MediaQuery.of(context).size.width - 30,
+                            decoration: ShapeDecoration(
+                              color: Colors.black12,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15.0),
+                                ),
+                              ),
+                            ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               child: Image.network(
@@ -163,6 +170,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                   return Container(
                                     alignment: Alignment.center,
+                                    color: Colors.black12,
                                     child: new Center(
                                       child: new CircularProgressIndicator(
                                         valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),

@@ -65,10 +65,10 @@ class S {
     );
   }
 
-  /// `The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type spaces between the words.`
+  /// `The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type space between words.`
   String get account_login_page_input_hint {
     return Intl.message(
-      'The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type spaces between the words.',
+      'The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type space between words.',
       name: 'account_login_page_input_hint',
       desc: '',
       args: [],
@@ -665,10 +665,10 @@ class S {
     );
   }
 
-  /// `Rest All Data`
+  /// `Reset All Data`
   String get setting_page_item_logout {
     return Intl.message(
-      'Rest All Data',
+      'Reset All Data',
       name: 'setting_page_item_logout',
       desc: '',
       args: [],
@@ -755,10 +755,10 @@ class S {
     );
   }
 
-  /// `The mnemonic is incorrect`
+  /// `The seed is incorrect`
   String get dialog_hint_mnemonic {
     return Intl.message(
-      'The mnemonic is incorrect',
+      'The seed is incorrect',
       name: 'dialog_hint_mnemonic',
       desc: '',
       args: [],
@@ -935,20 +935,20 @@ class S {
     );
   }
 
-  /// `Please copy the mnemonic phrase`
+  /// `Please copy The seed phrase`
   String get mnemonic_copy_title {
     return Intl.message(
-      'Please copy the mnemonic phrase',
+      'Please copy The seed phrase',
       name: 'mnemonic_copy_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `The mnemonic phrase is used to restore the wallet. Copy the following 12 words on the paper in order and save them in a safe place`
+  /// `The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 \nwords in order on a piece of paper and keep it in a safe place.`
   String get mnemonic_copy_content {
     return Intl.message(
-      'The mnemonic phrase is used to restore the wallet. Copy the following 12 words on the paper in order and save them in a safe place',
+      'The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 \nwords in order on a piece of paper and keep it in a safe place.',
       name: 'mnemonic_copy_content',
       desc: '',
       args: [],
@@ -985,20 +985,20 @@ class S {
     );
   }
 
-  /// `Please confirm the mnemonic phrase`
+  /// `Confirm the seed phrase`
   String get mnemonic_confirm_title {
     return Intl.message(
-      'Please confirm the mnemonic phrase',
+      'Confirm the seed phrase',
       name: 'mnemonic_confirm_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order`
+  /// `In order to confirm that your seed phrase is copied correctly, please click the 12 words in the corresponding order.`
   String get mnemonic_confirm_content {
     return Intl.message(
-      'In order to confirm that your mnemonic phrase is copied correctly, please click the mnemonic phrase in the corresponding order',
+      'In order to confirm that your seed phrase is copied correctly, please click the 12 words in the corresponding order.',
       name: 'mnemonic_confirm_content',
       desc: '',
       args: [],
@@ -1585,10 +1585,10 @@ class S {
     );
   }
 
-  /// `You have successfully backed up the mnemonic phrase`
+  /// `You have successfully backed up The seed phrase`
   String get dialog_save_sucess_hint {
     return Intl.message(
-      'You have successfully backed up the mnemonic phrase',
+      'You have successfully backed up The seed phrase',
       name: 'dialog_save_sucess_hint',
       desc: '',
       args: [],
@@ -1605,10 +1605,10 @@ class S {
     );
   }
 
-  /// `Please enter the mnemonic phrase in the normal order.`
+  /// `Please enter The seed phrase in the normal order.`
   String get dialog_save_error_hint {
     return Intl.message(
-      'Please enter the mnemonic phrase in the normal order.',
+      'Please enter The seed phrase in the normal order.',
       name: 'dialog_save_error_hint',
       desc: '',
       args: [],
@@ -1705,10 +1705,10 @@ class S {
     );
   }
 
-  /// `Please backup the mnemonic phrase`
+  /// `Please backup The seed phrase`
   String get dialog_save_word {
     return Intl.message(
-      'Please backup the mnemonic phrase',
+      'Please backup The seed phrase',
       name: 'dialog_save_word',
       desc: '',
       args: [],
@@ -2305,20 +2305,20 @@ class S {
     );
   }
 
-  /// `Integral`
+  /// `Token`
   String get home_token {
     return Intl.message(
-      'Integral',
+      'Token',
       name: 'home_token',
       desc: '',
       args: [],
     );
   }
 
-  /// `Send and receive your Integral`
+  /// `Send and receive your Token`
   String get home_send_receive {
     return Intl.message(
-      'Send and receive your Integral',
+      'Send and receive your Token',
       name: 'home_send_receive',
       desc: '',
       args: [],
@@ -2515,40 +2515,40 @@ class S {
     );
   }
 
-  /// `Forced to use`
+  /// `Continue anyway`
   String get dialog_privacy_confirm {
     return Intl.message(
-      'Forced to use',
+      'Continue anyway',
       name: 'dialog_privacy_confirm',
       desc: '',
       args: [],
     );
   }
 
-  /// `Box Defi Pledge is one way to get ABC points. An ABC integral has no value and is useless. It is only a sample program written by the developer to experience the blockchain. Not to market development, if you download through other means and try to use the pledge, please turn off this feature.`
+  /// `The pledge function of Box DeFi is one of the ways to obtain ABC Token. The ABC Token have no value and are useless. This is only a sample program written for the developer to explore the blockchain and is not open to the market. If you have downloaded it through other means and are trying to make pledges, please turn off this function in time`
   String get dialog_defi_hint {
     return Intl.message(
-      'Box Defi Pledge is one way to get ABC points. An ABC integral has no value and is useless. It is only a sample program written by the developer to experience the blockchain. Not to market development, if you download through other means and try to use the pledge, please turn off this feature.',
+      'The pledge function of Box DeFi is one of the ways to obtain ABC Token. The ABC Token have no value and are useless. This is only a sample program written for the developer to explore the blockchain and is not open to the market. If you have downloaded it through other means and are trying to make pledges, please turn off this function in time',
       name: 'dialog_defi_hint',
       desc: '',
       args: [],
     );
   }
 
-  /// `The exchange function of Box Swap is the exchange between points and AE. The whole function is an exchange example written for the developer's personal preference, which is not used officially or open to the public. The points exchanged (ABC, WTT, AEG, etc.) have no value. Just as a collection. Since the function is realized based on blockchain, if the user uses it without authorization, please quit in time. If the forced use results in the loss of points and the floating exchange ratio between points and AE, it has nothing to do with the developer and the project party, and the user should bear the responsibility by himself.`
+  /// `The exchange function of Box Swap is the exchange between Token and AE. This function is an exchange example written for the developer’s personal preference, which is neither officially used nor open to the public. The exchanged Token (ABC, WTT, AEG, etc.) have no value and are only used as a collection. This function is implemented on blockchain, please quit in time if anyone is using without authorization. Any results caused by enforced use has nothing to do with the \ndeveloper nor the project party. The user should bear the responsibility by theirselves.\nContinue anyway`
   String get dialog_swap_hint {
     return Intl.message(
-      'The exchange function of Box Swap is the exchange between points and AE. The whole function is an exchange example written for the developer\'s personal preference, which is not used officially or open to the public. The points exchanged (ABC, WTT, AEG, etc.) have no value. Just as a collection. Since the function is realized based on blockchain, if the user uses it without authorization, please quit in time. If the forced use results in the loss of points and the floating exchange ratio between points and AE, it has nothing to do with the developer and the project party, and the user should bear the responsibility by himself.',
+      'The exchange function of Box Swap is the exchange between Token and AE. This function is an exchange example written for the developer’s personal preference, which is neither officially used nor open to the public. The exchanged Token (ABC, WTT, AEG, etc.) have no value and are only used as a collection. This function is implemented on blockchain, please quit in time if anyone is using without authorization. Any results caused by enforced use has nothing to do with the \ndeveloper nor the project party. The user should bear the responsibility by theirselves.\nContinue anyway',
       name: 'dialog_swap_hint',
       desc: '',
       args: [],
     );
   }
 
-  /// `The domain name system is the underlying function of the user blockchain. This application is only for demonstration, and all operations directly access the blockchain. Users should use it at their own risk. No liability shall be assumed for forced use of this app.`
+  /// `The DNS (domain naming system) is the underlying function of the user’s blockchain. This application is only for demonstration, and all operations shall directly access the blockchain. Users should use it at their own risks. No liability shall be assumed for enforced use of this app.`
   String get dialog_name_hint {
     return Intl.message(
-      'The domain name system is the underlying function of the user blockchain. This application is only for demonstration, and all operations directly access the blockchain. Users should use it at their own risk. No liability shall be assumed for forced use of this app.',
+      'The DNS (domain naming system) is the underlying function of the user’s blockchain. This application is only for demonstration, and all operations shall directly access the blockchain. Users should use it at their own risks. No liability shall be assumed for enforced use of this app.',
       name: 'dialog_name_hint',
       desc: '',
       args: [],
@@ -3075,20 +3075,20 @@ class S {
     );
   }
 
-  /// `Backup mnemonic phrase`
+  /// `Back up the seed phrase`
   String get CreateMnemonicCopyPage_title {
     return Intl.message(
-      'Backup mnemonic phrase',
+      'Back up the seed phrase',
       name: 'CreateMnemonicCopyPage_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Attention\n· Do not disclose the mnemonic words to anyone\n· Once the mnemonic words are lost, the assets cannot be restored\n· Please do not use any screenshots or network transmission to make backups\n· In any case, please do not uninstall the wallet app easily`
+  /// `Attention\n· Please do not reveal the seed phrase to anyone\n· Once the seed phrase is lost, your assets cannot be restored.\n· Please do not back up the seed phrase through any screenshots or network transmission.\n· In any circumstances, please think twice before deleting the wallet app.`
   String get CreateMnemonicCopyPage_tips {
     return Intl.message(
-      'Attention\n· Do not disclose the mnemonic words to anyone\n· Once the mnemonic words are lost, the assets cannot be restored\n· Please do not use any screenshots or network transmission to make backups\n· In any case, please do not uninstall the wallet app easily',
+      'Attention\n· Please do not reveal the seed phrase to anyone\n· Once the seed phrase is lost, your assets cannot be restored.\n· Please do not back up the seed phrase through any screenshots or network transmission.\n· In any circumstances, please think twice before deleting the wallet app.',
       name: 'CreateMnemonicCopyPage_tips',
       desc: '',
       args: [],
@@ -3145,10 +3145,10 @@ class S {
     );
   }
 
-  /// `Select the public chain you want to create, you can create multiple chains at the same time`
+  /// `Select the public chain you want to create. You can create multiple chains at the same time.`
   String get SelectChainCreatePage_select_chain {
     return Intl.message(
-      'Select the public chain you want to create, you can create multiple chains at the same time',
+      'Select the public chain you want to create. You can create multiple chains at the same time.',
       name: 'SelectChainCreatePage_select_chain',
       desc: '',
       args: [],
@@ -3410,6 +3410,86 @@ class S {
     return Intl.message(
       'Set an alias for the address',
       name: 'SetAddressNamePage_title2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your NFT`
+  String get CfxDappPage_title_nft {
+    return Intl.message(
+      'Your NFT',
+      name: 'CfxDappPage_title_nft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is the collection of all NFT assets in your wallet`
+  String get CfxDappPage_nft_content {
+    return Intl.message(
+      'This is the collection of all NFT assets in your wallet',
+      name: 'CfxDappPage_nft_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Baby`
+  String get CfxDappPage_nft_tab1 {
+    return Intl.message(
+      'Baby',
+      name: 'CfxDappPage_nft_tab1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ancient`
+  String get CfxDappPage_nft_tab2 {
+    return Intl.message(
+      'Ancient',
+      name: 'CfxDappPage_nft_tab2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ShanHai`
+  String get CfxDappPage_nft_tab3 {
+    return Intl.message(
+      'ShanHai',
+      name: 'CfxDappPage_nft_tab3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Application`
+  String get CfxDappPage_app {
+    return Intl.message(
+      'Application',
+      name: 'CfxDappPage_app',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Here will be the ecology of all CFX, you can also search to find them`
+  String get CfxDappPage_app_content {
+    return Intl.message(
+      'Here will be the ecology of all CFX, you can also search to find them',
+      name: 'CfxDappPage_app_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More`
+  String get CfxDappPage_app_more {
+    return Intl.message(
+      'More',
+      name: 'CfxDappPage_app_more',
       desc: '',
       args: [],
     );

@@ -41,6 +41,11 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     // TODO: implement initState
     super.initState();
     getMnemonic();
+    eventBus.on<LanguageEvent>().listen((event) {
+     setState(() {
+
+     });
+    });
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       setState(() {
         version = packageInfo.version;

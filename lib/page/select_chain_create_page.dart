@@ -46,7 +46,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          S.of(context).select_chain_page_create_wallet,
+          S.of(context).select_chain_page_select_chain,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,

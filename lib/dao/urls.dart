@@ -1,8 +1,8 @@
 //域名
 // const BASE_HOST = 'http://192.168.0.190:7070';
-const BASE_HOST = 'http://10.53.5.111:7070';
+// const BASE_HOST = 'http://10.53.5.111:7070';
 
-// const BASE_HOST = 'https://aebox.io';
+const BASE_HOST = 'https://aebox.io';
 // const BASE_HOST = 'http://localhost:7070';
 //const BASE_HOST = 'https://aeasy.io';
 
@@ -141,5 +141,8 @@ const CFX_NFT_BALANCE = BASE_HOST + '/cfx/api/nft/balance';
 const CFX_NFT_TOKEN = BASE_HOST + '/cfx/api/nft/token';
 const CFX_NFT_PREVIEW = BASE_HOST + '/cfx/api/nft/preview';
 
-//绑定的域名
+//Dapp列表
 const CFX_DAPP_LIST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';
+
+//获取老用户未保存助记词的账户列表
+const ACCOUNT_ERROR_LIST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';

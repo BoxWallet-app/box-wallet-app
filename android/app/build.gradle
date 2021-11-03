@@ -46,8 +46,8 @@ android {
         applicationId "com.aepp.box"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode  keystoreProperties['flutter.versionCode'].toInteger()
+        versionName keystoreProperties['flutter.versionName']
     }
 
     signingConfigs {

@@ -203,6 +203,18 @@ class Utils {
     }
   }
 
+  //aes解密兼容升级上来的老版本
+  static dynamic aesDecodeOld(dynamic base64, List<int> password) {
+    try {
+      final key = encrypt.Key.fromBase64(base64Encode(password));
+      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
+      return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
+    } catch (err) {
+      print("aes decode error:$err");
+      return "";
+    }
+  }
+
   static String formatTime(time) {
     var now = new DateTime.now();
     var formatted = DateTime.fromMillisecondsSinceEpoch(time).toString();

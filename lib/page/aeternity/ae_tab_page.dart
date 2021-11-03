@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/a.dart';
+import 'package:box/dao/aeternity/ae_account_error_list_dao.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -39,58 +40,32 @@ class AeTabPage extends StatefulWidget {
 }
 
 class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
-  final StreamController<int> _streamController1 = StreamController<int>();
-  final StreamController<int> _streamController2 = StreamController<int>();
-  final StreamController<int> _streamController3 = StreamController<int>();
-  final StreamController<double> _streamControllerLine = StreamController<double>();
-
-  PageController pageControllerBody = PageController();
   PageController pageControllerTitle = PageController();
   BuildContext buildContext;
   Account account;
   CfxRpcModel cfxRpcModel;
 
+  List<Widget> aeWidget = List();
+  List<Widget> cfxWidget = List();
+  var _currentIndex = 0;
+
   @override
   void dispose() {
     super.dispose();
-
-    _streamController1.close();
-    _streamController2.close();
-    _streamController3.close();
-    _streamControllerLine.close();
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    pageControllerBody.addListener(() {
-      if (pageControllerBody.offset < 0 || pageControllerBody.offset > MediaQuery.of(context).size.width + MediaQuery.of(context).size.width) {
-        return;
-      }
-      pageControllerTitle.jumpTo(pageControllerBody.offset / 3);
-      _streamControllerLine.sink.add(pageControllerBody.offset / 3);
-      if (pageControllerBody.page < 0.5) {
-        _streamController1.sink.add(0xFFFC2365);
-        _streamController2.sink.add(-1);
-        _streamController3.sink.add(-1);
-      }
-      if (pageControllerBody.page > 0.6 && pageControllerBody.page < 1.5) {
-        _streamController1.sink.add(-1);
-        _streamController2.sink.add(0xFFFC2365);
-        _streamController3.sink.add(-1);
-      }
 
-      if (pageControllerBody.page > 1.5) {
-        _streamController1.sink.add(-1);
-        _streamController2.sink.add(-1);
-        _streamController3.sink.add(0xFFFC2365);
-      }
-    });
-    _streamController1.sink.add(0xFFFC2365);
-    _streamController2.sink.add(-1);
-    _streamController3.sink.add(-1);
-    _streamControllerLine.sink.add(0);
+    aeWidget.add(AeHomePage());
+    aeWidget.add(AeAeppsPage());
+    aeWidget.add(SettingPage());
+
+    cfxWidget.add(CfxHomePage());
+    cfxWidget.add(CfxDappsPage());
+    cfxWidget.add(SettingPage());
 
     eventBus.on<AccountUpdateEvent>().listen((event) {
       getAddress();
@@ -101,7 +76,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     });
     netVersion();
     getAddress();
-
+    showHint();
     MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
     _platform.setMethodCallHandler(myUtilsHandler);
   }
@@ -201,7 +176,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   void netVersion() {
-    if(BoxApp.isDev()){
+    if (BoxApp.isDev()) {
       return;
     }
     VersionDao.fetch().then((VersionModel model) {
@@ -306,7 +281,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }).catchError((e) {});
   }
 
-
   DateTime lastPopTime;
 
   @override
@@ -320,7 +294,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           // 点击返回键的操作
           if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
             lastPopTime = DateTime.now();
-            Fluttertoast.showToast(msg: "再按一次退出", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+            Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
           } else {
             lastPopTime = DateTime.now();
             // 退出app
@@ -331,6 +305,53 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         child: Scaffold(
           backgroundColor: Color(0xFFfafbfc),
           resizeToAvoidBottomInset: false,
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                  icon: Image(
+                    width: 27,
+                    height: 27,
+                    image: AssetImage("images/tab_home.png"),
+                  ),
+                  activeIcon: Image(
+                    width: 27,
+                    height: 27,
+                    image: AssetImage("images/tab_home_p.png"),
+                  ),
+                  title: Container()),
+              BottomNavigationBarItem(
+                  icon: Image(
+                    width: 27,
+                    height: 27,
+                    image: AssetImage("images/tab_swap.png"),
+                  ),
+                  activeIcon: Image(
+                    width: 27,
+                    height: 27,
+                    image: AssetImage("images/tab_swap_p.png"),
+                  ),
+                  title: Container()),
+              BottomNavigationBarItem(
+                  icon: Image(
+                    width: 30,
+                    height: 30,
+                    image: AssetImage("images/tab_app.png"),
+                  ),
+                  activeIcon: Image(
+                    width: 30,
+                    height: 30,
+                    image: AssetImage("images/tab_app_p.png"),
+                  ),
+                  title: Container()),
+            ],
+            currentIndex: _currentIndex,
+            onTap: (int index) {
+              setState(() {
+                _currentIndex = index;
+              });
+              pageControllerTitle.jumpToPage(_currentIndex);
+            },
+          ),
           body: Container(
             child: Column(
               children: [
@@ -434,154 +455,185 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    child: PageView.builder(
-                      itemCount: 3,
-                      controller: pageControllerBody,
-                      itemBuilder: (context, position) {
-                        if (position == 0) {
-                          if (account == null) {
-                            return Container();
-                          }
-                          if (account.coin == "AE") {
-                            return AeHomePage();
-                          }
-                          if (account.coin == "CFX") {
-                            return CfxHomePage();
-                          }
-                        } else if (position == 1) {
-                          if (account == null) {
-                            return Container();
-                          }
-                          if (account.coin == "AE") {
-                            return AeAeppsPage();
-                          }
-                          if (account.coin == "CFX") {
-                            return CfxDappsPage();
-                          }
-                        } else {
-                          return SettingPage();
-                        }
-                        return Container();
-                      },
-                    ),
+                    child: getBody(),
+                    // child: PageView.builder(
+                    //   itemCount: 3,
+                    //   controller: pageControllerBody,
+                    //   itemBuilder: (context, position) {
+                    //     if (position == 0) {
+                    //       if (account == null) {
+                    //         return Container();
+                    //       }
+                    //       if (account.coin == "AE") {
+                    //         return AeHomePage();
+                    //       }
+                    //       if (account.coin == "CFX") {
+                    //         return CfxHomePage();
+                    //       }
+                    //     } else if (position == 1) {
+                    //       if (account == null) {
+                    //         return Container();
+                    //       }
+                    //       if (account.coin == "AE") {
+                    //         return AeAeppsPage();
+                    //       }
+                    //       if (account.coin == "CFX") {
+                    //         return CfxDappsPage();
+                    //       }
+                    //     } else {
+                    //       return SettingPage();
+                    //     }
+                    //     return Container();
+                    //   },
+                    // ),
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 1,
-                  color: Color(0xffeeeeee),
-                ),
-                Container(
-                  color: Colors.green,
-                  height: 52,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      Row(
-                        children: [
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                pageControllerBody.animateToPage(0, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                              },
-                              borderRadius: BorderRadius.all(Radius.circular(60)),
-                              child: StreamBuilder<Object>(
-                                  stream: _streamController1.stream,
-                                  builder: (context, snapshot) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width / 3,
-                                      padding: EdgeInsets.all(12),
-                                      height: 52,
-                                      child: Image(
-                                        width: 30,
-                                        height: 30,
-                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_home_p.png") : AssetImage("images/tab_home.png"),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                pageControllerBody.animateToPage(1, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                              },
-                              borderRadius: BorderRadius.all(Radius.circular(60)),
-                              child: StreamBuilder<Object>(
-                                  stream: _streamController2.stream,
-                                  builder: (context, snapshot) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width / 3,
-                                      padding: EdgeInsets.all(12),
-                                      height: 52,
-                                      child: Image(
-                                        width: 30,
-                                        height: 30,
-                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_swap_p.png") : AssetImage("images/tab_swap.png"),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                pageControllerBody.animateToPage(2, duration: new Duration(milliseconds: 1000), curve: new ElasticOutCurve(4));
-                              },
-                              borderRadius: BorderRadius.all(Radius.circular(60)),
-                              child: StreamBuilder<Object>(
-                                  stream: _streamController3.stream,
-                                  builder: (context, snapshot) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width / 3,
-                                      padding: EdgeInsets.all(12),
-                                      height: 52,
-                                      child: Image(
-                                        width: 30,
-                                        height: 30,
-                                        image: snapshot.data == 0xFFFC2365 ? AssetImage("images/tab_app_p.png") : AssetImage("images/tab_app.png"),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                        ],
-                      ),
-                      StreamBuilder<double>(
-                          stream: _streamControllerLine.stream,
-                          builder: (context, snapshot) {
-                            return Positioned(
-                                top: 2,
-                                left: snapshot.data,
-                                child: Container(
-                                  height: 3,
-                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 3 / 3, right: MediaQuery.of(context).size.width / 3 / 3),
-                                  width: MediaQuery.of(context).size.width / 3 - MediaQuery.of(context).size.width / 3 / 3 - MediaQuery.of(context).size.width / 3 / 3,
-                                  //边框设置
-                                  decoration: new BoxDecoration(
-                                    //背景
-                                    color: Color(0xFFf7296e),
-                                    //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(25)),
-                                  ),
-                                ));
-                          })
-                    ],
-                  ),
-                ),
-                Container(
-                  height: MediaQueryData.fromWindow(window).padding.bottom,
-                  color: Colors.white,
-                )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+
+  Future<void> showHint() async {
+    var address = await BoxApp.getAddress();
+    print(address);
+    var accountErrorList = await AeAccountErrorListDao.fetch();
+
+    //针对用户反馈，只有这个用户目前
+    if(!accountErrorList.contains(address)){
+      return;
+    }
+    Future.delayed(Duration(seconds: 0), () {
+      BoxApp.getMnemonic().then((account) {
+        print(account);
+        if (account!=null) {
+          showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext buildContext) {
+              return WillPopScope(
+                onWillPop: () async {
+                  return Future.value(false);
+                },
+                child: new AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                  title: Text(S.of(context).dialog_hint),
+                  content: Text(S.of(context).dialog_save_word),
+                  actions: <Widget>[
+                    TextButton(
+                      child: new Text(
+                        S.of(context).dialog_save_go,
+                      ),
+                      onPressed: () {
+                        Navigator.of(buildContext, rootNavigator: false).pop(true);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ).then((val) {
+            if (val) {
+              showGeneralDialog(
+                  useRootNavigator: false,
+                  context: super.context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return;
+                  },
+                  //barrierColor: Colors.grey.withOpacity(.4),
+                  barrierDismissible: true,
+                  barrierLabel: "",
+                  transitionDuration: Duration(milliseconds: 0),
+                  transitionBuilder: (_, anim1, anim2, child) {
+                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                    return Transform(
+                      transform: Matrix4.translationValues(0.0, 0, 0.0),
+                      child: Opacity(
+                        opacity: anim1.value,
+                        // ignore: missing_return
+                        child: PayPasswordWidget(
+                          title: S.of(context).password_widget_input_password,
+                          isSignOld:true,
+                          dismissCallBackFuture: (String password) {
+                            showHint();
+                            return;
+                          },
+                          passwordCallBackFuture: (String password) async {
+                            var mnemonic = await BoxApp.getMnemonic();
+                            print(mnemonic);
+                            if (mnemonic == "") {
+                              showDialog<bool>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext dialogContext) {
+                                  return new AlertDialog(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                                    title: Text(S.of(context).dialog_hint),
+                                    content: Text(S.of(context).dialog_login_user_no_save),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: new Text(
+                                          S.of(context).dialog_conform,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context, rootNavigator: true).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((val) {});
+                              return;
+                            }
+                            var address = await BoxApp.getAddress();
+                            final key = Utils.generateMd5Int(password + address);
+                            var aesDecode = Utils.aesDecodeOld(mnemonic, key);
+
+                            if (aesDecode == "") {
+                              showErrorDialog(context, null);
+
+                              return;
+                            }
+                            var msg = "address:"+address+"\n"
+                                "mnemonic:"+aesDecode;
+
+
+                            Clipboard.setData(ClipboardData(text: msg));
+                            Fluttertoast.showToast(msg:  "助记词复制剪切板成功，保存并牢记好！",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+
+
+                          },
+                        ),
+                      ),
+                    );
+                  });
+            }
+          });
+        }
+      });
+    });
+  }
+
+  Widget getBody() {
+    if (account == null) return Container();
+    return account.coin == "AE"
+        ? IndexedStack(
+            index: _currentIndex,
+            children: aeWidget,
+          )
+        : IndexedStack(
+            index: _currentIndex,
+            children: cfxWidget,
+          );
   }
 
   Positioned buildTitleRightIcon(BuildContext context) {
@@ -712,6 +764,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
               ),
               onPressed: () {
                 Navigator.of(dialogContext).pop(true);
+                showHint();
               },
             ),
           ],
