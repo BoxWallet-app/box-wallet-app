@@ -10,7 +10,6 @@ import 'package:box/model/aeternity/swap_coin_account_model.dart';
 import 'package:box/model/aeternity/swap_coin_model.dart';
 import 'package:box/page/aeternity/ae_swap_initiate_page.dart';
 import 'package:box/page/aeternity/ae_swap_my_page.dart';
-import 'package:box/page/photo_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -95,7 +94,6 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                       onChanged: (SwapCoinModelData newValue) {
                         setState(() {
                           dropdownValue = newValue;
-
                         });
                         controller.callRefresh();
                       },
@@ -238,9 +236,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                   if (Platform.isIOS) {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapInitiatePage()));
                                   } else {
-                                    Navigator.push(context, SlideRoute( AeSwapInitiatePage()));
+                                    Navigator.push(context, SlideRoute(AeSwapInitiatePage()));
                                   }
-
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -274,11 +271,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 onTap: () {
                                   if (Platform.isIOS) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>AeSwapMyPage()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapMyPage()));
                                   } else {
-                                    Navigator.push(context, SlideRoute( AeSwapMyPage()));
+                                    Navigator.push(context, SlideRoute(AeSwapMyPage()));
                                   }
-
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
@@ -370,7 +366,6 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           // } else {
                           //   Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
                           // }
-
                         },
                         child: ClipOval(
                             child: CircularProfileAvatar(
@@ -393,8 +388,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
                           cacheImage: true,
                           // allow widget to cache image against provided url
-                          onTap: () {
-                          },
+                          onTap: () {},
                           // sets on tap
                           showInitialTextAbovePicture: true, // setting it true will show initials text above profile picture, default false
                         )),
@@ -469,7 +463,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].tokenCount + " "+S.of(context).swap_item_6,
+                              swapModels.data[index - 1].tokenCount + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -505,7 +499,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].aeCount + " "+S.of(context).swap_item_6,
+                              swapModels.data[index - 1].aeCount + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -556,7 +550,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   }
 
   void netBuy(int index) {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -583,21 +578,19 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                   var aesDecode = Utils.aesDecode(signingKey, key);
 
                   if (aesDecode == "") {
-                   showErrorDialog(context, null);
+                    showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
                   BoxApp.contractSwapBuy((data) {
-
                     showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext dialogContext) {
-                        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                        return new AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                           title: Text(S.of(context).dialog_hint),
-                          content: Text( S.of(context).dialog_swap_sucess),
+                          content: Text(S.of(context).dialog_swap_sucess),
                           actions: <Widget>[
                             TextButton(
                               child: new Text(
@@ -620,8 +613,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                     ).then((val) {});
                   }, (error) {
                     // ignore: missing_return, missing_return
-                   showErrorDialog(context, error);
-                   return;
+                    showErrorDialog(context, error);
+                    return;
                   }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, swapModels.data[index - 1].account, swapModels.data[index - 1].aeCount);
                   showChainLoading();
                 },
@@ -632,7 +625,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -746,9 +740,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -765,5 +758,4 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       },
     ).then((val) {});
   }
-
 }

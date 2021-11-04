@@ -8,7 +8,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/select_mnemonic_page.dart';
+import 'package:box/page/general/select_mnemonic_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -21,8 +21,10 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'account_login_page.dart';
-import 'create_mnemonic_copy_page.dart';
+import 'general/import/import_account_ae_page.dart';
+import 'general/import/import_account_cfx_page.dart';
+import 'general/import/import_account_common_page.dart';
+import 'general/create/create_mnemonic_copy_page.dart';
 
 typedef AddAccountCallBackFuture = Future Function();
 
@@ -56,7 +58,6 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 
     WalletCoinsManager.instance.getCoins().then((walletCoinsModel) async {
       mnemonics.clear();
-      var prefs = await SharedPreferences.getInstance();
       for (var i = 0; i < walletCoinsModel.coins.length; i++) {
         if (widget.coin.name == walletCoinsModel.coins[i].name) {
           continue;
@@ -65,28 +66,32 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
         for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
           var address = walletCoinsModel.coins[i].accounts[j].address;
 
+          var prefs = await SharedPreferences.getInstance();
           var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
           final key = Utils.generateMd5Int(widget.password + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
-
-          mnemonics.add(mnemonicAesEncode);
+          if (mnemonicAesEncode != null && mnemonicAesEncode !="") mnemonics.add(mnemonicAesEncode);
         }
       }
-      for (var i = 0; i < mnemonics.length; i++) {
+      var prefs = await SharedPreferences.getInstance();
+
+      List<String> result = [];
+      result = mnemonics.sublist(0);
+      mnemonics.forEach((element) async {
         for (var j = 0; j < widget.coin.accounts.length; j++) {
           var address = widget.coin.accounts[j].address;
-
           var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
           final key = Utils.generateMd5Int(widget.password + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
-          if (mnemonicAesEncode == mnemonics[i]) {
-            mnemonics.remove(mnemonicAesEncode);
+          if (mnemonicAesEncode == element) {
+            print("delete:"+mnemonicAesEncode);
+            result.remove(element);
           }
         }
-      }
-      ;
+      });
+      mnemonics = result;
       if (mnemonics.length != 0) {
         isOtherAccount = true;
       }
@@ -94,8 +99,12 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
       setState(() {});
     });
 
-    eventBus.on<AddAccount>().listen((event) {
+    eventBus.on<AddNewAccount>().listen((event) {
       createChain();
+    });
+
+    eventBus.on<AddImportAccount>().listen((event) {
+      checkSuccess();
     });
   }
 
@@ -253,29 +262,71 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                 // setState(() {
                                 //   chains[index].isSelect = !chains[index].isSelect;
                                 // });
-
-
-                                if (Platform.isIOS) {
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(
-                                   type: CreateMnemonicCopyPage.ADD,
-                                   accountLoginCallBackFuture: (mnemonic) {
-                                     mnemonicTemp = mnemonic;
-                                     createChain();
-                                     return;
-                                   },
-                                 )));
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      SlideRoute(AccountLoginPage(
-                                        type: CreateMnemonicCopyPage.ADD,
-                                        accountLoginCallBackFuture: (mnemonic) {
-                                          mnemonicTemp = mnemonic;
-                                          createChain();
-                                          return;
-                                        },
-                                      )));
+                                if (widget.coin.name == "AE") {
+                                  if (Platform.isIOS) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImportAccountAePage(
+                                              coinName: widget.coin.name,
+                                              fullName: widget.coin.fullName,
+                                              password: widget.password,
+                                            )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        SlideRoute(ImportAccountAePage(
+                                          coinName: widget.coin.name,
+                                          fullName: widget.coin.fullName,
+                                          password: widget.password,
+                                        )));
+                                  }
+                                  return;
                                 }
+                                if (widget.coin.name == "CFX") {
+                                  if (Platform.isIOS) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImportAccountCfxPage(
+                                              coinName: widget.coin.name,
+                                              fullName: widget.coin.fullName,
+                                              password: widget.password,
+                                            )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        SlideRoute(ImportAccountCfxPage(
+                                          coinName: widget.coin.name,
+                                          fullName: widget.coin.fullName,
+                                          password: widget.password,
+                                        )));
+                                  }
+                                  return;
+                                }
+                                return;
+
+                                // if (Platform.isIOS) {
+                                //  Navigator.push(context, MaterialPageRoute(builder: (context) => ImportAccountCommonPage(
+                                //    type: CreateMnemonicCopyPage.ADD,
+                                //    accountLoginCallBackFuture: (mnemonic) {
+                                //      mnemonicTemp = mnemonic;
+                                //      createChain();
+                                //      return;
+                                //    },
+                                //  )));
+                                // } else {
+                                //   Navigator.push(
+                                //       context,
+                                //       SlideRoute(ImportAccountCommonPage(
+                                //         type: CreateMnemonicCopyPage.ADD,
+                                //         accountLoginCallBackFuture: (mnemonic) {
+                                //           mnemonicTemp = mnemonic;
+                                //           createChain();
+                                //           return;
+                                //         },
+                                //       )));
+                                // }
 
                               },
                               child: Container(
@@ -487,7 +538,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
           var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
 
           await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode, false);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC,false);
           checkSuccess();
         }, mnemonicTemp);
       }
@@ -498,7 +549,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
           var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
           var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
           await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode, false);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
           checkSuccess();
         }, mnemonicTemp);
       }
@@ -509,6 +560,9 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
   Future<bool> checkAccount(String address) async {
     var walletCoinModel = await WalletCoinsManager.instance.getCoins();
     bool isExist = false;
+    if(walletCoinModel.coins == null){
+      return true;
+    }
     for (var i = 0; i < walletCoinModel.coins.length; i++) {
       for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
         if (walletCoinModel.coins[i].accounts[j].address == address) {

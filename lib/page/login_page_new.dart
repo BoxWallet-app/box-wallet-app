@@ -13,8 +13,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'account_login_page.dart';
-import 'create_mnemonic_copy_page.dart';
+import 'general/import/import_account_common_page.dart';
+import 'general/create/create_mnemonic_copy_page.dart';
+import 'general/import/import_chain_select_page.dart';
 
 class LoginPageNew extends StatefulWidget {
   @override
@@ -351,9 +352,9 @@ class _LoginPageNewState extends State<LoginPageNew> {
                         child: FlatButton(
                           onPressed: () {
                             if (Platform.isIOS) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLoginPage(type: CreateMnemonicCopyPage.LOGIN)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ImportChainSelectPage()));
                             } else {
-                              Navigator.push(context, SlideRoute(AccountLoginPage(type: CreateMnemonicCopyPage.LOGIN)));
+                              Navigator.push(context, SlideRoute(ImportChainSelectPage()));
                             }
                           },
                           child: Container(

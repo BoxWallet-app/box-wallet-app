@@ -67,6 +67,23 @@ class WalletCoinsManager {
     prefs.setBool(Utils.generateMD5(address + "isSaveMnemonic"), isSaveMnemonic);
   }
 
+  setAddressPassword(String address, String addressPassword) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString(Utils.generateMD5(address + "addressPassword"), addressPassword);
+  }
+
+  Future<bool> validationAddressPassword(String password) async {
+    var address = await BoxApp.getAddress();
+    var prefs = await SharedPreferences.getInstance();
+    var addressPassword = prefs.getString(Utils.generateMD5(address + "addressPassword"));
+    final key = Utils.generateMd5Int(password + address);
+    var aesDecode = Utils.aesDecode(addressPassword, key);
+    if (aesDecode == "") {
+      return false;
+    }
+    return true;
+  }
+
   Future<WalletCoinsModel> getCoins() async {
     var prefs = await SharedPreferences.getInstance();
     var walletCoinsJson = prefs.getString('wallet_coins');
@@ -93,7 +110,7 @@ class WalletCoinsManager {
     }
   }
 
-  Future<bool> addAccount(String coinName, String fullName, String address, String mnemonic, String signingKey, isSaveMnemonic) async {
+  Future<bool> addAccount(String coinName, String fullName, String address, String mnemonic, String signingKey, int accountType, bool isSaveMnemonic) async {
     WalletCoinsModel coins = await getCoins();
 
     if (coins.coins == null) {
@@ -102,6 +119,7 @@ class WalletCoinsManager {
       coin.name = coinName;
       Account account = Account();
       account.address = address;
+      account.accountType = accountType;
       account.isSelect = true;
       account.coin = coinName;
       coin.accounts = [];
@@ -110,6 +128,7 @@ class WalletCoinsManager {
         coins.coins = [];
       }
       coins.coins.add(coin);
+      print(account);
       await setMnemonicAndSigningKey(address, mnemonic, signingKey, isSaveMnemonic);
     } else {
       for (var i = 0; i < coins.coins.length; i++) {
@@ -126,6 +145,7 @@ class WalletCoinsManager {
 
           Account account = Account();
           account.address = address;
+          account.accountType = accountType;
           account.isSelect = true;
           account.coin = coinName;
           coins.coins[i].accounts.add(account);
@@ -188,7 +208,6 @@ class WalletCoinsManager {
     WalletCoinsModel walletCoinsModel = await getCoins();
 
     if (walletCoinsModel.coins == null) {
-
       walletCoinsModel.coins = [];
     }
 

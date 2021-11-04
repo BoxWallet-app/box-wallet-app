@@ -4,7 +4,7 @@ import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
 import 'package:box/page/aeternity/ae_token_send_two_page.dart';
-import 'package:box/page/scan_page.dart';
+import 'package:box/page/general/scan_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

@@ -5,6 +5,7 @@ import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../a.dart';
+import '../../a.dart';
 
 class SelectChainCreatePage extends StatefulWidget {
   final String mnemonic;
@@ -140,24 +141,22 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
       if (chains[i].isSelect) {
         if (chains[i].name == "AE") {
           BoxApp.getSecretKey((address, signingKey) async {
-            var password = Utils.generateMD5(widget.password + a);
-            final key = Utils.generateMd5Int(password + address);
+            final key = Utils.generateMd5Int(widget.password + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
             var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode, false);
+            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             checkSuccess();
           }, widget.mnemonic);
         }
         if (chains[i].name == "CFX") {
           BoxApp.getSecretKeyCFX((address, signingKey) async {
-            var password = Utils.generateMD5(widget.password + a);
-            final key = Utils.generateMd5Int(password + address);
+            final key = Utils.generateMd5Int(widget.password + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
             var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode, false);
+            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             checkSuccess();
           }, widget.mnemonic);

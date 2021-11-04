@@ -18,7 +18,7 @@ import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/confux/cfx_dapps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
 import 'package:box/page/setting_page.dart';
-import 'package:box/page/wallet_select_page.dart';
+import 'package:box/page/general/wallet_select_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -163,6 +163,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
       this.account = account;
+      if(!mounted)return;
       setState(() {});
     });
   }

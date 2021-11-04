@@ -1140,7 +1140,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                 //边框设置
 
                 child: Text(
-                  (blockTopModel.data.height - walletRecordModel.data[index].blockHeight).toString(),
+                  (AeHomePage.height - walletRecordModel.data[index].blockHeight).toString(),
                   style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                 ),
                 alignment: Alignment.center,

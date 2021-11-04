@@ -6,7 +6,7 @@ import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/WetrueListModel.dart';
-import 'package:box/page/photo_page.dart';
+import 'package:box/page/general/photo_page.dart';
 import 'package:box/utils/RelativeDateFormat.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';

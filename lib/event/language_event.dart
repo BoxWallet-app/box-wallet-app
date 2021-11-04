@@ -6,9 +6,15 @@ class SwapEvent {
   SwapEvent();
 }
 
-class AddAccount {
-  AddAccount();
+class AddNewAccount {
+  AddNewAccount();
 }
+
+class AddImportAccount {
+  AddImportAccount();
+}
+
+
 
 class LanguageEvent {
   LanguageEvent();

@@ -7,7 +7,6 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/swap_coin_account_model.dart';
 import 'package:box/page/aeternity/ae_swaps_page.dart';
-import 'package:box/page/photo_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -86,9 +85,8 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
               if (Platform.isIOS) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapsPage()));
               } else {
-                Navigator.push(context, SlideRoute( AeSwapsPage()));
+                Navigator.push(context, SlideRoute(AeSwapsPage()));
               }
-
             },
           ),
         ],
@@ -190,7 +188,6 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                         // } else {
                         //   Navigator.push(context, SlideRoute( PhotoPage(address: swapModels.data[index - 1].account)));
                         // }
-
                       },
                       child: Container(
                         width: 30,
@@ -202,32 +199,30 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                           borderRadius: new BorderRadius.all(Radius.circular(50)), // 也可控件一边圆角大小
                         ),
                         child: ClipOval(
-                          child: CircularProfileAvatar(
-                            '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
-                            radius: 15,
-                            // sets radius, default 50.0
-                            backgroundColor: Colors.transparent,
-                            // sets background color, default Colors.white
+                            child: CircularProfileAvatar(
+                          '', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
+                          radius: 15,
+                          // sets radius, default 50.0
+                          backgroundColor: Colors.transparent,
+                          // sets background color, default Colors.white
 //                            borderWidth: 10,  // sets border, default 0.0
-                            initialsText: Text(
-                              swapModels.data[index - 1].account.substring(swapModels.data[index - 1].account.length - 2, swapModels.data[index - 1].account.length).toUpperCase(),
-                              style: TextStyle(fontSize: 15, color: Colors.white),
-                            ),
-                            // sets initials text, set your own style, default Text('')
-                            borderColor: Color(0xFFE51363),
-                            // sets border color, default Colors.white
-                            elevation: 5.0,
-                            // sets elevation (shadow of the profile picture), default value is 0.0
-                            foregroundColor: Color(0xFFE51363).withOpacity(0.5),
-                            //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
-                            cacheImage: true,
-                            // allow widget to cache image against provided url
-                            onTap: () {
-                            },
-                            // sets on tap
-                            showInitialTextAbovePicture: true, // setting it true will show initials text above profile picture, default false
-                          )
-                        ),
+                          initialsText: Text(
+                            swapModels.data[index - 1].account.substring(swapModels.data[index - 1].account.length - 2, swapModels.data[index - 1].account.length).toUpperCase(),
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          // sets initials text, set your own style, default Text('')
+                          borderColor: Color(0xFFE51363),
+                          // sets border color, default Colors.white
+                          elevation: 5.0,
+                          // sets elevation (shadow of the profile picture), default value is 0.0
+                          foregroundColor: Color(0xFFE51363).withOpacity(0.5),
+                          //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
+                          cacheImage: true,
+                          // allow widget to cache image against provided url
+                          onTap: () {},
+                          // sets on tap
+                          showInitialTextAbovePicture: true, // setting it true will show initials text above profile picture, default false
+                        )),
                       ),
                     ),
                     Container(
@@ -296,7 +291,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].tokenCount + " "+S.of(context).swap_item_6,
+                              swapModels.data[index - 1].tokenCount + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -319,7 +314,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              S.of(context).swap_send_2+ " (AE)",
+                              S.of(context).swap_send_2 + " (AE)",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -331,7 +326,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].aeCount+ " "+S.of(context).swap_item_6,
+                              swapModels.data[index - 1].aeCount + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -381,7 +376,8 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   }
 
   void netBuy(int index) {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -414,17 +410,14 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                   }
                   // ignore: missing_return
                   BoxApp.contractSwapCancel((data) {
-
-
                     showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext dialogContext) {
-                        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                        return new AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                           title: Text(S.of(context).dialog_hint),
-                          content: Text( S.of(context).dialog_dismiss_sucess),
+                          content: Text(S.of(context).dialog_dismiss_sucess),
                           actions: <Widget>[
                             TextButton(
                               child: new Text(
@@ -434,7 +427,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                                 eventBus.fire(SwapEvent());
                                 swapModels.data.removeAt(index - 1);
                                 setState(() {});
-                                if(swapModels.data.length == 0){
+                                if (swapModels.data.length == 0) {
                                   loadingType = LoadingType.no_data;
                                   setState(() {});
                                 }
@@ -449,7 +442,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                   }, (error) {
                     showErrorDialog(context, error);
                     return;
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels.data[index-1].token);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels.data[index - 1].token);
                   showChainLoading();
                 },
               ),
@@ -459,7 +452,8 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -573,9 +567,8 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[

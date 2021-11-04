@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/user_model.dart';
-import 'package:box/page/create_mnemonic_copy_page.dart';
-import 'package:box/page/scan_page.dart';
-import 'package:box/page/set_password_page.dart';
+import 'package:box/page/general/create/create_mnemonic_copy_page.dart';
+import 'package:box/page/general/scan_page.dart';
+import 'package:box/page/general/set_password_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -15,23 +15,23 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../main.dart';
+import '../../../main.dart';
 
 typedef AccountLoginCallBackFuture = Future Function(String data);
 
-class AccountLoginPage extends StatefulWidget {
+class ImportAccountCommonPage extends StatefulWidget {
   final int type;
   final String mnemonic;
 
   final AccountLoginCallBackFuture accountLoginCallBackFuture;
 
-  const AccountLoginPage({Key key, this.type, this.accountLoginCallBackFuture, this.mnemonic}) : super(key: key);
+  const ImportAccountCommonPage({Key key, this.type, this.accountLoginCallBackFuture, this.mnemonic}) : super(key: key);
 
   @override
-  _AccountLoginPageState createState() => _AccountLoginPageState();
+  _ImportAccountCommonPageState createState() => _ImportAccountCommonPageState();
 }
 
-class _AccountLoginPageState extends State<AccountLoginPage> {
+class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -39,7 +39,7 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
     super.initState();
     // _textEditingController.text = "";
     if (BoxApp.isDev()) {
-      _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+      _textEditingController.text = "disease embody record seed fiscal jealous apology observe bachelor legend rough crop";
     }
 
     if (widget.mnemonic != null) {
@@ -354,93 +354,9 @@ class _AccountLoginPageState extends State<AccountLoginPage> {
           },
         ).then((val) {});
 
-        // showPlatformDialog(
-        //   context: context,
-        //   builder: (_) => BasicDialogAlert(
-        //     title: Text("Login Error"),
-        //     content: Text("mnemonic error"),
-        //     actions: <Widget>[
-        //       BasicDialogAction(
-        //         title: Text(
-        //           "Conform",
-        //           style: TextStyle(
-        //             color: Color(0xFFFC2365),
-        //             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-        //           ),
-        //         ),
-        //         onPressed: () {
-        //           Navigator.of(context, rootNavigator: true).pop();
-        //         },
-        //       ),
-        //     ],
-        //   ),
-        // );
       }
       return;
     }, mnemonic);
   }
 
-  Future<void> netLogin(BuildContext context, Function startLoading, Function stopLoading) async {
-    //隐藏键盘
-    startLoading();
-    FocusScope.of(context).requestFocus(FocusNode());
-    await Future.delayed(Duration(seconds: 1), () {
-      UserLoginDao.fetch(_textEditingController.text).then((UserModel model) {
-        if (!mounted) {
-          return;
-        }
-        stopLoading();
-        if (model.code == 200) {
-          showGeneralDialog(
-              useRootNavigator: false,
-              context: context,
-              pageBuilder: (context, anim1, anim2) {},
-              //barrierColor: Colors.grey.withOpacity(.4),
-              barrierDismissible: true,
-              barrierLabel: "",
-              transitionDuration: Duration(milliseconds: 0),
-              transitionBuilder: (context, anim1, anim2, child) {
-                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                return Transform(
-                    transform: Matrix4.translationValues(0.0, 0, 0.0),
-                    child: Opacity(
-                      opacity: anim1.value,
-                      // ignore: missing_return
-                      child: PayPasswordWidget(
-                          title: S.of(context).password_widget_input_password,
-                          passwordCallBackFuture: (String password) async {
-                            final key = Utils.generateMd5Int(password + model.data.address);
-                            var signingKeyAesEncode = Utils.aesEncode(model.data.signingKey, key);
-                            BoxApp.setSigningKey(signingKeyAesEncode);
-                            BoxApp.setAddress(model.data.address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/home", ModalRoute.withName("/home"));
-                          }),
-                    ));
-              });
-        } else {
-          showDialog<bool>(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext dialogContext) {
-              return new AlertDialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: new Text('Login Error'),
-                actions: <Widget>[
-                  TextButton(
-                    child: new Text('确定'),
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop(true);
-                    },
-                  ),
-                ],
-              );
-            },
-          ).then((val) {});
-        }
-      }).catchError((e) {
-        stopLoading();
-        EasyLoading.showToast('网络错误: ' + e.toString(), duration: Duration(seconds: 2));
-      });
-    });
-  }
 }

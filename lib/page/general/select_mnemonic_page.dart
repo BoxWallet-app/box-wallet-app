@@ -20,6 +20,7 @@ class SelectMnemonicPage extends StatefulWidget {
   final String password;
   final Coin coin;
   final SelectMnemonicCallBackFuture selectMnemonicCallBackFuture;
+
   const SelectMnemonicPage({Key key, this.password, this.coin, this.selectMnemonicCallBackFuture}) : super(key: key);
 
   @override
@@ -36,45 +37,43 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
     // TODO: implement initState
     super.initState();
 
-
-
     WalletCoinsManager.instance.getCoins().then((walletCoinsModel) async {
       mnemonics.clear();
       for (var i = 0; i < walletCoinsModel.coins.length; i++) {
-        if(widget.coin.name == walletCoinsModel.coins[i].name){
+        if (widget.coin.name == walletCoinsModel.coins[i].name) {
           continue;
         }
 
         for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
-          var address =walletCoinsModel.coins[i].accounts[j].address;
+          var address = walletCoinsModel.coins[i].accounts[j].address;
 
           var prefs = await SharedPreferences.getInstance();
           var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
-          final key = Utils.generateMd5Int(widget.password +  address);
+          final key = Utils.generateMd5Int(widget.password + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
-
-          mnemonics.add(mnemonicAesEncode);
+          if (mnemonicAesEncode != null && mnemonicAesEncode !="") mnemonics.add(mnemonicAesEncode);
         }
       }
+      var prefs = await SharedPreferences.getInstance();
+
+      List<String> result = [];
+      result = mnemonics.sublist(0);
       mnemonics.forEach((element) async {
         for (var j = 0; j < widget.coin.accounts.length; j++) {
-          var address =widget.coin.accounts[j].address;
-
-          var prefs = await SharedPreferences.getInstance();
+          var address = widget.coin.accounts[j].address;
           var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
-          final key = Utils.generateMd5Int(widget.password +  address);
+          final key = Utils.generateMd5Int(widget.password + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
-          if(mnemonicAesEncode == element){
-            mnemonics.remove(element);
+          if (mnemonicAesEncode == element) {
+            print("delete:"+mnemonicAesEncode);
+            result.remove(element);
           }
         }
       });
-
-      setState(() {
-
-      });
+      mnemonics = result;
+      setState(() {});
     });
   }
 
@@ -82,12 +81,12 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle:true,
+        centerTitle: true,
         backgroundColor: Color(0xFFfafbfc),
         elevation: 0,
         // 隐藏阴影
         title: Text(
-       S.of(context).SelectMnemonicPage_title,
+          S.of(context).SelectMnemonicPage_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -137,7 +136,6 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
   }
 
   Widget itemListView(BuildContext context, int index) {
-
     if (index == 0) {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
@@ -152,28 +150,25 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
       );
     }
     index = index - 1;
-    print(mnemonics[index]);
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        color:  Color(0xFFedf3f7),
+        color: Color(0xFFedf3f7),
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             Navigator.of(context).pop();
-            if(widget.selectMnemonicCallBackFuture!=null) {
+            if (widget.selectMnemonicCallBackFuture != null) {
               widget.selectMnemonicCallBackFuture(mnemonics[index]);
             }
-
           },
           child: Container(
-
             child: Row(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width - 36,
-                  decoration: BoxDecoration( border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                  decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -186,9 +181,9 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
                             Expanded(
                               child: Container(
-                                padding: const EdgeInsets.only(top: 10,bottom: 15,right: 10,left: 10),
+                                padding: const EdgeInsets.only(top: 10, bottom: 15, right: 10, left: 10),
                                 child: Text(
-                                  getMnemonicContent(mnemonics[index],index),
+                                  getMnemonicContent(mnemonics[index], index),
                                   style: new TextStyle(
                                     fontSize: 20,
                                     height: 1.5,
@@ -199,7 +194,6 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -214,9 +208,8 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
     );
   }
 
-  String getMnemonicContent(String mnemonic ,int index) {
+  String getMnemonicContent(String mnemonic, int index) {
     var list = mnemonic.split(" ");
-    return list[0]+ " "+list[1]+" "+list[2]+ " "+list[3]+ " * * * * "+list[list.length-4]+ " "+list[list.length-3]+list[list.length-2]+list[list.length-1];
+    return list[0] + " " + list[1] + " " + list[2] + " " + list[3] + " * * * * " + list[list.length - 4] + " " + list[list.length - 3] + list[list.length - 2] + list[list.length - 1];
   }
-
 }

@@ -4,11 +4,14 @@ import 'dart:ui';
 import 'package:box/dao/aeternity/banner_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/banner_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_dapp_list_model.dart';
 import 'package:box/page/confux/cfx_nft_page.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
+import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -386,7 +389,38 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                     color: Colors.white,
                     child: InkWell(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      onTap: () {
+                      onTap: () async {
+
+                        var currentAccount =await WalletCoinsManager.instance.getCurrentAccount();
+                        if(currentAccount.accountType == AccountType.ADDRESS){
+                          showGeneralDialog(
+                              useRootNavigator: false,
+                              context: context,
+                              pageBuilder: (context, anim1, anim2) {
+                                return;
+                              },
+                              //barrierColor: Colors.grey.withOpacity(.4),
+                              barrierDismissible: true,
+                              barrierLabel: "",
+                              transitionDuration: Duration(milliseconds: 0),
+                              transitionBuilder: (context, anim1, anim2, child) {
+                                final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                return Transform(
+                                    transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                    child: Opacity(
+                                      opacity: anim1.value,
+                                      // ignore: missing_return
+                                      child: PayPasswordWidget(
+                                          title: S.of(context).password_widget_input_password,
+                                          passwordCallBackFuture: (String password) async {
+
+                                            return;
+                                          }),
+                                    ));
+                              });
+                          return;
+                        }
+
                         if (Platform.isIOS) {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAppsPage()));
                         } else {

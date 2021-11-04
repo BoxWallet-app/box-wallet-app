@@ -1,12 +1,13 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 typedef SelectChainPageCallBackFuture = Future Function(ChainsModel);
 
@@ -296,7 +297,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                           var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
                           // walletCoinModel.ae.add(account);
-                          WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
+                          WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, true).then((value) {
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setMnemonic(mnemonicAesEncode);
                             BoxApp.setAddress(address);
@@ -337,7 +338,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                           var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
 
                           // walletCoinModel.ae.add(account);
-                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode, true).then((value) {
+                          WalletCoinsManager.instance.addAccount("CFX", "conflux", address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, true).then((value) {
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setMnemonic(mnemonicAesEncode);
                             BoxApp.setAddress(address);

@@ -243,7 +243,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   Widget getQrView(BoxConstraints constraints) {
     // 延时1s执行返回
     Future.delayed(Duration(milliseconds: 500), (){
-
+if(!mounted)return;
       setState(() {
         isWait = true;
       });

@@ -50,9 +50,19 @@ class Coin {
   }
 }
 
+class AccountType {
+  static const int MNEMONIC = 0;
+  static const int PRIVATE_KEY = 1;
+  static const int ADDRESS = 2;
+  static const int OFFLINE = 3;
+}
+
 class Account {
   String address;
   String name;
+
+  //0 mnemonic ,1 privateKey 3,address ,4 offline
+  int accountType = 0;
   bool isSelect;
   String coin;
 
@@ -63,6 +73,10 @@ class Account {
     isSelect = json['isSelect'];
     coin = json['coin'];
     name = json['name'];
+    accountType = json['accountType'];
+    if(accountType==null){
+      accountType = AccountType.MNEMONIC;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +85,7 @@ class Account {
     data['isSelect'] = this.isSelect;
     data['coin'] = this.coin;
     data['name'] = this.name;
+    data['accountType'] = this.accountType;
     return data;
   }
 }

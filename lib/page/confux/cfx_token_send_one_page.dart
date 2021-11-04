@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:box/generated/l10n.dart';
-import 'package:box/page/scan_page.dart';
+import 'package:box/page/general/scan_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

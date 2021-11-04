@@ -7,7 +7,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
-import 'package:box/page/set_password_page.dart';
+import 'package:box/page/general/set_password_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +141,7 @@ class _AccountRegisterPageState extends State<CreateMnemonicConfirmPage> {
                             }
 
                           } else {
-                            eventBus.fire(AddAccount());
+                            eventBus.fire(AddNewAccount());
                             Navigator.pop(context);
                           }
 

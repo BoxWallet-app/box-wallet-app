@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../main.dart';
+import '../../../main.dart';
 import 'create_mnemonic_confirm_page.dart';
 
 // ignore: must_be_immutable
