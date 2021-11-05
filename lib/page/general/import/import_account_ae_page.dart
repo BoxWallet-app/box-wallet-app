@@ -55,7 +55,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            "导入" + widget.fullName + "账户",
+            S.of(context).ImportAccountPage_title1+" " + widget.fullName + S.of(context).ImportAccountPage_title2,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -135,10 +135,10 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       },
                       tabs: [
                         Tab(
-                          text: "助记词",
+                          text:  S.of(context).ImportAccountPage_group1,
                         ),
                         Tab(
-                          text: "地址",
+                          text:  S.of(context).ImportAccountPage_group3,
                         ),
                       ],
                       labelColor: Colors.black,
@@ -222,7 +222,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                                       _textEditingController.value = TextEditingValue(text: data.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text.length)));
                                     },
                                     child: Text(
-                                      "粘贴",
+                                      S.of(context).ImportAccountPage_copy,
                                       style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFC2365)),
                                     ),
                                     color: Color(0xFFFC2365).withAlpha(16),
@@ -610,9 +610,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
   String getTitleContent() {
     switch (tabIndex) {
       case 0:
-        return "通常是12个（有时是24个）用单个空格分开的单词";
+        return      S.of(context).ImportAccountPage_group1_content;
       case 1:
-        return '你可以"观察"任意公开地址而无需泄漏你的私钥，这可以让你查看余额和交易，但不能发送';
+        return      S.of(context).ImportAccountPage_group3_content;
     }
     return "";
   }

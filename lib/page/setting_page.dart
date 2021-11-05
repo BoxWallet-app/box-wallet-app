@@ -87,7 +87,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 //              color: Colors.white,
                 height: 12,
               ),
-              if (account != null && account.accountType == AccountType.MNEMONIC)
+              if (account != null && (account.accountType == AccountType.MNEMONIC|| account.accountType == AccountType.PRIVATE_KEY))
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: Material(
@@ -116,12 +116,14 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                     dismissCallBackFuture: (String password) {},
                                     passwordCallBackFuture: (String password) async {
                                       var mnemonic = await BoxApp.getMnemonic();
+                                      var signingKey = await BoxApp.getSigningKey();
 
                                       var address = await BoxApp.getAddress();
                                       final key = Utils.generateMd5Int(password + address);
                                       var aesDecode = Utils.aesDecode(mnemonic, key);
+                                      var signingKeyDecode = Utils.aesDecode(signingKey, key);
 
-                                      if (aesDecode == "") {
+                                      if (signingKeyDecode == "") {
                                         showDialog<bool>(
                                           context: context,
                                           barrierDismissible: false,
@@ -148,9 +150,9 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                         return;
                                       }
                                       if (Platform.isIOS) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode,privateKey: signingKeyDecode,)));
                                       } else {
-                                        Navigator.push(context, SlideRoute(LookMnemonicPage(mnemonic: aesDecode)));
+                                        Navigator.push(context, SlideRoute(LookMnemonicPage(mnemonic: aesDecode,privateKey: signingKeyDecode,)));
                                       }
                                     },
                                   ),

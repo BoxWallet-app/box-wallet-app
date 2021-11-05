@@ -49,7 +49,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          S.of(context).select_chain_page_select_chain,
+          S.of(context).ImportChainSelectPage_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -104,7 +104,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
         child: Text(
-          "通用导入",
+         S.of(context).ImportChainSelectPage_group1,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black.withAlpha(180),
@@ -170,7 +170,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
                               Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  "多币种钱包",
+                                  S.of(context).ImportChainSelectPage_group1_content,
                                   style: new TextStyle(
                                     fontSize: 20,
                                     color: Color(0xff333333),
@@ -218,7 +218,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
         child: Text(
-          "单独添加",
+          S.of(context).ImportChainSelectPage_group2,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black.withAlpha(180),

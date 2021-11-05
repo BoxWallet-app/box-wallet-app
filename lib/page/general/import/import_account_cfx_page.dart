@@ -53,7 +53,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            "导入" + widget.coinName + "账户",
+            S.of(context).ImportAccountPage_title1 + " " + widget.fullName + S.of(context).ImportAccountPage_title2,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -79,7 +79,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                   if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
                     var data;
                     if (Platform.isIOS) {
-                      data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                      data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
                     } else {
                       data = await Navigator.push(context, SlideRoute(ScanPage()));
                     }
@@ -134,13 +134,13 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                       },
                       tabs: [
                         Tab(
-                          text: "助记词",
+                          text: S.of(context).ImportAccountPage_group1,
                         ),
                         Tab(
-                          text: "私钥",
+                          text: S.of(context).ImportAccountPage_group2,
                         ),
                         Tab(
-                          text: "地址",
+                          text: S.of(context).ImportAccountPage_group3,
                         ),
                       ],
                       labelColor: Colors.black,
@@ -224,7 +224,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                                       _textEditingController.value = TextEditingValue(text: data.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text.length)));
                                     },
                                     child: Text(
-                                      "粘贴",
+                                      S.of(context).ImportAccountPage_copy,
                                       style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFC2365)),
                                     ),
                                     color: Color(0xFFFC2365).withAlpha(16),
@@ -398,11 +398,11 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SetPasswordPage(
-                      setPasswordPageCallBackFuture: (password) async {
-                        await createPrivateKeyAccount(password, privateKey);
-                        return;
-                      },
-                    )));
+                          setPasswordPageCallBackFuture: (password) async {
+                            await createPrivateKeyAccount(password, privateKey);
+                            return;
+                          },
+                        )));
           } else {
             Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
@@ -410,12 +410,10 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                 return;
               },
             )));
-
           }
         } else {
           await createPrivateKeyAccount(widget.password, privateKey);
         }
-
       }
     }, privateKey);
   }
@@ -453,18 +451,17 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
           },
         ).then((val) {});
       } else {
-
-        if(widget.password.isEmpty){
+        if (widget.password.isEmpty) {
           if (Platform.isIOS) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => SetPasswordPage(
-                      setPasswordPageCallBackFuture: (password) async {
-                        await createAddressAccount(password, address);
-                        return;
-                      },
-                    )));
+                          setPasswordPageCallBackFuture: (password) async {
+                            await createAddressAccount(password, address);
+                            return;
+                          },
+                        )));
           } else {
             Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
@@ -473,10 +470,9 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
               },
             )));
           }
-        }else{
+        } else {
           await createAddressAccount(widget.password, address);
         }
-
       }
     }, address);
   }
@@ -577,7 +573,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
 
   Future<bool> checkAccount(String address) async {
     var walletCoinModel = await WalletCoinsManager.instance.getCoins();
-    if(walletCoinModel.coins == null){
+    if (walletCoinModel.coins == null) {
       return true;
     }
     bool isExist = false;
@@ -668,11 +664,11 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
   String getTitleContent() {
     switch (tabIndex) {
       case 0:
-        return "通常是12个（有时是24个）用单个空格分开的单词";
+        return S.of(context).ImportAccountPage_group1_content;
       case 1:
-        return "通常为64个字母或数字字符";
+        return S.of(context).ImportAccountPage_group2_content;
       case 2:
-        return '你可以"观察"任意公开地址而无需泄漏你的私钥，这可以让你查看余额和交易，但不能发送';
+        return S.of(context).ImportAccountPage_group3_content;
     }
     return "";
   }

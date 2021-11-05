@@ -564,7 +564,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                           },
                           passwordCallBackFuture: (String password) async {
                             var mnemonic = await BoxApp.getMnemonic();
-                            print(mnemonic);
                             if (mnemonic == "") {
                               showDialog<bool>(
                                 context: context,

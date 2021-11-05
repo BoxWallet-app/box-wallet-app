@@ -69,9 +69,92 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 
             return  Material(
               color: Color(0x00000000).withAlpha(100),
-              child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 40,
+                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      decoration: ShapeDecoration(
+                        color: Color(0xffffffff),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width - 40,
+                            alignment: Alignment.topLeft,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.all(Radius.circular(60)),
+                                onTap: () {
+                                  // ignore: unnecessary_statements
+                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                                  Navigator.of(context).pop(); //关闭对话框
+                                },
+                                child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(left: 20, right: 20),
+                            child: Text(
+                              S.of(context).PayPasswordWidget_account_look_msg,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            margin: const EdgeInsets.only(top: 30, bottom: 20),
+                            child: Container(
+                              height: 40,
+                              width: 120,
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); //关闭对话框
+                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+
+                                },
+                                child: Text(
+                                  S.of(context).password_widget_conform,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                ),
+                                color: Color(0xFFFC2365),
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                              ),
+                            ),
+                          ),
+//          Text(text),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        return Material(
+          color: Color(0x00000000).withAlpha(100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
                 child: Container(
-                  height: 180,
+                  height: 260,
                   width: MediaQuery.of(context).size.width - 40,
                   margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                   decoration: ShapeDecoration(
@@ -104,7 +187,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: Text(
-                          "当前为观察账户，无法访问该功能",
+                          widget.title,
                           style: TextStyle(
                             fontSize: 18,
                             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -113,6 +196,54 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                       ),
 
                       Container(
+                        height: 45,
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                        //边框设置
+                        decoration: new BoxDecoration(
+                          color: Color(0xFFedf3f7),
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        child: TextField(
+                          controller: _textEditingController,
+                          focusNode: _commentFocus,
+                          inputFormatters: [
+                          ],
+                          obscureText:true,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            color: Colors.black,
+                          ),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10.0),
+                            enabledBorder: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                color: Color(0xFFeeeeee),
+                              ),
+                            ),
+                            focusedBorder: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(color: Color(0xFFFC2365)),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            hintText: "",
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black.withAlpha(180),
+                            ),
+                          ),
+                          cursorColor: Color(0xFFFC2365),
+                          cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                        ),
+                      ),
+                      Container(
                         margin: const EdgeInsets.only(top: 30, bottom: 20),
                         child: Container(
                           height: 40,
@@ -120,7 +251,11 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                           child: FlatButton(
                             onPressed: () {
                               Navigator.of(context).pop(); //关闭对话框
-                              if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                              if(widget.isSignOld){
+                                widget.passwordCallBackFuture(_textEditingController.text);
+                              }else{
+                                widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
+                              }
 
                             },
                             child: Text(
@@ -139,131 +274,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                   ),
                 ),
               ),
-            );
-          }
-        return Material(
-          color: Color(0x00000000).withAlpha(100),
-          child: Center(
-            child: Container(
-              height: 260,
-              width: MediaQuery.of(context).size.width - 40,
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              decoration: ShapeDecoration(
-                color: Color(0xffffffff),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width - 40,
-                    alignment: Alignment.topLeft,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(60)),
-                        onTap: () {
-                          // ignore: unnecessary_statements
-                          if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
-                          Navigator.of(context).pop(); //关闭对话框
-                        },
-                        child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Text(
-                      widget.title,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    height: 45,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-//                      padding: EdgeInsets.only(left: 10, right: 10),
-                    //边框设置
-                    decoration: new BoxDecoration(
-                      color: Color(0xFFedf3f7),
-                      //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                    ),
-                    child: TextField(
-                      controller: _textEditingController,
-                      focusNode: _commentFocus,
-                      inputFormatters: [
-                      ],
-                      obscureText:true,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                        color: Colors.black,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10.0),
-                        enabledBorder: new OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: Color(0xFFeeeeee),
-                          ),
-                        ),
-                        focusedBorder: new OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(color: Color(0xFFFC2365)),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        hintText: "",
-                        hintStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black.withAlpha(180),
-                        ),
-                      ),
-                      cursorColor: Color(0xFFFC2365),
-                      cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 20),
-                    child: Container(
-                      height: 40,
-                      width: 120,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(); //关闭对话框
-                          if(widget.isSignOld){
-                            widget.passwordCallBackFuture(_textEditingController.text);
-                          }else{
-                            widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
-                          }
-
-                        },
-                        child: Text(
-                          S.of(context).password_widget_conform,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
-                        ),
-                        color: Color(0xFFFC2365),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      ),
-                    ),
-                  ),
-//          Text(text),
-                ],
-              ),
-            ),
+            ],
           ),
         );
       }

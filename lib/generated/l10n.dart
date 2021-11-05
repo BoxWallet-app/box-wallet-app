@@ -3494,6 +3494,196 @@ class S {
       args: [],
     );
   }
+
+  /// `Restore Wallet`
+  String get ImportChainSelectPage_title {
+    return Intl.message(
+      'Restore Wallet',
+      name: 'ImportChainSelectPage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General Import`
+  String get ImportChainSelectPage_group1 {
+    return Intl.message(
+      'General Import',
+      name: 'ImportChainSelectPage_group1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Multi-currency`
+  String get ImportChainSelectPage_group1_content {
+    return Intl.message(
+      'Multi-currency',
+      name: 'ImportChainSelectPage_group1_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Separately`
+  String get ImportChainSelectPage_group2 {
+    return Intl.message(
+      'Add Separately',
+      name: 'ImportChainSelectPage_group2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import`
+  String get ImportAccountPage_title1 {
+    return Intl.message(
+      'Import',
+      name: 'ImportAccountPage_title1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get ImportAccountPage_title2 {
+    return Intl.message(
+      'Account',
+      name: 'ImportAccountPage_title2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mnemonic`
+  String get ImportAccountPage_group1 {
+    return Intl.message(
+      'Mnemonic',
+      name: 'ImportAccountPage_group1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PrivateKey`
+  String get ImportAccountPage_group2 {
+    return Intl.message(
+      'PrivateKey',
+      name: 'ImportAccountPage_group2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get ImportAccountPage_group3 {
+    return Intl.message(
+      'Address',
+      name: 'ImportAccountPage_group3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paste`
+  String get ImportAccountPage_copy {
+    return Intl.message(
+      'Paste',
+      name: 'ImportAccountPage_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usually 12 (sometimes 24) words separated by a single space`
+  String get ImportAccountPage_group1_content {
+    return Intl.message(
+      'Usually 12 (sometimes 24) words separated by a single space',
+      name: 'ImportAccountPage_group1_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usually 64 alphanumeric characters`
+  String get ImportAccountPage_group2_content {
+    return Intl.message(
+      'Usually 64 alphanumeric characters',
+      name: 'ImportAccountPage_group2_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You  any public address without revealing your PrivateKey. This allows you to check your balance and transactions, but not send`
+  String get ImportAccountPage_group3_content {
+    return Intl.message(
+      'You  any public address without revealing your PrivateKey. This allows you to check your balance and transactions, but not send',
+      name: 'ImportAccountPage_group3_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mnemonic Account`
+  String get WalletSelectPage_account_type1 {
+    return Intl.message(
+      'Mnemonic Account',
+      name: 'WalletSelectPage_account_type1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private Key Account`
+  String get WalletSelectPage_account_type2 {
+    return Intl.message(
+      'Private Key Account',
+      name: 'WalletSelectPage_account_type2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch Account`
+  String get WalletSelectPage_account_type3 {
+    return Intl.message(
+      'Watch Account',
+      name: 'WalletSelectPage_account_type3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It is currently an observation account and cannot access this function`
+  String get PayPasswordWidget_account_look_msg {
+    return Intl.message(
+      'It is currently an observation account and cannot access this function',
+      name: 'PayPasswordWidget_account_look_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mnemonic`
+  String get LookMnemonicPage_group1 {
+    return Intl.message(
+      'Mnemonic',
+      name: 'LookMnemonicPage_group1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PrivateKey`
+  String get LookMnemonicPage_group2 {
+    return Intl.message(
+      'PrivateKey',
+      name: 'LookMnemonicPage_group2',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

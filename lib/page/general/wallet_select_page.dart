@@ -417,7 +417,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
       return Container(
         height: 50,
-        margin: EdgeInsets.only(left: 15, right: 15),
+        margin: EdgeInsets.only(left: 15, right: 15,bottom:  MediaQuery.of(context).padding.bottom+20),
         alignment: Alignment.center,
         child: Material(
           color: Colors.transparent,
@@ -749,14 +749,15 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
   String getAccount(int accountType) {
     if (accountType == AccountType.ADDRESS) {
-      return "观察账户";
+      return S.of(context).WalletSelectPage_account_type3;
     }
     if (accountType == AccountType.MNEMONIC) {
-      return "助记词账户";
+      return S.of(context).WalletSelectPage_account_type1;
     }
     if (accountType == AccountType.PRIVATE_KEY) {
-      return "私钥账户";
+      return S.of(context).WalletSelectPage_account_type2;
     }
+    return "";
   }
 
   String getAccountName(int index, BuildContext context) {
