@@ -34,7 +34,6 @@ class CfxHomePage extends StatefulWidget {
   static var height = 0;
   static var address = "";
 
-
   @override
   _CfxHomePageState createState() => _CfxHomePageState();
 }
@@ -78,32 +77,32 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
       setState(() {});
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   void netCfxTransfer() {
     CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
       cfxTransfer = model;
       setState(() {});
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
-  getDomainName(String address) {
-   BoxApp.getAddressToNameCFX((name) {
-     if("ERROR"!=name){
-       domain = name;
-       setState(() {});
-     }
 
-     return;
-   }, address);
+  getDomainName(String address) {
+    BoxApp.getAddressToNameCFX((name) {
+      if ("ERROR" != name) {
+        domain = name;
+        setState(() {});
+      }
+
+      return;
+    }, address);
   }
+
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       CfxHomePage.address = account.address;
       getDomainName(CfxHomePage.address);
-      setState(() {});
+      if (!mounted) setState(() {});
     });
   }
 
@@ -196,7 +195,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                       blurRadius: 50.0,
                                       //阴影模糊程度
                                       spreadRadius: 0.1 //阴影扩散程度
-                                  )
+                                      )
                                 ],
                               ),
                             ),
@@ -206,7 +205,6 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                         // mainAxisAlignment: MainAxisAlignment.center,
                         // crossAxisAlignment:  CrossAxisAlignment.center,
                       ),
-
                     ),
                   ),
                   Positioned(
@@ -263,14 +261,14 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                 priceModel == null
                                                     ? Container()
                                                     : Container(
-                                                  margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
-                                                  child: Text(
+                                                        margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
+                                                        child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                    getAePrice(),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                                  ),
-                                                ),
+                                                          getAePrice(),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                        ),
+                                                      ),
 
 //                            buildTypewriterAnimatedTextKit(),
 
@@ -304,8 +302,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                   CfxHomePage.tokenABC == "loading..."
                                                       ? "loading..."
                                                       : double.parse(CfxHomePage.tokenABC) > 1000
-                                                      ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
-                                                      : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
+                                                          ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
+                                                          : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -456,8 +454,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                   CfxHomePage.token == "loading..."
                                                       ? "loading..."
                                                       : double.parse(CfxHomePage.token) > 1000
-                                                      ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
-                                                      : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",
+                                                          ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
+                                                          : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -519,8 +517,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                   fontFamily: BoxApp.language == "cn"
                                       ? "Ubuntu"
                                       : BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : "Ubuntu",
+                                          ? "Ubuntu"
+                                          : "Ubuntu",
                                 ),
                               ),
                             ),
@@ -546,9 +544,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                           if (Platform.isIOS) {
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                                            Navigator.push(context, SlideRoute(CfxTokenSendOnePage()));
                                           }
-
                                         },
                                         child: Container(
                                           height: 90,
@@ -609,9 +606,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                           if (Platform.isIOS) {
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
+                                            Navigator.push(context, SlideRoute(CfxTokenReceivePage()));
                                           }
-
                                         },
                                         child: Container(
                                           height: 90,
@@ -668,11 +664,10 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
                                     if (Platform.isIOS) {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>CfxTokenListPage()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
                                     } else {
-                                      Navigator.push(context, SlideRoute( CfxTokenListPage()));
+                                      Navigator.push(context, SlideRoute(CfxTokenListPage()));
                                     }
-
                                   },
                                   child: Container(
                                     height: 90,
@@ -728,16 +723,13 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                 ),
                               ),
                             ),
-
                             getRecordContainer(context),
-
                           ],
                         ),
 
                         // mainAxisAlignment: MainAxisAlignment.center,
                         // crossAxisAlignment:  CrossAxisAlignment.center,
                       ),
-
                     ),
                   ),
                 ],
@@ -776,9 +768,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           splashColor: Colors.white,
           onTap: () {
             if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>  CfxRecordsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
             } else {
-              Navigator.push(context, SlideRoute( CfxRecordsPage()));
+              Navigator.push(context, SlideRoute(CfxRecordsPage()));
             }
           },
           child: Column(
@@ -833,7 +825,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (cfxTransfer != null&& cfxTransfer.list.length>0)
+              if (cfxTransfer != null && cfxTransfer.list.length > 0)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -847,7 +839,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                 padding: EdgeInsets.only(bottom: 10),
                 child: Column(
                   children: [
-                    if (cfxTransfer == null )
+                    if (cfxTransfer == null)
                       Container(
                         height: 150,
                         child: new Center(
@@ -910,11 +902,10 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
             if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>CfxRecordsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
             } else {
-              Navigator.push(context, SlideRoute( CfxRecordsPage()));
+              Navigator.push(context, SlideRoute(CfxRecordsPage()));
             }
-
           },
           child: Column(
             children: [
@@ -1048,9 +1039,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           if (Platform.isIOS) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
           } else {
-            Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
           }
-
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

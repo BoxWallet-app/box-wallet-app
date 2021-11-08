@@ -3684,6 +3684,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Add Tokens`
+  String get CfxTokenAddPage_title {
+    return Intl.message(
+      'Add Tokens',
+      name: 'CfxTokenAddPage_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

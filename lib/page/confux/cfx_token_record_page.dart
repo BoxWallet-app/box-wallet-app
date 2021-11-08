@@ -174,7 +174,19 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
                                   child: ClipOval(
-                                    child: getIconImage(widget.coinImage, widget.coinName),
+                                    child: Image.network(
+                                      widget.coinImage,
+                                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                        if (wasSynchronouslyLoaded) return child;
+
+                                        return AnimatedOpacity(
+                                          child: child,
+                                          opacity: frame == null ? 0 : 1,
+                                          duration: const Duration(seconds: 2),
+                                          curve: Curves.easeOut,
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -273,68 +285,6 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
     );
   }
 
-  Widget getIconImage(String data, String name) {
-
-    if(data == null){
-      return Container(
-        width: 27.0,
-        height: 27.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(36.0),
-          image: DecorationImage(
-            image: AssetImage("images/" + "CFX"+ ".png"),
-          ),
-        ),
-      );
-    }
-    if (name == "FC") {
-      return Container(
-        width: 27.0,
-        height: 27.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(36.0),
-          image: DecorationImage(
-            image: AssetImage("images/" + name + ".png"),
-          ),
-        ),
-      );
-    }
-    String icon = data.split(',')[1]; //
-    if (data.contains("data:image/png")) {
-      Uint8List bytes = Base64Decoder().convert(icon);
-      return Image.memory(bytes, fit: BoxFit.contain);
-    }
-
-    if (data.contains("data:image/svg")) {
-      Uint8List bytes = Base64Decoder().convert(icon);
-
-      return SvgPicture.memory(
-        bytes,
-        semanticsLabel: 'A shark?!',
-        placeholderBuilder: (BuildContext context) => Container(padding: const EdgeInsets.all(30.0), child: const CircularProgressIndicator()),
-      );
-    }
-
-    return Container(
-      width: 27.0,
-      height: 27.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(36.0),
-        image: DecorationImage(
-          image: AssetImage("images/" + "CFX" + ".png"),
-        ),
-      ),
-    );
-  }
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {

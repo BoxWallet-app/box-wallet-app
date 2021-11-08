@@ -1,6 +1,6 @@
 //域名
-// const BASE_HOST = 'http://192.168.0.190:7070';
-// const BASE_HOST = 'http://10.53.5.111:7070';
+// const BASE_HOST = 'http://192.168.1.250:7070';
+// const BASE_HOST = 'http://10.53.5.50:7070';
 
 const BASE_HOST = 'https://aebox.io';
 // const BASE_HOST = 'http://localhost:7070';
@@ -133,7 +133,8 @@ const WE_TRUE_URL = 'https://api.wetrue.io';
 //Cfx
 const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
 const CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
-const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens';
+const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens/list';
+const CFX_TOKENS_ADDRESS = BASE_HOST + '/cfx/api/tokens/by-address';
 const CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
 const CFX_CRC20_TRANSACTION_HASH = BASE_HOST + '/cfx/api/crc20/transaction';
 

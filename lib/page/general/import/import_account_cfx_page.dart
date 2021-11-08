@@ -70,37 +70,31 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
             onPressed: () => Navigator.pop(context),
           ),
           actions: <Widget>[
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                onTap: () async {
-                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-                    var data;
-                    if (Platform.isIOS) {
-                      data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                    } else {
-                      data = await Navigator.push(context, SlideRoute(ScanPage()));
-                    }
-
-                    inputPassword(data, true);
-                  } else {
-                    EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: new Icon(
-                    Icons.photo_camera,
-                    size: 20,
-                    color: Color(0xFF666666),
-                  ),
-                ),
+            IconButton(
+              splashRadius:40,
+              icon: Icon(
+                Icons.add_a_photo_outlined,
+                color: Color(0xFF000000),
+                size: 22,
               ),
+              onPressed: () async {
+                Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+                if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+                  var data;
+                  if (Platform.isIOS) {
+                    data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                  } else {
+                    data = await Navigator.push(context, SlideRoute(ScanPage()));
+                  }
+
+                  inputPassword(data, true);
+                } else {
+                  EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
+                }
+              },
             ),
           ],
+
         ),
         body: Container(
           child: SingleChildScrollView(

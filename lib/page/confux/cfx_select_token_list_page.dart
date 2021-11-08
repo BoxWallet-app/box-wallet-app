@@ -5,6 +5,8 @@ import 'dart:ui';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/ct_token_manager.dart';
+import 'package:box/model/aeternity/ct_token_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
 import 'package:box/utils/utils.dart';
@@ -14,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import 'cfx_home_page.dart';
@@ -32,62 +35,45 @@ class CfxSelectTokenListPage extends StatefulWidget {
 
 class _TokenListPathState extends State<CfxSelectTokenListPage> {
   var loadingType = LoadingType.loading;
-  CfxTokensListModel tokenListModel;
-  PriceModel priceModel;
-  PriceModel priceModelCfx;
+  List<Tokens> cfxCtTokens = [];
 
   Future<void> _onRefresh() async {
-    CfxTokenListDao.fetch().then((CfxTokensListModel model) {
+    var address = await BoxApp.getAddress();
+    cfxCtTokens = await CtTokenManager.instance.getCfxCtTokens(address);
+    if (cfxCtTokens.length == 0) {
+      loadingType = LoadingType.no_data;
+      setState(() {});
+      return;
+    }
+    loadingType = LoadingType.finish;
+    setState(() {});
+    getBalance(address);
+  }
 
-      model.list.sort((t1, t2) {
-        if(t2.price == null || t1.price == null){
-          return 0;
-        }
-        return (double.parse(t2.price)*double.parse(t2.balance)).compareTo((double.parse(t1.price)*double.parse(t1.balance)));
-      });
-      tokenListModel = model;
-      if (tokenListModel.total == 0) {
-        loadingType = LoadingType.no_data;
-        setState(() {});
-        return;
+  void getBalance(String address) {
+    bool isReturn = true;
+    Tokens token;
+
+    for (int i = 0; i < cfxCtTokens.length; i++) {
+      if (cfxCtTokens[i].balance == null) {
+        isReturn = false;
+        token = cfxCtTokens[i];
+        break;
       }
-      loadingType = LoadingType.finish;
-      setState(() {});
-    }).catchError((e) {
-      loadingType = LoadingType.error;
-      setState(() {});
-    });
+    }
+
+    if (isReturn) return;
+    if (token.balance == null) {
+      BoxApp.getErcBalanceCFX((balance) async {
+        token.balance = double.parse(balance).toStringAsFixed(2);
+
+        setState(() {});
+        getBalance(address);
+        return;
+      }, address, token.ctId);
+    }
   }
 
-  void netBaseData() {
-    var type = "usd";
-    if (BoxApp.language == "cn") {
-      type = "cny";
-    } else {
-      type = "usd";
-    }
-    PriceDao.fetch("tether", type).then((PriceModel model) {
-      priceModel = model;
-      setState(() {});
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
-
-  void netCfxBaseData() {
-    var type = "usd";
-    if (BoxApp.language == "cn") {
-      type = "cny";
-    } else {
-      type = "usd";
-    }
-    PriceDao.fetch("conflux-token", type).then((PriceModel model) {
-      priceModelCfx = model;
-      setState(() {});
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
 
   @override
   void initState() {
@@ -96,8 +82,6 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
-    netBaseData();
-    netCfxBaseData();
   }
 
   @override
@@ -193,7 +177,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                       onRefresh: _onRefresh,
                       child: ListView.builder(
                         padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                        itemCount: tokenListModel == null ? 0 : tokenListModel.total+1,
+                        itemCount: cfxCtTokens.length+1,
                         itemBuilder: (BuildContext context, int index) {
                           return itemListView(context, index);
                         },
@@ -212,7 +196,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
   Widget itemListView(BuildContext context, int index) {
     if (index == 0) {
       return Container(
-        margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+        margin: const EdgeInsets.only(bottom: 12, left: 15, right: 15),
         child: Material(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           color: Colors.white,
@@ -275,15 +259,6 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
-                                  if (getTokenPrice(index) != "")
-                                    Container(
-                                      margin: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        getCfxPrice(),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                      ),
-                                    ),
                                 ],
                               ),
 
@@ -304,11 +279,8 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
       );
     }
     index = index - 1;
-    print(tokenListModel.list[1].symbol);
-    print(tokenListModel.list.length);
-    print(index);
     return Container(
-      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+      margin: const EdgeInsets.only(bottom: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
@@ -316,7 +288,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             if (widget.aeSelectTokenListCallBackFuture != null) {
-              widget.aeSelectTokenListCallBackFuture(tokenListModel.list[index].symbol, Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2), tokenListModel.list[index].icon, tokenListModel.list[index].address);
+              widget.aeSelectTokenListCallBackFuture(getCoinName(index), cfxCtTokens[index].balance, cfxCtTokens[index].iconUrl, cfxCtTokens[index].ctId);
             }
             Navigator.pop(context);
           },
@@ -345,13 +317,25 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                               child: ClipOval(
-                                child: getIconImage(tokenListModel.list[index].icon, tokenListModel.list[index].symbol),
+                                child: Image.network(
+                                  cfxCtTokens[index].iconUrl,
+                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                    if (wasSynchronouslyLoaded) return child;
+
+                                    return AnimatedOpacity(
+                                      child: child,
+                                      opacity: frame == null ? 0 : 1,
+                                      duration: const Duration(seconds: 2),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                tokenListModel.list[index].symbol,
+                              getCoinName(index),
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),
@@ -365,23 +349,33 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text(
-                                  Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                ),
-                                if (getTokenPrice(index) != "")
+                                if (cfxCtTokens[index].balance != null)
+                                  Text(
+                                    cfxCtTokens[index].balance,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  ),
+                                if (cfxCtTokens[index].balance == null)
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                      'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                    ),
+                                  ),
+                                if (cfxCtTokens[index].price != null)
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(
-                                      getTokenPrice(index),
+                                      cfxCtTokens[index].price,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),
                               ],
                             ),
-
                             Container(
                               width: 20,
                             ),
@@ -399,116 +393,16 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     );
   }
 
-  String getCfxPrice() {
-    if (CfxHomePage.token == "loading...") {
-      return "";
-    }
-    if (priceModelCfx == null) {
-      return "";
-    }
-    if (BoxApp.language == "cn" && priceModelCfx.conflux != null) {
-      if (priceModelCfx.conflux.cny == null) {
-        return "";
-      }
-      if (double.parse(CfxHomePage.token) < 1000) {
-        return "¥" + (priceModelCfx.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
-      } else {
-//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModelCfx.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
-      }
+  String getCoinName(int index) {
+    String name;
+    if (cfxCtTokens[index].name.length < cfxCtTokens[index].symbol.length) {
+      name = cfxCtTokens[index].name;
     } else {
-      if (priceModelCfx.conflux.usd == null) {
-        return "";
-      }
-      return "\$" + (priceModelCfx.conflux.usd * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+      name = cfxCtTokens[index].symbol;
     }
-  }
-
-  String getTokenPrice(int index) {
-    if (priceModel == null) {
-      return "";
+    if (name.length > 10) {
+      name = name.substring(0, 5) + "..." + name.substring(name.length - 4, name.length);
     }
-    if(tokenListModel.list[index].price==null){
-      return "";
-    }
-    if (BoxApp.language == "cn" && priceModel.tether != null) {
-      if (priceModel.tether.cny == null) {
-        return "";
-      }
-      if (double.parse(Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2)) < 1000) {
-        return "≈ " + (priceModel.tether.cny * (double.parse(Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2)) * double.parse(tokenListModel.list[index].price))).toStringAsFixed(2) + " (CNY)";
-      } else {
-//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "≈ " + (priceModel.tether.cny * (double.parse(Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2)) * double.parse(tokenListModel.list[index].price))).toStringAsFixed(2) + " (CNY)";
-      }
-    } else {
-      if (priceModel.tether.usd == null) {
-        return "";
-      }
-      return "≈ " + ((double.parse(Utils.cfxFormatAsFixed(tokenListModel.list[index].balance, 2)) * double.parse(tokenListModel.list[index].price))).toStringAsFixed(2) + " (USD)";
-    }
-    return "-1";
-  }
-
-  Widget getIconImage(String data, String name) {
-    if(data == null){
-      return Container(
-        width: 27.0,
-        height: 27.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(36.0),
-          image: DecorationImage(
-            image: AssetImage("images/" + "CFX"+ ".png"),
-          ),
-        ),
-      );
-    }
-    if (name == "FC") {
-      return Container(
-        width: 27.0,
-        height: 27.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(36.0),
-          image: DecorationImage(
-            image: AssetImage("images/" + name + ".png"),
-          ),
-        ),
-      );
-    }
-    String icon = data.split(',')[1]; //
-    if (data.contains("data:image/png")) {
-      Uint8List bytes = Base64Decoder().convert(icon);
-      return Image.memory(bytes, fit: BoxFit.contain);
-    }
-
-    if (data.contains("data:image/svg")) {
-      Uint8List bytes = Base64Decoder().convert(icon);
-
-      return SvgPicture.memory(
-        bytes,
-        semanticsLabel: 'A shark?!',
-        placeholderBuilder: (BuildContext context) => Container(padding: const EdgeInsets.all(30.0), child: const CircularProgressIndicator()),
-      );
-    }
-
-    return Container(
-      width: 27.0,
-      height: 27.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(36.0),
-        image: DecorationImage(
-          image: AssetImage("images/" + "CFX" + ".png"),
-        ),
-      ),
-    );
+    return name;
   }
 }

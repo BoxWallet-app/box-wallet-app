@@ -181,26 +181,17 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: <Widget>[
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-              onTap: () {
-                _launchURL("https://www.aeknow.org/block/transaction/" + widget.recordData.hash.toString());
-              },
-              child: Container(
-                height: 50,
-                width: 50,
-                padding: EdgeInsets.all(15),
-                child: Image(
-                  width: 36,
-                  height: 36,
-                  color: Colors.black,
-                  image: AssetImage('images/ic_browser.png'),
-                ),
-              ),
-            ),
-          ),
+        IconButton(
+        splashRadius:40,
+        icon: Icon(
+          Icons.more_horiz,
+          color: Color(0xFF000000),
+          size: 22,
+        ),
+        onPressed: () async {
+          _launchURL("https://www.aeknow.org/block/transaction/" + widget.recordData.hash.toString());
+        },
+      ),
         ],
         title: Text(
           S.current.ae_tx_detail_page_title,

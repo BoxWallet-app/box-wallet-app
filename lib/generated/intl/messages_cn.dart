@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "CfxDappPage_nft_tab2" : MessageLookupByLibrary.simpleMessage("古国"),
     "CfxDappPage_nft_tab3" : MessageLookupByLibrary.simpleMessage("山海经"),
     "CfxDappPage_title_nft" : MessageLookupByLibrary.simpleMessage("你的NFT"),
+    "CfxTokenAddPage_title" : MessageLookupByLibrary.simpleMessage("添加积分"),
     "CfxTransferConfirmPage_count" : MessageLookupByLibrary.simpleMessage("数量"),
     "CfxTransferConfirmPage_data" : MessageLookupByLibrary.simpleMessage("输入数据"),
     "CfxTransferConfirmPage_fee" : MessageLookupByLibrary.simpleMessage("矿工费"),

@@ -329,7 +329,19 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                         borderRadius: BorderRadius.circular(36.0),
                                                       ),
                                                       child: ClipOval(
-                                                        child: getIconImage(tokenImage, tokenName),
+                                                        child: Image.network(
+                                                          tokenImage,
+                                                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                                            if (wasSynchronouslyLoaded) return child;
+
+                                                            return AnimatedOpacity(
+                                                              child: child,
+                                                              opacity: frame == null ? 0 : 1,
+                                                              duration: const Duration(seconds: 2),
+                                                              curve: Curves.easeOut,
+                                                            );
+                                                          },
+                                                        ),
                                                       )),
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),

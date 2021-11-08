@@ -13,11 +13,10 @@ import '../../main.dart';
 class CfxTokenListDao {
   static Future<CfxTokensListModel> fetch() async {
     Map<String, String> params = new Map();
-    var address = await BoxApp.getAddress();
-    params["address"] = address;
     Response response = await Dio().post(CFX_TOKENS, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
+      print(response.toString());
       CfxTokensListModel model = CfxTokensListModel.fromJson(data);
       return model;
     } else {
