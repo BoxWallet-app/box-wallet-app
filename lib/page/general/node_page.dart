@@ -6,6 +6,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NodePage extends StatefulWidget {
@@ -110,23 +111,31 @@ class _NodePageState extends State<NodePage> {
           // color: Color(0xFFFFFFFF),
           child: Column(
             children: [
+
+
               Container(
-                margin: EdgeInsets.only(left: 18, top: 18),
+                margin: EdgeInsets.only(left: 18, top: 10),
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).setting_page_node_url,
                   style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontSize: 18,
+                    color: Colors.black.withAlpha(180),
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
+
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(left: 15, right: 15,top: 10,),
                 child: Stack(
                   children: [
                     Container(
-                      height: 50,
+                      decoration: new BoxDecoration(
+                        color: Color(0xFFedf3f7),
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
 //                                          autofocus: true,
@@ -136,31 +145,36 @@ class _NodePageState extends State<NodePage> {
 //              inputFormatters: [
 //                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
 //              ],
-
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                          textBaseline: TextBaseline.alphabetic,
+                          fontSize: 18,
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
-                          hintText: '',
-                          enabledBorder: new UnderlineInputBorder(
+                          // contentPadding: EdgeInsets.only(left: 10.0),
+                          contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                          enabledBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                              color: Colors.black.withAlpha(30),
+                              color: Color(0xFFFFFFFF),
                             ),
                           ),
-                          focusedBorder: new UnderlineInputBorder(
+                          focusedBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: Color(0xFFFC2365)),
                           ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
                           hintStyle: TextStyle(
-                            fontSize: 19,
-                            color: Colors.black.withAlpha(180),
+                            fontSize: 14,
+                            color: Color(0xFF666666).withAlpha(85),
                           ),
                         ),
                         cursorColor: Color(0xFFFC2365),
                         cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
                       ),
                     ),
                     Positioned(
@@ -196,20 +210,28 @@ class _NodePageState extends State<NodePage> {
                   ],
                 ),
               ),
+
+
               Container(
-                margin: EdgeInsets.only(left: 18, top: 18),
+                margin: EdgeInsets.only(left: 18, top: 10),
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).setting_page_compiler_url,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 18,
                     color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
+
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(left: 15, right: 15,top: 12),
+                decoration: new BoxDecoration(
+                  color: Color(0xFFedf3f7),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
                 child: TextField(
 //                                          autofocus: true,
 
@@ -221,23 +243,30 @@ class _NodePageState extends State<NodePage> {
 
                   maxLines: 1,
                   style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    textBaseline: TextBaseline.alphabetic,
+                    fontSize: 18,
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
-                    hintText: '',
-                    enabledBorder: new UnderlineInputBorder(
+                    // contentPadding: EdgeInsets.only(left: 10.0),
+                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                    enabledBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(
-                        color: Colors.black.withAlpha(30),
+                        color: Color(0xFFFFFFFF),
                       ),
                     ),
-                    focusedBorder: new UnderlineInputBorder(
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: Color(0xFFFC2365)),
                     ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     hintStyle: TextStyle(
-                      fontSize: 19,
-                      color: Colors.black.withAlpha(180),
+                      fontSize: 14,
+                      color: Color(0xFF666666).withAlpha(85),
                     ),
                   ),
                   cursorColor: Color(0xFFFC2365),
@@ -245,57 +274,90 @@ class _NodePageState extends State<NodePage> {
 //                                cursorRadius: Radius.elliptical(20, 8),
                 ),
               ),
+
               Container(
-                margin: const EdgeInsets.only(top: 50, bottom: 28),
-                child: ArgonButton(
+                margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
+                child: Container(
                   height: 50,
-                  roundLoadingShape: true,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  onTap: (startLoading, stopLoading, btnState) {
-                    startLoading();
-                    NodeTestDao.fetch(_textEditingControllerNode.text, _textEditingControllerCompiler.text).then((isSucess) {
-                      stopLoading();
-                      if (isSucess) {
-                        BoxApp.setNodeUrl(_textEditingControllerNode.text);
-                        BoxApp.setCompilerUrl(_textEditingControllerCompiler.text);
-                        BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
+                  child: FlatButton(
+                    onPressed: () {
+                      EasyLoading.show();
+                      NodeTestDao.fetch(_textEditingControllerNode.text, _textEditingControllerCompiler.text).then((isSucess) {
+                        EasyLoading.dismiss();
+                        if (isSucess) {
+                          BoxApp.setNodeUrl(_textEditingControllerNode.text);
+                          BoxApp.setCompilerUrl(_textEditingControllerCompiler.text);
+                          BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
 
+                          BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
 
-                        showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                            return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                              title: Text(S.of(context).dialog_hint),
-                              content: Text(
-                                S.of(context).dialog_node_set_sucess,
-                                style: TextStyle(
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                ),
+                          showDialog<bool>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext dialogContext) {
+                              return new AlertDialog(shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10))
                               ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: new Text(
-                                    S.of(context).dialog_conform,
+                                title: Text(S.of(context).dialog_hint),
+                                content: Text(
+                                  S.of(context).dialog_node_set_sucess,
+                                  style: TextStyle(
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                  },
                                 ),
-                              ],
-                            );
-                          },
-                        ).then((val) {});
-                      } else {
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: new Text(
+                                      S.of(context).dialog_conform,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ).then((val) {});
+                        } else {
+                          showDialog<bool>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext dialogContext) {
+                              return new AlertDialog(shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10))
+                              ),
+                                title: Text(S.of(context).dialog_hint),
+                                content: Text(
+                                  S.of(context).dialog_node_set_error,
+                                  style: TextStyle(
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: new Text(
+                                      S.of(context).dialog_conform,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ).then((val) {});
+                        }
+
+
+                      }).catchError((e) {
                         showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
                             return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                            ),
                               title: Text(S.of(context).dialog_hint),
                               content: Text(
                                 S.of(context).dialog_node_set_error,
@@ -316,56 +378,22 @@ class _NodePageState extends State<NodePage> {
                             );
                           },
                         ).then((val) {});
-                      }
+                      });
 
-
-                    }).catchError((e) {
-                      stopLoading();
-                      showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                          return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                            title: Text(S.of(context).dialog_hint),
-                            content: Text(
-                              S.of(context).dialog_node_set_error,
-                              style: TextStyle(
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                              ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: new Text(
-                                  S.of(context).dialog_conform,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ).then((val) {});
-                    });
-                  },
-                  child: Text(
-                    S.of(context).setting_page_node_save,
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  loader: Container(
-                    padding: EdgeInsets.all(10),
-                    child: SpinKitRing(
-                      lineWidth: 4,
-                      color: Colors.white,
-                      // size: loaderWidth ,
+                      return;
+                    },
+                    child: Text(
+                      S.of(context).setting_page_node_save,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                     ),
+                    color: Color(0xFFFC2365),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  borderRadius: 30.0,
-                  color: Color(0xFFFC2365),
                 ),
               ),
+
             ],
           ),
         ),

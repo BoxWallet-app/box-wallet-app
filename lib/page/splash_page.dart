@@ -143,27 +143,26 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
-  void goHome() {
-    BoxApp.getNodeUrl().then((nodeUrl) {
-      BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
-          BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
-        }
+  Future<void> goHome() async {
 
-        BoxApp.getAddress().then((value) {
-          SharedPreferences.getInstance().then((sp) {
-            sp.setString('is_language', "true");
-            if (value.length > 10) {
-              Navigator.pushReplacement(context, CustomRoute(AeTabPage()));
-            } else {
-              Navigator.pushReplacement(context, CustomRoute(LoginPageNew()));
-            }
-//            Navigator.pushReplacement(context, CustomRoute(ForumPage(url: "http://localhost:8080",)));
-//            Navigator.pushReplacement(context, CustomRoute(ForumPage(title:"123",signingKey:"",address:"ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF",url: "https://governance.aeternity.com/#/",)));
-          });
-        });
-      });
-    });
+
+    String nodeUrl =await BoxApp.getNodeUrl();
+    String compilerUrl =await BoxApp.getCompilerUrl();
+    String nodeCfxUrl =await BoxApp.getCfxNodeUrl();
+    if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
+      BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
+    }
+    if (nodeCfxUrl != null && nodeCfxUrl != "" ) {
+      BoxApp.setCfxNodeCompilerUrl(nodeCfxUrl);
+    }
+    String address = await BoxApp.getAddress();
+    var sp = await SharedPreferences.getInstance();
+    sp.setString('is_language', "true");
+    if (address.length > 10) {
+      Navigator.pushReplacement(context, CustomRoute(AeTabPage()));
+    } else {
+      Navigator.pushReplacement(context, CustomRoute(LoginPageNew()));
+    }
   }
 
   @override

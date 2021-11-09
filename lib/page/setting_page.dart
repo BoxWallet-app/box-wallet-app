@@ -21,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'aeternity/ae_home_page.dart';
+import 'confux/node_select_page.dart';
 import 'language_page.dart';
 import 'local_auth_page.dart';
 import 'look_mnemonic_page.dart';
@@ -58,12 +59,10 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
-
-
       coin = acc.coin;
       account = acc;
       print(acc.accountType);
-      if(!mounted)return;
+      if (!mounted) return;
       setState(() {});
     });
   }
@@ -87,7 +86,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 //              color: Colors.white,
                 height: 12,
               ),
-              if (account != null && (account.accountType == AccountType.MNEMONIC|| account.accountType == AccountType.PRIVATE_KEY))
+              if (account != null && (account.accountType == AccountType.MNEMONIC || account.accountType == AccountType.PRIVATE_KEY))
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: Material(
@@ -150,9 +149,20 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                         return;
                                       }
                                       if (Platform.isIOS) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => LookMnemonicPage(mnemonic: aesDecode,privateKey: signingKeyDecode,)));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => LookMnemonicPage(
+                                                      mnemonic: aesDecode,
+                                                      privateKey: signingKeyDecode,
+                                                    )));
                                       } else {
-                                        Navigator.push(context, SlideRoute(LookMnemonicPage(mnemonic: aesDecode,privateKey: signingKeyDecode,)));
+                                        Navigator.push(
+                                            context,
+                                            SlideRoute(LookMnemonicPage(
+                                              mnemonic: aesDecode,
+                                              privateKey: signingKeyDecode,
+                                            )));
                                       }
                                     },
                                   ),
@@ -189,7 +199,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                               ),
                             ),
                             Positioned(
-                              right: 30,
+                              right: 20,
                               child: Icon(
                                 Icons.arrow_forward_ios,
                                 size: 15,
@@ -207,22 +217,16 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 //              color: Colors.white,
                 height: 12,
               ),
-              "AE" == coin
-                  ? buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
-                      if (Platform.isIOS) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
-                      } else {
-                        Navigator.push(context, SlideRoute(NodePage()));
-                      }
-                    }, isLine: false)
-                  : Container(),
-
-              "AE" == coin
-                  ? Container(
-//              color: Colors.white,
-                      height: 12,
-                    )
-                  : Container(),
+              buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
+                if (Platform.isIOS) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NodeSelectPage()));
+                } else {
+                  Navigator.push(context, SlideRoute(NodePage()));
+                }
+              }, isLine: false),
+              Container(
+                height: 12,
+              ),
               buildItem(context, S.of(context).setting_page_item_language, "images/setting_lanuage.png", () {
                 if (Platform.isIOS) {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagePage()));
@@ -566,7 +570,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                   ),
                 ),
                 Positioned(
-                  right: 30,
+                  right: 20,
                   child: Icon(
                     Icons.arrow_forward_ios,
                     size: 15,

@@ -65,7 +65,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
       }
       tokenData.clear();
       tokenListModel.list.forEach((element) {
-        if (element.name.toLowerCase().contains(data.toLowerCase()) || element.symbol.toLowerCase().contains(data.toLowerCase())) {
+        if (element.name.toLowerCase().contains(data.toLowerCase()) || element.symbol.toLowerCase().contains(data.toLowerCase()) || element.address.toLowerCase().contains(data.toLowerCase())) {
           tokenData.add(element);
         }
       });
