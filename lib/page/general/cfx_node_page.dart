@@ -125,7 +125,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                     ),
                   ),
                   Positioned(
-                    right: 0,
+                    right: 18,
                     child: DropdownButton<String>(
                       underline: Container(),
                       value: dropdownValue,

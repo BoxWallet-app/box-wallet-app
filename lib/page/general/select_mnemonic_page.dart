@@ -67,7 +67,6 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if (mnemonicAesEncode == element) {
-            print("delete:"+mnemonicAesEncode);
             result.remove(element);
           }
         }

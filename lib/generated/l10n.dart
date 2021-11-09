@@ -3694,6 +3694,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Address error,Please check.`
+  String get ImportAccountPage_address_msg {
+    return Intl.message(
+      'Address error,Please check.',
+      name: 'ImportAccountPage_address_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private Key error Please check.`
+  String get ImportAccountPage_private_msg {
+    return Intl.message(
+      'Private Key error Please check.',
+      name: 'ImportAccountPage_private_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Node`
+  String get NodePage_title {
+    return Intl.message(
+      'Select Node',
+      name: 'NodePage_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicate account`
+  String get ImportAccountPage_account_re_error_title {
+    return Intl.message(
+      'Duplicate account',
+      name: 'ImportAccountPage_account_re_error_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The account is already in the wallet`
+  String get ImportAccountPage_account_re_error_content {
+    return Intl.message(
+      'The account is already in the wallet',
+      name: 'ImportAccountPage_account_re_error_content',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

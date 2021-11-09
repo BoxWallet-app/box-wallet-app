@@ -128,7 +128,6 @@ class WalletCoinsManager {
         coins.coins = [];
       }
       coins.coins.add(coin);
-      print(account);
       await setMnemonicAndSigningKey(address, mnemonic, signingKey, isSaveMnemonic);
     } else {
       for (var i = 0; i < coins.coins.length; i++) {

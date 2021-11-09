@@ -370,7 +370,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    Text("私钥不正确,请检查是否有误"),
+                    Text(S.of(context).ImportAccountPage_private_msg),
                   ],
                 ),
               ),
@@ -417,7 +417,6 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
 
     BoxApp.getBalanceCFX((balance) async {
       EasyLoading.dismiss();
-      print(balance);
       if (balance.isEmpty || balance.contains("error")) {
         showDialog<bool>(
           context: context,
@@ -429,7 +428,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    Text("地址不正确,请检查是否有误"),
+                    Text(S.of(context).ImportAccountPage_address_msg),
                   ],
                 ),
               ),
@@ -533,7 +532,6 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
   Future<void> createMnemonicAccount(String password, String mnemonic) async {
     BoxApp.getSecretKeyCFX((address, signingKey) async {
       if (!await checkAccount(address)) return;
-      print(password);
       final key = Utils.generateMd5Int(password + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
@@ -586,8 +584,8 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
         builder: (BuildContext buildContext) {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-            title: Text("重复账户"),
-            content: Text("钱包已存在该账户"),
+            title: Text(S.of(context).ImportAccountPage_account_re_error_title),
+            content: Text(S.of(context).ImportAccountPage_account_re_error_content),
             actions: <Widget>[
               TextButton(
                 child: new Text(S.of(context).dialog_conform),

@@ -500,7 +500,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   Future<void> showHint() async {
     var address = await BoxApp.getAddress();
-    print(address);
     var accountErrorList = await AeAccountErrorListDao.fetch();
 
     //针对用户反馈，只有这个用户目前
@@ -509,7 +508,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }
     Future.delayed(Duration(seconds: 0), () {
       BoxApp.getMnemonic().then((account) {
-        print(account);
         if (account!=null) {
           showDialog<bool>(
             context: context,

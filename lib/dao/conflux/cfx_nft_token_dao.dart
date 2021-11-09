@@ -14,13 +14,11 @@ class CfxNftTokenDao {
   static Future<CfxNftTokenModel> fetch(String contract) async {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
-    address = "cfx:aat43r14sv2sb3wy1mz58w0k0r3m1xtseas22zv9ew";
     params["address"] = address;
     params["contract"] = contract;
     Response response = await Dio().post(CFX_NFT_TOKEN,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
       CfxNftTokenModel model = CfxNftTokenModel.fromJson(data);
       return model;
     } else {

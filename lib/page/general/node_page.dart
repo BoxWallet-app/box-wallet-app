@@ -113,17 +113,51 @@ class _NodePageState extends State<NodePage> {
             children: [
 
 
-              Container(
-                margin: EdgeInsets.only(left: 18, top: 10),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  S.of(context).setting_page_node_url,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 18, top: 10),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      S.of(context).setting_page_node_url,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black.withAlpha(180),
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      ),
+                    ),
                   ),
-                ),
+                  Positioned(
+                    right: 18,
+                    child: DropdownButton<String>(
+                      underline: Container(),
+                      value: dropdownValue,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                        if (dropdownValue == "box") {
+                          _textEditingControllerNode.text = "https://node.aeasy.io";
+                        }
+                        if (dropdownValue == "base") {
+                          _textEditingControllerNode.text = "https://mainnet.aeternity.io";
+                        }
+                        if (dropdownValue == "wetrue") {
+                          _textEditingControllerNode.text = "https://node.aechina.io";
+                        }
+                        if (dropdownValue == "custom") {
+                          _textEditingControllerNode.text = "";
+                        }
+                      },
+                      items: <String>['box', 'base', 'wetrue', 'custom'].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
 
               Container(
@@ -177,36 +211,7 @@ class _NodePageState extends State<NodePage> {
                         cursorWidth: 2,
                       ),
                     ),
-                    Positioned(
-                      right: 0,
-                      child: DropdownButton<String>(
-                        underline: Container(),
-                        value: dropdownValue,
-                        onChanged: (String newValue) {
-                          setState(() {
-                            dropdownValue = newValue;
-                          });
-                          if (dropdownValue == "box") {
-                            _textEditingControllerNode.text = "https://node.aeasy.io";
-                          }
-                          if (dropdownValue == "base") {
-                            _textEditingControllerNode.text = "https://mainnet.aeternity.io";
-                          }
-                          if (dropdownValue == "wetrue") {
-                            _textEditingControllerNode.text = "https://node.aechina.io";
-                          }
-                          if (dropdownValue == "custom") {
-                            _textEditingControllerNode.text = "";
-                          }
-                        },
-                        items: <String>['box', 'base', 'wetrue', 'custom'].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+
                   ],
                 ),
               ),

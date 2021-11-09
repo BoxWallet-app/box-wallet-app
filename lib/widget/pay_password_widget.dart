@@ -53,7 +53,6 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   //异步加载方法
   Future<int> _loadFuture() async {
     var account = await WalletCoinsManager.instance.getCurrentAccount();
-    print( account.accountType);
     return account.accountType;
   }
 

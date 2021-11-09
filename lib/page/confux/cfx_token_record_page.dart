@@ -6,6 +6,7 @@ import 'package:box/dao/conflux/cfx_crc20_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/conflux/cfx_crc20_transfer_model.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,24 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   int page = 1;
   String count;
   EasyRefreshController _controller = EasyRefreshController();
-
+String coinCount;
   Future<void> _onRefresh() async {
     page = 1;
+    netTokenBalance();
     netTokenRecord();
   }
 
+
+
+  Future<void> netTokenBalance() async {
+    var address = await BoxApp.getAddress();
+    BoxApp.getErcBalanceCFX((balance) async {
+      coinCount = double.parse(balance).toStringAsFixed(2).toString();
+
+      setState(() {});
+      return;
+    }, address, widget.ctId);
+  }
   Future<void> netTokenRecord() async {
     CfxCrc20TransferModel model = await CfxCrc20TransferDao.fetch(page.toString(), widget.ctId);
     if (model != null || model.code == 0) {
@@ -68,16 +81,13 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
     }
   }
 
-  Future<void> _onLoad() async {
-    page++;
-    await netTokenRecord();
-  }
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    coinCount = widget.coinCount;
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
@@ -113,18 +123,23 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
       ),
       body: LoadingWidget(
         type: loadingType,
+
         onPressedError: () {
           _onRefresh();
         },
-        child: ListView.builder(
-          itemCount: itemCount(),
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return itemHeaderView(context, index);
-            } else {
-              return itemView(context, index);
-            }
-          },
+        child: EasyRefresh(
+          header: BoxHeader(),
+          onRefresh: _onRefresh,
+          child: ListView.builder(
+            itemCount: itemCount(),
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return itemHeaderView(context, index);
+              } else {
+                return itemView(context, index);
+              }
+            },
+          ),
         ),
       ),
     );
@@ -203,7 +218,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  (double.parse(widget.coinCount) / 1000000000000000000).toStringAsFixed(2),
+                                  coinCount,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
@@ -229,9 +244,9 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                     child: FlatButton(
                       onPressed: () {
                         if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage(tokenName: widget.coinName,tokenCount: coinCount,tokenImage: widget.coinImage,tokenContract: widget.ctId,)));
                         } else {
-                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage()));
+                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage(tokenName: widget.coinName,tokenCount: coinCount,tokenImage: widget.coinImage,tokenContract: widget.ctId,)));
                         }
 
                       },

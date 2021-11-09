@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:box/dao/conflux/cfx_nft_balance_dao.dart';
+import 'package:box/generated/l10n.dart';
 import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/page/general/cfx_node_page.dart';
 import 'package:box/page/general/node_page.dart';
@@ -40,7 +41,7 @@ class _NodeSelectPageState extends State<NodeSelectPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "选择节点",
+          S.of(context).NodePage_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,

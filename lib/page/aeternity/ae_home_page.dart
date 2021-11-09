@@ -62,7 +62,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     super.initState();
 
     eventBus.on<LanguageEvent>().listen((event) {
-      netBaseData();
+      // netBaseData();
       netAccountInfo();
       netContractBalance();
       getAddress();
@@ -79,7 +79,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       AeHomePage.tokenABC = "loading...";
       if (!mounted) return;
       setState(() {});
-      netBaseData();
+      // netBaseData();
       netAccountInfo();
       netContractBalance();
       getAddress();
@@ -87,7 +87,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       netSwapDao();
       netNameReverseData();
     });
-    netBaseData();
+    // netBaseData();
     netAccountInfo();
     netContractBalance();
     getAddress();
@@ -156,7 +156,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         setState(() {});
       } else {}
     }).catchError((e) {
-      print(e);
 //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }

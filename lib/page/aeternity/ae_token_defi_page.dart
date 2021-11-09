@@ -734,7 +734,6 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                       ),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
-                        Navigator.of(context, rootNavigator: true).pop();
                         showGeneralDialog(useRootNavigator:false,
                             context: context,
                             // ignore: missing_return

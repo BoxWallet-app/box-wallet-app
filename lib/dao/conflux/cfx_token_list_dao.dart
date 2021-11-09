@@ -16,7 +16,6 @@ class CfxTokenListDao {
     Response response = await Dio().post(CFX_TOKENS, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
       CfxTokensListModel model = CfxTokensListModel.fromJson(data);
       return model;
     } else {

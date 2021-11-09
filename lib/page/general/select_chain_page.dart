@@ -220,7 +220,6 @@ class _SelectChainPageState extends State<SelectChainPage> {
               case 1:
                 Navigator.of(context).pop();
                 if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
-                print("123123");
 
 
                 break;

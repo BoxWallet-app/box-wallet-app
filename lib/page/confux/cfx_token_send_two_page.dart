@@ -22,7 +22,12 @@ import 'cfx_select_token_list_page.dart';
 class CfxTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  CfxTokenSendTwoPage({Key key, @required this.address}) : super(key: key);
+  final String tokenName;
+  final String tokenCount;
+  final String tokenImage;
+  final String tokenContract;
+
+  CfxTokenSendTwoPage({Key key, @required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _CfxTokenSendTwoPageState createState() => _CfxTokenSendTwoPageState();
@@ -47,7 +52,24 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
     this.tokenName = "CFX";
     this.tokenCount = CfxHomePage.token;
     this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png";
-    netCfxBalance();
+
+    if (widget.tokenName != null) {
+      this.tokenName = widget.tokenName;
+    }
+    if (widget.tokenCount != null) {
+      this.tokenCount = widget.tokenCount;
+    }
+    if (widget.tokenImage != null) {
+      this.tokenImage = widget.tokenImage;
+    }
+    if (widget.tokenContract != null) {
+      this.tokenContract = widget.tokenContract;
+    }
+
+    if (widget.tokenContract == null) {
+      netCfxBalance();
+    }
+
     getAddress();
   }
 
@@ -420,14 +442,13 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   void clickAllCount() {
+    if (double.parse(tokenCount) > 1) {
+      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+    } else {
+      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+    }
 
-      if (double.parse(tokenCount) > 1) {
-        _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
-      } else {
-        _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
-      }
-
-      _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
+    _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
   Future<String> getAddress() {
@@ -439,7 +460,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   Widget getIconImage(String data, String name) {
-    if(data == null){
+    if (data == null) {
       return Container(
         width: 27.0,
         height: 27.0,
@@ -449,7 +470,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
 //                                                      shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(36.0),
           image: DecorationImage(
-            image: AssetImage("images/" + "CFX"+ ".png"),
+            image: AssetImage("images/" + "CFX" + ".png"),
           ),
         ),
       );
@@ -506,18 +527,16 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   Future<void> netSendV2(BuildContext context) async {
-    if( _textEditingController.text == ""){
+    if (_textEditingController.text == "") {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext dialogContext) {
-          return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+          return new AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             title: Text(S.of(context).dialog_hint),
             content: Text("请输入数量"),
             actions: <Widget>[
-
               TextButton(
                 child: new Text(
                   S.of(context).dialog_conform,
@@ -529,15 +548,14 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
             ],
           );
         },
-      ).then((val) {
-
-      });
+      ).then((val) {});
       return;
     }
     focusNode.unfocus();
-    if (tokenContract == null || tokenContract =="") {
+    if (tokenContract == null || tokenContract == "") {
 //      startLoading();
-      showGeneralDialog(useRootNavigator:false,
+      showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
@@ -583,7 +601,8 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           });
     } else {
 //      startLoading();
-      showGeneralDialog(useRootNavigator:false,
+      showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
@@ -620,7 +639,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode,  widget.address,tokenContract, _textEditingController.text);
+                    }, aesDecode, widget.address, tokenContract, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
@@ -631,7 +650,8 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -684,9 +704,8 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -709,9 +728,8 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[

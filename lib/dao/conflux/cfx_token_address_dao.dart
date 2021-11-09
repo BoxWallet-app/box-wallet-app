@@ -17,7 +17,6 @@ class CfxTokenAddressDao {
     Response response = await Dio().post(CFX_TOKENS_ADDRESS, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
       TokensData model = TokensData.fromJson(data);
       return model;
     } else {

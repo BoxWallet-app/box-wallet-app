@@ -61,7 +61,6 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
       coin = acc.coin;
       account = acc;
-      print(acc.accountType);
       if (!mounted) return;
       setState(() {});
     });
@@ -221,7 +220,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                 if (Platform.isIOS) {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => NodeSelectPage()));
                 } else {
-                  Navigator.push(context, SlideRoute(NodePage()));
+                  Navigator.push(context, SlideRoute(NodeSelectPage()));
                 }
               }, isLine: false),
               Container(

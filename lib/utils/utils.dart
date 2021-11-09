@@ -135,7 +135,6 @@ class Utils {
         if (payload.contains("ba_")) {
           var substring = payload.substring(3);
           var base64decode = Utils.aeBase64Decode(substring);
-          print(base64decode);
           substring = base64decode.substring(0, base64decode.length - 4);
           return substring;
         } else {

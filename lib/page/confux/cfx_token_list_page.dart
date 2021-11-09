@@ -214,6 +214,9 @@ class _TokenListPathState extends State<CfxTokenListPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
+            if(cfxCtTokens[index].balance == null){
+              return;
+            }
             Navigator.push(
                 context,
                 MaterialPageRoute(

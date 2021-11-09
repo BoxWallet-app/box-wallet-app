@@ -15,6 +15,13 @@ import '../../main.dart';
 import 'cfx_token_send_two_page.dart';
 
 class CfxTokenSendOnePage extends StatefulWidget {
+  final String tokenName;
+  final String tokenCount;
+  final String tokenImage;
+  final String tokenContract;
+
+  const CfxTokenSendOnePage({Key key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+
   @override
   _CfxTokenSendOnePageState createState() => _CfxTokenSendOnePageState();
 }
@@ -298,9 +305,9 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
       return;
     } else {
       if (Platform.isIOS) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CfxTokenSendTwoPage(address: _textEditingController.text)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CfxTokenSendTwoPage(address: _textEditingController.text,tokenName: widget.tokenName,tokenCount: widget.tokenCount,tokenImage: widget.tokenImage,tokenContract: widget.tokenContract,)));
       } else {
-        Navigator.pushReplacement(context, SlideRoute(CfxTokenSendTwoPage(address: _textEditingController.text)));
+        Navigator.pushReplacement(context, SlideRoute(CfxTokenSendTwoPage(address: _textEditingController.text,tokenName: widget.tokenName,tokenCount: widget.tokenCount,tokenImage: widget.tokenImage,tokenContract: widget.tokenContract,)));
       }
       }
 

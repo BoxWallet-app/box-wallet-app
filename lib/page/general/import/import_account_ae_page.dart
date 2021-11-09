@@ -80,11 +80,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                   Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                   if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
                     var data;
-                    if (Platform.isIOS) {
-                      data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                    } else {
-                      data = await Navigator.push(context, SlideRoute(ScanPage()));
-                    }
+                    data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
                     inputPassword(data.toString(), true);
                   } else {
                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
@@ -361,7 +357,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     AccountInfoDao.fetch(address: address).then((AccountInfoModel model) {
       EasyLoading.dismiss();
       if (model.code == 200 && model.data.balance.isNotEmpty) {
-        if(widget.password.isEmpty){
+        if(widget.password == null){
           if (Platform.isIOS) {
             Navigator.push(
                 context,
@@ -394,7 +390,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    Text("地址不正确,请检查是否有误"),
+                    Text(S.of(context).ImportAccountPage_address_msg),
                   ],
                 ),
               ),
@@ -422,7 +418,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             content: new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  Text("地址不正确,请检查是否有误"),
+                  Text(S.of(context).ImportAccountPage_address_msg),
                 ],
               ),
             ),
@@ -445,7 +441,8 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     BoxApp.getValidationMnemonic((isSucess) {
       EasyLoading.dismiss();
       if (isSucess) {
-        if (widget.password.isEmpty) {
+
+        if (widget.password == null) {
           if (Platform.isIOS) {
             Navigator.push(
                 context,
@@ -465,6 +462,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             )));
           }
         } else {
+
           createMnemonicAccount(widget.password, mnemonic);
           return;
         }
@@ -545,8 +543,8 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
         builder: (BuildContext buildContext) {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-            title: Text("重复账户"),
-            content: Text("钱包已存在该账户"),
+            title: Text(S.of(context).ImportAccountPage_account_re_error_title),
+            content: Text(S.of(context).ImportAccountPage_account_re_error_content),
             actions: <Widget>[
               TextButton(
                 child: new Text(S.of(context).dialog_conform),
@@ -564,7 +562,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     return true;
   }
   void switchAddType() {
-    if(widget.password.isEmpty){
+    if(widget.password == null){
       Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
     }else{
       eventBus.fire(AddImportAccount());
@@ -580,7 +578,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           _textEditingController.text = "disease embody record seed fiscal jealous apology observe bachelor legend rough crop";
           return;
         case 1:
-          _textEditingController.text = "ak_5tRWRq7cYfWRtjvvXGKqUKoDCbput3fBcvKv4FPPbeHbvMNYK";
+          _textEditingController.text = "ak_cPgVgbjv78RmKzsTteHDJw4gvd1Nt6s9ogCamhBnanpf5xBhC";
           return;
       }
       _textEditingController.text = "";

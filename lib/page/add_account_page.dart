@@ -86,7 +86,6 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if (mnemonicAesEncode == element) {
-            print("delete:"+mnemonicAesEncode);
             result.remove(element);
           }
         }
@@ -578,8 +577,8 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
         builder: (BuildContext buildContext) {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-            title: Text("重复账户"),
-            content: Text("钱包已存在该账户"),
+            title: Text(S.of(context).ImportAccountPage_account_re_error_title),
+            content: Text(S.of(context).ImportAccountPage_account_re_error_content),
             actions: <Widget>[
               TextButton(
                 child: new Text(S.of(context).dialog_conform),

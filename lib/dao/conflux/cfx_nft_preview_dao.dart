@@ -19,7 +19,6 @@ class CfxNftPreviewDao {
     Response response = await Dio().post(CFX_NFT_PREVIEW,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      print(response.toString());
       CfxNftPreviewModel model = CfxNftPreviewModel.fromJson(data);
       return model;
     } else {

@@ -51,9 +51,7 @@ class _CfxNftListPageState extends State<CfxNftListPage> with AutomaticKeepAlive
     cfxNftModel.clear();
     for (var i = 0; i < cfxNftTokenModel.data[1].length; i++) {
       var tokenId = cfxNftTokenModel.data[1][i].toString();
-      print(tokenId);
       CfxNftPreviewModel cfxNftPreviewModel = await CfxNftPreviewDao.fetch(widget.data.address, tokenId);
-      print(cfxNftPreviewModel.toString());
       cfxNftModel.add(cfxNftPreviewModel);
       setState(() {});
     }
@@ -130,7 +128,6 @@ class _CfxNftListPageState extends State<CfxNftListPage> with AutomaticKeepAlive
       );
     }
 
-    print(data);
     if(data.contains("http")){
       return  Container(
         // height: 70,
