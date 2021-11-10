@@ -131,7 +131,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               child: Text(
                                 S.of(context).select_wallet_page_wallet,
                                 style: TextStyle(
-                                  fontSize: 18.sp,
+                                  fontSize: 18,
                                   color: Colors.black,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                 ),

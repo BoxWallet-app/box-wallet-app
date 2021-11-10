@@ -169,7 +169,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
-      AeHomePage.address = account.address;
+      // AeHomePage.address = account.address;
       this.account = account;
       if (!mounted) return;
       setState(() {});
