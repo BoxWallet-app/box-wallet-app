@@ -230,7 +230,7 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                               EasyLoading.dismiss(animation: true);
                               var split = data.split("#");
                               map['storageLimit'] = split[2];
-                              map['gasPrice'] = "1";
+                              map['gasPrice'] = "1000000000";
                               map['gas'] = split[0];
                               showMaterialModalBottomSheet(
                                   expand: true,

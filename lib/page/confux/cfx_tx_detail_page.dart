@@ -65,7 +65,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
             ),
             Container(
               margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.only(left: 10, right: 10,top:5,bottom: 5),
+              padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
               decoration: new BoxDecoration(
                 color: Colors.green,
                 //设置四周圆角 角度
@@ -74,7 +74,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                 //设置四周边框
               ),
               child: Text(
-                cfxTransactionHashModel.confirmedEpochCount.toString() + " "+S.current.cfx_tx_detail_page_height_confirm,
+                cfxTransactionHashModel.confirmedEpochCount.toString() + " " + S.current.cfx_tx_detail_page_height_confirm,
                 maxLines: 1,
                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),
@@ -146,7 +146,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
         ),
         actions: <Widget>[
           IconButton(
-            splashRadius:40,
+            splashRadius: 40,
             icon: Icon(
               Icons.more_horiz,
               color: Color(0xFF000000),
@@ -159,7 +159,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
         ],
 
         title: Text(
-         S.current.cfx_tx_detail_page_title,
+          S.current.cfx_tx_detail_page_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -180,17 +180,12 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      margin: EdgeInsets.only(top: 32, bottom: 32),
                       alignment: Alignment.center,
                       child: getCfxWidget(34),
                     ),
                     Container(
-                      decoration: new BoxDecoration(
-                        color: Color(0xFF000000),
-                        //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
-                      margin: EdgeInsets.only(left: 15, right: 15),
+                      margin: EdgeInsets.only(left: 16, right: 16),
                       child: Material(
                         child: Column(
                           children: baseItems,
@@ -227,15 +222,18 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
   }
 
   Text getFeeWidget(double size) {
+
+    var gasPrice = Decimal.parse('1000000000');
     var decimal = Decimal.parse('1000000000000000000');
-    var decimal2 = Decimal.parse(int.parse(cfxTransactionHashModel.gas).toString());
+    var decimal2 = Decimal.parse(int.parse(cfxTransactionHashModel.gasUsed).toString());
     var decimal3 = decimal2 / decimal;
-    var storageLimit = Decimal.parse((int.parse(cfxTransactionHashModel.storageLimit).toString()));
-    var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
+    // var storageLimit = Decimal.parse((int.parse(cfxTransactionHashModel.storageLimit).toString()));
+    var formatGas = double.parse(decimal3.toString()) * (double.parse(cfxTransactionHashModel.gasPrice.toString()));
     return Text(
-      Decimal.parse(formatGas.toString()).toString() + " Cfx",
+      Decimal.parse(formatGas.toString()).toStringAsFixed(10) + " CFX",
       style: TextStyle(color: Colors.black, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
     );
+
   }
 
   Widget buildItem(String key, String value) {

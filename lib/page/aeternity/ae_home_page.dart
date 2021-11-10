@@ -62,7 +62,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     super.initState();
 
     eventBus.on<LanguageEvent>().listen((event) {
-      // netBaseData();
+      netBaseData();
       netAccountInfo();
       netContractBalance();
       getAddress();
@@ -79,7 +79,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       AeHomePage.tokenABC = "loading...";
       if (!mounted) return;
       setState(() {});
-      // netBaseData();
+      netBaseData();
       netAccountInfo();
       netContractBalance();
       getAddress();
@@ -87,7 +87,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       netSwapDao();
       netNameReverseData();
     });
-    // netBaseData();
+    netBaseData();
     netAccountInfo();
     netContractBalance();
     getAddress();

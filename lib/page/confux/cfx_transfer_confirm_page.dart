@@ -62,15 +62,21 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     );
     var cfx = buildItem2(S.current.CfxTransferConfirmPage_count, text);
     baseItems.add(cfx);
-    var decimal = Decimal.parse('1000000000000000000');
-    var decimal2 = Decimal.parse((int.parse(widget.data['gas']).toString()));
-    var decimal3 = decimal2 / decimal;
+
+    var decimalBase = Decimal.parse('1000000000000000000');
+
+    var decimalGasPrice = Decimal.parse(int.parse(widget.data['gasPrice']).toString());
 
 
-    var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
-    var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString())/1024);
+
+    var decimalGas = Decimal.parse((int.parse(widget.data['gas']).toString()));
+    var decimalGasBase = decimalGas / decimalBase;
+
+
+    // var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
+    var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
     if (widget.data['gas'] != null) {
-      var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(4)+" CFX");
+      var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(10)+" CFX");
       baseItems.add(gas);
     }
 

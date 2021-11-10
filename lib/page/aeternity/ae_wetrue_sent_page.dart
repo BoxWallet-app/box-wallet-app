@@ -178,7 +178,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                                   "发布" +
                                   " ≈ " +
                                   Decimal.parse(
-                                          (weTrueConfigModel.data.topicAmount /
+                                          (double.parse(weTrueConfigModel.data.topicAmount) /
                                                   1000000000000000000)
                                               .toString())
                                       .toString() +
@@ -267,7 +267,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                       aesDecode,
                       address,
                       weTrueConfigModel.data.receivingAccount,
-                      Decimal.parse((weTrueConfigModel.data.topicAmount /
+                      Decimal.parse((double.parse(weTrueConfigModel.data.topicAmount) /
                                   1000000000000000000)
                               .toString())
                           .toString(),

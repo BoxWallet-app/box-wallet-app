@@ -1,23 +1,23 @@
 class WeTrueConfigModel {
   int code;
-  Data data;
   String msg;
+  Data data;
 
-  WeTrueConfigModel({this.code, this.data, this.msg});
+  WeTrueConfigModel({this.code, this.msg, this.data});
 
   WeTrueConfigModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     msg = json['msg'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
+    data['msg'] = this.msg;
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
-    data['msg'] = this.msg;
     return data;
   }
 }
@@ -25,11 +25,14 @@ class WeTrueConfigModel {
 class Data {
   String weTrue;
   String requireVersion;
-  int topicAmount;
-  int commentAmount;
-  int replyAmount;
-  int nicknameAmount;
-  int portraitAmount;
+  String topicAmount;
+  String commentAmount;
+  String replyAmount;
+  String nicknameAmount;
+  String sexAmount;
+  String portraitAmount;
+  String openMapAmount;
+  String openMapAddress;
   String receivingAccount;
   int contentActive;
   int commentActive;
@@ -37,6 +40,7 @@ class Data {
   int nicknameActive;
   int portraitActive;
   int complainActive;
+  String frontEndUrl;
 
   Data(
       {this.weTrue,
@@ -45,14 +49,18 @@ class Data {
         this.commentAmount,
         this.replyAmount,
         this.nicknameAmount,
+        this.sexAmount,
         this.portraitAmount,
+        this.openMapAmount,
+        this.openMapAddress,
         this.receivingAccount,
         this.contentActive,
         this.commentActive,
         this.praiseActive,
         this.nicknameActive,
         this.portraitActive,
-        this.complainActive});
+        this.complainActive,
+        this.frontEndUrl});
 
   Data.fromJson(Map<String, dynamic> json) {
     weTrue = json['WeTrue'];
@@ -61,7 +69,10 @@ class Data {
     commentAmount = json['commentAmount'];
     replyAmount = json['replyAmount'];
     nicknameAmount = json['nicknameAmount'];
+    sexAmount = json['sexAmount'];
     portraitAmount = json['portraitAmount'];
+    openMapAmount = json['openMapAmount'];
+    openMapAddress = json['openMapAddress'];
     receivingAccount = json['receivingAccount'];
     contentActive = json['contentActive'];
     commentActive = json['commentActive'];
@@ -69,6 +80,7 @@ class Data {
     nicknameActive = json['nicknameActive'];
     portraitActive = json['portraitActive'];
     complainActive = json['complainActive'];
+    frontEndUrl = json['frontEndUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,7 +91,10 @@ class Data {
     data['commentAmount'] = this.commentAmount;
     data['replyAmount'] = this.replyAmount;
     data['nicknameAmount'] = this.nicknameAmount;
+    data['sexAmount'] = this.sexAmount;
     data['portraitAmount'] = this.portraitAmount;
+    data['openMapAmount'] = this.openMapAmount;
+    data['openMapAddress'] = this.openMapAddress;
     data['receivingAccount'] = this.receivingAccount;
     data['contentActive'] = this.contentActive;
     data['commentActive'] = this.commentActive;
@@ -87,6 +102,7 @@ class Data {
     data['nicknameActive'] = this.nicknameActive;
     data['portraitActive'] = this.portraitActive;
     data['complainActive'] = this.complainActive;
+    data['frontEndUrl'] = this.frontEndUrl;
     return data;
   }
 }

@@ -90,25 +90,33 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         await BoxApp.getGasCFX((data) async {
           var split = data.split("#");
           cfxRpcModel.payload.storageLimit = split[2].toString();
-          cfxRpcModel.payload.gasPrice = "1";
+          cfxRpcModel.payload.gasPrice = "1000000000";
           cfxRpcModel.payload.gas = split[0].toString();
-
+          print(await BoxApp.getAddress());
           String value = "- 0 CFX";
-          var decimal = Decimal.parse('1000000000000000000');
+          var decimalBase = Decimal.parse('1000000000000000000');
           if (cfxRpcModel.payload.value != null) {
-            value = "- " + (Decimal.parse(int.parse(cfxRpcModel.payload.value).toString()) / decimal).toString() + " CFX";
+            value = "- " + (Decimal.parse(int.parse(cfxRpcModel.payload.value).toString()) / decimalBase).toString() + " CFX";
           }
 
-          var decimal2 = Decimal.parse(int.parse(cfxRpcModel.payload.gas).toString());
-          var decimal3 = decimal2 / decimal;
+          var decimalGasPrice = Decimal.parse(int.parse(cfxRpcModel.payload.gasPrice).toString());
+
+          var decimalGas = Decimal.parse(int.parse(cfxRpcModel.payload.gas).toString());
+          var decimalGasBase = decimalGas / decimalBase;
+
           var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
-          var formatGas = double.parse(decimal3.toString()) + (double.parse(storageLimit.toString()) / 1024);
+
+          print(decimalGasPrice.toString()) ;
+          print(decimalGasBase.toString()) ;
+          print(storageLimit.toString()) ;
+
+          var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
           await PluginManager.getGasCFX({
             'type': methodCall.method,
             'from': cfxRpcModel.payload.from,
             'to': cfxRpcModel.payload.to,
             'value': value,
-            'gas': "- " + formatGas.toString() + " CFX",
+            'gas': "- " + formatGas.toStringAsFixed(10) + " CFX",
             'data': cfxRpcModel.payload.data,
           });
           return;
@@ -163,7 +171,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
       this.account = account;
-      if(!mounted)return;
+      if (!mounted) return;
       setState(() {});
     });
   }
@@ -497,18 +505,17 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     );
   }
 
-
   Future<void> showHint() async {
     var address = await BoxApp.getAddress();
     var accountErrorList = await AeAccountErrorListDao.fetch();
 
     //针对用户反馈，只有这个用户目前
-    if(!accountErrorList.contains(address)){
+    if (!accountErrorList.contains(address)) {
       return;
     }
     Future.delayed(Duration(seconds: 0), () {
       BoxApp.getMnemonic().then((account) {
-        if (account!=null) {
+        if (account != null) {
           showDialog<bool>(
             context: context,
             barrierDismissible: false,
@@ -555,7 +562,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         // ignore: missing_return
                         child: PayPasswordWidget(
                           title: S.of(context).password_widget_input_password,
-                          isSignOld:true,
+                          isSignOld: true,
                           dismissCallBackFuture: (String password) {
                             showHint();
                             return;
@@ -595,20 +602,14 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
                               return;
                             }
-                            var msg = "address:"+address+"\n"
-                                "mnemonic:"+aesDecode;
-
+                            var msg = "address:" +
+                                address +
+                                "\n"
+                                    "mnemonic:" +
+                                aesDecode;
 
                             Clipboard.setData(ClipboardData(text: msg));
-                            Fluttertoast.showToast(msg:  "助记词复制剪切板成功，保存并牢记好！",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-
-
+                            Fluttertoast.showToast(msg: "助记词复制剪切板成功，保存并牢记好！", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                           },
                         ),
                       ),

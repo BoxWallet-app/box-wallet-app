@@ -213,12 +213,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
               child: getFeeWidget(34),
             ),
             Container(
-              decoration: new BoxDecoration(
-                color: Color(0xFF000000),
-                //设置四周圆角 角度
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-              margin: EdgeInsets.only(left: 15, right: 15),
+              margin: EdgeInsets.only(left: 16, right: 16),
               child: Material(
                 child: Column(
                   children: baseItems,

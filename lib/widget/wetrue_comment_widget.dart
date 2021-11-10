@@ -193,7 +193,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                           bounce: true,
                           backgroundColor: Colors.transparent.withAlpha(0),
                           builder: (context) => WeTrueCommentInputWidget(
-                              title: Decimal.parse((weTrueConfigModel.data.commentAmount / 1000000000000000000).toString()).toString(),
+                              title: Decimal.parse((double.parse(weTrueConfigModel.data.commentAmount) / 1000000000000000000).toString()).toString(),
                               passwordCallBackFuture: (String content) async {
                                 if (content == null || content == "") {
                                   return;
@@ -320,7 +320,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     // ignore: missing_return
                   }, (error) {
                     showErrorDialog(context, error);
-                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((weTrueConfigModel.data.commentAmount / 1000000000000000000).toString()).toString(),
+                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((double.parse(weTrueConfigModel.data.commentAmount) / 1000000000000000000).toString()).toString(),
                       content);
                   showChainLoading();
                 },
