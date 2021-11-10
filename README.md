@@ -1,21 +1,20 @@
 
-![Alt text](https://github.com/sunbx/Box-aepp-mobile/blob/master/images/logo.png)
-# Box aepp
 
-The ecological entry of infinite possibilities
+<img src="https://github.com/BoxWallet-app/box-wallet-app/blob/master/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" width="100px">
+
+## BoxWallet
+
+website：https://boxwallet.app
+
+Open the magic door of blockchain with infinite possibilities.
+
 
 
 ## Getting Started
 
-Box AEPP is the Flutter project, so please follow the Flutter environment before running. After successful installation, you can directly compile, open and run. JS-SDK is nested inside the app, so the app is completely de-centered without any security problems
-
-Support AE transfer, check the balance
-Support AEX9 ABC(AEX-9 token) transfer
-Support domain display latest, about to expire, etc
-Support AENS registration, update, bidding
-Support Defi pledge extraction and V1-V2 technical solution to produce ABC
-Support account transaction record view
-Support cold wallet, mnemonic word generation, mnemonic word login
+Boxwallet is an open-source, decentralized Multichain customizable public blockchain incubator. It contains multiple potential public chains and provides highly customized ecological support based on a public chain wallet. 
+In terms of functions, Boxwallet includes blockchain wallets, smart contracts, different games, and more. You can also use it as a blockchain browser or explore other blockchain functions. 
+In terms of experience, it is developed with the original intention of safety, simplicity, and user-friendliness. Give it a try and see how it opens the magic box of the natural world and the blockchain world.
 
 account 283122529@qq.com
 @Biaxin
