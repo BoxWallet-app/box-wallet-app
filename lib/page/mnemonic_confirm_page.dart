@@ -147,7 +147,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                           WalletCoinsManager.instance.updateAccountSaveMnemonic(false).then((value) => {Navigator.pop(context)});
 
                           // Navigator.replace(context,newRoute:CustomRoute(AeTabPage()), oldRoute: CustomRoute(AeTabPage()));
-                          // Navigator.of(context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                          // Navigator.of(context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
                         });
                         return;
                       }

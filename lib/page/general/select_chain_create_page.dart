@@ -282,6 +282,6 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
     }
     EasyLoading.dismiss(animation: true);
 
-    Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+    Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
   }
 }

@@ -605,7 +605,7 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
 
   void switchAddType() {
     if (widget.password.isEmpty) {
-      Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+      Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
     } else {
       eventBus.fire(AddImportAccount());
       Navigator.pop(context);

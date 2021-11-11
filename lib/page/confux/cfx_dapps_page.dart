@@ -111,7 +111,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                 ),
                               ),
                             ),
-                            child: ClipRRect(
+                            child:  bannerModel == null?Container():ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               child: Image.network(
                                 bannerModel == null
@@ -121,21 +121,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                     : bannerModel.en.image,
                                 fit: BoxFit.cover,
 
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
 
-                                  return Container(
-                                    alignment: Alignment.center,
-
-                                    child: new Center(
-                                      child: new CircularProgressIndicator(
-                                        valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                                      ),
-                                    ),
-                                    width: 160.0,
-                                    height: 90.0,
-                                  );
-                                },
                                 //设置图片的填充样式
 //                        fit: BoxFit.fitWidth,
                               ),

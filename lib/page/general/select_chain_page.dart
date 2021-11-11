@@ -300,7 +300,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setMnemonic(mnemonicAesEncode);
                             BoxApp.setAddress(address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
                           });
                           return;
                         });
@@ -341,7 +341,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                             BoxApp.setSigningKey(signingKeyAesEncode);
                             BoxApp.setMnemonic(mnemonicAesEncode);
                             BoxApp.setAddress(address);
-                            Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+                            Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
                           });
                           return;
                         });

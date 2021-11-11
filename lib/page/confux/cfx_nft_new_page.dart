@@ -46,10 +46,13 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
         tabs.add(model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
         tabsCt.add(model.data[i].address);
       }
-      if(tabs.isEmpty){
+      if (tabs.isEmpty) {
         _loadingType = LoadingType.no_data;
-      }else{
+      } else {
         _loadingType = LoadingType.finish;
+      }
+      if (!mounted) {
+        return;
       }
 
       setState(() {});
@@ -80,17 +83,17 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           ),
         ),
         centerTitle: true,
-
       ),
       backgroundColor: Color(0xfffafafa),
       body: LoadingWidget(
-        child: EasyRefresh(
-          footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
-          child: ListView.builder(
-            itemBuilder: _renderRow,
-            itemCount: tabs.length,
-          ),
-        ),
+        child: tabs.length != 0
+            ? EasyRefresh(
+                child: ListView.builder(
+                  itemBuilder: _renderRow,
+                  itemCount: tabs.length,
+                ),
+              )
+            : Container(),
         type: _loadingType,
         onPressedError: () {
           setState(() {
@@ -116,7 +119,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () async {
-              String url = "https://confluxscan.io/nft-checker/"+await BoxApp.getAddress()+"?NFTAddress="+ tabsCt[position];
+              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position];
               _launchURL(url);
               return;
             },
@@ -158,6 +161,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
       ],
     );
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -165,6 +169,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
       throw 'Could not launch $url';
     }
   }
+
   Tab createTab(BuildContext context, String tab) {
     return Tab(
         icon: Text(

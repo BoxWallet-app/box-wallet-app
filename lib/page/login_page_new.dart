@@ -417,7 +417,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
 //                                               BoxApp.setSigningKey(signingKeyAesEncode);
 //                                               BoxApp.setMnemonic(mnemonicAesEncode);
 //                                               BoxApp.setAddress(address);
-//                                               Navigator.of(super.context).pushNamedAndRemoveUntil("/TabPage", ModalRoute.withName("/TabPage"));
+//                                               Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
 //                                             });
 //                                             return;
 //                                           });
