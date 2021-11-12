@@ -33,12 +33,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   WalletCoinsModel walletCoinsModel;
   int coinIndex;
   int coinLength;
+  String address = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getWallet();
+    getAddress();
   }
 
   getWallet() {
@@ -53,6 +55,13 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         });
       }
       setState(() {});
+    });
+  }
+
+  getAddress() {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      address = account.address;
+      if (!mounted) setState(() {});
     });
   }
 
@@ -417,7 +426,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
       return Container(
         height: 50,
-        margin: EdgeInsets.only(left: 15, right: 15,bottom:  MediaQuery.of(context).padding.bottom+20),
+        margin: EdgeInsets.only(left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom + 20),
         alignment: Alignment.center,
         child: Material(
           color: Colors.transparent,
@@ -479,7 +488,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       child: Stack(
         children: [
           getCoinBg(),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address == AeHomePage.address)
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address)
             Positioned(
               right: 0,
               top: 0,
@@ -533,8 +542,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
               walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
               WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
-                Navigator.of(context).pop();
                 eventBus.fire(AccountUpdateEvent());
+                Navigator.of(context).pop();
               });
             },
             child: Container(

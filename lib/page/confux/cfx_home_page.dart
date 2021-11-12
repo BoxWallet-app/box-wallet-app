@@ -73,9 +73,15 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     netCfxTransfer();
   }
 
-  void netCfxBalance() {
+  Future<void> netCfxBalance() async {
+    var address = await BoxApp.getAddress();
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
+      BoxApp.getErcBalanceCFX((balance) async {
+        CfxHomePage.tokenABC = double.parse(balance).toStringAsFixed(2);
+        setState(() {});
+        return;
+      }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
       setState(() {});
     }).catchError((e) {});
   }
