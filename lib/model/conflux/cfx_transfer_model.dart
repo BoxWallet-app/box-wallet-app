@@ -37,7 +37,6 @@ class Data {
   String to;
   String value;
   String gasPrice;
-  Null contractCreated;
   int status;
   int timestamp;
   int epochNumber;
@@ -57,7 +56,6 @@ class Data {
         this.to,
         this.value,
         this.gasPrice,
-        this.contractCreated,
         this.status,
         this.timestamp,
         this.epochNumber,
@@ -77,7 +75,6 @@ class Data {
     to = json['to'];
     value = json['value'];
     gasPrice = json['gasPrice'];
-    contractCreated = json['contractCreated'];
     status = json['status'];
     timestamp = json['timestamp'];
     epochNumber = json['epochNumber'];
@@ -103,7 +100,6 @@ class Data {
     data['to'] = this.to;
     data['value'] = this.value;
     data['gasPrice'] = this.gasPrice;
-    data['contractCreated'] = this.contractCreated;
     data['status'] = this.status;
     data['timestamp'] = this.timestamp;
     data['epochNumber'] = this.epochNumber;

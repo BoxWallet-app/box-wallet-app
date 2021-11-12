@@ -353,6 +353,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                       child: ClipOval(
                                                         child: Image.network(
                                                           tokenImage,
+                                                          errorBuilder: (  BuildContext context,
+                                                              Object error,
+                                                              StackTrace stackTrace,) {
+                                                            return Container(color: Colors.grey.shade200,);
+                                                          },
                                                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                             if (wasSynchronouslyLoaded) return child;
 

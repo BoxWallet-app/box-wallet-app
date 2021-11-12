@@ -36,6 +36,9 @@ class Utils {
   }
 
   static String cfxFormatTypeAddress(String address) {
+    if(address == null){
+      return "";
+    }
     var split = address.split(":");
 
     return (split[0]+":"+split[2]).toLowerCase();

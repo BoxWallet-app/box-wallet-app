@@ -191,6 +191,11 @@ String coinCount;
                                   child: ClipOval(
                                     child: Image.network(
                                       widget.coinImage,
+                                      errorBuilder: (  BuildContext context,
+                                          Object error,
+                                          StackTrace stackTrace,) {
+                                        return Container(color: Colors.grey.shade200,);
+                                      },
                                       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                         if (wasSynchronouslyLoaded) return child;
 

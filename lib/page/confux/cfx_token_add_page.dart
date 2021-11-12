@@ -358,6 +358,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
   Widget getCoinImage(int index) {
     String iconUrl = getRealIconUrl(index);
     return Image.network(
+
       iconUrl,
       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
         if (wasSynchronouslyLoaded) return child;
@@ -369,17 +370,25 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
           curve: Curves.easeOut,
         );
       },
+      errorBuilder: (  BuildContext context,
+          Object error,
+          StackTrace stackTrace,) {
+        return Container(color: Colors.grey.shade200,);
+      },
     );
   }
 
   String getRealIconUrl(int index) {
      String iconUrl;
-    iconUrl = tokenData[index].iconUrl == null ? "https://ae-source.oss-cn-hongkong.aliyuncs.com/DEF.png" : tokenData[index].iconUrl;
+    iconUrl = tokenData[index].iconUrl == null ? "" : tokenData[index].iconUrl;
     if (iconUrl.contains(".svg")) {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/DEF.png";
     }
     if (tokenData[index].address == "cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2") {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/FC.png";
+    }
+    if(iconUrl == null || iconUrl==""){
+      iconUrl = "https://scan-icons.oss-cn-hongkong.aliyuncs.com/mainnet/"+tokenData[index].address;
     }
     return iconUrl;
   }

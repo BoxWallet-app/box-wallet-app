@@ -10,7 +10,6 @@ class CfxTransactionHashModel {
   int chainId;
   int epochHeight;
   String blockHash;
-  Null contractCreated;
   String data;
   String from;
   String hash;
@@ -26,7 +25,6 @@ class CfxTransactionHashModel {
   String storageCollateralized;
   bool gasCoveredBySponsor;
   bool storageCoveredBySponsor;
-  Null txExecErrorMsg;
   int confirmedEpochCount;
   int eventLogCount;
 
@@ -42,7 +40,6 @@ class CfxTransactionHashModel {
         this.chainId,
         this.epochHeight,
         this.blockHash,
-        this.contractCreated,
         this.data,
         this.from,
         this.hash,
@@ -58,7 +55,6 @@ class CfxTransactionHashModel {
         this.storageCollateralized,
         this.gasCoveredBySponsor,
         this.storageCoveredBySponsor,
-        this.txExecErrorMsg,
         this.confirmedEpochCount,
         this.eventLogCount});
 
@@ -74,7 +70,6 @@ class CfxTransactionHashModel {
     chainId = json['chainId'];
     epochHeight = json['epochHeight'];
     blockHash = json['blockHash'];
-    contractCreated = json['contractCreated'];
     data = json['data'];
     from = json['from'];
     hash = json['hash'];
@@ -90,7 +85,6 @@ class CfxTransactionHashModel {
     storageCollateralized = json['storageCollateralized'];
     gasCoveredBySponsor = json['gasCoveredBySponsor'];
     storageCoveredBySponsor = json['storageCoveredBySponsor'];
-    txExecErrorMsg = json['txExecErrorMsg'];
     confirmedEpochCount = json['confirmedEpochCount'];
     eventLogCount = json['eventLogCount'];
   }
@@ -108,7 +102,6 @@ class CfxTransactionHashModel {
     data['chainId'] = this.chainId;
     data['epochHeight'] = this.epochHeight;
     data['blockHash'] = this.blockHash;
-    data['contractCreated'] = this.contractCreated;
     data['data'] = this.data;
     data['from'] = this.from;
     data['hash'] = this.hash;
@@ -124,7 +117,6 @@ class CfxTransactionHashModel {
     data['storageCollateralized'] = this.storageCollateralized;
     data['gasCoveredBySponsor'] = this.gasCoveredBySponsor;
     data['storageCoveredBySponsor'] = this.storageCoveredBySponsor;
-    data['txExecErrorMsg'] = this.txExecErrorMsg;
     data['confirmedEpochCount'] = this.confirmedEpochCount;
     data['eventLogCount'] = this.eventLogCount;
     return data;

@@ -254,6 +254,11 @@ class _TokenListPathState extends State<CfxTokenListPage> {
                               child: ClipOval(
                                 child: Image.network(
                                   cfxCtTokens[index].iconUrl,
+                                  errorBuilder: (  BuildContext context,
+                                      Object error,
+                                      StackTrace stackTrace,) {
+                                    return Container(color: Colors.grey.shade200,);
+                                  },
                                   frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded) return child;
 

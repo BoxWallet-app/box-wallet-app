@@ -319,6 +319,11 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                               child: ClipOval(
                                 child: Image.network(
                                   cfxCtTokens[index].iconUrl,
+                                  errorBuilder: (  BuildContext context,
+                                      Object error,
+                                      StackTrace stackTrace,) {
+                                    return Container(color: Colors.grey.shade200,);
+                                  },
                                   frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded) return child;
 
@@ -328,6 +333,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                                       duration: const Duration(seconds: 2),
                                       curve: Curves.easeOut,
                                     );
+
                                   },
                                 ),
                               ),
