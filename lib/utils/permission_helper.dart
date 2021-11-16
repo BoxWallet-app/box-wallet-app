@@ -36,7 +36,11 @@ class PermissionHelper {
         //IOS单独处理
         // onOpenSetting != null ? onOpenSetting() : defaultCall();
         onSuccess != null ? onSuccess() : defaultCall();
+      }else{
+        onSuccess != null ? onSuccess() : defaultCall();
       }
+    }else{
+      onSuccess != null ? onSuccess() : defaultCall();
     }
   }
 

@@ -91,7 +91,9 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                   } else {
                     data = await Navigator.push(context, SlideRoute(ScanPage()));
                   }
-
+                  if(data == null|| data==""){
+                    return;
+                  }
                   inputPassword(data, true);
                 }, onFailed: () {
                   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);

@@ -73,37 +73,39 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             onPressed: () => Navigator.pop(context),
           ),
           actions: <Widget>[
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                onTap: () async {
-
-                  List<Permission> permissions = [
-                    Permission.camera,
-                  ];
-                  PermissionHelper.check(permissions, onSuccess: () async {
-                    var data;
-                    data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-                    inputPassword(data.toString(), true);
-                  }, onFailed: () {
-                    EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                  }, onOpenSetting: () {
-                    openAppSettings();
-                  });
-
-
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: new Icon(
-                    Icons.photo_camera,
-                    size: 20,
-                    color: Color(0xFF666666),
-                  ),
-                ),
+            IconButton(
+              splashRadius:40,
+              icon: Icon(
+                Icons.add_a_photo_outlined,
+                color: Color(0xFF000000),
+                size: 22,
               ),
+              onPressed: () async {
+                List<Permission> permissions = [
+                  Permission.camera,
+                ];
+                PermissionHelper.check(permissions, onSuccess: () async {
+                  var data;
+                  data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+
+                  if(data == null|| data==""){
+                    return;
+                  }
+                  inputPassword(data.toString(), true);
+                }, onFailed: () {
+                  EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
+                }, onOpenSetting: () {
+                  openAppSettings();
+                });
+
+
+                // Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+                // if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+
+                // } else {
+                //   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
+                // }
+              },
             ),
           ],
         ),
