@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/general/scan_page.dart';
+import 'package:box/utils/permission_helper.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -162,19 +163,22 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
                                             child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                                 onTap: () async {
-                                                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                                                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+                                                  List<Permission> permissions = [
+                                                    Permission.camera,
+                                                  ];
+                                                  PermissionHelper.check(permissions, onSuccess: () async {
                                                     var data;
                                                     if (Platform.isIOS) {
-                                                      data = Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                                                      data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
                                                     } else {
                                                       data = await Navigator.push(context, SlideRoute(ScanPage()));
                                                     }
-
                                                     _textEditingController.text = data;
-                                                  } else {
+                                                  }, onFailed: () {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                                                  }
+                                                  }, onOpenSetting: () {
+                                                    openAppSettings();
+                                                  });
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.only(left: 10, right: 10),
@@ -305,11 +309,27 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
       return;
     } else {
       if (Platform.isIOS) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CfxTokenSendTwoPage(address: _textEditingController.text,tokenName: widget.tokenName,tokenCount: widget.tokenCount,tokenImage: widget.tokenImage,tokenContract: widget.tokenContract,)));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CfxTokenSendTwoPage(
+                      address: _textEditingController.text,
+                      tokenName: widget.tokenName,
+                      tokenCount: widget.tokenCount,
+                      tokenImage: widget.tokenImage,
+                      tokenContract: widget.tokenContract,
+                    )));
       } else {
-        Navigator.pushReplacement(context, SlideRoute(CfxTokenSendTwoPage(address: _textEditingController.text,tokenName: widget.tokenName,tokenCount: widget.tokenCount,tokenImage: widget.tokenImage,tokenContract: widget.tokenContract,)));
+        Navigator.pushReplacement(
+            context,
+            SlideRoute(CfxTokenSendTwoPage(
+              address: _textEditingController.text,
+              tokenName: widget.tokenName,
+              tokenCount: widget.tokenCount,
+              tokenImage: widget.tokenImage,
+              tokenContract: widget.tokenContract,
+            )));
       }
-      }
-
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
 import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:box/page/general/scan_page.dart';
+import 'package:box/utils/permission_helper.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -157,13 +158,21 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
                                             child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                                 onTap: () async {
-                                                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                                                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+
+                                                  List<Permission> permissions = [
+                                                    Permission.camera,
+                                                  ];
+                                                  PermissionHelper.check(permissions, onSuccess: () async {
                                                     final data = await Navigator.push(context, SlideRoute( ScanPage()));
                                                     _textEditingController.text = data;
-                                                  } else {
+                                                  }, onFailed: () {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                                                  }
+                                                  }, onOpenSetting: () {
+                                                    openAppSettings();
+                                                  });
+
+
+
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.only(left: 10, right: 10),

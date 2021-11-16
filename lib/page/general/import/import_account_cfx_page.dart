@@ -8,6 +8,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
+import 'package:box/utils/permission_helper.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -78,8 +79,12 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                 size: 22,
               ),
               onPressed: () async {
-                Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+
+
+                List<Permission> permissions = [
+                  Permission.camera,
+                ];
+                PermissionHelper.check(permissions, onSuccess: () async {
                   var data;
                   if (Platform.isIOS) {
                     data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
@@ -88,9 +93,19 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
                   }
 
                   inputPassword(data, true);
-                } else {
+                }, onFailed: () {
                   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                }
+                }, onOpenSetting: () {
+                  openAppSettings();
+                });
+
+
+                // Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+                // if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+
+                // } else {
+                //   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
+                // }
               },
             ),
           ],

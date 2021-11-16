@@ -92,7 +92,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           cfxRpcModel.payload.storageLimit = split[2].toString();
           cfxRpcModel.payload.gasPrice = "1000000000";
           cfxRpcModel.payload.gas = split[0].toString();
-          print(await BoxApp.getAddress());
           String value = "- 0 CFX";
           var decimalBase = Decimal.parse('1000000000000000000');
           if (cfxRpcModel.payload.value != null) {
@@ -106,9 +105,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
           var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
 
-          print(decimalGasPrice.toString()) ;
-          print(decimalGasBase.toString()) ;
-          print(storageLimit.toString()) ;
 
           var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
           await PluginManager.getGasCFX({

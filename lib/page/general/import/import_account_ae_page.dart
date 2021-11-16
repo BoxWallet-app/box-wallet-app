@@ -10,6 +10,7 @@ import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
+import 'package:box/utils/permission_helper.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -77,14 +78,21 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
                 onTap: () async {
-                  Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+
+                  List<Permission> permissions = [
+                    Permission.camera,
+                  ];
+                  PermissionHelper.check(permissions, onSuccess: () async {
                     var data;
                     data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
                     inputPassword(data.toString(), true);
-                  } else {
+                  }, onFailed: () {
                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                  }
+                  }, onOpenSetting: () {
+                    openAppSettings();
+                  });
+
+
                 },
                 child: Container(
                   height: 50,

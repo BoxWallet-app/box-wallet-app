@@ -175,20 +175,20 @@ class S {
     );
   }
 
-  /// `Name System`
+  /// `Naming System`
   String get home_page_function_names {
     return Intl.message(
-      'Name System',
+      'Naming System',
       name: 'home_page_function_names',
       desc: '',
       args: [],
     );
   }
 
-  /// `Name`
+  /// `Names`
   String get home_page_function_name {
     return Intl.message(
-      'Name',
+      'Names',
       name: 'home_page_function_name',
       desc: '',
       args: [],
@@ -225,20 +225,20 @@ class S {
     );
   }
 
-  /// `Transaction`
+  /// `Transactions`
   String get home_page_transaction {
     return Intl.message(
-      'Transaction',
+      'Transactions',
       name: 'home_page_transaction',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirmation`
+  /// `Confirmations`
   String get home_page_transaction_conform {
     return Intl.message(
-      'Confirmation',
+      'Confirmations',
       name: 'home_page_transaction_conform',
       desc: '',
       args: [],
@@ -285,10 +285,10 @@ class S {
     );
   }
 
-  /// `2/2 please enter the number to send`
+  /// `2/2 Please enter the amount to send`
   String get token_send_two_page_title {
     return Intl.message(
-      '2/2 please enter the number to send',
+      '2/2 Please enter the amount to send',
       name: 'token_send_two_page_title',
       desc: '',
       args: [],
@@ -315,20 +315,20 @@ class S {
     );
   }
 
-  /// `Transfer amount`
+  /// `Transfer Amount`
   String get token_send_two_page_number {
     return Intl.message(
-      'Transfer amount',
+      'Transfer Amount',
       name: 'token_send_two_page_number',
       desc: '',
       args: [],
     );
   }
 
-  /// `Transfer Coin`
+  /// `Transfer Currency`
   String get token_send_two_page_coin {
     return Intl.message(
-      'Transfer Coin',
+      'Transfer Currency',
       name: 'token_send_two_page_coin',
       desc: '',
       args: [],
@@ -365,20 +365,20 @@ class S {
     );
   }
 
-  /// `Broadcast successful`
+  /// `Broadcast succeeded`
   String get hint_broadcast_sucess {
     return Intl.message(
-      'Broadcast successful',
+      'Broadcast succeeded',
       name: 'hint_broadcast_sucess',
       desc: '',
       args: [],
     );
   }
 
-  /// `Synchronizing node information, it is estimated that the synchronization will be successful in 5 minutes`
+  /// `Synchronizing node information, this will take about 5 minutes`
   String get hint_broadcast_sucess_hint {
     return Intl.message(
-      'Synchronizing node information, it is estimated that the synchronization will be successful in 5 minutes',
+      'Synchronizing node information, this will take about 5 minutes',
       name: 'hint_broadcast_sucess_hint',
       desc: '',
       args: [],
@@ -405,20 +405,20 @@ class S {
     );
   }
 
-  /// `Successful`
+  /// `Copied`
   String get token_receive_page_copy_sucess {
     return Intl.message(
-      'Successful',
+      'Copied',
       name: 'token_receive_page_copy_sucess',
       desc: '',
       args: [],
     );
   }
 
-  /// `Name System`
+  /// `Naming System`
   String get aens_page_title {
     return Intl.message(
-      'Name System',
+      'Naming System',
       name: 'aens_page_title',
       desc: '',
       args: [],
@@ -435,50 +435,50 @@ class S {
     );
   }
 
-  /// `Register`
+  /// `Registration`
   String get aens_page_title_tab_1 {
     return Intl.message(
-      'Register',
+      'Registration',
       name: 'aens_page_title_tab_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Top Price`
+  /// `Top Names`
   String get aens_page_title_tab_2 {
     return Intl.message(
-      'Top Price',
+      'Top Names',
       name: 'aens_page_title_tab_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Expiration`
+  /// `About to Expire`
   String get aens_page_title_tab_3 {
     return Intl.message(
-      'Expiration',
+      'About to Expire',
       name: 'aens_page_title_tab_3',
       desc: '',
       args: [],
     );
   }
 
-  /// `My Name`
+  /// `My Names`
   String get aens_my_page_title {
     return Intl.message(
-      'My Name',
+      'My Names',
       name: 'aens_my_page_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Register`
+  /// `Registration`
   String get aens_my_page_title_tab_1 {
     return Intl.message(
-      'Register',
+      'Registration',
       name: 'aens_my_page_title_tab_1',
       desc: '',
       args: [],
@@ -495,10 +495,10 @@ class S {
     );
   }
 
-  /// `Distance expires`
+  /// `Registration Deadline`
   String get aens_list_page_item_time_end {
     return Intl.message(
-      'Distance expires',
+      'Registration Deadline',
       name: 'aens_list_page_item_time_end',
       desc: '',
       args: [],
@@ -525,10 +525,10 @@ class S {
     );
   }
 
-  /// `Register an eternal blockchain domain name you want`
+  /// `Register an aeternity blockchain domain name you want`
   String get aens_register_page_title {
     return Intl.message(
-      'Register an eternal blockchain domain name you want',
+      'Register an aeternity blockchain domain name you want',
       name: 'aens_register_page_title',
       desc: '',
       args: [],
@@ -635,10 +635,10 @@ class S {
     );
   }
 
-  /// `Save mnemonic phrase`
+  /// `Save the Seed Phrase`
   String get setting_page_item_save {
     return Intl.message(
-      'Save mnemonic phrase',
+      'Save the Seed Phrase',
       name: 'setting_page_item_save',
       desc: '',
       args: [],
@@ -755,10 +755,10 @@ class S {
     );
   }
 
-  /// `The seed is incorrect`
+  /// `The seed phrase is incorrect. Please check all words and spaces.`
   String get dialog_hint_mnemonic {
     return Intl.message(
-      'The seed is incorrect',
+      'The seed phrase is incorrect. Please check all words and spaces.',
       name: 'dialog_hint_mnemonic',
       desc: '',
       args: [],
@@ -825,10 +825,10 @@ class S {
     );
   }
 
-  /// `Login user does not provide mnemonic backup`
+  /// `To ensure the safety of your account,we do not provide backup for accounts that have already backed up the seed phrase, as we cannot know if you have picked up the wallet owner's cell phone`
   String get dialog_login_user_no_save {
     return Intl.message(
-      'Login user does not provide mnemonic backup',
+      'To ensure the safety of your account,we do not provide backup for accounts that have already backed up the seed phrase, as we cannot know if you have picked up the wallet owner\'s cell phone',
       name: 'dialog_login_user_no_save',
       desc: '',
       args: [],
@@ -885,10 +885,10 @@ class S {
     );
   }
 
-  /// `Network error, please confirm and try again`
+  /// `Network error,please check your internet connection and try again`
   String get loading_widget_no_net {
     return Intl.message(
-      'Network error, please confirm and try again',
+      'Network error,please check your internet connection and try again',
       name: 'loading_widget_no_net',
       desc: '',
       args: [],
@@ -905,80 +905,80 @@ class S {
     );
   }
 
-  /// `Minutes`
+  /// `Minute(s)`
   String get common_points {
     return Intl.message(
-      'Minutes',
+      'Minute(s)',
       name: 'common_points',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hours`
+  /// `Hour(s)`
   String get common_hours {
     return Intl.message(
-      'Hours',
+      'Hour(s)',
       name: 'common_hours',
       desc: '',
       args: [],
     );
   }
 
-  /// `day`
+  /// `Day(s)`
   String get common_day {
     return Intl.message(
-      'day',
+      'Day(s)',
       name: 'common_day',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please copy The seed phrase`
+  /// `Please copy the seed phrase`
   String get mnemonic_copy_title {
     return Intl.message(
-      'Please copy The seed phrase',
+      'Please copy the seed phrase',
       name: 'mnemonic_copy_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 \nwords in order on a piece of paper and keep it in a safe place.`
+  /// `The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 words in order on a piece of paper and keep it in a safe place.`
   String get mnemonic_copy_content {
     return Intl.message(
-      'The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 \nwords in order on a piece of paper and keep it in a safe place.',
+      'The seed phrase (or mnemonic phrase) is used to restore your wallet. Write down the following 12 words in order on a piece of paper and keep it in a safe place.',
       name: 'mnemonic_copy_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Don't take a screenshot!`
+  /// `Do not take a screenshot!`
   String get mnemonic_copy_hint1 {
     return Intl.message(
-      'Don\'t take a screenshot!',
+      'Do not take a screenshot!',
       name: 'mnemonic_copy_hint1',
       desc: '',
       args: [],
     );
   }
 
-  /// `If someone gets your mnemonic phrase, they will get your assets directly!`
+  /// `Anyone who have access to your seed phrase shall have direct access to your assets!`
   String get mnemonic_copy_hint2 {
     return Intl.message(
-      'If someone gets your mnemonic phrase, they will get your assets directly!',
+      'Anyone who have access to your seed phrase shall have direct access to your assets!',
       name: 'mnemonic_copy_hint2',
       desc: '',
       args: [],
     );
   }
 
-  /// `I have saved it safely`
+  /// `I have kept is safe`
   String get mnemonic_copy_confrom {
     return Intl.message(
-      'I have saved it safely',
+      'I have kept is safe',
       name: 'mnemonic_copy_confrom',
       desc: '',
       args: [],
@@ -1005,40 +1005,40 @@ class S {
     );
   }
 
-  /// `Lock AE to in mining \nEarn ABC`
+  /// `ABC Pledge AE to participate\n in mining Earn ABC`
   String get defi_title {
     return Intl.message(
-      'Lock AE to in mining \nEarn ABC',
+      'ABC Pledge AE to participate\n in mining Earn ABC',
       name: 'defi_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Record`
+  /// `Pledge Record`
   String get defi_title_record {
     return Intl.message(
-      'Record',
+      'Pledge Record',
       name: 'defi_title_record',
       desc: '',
       args: [],
     );
   }
 
-  /// `Total Lockup (AE)`
+  /// `Total pledge (AE)`
   String get defi_head_card_all_token {
     return Intl.message(
-      'Total Lockup (AE)',
+      'Total pledge (AE)',
       name: 'defi_head_card_all_token',
       desc: '',
       args: [],
     );
   }
 
-  /// `You are locked (AE)`
+  /// `You are pledge (AE)`
   String get defi_head_card_my_token {
     return Intl.message(
-      'You are locked (AE)',
+      'You are pledge (AE)',
       name: 'defi_head_card_my_token',
       desc: '',
       args: [],
@@ -1085,20 +1085,20 @@ class S {
     );
   }
 
-  /// `The pledge`
+  /// `Pledge`
   String get defi_card_mine {
     return Intl.message(
-      'The pledge',
+      'Pledge',
       name: 'defi_card_mine',
       desc: '',
       args: [],
     );
   }
 
-  /// `Mining Rules`
+  /// `Pledge Rules`
   String get defi_card_hint {
     return Intl.message(
-      'Mining Rules',
+      'Pledge Rules',
       name: 'defi_card_hint',
       desc: '',
       args: [],
@@ -1145,10 +1145,10 @@ class S {
     );
   }
 
-  /// `Extract`
+  /// `Withdraw`
   String get defi_card_out {
     return Intl.message(
-      'Extract',
+      'Withdraw',
       name: 'defi_card_out',
       desc: '',
       args: [],
@@ -1175,10 +1175,10 @@ class S {
     );
   }
 
-  /// `Rank`
+  /// `Ranking`
   String get defi_raking_1 {
     return Intl.message(
-      'Rank',
+      'Ranking',
       name: 'defi_raking_1',
       desc: '',
       args: [],
