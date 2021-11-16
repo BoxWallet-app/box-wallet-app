@@ -50,7 +50,12 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     getBalance(address);
   }
 
+  bool isLoadBalance = false;
+
   void getBalance(String address) {
+    if(isLoadBalance){
+      return;
+    }
     bool isReturn = true;
     Tokens token;
 
@@ -63,6 +68,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     }
 
     if (isReturn) return;
+    isLoadBalance = true;
     if (token.balance == null) {
       BoxApp.getErcBalanceCFX((balance) async {
         token.balance = double.parse(balance).toStringAsFixed(2);
@@ -72,8 +78,8 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
         return;
       }, address, token.ctId);
     }
+    isLoadBalance = false;
   }
-
 
   @override
   void initState() {
@@ -87,7 +93,6 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: Colors.transparent.withAlpha(0),
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -131,7 +136,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                           S.of(context).cfx_select_token_page_title,
+                            S.of(context).cfx_select_token_page_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -177,7 +182,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                       onRefresh: _onRefresh,
                       child: ListView.builder(
                         padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                        itemCount: cfxCtTokens.length+1,
+                        itemCount: cfxCtTokens.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return itemListView(context, index);
                         },
@@ -319,10 +324,14 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                               child: ClipOval(
                                 child: Image.network(
                                   cfxCtTokens[index].iconUrl,
-                                  errorBuilder: (  BuildContext context,
-                                      Object error,
-                                      StackTrace stackTrace,) {
-                                    return Container(color: Colors.grey.shade200,);
+                                  errorBuilder: (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace stackTrace,
+                                  ) {
+                                    return Container(
+                                      color: Colors.grey.shade200,
+                                    );
                                   },
                                   frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded) return child;
@@ -333,7 +342,6 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                                       duration: const Duration(seconds: 2),
                                       curve: Curves.easeOut,
                                     );
-
                                   },
                                 ),
                               ),
@@ -341,7 +349,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                              getCoinName(index),
+                                getCoinName(index),
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),

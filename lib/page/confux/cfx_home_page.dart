@@ -106,9 +106,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      if (!mounted) {
+        return;
+      }
       CfxHomePage.address = account.address;
       getDomainName(CfxHomePage.address);
-      if (!mounted) setState(() {});
+      setState(() {});
     });
   }
 

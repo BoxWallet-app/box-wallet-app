@@ -18,6 +18,9 @@ class WeTrueConfigDao {
     var address = await BoxApp.getAddress();
     ///创建 dio
     Options options = Options();
+    if(options.headers == null){
+      options.headers = Map();
+    }
     ///请求header的配置
     options.headers["ak-token"]=address;
     url = WE_TRUE_URL+"/Config/info";

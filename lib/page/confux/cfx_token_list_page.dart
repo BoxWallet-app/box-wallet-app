@@ -52,7 +52,12 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     getBalance(address);
   }
 
+  bool isLoadBalance = false;
+
   void getBalance(String address) {
+    if(isLoadBalance){
+      return;
+    }
     bool isReturn = true;
     Tokens token;
 
@@ -65,6 +70,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     }
 
     if (isReturn) return;
+    isLoadBalance = true;
     if (token.balance == null) {
       BoxApp.getErcBalanceCFX((balance) async {
         token.balance = double.parse(balance).toStringAsFixed(2);
@@ -74,8 +80,8 @@ class _TokenListPathState extends State<CfxTokenListPage> {
         return;
       }, address, token.ctId);
     }
+    isLoadBalance = false;
   }
-
   @override
   void initState() {
     // TODO: implement initState

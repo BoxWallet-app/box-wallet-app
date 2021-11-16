@@ -13,7 +13,6 @@ class WeTrueListDao {
     String url = "";
     switch (type) {
       case 0:
-//        url = "https://liushao.cc:1817/Content/list";
         url = WE_TRUE_URL+"/Content/list";
         break;
       case 1:
@@ -29,8 +28,13 @@ class WeTrueListDao {
     });  var address = await BoxApp.getAddress();
     ///创建 dio
     Options options = Options();
+
+    if(options.headers == null){
+      options.headers = Map();
+    }
     ///请求header的配置
     options.headers["ak-token"]=address;
+
 
     Response response = await Dio().post(url, data: formData,options: options);
     if (response.statusCode == 200) {

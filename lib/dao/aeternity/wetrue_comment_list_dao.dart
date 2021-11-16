@@ -24,7 +24,9 @@ class WetrueCommentDao {
 
     ///创建 dio
     Options options = Options();
-
+    if(options.headers == null){
+      options.headers = Map();
+    }
     ///请求header的配置
     options.headers["ak-token"] = address;
 

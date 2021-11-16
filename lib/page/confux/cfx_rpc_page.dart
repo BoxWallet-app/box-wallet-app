@@ -178,12 +178,10 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                   return InAppWebView(
                     initialOptions: options,
                     initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
-                    initialUserScripts: Platform.isIOS
-                        ? UnmodifiableListView<UserScript>([
-                            UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
-                            UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
-                          ])
-                        : UnmodifiableListView<UserScript>([]),
+                    initialUserScripts:UnmodifiableListView<UserScript>([
+                      UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
+                      UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
+                    ]),
                     onTitleChanged: (controller, t) {
                       title = t;
                       setState(() {});
@@ -294,10 +292,10 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                         isFinish = false;
                       });
 
-                      if (Platform.isAndroid) {
-                        var js = await _loadFuture();
-                        await _webViewController.evaluateJavascript(source: js);
-                      }
+                      // if (Platform.isAndroid) {
+                      //   var js = await _loadFuture();
+                      //   await _webViewController.evaluateJavascript(source: js);
+                      // }
                     },
                     androidOnPermissionRequest: (controller, origin, resources) async {
                       return PermissionRequestResponse(resources: resources, action: PermissionRequestResponseAction.GRANT);

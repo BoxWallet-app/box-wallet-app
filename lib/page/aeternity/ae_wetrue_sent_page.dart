@@ -39,6 +39,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
       weTrueConfigModel = model;
       setState(() {});
     }).catchError((e) {
+      print(e.toString());
       //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
