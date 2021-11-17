@@ -11,6 +11,7 @@ PODS:
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
+    - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -19,9 +20,9 @@ PODS:
   - OrderedSet (5.0.0)
   - package_info (0.0.1):
     - Flutter
-  - path_provider (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
-  - permission_handler (3.3.0):
+  - "permission_handler (5.1.0+2)":
     - Flutter
   - share (0.0.1):
     - Flutter
@@ -30,6 +31,7 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - Toast (4.0.0)
   - UMCommon (7.3.5):
     - UMDevice
   - UMDevice (2.0.5)
@@ -49,7 +51,7 @@ DEPENDENCIES:
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -62,6 +64,7 @@ SPEC REPOS:
   trunk:
     - FMDB
     - OrderedSet
+    - Toast
     - UMCommon
     - UMDevice
 
@@ -78,8 +81,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   share:
@@ -99,21 +102,22 @@ SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_qr_reader: d930dde3b2cfe2b3d0bb7d66e5ff3e514300a5e5
-  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
+  image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
-  path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
-  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   UMCommon: ab4d875ddefe1b06c60b577e4a58bc4d433ee067
   UMDevice: c13bbb2e8ca6c67d1e23e03162553e3ec5a8b5b0
   umeng_common_sdk: a8abd7f86dfd013dbbeeae587ee143760c6582f2
   url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
-  webview_flutter_wkwebview: 44aa025fbcf6730d808f1e0d86a5af5ac25fa8de
+  webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
 PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 

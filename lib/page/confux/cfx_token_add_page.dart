@@ -172,7 +172,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                         ),
 
                         decoration: InputDecoration(
-                          hintText: "输入积分名称或合约地址",
+                          hintText: S.of(context).CfxTokenAdd_input,
                           icon: Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Icon(

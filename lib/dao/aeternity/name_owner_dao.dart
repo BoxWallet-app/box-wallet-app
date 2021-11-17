@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 class NameOwnerDao {
   static Future<NameOwnerModel> fetch(String name) async {
     String nodeUrl = await BoxApp.getNodeUrl();
-    if (nodeUrl.isEmpty) {
+    if ( nodeUrl == null || nodeUrl == "") {
       nodeUrl = "https://node.aeasy.io";
     }
     Response response = await Dio().get(nodeUrl+NAME_OWNER + name);

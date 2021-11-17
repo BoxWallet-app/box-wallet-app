@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/price_model.dart';
+import 'package:box/dao/conflux/cfx_nft_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_token_address_dao.dart';
 import 'package:box/dao/conflux/cfx_token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -11,6 +12,7 @@ import 'package:box/manager/ct_token_manager.dart';
 import 'package:box/model/aeternity/ct_token_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
+import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -21,6 +23,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import 'cfx_token_add_page.dart';
@@ -31,23 +35,31 @@ class CfxTokenListPage extends StatefulWidget {
   _TokenListPathState createState() => _TokenListPathState();
 }
 
-class _TokenListPathState extends State<CfxTokenListPage> {
-  var loadingType = LoadingType.loading;
+class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProviderStateMixin{
+  var tokenLoadingType = LoadingType.loading;
+  var nftLoadingType = LoadingType.loading;
   List<Tokens> cfxCtTokens = [];
   PriceModel priceModel;
   PriceModel priceModelCfx;
+  int tabIndex = 0;
+  List<String> tabs = List<String>();
+  List<String> tabsCt = List<String>();
+
+  PageController pageController = PageController();
+  TabController tabBarController ;
 
   Future<void> _onRefresh() async {
     // await netTokenBaseData();
-
+    netNftBalance();
     var address = await BoxApp.getAddress();
     cfxCtTokens = await CtTokenManager.instance.getCfxCtTokens(address);
     if (cfxCtTokens.length == 0) {
-      loadingType = LoadingType.no_data;
+      tokenLoadingType = LoadingType.no_data;
       setState(() {});
       return;
     }
-    loadingType = LoadingType.finish;
+    tokenLoadingType = LoadingType.finish;
+
     setState(() {});
     getBalance(address);
   }
@@ -55,7 +67,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
   bool isLoadBalance = false;
 
   void getBalance(String address) {
-    if(isLoadBalance){
+    if (isLoadBalance) {
       return;
     }
     bool isReturn = true;
@@ -75,6 +87,9 @@ class _TokenListPathState extends State<CfxTokenListPage> {
       BoxApp.getErcBalanceCFX((balance) async {
         token.balance = double.parse(balance).toStringAsFixed(2);
 
+        if (!mounted) {
+          return;
+        }
         setState(() {});
         getBalance(address);
         return;
@@ -82,6 +97,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     }
     isLoadBalance = false;
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -90,6 +106,16 @@ class _TokenListPathState extends State<CfxTokenListPage> {
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
+    tabBarController = new TabController(length:2, vsync: this);
+    // pageController.addListener(() {
+    //   print(pageController.keepScrollOffset);
+    //   if (pageController.page == 0) {
+    //     tabBarController.index = 0;
+    //   } else {
+    //     tabBarController.index = 1;
+    //
+    //   }
+    // });
   }
 
   Future<void> netTokenBaseData() async {
@@ -131,84 +157,240 @@ class _TokenListPathState extends State<CfxTokenListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFfafbfc),
-        elevation: 0,
-        // 隐藏阴影
-        title: Text(
-          S.of(context).home_token,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFFfafbfc),
+          elevation: 0,
+          // 隐藏阴影
+          title: Text(
+            S.of(context).home_token,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            ),
           ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-            size: 17,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-//              Navigator.pop(context);
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            splashRadius: 40,
+          centerTitle: true,
+          leading: IconButton(
             icon: Icon(
-              Icons.add,
-              color: Color(0xFF000000),
-              size: 22,
+              Icons.arrow_back_ios,
+              color: Colors.black,
+              size: 17,
             ),
             onPressed: () {
-              if (Platform.isIOS) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CfxTokenAddPage(
-                              cfxTokenAddPageCallBackFuture: () {
-                                _onRefresh();
-                                return;
-                              },
-                            )));
-              } else {
-                Navigator.push(context, SlideRoute(CfxTokenAddPage(
-                  cfxTokenAddPageCallBackFuture: () {
-                    _onRefresh();
-                    return;
-                  },
-                )));
-              }
-
-              return;
+              Navigator.of(context).pop();
+//              Navigator.pop(context);
             },
           ),
-        ],
-      ),
-      body: LoadingWidget(
-        type: loadingType,
-        onPressedError: () {
-          _onRefresh();
-        },
-        child: Container(
-          child: EasyRefresh(
-            header: BoxHeader(),
-            onRefresh: _onRefresh,
-            child: ListView.builder(
-              padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-              itemCount: cfxCtTokens.length,
-              itemBuilder: (BuildContext context, int index) {
-                return itemListView(context, index);
+          actions: <Widget>[
+            IconButton(
+              splashRadius: 40,
+              icon: Icon(
+                Icons.add,
+                color: Color(0xFF000000),
+                size: 22,
+              ),
+              onPressed: () {
+                if (Platform.isIOS) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CfxTokenAddPage(
+                                cfxTokenAddPageCallBackFuture: () {
+                                  _onRefresh();
+                                  return;
+                                },
+                              )));
+                } else {
+                  Navigator.push(context, SlideRoute(CfxTokenAddPage(
+                    cfxTokenAddPageCallBackFuture: () {
+                      _onRefresh();
+                      return;
+                    },
+                  )));
+                }
+
+                return;
               },
             ),
+          ],
+        ),
+        body: LoadingWidget(
+          type: tokenLoadingType,
+          onPressedError: () {
+            _onRefresh();
+          },
+          child: Column(
+            children: [
+              TabBar(
+                // controller: tabBarController,
+                onTap: (index) {
+                  setState(() {
+                    tabIndex = index;
+                    // pageController.animateToPage(tabIndex,   curve: Curves.ease,
+                    //     duration: Duration(milliseconds: 200));
+                  });
+                },
+                tabs: [
+                  Tab(text: "CRC20"),
+                  Tab(text: "NFTs",),
+                ],
+                labelColor: Colors.black,
+                // add it here
+                indicator: MaterialIndicator(
+                  color: Color(0xFFFC2365),
+                  height: 3,
+                  topLeftRadius: 8,
+                  topRightRadius: 8,
+                  bottomLeftRadius: 8,
+                  bottomRightRadius: 8,
+                  horizontalPadding: 80,
+                  tabPosition: TabPosition.bottom,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: TabBarView(
+                    // controller: pageController,
+                    children: [
+                      EasyRefresh(
+                        header: BoxHeader(),
+                        onRefresh: _onRefresh,
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
+                          itemCount: cfxCtTokens.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return itemListView(context, index);
+                          },
+                        ),
+                      ),
+                      LoadingWidget(
+                        child: tabs.length != 0
+                            ? EasyRefresh(
+                                child: ListView.builder(
+                                  itemBuilder: _renderRow,
+                                  itemCount: tabs.length,
+                                ),
+                              )
+                            : Container(),
+                        type: nftLoadingType,
+                        onPressedError: () {
+                          setState(() {
+                            nftLoadingType = LoadingType.loading;
+                          });
+                          netNftBalance();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _renderRow(BuildContext context, int index) {
+//    if (index < list.length) {
+    return Container(margin: EdgeInsets.only(left: 15, right: 15, top: 12), child: buildColumn(context, index));
+  }
+
+  Column buildColumn(BuildContext context, int position) {
+    return Column(
+      children: <Widget>[
+        Material(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          color: Colors.white,
+          child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            onTap: () async {
+              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position];
+              _launchURL(url);
+              return;
+            },
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Expanded(
+                        /*1*/
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /*2*/
+                            Container(
+                              child: Text(
+                                tabs[position],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      /*3*/
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Tab createTab(BuildContext context, String tab) {
+    return Tab(
+        icon: Text(
+      tab,
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+    ));
+  }
+
+  void netNftBalance() {
+    CfxNftBalanceDao.fetch().then((CfxNftBalanceModel model) {
+
+      if (model == null) {
+        return;
+      }
+      tabs.clear();
+      for (var i = 0; i < model.data.length; i++) {
+        tabs.add(model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
+        tabsCt.add(model.data[i].address);
+      }
+      if (tabs.isEmpty) {
+        nftLoadingType = LoadingType.no_data;
+      } else {
+        nftLoadingType = LoadingType.finish;
+      }
+
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+
+    }).catchError((e) {});
   }
 
   Widget itemListView(BuildContext context, int index) {
@@ -220,7 +402,7 @@ class _TokenListPathState extends State<CfxTokenListPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            if(cfxCtTokens[index].balance == null){
+            if (cfxCtTokens[index].balance == null) {
               return;
             }
             Navigator.push(
@@ -260,10 +442,14 @@ class _TokenListPathState extends State<CfxTokenListPage> {
                               child: ClipOval(
                                 child: Image.network(
                                   cfxCtTokens[index].iconUrl,
-                                  errorBuilder: (  BuildContext context,
-                                      Object error,
-                                      StackTrace stackTrace,) {
-                                    return Container(color: Colors.grey.shade200,);
+                                  errorBuilder: (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace stackTrace,
+                                  ) {
+                                    return Container(
+                                      color: Colors.grey.shade200,
+                                    );
                                   },
                                   frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded) return child;

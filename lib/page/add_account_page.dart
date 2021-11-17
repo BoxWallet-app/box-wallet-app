@@ -65,13 +65,14 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
 
         for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
           var address = walletCoinsModel.coins[i].accounts[j].address;
-
           var prefs = await SharedPreferences.getInstance();
           var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
           final key = Utils.generateMd5Int(widget.password + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
-          if (mnemonicAesEncode != null && mnemonicAesEncode !="") mnemonics.add(mnemonicAesEncode);
+          if (mnemonicAesEncode != null && mnemonicAesEncode !=""){
+            mnemonics.add(mnemonicAesEncode);
+          }
         }
       }
       var prefs = await SharedPreferences.getInstance();

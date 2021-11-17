@@ -1,4 +1,3 @@
-
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
@@ -10,6 +9,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -29,6 +29,8 @@ class AeTokenSendTwoPage extends StatefulWidget {
 class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _textEditingControllerNode = TextEditingController();
+  final FocusNode focusNodeNode = FocusNode();
   final FocusNode focusNode = FocusNode();
   String address = '';
   var loadingType = LoadingType.loading;
@@ -98,7 +100,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 130,
+                              height: 120,
                               color: Color(0xFFFC2365),
                             ),
                             Container(
@@ -187,7 +189,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
-                              height: 172,
+                              height: tokenName !="AE" ?172:222,
                               //边框设置
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
@@ -244,7 +246,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: '',
+                                            hintText: '0.00',
                                             enabledBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
@@ -385,6 +387,59 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                       ),
                                     ),
                                   ),
+                                  if (tokenName == "AE")
+                                    Container(
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            decoration: new BoxDecoration(
+                                              color: Color(0xffffffff),
+                                              //设置四周圆角 角度
+                                            ),
+                                            width: MediaQuery.of(context).size.width,
+                                            child: TextField(
+                                              controller: _textEditingControllerNode,
+                                              focusNode: focusNodeNode,
+                                              inputFormatters: [
+                                                // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                                              ],
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                textBaseline: TextBaseline.alphabetic,
+                                                fontSize: 18,
+                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                color: Colors.black,
+                                              ),
+
+                                              decoration: InputDecoration(
+                                                hintText: S.of(context).AeTokenSendTwoPage_note,
+                                                contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(
+                                                    color: Color(0x00000000),
+                                                  ),
+                                                ),
+                                                focusedBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(color: Color(0x00000000)),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xFF666666).withAlpha(85),
+                                                ),
+                                              ),
+                                              cursorColor: Color(0xFFFC2365),
+                                              cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -444,16 +499,21 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   Future<void> netSendV2(BuildContext context) async {
+    var note = "";
+    if (_textEditingControllerNode.text == "") {
+      note = "Box Wallet";
+    } else {
+      note = _textEditingControllerNode.text;
+    }
     if (_textEditingController.text == "") {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext dialogContext) {
-          return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+          return new AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             title: Text(S.of(context).dialog_hint),
-            content: Text("请输入数量"),
+            content: Text(S.of(context).dialog_amount_null),
             actions: <Widget>[
               TextButton(
                 child: new Text(
@@ -473,7 +533,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     var senderID = await BoxApp.getAddress();
     if (tokenContract == null || tokenContract == "") {
 //      startLoading();
-      showGeneralDialog(useRootNavigator:false,
+      showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
@@ -510,7 +571,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
-                    }, aesDecode, address, widget.address, _textEditingController.text, Utils.encodeBase64("Box aepp"));
+                    }, aesDecode, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
                     showChainLoading();
                   },
                 ),
@@ -519,7 +580,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           });
     } else {
 //      startLoading();
-      showGeneralDialog(useRootNavigator:false,
+      showGeneralDialog(
+          useRootNavigator: false,
           context: context,
           // ignore: missing_return
           pageBuilder: (context, anim1, anim2) {},
@@ -567,7 +629,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -620,9 +683,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -645,9 +707,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[

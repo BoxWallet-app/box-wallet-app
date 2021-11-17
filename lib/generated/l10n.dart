@@ -455,10 +455,10 @@ class S {
     );
   }
 
-  /// `About to Expire`
+  /// `Expire`
   String get aens_page_title_tab_3 {
     return Intl.message(
-      'About to Expire',
+      'Expire',
       name: 'aens_page_title_tab_3',
       desc: '',
       args: [],
@@ -3195,20 +3195,20 @@ class S {
     );
   }
 
-  /// `Create mnemonic`
+  /// `Create Account`
   String get AddAccountPage_create {
     return Intl.message(
-      'Create mnemonic',
+      'Create Account',
       name: 'AddAccountPage_create',
       desc: '',
       args: [],
     );
   }
 
-  /// `Import mnemonic`
+  /// `Import Account`
   String get AddAccountPage_import {
     return Intl.message(
-      'Import mnemonic',
+      'Import Account',
       name: 'AddAccountPage_import',
       desc: '',
       args: [],
@@ -3740,6 +3740,36 @@ class S {
     return Intl.message(
       'The account is already in the wallet',
       name: 'ImportAccountPage_account_re_error_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Token name or contract address`
+  String get CfxTokenAdd_input {
+    return Intl.message(
+      'Token name or contract address',
+      name: 'CfxTokenAdd_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the quantity`
+  String get dialog_amount_null {
+    return Intl.message(
+      'Please enter the quantity',
+      name: 'dialog_amount_null',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note (the content will be permanently written to the blockchain, optional)`
+  String get AeTokenSendTwoPage_note {
+    return Intl.message(
+      'Note (the content will be permanently written to the blockchain, optional)',
+      name: 'AeTokenSendTwoPage_note',
       desc: '',
       args: [],
     );

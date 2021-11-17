@@ -5,6 +5,7 @@ import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -135,6 +136,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
       ),
       body: LoadingWidget(
         child: EasyRefresh(
+          header: BoxHeader(),
           onRefresh: _onRefresh,
           onLoad: netData,
           // header: MaterialHeader(

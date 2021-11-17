@@ -61,6 +61,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       cfxTransfer = null;
       CfxHomePage.token = "loading...";
       CfxHomePage.tokenABC = "0.000000";
+      domain="";
       setState(() {});
       netBaseData();
       getAddress();
@@ -94,12 +95,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   getDomainName(String address) {
+    domain = "";
     BoxApp.getAddressToNameCFX((name) {
       if ("ERROR" != name) {
         domain = name;
-        setState(() {});
       }
-
+      setState(() {});
       return;
     }, address);
   }

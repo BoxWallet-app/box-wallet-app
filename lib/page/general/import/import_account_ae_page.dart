@@ -131,6 +131,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                     length: 2,
                     initialIndex: 0,
                     child: TabBar(
+
                       onTap: (index) {
                         setState(() {
                           tabIndex = index;
@@ -513,7 +514,6 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
       final key = Utils.generateMd5Int(password + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-      mnemonicAesEncode = "";
       await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
       await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
       switchAddType();

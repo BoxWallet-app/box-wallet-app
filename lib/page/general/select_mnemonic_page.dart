@@ -209,6 +209,6 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
   String getMnemonicContent(String mnemonic, int index) {
     var list = mnemonic.split(" ");
-    return list[0] + " " + list[1] + " " + list[2] + " " + list[3] + " * * * * " + list[list.length - 4] + " " + list[list.length - 3] + list[list.length - 2] + list[list.length - 1];
+    return list[0] + " " + list[1] + " " + list[2] + " " + list[3] + " * * * * " + list[list.length - 4] + " " + list[list.length - 3]+ " "  + list[list.length - 2] + " " + list[list.length - 1];
   }
 }

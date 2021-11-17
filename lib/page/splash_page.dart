@@ -42,7 +42,6 @@ class _SplashPageState extends State<SplashPage> {
         logger.info("APP LANGUAGE : " + language);
         Future.delayed(Duration(seconds: 2), () {
           S.load(Locale(language, language.toUpperCase()));
-          print("GO");
           goHome();
         });
 
@@ -105,7 +104,9 @@ class _SplashPageState extends State<SplashPage> {
     String nodeUrl = await BoxApp.getNodeUrl();
     String compilerUrl = await BoxApp.getCompilerUrl();
     String nodeCfxUrl = await BoxApp.getCfxNodeUrl();
+    print(nodeUrl);
     if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
+      print(nodeUrl);
       BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
     }
     if (nodeCfxUrl != null && nodeCfxUrl != "") {
@@ -114,7 +115,6 @@ class _SplashPageState extends State<SplashPage> {
     String address = await BoxApp.getAddress();
     var sp = await SharedPreferences.getInstance();
     sp.setString('is_language', "true");
-    print("GO");
     if (address.length > 10) {
       Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => route == null);
       // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));

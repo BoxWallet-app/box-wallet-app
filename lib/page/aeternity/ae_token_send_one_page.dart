@@ -281,6 +281,7 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
       if (!address.contains(".chain")) {
         address = _textEditingController.text + ".chain";
       }
+      print(address);
       EasyLoading.show();
       NameOwnerDao.fetch(address).then((NameOwnerModel model) {
         EasyLoading.dismiss(animation: true);
@@ -304,6 +305,7 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
           EasyLoading.dismiss(animation: true);
         }
       }).catchError((e) {
+        print(e.toString()+"1123123");
         EasyLoading.dismiss(animation: true);
       });
       return;

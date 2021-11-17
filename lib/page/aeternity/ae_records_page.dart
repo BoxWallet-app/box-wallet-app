@@ -5,6 +5,7 @@ import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_tx_detail_page.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
       ),
       body: LoadingWidget(
         child: EasyRefresh(
+          header: BoxHeader(),
           onRefresh: _onRefresh,
           onLoad: netData,
           // header: MaterialHeader(
