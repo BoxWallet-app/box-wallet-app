@@ -655,7 +655,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address != AeHomePage.address)
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address)
             Positioned(
               right: 0,
               top: 0,

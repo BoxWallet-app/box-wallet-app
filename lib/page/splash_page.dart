@@ -112,10 +112,13 @@ class _SplashPageState extends State<SplashPage> {
     if (nodeCfxUrl != null && nodeCfxUrl != "") {
       BoxApp.setCfxNodeCompilerUrl(nodeCfxUrl);
     }
+
+    var account = await WalletCoinsManager.instance.getCurrentAccount();
+
     String address = await BoxApp.getAddress();
     var sp = await SharedPreferences.getInstance();
     sp.setString('is_language', "true");
-    if (address.length > 10) {
+    if (address.length > 10 && account!=null) {
       Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => route == null);
       // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));
     } else {
