@@ -181,6 +181,9 @@ class WalletCoinsManager {
 
   Future<Account> getCurrentAccount() async {
     WalletCoinsModel coins = await getCoins();
+    if(coins.coins == null || coins.coins.length == 0){
+      return null;
+    }
     for (var i = 0; i < coins.coins.length; i++) {
       for (var j = 0; j < coins.coins[i].accounts.length; j++) {
         if (coins.coins[i].accounts[j].isSelect) {

@@ -105,7 +105,6 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
           var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
 
-
           var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
           await PluginManager.getGasCFX({
             'type': methodCall.method,
@@ -537,80 +536,23 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                 ),
               );
             },
-          ).then((val) {
+          ).then((val) async {
             if (val) {
-              showGeneralDialog(
-                  useRootNavigator: false,
-                  context: super.context,
-                  pageBuilder: (context, anim1, anim2) {
-                    return;
-                  },
-                  //barrierColor: Colors.grey.withOpacity(.4),
-                  barrierDismissible: true,
-                  barrierLabel: "",
-                  transitionDuration: Duration(milliseconds: 0),
-                  transitionBuilder: (_, anim1, anim2, child) {
-                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                    return Transform(
-                      transform: Matrix4.translationValues(0.0, 0, 0.0),
-                      child: Opacity(
-                        opacity: anim1.value,
-                        // ignore: missing_return
-                        child: PayPasswordWidget(
-                          title: S.of(context).password_widget_input_password,
-                          isSignOld: true,
-                          dismissCallBackFuture: (String password) {
-                            showHint();
-                            return;
-                          },
-                          passwordCallBackFuture: (String password) async {
-                            var mnemonic = await BoxApp.getMnemonic();
-                            if (mnemonic == "") {
-                              showDialog<bool>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext dialogContext) {
-                                  return new AlertDialog(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                                    title: Text(S.of(context).dialog_hint),
-                                    content: Text(S.of(context).dialog_login_user_no_save),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: new Text(
-                                          S.of(context).dialog_conform,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context, rootNavigator: true).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ).then((val) {});
-                              return;
-                            }
-                            var address = await BoxApp.getAddress();
-                            final key = Utils.generateMd5Int(password + address);
-                            var aesDecode = Utils.aesDecodeOld(mnemonic, key);
+              var mnemonic = await BoxApp.getMnemonic();
+              var signKey = await BoxApp.getSigningKey();
+              var address = await BoxApp.getAddress();
 
-                            if (aesDecode == "") {
-                              showErrorDialog(context, null);
+              var msg = "address:" +
+                  address +
+                  "\n"
+                      "mnemonic:" +
+                  mnemonic +
+                  "\n"
+                      "signKey:" +
+                  signKey;
 
-                              return;
-                            }
-                            var msg = "address:" +
-                                address +
-                                "\n"
-                                    "mnemonic:" +
-                                aesDecode;
-
-                            Clipboard.setData(ClipboardData(text: msg));
-                            Fluttertoast.showToast(msg: "助记词复制剪切板成功，保存并牢记好！", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-                          },
-                        ),
-                      ),
-                    );
-                  });
+              Clipboard.setData(ClipboardData(text: msg));
+              Fluttertoast.showToast(msg: "复制成功，请粘贴给百鑫！", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
             }
           });
         }
