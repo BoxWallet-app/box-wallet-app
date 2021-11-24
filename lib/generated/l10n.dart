@@ -3774,6 +3774,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Search`
+  String get input_search {
+    return Intl.message(
+      'Search',
+      name: 'input_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search more DAPP`
+  String get input_search_hint {
+    return Intl.message(
+      'Search more DAPP',
+      name: 'input_search_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The URL Error`
+  String get input_error_msg {
+    return Intl.message(
+      'The URL Error',
+      name: 'input_error_msg',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

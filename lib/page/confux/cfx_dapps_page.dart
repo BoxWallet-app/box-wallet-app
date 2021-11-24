@@ -17,6 +17,7 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:lottie/lottie.dart';
@@ -36,6 +37,8 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   BannerModel bannerModel;
   CfxDappListModel cfxDappListModel;
   List<Widget> childrens = List<Widget>();
+  TextEditingController _textEditingControllerNode = TextEditingController();
+  final FocusNode focusNodeNode = FocusNode();
 
   @override
   void initState() {
@@ -421,543 +424,762 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: EasyRefresh(
-      onRefresh: _onRefresh,
-      header: BoxHeader(),
-      child: Column(
-        children: AnimationConfiguration.toStaggeredList(
-          duration: const Duration(milliseconds: 375),
-          childAnimationBuilder: (widget) => SlideAnimation(
-            verticalOffset: 50.0,
-            child: FadeInAnimation(
-              child: widget,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Container(
+          child: EasyRefresh(
+        onRefresh: _onRefresh,
+        header: BoxHeader(),
+        child: Column(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 375),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: widget,
+              ),
             ),
-          ),
-          children: [
-            Container(
-              height: 170,
-              width: MediaQuery.of(context).size.width - 36,
-              alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  if (bannerModel != null)
-                    InkWell(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      onTap: () {
-                        if (bannerModel == null) {
-                          return;
-                        }
-                        _launchURL(
-                          bannerModel == null
-                              ? ""
-                              : BoxApp.language == "cn"
-                                  ? bannerModel.cn.url
-                                  : bannerModel.en.url,
-                        );
-                      },
-                      child: Container(
-                        height: 170,
-                        width: MediaQuery.of(context).size.width - 30,
-                        decoration: ShapeDecoration(
-                          color: Colors.black12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
+            children: [
+              Container(
+                height: 170,
+                width: MediaQuery.of(context).size.width - 36,
+                alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    if (bannerModel != null)
+                      InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        onTap: () {
+                          if (bannerModel == null) {
+                            return;
+                          }
+                          _launchURL(
+                            bannerModel == null
+                                ? ""
+                                : BoxApp.language == "cn"
+                                    ? bannerModel.cn.url
+                                    : bannerModel.en.url,
+                          );
+                        },
+                        child: Container(
+                          height: 170,
+                          width: MediaQuery.of(context).size.width - 30,
+                          decoration: ShapeDecoration(
+                            color: Colors.black12,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15.0),
+                              ),
                             ),
                           ),
-                        ),
-                        child: bannerModel == null
-                            ? Container()
-                            : ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                child: Image.network(
-                                  bannerModel == null
-                                      ? ""
-                                      : BoxApp.language == "cn"
-                                          ? bannerModel.cn.image
-                                          : bannerModel.en.image,
-                                  fit: BoxFit.cover,
+                          child: bannerModel == null
+                              ? Container()
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  child: Image.network(
+                                    bannerModel == null
+                                        ? ""
+                                        : BoxApp.language == "cn"
+                                            ? bannerModel.cn.image
+                                            : bannerModel.en.image,
+                                    fit: BoxFit.cover,
 
-                                  //设置图片的填充样式
+                                    //设置图片的填充样式
 //                        fit: BoxFit.fitWidth,
+                                  ),
                                 ),
-                              ),
+                        ),
                       ),
-                    ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 30,
+                    Positioned(
+                      bottom: 0,
                       child: Container(
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          color: Color(0x99000000),
-                        ),
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-                        margin: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 5),
-                        alignment: Alignment.center,
-                        child: Text(
-                          bannerModel == null
-                              ? "-"
-                              : BoxApp.language == "cn"
-                                  ? bannerModel.cn.title
-                                  : bannerModel.en.title,
-                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                        width: MediaQuery.of(context).size.width - 30,
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            color: Color(0x99000000),
+                          ),
+                          padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+                          margin: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 5),
+                          alignment: Alignment.center,
+                          child: Text(
+                            bannerModel == null
+                                ? "-"
+                                : BoxApp.language == "cn"
+                                    ? bannerModel.cn.title
+                                    : bannerModel.en.title,
+                            style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              // Container(
+              //   margin: EdgeInsets.only(left: 20, right: 0, top: 16, bottom: 0),
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     S.of(context).CfxDappPage_title_nft,
+              //     style: TextStyle(
+              //       color: Color(0xFF000000),
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: 16,
+              //       fontFamily: BoxApp.language == "cn"
+              //           ? "Ubuntu"
+              //           : BoxApp.language == "cn"
+              //           ? "Ubuntu"
+              //           : "Ubuntu",
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   margin: const EdgeInsets.only(top: 16, left: 15, right: 15),
+              //   //边框设置
+              //   decoration: new BoxDecoration(
+              //     color: Color(0xE6FFFFFF),
+              //     //设置四周圆角 角度
+              //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              //   ),
+              //   child: Material(
+              //     borderRadius: BorderRadius.all(Radius.circular(15)),
+              //     color: Colors.white,
+              //     child: InkWell(
+              //       borderRadius: BorderRadius.all(Radius.circular(15)),
+              //       onTap: () {
+              //         if (Platform.isIOS) {
+              //           Navigator.push(context, MaterialPageRoute(builder: (context) => CfxNftNewPage()));
+              //         } else {
+              //           Navigator.push(context, SlideRoute(CfxNftNewPage()));
+              //         }
+              //       },
+              //       child: Column(
+              //         children: [
+              //           Container(
+              //             child: Stack(
+              //               alignment: Alignment.topCenter,
+              //               children: <Widget>[
+              //                 Container(
+              //                   alignment: Alignment.topCenter,
+              //                   padding: const EdgeInsets.only(left: 5),
+              //                   child: Row(
+              //                     children: <Widget>[
+              //                       Container(
+              //                         margin: const EdgeInsets.only(top: 10),
+              //                         child: Image(
+              //                           width: 56,
+              //                           height: 56,
+              //                           image: AssetImage("images/home_nft.png"),
+              //                         ),
+              //                       ),
+              //                       Container(
+              //                         padding: const EdgeInsets.only(left: 0),
+              //                         child: Text(
+              //                           "NFTs",
+              //                           style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+              //                         ),
+              //                       )
+              //                     ],
+              //                   ),
+              //                 ),
+              //                 Positioned(
+              //                   right: 23,
+              //                   child: Container(
+              //                     width: 25,
+              //                     height: 25,
+              //                     margin: const EdgeInsets.only(top: 23),
+              //                     padding: const EdgeInsets.only(left: 0),
+              //                     //边框设置
+              //                     decoration: new BoxDecoration(
+              //                       color: Color(0xFFfafbfc),
+              //                       //设置四周圆角 角度
+              //                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              //                     ),
+              //                     child: Icon(
+              //                       Icons.arrow_forward_ios,
+              //                       size: 15,
+              //                       color: Color(0xFFCCCCCC),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //           Row(
+              //             children: <Widget>[
+              //               Expanded(
+              //                 child: Column(
+              //                   children: <Widget>[
+              //                     Container(
+              //                       alignment: Alignment.topLeft,
+              //                       margin: const EdgeInsets.only(top: 5, left: 20,right: 20),
+              //                       child: Text(
+              //                         S.of(context).CfxDappPage_nft_content,
+              //                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.6, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              //                         style: TextStyle(
+              //                           fontSize: 14,
+              //                           letterSpacing: 1.2,
+              //                           color: Color(0xFF666666),
+              //                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Container(
+              //                       margin: const EdgeInsets.only(top: 10, left: 20, bottom: 18),
+              //                       child: Row(
+              //                         children: [
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                                 S.of(context).CfxDappPage_nft_tab1,
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                               S.of(context).CfxDappPage_nft_tab2,
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                               S.of(context).CfxDappPage_nft_tab3+"...",
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           )
+              //                         ],
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(left: 20, right: 0, top: 16, bottom: 0),
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     "Conflux Dapps",
+              //     style: TextStyle(
+              //       color: Color(0xFF000000),
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: 16,
+              //       fontFamily: BoxApp.language == "cn"
+              //           ? "Ubuntu"
+              //           : BoxApp.language == "cn"
+              //           ? "Ubuntu"
+              //           : "Ubuntu",
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   margin: const EdgeInsets.only(top: 16, left: 15, right: 15),
+              //   //边框设置
+              //   decoration: new BoxDecoration(
+              //     color: Color(0xE6FFFFFF),
+              //     //设置四周圆角 角度
+              //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              //   ),
+              //   child: Material(
+              //     borderRadius: BorderRadius.all(Radius.circular(15)),
+              //     color: Colors.white,
+              //     child: InkWell(
+              //       borderRadius: BorderRadius.all(Radius.circular(15)),
+              //       onTap: () async {
+              //
+              //         var currentAccount =await WalletCoinsManager.instance.getCurrentAccount();
+              //         if(currentAccount.accountType == AccountType.ADDRESS){
+              //           showGeneralDialog(
+              //               useRootNavigator: false,
+              //               context: context,
+              //               pageBuilder: (context, anim1, anim2) {
+              //                 return;
+              //               },
+              //               //barrierColor: Colors.grey.withOpacity(.4),
+              //               barrierDismissible: true,
+              //               barrierLabel: "",
+              //               transitionDuration: Duration(milliseconds: 0),
+              //               transitionBuilder: (context, anim1, anim2, child) {
+              //                 final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+              //                 return Transform(
+              //                     transform: Matrix4.translationValues(0.0, 0, 0.0),
+              //                     child: Opacity(
+              //                       opacity: anim1.value,
+              //                       // ignore: missing_return
+              //                       child: PayPasswordWidget(
+              //                           title: S.of(context).password_widget_input_password,
+              //                           passwordCallBackFuture: (String password) async {
+              //
+              //                             return;
+              //                           }),
+              //                     ));
+              //               });
+              //           return;
+              //         }
+              //
+              //         if (Platform.isIOS) {
+              //           Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAppsPage()));
+              //         } else {
+              //           Navigator.push(context, SlideRoute(CfxAppsPage()));
+              //         }
+              //       },
+              //       child: Column(
+              //         children: [
+              //           Container(
+              //             child: Stack(
+              //               alignment: Alignment.topCenter,
+              //               children: <Widget>[
+              //                 Container(
+              //                   alignment: Alignment.topCenter,
+              //                   padding: const EdgeInsets.only(left: 5),
+              //                   child: Row(
+              //                     children: <Widget>[
+              //                       Container(
+              //                         margin: const EdgeInsets.only(top: 10),
+              //                         child: Image(
+              //                           width: 56,
+              //                           height: 56,
+              //                           image: AssetImage("images/home_names.png"),
+              //                         ),
+              //                       ),
+              //                       Container(
+              //                         padding: const EdgeInsets.only(left: 0),
+              //                         child: Text(
+              //                           S.of(context).CfxDappPage_app,
+              //                           style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+              //                         ),
+              //                       )
+              //                     ],
+              //                   ),
+              //                 ),
+              //                 Positioned(
+              //                   right: 23,
+              //                   child: Container(
+              //                     width: 25,
+              //                     height: 25,
+              //                     margin: const EdgeInsets.only(top: 23),
+              //                     padding: const EdgeInsets.only(left: 0),
+              //                     //边框设置
+              //                     decoration: new BoxDecoration(
+              //                       color: Color(0xFFfafbfc),
+              //                       //设置四周圆角 角度
+              //                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              //                     ),
+              //                     child: Icon(
+              //                       Icons.arrow_forward_ios,
+              //                       size: 15,
+              //                       color: Color(0xFFCCCCCC),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //           Row(
+              //             children: <Widget>[
+              //               Expanded(
+              //                 child: Column(
+              //                   children: <Widget>[
+              //                     Container(
+              //                       alignment: Alignment.topLeft,
+              //                       margin: const EdgeInsets.only(top: 0, left: 20,right: 20),
+              //                       child: Text(
+              //                         S.of(context).CfxDappPage_app_content,
+              //                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.6, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              //                         style: TextStyle(
+              //                           fontSize: 14,
+              //                           letterSpacing: 1.2,
+              //
+              //                           color: Color(0xFF666666),
+              //                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Container(
+              //                       margin: const EdgeInsets.only(top: 8, left: 20, bottom: 18),
+              //                       child: Row(
+              //                         children: [
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                               "MoonSwap",
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                               "Trust",
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           ),
+              //                           Container(
+              //                             margin: const EdgeInsets.only(right: 10),
+              //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              //                             decoration: new BoxDecoration(
+              //                               color: Color(0xFF37A1DB).withAlpha(16),
+              //                               //设置四周圆角 角度
+              //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //                             ),
+              //                             child: Text(
+              //                               "NFTBox...",
+              //                               style: TextStyle(
+              //                                 fontSize: 14,
+              //                                 letterSpacing: 1.2,
+              //                                 //字体间距
+              //
+              //                                 //词间距
+              //                                 color: Color(0xFF37A1DB),
+              //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              //                               ),
+              //                             ),
+              //                           )
+              //                         ],
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              if (Platform.isIOS)
+                getGroupTitle( S.of(context).input_search),
+              if (Platform.isIOS)
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 12, left: 15, right: 15),
+                  decoration: new BoxDecoration(
+                    boxShadow: [BoxShadow(color: Colors.grey.withAlpha(50), blurRadius: 100.0)],
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular((100.0)),
                   ),
-                ],
-              ),
-            ),
-            // Container(
-            //   margin: EdgeInsets.only(left: 20, right: 0, top: 16, bottom: 0),
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     S.of(context).CfxDappPage_title_nft,
-            //     style: TextStyle(
-            //       color: Color(0xFF000000),
-            //       fontWeight: FontWeight.w500,
-            //       fontSize: 16,
-            //       fontFamily: BoxApp.language == "cn"
-            //           ? "Ubuntu"
-            //           : BoxApp.language == "cn"
-            //           ? "Ubuntu"
-            //           : "Ubuntu",
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   margin: const EdgeInsets.only(top: 16, left: 15, right: 15),
-            //   //边框设置
-            //   decoration: new BoxDecoration(
-            //     color: Color(0xE6FFFFFF),
-            //     //设置四周圆角 角度
-            //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            //   ),
-            //   child: Material(
-            //     borderRadius: BorderRadius.all(Radius.circular(15)),
-            //     color: Colors.white,
-            //     child: InkWell(
-            //       borderRadius: BorderRadius.all(Radius.circular(15)),
-            //       onTap: () {
-            //         if (Platform.isIOS) {
-            //           Navigator.push(context, MaterialPageRoute(builder: (context) => CfxNftNewPage()));
-            //         } else {
-            //           Navigator.push(context, SlideRoute(CfxNftNewPage()));
-            //         }
-            //       },
-            //       child: Column(
-            //         children: [
-            //           Container(
-            //             child: Stack(
-            //               alignment: Alignment.topCenter,
-            //               children: <Widget>[
-            //                 Container(
-            //                   alignment: Alignment.topCenter,
-            //                   padding: const EdgeInsets.only(left: 5),
-            //                   child: Row(
-            //                     children: <Widget>[
-            //                       Container(
-            //                         margin: const EdgeInsets.only(top: 10),
-            //                         child: Image(
-            //                           width: 56,
-            //                           height: 56,
-            //                           image: AssetImage("images/home_nft.png"),
-            //                         ),
-            //                       ),
-            //                       Container(
-            //                         padding: const EdgeInsets.only(left: 0),
-            //                         child: Text(
-            //                           "NFTs",
-            //                           style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 Positioned(
-            //                   right: 23,
-            //                   child: Container(
-            //                     width: 25,
-            //                     height: 25,
-            //                     margin: const EdgeInsets.only(top: 23),
-            //                     padding: const EdgeInsets.only(left: 0),
-            //                     //边框设置
-            //                     decoration: new BoxDecoration(
-            //                       color: Color(0xFFfafbfc),
-            //                       //设置四周圆角 角度
-            //                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            //                     ),
-            //                     child: Icon(
-            //                       Icons.arrow_forward_ios,
-            //                       size: 15,
-            //                       color: Color(0xFFCCCCCC),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           Row(
-            //             children: <Widget>[
-            //               Expanded(
-            //                 child: Column(
-            //                   children: <Widget>[
-            //                     Container(
-            //                       alignment: Alignment.topLeft,
-            //                       margin: const EdgeInsets.only(top: 5, left: 20,right: 20),
-            //                       child: Text(
-            //                         S.of(context).CfxDappPage_nft_content,
-            //                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.6, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-            //                         style: TextStyle(
-            //                           fontSize: 14,
-            //                           letterSpacing: 1.2,
-            //                           color: Color(0xFF666666),
-            //                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     Container(
-            //                       margin: const EdgeInsets.only(top: 10, left: 20, bottom: 18),
-            //                       child: Row(
-            //                         children: [
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                                 S.of(context).CfxDappPage_nft_tab1,
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           ),
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                               S.of(context).CfxDappPage_nft_tab2,
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           ),
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                               S.of(context).CfxDappPage_nft_tab3+"...",
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           )
-            //                         ],
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   margin: EdgeInsets.only(left: 20, right: 0, top: 16, bottom: 0),
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     "Conflux Dapps",
-            //     style: TextStyle(
-            //       color: Color(0xFF000000),
-            //       fontWeight: FontWeight.w500,
-            //       fontSize: 16,
-            //       fontFamily: BoxApp.language == "cn"
-            //           ? "Ubuntu"
-            //           : BoxApp.language == "cn"
-            //           ? "Ubuntu"
-            //           : "Ubuntu",
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   margin: const EdgeInsets.only(top: 16, left: 15, right: 15),
-            //   //边框设置
-            //   decoration: new BoxDecoration(
-            //     color: Color(0xE6FFFFFF),
-            //     //设置四周圆角 角度
-            //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            //   ),
-            //   child: Material(
-            //     borderRadius: BorderRadius.all(Radius.circular(15)),
-            //     color: Colors.white,
-            //     child: InkWell(
-            //       borderRadius: BorderRadius.all(Radius.circular(15)),
-            //       onTap: () async {
-            //
-            //         var currentAccount =await WalletCoinsManager.instance.getCurrentAccount();
-            //         if(currentAccount.accountType == AccountType.ADDRESS){
-            //           showGeneralDialog(
-            //               useRootNavigator: false,
-            //               context: context,
-            //               pageBuilder: (context, anim1, anim2) {
-            //                 return;
-            //               },
-            //               //barrierColor: Colors.grey.withOpacity(.4),
-            //               barrierDismissible: true,
-            //               barrierLabel: "",
-            //               transitionDuration: Duration(milliseconds: 0),
-            //               transitionBuilder: (context, anim1, anim2, child) {
-            //                 final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            //                 return Transform(
-            //                     transform: Matrix4.translationValues(0.0, 0, 0.0),
-            //                     child: Opacity(
-            //                       opacity: anim1.value,
-            //                       // ignore: missing_return
-            //                       child: PayPasswordWidget(
-            //                           title: S.of(context).password_widget_input_password,
-            //                           passwordCallBackFuture: (String password) async {
-            //
-            //                             return;
-            //                           }),
-            //                     ));
-            //               });
-            //           return;
-            //         }
-            //
-            //         if (Platform.isIOS) {
-            //           Navigator.push(context, MaterialPageRoute(builder: (context) => CfxAppsPage()));
-            //         } else {
-            //           Navigator.push(context, SlideRoute(CfxAppsPage()));
-            //         }
-            //       },
-            //       child: Column(
-            //         children: [
-            //           Container(
-            //             child: Stack(
-            //               alignment: Alignment.topCenter,
-            //               children: <Widget>[
-            //                 Container(
-            //                   alignment: Alignment.topCenter,
-            //                   padding: const EdgeInsets.only(left: 5),
-            //                   child: Row(
-            //                     children: <Widget>[
-            //                       Container(
-            //                         margin: const EdgeInsets.only(top: 10),
-            //                         child: Image(
-            //                           width: 56,
-            //                           height: 56,
-            //                           image: AssetImage("images/home_names.png"),
-            //                         ),
-            //                       ),
-            //                       Container(
-            //                         padding: const EdgeInsets.only(left: 0),
-            //                         child: Text(
-            //                           S.of(context).CfxDappPage_app,
-            //                           style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 Positioned(
-            //                   right: 23,
-            //                   child: Container(
-            //                     width: 25,
-            //                     height: 25,
-            //                     margin: const EdgeInsets.only(top: 23),
-            //                     padding: const EdgeInsets.only(left: 0),
-            //                     //边框设置
-            //                     decoration: new BoxDecoration(
-            //                       color: Color(0xFFfafbfc),
-            //                       //设置四周圆角 角度
-            //                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            //                     ),
-            //                     child: Icon(
-            //                       Icons.arrow_forward_ios,
-            //                       size: 15,
-            //                       color: Color(0xFFCCCCCC),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           Row(
-            //             children: <Widget>[
-            //               Expanded(
-            //                 child: Column(
-            //                   children: <Widget>[
-            //                     Container(
-            //                       alignment: Alignment.topLeft,
-            //                       margin: const EdgeInsets.only(top: 0, left: 20,right: 20),
-            //                       child: Text(
-            //                         S.of(context).CfxDappPage_app_content,
-            //                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.6, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-            //                         style: TextStyle(
-            //                           fontSize: 14,
-            //                           letterSpacing: 1.2,
-            //
-            //                           color: Color(0xFF666666),
-            //                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     Container(
-            //                       margin: const EdgeInsets.only(top: 8, left: 20, bottom: 18),
-            //                       child: Row(
-            //                         children: [
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                               "MoonSwap",
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           ),
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                               "Trust",
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           ),
-            //                           Container(
-            //                             margin: const EdgeInsets.only(right: 10),
-            //                             padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-            //                             decoration: new BoxDecoration(
-            //                               color: Color(0xFF37A1DB).withAlpha(16),
-            //                               //设置四周圆角 角度
-            //                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            //                             ),
-            //                             child: Text(
-            //                               "NFTBox...",
-            //                               style: TextStyle(
-            //                                 fontSize: 14,
-            //                                 letterSpacing: 1.2,
-            //                                 //字体间距
-            //
-            //                                 //词间距
-            //                                 color: Color(0xFF37A1DB),
-            //                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-            //                               ),
-            //                             ),
-            //                           )
-            //                         ],
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: new BoxDecoration(
+                          color: Color(0xFFFFFFFF),
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        child: TextField(
+                          controller: _textEditingControllerNode,
+                          focusNode: focusNodeNode,
+                          inputFormatters: [
+                            // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                          ],
+                          maxLines: 1,
 
-            if (childrens.isEmpty)
-              Center(
-                child: Container(
-                    height: 200,
-                    child: Center(
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                          'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                          onLoaded: (composition) {
-                            // Configure the AnimationController with the duration of the
-                            // Lottie file and start the animation.
+                          onSubmitted: (url) async {
+                            if (!url.contains("https://")) {
+                              EasyLoading.showToast(S.of(context).input_error_msg, duration: Duration(seconds: 2));
+                              return;
+                            }
+
+
+                            showGeneralDialog(
+                                useRootNavigator: false,
+                                context: context,
+                                pageBuilder: (context, anim1, anim2) {},
+                                //barrierColor: Colors.grey.withOpacity(.4),
+                                barrierDismissible: true,
+                                barrierLabel: "",
+                                transitionDuration: Duration(milliseconds: 0),
+                                transitionBuilder: (context, anim1, anim2, child) {
+                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                  return Transform(
+                                      transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                      child: Opacity(
+                                          opacity: anim1.value,
+                                          // ignore: missing_return
+                                          child: Material(
+                                            type: MaterialType.transparency, //透明类型
+                                            child: Center(
+                                              child: Container(
+                                                height: 470,
+                                                width: MediaQuery.of(context).size.width - 40,
+                                                margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                decoration: ShapeDecoration(
+                                                  color: Color(0xffffffff),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(8.0),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      width: MediaQuery.of(context).size.width - 40,
+                                                      alignment: Alignment.topLeft,
+                                                      child: Material(
+                                                        color: Colors.transparent,
+                                                        child: InkWell(
+                                                          borderRadius: BorderRadius.all(Radius.circular(60)),
+                                                          onTap: () async {
+                                                            Navigator.pop(context); //关闭对话框
+
+                                                            // ignore: unnecessary_statements
+                                                            //                                  widget.dismissCallBackFuture("");
+                                                          },
+                                                          child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 20, right: 20),
+                                                      child: Text(
+                                                        S.of(context).dialog_privacy_hint,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 270,
+                                                      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                                      child: SingleChildScrollView(
+                                                        child: Container(
+                                                          child: Text(
+                                                            S.of(context).cfx_dapp_mag1 + " " + url + " " + S.of(context).cfx_dapp_mag2,
+                                                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                                      child: TextButton(
+                                                        //定义一下文本样式
+                                                        style: ButtonStyle(
+                                                          //更优美的方式来设置
+                                                          shape: MaterialStateProperty.all(StadiumBorder()),
+                                                          //设置水波纹颜色
+                                                          overlayColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(150)),
+
+                                                          //背景颜色
+                                                          backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                                            //设置按下时的背景颜色
+                                                            if (states.contains(MaterialState.pressed)) {
+                                                              return Color(0xFFFC2365).withAlpha(200);
+                                                            }
+                                                            //默认不使用背景颜色
+                                                            return Color(0xFFFC2365);
+                                                          }),
+                                                          //设置按钮内边距
+                                                          padding: MaterialStateProperty.all(EdgeInsets.only(left: 25, right: 25)),
+                                                        ),
+
+                                                        child: Text(
+                                                          S.of(context).dialog_privacy_confirm,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                          ),
+                                                        ),
+                                                        onPressed: () async {
+                                                          Navigator.pop(context); //关闭对话框
+                                                          if (Platform.isAndroid) {
+                                                            String resultString;
+                                                            try {
+                                                              resultString = await PluginManager.pushActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                                            } on PlatformException {
+                                                              resultString = '失败';
+                                                            }
+                                                            // print(resultString);
+                                                            return;
+                                                          }
+
+                                                          Navigator.push(
+                                                              navigatorKey.currentState.overlay.context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => CfxRpcPage(
+                                                                    url: url,
+                                                                  )));
+                                                        },
+                                                      ),
+                                                    ),
+
+                                                    //          Text(text),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )));
+                                });
+
+
+
+
                           },
+                          style: TextStyle(
+                            textBaseline: TextBaseline.alphabetic,
+                            fontSize: 18,
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            color: Colors.black,
+                          ),
+
+                          decoration: InputDecoration(
+                            hintText: S.of(context).input_search_hint,
+                            icon: Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Icon(
+                                Icons.search,
+                                color: Color(0xff999999),
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 0),
+                            enabledBorder: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                              ),
+                            ),
+                            focusedBorder: new OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(color: Color(0x00000000)),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            hintStyle: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666).withAlpha(85),
+                            ),
+                          ),
+                          cursorColor: Color(0xFFFC2365),
+                          cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
                         ),
                       ),
-                    )),
+                    ],
+                  ),
+                ),
+              if (childrens.isEmpty)
+                Center(
+                  child: Container(
+                      height: 200,
+                      child: Center(
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                            'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                            onLoaded: (composition) {
+                              // Configure the AnimationController with the duration of the
+                              // Lottie file and start the animation.
+                            },
+                          ),
+                        ),
+                      )),
+                ),
+              Column(
+                children: childrens,
               ),
-            Column(
-              children: childrens,
-            ),
 
-            Container(
-              height: MediaQueryData.fromWindow(window).padding.bottom + 12,
-            ),
-            Container(
-              height: 8,
-            ),
-          ],
+              Container(
+                height: MediaQueryData.fromWindow(window).padding.bottom + 12,
+              ),
+              Container(
+                height: 8,
+              ),
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 
   @override
