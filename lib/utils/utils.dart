@@ -212,7 +212,7 @@ class Utils {
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
     } catch (err) {
-      print("aes decode error:$err");
+      // print("aes decode error:$err");
       return "";
     }
   }

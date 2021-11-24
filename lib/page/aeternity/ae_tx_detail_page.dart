@@ -241,7 +241,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
 
       if (widget.recordData.tx['recipient_id'].toString() == AeHomePage.address) {
         return Text(
-          "+" + double.parse(((widget.recordData.tx['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
+          "+" + double.parse(((widget.recordData.tx['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
           style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       } else {
@@ -259,7 +259,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
       }
 
       return Text(
-        "-" + double.parse((widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
+        "-" + double.parse((widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
 
         style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );

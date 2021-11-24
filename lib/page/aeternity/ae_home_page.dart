@@ -174,8 +174,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       AeHomePage.address = account.address;
-      if(!mounted)
-        return;
+      if (!mounted) return;
       setState(() {});
     });
   }
@@ -349,14 +348,14 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                 priceModel == null
                                                     ? Container()
                                                     : Container(
-                                                  margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
-                                                  child: Text(
+                                                        margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
+                                                        child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                    getAePrice(),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                                  ),
-                                                ),
+                                                          getAePrice(),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                        ),
+                                                      ),
 
 //                            buildTypewriterAnimatedTextKit(),
 
@@ -390,8 +389,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                   AeHomePage.tokenABC == "loading..."
                                                       ? "loading..."
                                                       : double.parse(AeHomePage.tokenABC) > 1000
-                                                      ? double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC"
-                                                      : double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC",
+                                                          ? double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC"
+                                                          : double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -443,7 +442,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     ),
                                   ),
                                 ),
-
                                 Container(
                                   height: 130,
                                   child: Column(
@@ -518,8 +516,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                   AeHomePage.token == "loading..."
                                                       ? "loading..."
                                                       : double.parse(AeHomePage.token) > 1000
-                                                      ? double.parse(AeHomePage.token).toStringAsFixed(2) + ""
-                                                      : double.parse(AeHomePage.token).toStringAsFixed(5) + "",
+                                                          ? double.parse(AeHomePage.token).toStringAsFixed(2) + ""
+                                                          : double.parse(AeHomePage.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -562,8 +560,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                   fontFamily: BoxApp.language == "cn"
                                       ? "Ubuntu"
                                       : BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : "Ubuntu",
+                                          ? "Ubuntu"
+                                          : "Ubuntu",
                                 ),
                               ),
                             ),
@@ -587,11 +585,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
                                           if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  AeTokenSendOnePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                                            Navigator.push(context, SlideRoute(AeTokenSendOnePage()));
                                           }
-
                                         },
                                         child: Container(
                                           height: 90,
@@ -669,11 +666,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
                                           if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>TokenReceivePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute( TokenReceivePage()));
+                                            Navigator.push(context, SlideRoute(TokenReceivePage()));
                                           }
-
                                         },
                                         child: Container(
                                           height: 90,
@@ -748,12 +744,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
+
                                     if (Platform.isIOS) {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
                                     } else {
                                       Navigator.push(context, SlideRoute( AeTokenListPage()));
                                     }
-
                                   },
                                   child: Container(
                                     height: 90,
@@ -851,9 +847,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           splashColor: Colors.white,
           onTap: () {
             if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>AeRecordsPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
             } else {
-               Navigator.push(context, SlideRoute(AeRecordsPage()));
+              Navigator.push(context, SlideRoute(AeRecordsPage()));
             }
           },
           child: Column(
@@ -987,7 +983,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
             if (Platform.isIOS) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
             } else {
-              Navigator.push(context, SlideRoute( AeRecordsPage()));
+              Navigator.push(context, SlideRoute(AeRecordsPage()));
             }
           },
           child: Column(
@@ -1066,9 +1062,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           if (Platform.isIOS) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
           } else {
-            Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+            Navigator.push(context, SlideRoute(AeTxDetailPage(recordData: walletRecordModel.data[index])));
           }
-
         },
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
@@ -1127,9 +1122,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           if (Platform.isIOS) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel.data[index])));
           } else {
-            Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel.data[index])));
+            Navigator.push(context, SlideRoute(AeTxDetailPage(recordData: walletRecordModel.data[index])));
           }
-
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),
