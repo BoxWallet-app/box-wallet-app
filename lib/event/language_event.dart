@@ -27,6 +27,11 @@ class AccountUpdateEvent {
   AccountUpdateEvent();
 }
 
+class ModelUpdateEvent {
+  ModelUpdateEvent();
+}
+
+
 class AccountUpdateNameEvent {
   AccountUpdateNameEvent();
 }

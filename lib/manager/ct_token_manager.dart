@@ -42,8 +42,9 @@ class CtTokenManager {
     CtTokenModel model = CtTokenModel();
     model.tokens = ctTokens;
     var prefs = await SharedPreferences.getInstance();
+    print(ctTokens);
     if (ctTokens == null || ctTokens.isEmpty) {
-      prefs.setString('ct_cfx_tokens_' + address, null);
+      prefs.setString('ct_cfx_tokens_' + address, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(b)));
       return true;
     }
     prefs.setString('ct_cfx_tokens_' + address, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(b)));

@@ -430,21 +430,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        _launchURL("https://ae-source.oss-cn-hongkong.aliyuncs.com/share_weixin.jpeg");
-                      },
-                      child: Container(
-                        width: 25,
-                        height: 25,
-                        child: Image(
-                          image: AssetImage("images/weixin.png"),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 40,
-                    ),
+
                     InkWell(
                       onTap: () {
                         _launchURL("https://qm.qq.com/cgi-bin/qm/qr?k=jnFWHm16iJM888smlrKE5PUkbshkdUT5&authKey=dGXI17gaZNaGwlDfLxFt1vWYqQLrvxrzGZiEMWgSKytSjWabHnSLz/f/PG9EQsre&noverify=0");
@@ -462,7 +448,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                     ),
                     InkWell(
                       onTap: () {
-                        _launchURL("https://twitter.com/Baixin25080316");
+                        _launchURL("https://twitter.com/box_wallet_app");
                       },
                       child: Container(
                         width: 25,

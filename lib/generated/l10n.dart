@@ -3804,6 +3804,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Dapp Browser`
+  String get CfxDappsPage_browser {
+    return Intl.message(
+      'Dapp Browser',
+      name: 'CfxDappsPage_browser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Dapp or enter the link to play directly`
+  String get CfxDappsPage_browser_content {
+    return Intl.message(
+      'Search Dapp or enter the link to play directly',
+      name: 'CfxDappsPage_browser_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get CfxWebPage_dismiss {
+    return Intl.message(
+      'Cancel',
+      name: 'CfxWebPage_dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top Searches`
+  String get CfxWebPage_dismiss_tab1 {
+    return Intl.message(
+      'Top Searches',
+      name: 'CfxWebPage_dismiss_tab1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History`
+  String get CfxWebPage_dismiss_tab2 {
+    return Intl.message(
+      'History',
+      name: 'CfxWebPage_dismiss_tab2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm whether you want to clear the access log`
+  String get dialog_web_clear_content {
+    return Intl.message(
+      'Please confirm whether you want to clear the access log',
+      name: 'dialog_web_clear_content',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
