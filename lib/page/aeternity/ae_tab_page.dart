@@ -17,6 +17,7 @@ import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/confux/cfx_dapps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
+import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/page/setting_page.dart';
 import 'package:box/page/general/wallet_select_page.dart';
 import 'package:box/utils/utils.dart';
@@ -47,6 +48,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   List<Widget> aeWidget = List();
   List<Widget> cfxWidget = List();
+  List<Widget> ethWidget = List();
   var _currentIndex = 0;
 
   @override
@@ -66,6 +68,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     cfxWidget.add(CfxHomePage());
     cfxWidget.add(CfxDappsPage());
     cfxWidget.add(SettingPage());
+
+    ethWidget.add(EthHomePage());
+    ethWidget.add(CfxDappsPage());
+    ethWidget.add(SettingPage());
 
     eventBus.on<AccountUpdateEvent>().listen((event) {
       getAddress();
@@ -562,15 +568,25 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
   Widget getBody() {
     if (account == null) return Container();
-    return account.coin == "AE"
-        ? IndexedStack(
-            index: _currentIndex,
-            children: aeWidget,
-          )
-        : IndexedStack(
-            index: _currentIndex,
-            children: cfxWidget,
-          );
+
+    if(account.coin == "AE"){
+      return IndexedStack(
+        index: _currentIndex,
+        children: aeWidget,
+      );
+    }
+    if(account.coin == "CFX"){
+      return IndexedStack(
+        index: _currentIndex,
+        children: cfxWidget,
+      );
+    }
+    if(account.coin == "OKT"|| account.coin == "BNB"||account.coin == "HT"){
+      return IndexedStack(
+        index: _currentIndex,
+        children: ethWidget,
+      );
+    }
   }
 
   Positioned buildTitleRightIcon(BuildContext context) {

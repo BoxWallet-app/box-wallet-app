@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:box/a.dart';
-import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
@@ -22,18 +20,18 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
-class ImportAccountAePage extends StatefulWidget {
+class ImportAccountEthPage extends StatefulWidget {
   final String coinName;
   final String fullName;
   final String password;
 
-  const ImportAccountAePage({Key key, this.coinName, this.fullName, this.password}) : super(key: key);
+  const ImportAccountEthPage({Key key, this.coinName, this.fullName, this.password = ""}) : super(key: key);
 
   @override
-  _ImportAccountAePageState createState() => _ImportAccountAePageState();
+  _ImportAccountEthPageState createState() => _ImportAccountEthPageState();
 }
 
-class _ImportAccountAePageState extends State<ImportAccountAePage> {
+class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -56,7 +54,11 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            S.of(context).ImportAccountPage_title1+" " + widget.fullName + S.of(context).ImportAccountPage_title2,
+            S.of(context).ImportAccountPage_title1 + "" + widget.fullName + S.of(context).ImportAccountPage_title2,
+            softWrap: true,
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -74,7 +76,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           ),
           actions: <Widget>[
             IconButton(
-              splashRadius:40,
+              splashRadius: 40,
               icon: Icon(
                 Icons.add_a_photo_outlined,
                 color: Color(0xFF000000),
@@ -86,18 +88,20 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                 ];
                 PermissionHelper.check(permissions, onSuccess: () async {
                   var data;
-                  data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-
-                  if(data == null|| data==""){
+                  if (Platform.isIOS) {
+                    data = await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                  } else {
+                    data = await Navigator.push(context, SlideRoute(ScanPage()));
+                  }
+                  if (data == null || data == "") {
                     return;
                   }
-                  inputPassword(data.toString(), true);
+                  inputPassword(data, true);
                 }, onFailed: () {
                   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
                 }, onOpenSetting: () {
                   openAppSettings();
                 });
-
 
                 // Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
                 // if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
@@ -128,10 +132,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                 children: [
                   // Directly use inside yoru [TabBar]
                   DefaultTabController(
-                    length: 2,
+                    length: 3,
                     initialIndex: 0,
                     child: TabBar(
-
                       onTap: (index) {
                         setState(() {
                           tabIndex = index;
@@ -142,10 +145,13 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       },
                       tabs: [
                         Tab(
-                          text:  S.of(context).ImportAccountPage_group1,
+                          text: S.of(context).ImportAccountPage_group1,
                         ),
                         Tab(
-                          text:  S.of(context).ImportAccountPage_group3,
+                          text: S.of(context).ImportAccountPage_group2,
+                        ),
+                        Tab(
+                          text: S.of(context).ImportAccountPage_group3,
                         ),
                       ],
                       labelColor: Colors.black,
@@ -157,7 +163,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                         topRightRadius: 8,
                         bottomLeftRadius: 8,
                         bottomRightRadius: 8,
-                        horizontalPadding: 80,
+                        horizontalPadding: 50,
                         tabPosition: TabPosition.bottom,
                       ),
                     ),
@@ -358,39 +364,19 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
         await createTabMnemonic(data);
         break;
       case 1:
+        await createTabPrivateKey(data);
+        break;
+      case 2:
         await createTabAddress(data);
         break;
     }
   }
 
-  Future<void> createTabAddress(String address) async {
+  Future<void> createTabPrivateKey(String privateKey) async {
     EasyLoading.show();
-    AccountInfoDao.fetch(address: address).then((AccountInfoModel model) {
+    BoxApp.getSecretPrivateCFX((address, signingKey) async {
       EasyLoading.dismiss();
-      if (model.code == 200 && model.data.balance.isNotEmpty) {
-        if(widget.password == null){
-          if (Platform.isIOS) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SetPasswordPage(
-                      setPasswordPageCallBackFuture: (password) async {
-                        await createAddressAccount(password, address);
-                        return;
-                      },
-                    )));
-          } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
-              setPasswordPageCallBackFuture: (password) async {
-                await createAddressAccount(password, address);
-                return;
-              },
-            )));
-          }
-        }else{
-          createAddressAccount(widget.password, address);
-        }
-      } else {
+      if (signingKey.isEmpty && address.isEmpty) {
         showDialog<bool>(
           context: context,
           barrierDismissible: false,
@@ -401,7 +387,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    Text(S.of(context).ImportAccountPage_address_msg),
+                    Text(S.of(context).ImportAccountPage_private_msg),
                   ],
                 ),
               ),
@@ -416,9 +402,36 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             );
           },
         ).then((val) {});
+      } else {
+        if (widget.password.isEmpty) {
+          if (Platform.isIOS) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SetPasswordPage(
+                          setPasswordPageCallBackFuture: (password) async {
+                            await createPrivateKeyAccount(password, privateKey);
+                            return;
+                          },
+                        )));
+          } else {
+            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+              setPasswordPageCallBackFuture: (password) async {
+                await createPrivateKeyAccount(password, privateKey);
+                return;
+              },
+            )));
+          }
+        } else {
+          await createPrivateKeyAccount(widget.password, privateKey);
+        }
       }
-    }).catchError((e) {
-      EasyLoading.dismiss();
+    }, privateKey);
+  }
+
+  Future<void> createTabAddress(String address) async {
+    print(address.length);
+    if (address.isEmpty || !address.contains("0x") || address.length != 42) {
       showDialog<bool>(
         context: context,
         barrierDismissible: false,
@@ -444,7 +457,30 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           );
         },
       ).then((val) {});
-    });
+    } else {
+      if (widget.password.isEmpty) {
+        if (Platform.isIOS) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SetPasswordPage(
+                        setPasswordPageCallBackFuture: (password) async {
+                          await createAddressAccount(password, address);
+                          return;
+                        },
+                      )));
+        } else {
+          Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+            setPasswordPageCallBackFuture: (password) async {
+              await createAddressAccount(password, address);
+              return;
+            },
+          )));
+        }
+      } else {
+        await createAddressAccount(widget.password, address);
+      }
+    }
   }
 
   Future<void> createTabMnemonic(String mnemonic) async {
@@ -452,18 +488,17 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     BoxApp.getValidationMnemonic((isSucess) {
       EasyLoading.dismiss();
       if (isSucess) {
-
-        if (widget.password == null) {
+        if (widget.password.isEmpty) {
           if (Platform.isIOS) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => SetPasswordPage(
-                      setPasswordPageCallBackFuture: (password) async {
-                        await createMnemonicAccount(password, mnemonic);
-                        return;
-                      },
-                    )));
+                          setPasswordPageCallBackFuture: (password) async {
+                            await createMnemonicAccount(password, mnemonic);
+                            return;
+                          },
+                        )));
           } else {
             Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
@@ -473,7 +508,6 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             )));
           }
         } else {
-
           createMnemonicAccount(widget.password, mnemonic);
           return;
         }
@@ -509,8 +543,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
   }
 
   Future<void> createMnemonicAccount(String password, String mnemonic) async {
-    BoxApp.getSecretKey((address, signingKey) async {
+    BoxApp.getSecretKeyETH((address, signingKey) async {
       if (!await checkAccount(address)) return;
+
       final key = Utils.generateMd5Int(password + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
@@ -518,6 +553,18 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
       await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
       switchAddType();
     }, mnemonic);
+  }
+
+  Future<void> createPrivateKeyAccount(String password, String privateKey) async {
+    BoxApp.getSecretPrivateETH((address, signingKey) async {
+      if (!await checkAccount(address)) return;
+      print(address);
+      final key = Utils.generateMd5Int(password + address);
+      var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+      await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
+      await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, "", signingKeyAesEncode, AccountType.PRIVATE_KEY, false);
+      switchAddType();
+    }, privateKey);
   }
 
   Future<void> createAddressAccount(String password, String address) async {
@@ -530,14 +577,12 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     switchAddType();
   }
 
-
-
   Future<bool> checkAccount(String address) async {
     var walletCoinModel = await WalletCoinsManager.instance.getCoins();
-    bool isExist = false;
-    if(walletCoinModel.coins == null){
+    if (walletCoinModel.coins == null) {
       return true;
     }
+    bool isExist = false;
     for (var i = 0; i < walletCoinModel.coins.length; i++) {
       for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
         if (walletCoinModel.coins[i].accounts[j].address == address) {
@@ -571,15 +616,15 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     }
     return true;
   }
+
   void switchAddType() {
-    if(widget.password == null){
+    if (widget.password.isEmpty) {
       Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
-    }else{
+    } else {
       eventBus.fire(AddImportAccount());
       Navigator.pop(context);
     }
   }
-
 
   void updateDevText() {
     if (BoxApp.isDev()) {
@@ -588,7 +633,10 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
           return;
         case 1:
-          _textEditingController.text = "ak_cPgVgbjv78RmKzsTteHDJw4gvd1Nt6s9ogCamhBnanpf5xBhC";
+          _textEditingController.text = "0x8c79085c776cce36d9c1448665e497d555a994fb4419733ad2e1c39d040b69b4";
+          return;
+        case 2:
+          _textEditingController.text = "0x7B8D5430deA51B3fae5c0f0AEA924106666ce0EE";
           return;
       }
       _textEditingController.text = "";
@@ -600,7 +648,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
       case 0:
         return 'memory pool equip lesson limb naive endorse advice lift ...';
       case 1:
-        return 'ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6q...';
+        return '0x8c79085c776cce36d9c144...';
+      case 2:
+        return '0x7B8D5430deA51B3fae5c0f0AEA924106...';
     }
     return 'memory pool equip lesson limb naive endorse advice lift ...';
   }
@@ -610,6 +660,8 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
       case 0:
         return 170;
       case 1:
+        return 150;
+      case 2:
         return 130;
     }
     return 170;
@@ -618,9 +670,11 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
   String getTitleContent() {
     switch (tabIndex) {
       case 0:
-        return      S.of(context).ImportAccountPage_group1_content;
+        return S.of(context).ImportAccountPage_group1_content;
       case 1:
-        return      S.of(context).ImportAccountPage_group3_content;
+        return S.of(context).ImportAccountPage_group2_content;
+      case 2:
+        return S.of(context).ImportAccountPage_group3_content;
     }
     return "";
   }

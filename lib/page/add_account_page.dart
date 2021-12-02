@@ -8,6 +8,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/page/general/import/import_account_eth_page.dart';
 import 'package:box/page/general/select_mnemonic_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -91,7 +92,10 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
           }
         }
       });
-      mnemonics = result;
+      var set = new Set<String>(); //用set进行去重
+      set.addAll(result);//把数组塞进set里
+      print(set);
+      mnemonics = set.toList();
       if (mnemonics.length != 0) {
         isOtherAccount = true;
       }
@@ -297,6 +301,27 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                     Navigator.push(
                                         context,
                                         SlideRoute(ImportAccountCfxPage(
+                                          coinName: widget.coin.name,
+                                          fullName: widget.coin.fullName,
+                                          password: widget.password,
+                                        )));
+                                  }
+                                  return;
+                                }
+                                if (widget.coin.name == "BNB"||widget.coin.name == "OKT"||widget.coin.name == "HT") {
+                                  if (Platform.isIOS) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ImportAccountEthPage(
+                                              coinName: widget.coin.name,
+                                              fullName: widget.coin.fullName,
+                                              password: widget.password,
+                                            )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        SlideRoute(ImportAccountEthPage(
                                           coinName: widget.coin.name,
                                           fullName: widget.coin.fullName,
                                           password: widget.password,
@@ -531,7 +556,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
       }
       if (widget.coin.name == "AE") {
         BoxApp.getSecretKey((address, signingKey) async {
-          if (!await checkAccount(address)) return;
+          if (!await checkAccount(widget.coin.name,address)) return;
 
           final key = Utils.generateMd5Int(widget.password + address);
           var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
@@ -544,7 +569,40 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
       }
       if (widget.coin.name == "CFX") {
         BoxApp.getSecretKeyCFX((address, signingKey) async {
-          if (!await checkAccount(address)) return;
+          if (!await checkAccount(widget.coin.name,address)) return;
+          final key = Utils.generateMd5Int(widget.password + address);
+          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
+          await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+          checkSuccess();
+        }, mnemonicTemp);
+      }
+      if (widget.coin.name == "BNB") {
+        BoxApp.getSecretKeyETH((address, signingKey) async {
+          if (!await checkAccount(widget.coin.name,address)) return;
+          final key = Utils.generateMd5Int(widget.password + address);
+          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
+          await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+          checkSuccess();
+        }, mnemonicTemp);
+      }
+      if (widget.coin.name == "OKT") {
+        BoxApp.getSecretKeyETH((address, signingKey) async {
+          if (!await checkAccount(widget.coin.name,address)) return;
+          final key = Utils.generateMd5Int(widget.password + address);
+          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
+          await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+          checkSuccess();
+        }, mnemonicTemp);
+      }
+      if (widget.coin.name == "HT") {
+        BoxApp.getSecretKeyETH((address, signingKey) async {
+          if (!await checkAccount(widget.coin.name,address)) return;
           final key = Utils.generateMd5Int(widget.password + address);
           var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
           var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
@@ -557,18 +615,21 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
     }, mnemonicTemp);
   }
 
-  Future<bool> checkAccount(String address) async {
+  Future<bool> checkAccount(String name,String address) async {
     var walletCoinModel = await WalletCoinsManager.instance.getCoins();
     bool isExist = false;
     if(walletCoinModel.coins == null){
       return true;
     }
     for (var i = 0; i < walletCoinModel.coins.length; i++) {
-      for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
-        if (walletCoinModel.coins[i].accounts[j].address == address) {
-          isExist = true;
+      if(name == walletCoinModel.coins[i].name){
+        for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
+          if (walletCoinModel.coins[i].accounts[j].address == address) {
+            isExist = true;
+          }
         }
       }
+
     }
     if (isExist) {
       EasyLoading.dismiss(animation: true);

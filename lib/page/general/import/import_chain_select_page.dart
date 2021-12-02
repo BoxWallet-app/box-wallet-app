@@ -21,6 +21,7 @@ import 'import_account_common_page.dart';
 import '../create/create_mnemonic_copy_page.dart';
 import 'import_account_ae_page.dart';
 import 'import_account_cfx_page.dart';
+import 'import_account_eth_page.dart';
 
 class ImportChainSelectPage extends StatefulWidget {
   const ImportChainSelectPage({Key key}) : super(key: key);
@@ -274,6 +275,26 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
               }
               return;
             }
+
+            if (chains[index].name == "BNB" || chains[index].name =="HT"|| chains[index].name =="OKT") {
+              if (Platform.isIOS) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImportAccountEthPage(
+                          coinName: chains[index].name,
+                          fullName: chains[index].nameFull,
+                        )));
+              } else {
+                Navigator.push(
+                    context,
+                    SlideRoute(ImportAccountEthPage(
+                      coinName: chains[index].name,
+                      fullName: chains[index].nameFull,
+                    )));
+              }
+              return;
+            }
           },
           child: Container(
             child: Row(
@@ -314,19 +335,24 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                chains[index].nameFull + " (" + chains[index].name + ")",
-                                style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xff333333),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                child: Text(
+                                  chains[index].nameFull + " (" + chains[index].name + ")",
+                                  softWrap: true,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: new TextStyle(
+                                    fontSize: 20,
+                                    color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
                                 ),
                               ),
                             ),
-                            Expanded(child: Container()),
                             Container(
                               width: 25,
                               height: 25,

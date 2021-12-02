@@ -71,7 +71,10 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
           }
         }
       });
-      mnemonics = result;
+
+      var set = new Set<String>(); //用set进行去重
+      set.addAll(result);//把数组塞进set里
+      mnemonics = set.toList();
       setState(() {});
     });
   }

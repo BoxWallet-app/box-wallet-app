@@ -40,7 +40,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
     super.initState();
     // _textEditingController.text = "";
     if (BoxApp.isDev()) {
-      _textEditingController.text = "disease embody record seed fiscal jealous apology observe bachelor legend rough crop";
+      _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
     }
 
     if (widget.mnemonic != null) {

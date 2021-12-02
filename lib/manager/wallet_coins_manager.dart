@@ -240,6 +240,21 @@ class WalletCoinsManager {
     ae.nameFull = "Aeternity";
     chains.add(ae);
 
+    ChainsModel bnb = ChainsModel();
+    bnb.name = "BNB";
+    bnb.nameFull = "Binance Smart Chain";
+    chains.add(bnb);
+
+    ChainsModel okt = ChainsModel();
+    okt.name = "OKT";
+    okt.nameFull = "OKExChain";
+    chains.add(okt);
+
+    ChainsModel ht = ChainsModel();
+    ht.name = "HT";
+    ht.nameFull = "HECO Chain";
+    chains.add(ht);
+
     ChainsModel cfx = ChainsModel();
     cfx.name = "CFX";
     cfx.nameFull = "Conflux";

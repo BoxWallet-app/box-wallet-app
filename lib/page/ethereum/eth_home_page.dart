@@ -6,6 +6,7 @@ import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
@@ -22,25 +23,25 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
-import 'cfx_records_page.dart';
-import 'cfx_token_list_page.dart';
-import 'cfx_token_receive_page.dart';
-import 'cfx_token_send_one_page.dart';
-import 'cfx_tx_detail_page.dart';
+import 'eth_token_receive_page.dart';
+import 'eth_token_send_one_page.dart';
 
-class CfxHomePage extends StatefulWidget {
+
+class EthHomePage extends StatefulWidget {
   static var token = "loading...";
   static var tokenABC = "0.000000";
   static var height = 0;
   static var address = "";
+  static Account account;
 
   @override
-  _CfxHomePageState createState() => _CfxHomePageState();
+  _EthHomePageState createState() => _EthHomePageState();
 }
 
-class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClientMixin {
+class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
   CfxTransfer cfxTransfer;
+
   var domain = "";
   var page = 1;
 
@@ -59,8 +60,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       if (!mounted) return;
       priceModel = null;
       cfxTransfer = null;
-      CfxHomePage.token = "loading...";
-      CfxHomePage.tokenABC = "0.000000";
+      EthHomePage.token = "loading...";
+      EthHomePage.tokenABC = "0.000000";
       domain="";
       setState(() {});
       netBaseData();
@@ -76,17 +77,33 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 
   Future<void> netCfxBalance() async {
     var address = await BoxApp.getAddress();
-    CfxBalanceDao.fetch().then((CfxBalanceModel model) {
-      CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
-      BoxApp.getErcBalanceCFX((balance) async {
-        if(!mounted)return;
-        CfxHomePage.tokenABC = double.parse(balance).toStringAsFixed(2);
-        setState(() {});
+
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var nodeUrl = await EthManager.instance.getNodeUrl(account);
+    print(address);
+    print(nodeUrl);
+    BoxApp.getBalanceETH((balance) async {
+      if(!mounted)
         return;
-      }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
-      if(!mounted)return;
+      print(balance);
+      if(balance == "account error"){
+        EthHomePage.token = "0.0000";
+      }else{
+        EthHomePage.token = balance;
+      }
+
       setState(() {});
-    }).catchError((e) {});
+      return;
+    }, address,nodeUrl);
+    // CfxBalanceDao.fetch().then((CfxBalanceModel model) {
+    //   EthHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
+    //   BoxApp.getErcBalanceCFX((balance) async {
+    //     EthHomePage.tokenABC = double.parse(balance).toStringAsFixed(2);
+    //     setState(() {});
+    //     return;
+    //   }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
+    //   setState(() {});
+    // }).catchError((e) {});
   }
 
   void netCfxTransfer() {
@@ -112,46 +129,48 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       if (!mounted) {
         return;
       }
-      CfxHomePage.address = account.address;
-      getDomainName(CfxHomePage.address);
+
+      EthHomePage.account = account;
+      EthHomePage.address = account.address;
+      getDomainName(EthHomePage.address);
       setState(() {});
     });
   }
 
   void netBaseData() {
-    var type = "usd";
-    if (BoxApp.language == "cn") {
-      type = "cny";
-    } else {
-      type = "usd";
-    }
-    PriceDao.fetch("conflux-token", type).then((PriceModel model) {
-      priceModel = model;
-      setState(() {});
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+//     var type = "usd";
+//     if (BoxApp.language == "cn") {
+//       type = "cny";
+//     } else {
+//       type = "usd";
+//     }
+//     PriceDao.fetch("conflux-token", type).then((PriceModel model) {
+//       priceModel = model;
+//       setState(() {});
+//     }).catchError((e) {
+// //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//     });
   }
 
   String getAePrice() {
-    if (CfxHomePage.token == "loading...") {
+    if (EthHomePage.token == "loading...") {
       return "";
     }
     if (BoxApp.language == "cn" && priceModel.conflux != null) {
       if (priceModel.conflux.cny == null) {
         return "";
       }
-      if (double.parse(CfxHomePage.token) < 1000) {
-        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+      if (double.parse(EthHomePage.token) < 1000) {
+        return "¥" + (priceModel.conflux.cny * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel.conflux.cny * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
       }
     } else {
       if (priceModel.conflux.usd == null) {
         return "";
       }
-      return "\$" + (priceModel.conflux.usd * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+      return "\$" + (priceModel.conflux.usd * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
     }
   }
 
@@ -201,7 +220,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                               decoration: new BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Color(0xFF37A1DB).withAlpha(20),
+                                      color: getAccountCardBottomBg().withAlpha(40),
                                       offset: Offset(0.0, 55.0),
                                       //阴影xy轴偏移量
                                       blurRadius: 50.0,
@@ -239,10 +258,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                   height: 160,
                                   decoration: new BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                    gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
-                                      Color(0xFF3292C7),
-                                      Color(0xFF37A1DB),
-                                    ]),
+                                    border: new Border.all(color: getAccountCardBottomBg().withAlpha(100), width: 1),
+                                    gradient:  LinearGradient(begin: Alignment.centerLeft, colors: getAccountCardBg()),
                                   ),
                                 ),
                                 Positioned(
@@ -252,7 +269,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     height: 35,
                                     decoration: new BoxDecoration(
                                       borderRadius: BorderRadius.only(bottomRight: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
-                                      color: Color(0xFF3F7FB5),
+                                      color: getAccountCardBottomBg(),
                                     ),
                                   ),
                                 ),
@@ -311,11 +328,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                ),
                                                 Expanded(child: Container()),
                                                 Text(
-                                                  CfxHomePage.tokenABC == "loading..."
+                                                  EthHomePage.tokenABC == "loading..."
                                                       ? "loading..."
-                                                      : double.parse(CfxHomePage.tokenABC) > 1000
-                                                          ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
-                                                          : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
+                                                      : double.parse(EthHomePage.tokenABC) > 1000
+                                                          ? double.parse(EthHomePage.tokenABC).toStringAsFixed(2) + " ABC"
+                                                          : double.parse(EthHomePage.tokenABC).toStringAsFixed(2) + " ABC",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -334,7 +351,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Clipboard.setData(ClipboardData(text: CfxHomePage.address));
+                                    Clipboard.setData(ClipboardData(text: EthHomePage.address));
                                     Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
                                   },
                                   child: Container(
@@ -342,7 +359,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF3F7FB5).withAlpha(180), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddressCFX(EthHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: getAccountCardBottomBg(), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -401,7 +418,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                         child: Row(
                                           children: <Widget>[
                                             Text(
-                                              S.of(context).home_page_my_count + " (CFX）",
+                                              S.of(context).home_page_my_count + " ("+ getAccountCoinName() +"）",
                                               style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
                                             Expanded(child: Container()),
@@ -463,11 +480,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                              ),
 
                                                 Text(
-                                                  CfxHomePage.token == "loading..."
+                                                  EthHomePage.token == "loading..."
                                                       ? "loading..."
-                                                      : double.parse(CfxHomePage.token) > 1000
-                                                          ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
-                                                          : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",
+                                                      : double.parse(EthHomePage.token) > 1000
+                                                          ? double.parse(EthHomePage.token).toStringAsFixed(2) + ""
+                                                          : double.parse(EthHomePage.token).toStringAsFixed(5) + "",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -554,9 +571,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
                                           if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTokenSendOnePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute(CfxTokenSendOnePage()));
+                                            Navigator.push(context, SlideRoute(EthTokenSendOnePage()));
                                           }
                                         },
                                         child: Container(
@@ -616,9 +633,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
                                           if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTokenReceivePage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute(CfxTokenReceivePage()));
+                                            Navigator.push(context, SlideRoute(EthTokenReceivePage()));
                                           }
                                         },
                                         child: Container(
@@ -675,11 +692,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    if (Platform.isIOS) {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
-                                    } else {
-                                      Navigator.push(context, SlideRoute(CfxTokenListPage()));
-                                    }
+                                    // if (Platform.isIOS) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
+                                    // } else {
+                                    //   Navigator.push(context, SlideRoute(CfxTokenListPage()));
+                                    // }
                                   },
                                   child: Container(
                                     height: 90,
@@ -756,6 +773,56 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     ));
   }
 
+  List<Color> getAccountCardBg() {
+    if(EthHomePage.account == null){
+      return [];
+    }
+    if(EthHomePage.account.coin == "BNB"){
+      return [
+        Color(0xFFE1A200),
+        Color(0xFFE6A700),
+      ];
+    }
+    if(EthHomePage.account.coin == "OKT"){
+      return [
+        Color(0xFF0062DB),
+        Color(0xFF1F94FF),
+      ];
+    } if(EthHomePage.account.coin == "HT"){
+      return [
+        Color(0xFF112FD0),
+        Color(0xFF112FD0),
+      ];
+    }
+    return [
+      Color(0xFFFFFFFF),
+      Color(0xFFFFFFFF),
+    ];
+  }
+  Color getAccountCardBottomBg() {
+    if(EthHomePage.account == null){
+      return Color(0xFFFFFFFF);
+    }
+    if(EthHomePage.account.coin == "BNB"){
+      return Color(0xFFCD8E00);
+    }
+    if(EthHomePage.account.coin == "OKT"){
+      return Color(0xFF0060C2);
+    }
+    if(EthHomePage.account.coin == "HT"){
+      return Color(0xFFFFFFF).withAlpha(25);
+    }
+    return Color(0xFFFFFFFF);
+  }
+
+  String getAccountCoinName(){
+    if(EthHomePage.account == null){
+      return"";
+    }
+    return EthHomePage.account.coin;
+
+  }
+
   Container getRecordContainer(BuildContext context) {
 //    if (walletRecordModel == null) {
 //      return Container(
@@ -779,11 +846,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
-            } else {
-              Navigator.push(context, SlideRoute(CfxRecordsPage()));
-            }
+            // if (Platform.isIOS) {
+            //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
+            // } else {
+            //   Navigator.push(context, SlideRoute(CfxRecordsPage()));
+            // }
           },
           child: Column(
             children: [
@@ -913,11 +980,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
-            } else {
-              Navigator.push(context, SlideRoute(CfxRecordsPage()));
-            }
+            // if (Platform.isIOS) {
+            //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
+            // } else {
+            //   Navigator.push(context, SlideRoute(CfxRecordsPage()));
+            // }
           },
           child: Column(
             children: [
@@ -1048,11 +1115,11 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          if (Platform.isIOS) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
-          } else {
-            Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
-          }
+          // if (Platform.isIOS) {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          // } else {
+          //   Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+          // }
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),
@@ -1131,7 +1198,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     // } else {
     //   return cfxTransfer.list[index].method;
     // }
-    var split = CfxHomePage.address.split(":");
+    var split = EthHomePage.address.split(":");
     if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
       return S.current.cfx_home_page_transfer_send;
     } else {
@@ -1151,7 +1218,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
-    var split = CfxHomePage.address.split(":");
+    var split = EthHomePage.address.split(":");
     if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
