@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/chains_model.dart';
 import 'package:box/page/general/select_chain_create_page.dart';
@@ -259,7 +259,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
 
                         if (widget.setPasswordPageCallBackFuture != null) {
                           if (widget.setPasswordPageCallBackFuture != null) {
-                            widget.setPasswordPageCallBackFuture(Utils.generateMD5(_textEditingControllerNode.text + a));
+                            widget.setPasswordPageCallBackFuture(Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY));
                           }
                           Navigator.pop(context);
                           return;
@@ -270,14 +270,14 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                               MaterialPageRoute(
                                   builder: (context) => SelectChainCreatePage(
                                         mnemonic: widget.mnemonic,
-                                        password: Utils.generateMD5(_textEditingControllerNode.text + a),
+                                        password: Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY),
                                       )));
                         } else {
                           Navigator.push(
                               context,
                               SlideRoute(SelectChainCreatePage(
                                 mnemonic: widget.mnemonic,
-                                password: Utils.generateMD5(_textEditingControllerNode.text + a),
+                                password: Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY),
                               )));
                         }
 

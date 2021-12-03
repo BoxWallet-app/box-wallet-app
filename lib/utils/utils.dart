@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:crypto/crypto.dart';
@@ -185,7 +185,7 @@ class Utils {
   //aes加密
   static String aesEncode(String content, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(c)));
+      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(OTHER_KEY)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       final encrypted = encrypter.encrypt(content, iv: encrypt.IV.fromBase64(base64Encode(password)));
       return encrypted.base64;
@@ -197,7 +197,7 @@ class Utils {
   //aes解密
   static dynamic aesDecode(dynamic base64, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(c)));
+      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(OTHER_KEY)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
     } catch (err) {

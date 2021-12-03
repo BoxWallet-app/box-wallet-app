@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -430,7 +430,6 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   }
 
   Future<void> createTabAddress(String address) async {
-    print(address.length);
     if (address.isEmpty || !address.contains("0x") || address.length != 42) {
       showDialog<bool>(
         context: context,
@@ -558,7 +557,6 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   Future<void> createPrivateKeyAccount(String password, String privateKey) async {
     BoxApp.getSecretPrivateETH((address, signingKey) async {
       if (!await checkAccount(address)) return;
-      print(address);
       final key = Utils.generateMd5Int(password + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
@@ -585,7 +583,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     bool isExist = false;
     for (var i = 0; i < walletCoinModel.coins.length; i++) {
       for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
-        if (walletCoinModel.coins[i].accounts[j].address == address) {
+        if (walletCoinModel.coins[i].accounts[j].address == address && widget.coinName == walletCoinModel.coins[i].name) {
           isExist = true;
         }
       }
@@ -630,13 +628,13 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     if (BoxApp.isDev()) {
       switch (tabIndex) {
         case 0:
-          _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+          _textEditingController.text = TEST_MNEMONIC;
           return;
         case 1:
-          _textEditingController.text = "0x8c79085c776cce36d9c1448665e497d555a994fb4419733ad2e1c39d040b69b4";
+          _textEditingController.text = TEST_ETH_PRIVATE_KEY;
           return;
         case 2:
-          _textEditingController.text = "0x7B8D5430deA51B3fae5c0f0AEA924106666ce0EE";
+          _textEditingController.text =TEST_ETH_ADDRESS;
           return;
       }
       _textEditingController.text = "";

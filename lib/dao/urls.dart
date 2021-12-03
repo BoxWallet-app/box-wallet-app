@@ -1,10 +1,13 @@
-//域名
+//OSS HOST
+const OOS_HOST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';
+//WETRUE HOST
+const WE_TRUE_URL = 'https://api.wetrue.io';
+
 // const BASE_HOST = 'http://192.168.1.250:7070';
 // const BASE_HOST = 'http://10.53.5.50:7070';
 
 const BASE_HOST = 'https://aebox.io';
 // const BASE_HOST = 'http://localhost:7070';
-//const BASE_HOST = 'https://aeasy.io';
 
 //获取区块高度
 const BLOCK_TOP = BASE_HOST + '/api/ae/block_top';
@@ -128,8 +131,6 @@ const APP_STORE = BASE_HOST + '/api/config/store';
 
 const AEX9_RECORD = BASE_HOST + '/api/tokens/record';
 
-const WE_TRUE_URL = 'https://api.wetrue.io';
-
 //Cfx
 const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
 const CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
@@ -137,13 +138,13 @@ const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens/list';
 const CFX_TOKENS_ADDRESS = BASE_HOST + '/cfx/api/tokens/by-address';
 const CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
 const CFX_CRC20_TRANSACTION_HASH = BASE_HOST + '/cfx/api/crc20/transaction';
-
 const CFX_NFT_BALANCE = BASE_HOST + '/cfx/api/nft/balance';
 const CFX_NFT_TOKEN = BASE_HOST + '/cfx/api/nft/token';
 const CFX_NFT_PREVIEW = BASE_HOST + '/cfx/api/nft/preview';
 
-//Dapp列表
-const OOS_HOST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';
-
-//获取老用户未保存助记词的账户列表
-const ACCOUNT_ERROR_LIST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';
+//ETH
+const ETH_TOKEN_LIST_ACTIVITY = BASE_HOST + '/eth/api/token_list/activity';
+const ETH_TRANSFER_RECORD = BASE_HOST + '/eth/api/transaction_action/universal_list';
+const ETH_TOKEN_HOT_LIST = BASE_HOST + '/eth/api/token/hot_list';
+const ETH_TOKEN_SEARCH = BASE_HOST + '/eth/api/token/search';
+const ETH_FEE = BASE_HOST + '/eth/api/block_chain/fee_list';

@@ -3,6 +3,9 @@ import 'dart:typed_data';
 
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/eth_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/utils/utils.dart';
@@ -38,21 +41,18 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
-  String address = '';
   var loadingType = LoadingType.loading;
   List<Widget> items = List<Widget>();
 
-  String tokenName;
-  String tokenCount;
-  String tokenImage;
-  String tokenContract;
+  String tokenName = "";
+  String tokenCount = "0";
+  String tokenImage = "";
+  String tokenContract = "";
 
   @override
   void initState() {
     super.initState();
-    this.tokenName = "CFX";
-    this.tokenCount = EthHomePage.token;
-    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png";
+
 
     if (widget.tokenName != null) {
       this.tokenName = widget.tokenName;
@@ -73,15 +73,59 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
     getAddress();
   }
-
-  void netCfxBalance() {
-    CfxBalanceDao.fetch().then((CfxBalanceModel model) {
-      EthHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
-      this.tokenCount = EthHomePage.token;
+  getAddress() {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+      if (!mounted) {
+        return;
+      }
+      EthHomePage.account = account;
+      EthHomePage.address = account.address;
+      getDefTokenData();
       setState(() {});
-    }).catchError((e) {
-      print(e);
     });
+  }
+  Color getAccountCardBottomBg() {
+    if(EthHomePage.account == null){
+      return Color(0xFFFFFFFF);
+    }
+    if(EthHomePage.account.coin == "BNB"){
+      return Color(0xFFE6A700);
+    }
+    if(EthHomePage.account.coin == "OKT"){
+      return Color(0xFF1F94FF);
+    }
+    if(EthHomePage.account.coin == "HT"){
+      return Color(0xFF112FD0);
+    }
+    return Color(0xFFFFFFFF);
+  }
+
+  getDefTokenData() {
+    if(EthHomePage.account == null){
+      return;
+    }
+    this.tokenName = EthHomePage.account.coin;
+    this.tokenCount = EthHomePage.token;
+    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/"+EthHomePage.account.coin+".png";
+    netCfxBalance();
+  }
+  Future<void> netCfxBalance() async {
+    var address = await BoxApp.getAddress();
+
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var nodeUrl = await EthManager.instance.getNodeUrl(account);
+    BoxApp.getBalanceETH((balance) async {
+      if(!mounted)
+        return;
+      if(balance == "account error"){
+        EthHomePage.token = "0.0000";
+      }else{
+        EthHomePage.token = balance;
+      }
+
+      setState(() {});
+      return;
+    }, address,nodeUrl);
   }
 
   @override
@@ -92,7 +136,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         appBar: AppBar(
           elevation: 0,
           brightness: Brightness.dark,
-          backgroundColor: Color(0xFF37A1DB),
+          backgroundColor: getAccountCardBottomBg(),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -123,12 +167,12 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               height: 130,
-                              color: Color(0xFF37A1DB),
+                              color: getAccountCardBottomBg(),
                             ),
                             Container(
                               decoration: new BoxDecoration(
-                                gradient: const LinearGradient(begin: Alignment.topRight, colors: [
-                                  Color(0xFF37A1DB),
+                                gradient: LinearGradient(begin: Alignment.topRight, colors: [
+                                  getAccountCardBottomBg(),
                                   Color(0xFFEEEEEE),
                                 ]),
                               ),
@@ -170,7 +214,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(left: 10, top: 10),
                                   child: Text(
-                                    Utils.formatAddressCFX(address),
+                                    Utils.formatAddressCFX(EthHomePage.address),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -273,14 +317,14 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFF37A1DB)),
+                                              borderSide: BorderSide(color:  getAccountCardBottomBg()),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
-                                          cursorColor: Color(0xFF37A1DB),
+                                          cursorColor: getAccountCardBottomBg(),
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
@@ -297,9 +341,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color:  getAccountCardBottomBg()),
                                               ),
-                                              color: Color(0xFF37A1DB).withAlpha(16),
+                                              color:  getAccountCardBottomBg().withAlpha(16),
                                               textColor: Colors.black,
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
@@ -433,7 +477,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFF37A1DB),
+                        color:  getAccountCardBottomBg(),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
@@ -457,13 +501,6 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
-  Future<String> getAddress() {
-    BoxApp.getAddress().then((String address) {
-      setState(() {
-        this.address = address;
-      });
-    });
-  }
 
   Widget getIconImage(String data, String name) {
     if (data == null) {

@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
+import 'package:box/dao/ethereum/eth_fee_dao.dart';
+import 'package:box/dao/ethereum/eth_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/eth_manager.dart';
@@ -12,6 +14,7 @@ import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
+import 'package:box/model/ethereum/eth_transfer_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -23,9 +26,9 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import 'eth_token_list_page.dart';
 import 'eth_token_receive_page.dart';
 import 'eth_token_send_one_page.dart';
-
 
 class EthHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -40,7 +43,7 @@ class EthHomePage extends StatefulWidget {
 
 class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
-  CfxTransfer cfxTransfer;
+  EthTransferModel ethTransfer;
 
   var domain = "";
   var page = 1;
@@ -59,10 +62,10 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     eventBus.on<AccountUpdateEvent>().listen((event) {
       if (!mounted) return;
       priceModel = null;
-      cfxTransfer = null;
+      ethTransfer = null;
       EthHomePage.token = "loading...";
       EthHomePage.tokenABC = "0.000000";
-      domain="";
+      domain = "";
       setState(() {});
       netBaseData();
       getAddress();
@@ -80,35 +83,23 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    print(address);
-    print(nodeUrl);
     BoxApp.getBalanceETH((balance) async {
-      if(!mounted)
-        return;
-      print(balance);
-      if(balance == "account error"){
+      if (!mounted) return;
+      if (balance == "account error") {
         EthHomePage.token = "0.0000";
-      }else{
+      } else {
         EthHomePage.token = balance;
       }
 
       setState(() {});
       return;
-    }, address,nodeUrl);
-    // CfxBalanceDao.fetch().then((CfxBalanceModel model) {
-    //   EthHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
-    //   BoxApp.getErcBalanceCFX((balance) async {
-    //     EthHomePage.tokenABC = double.parse(balance).toStringAsFixed(2);
-    //     setState(() {});
-    //     return;
-    //   }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
-    //   setState(() {});
-    // }).catchError((e) {});
+    }, address, nodeUrl);
   }
 
-  void netCfxTransfer() {
-    CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
-      cfxTransfer = model;
+  Future<void> netCfxTransfer() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    EthTransferDao.fetch(EthManager.instance.getChainID(account), "", page.toString()).then((EthTransferModel model) {
+      ethTransfer = model;
       setState(() {});
     }).catchError((e) {});
   }
@@ -259,7 +250,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                   decoration: new BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                     border: new Border.all(color: getAccountCardBottomBg().withAlpha(100), width: 1),
-                                    gradient:  LinearGradient(begin: Alignment.centerLeft, colors: getAccountCardBg()),
+                                    gradient: LinearGradient(begin: Alignment.centerLeft, colors: getAccountCardBg()),
                                   ),
                                 ),
                                 Positioned(
@@ -418,7 +409,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                         child: Row(
                                           children: <Widget>[
                                             Text(
-                                              S.of(context).home_page_my_count + " ("+ getAccountCoinName() +"）",
+                                              S.of(context).home_page_my_count + " (" + getAccountCoinName() + "）",
                                               style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
                                             Expanded(child: Container()),
@@ -692,11 +683,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-                                    // if (Platform.isIOS) {
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenListPage()));
-                                    // } else {
-                                    //   Navigator.push(context, SlideRoute(CfxTokenListPage()));
-                                    // }
+                                    if (Platform.isIOS) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => EthTokenListPage()));
+                                    } else {
+                                      Navigator.push(context, SlideRoute(EthTokenListPage()));
+                                    }
                                   },
                                   child: Container(
                                     height: 90,
@@ -774,21 +765,22 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   List<Color> getAccountCardBg() {
-    if(EthHomePage.account == null){
+    if (EthHomePage.account == null) {
       return [];
     }
-    if(EthHomePage.account.coin == "BNB"){
+    if (EthHomePage.account.coin == "BNB") {
       return [
         Color(0xFFE1A200),
         Color(0xFFE6A700),
       ];
     }
-    if(EthHomePage.account.coin == "OKT"){
+    if (EthHomePage.account.coin == "OKT") {
       return [
         Color(0xFF0062DB),
         Color(0xFF1F94FF),
       ];
-    } if(EthHomePage.account.coin == "HT"){
+    }
+    if (EthHomePage.account.coin == "HT") {
       return [
         Color(0xFF112FD0),
         Color(0xFF112FD0),
@@ -799,28 +791,29 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       Color(0xFFFFFFFF),
     ];
   }
+
   Color getAccountCardBottomBg() {
-    if(EthHomePage.account == null){
+    if (EthHomePage.account == null) {
       return Color(0xFFFFFFFF);
     }
-    if(EthHomePage.account.coin == "BNB"){
+    if (EthHomePage.account.coin == "BNB") {
       return Color(0xFFCD8E00);
     }
-    if(EthHomePage.account.coin == "OKT"){
+    if (EthHomePage.account.coin == "OKT") {
       return Color(0xFF0060C2);
     }
-    if(EthHomePage.account.coin == "HT"){
-      return Color(0xFFFFFFF).withAlpha(25);
+    if (EthHomePage.account.coin == "HT") {
+      return Color(0xFF0F28B1);
+
     }
     return Color(0xFFFFFFFF);
   }
 
-  String getAccountCoinName(){
-    if(EthHomePage.account == null){
-      return"";
+  String getAccountCoinName() {
+    if (EthHomePage.account == null) {
+      return "";
     }
     return EthHomePage.account.coin;
-
   }
 
   Container getRecordContainer(BuildContext context) {
@@ -904,7 +897,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (cfxTransfer != null && cfxTransfer.list.length > 0)
+              if (ethTransfer != null && ethTransfer.data!=null)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -918,16 +911,16 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                 padding: EdgeInsets.only(bottom: 10),
                 child: Column(
                   children: [
-                    if (cfxTransfer == null)
+                    if (ethTransfer == null)
                       Container(
                         height: 150,
                         child: new Center(
                           child: new CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
+                            valueColor: new AlwaysStoppedAnimation<Color>(getAccountCardBottomBg()),
                           ),
                         ),
                       ),
-                    if (cfxTransfer != null && cfxTransfer.total == 0)
+                    if (ethTransfer != null && ethTransfer.data == null)
                       Container(
                           child: Center(
                               child: Container(
@@ -1106,7 +1099,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   Widget getItem(BuildContext context, int index) {
-    if (cfxTransfer == null || cfxTransfer.list.length <= index) {
+    if (ethTransfer == null || ethTransfer.data == null || ethTransfer.data.length <= index) {
       return Container();
     }
     if (index == 0) {}
@@ -1131,7 +1124,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
                 child: Text(
                   cfxEpochNumber(index),
-                  style: TextStyle(color: Color(0xFF37A1DB), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  softWrap: true,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(color: getAccountCardBottomBg(), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -1162,7 +1159,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                        cfxTransfer.list[index].hash,
+                        ethTransfer.data[index].hash,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
@@ -1171,7 +1168,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
+                        DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().length - 4),
                         style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
@@ -1198,8 +1195,8 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     // } else {
     //   return cfxTransfer.list[index].method;
     // }
-    var split = EthHomePage.address.split(":");
-    if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
+
+    if (ethTransfer.data[index].from.toString().toLowerCase().contains(EthHomePage.address.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;
     } else {
       return S.current.cfx_home_page_transfer_receive;
@@ -1207,7 +1204,14 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   String cfxEpochNumber(int index) {
-    return cfxTransfer.list[index].nonce.toString();
+    var nonce = int.parse(ethTransfer.data[index].nonce);
+    print(nonce);
+    if(nonce>9999){
+      return (nonce/1000).toStringAsFixed(0)+"K";
+    }else{
+      return nonce.toString();
+    }
+
   }
 
   Text getFeeWidget(int index) {
@@ -1218,15 +1222,14 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
-    var split = EthHomePage.address.split(":");
-    if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
+    if (ethTransfer.data[index].to.toLowerCase() == EthHomePage.address.toLowerCase()) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "+ " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 0)) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "- " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 0)) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

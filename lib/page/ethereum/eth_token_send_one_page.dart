@@ -69,7 +69,6 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
     if(EthHomePage.account == null){
       return Color(0xFFFFFFFF);
     }
-    print(EthHomePage.account.coin);
     if(EthHomePage.account.coin == "BNB"){
       return Color(0xFFE6A700);
     }

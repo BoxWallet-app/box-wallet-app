@@ -5,7 +5,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../a.dart';
+import '../config.dart';
 import '../main.dart';
 
 class WalletCoinsManager {
@@ -16,7 +16,7 @@ class WalletCoinsManager {
   Future<bool> init() async {
     var prefs = await SharedPreferences.getInstance();
     var walletCoinsJson = prefs.getString('wallet_coins');
-    final key = Utils.generateMd5Int(b);
+    final key = Utils.generateMd5Int(LOCAL_KEY);
     walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
     WalletCoinsModel model;
     if (walletCoinsJson == null || walletCoinsJson == "") {
@@ -91,7 +91,7 @@ class WalletCoinsManager {
     if (walletCoinsJson == null || walletCoinsJson == "") {
       model = new WalletCoinsModel();
     } else {
-      final key = Utils.generateMd5Int(b);
+      final key = Utils.generateMd5Int(LOCAL_KEY);
       walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
 
       var data = jsonDecode(walletCoinsJson.toString());
@@ -105,7 +105,7 @@ class WalletCoinsManager {
     if (model == null) {
       return prefs.setString('wallet_coins', "");
     } else {
-      final key = Utils.generateMd5Int(b);
+      final key = Utils.generateMd5Int(LOCAL_KEY);
       return prefs.setString('wallet_coins', Utils.aesEncode(jsonEncode(model), key));
     }
   }

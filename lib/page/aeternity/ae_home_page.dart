@@ -1134,7 +1134,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                 //边框设置
 
                 child: Text(
-                  (AeHomePage.height - walletRecordModel.data[index].blockHeight).toString(),
+                  getConfirmHeight(index),
                   style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                 ),
                 alignment: Alignment.center,
@@ -1191,6 +1191,15 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         ),
       ),
     );
+  }
+
+  String getConfirmHeight(int index){
+    var height = AeHomePage.height - walletRecordModel.data[index].blockHeight;
+    if(height>1000){
+      return (height/1000).toStringAsFixed(0)+"K";
+    }
+
+    return (AeHomePage.height - walletRecordModel.data[index].blockHeight).toString();
   }
 
   getTxType(int index) {

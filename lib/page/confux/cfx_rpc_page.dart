@@ -287,7 +287,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                           });
                     },
                     onLoadStart: (controller, url) async {
-                      print("onLoadStart");
                       setState(() {
                         isFinish = false;
                       });
@@ -312,7 +311,6 @@ class _CfxRpcPageState extends State<CfxRpcPage> {
                     },
                     onLoadResource: (controller, url) async {},
                     onLoadError: (controller, url, code, message) {
-                      print("onLoadError" + message);
                     },
                     onProgressChanged: (controller, pro) {
                       progress = (pro / 100);

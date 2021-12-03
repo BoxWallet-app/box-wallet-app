@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/dao/aeternity/ae_account_error_list_dao.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/event/language_event.dart';
@@ -129,7 +129,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return 'SUCCESS';
         }
         var password = methodCall.arguments.toString();
-        password = Utils.generateMD5(password + a);
+        password = Utils.generateMD5(password + PSD_KEY);
         var signingKey = await BoxApp.getSigningKey();
         var address = await BoxApp.getAddress();
         final key = Utils.generateMd5Int(password + address);

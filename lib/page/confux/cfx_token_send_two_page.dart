@@ -79,7 +79,6 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       this.tokenCount = CfxHomePage.token;
       setState(() {});
     }).catchError((e) {
-      print(e);
     });
   }
 

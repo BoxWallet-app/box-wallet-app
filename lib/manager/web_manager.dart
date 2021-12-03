@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/model/aeternity/ct_token_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +22,7 @@ class WebManager {
           return [];
         }
       }
-      final key = Utils.generateMd5Int(b);
+      final key = Utils.generateMd5Int(LOCAL_KEY);
       var ctCfxTokensJson = Utils.aesDecode(urls, key);
       if (ctCfxTokensJson == null) {
         ctCfxTokensJson = "[]";
@@ -41,10 +41,10 @@ class WebManager {
   Future<bool> updateUrls(String address, List<String> data) async {
     var prefs = await SharedPreferences.getInstance();
     if (data == null || data.isEmpty) {
-      prefs.setString('ct_web_dapp_' + address, Utils.aesEncode(jsonEncode(data), Utils.generateMd5Int(b)));
+      prefs.setString('ct_web_dapp_' + address, Utils.aesEncode(jsonEncode(data), Utils.generateMd5Int(LOCAL_KEY)));
       return true;
     }
-    prefs.setString('ct_web_dapp_' + address, Utils.aesEncode(jsonEncode(data), Utils.generateMd5Int(b)));
+    prefs.setString('ct_web_dapp_' + address, Utils.aesEncode(jsonEncode(data), Utils.generateMd5Int(LOCAL_KEY)));
     return true;
   }
 }

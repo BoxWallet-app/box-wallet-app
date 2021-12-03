@@ -143,7 +143,6 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                                             );
                                           },
                                         ).then((val) {
-                                          print(val);
                                         });
                                         return;
                                       }

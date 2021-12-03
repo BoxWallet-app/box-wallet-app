@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -585,10 +585,10 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     if (BoxApp.isDev()) {
       switch (tabIndex) {
         case 0:
-          _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+          _textEditingController.text = TEST_MNEMONIC;
           return;
         case 1:
-          _textEditingController.text = "ak_cPgVgbjv78RmKzsTteHDJw4gvd1Nt6s9ogCamhBnanpf5xBhC";
+          _textEditingController.text = TEST_AE_ADDRESS;
           return;
       }
       _textEditingController.text = "";

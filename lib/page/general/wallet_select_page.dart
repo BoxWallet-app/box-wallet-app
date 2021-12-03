@@ -34,6 +34,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   int coinIndex;
   int coinLength;
   String address = "";
+  Account account;
 
   @override
   void initState() {
@@ -59,8 +60,10 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
-      address = account.address;
+    WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
+      address = acc.address;
+      account = acc;
+      print(account.toJson());
       if (!mounted) setState(() {});
     });
   }
@@ -420,7 +423,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   Widget itemAccount(BuildContext context, int index) {
-    if (walletCoinsModel == null) {
+    if (walletCoinsModel == null || account == null) {
       return Container();
     }
     if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
@@ -482,14 +485,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    print(walletCoinsModel.coins[coinIndex].accounts.length);
+    print(walletCoinsModel.coins[coinIndex].name);
+    print(account.coin);
     return Container(
       height: 100.0,
       margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
       child: Stack(
         children: [
           getCoinBg(),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address)
+
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address&& walletCoinsModel.coins[coinIndex].name==account.coin)
             Positioned(
               right: 0,
               top: 0,
@@ -656,7 +661,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address)
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address || walletCoinsModel.coins[coinIndex].name!=account.coin)
             Positioned(
               right: 0,
               top: 0,

@@ -253,9 +253,10 @@ class _SelectChainPageState extends State<SelectChainPage> {
               ),
               Container(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 10, top: 5),
+                  padding: const EdgeInsets.only(left: 10, top: 5,right: 10),
                   child: Text(
-                    chains[index].nameFull + " (" + chains[index].name + ")",
+                    chains[index].nameFull + "\n(" + chains[index].name + ")",
+                    textAlign:TextAlign.center,
                     style: new TextStyle(
                       fontSize: 16,
                       color: Colors.black,

@@ -1,7 +1,7 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
@@ -253,7 +253,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                               if(widget.isSignOld){
                                 widget.passwordCallBackFuture(_textEditingController.text);
                               }else{
-                                widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + a));
+                                widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + PSD_KEY));
                               }
 
                             },

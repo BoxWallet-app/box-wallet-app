@@ -16,7 +16,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../../a.dart';
+import '../../../config.dart';
 import 'import_account_common_page.dart';
 import '../create/create_mnemonic_copy_page.dart';
 import 'import_account_ae_page.dart';

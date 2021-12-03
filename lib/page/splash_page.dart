@@ -104,9 +104,7 @@ class _SplashPageState extends State<SplashPage> {
     String nodeUrl = await BoxApp.getNodeUrl();
     String compilerUrl = await BoxApp.getCompilerUrl();
     String nodeCfxUrl = await BoxApp.getCfxNodeUrl();
-    print(nodeUrl);
     if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
-      print(nodeUrl);
       BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
     }
     if (nodeCfxUrl != null && nodeCfxUrl != "") {

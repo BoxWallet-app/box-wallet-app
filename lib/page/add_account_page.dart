@@ -94,7 +94,6 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
       });
       var set = new Set<String>(); //用set进行去重
       set.addAll(result);//把数组塞进set里
-      print(set);
       mnemonics = set.toList();
       if (mnemonics.length != 0) {
         isOtherAccount = true;

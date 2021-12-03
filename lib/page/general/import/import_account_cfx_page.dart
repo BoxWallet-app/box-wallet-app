@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:box/a.dart';
+import 'package:box/config.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -632,13 +632,13 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
     if (BoxApp.isDev()) {
       switch (tabIndex) {
         case 0:
-          _textEditingController.text = "disease embody record seed fiscal jealous apology observe bachelor legend rough crop";
+          _textEditingController.text = TEST_MNEMONIC;
           return;
         case 1:
-          _textEditingController.text = "0x8c79085c776cce36d9c1448665e497d555a994fb4419733ad2e1c39d040b69b4";
+          _textEditingController.text =TEST_CFX_PRIVATE_KEY;
           return;
         case 2:
-          _textEditingController.text = "cfx:aanm5uv8r994n47z69ncj554699cmwb1jp16memffe";
+          _textEditingController.text = TEST_CFX_ADDRESS;
           return;
       }
       _textEditingController.text = "";

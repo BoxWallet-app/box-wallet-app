@@ -100,7 +100,6 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
       loadingType = LoadingType.finish;
       setState(() {});
     }).catchError((e) {
-      print(e);
       loadingType = LoadingType.error;
       setState(() {});
     });
