@@ -1,5 +1,5 @@
 class EthTokenSearchModel {
-  List<Data> data;
+  List<EthTokenItemModel> data;
   String message;
   int result;
 
@@ -7,9 +7,9 @@ class EthTokenSearchModel {
 
   EthTokenSearchModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<EthTokenItemModel>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new EthTokenItemModel.fromJson(v));
       });
     }
     message = json['message'];
@@ -27,23 +27,16 @@ class EthTokenSearchModel {
   }
 }
 
-class Data {
+class EthTokenItemModel {
   int hid;
   int blockchainId;
-  Null blockchain;
   int tokenType;
   String name;
   String symbol;
   String blSymbol;
-  int gas;
   int decimal;
   int precision;
   String balance;
-  Null frozenBalances;
-  int priceUsd;
-  int percentChange24h;
-  int asset;
-  int added;
   String address;
   String ownerAddress;
   String website;
@@ -62,24 +55,20 @@ class Data {
   int metadataType;
   String createTime;
   int weight;
+  bool isSelect =false;
 
-  Data(
+  int get top => isSelect ? 1 : 0;
+
+  EthTokenItemModel(
       {this.hid,
         this.blockchainId,
-        this.blockchain,
         this.tokenType,
         this.name,
         this.symbol,
         this.blSymbol,
-        this.gas,
         this.decimal,
         this.precision,
         this.balance,
-        this.frozenBalances,
-        this.priceUsd,
-        this.percentChange24h,
-        this.asset,
-        this.added,
         this.address,
         this.ownerAddress,
         this.website,
@@ -99,23 +88,16 @@ class Data {
         this.createTime,
         this.weight});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  EthTokenItemModel.fromJson(Map<String, dynamic> json) {
     hid = json['hid'];
     blockchainId = json['blockchain_id'];
-    blockchain = json['blockchain'];
     tokenType = json['token_type'];
     name = json['name'];
     symbol = json['symbol'];
     blSymbol = json['bl_symbol'];
-    gas = json['gas'];
     decimal = json['decimal'];
     precision = json['precision'];
     balance = json['balance'];
-    frozenBalances = json['frozen_balances'];
-    priceUsd = json['price_usd'];
-    percentChange24h = json['percent_change_24h'];
-    asset = json['asset'];
-    added = json['added'];
     address = json['address'];
     ownerAddress = json['owner_address'];
     website = json['website'];
@@ -140,20 +122,13 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['hid'] = this.hid;
     data['blockchain_id'] = this.blockchainId;
-    data['blockchain'] = this.blockchain;
     data['token_type'] = this.tokenType;
     data['name'] = this.name;
     data['symbol'] = this.symbol;
     data['bl_symbol'] = this.blSymbol;
-    data['gas'] = this.gas;
     data['decimal'] = this.decimal;
     data['precision'] = this.precision;
     data['balance'] = this.balance;
-    data['frozen_balances'] = this.frozenBalances;
-    data['price_usd'] = this.priceUsd;
-    data['percent_change_24h'] = this.percentChange24h;
-    data['asset'] = this.asset;
-    data['added'] = this.added;
     data['address'] = this.address;
     data['owner_address'] = this.ownerAddress;
     data['website'] = this.website;

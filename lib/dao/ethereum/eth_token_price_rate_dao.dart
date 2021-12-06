@@ -5,6 +5,7 @@ import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/ethereum/eth_activity_coin_model.dart';
+import 'package:box/model/ethereum/eth_token_price_rate_model.dart';
 import 'package:box/model/ethereum/eth_token_search_model.dart';
 import 'package:box/model/ethereum/eth_token_top_model.dart';
 import 'package:box/model/ethereum/eth_transfer_model.dart';
@@ -12,18 +13,15 @@ import 'package:dio/dio.dart';
 
 import '../../main.dart';
 
-class EthTokenSearchDao {
-  static Future<EthTokenSearchModel> fetch(String chainID,String key) async {
-    Map<String, String> params = new Map();
-    params["blockchain_id"] = chainID;
-    params["key"] = key;
-    Response response = await Dio().post(ETH_TOKEN_SEARCH,queryParameters: params);
+class EthTokenRateDao {
+  static Future<EthTokenPriceRateModel> fetch() async {
+    Response response = await Dio().get(ETH_TOKEN_PRICE_RATE);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      EthTokenSearchModel model = EthTokenSearchModel.fromJson(data);
+      EthTokenPriceRateModel model = EthTokenPriceRateModel.fromJson(data);
       return model;
     } else {
-      throw Exception('Failed to load EthTokenTopModel.json');
+      throw Exception('Failed to load EthTokenPriceRateModel.json');
     }
   }
 }

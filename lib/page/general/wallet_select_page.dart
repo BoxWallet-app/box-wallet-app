@@ -791,7 +791,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (walletCoinsModel.coins[coinIndex].name == "CFX") {
       return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB" || walletCoinsModel.coins[coinIndex].name == "OKT" || walletCoinsModel.coins[coinIndex].name == "HT") {
+    if (walletCoinsModel.coins[coinIndex].name == "BNB" || walletCoinsModel.coins[coinIndex].name == "OKT" || walletCoinsModel.coins[coinIndex].name == "HT"|| walletCoinsModel.coins[coinIndex].name == "ETH") {
       return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
     }
     return "";
@@ -877,6 +877,19 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
+    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        decoration: new BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
+            Color(0xFF5F66A3),
+            Color(0xFF5F66A3),
+          ]),
+        ),
+      );
+    }
   }
 
   Color getCoinColor() {
@@ -897,6 +910,10 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
     if (walletCoinsModel.coins[coinIndex].name == "OKT") {
       return Color(0xFF1F94FF);
+    }
+
+    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+      return Color(0xFF5F66A3);
     }
   }
 

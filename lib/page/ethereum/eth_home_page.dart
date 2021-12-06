@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
+import 'package:box/dao/ethereum/eth_activity_coin_dao.dart';
 import 'package:box/dao/ethereum/eth_fee_dao.dart';
 import 'package:box/dao/ethereum/eth_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
@@ -35,6 +36,7 @@ class EthHomePage extends StatefulWidget {
   static var tokenABC = "0.000000";
   static var height = 0;
   static var address = "";
+
   static Account account;
 
   @override
@@ -44,7 +46,7 @@ class EthHomePage extends StatefulWidget {
 class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
   EthTransferModel ethTransfer;
-
+  static var price = "";
   var domain = "";
   var page = 1;
 
@@ -65,6 +67,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       ethTransfer = null;
       EthHomePage.token = "loading...";
       EthHomePage.tokenABC = "0.000000";
+      price = "";
       domain = "";
       setState(() {});
       netBaseData();
@@ -92,6 +95,13 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       }
 
       setState(() {});
+
+      var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
+      if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
+        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(),  EthHomePage.token);
+      }
+      setState(() {});
+
       return;
     }, address, nodeUrl);
   }
@@ -278,13 +288,13 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                             margin: const EdgeInsets.only(top: 12, left: 15),
                                             child: Row(
                                               children: <Widget>[
-                                                priceModel == null
+                                                price == ""
                                                     ? Container()
                                                     : Container(
                                                         margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
                                                         child: Text(
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-                                                          getAePrice(),
+                                                          price,
                                                           overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                         ),
@@ -786,6 +796,12 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
         Color(0xFF112FD0),
       ];
     }
+    if (EthHomePage.account.coin == "ETH") {
+      return [
+        Color(0xFF5F66A3),
+        Color(0xFF5F66A3),
+      ];
+    }
     return [
       Color(0xFFFFFFFF),
       Color(0xFFFFFFFF),
@@ -804,6 +820,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     }
     if (EthHomePage.account.coin == "HT") {
       return Color(0xFF0F28B1);
+
+
+    }
+    if (EthHomePage.account.coin == "ETH") {
+      return Color(0xFF4F5588);
 
     }
     return Color(0xFFFFFFFF);

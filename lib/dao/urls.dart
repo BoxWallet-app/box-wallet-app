@@ -148,3 +148,6 @@ const ETH_TRANSFER_RECORD = BASE_HOST + '/eth/api/transaction_action/universal_l
 const ETH_TOKEN_HOT_LIST = BASE_HOST + '/eth/api/token/hot_list';
 const ETH_TOKEN_SEARCH = BASE_HOST + '/eth/api/token/search';
 const ETH_FEE = BASE_HOST + '/eth/api/block_chain/fee_list';
+
+const ETH_TOKEN_PRICE = 'https://preserver.mytokenpocket.vip/v1/wallet/token_price_list';
+const ETH_TOKEN_PRICE_RATE = 'https://preserver.mytokenpocket.vip/v1/currency_rate_list_new';

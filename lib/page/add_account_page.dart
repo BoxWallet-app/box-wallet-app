@@ -307,7 +307,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                   }
                                   return;
                                 }
-                                if (widget.coin.name == "BNB"||widget.coin.name == "OKT"||widget.coin.name == "HT") {
+                                if (widget.coin.name == "BNB"||widget.coin.name == "OKT"||widget.coin.name == "HT"|| widget.coin.name == "ETH") {
                                   if (Platform.isIOS) {
                                     Navigator.push(
                                         context,
@@ -600,6 +600,17 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
         }, mnemonicTemp);
       }
       if (widget.coin.name == "HT") {
+        BoxApp.getSecretKeyETH((address, signingKey) async {
+          if (!await checkAccount(widget.coin.name,address)) return;
+          final key = Utils.generateMd5Int(widget.password + address);
+          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp, key);
+          await WalletCoinsManager.instance.addChain(widget.coin.name, widget.coin.fullName);
+          await WalletCoinsManager.instance.addAccount(widget.coin.name, widget.coin.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+          checkSuccess();
+        }, mnemonicTemp);
+      }
+      if (widget.coin.name == "ETH") {
         BoxApp.getSecretKeyETH((address, signingKey) async {
           if (!await checkAccount(widget.coin.name,address)) return;
           final key = Utils.generateMd5Int(widget.password + address);

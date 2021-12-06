@@ -581,7 +581,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         children: cfxWidget,
       );
     }
-    if(account.coin == "OKT"|| account.coin == "BNB"||account.coin == "HT"){
+    if(account.coin == "OKT"|| account.coin == "BNB"||account.coin == "HT"||account.coin == "ETH"){
       return IndexedStack(
         index: _currentIndex,
         children: ethWidget,

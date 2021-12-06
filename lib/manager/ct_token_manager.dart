@@ -60,13 +60,11 @@ class CtTokenManager {
       }
       final key = Utils.generateMd5Int(LOCAL_KEY);
       var ctCfxTokensJson = Utils.aesDecode(ctCfxTokens, key);
-      print(ctCfxTokensJson);
       if (ctCfxTokensJson == null || ctCfxTokensJson.isEmpty) {
         return [];
       }
       var data = jsonDecode(ctCfxTokensJson.toString());
       var model = CtTokenModel.fromJson(data);
-      print(model);
       if (model.tokens == null) {
         return [];
       }

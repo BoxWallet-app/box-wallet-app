@@ -33,7 +33,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
     // TODO: implement initState
     super.initState();
 
-//    String mnemonic = "memory pool equip lesson limb naive endorse advice lift result track gravity track gravity";
+//    String mnemonic = " track gravity";
 //    List mnemonicList = mnemonic.split(" ");
 
     List mnemonicList = widget.mnemonic.split(" ");

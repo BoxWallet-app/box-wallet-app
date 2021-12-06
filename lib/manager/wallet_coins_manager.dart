@@ -240,6 +240,11 @@ class WalletCoinsManager {
     ae.nameFull = "Aeternity";
     chains.add(ae);
 
+    ChainsModel eth = ChainsModel();
+    eth.name = "ETH";
+    eth.nameFull = "Ethereum";
+    chains.add(eth);
+
     ChainsModel bnb = ChainsModel();
     bnb.name = "BNB";
     bnb.nameFull = "Binance Smart Chain";

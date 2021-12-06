@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/ct_token_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
@@ -379,14 +381,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                             ],
                           );
                         },
-                      ).then((val) {
+                      ).then((val) async {
                         if (val) {
                           AeHomePage.tokenABC = "loading...";
                           AeTokenDefiPage.model = null;
-                          BoxApp.setAddress("");
-                          BoxApp.setSigningKey("");
-                          BoxApp.setMnemonic("");
-                          BoxApp.setSaveMnemonic(false);
+
+                          var prefs = await SharedPreferences.getInstance();
+
+                          var language =await BoxApp.getLanguage();
+                          prefs.clear();
+                          prefs.setBool('is_language',true);
+                          BoxApp.setLanguage(language);
+                          BoxApp.language = language;
                           WalletCoinsManager.instance.setCoins(null);
                           Navigator.pushReplacement(context, SlideRoute(LoginPageNew()));
                         }

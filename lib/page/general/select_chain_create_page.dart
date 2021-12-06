@@ -200,6 +200,18 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
           }, widget.mnemonic);
           return;
         }
+        if (chains[i].name == "ETH") {
+          BoxApp.getSecretKeyETH((address, signingKey) async {
+            final key = Utils.generateMd5Int(widget.password + address);
+            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+            chains[i].isSelect = false;
+            createChain();
+          }, widget.mnemonic);
+          return;
+        }
       }
     }
     checkSuccess();

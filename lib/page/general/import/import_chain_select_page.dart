@@ -76,21 +76,24 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
         child: Column(
           children: [
             Expanded(
-              child: EasyRefresh(
-                header: BoxHeader(),
-                child: ListView.builder(
-                  itemCount: chains.length + 3,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: const Duration(milliseconds: 375),
-                        child: SlideAnimation(
-                          verticalOffset: 50.0,
-                          child: FadeInAnimation(
-                            child: itemListView(context, index),
-                          ),
-                        ));
-                  },
+              child: Padding(
+                padding:  EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                child: EasyRefresh(
+                  header: BoxHeader(),
+                  child: ListView.builder(
+                    itemCount: chains.length + 3,
+                    itemBuilder: (BuildContext context, int index) {
+                      return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 375),
+                          child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: itemListView(context, index),
+                            ),
+                          ));
+                    },
+                  ),
                 ),
               ),
             ),
@@ -276,7 +279,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
               return;
             }
 
-            if (chains[index].name == "BNB" || chains[index].name =="HT"|| chains[index].name =="OKT") {
+            if (chains[index].name == "BNB" || chains[index].name =="HT"|| chains[index].name =="OKT" || chains[index].name =="ETH") {
               if (Platform.isIOS) {
                 Navigator.push(
                     context,

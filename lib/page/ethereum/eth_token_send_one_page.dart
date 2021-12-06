@@ -78,6 +78,9 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
     if(EthHomePage.account.coin == "HT"){
       return Color(0xFF112FD0);
     }
+    if(EthHomePage.account.coin == "ETH"){
+      return Color(0xFF5F66A3);
+    }
     return Color(0xFFFFFFFF);
   }
 

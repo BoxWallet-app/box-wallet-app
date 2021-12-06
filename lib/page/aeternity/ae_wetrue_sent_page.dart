@@ -31,7 +31,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
     super.initState();
     _textEditingController.text = "";
     netWeTrueConfig();
-//    _textEditingController.text = "memory pool equip lesson limb naive endorse advice lift result track gravity";
+//    _textEditingController.text = "";
   }
 
   void netWeTrueConfig() {
