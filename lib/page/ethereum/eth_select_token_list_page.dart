@@ -6,8 +6,11 @@ import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/ct_token_manager.dart';
+import 'package:box/manager/eth_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/ct_token_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -19,27 +22,28 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
-import 'cfx_home_page.dart';
 
-typedef CfxSelectTokenListCallBackFuture = Future Function(String tokenName, String tokenCount, String tokenImage, String tokenContract);
+typedef EthSelectTokenListCallBackFuture = Future Function(String tokenName, String tokenCount, String tokenImage, String tokenContract);
 
-class CfxSelectTokenListPage extends StatefulWidget {
+class EthSelectTokenListPage extends StatefulWidget {
   final String aeCount;
-  final CfxSelectTokenListCallBackFuture aeSelectTokenListCallBackFuture;
+  final EthSelectTokenListCallBackFuture aeSelectTokenListCallBackFuture;
 
-  const CfxSelectTokenListPage({Key key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
+  const EthSelectTokenListPage({Key key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
 
   @override
   _TokenListPathState createState() => _TokenListPathState();
 }
 
-class _TokenListPathState extends State<CfxSelectTokenListPage> {
+class _TokenListPathState extends State<EthSelectTokenListPage> {
   var loadingType = LoadingType.loading;
   List<Tokens> cfxCtTokens = [];
-
+  Account account;
   Future<void> _onRefresh() async {
-    var address = await BoxApp.getAddress();
-    cfxCtTokens = await CtTokenManager.instance.getCfxCtTokens(address);
+   account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var chainID = EthManager.instance.getChainID(account);
+    cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account.address);
     if (cfxCtTokens.length == 0) {
       loadingType = LoadingType.no_data;
       setState(() {});
@@ -47,12 +51,12 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     }
     loadingType = LoadingType.finish;
     setState(() {});
-    getBalance(address);
+    getBalance(account.address);
   }
 
   bool isLoadBalance = false;
 
-  void getBalance(String address) {
+  Future<void> getBalance(String address) async {
     if(isLoadBalance){
       return;
     }
@@ -70,16 +74,21 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     if (isReturn) return;
     isLoadBalance = true;
     if (token.balance == null) {
-      BoxApp.getErcBalanceCFX((balance) async {
-        token.balance = double.parse(balance).toStringAsFixed(2);
-
+      var nodeUrl = await EthManager.instance.getNodeUrl(account);
+      BoxApp.getErcBalanceETH((balance) async {
+        token.balance = Utils.formatBalanceLength(double.parse(balance));
+        isLoadBalance = false;
+        if (!mounted) {
+          return;
+        }
         setState(() {});
-        getBalance(address);
+        await getBalance(address);
         return;
-      }, address, token.ctId);
+      }, address, token.ctId, nodeUrl);
     }
     isLoadBalance = false;
   }
+
 
   @override
   void initState() {
@@ -209,7 +218,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
-                widget.aeSelectTokenListCallBackFuture("CFX", widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png", "");
+                widget.aeSelectTokenListCallBackFuture(account.coin, widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/"+account.coin+".png", "");
               }
               Navigator.pop(context);
             },
@@ -238,14 +247,14 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
 //                                                      shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(36.0),
                                   image: DecorationImage(
-                                    image: AssetImage("images/" + "CFX" + ".png"),
+                                    image: AssetImage("images/" + account.coin+ ".png"),
                                   ),
                                 ),
                               ),
                               Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  "CFX",
+                                  account.coin,
                                   style: new TextStyle(
                                     fontSize: 20,
                                     color: Color(0xff333333),

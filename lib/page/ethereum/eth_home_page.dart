@@ -27,9 +27,13 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import 'eth_in_webview_page.dart';
+import 'eth_records_page.dart';
 import 'eth_token_list_page.dart';
 import 'eth_token_receive_page.dart';
 import 'eth_token_send_one_page.dart';
+import 'eth_tx_detail_page.dart';
+import 'eth_webview_page.dart';
 
 class EthHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -91,7 +95,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       if (balance == "account error") {
         EthHomePage.token = "0.0000";
       } else {
-        EthHomePage.token = balance;
+        EthHomePage.token = Utils.formatBalanceLength(double.parse(balance));
       }
 
       setState(() {});
@@ -483,9 +487,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                                 Text(
                                                   EthHomePage.token == "loading..."
                                                       ? "loading..."
-                                                      : double.parse(EthHomePage.token) > 1000
-                                                          ? double.parse(EthHomePage.token).toStringAsFixed(2) + ""
-                                                          : double.parse(EthHomePage.token).toStringAsFixed(5) + "",
+                                                      : EthHomePage.token,
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
@@ -572,10 +574,16 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
                                           if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTokenSendOnePage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthWebViewPage()));
                                           } else {
-                                            Navigator.push(context, SlideRoute(EthTokenSendOnePage()));
+                                            Navigator.push(context, SlideRoute(EthWebViewPage()));
                                           }
+
+                                          // if (Platform.isIOS) {
+                                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => EthInWebViewPage()));
+                                          // } else {
+                                          //   Navigator.push(context, SlideRoute(EthInWebViewPage()));
+                                          // }
                                         },
                                         child: Container(
                                           height: 90,
@@ -860,11 +868,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
           borderRadius: BorderRadius.all(Radius.circular(15)),
           splashColor: Colors.white,
           onTap: () {
-            // if (Platform.isIOS) {
-            //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
-            // } else {
-            //   Navigator.push(context, SlideRoute(CfxRecordsPage()));
-            // }
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EthRecordsPage()));
+            } else {
+              Navigator.push(context, SlideRoute(EthRecordsPage()));
+            }
           },
           child: Column(
             children: [
@@ -994,11 +1002,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           onTap: () {
-            // if (Platform.isIOS) {
-            //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxRecordsPage()));
-            // } else {
-            //   Navigator.push(context, SlideRoute(CfxRecordsPage()));
-            // }
+            if (Platform.isIOS) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EthRecordsPage()));
+            } else {
+              Navigator.push(context, SlideRoute(EthRecordsPage()));
+            }
           },
           child: Column(
             children: [
@@ -1129,11 +1137,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          // if (Platform.isIOS) {
-          //   Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
-          // } else {
-          //   Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
-          // }
+          if (Platform.isIOS) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTxDetailPage(recordData: ethTransfer.data[index])));
+          } else {
+            Navigator.push(context, SlideRoute(EthTxDetailPage(recordData: ethTransfer.data[index])));
+          }
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),

@@ -225,7 +225,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                                                     if (Platform.isAndroid) {
                                                                       String resultString;
                                                                       try {
-                                                                        resultString = await PluginManager.pushActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                                                        resultString = await PluginManager.pushCfxWebViewActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
                                                                       } on PlatformException {
                                                                         resultString = '失败';
                                                                       }
@@ -613,7 +613,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                   if (Platform.isAndroid) {
                                     String resultString;
                                     try {
-                                      resultString = await PluginManager.pushActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                      resultString = await PluginManager.pushCfxWebViewActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
                                     } on PlatformException {
                                       resultString = '失败';
                                     }

@@ -51,8 +51,9 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
 //      if(_textEditingController.text.contains(".c")){
 //        return;
 //      }
-//      _textEditingController.text = _textEditingController.text+".chain";
+
     });
+    _textEditingController.text = "0xF99760E82fB180cC5A313753e4f8EC152D97d3E2";
     getAddress();
   }
   getAddress() {

@@ -1,5 +1,5 @@
 class EthTransferModel {
-  List<Data> data;
+  List<EthTransferItemData> data;
   String message;
   int result;
 
@@ -7,9 +7,9 @@ class EthTransferModel {
 
   EthTransferModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<EthTransferItemData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new EthTransferItemData.fromJson(v));
       });
     }
     message = json['message'];
@@ -27,7 +27,7 @@ class EthTransferModel {
   }
 }
 
-class Data {
+class EthTransferItemData {
   int decimal;
   String fee;
   String symbol;
@@ -37,6 +37,7 @@ class Data {
   String gasPrice;
   String usedGas;
   String value;
+  String tokenValue;
   String hash;
   String nonce;
   String blockHash;
@@ -49,7 +50,7 @@ class Data {
   int inputStatus;
   int status;
 
-  Data(
+  EthTransferItemData(
       {this.decimal,
         this.fee,
         this.symbol,
@@ -59,6 +60,7 @@ class Data {
         this.gasPrice,
         this.usedGas,
         this.value,
+        this.tokenValue,
         this.hash,
         this.nonce,
         this.blockHash,
@@ -71,7 +73,7 @@ class Data {
         this.inputStatus,
         this.status});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  EthTransferItemData.fromJson(Map<String, dynamic> json) {
     decimal = json['decimal'];
     fee = json['fee'];
     symbol = json['symbol'];
@@ -81,6 +83,7 @@ class Data {
     gasPrice = json['gas_price'];
     usedGas = json['used_gas'];
     value = json['value'];
+    tokenValue = json['token_value'];
     hash = json['hash'];
     nonce = json['nonce'];
     blockHash = json['block_hash'];
@@ -105,6 +108,7 @@ class Data {
     data['gas_price'] = this.gasPrice;
     data['used_gas'] = this.usedGas;
     data['value'] = this.value;
+    data['token_value'] = this.tokenValue;
     data['hash'] = this.hash;
     data['nonce'] = this.nonce;
     data['block_hash'] = this.blockHash;

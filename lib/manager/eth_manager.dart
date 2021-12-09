@@ -33,6 +33,21 @@ class EthManager {
     }
     return "";
   }
+  Future<String> getScanUrl(Account account) async {
+    if (account.coin == "OKT") {
+      return "https://www.oklink.com/zh-cn/oec/tx/";
+    }
+    if (account.coin == "BNB") {
+      return "https://www.bscscan.com/tx/";
+    }
+    if (account.coin == "HT") {
+      return "https://hecoinfo.com/tx/";
+    }
+    if (account.coin == "ETH") {
+      return "https://etherscan.io/tx/";
+    }
+    return "";
+  }
 
   // eth =1 bsc=12 hero=15 ok=20
   String getChainID(Account account) {
@@ -79,9 +94,9 @@ class EthManager {
 
   String formatPrice(String price, String balance) {
      if (BoxApp.language == "cn") {
-      return "¥" + (double.parse(price) * double.parse(balance) * double.parse(ethTokenPriceRateModel.data[0].data[0].rate)).toStringAsFixed(6);
+      return "¥" +Utils.formatBalanceLength (double.parse(price) * double.parse(balance) * double.parse(ethTokenPriceRateModel.data[0].data[0].rate));
     } else {
-      return "\$" + (double.parse(price) * double.parse(balance)).toStringAsFixed(6);
+      return "\$" + Utils.formatBalanceLength (double.parse(price) * double.parse(balance));
     }
   }
 

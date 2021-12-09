@@ -126,7 +126,7 @@ class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClient
               if (Platform.isAndroid) {
                 String resultString;
                 try {
-                  resultString = await PluginManager.pushActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                  resultString = await PluginManager.pushCfxWebViewActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
                 } on PlatformException {
                 }
                 return;
@@ -304,7 +304,7 @@ class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClient
                                                 if (Platform.isAndroid) {
                                                   String resultString;
                                                   try {
-                                                    resultString = await PluginManager.pushActivity({'url': data.url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                                    resultString = await PluginManager.pushCfxWebViewActivity({'url': data.url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
                                                   } on PlatformException {
                                                     resultString = '失败';
                                                   }

@@ -758,7 +758,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       },
     ).then((val) {
       if (val) {
-        Clipboard.setData(ClipboardData(text: tx));
+        Clipboard.setData(ClipboardData(text: "https://confluxscan.io/transaction/"+tx));
         showFlushSucess(context);
       } else {
         showFlushSucess(context);

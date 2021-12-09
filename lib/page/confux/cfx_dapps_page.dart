@@ -253,7 +253,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                 if (Platform.isAndroid) {
                                                   String resultString;
                                                   try {
-                                                    resultString = await PluginManager.pushActivity({'url': data.url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
+                                                    resultString = await PluginManager.pushCfxWebViewActivity({'url': data.url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
                                                   } on PlatformException {
                                                     resultString = '失败';
                                                   }

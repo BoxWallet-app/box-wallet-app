@@ -44,6 +44,26 @@ class Utils {
     return (split[0]+":"+split[2]).toLowerCase();
   }
 
+  static String formatBalanceLength(double balance) {
+    if(balance == null){
+      return "0";
+    }
+    if(balance ==0){
+      return balance.toStringAsFixed(2);
+    }
+    if(balance<1){
+      return balance.toStringAsFixed(6);
+    }
+    if(balance>=10000){
+      return balance.toStringAsFixed(0);
+    }
+    if(balance>=100){
+      return balance.toStringAsFixed(2);
+    }
+   return balance.toStringAsFixed(6);
+
+  }
+
   static formatAddress(String address) {
     if (address == "" || address.length <= 4) {
       return "";

@@ -733,7 +733,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       },
     ).then((val) {
       if (val) {
-        Clipboard.setData(ClipboardData(text: tx));
+        Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/"+tx));
         showFlushSucess(context);
       } else {
         showFlushSucess(context);

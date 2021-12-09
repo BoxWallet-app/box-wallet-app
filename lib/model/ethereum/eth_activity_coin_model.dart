@@ -37,7 +37,7 @@ class Data {
   int gas;
   int decimal;
   int precision;
-  double priceUsd;
+  String priceUsd;
   String address;
   int tokenStatus;
   String iconUrl;
@@ -75,7 +75,7 @@ class Data {
     gas = json['gas'];
     decimal = json['decimal'];
     precision = json['precision'];
-    priceUsd = json['price_usd'];
+    priceUsd = json['price_usd'].toString();
     address = json['address'];
     tokenStatus = json['token_status'];
     iconUrl = json['icon_url'];
@@ -96,7 +96,7 @@ class Data {
     data['gas'] = this.gas;
     data['decimal'] = this.decimal;
     data['precision'] = this.precision;
-    data['price_usd'] = this.priceUsd;
+    data['price_usd'] = this.priceUsd.toString();
     data['address'] = this.address;
     data['token_status'] = this.tokenStatus;
     data['icon_url'] = this.iconUrl;

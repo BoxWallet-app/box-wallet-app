@@ -71,60 +71,27 @@ class Data {
 }
 
 class FeeList {
-  int minFee;
-  int maxFee;
-  int dayCount;
-  int memCount;
-  int minDelay;
-  int maxDelay;
-  int minMinutes;
-  int maxMinutes;
   String fee;
-  double minute;
   String maxFeePerGas;
   String maxPriorityFeePerGas;
 
   FeeList(
-      {this.minFee,
-        this.maxFee,
-        this.dayCount,
-        this.memCount,
-        this.minDelay,
-        this.maxDelay,
-        this.minMinutes,
-        this.maxMinutes,
+      {
         this.fee,
-        this.minute,
         this.maxFeePerGas,
         this.maxPriorityFeePerGas});
 
   FeeList.fromJson(Map<String, dynamic> json) {
-    minFee = json['minFee'];
-    maxFee = json['maxFee'];
-    dayCount = json['dayCount'];
-    memCount = json['memCount'];
-    minDelay = json['minDelay'];
-    maxDelay = json['maxDelay'];
-    minMinutes = json['minMinutes'];
-    maxMinutes = json['maxMinutes'];
+
     fee = json['fee'];
-    minute = json['minute'];
     maxFeePerGas = json['maxFeePerGas'];
     maxPriorityFeePerGas = json['maxPriorityFeePerGas'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['minFee'] = this.minFee;
-    data['maxFee'] = this.maxFee;
-    data['dayCount'] = this.dayCount;
-    data['memCount'] = this.memCount;
-    data['minDelay'] = this.minDelay;
-    data['maxDelay'] = this.maxDelay;
-    data['minMinutes'] = this.minMinutes;
-    data['maxMinutes'] = this.maxMinutes;
+
     data['fee'] = this.fee;
-    data['minute'] = this.minute;
     data['maxFeePerGas'] = this.maxFeePerGas;
     data['maxPriorityFeePerGas'] = this.maxPriorityFeePerGas;
     return data;

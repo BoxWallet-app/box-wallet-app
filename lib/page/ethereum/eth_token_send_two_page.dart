@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
+import 'package:box/dao/ethereum/eth_activity_coin_dao.dart';
+import 'package:box/dao/ethereum/eth_fee_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
+import 'package:box/model/ethereum/eth_fee_model.dart';
 import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -17,9 +20,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../main.dart';
+import 'eth_select_token_list_page.dart';
+
 // import 'cfx_home_page.dart';
 // import 'cfx_select_token_list_page.dart';
 
@@ -48,11 +54,14 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   String tokenCount = "0";
   String tokenImage = "";
   String tokenContract = "";
+  String fee = "";
+  String spendFee = "0";
+
+  String amountFee = "0";
 
   @override
   void initState() {
     super.initState();
-
 
     if (widget.tokenName != null) {
       this.tokenName = widget.tokenName;
@@ -67,12 +76,10 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
       this.tokenContract = widget.tokenContract;
     }
 
-    if (widget.tokenContract == null) {
-      netCfxBalance();
-    }
-
     getAddress();
+    getEthFee();
   }
+
   getAddress() {
     WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
       if (!mounted) {
@@ -80,52 +87,80 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
       }
       EthHomePage.account = account;
       EthHomePage.address = account.address;
-      getDefTokenData();
+      if (widget.tokenContract == null) {
+        getDefTokenData();
+      }
       setState(() {});
     });
   }
+
   Color getAccountCardBottomBg() {
-    if(EthHomePage.account == null){
+    if (EthHomePage.account == null) {
       return Color(0xFFFFFFFF);
     }
-    if(EthHomePage.account.coin == "BNB"){
+    if (EthHomePage.account.coin == "BNB") {
       return Color(0xFFE6A700);
     }
-    if(EthHomePage.account.coin == "OKT"){
+    if (EthHomePage.account.coin == "OKT") {
       return Color(0xFF1F94FF);
     }
-    if(EthHomePage.account.coin == "HT"){
+    if (EthHomePage.account.coin == "HT") {
       return Color(0xFF112FD0);
+    }
+
+    if (EthHomePage.account.coin == "ETH") {
+      return Color(0xFF5F66A3);
     }
     return Color(0xFFFFFFFF);
   }
 
-  getDefTokenData() {
-    if(EthHomePage.account == null){
-      return;
-    }
-    this.tokenName = EthHomePage.account.coin;
+  getDefTokenData() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    this.tokenName = account.coin;
     this.tokenCount = EthHomePage.token;
-    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/"+EthHomePage.account.coin+".png";
+    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/" + EthHomePage.account.coin + ".png";
     netCfxBalance();
   }
+
   Future<void> netCfxBalance() async {
     var address = await BoxApp.getAddress();
 
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     BoxApp.getBalanceETH((balance) async {
-      if(!mounted)
-        return;
-      if(balance == "account error"){
-        EthHomePage.token = "0.0000";
-      }else{
-        EthHomePage.token = balance;
+      if (!mounted) return;
+      if (balance == "account error") {
+        this.tokenCount = "0.0000";
+      } else {
+        this.tokenCount = Utils.formatBalanceLength(double.parse(balance));
       }
 
       setState(() {});
       return;
-    }, address,nodeUrl);
+    }, address, nodeUrl);
+  }
+
+  Future<void> getEthFee() async {
+    fee = "";
+    setState(() {});
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
+    spendFee = ethFeeModel.data.feeList[1].fee;
+    if (this.tokenContract == "") {
+      amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[2].fee) * 25000 / 1000000000000000000);
+    } else {
+      amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[2].fee) * 60000 / 1000000000000000000);
+    }
+
+    print(amountFee);
+    fee = "Network fee : " + amountFee + " " + account.coin;
+    setState(() {});
+    var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
+    if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
+      String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), amountFee);
+      fee = "Network fee : " + amountFee + " " + account.coin + " ≈ " + price;
+      setState(() {});
+    }
   }
 
   @override
@@ -149,6 +184,18 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
             '',
             style: TextStyle(color: Colors.white),
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.refresh_outlined,
+                size: 17,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                if (spendFee != "") return await getEthFee();
+              },
+            ),
+          ],
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -166,7 +213,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 130,
+                              height: 120,
                               color: getAccountCardBottomBg(),
                             ),
                             Container(
@@ -176,7 +223,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                   Color(0xFFEEEEEE),
                                 ]),
                               ),
-                              height: 190,
+                              height: 172,
                             ),
                           ],
                         ),
@@ -254,7 +301,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.all(20),
+                              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
                               height: 172,
                               //边框设置
                               decoration: new BoxDecoration(
@@ -317,7 +364,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
                                             focusedBorder: new UnderlineInputBorder(
-                                              borderSide: BorderSide(color:  getAccountCardBottomBg()),
+                                              borderSide: BorderSide(color: getAccountCardBottomBg()),
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
@@ -341,9 +388,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color:  getAccountCardBottomBg()),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: getAccountCardBottomBg()),
                                               ),
-                                              color:  getAccountCardBottomBg().withAlpha(16),
+                                              color: getAccountCardBottomBg().withAlpha(16),
                                               textColor: Colors.black,
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
@@ -359,24 +406,23 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
-//                                         showMaterialModalBottomSheet(
-//                                             context: context,
-//                                             expand: true,
-//                                             enableDrag: false,
-//                                             backgroundColor: Colors.transparent,
-//                                             builder: (context) => CfxSelectTokenListPage(
-//                                                   aeCount: EthHomePage.token,
-//                                                   aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
-//                                                     this.tokenName = tokenName;
-//                                                     this.tokenCount = tokenCount;
-//                                                     this.tokenImage = tokenImage;
-//                                                     this.tokenContract = tokenContract;
-//                                                     setState(() {});
-//                                                     return;
-//                                                   },
-//                                                 )
-// //
-//                                             );
+                                        showMaterialModalBottomSheet(
+                                            context: context,
+                                            expand: true,
+                                            enableDrag: false,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) => EthSelectTokenListPage(
+                                                  aeCount: EthHomePage.token,
+                                                  aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
+                                                    this.tokenName = tokenName;
+                                                    this.tokenCount = tokenCount;
+                                                    this.tokenImage = tokenImage;
+                                                    this.tokenContract = tokenContract;
+                                                    getEthFee();
+                                                    setState(() {});
+                                                    return;
+                                                  },
+                                                ));
                                       },
                                       child: Container(
                                         height: 55,
@@ -391,17 +437,25 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                       width: 36.0,
                                                       height: 36.0,
                                                       decoration: BoxDecoration(
-                                                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                        border: Border(
+                                                            bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                         borderRadius: BorderRadius.circular(36.0),
                                                       ),
                                                       child: ClipOval(
                                                         child: Image.network(
                                                           tokenImage,
-                                                          errorBuilder: (  BuildContext context,
-                                                              Object error,
-                                                              StackTrace stackTrace,) {
-                                                            return Container(color: Colors.grey.shade200,);
+                                                          errorBuilder: (
+                                                            BuildContext context,
+                                                            Object error,
+                                                            StackTrace stackTrace,
+                                                          ) {
+                                                            return Container(
+                                                              color: Colors.grey.shade200,
+                                                            );
                                                           },
                                                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                             if (wasSynchronouslyLoaded) return child;
@@ -464,7 +518,38 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 30),
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        fee == ""
+                            ? Container(
+                                width: 50,
+                                height: 50,
+                                child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                  'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                ),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 0, bottom: 0),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  fee,
+                                  textAlign: TextAlign.center,
+                                  style: new TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 0, bottom: 10),
                     child: Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width * 0.8,
@@ -477,7 +562,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color:  getAccountCardBottomBg(),
+                        color: getAccountCardBottomBg(),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
@@ -492,77 +577,28 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (double.parse(tokenCount) > 1) {
-      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+    if (this.tokenContract == "") {
+      if (double.parse(tokenCount) == 0) {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(this.tokenCount) > (double.parse(amountFee) + double.parse(amountFee))) {
+          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) + double.parse(amountFee))).toStringAsFixed(5);
+        } else {
+          _textEditingController.text = "0";
+        }
+      }
     } else {
-      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+      if (double.parse(tokenCount) > 1) {
+        _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+      } else {
+        if (double.parse(tokenCount) == 0) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+        }
+      }
     }
-
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
-  }
-
-
-  Widget getIconImage(String data, String name) {
-    if (data == null) {
-      return Container(
-        width: 27.0,
-        height: 27.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(36.0),
-          image: DecorationImage(
-            image: AssetImage("images/" + "CFX" + ".png"),
-          ),
-        ),
-      );
-    }
-    if ("CFX" != name) {
-      if (name == "FC") {
-        return Container(
-          width: 27.0,
-          height: 27.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(36.0),
-            image: DecorationImage(
-              image: AssetImage("images/" + name + ".png"),
-            ),
-          ),
-        );
-      }
-      String icon = data.split(',')[1]; //
-      if (data.contains("data:image/png")) {
-        Uint8List bytes = Base64Decoder().convert(icon);
-        return Image.memory(bytes, fit: BoxFit.contain);
-      }
-
-      if (data.contains("data:image/svg")) {
-        Uint8List bytes = Base64Decoder().convert(icon);
-
-        return SvgPicture.memory(
-          bytes,
-          semanticsLabel: 'A shark?!',
-          placeholderBuilder: (BuildContext context) => Container(padding: const EdgeInsets.all(30.0), child: const CircularProgressIndicator()),
-        );
-      }
-    }
-    return Container(
-      width: 27.0,
-      height: 27.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(36.0),
-        image: DecorationImage(
-          image: AssetImage("images/" + "CFX" + ".png"),
-        ),
-      ),
-    );
   }
 
   String getReceiveAddress() {
@@ -628,14 +664,17 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       showErrorDialog(context, null);
                       return;
                     }
-                    // ignore: missing_return
-                    BoxApp.spendCFX((tx) {
-                      showCopyHashDialog(context, tx);
+                    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                    String nodeUrl = await EthManager.instance.getNodeUrl(account);
 
+                    BoxApp.spendETH((tx) {
+                      print(tx);
+                      showCopyHashDialog(context, tx);
+                      return;
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
-                    }, aesDecode, widget.address, _textEditingController.text);
+                    }, aesDecode, widget.address, _textEditingController.text, spendFee, nodeUrl);
                     showChainLoading();
                   },
                 ),
@@ -675,14 +714,16 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       showErrorDialog(context, null);
                       return;
                     }
-                    // ignore: missing_return
-                    BoxApp.spendErc20CFX((tx) {
+                    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                    String nodeUrl = await EthManager.instance.getNodeUrl(account);
+                    BoxApp.spendErc20ETH((tx) {
                       showCopyHashDialog(context, tx);
+                      return;
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, widget.address, tokenContract, _textEditingController.text);
+                    }, aesDecode, widget.address, tokenContract, _textEditingController.text, spendFee, nodeUrl);
                     showChainLoading();
                   },
                 ),
@@ -712,8 +753,8 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFF37A1DB), Color(0xFF37A1DB)]),
-      backgroundColor: Color(0xFF37A1DB),
+      backgroundGradient: LinearGradient(colors: [getAccountCardBottomBg(),getAccountCardBottomBg()]),
+      backgroundColor: getAccountCardBottomBg(),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,
@@ -795,9 +836,11 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
           ],
         );
       },
-    ).then((val) {
+    ).then((val) async {
       if (val) {
-        Clipboard.setData(ClipboardData(text: tx));
+        Account account = await WalletCoinsManager.instance.getCurrentAccount();
+        var scanUrl = await EthManager.instance.getScanUrl(account);
+        Clipboard.setData(ClipboardData(text: scanUrl + tx));
         showFlushSucess(context);
       } else {
         showFlushSucess(context);

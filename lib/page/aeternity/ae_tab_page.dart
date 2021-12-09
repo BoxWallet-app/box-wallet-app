@@ -84,10 +84,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     getAddress();
     showHint();
     MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
-    _platform.setMethodCallHandler(myUtilsHandler);
+    _platform.setMethodCallHandler(channelHandler);
   }
 
-  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
+  Future<dynamic> channelHandler(MethodCall methodCall) async {
     switch (methodCall.method) {
       case 'getGasCFX':
         var data = jsonDecode(methodCall.arguments.toString());
@@ -112,7 +112,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
 
           var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
-          await PluginManager.getGasCFX({
+          await PluginManager.cfxGetGas({
             'type': methodCall.method,
             'from': cfxRpcModel.payload.from,
             'to': cfxRpcModel.payload.to,
@@ -137,7 +137,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         try {
           aesDecode = Utils.aesDecode(signingKey, key);
         } catch (err) {
-          await PluginManager.signTransactionError({
+          await PluginManager.passwordError({
             'type': "signTransactionError",
             'data': "ERROR:password error",
           });
@@ -145,14 +145,14 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         }
 
         if (aesDecode == "") {
-          await PluginManager.signTransactionError({
+          await PluginManager.passwordError({
             'type': "signTransactionError",
             'data': "ERROR:password error",
           });
           return 'SUCCESS';
         }
         BoxApp.signTransactionCFX((hash) async {
-          await PluginManager.signTransaction({
+          await PluginManager.cfxSignTransaction({
             'type': methodCall.method,
             'data': hash,
           });

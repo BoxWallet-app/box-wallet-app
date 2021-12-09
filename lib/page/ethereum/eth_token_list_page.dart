@@ -36,6 +36,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import 'eth_token_add_page.dart';
+import 'eth_token_record_page.dart';
 
 class EthTokenListPage extends StatefulWidget {
   @override
@@ -117,7 +118,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     if (token.balance == null) {
       var nodeUrl = await EthManager.instance.getNodeUrl(account);
       BoxApp.getErcBalanceETH((balance) async {
-        token.balance = double.parse(balance).toStringAsFixed(6);
+        token.balance = Utils.formatBalanceLength(double.parse(balance));
         isLoadBalance = false;
         if (!mounted) {
           return;
@@ -146,22 +147,11 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     });
 
     var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
-    print(ethTokenPriceModel.toJson());
-    //
-    // var ethTokenRateModel = await EthTokenRateDao.fetch();
-    // print(ethTokenRateModel.toJson());
 
     for (int i = 0; i < cfxCtTokens.length; i++) {
       if (ethTokenPriceModel.data != null && ethTokenPriceModel.data.length > 0) {
         if (ethTokenPriceModel.data[i] !=null) {
           cfxCtTokens[i].price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[i], cfxCtTokens[i].balance);
-          // if (BoxApp.language == "cn") {
-          //   print(cfxCtTokens[i].balance);
-          //   // cfxCtTokens[i].price = "¥" + (double.parse(ethTokenPriceModel.data[i]) * double.parse(cfxCtTokens[i].balance) * double.parse(ethTokenRateModel.data[0].data[0].rate)).toStringAsFixed(6);
-          //   cfxCtTokens[i].price =
-          // } else {
-          //   cfxCtTokens[i].price = "\$" + (double.parse(ethTokenPriceModel.data[i]) * double.parse(cfxCtTokens[i].balance)).toString();
-          // }
         }
       }
     }
@@ -286,18 +276,18 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            // if (cfxCtTokens[index].balance == null) {
-            //   return;
-            // }
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => CfxTokenRecordPage(
-            //               ctId: cfxCtTokens[index].ctId,
-            //               coinCount: cfxCtTokens[index].balance,
-            //               coinImage: cfxCtTokens[index].iconUrl,
-            //               coinName: getCoinName(index),
-            //             )));
+            if (cfxCtTokens[index].balance == null) {
+              return;
+            }
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EthTokenRecordPage(
+                          ctId: cfxCtTokens[index].ctId,
+                          coinCount: cfxCtTokens[index].balance,
+                          coinImage: cfxCtTokens[index].iconUrl,
+                          coinName: getCoinName(index),
+                        )));
           },
           child: Container(
             child: Row(
