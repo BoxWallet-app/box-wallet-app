@@ -40,7 +40,7 @@ class _EthInWebViewPageState extends State<EthInWebViewPage> {
         // useShouldOverrideUrlLoading: true,
         // mediaPlaybackRequiresUserGesture: false,
         // cacheEnabled: false,
-        // clearCache: true,
+        clearCache: true,
         ),
   );
 
@@ -58,6 +58,12 @@ class _EthInWebViewPageState extends State<EthInWebViewPage> {
     return confluxJs;
   }
 
+
+
+  var chainId = 66;
+  // var chainId = 56;
+  var rpcUrl = "https://okchain.mytokenpocket.vip";
+  // var rpcUrl = "https://bsc-dataseed2.binance.org";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,12 +165,40 @@ class _EthInWebViewPageState extends State<EthInWebViewPage> {
                   }
                   return InAppWebView(
                     initialOptions: options,
-                    initialUrlRequest: URLRequest(url: Uri.parse("https://www.cherryswap.net/#/swap?locale=zh-CN&utm_source=imtoken")),
-                    // initialUrlRequest: URLRequest(url: Uri.parse("https://app.kswap.finance/#/swap")),
+                    // initialUrlRequest: URLRequest(url: Uri.parse("https://www.cherryswap.net/#/swap?locale=zh-CN&utm_source=imtoken")),
+                    initialUrlRequest: URLRequest(url: Uri.parse("https://app.kswap.finance/#/swap")),
                     // initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
                     initialUserScripts:UnmodifiableListView<UserScript>([
                       UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
+                      UserScript(source: """
+                  (function() {
+                      var config = {
+                          chainId: $chainId,
+                          rpcUrl: "$rpcUrl",
+                          isDebug: true
+                      };
+                      window.ethereum = new trustwallet.Provider(config);
+                      window.web3 = new trustwallet.Web3(window.ethereum);
+                      trustwallet.postMessage = (json) => {
+                          window._tw_.postMessage(JSON.stringify(json));
+                      }
+                  })();
+              """, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START),
                       UserScript(source: snapshot.data, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
+                      UserScript(source: """
+                  (function() {
+                      var config = {
+                          chainId: $chainId,
+                          rpcUrl: "$rpcUrl",
+                          isDebug: true
+                      };
+                      window.ethereum = new trustwallet.Provider(config);
+                      window.web3 = new trustwallet.Web3(window.ethereum);
+                      trustwallet.postMessage = (json) => {
+                          window._tw_.postMessage(JSON.stringify(json));
+                      }
+                  })();
+              """, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_END),
                     ]),
                     onTitleChanged: (controller, t) {
                       title = t;
@@ -178,9 +212,6 @@ class _EthInWebViewPageState extends State<EthInWebViewPage> {
                         isFinish = false;
                       });
 
-                      String confluxJs = await rootBundle.loadString("assets/trust-min.js");
-
-                      await _webViewController.evaluateJavascript(source:confluxJs);
                     },
                     androidOnPermissionRequest: (controller, origin, resources) async {
                       return PermissionRequestResponse(resources: resources, action: PermissionRequestResponseAction.GRANT);
@@ -194,27 +225,25 @@ class _EthInWebViewPageState extends State<EthInWebViewPage> {
                       setState(() {
                         isFinish = true;
                       });
-                      String confluxJs = await rootBundle.loadString("assets/trust-min.js");
 
-                      await _webViewController.evaluateJavascript(source:confluxJs);
                       var chainId = 66;
                       // var chainId = 56;
                       var rpcUrl = "https://okchain.mytokenpocket.vip";
                       // var rpcUrl = "https://bsc-dataseed2.binance.org";
-                      await _webViewController.evaluateJavascript(source:"""
-                  (function() {
-                      var config = {
-                          chainId: $chainId,
-                          rpcUrl: "$rpcUrl",
-                          isDebug: true
-                      };
-                      window.ethereum = new trustwallet.Provider(config);
-                      window.web3 = new trustwallet.Web3(window.ethereum);
-                      trustwallet.postMessage = (json) => {
-                          window._tw_.postMessage(JSON.stringify(json));
-                      }
-                  })();
-              """);
+              //         await _webViewController.evaluateJavascript(source:"""
+              //     (function() {
+              //         var config = {
+              //             chainId: $chainId,
+              //             rpcUrl: "$rpcUrl",
+              //             isDebug: true
+              //         };
+              //         window.ethereum = new trustwallet.Provider(config);
+              //         window.web3 = new trustwallet.Web3(window.ethereum);
+              //         trustwallet.postMessage = (json) => {
+              //             window._tw_.postMessage(JSON.stringify(json));
+              //         }
+              //     })();
+              // """);
                       // await _webViewController.evaluateJavascript(source: "window.conflux.callbacks.get(" + arguments[0].toString() + ")(null, " + json + ");");
 
                     },
