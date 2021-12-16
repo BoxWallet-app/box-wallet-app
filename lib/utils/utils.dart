@@ -49,13 +49,13 @@ class Utils {
       return "0";
     }
     if(balance ==0){
-      return balance.toStringAsFixed(2);
+      return balance.toStringAsFixed(5);
     }
     if(balance<1){
       return balance.toStringAsFixed(6);
     }
     if(balance>=10000){
-      return balance.toStringAsFixed(0);
+      return balance.toStringAsFixed(2);
     }
     if(balance>=100){
       return balance.toStringAsFixed(2);

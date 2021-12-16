@@ -30,12 +30,14 @@ class Data {
   String min;
   String minFee;
   String minTip;
+  String maxMinutes;
 
   Data(
       {this.feeList,
         this.max,
         this.maxFee,
         this.maxTip,
+        this.maxMinutes,
         this.min,
         this.minFee,
         this.minTip});
@@ -50,6 +52,7 @@ class Data {
     max = json['max'];
     maxFee = json['maxFee'];
     maxTip = json['maxTip'];
+    maxMinutes = json['maxMinutes'].toString();
     min = json['min'];
     minFee = json['minFee'];
     minTip = json['minTip'];
@@ -64,6 +67,7 @@ class Data {
     data['maxFee'] = this.maxFee;
     data['maxTip'] = this.maxTip;
     data['min'] = this.min;
+    data['maxMinutes'] = this.maxMinutes;
     data['minFee'] = this.minFee;
     data['minTip'] = this.minTip;
     return data;
@@ -73,6 +77,7 @@ class Data {
 class FeeList {
   String fee;
   String maxFeePerGas;
+  String minute;
   String maxPriorityFeePerGas;
 
   FeeList(
@@ -85,6 +90,7 @@ class FeeList {
 
     fee = json['fee'];
     maxFeePerGas = json['maxFeePerGas'];
+    minute = json['minute'].toString();
     maxPriorityFeePerGas = json['maxPriorityFeePerGas'];
   }
 
@@ -93,6 +99,7 @@ class FeeList {
 
     data['fee'] = this.fee;
     data['maxFeePerGas'] = this.maxFeePerGas;
+    data['minute'] = this.minute;
     data['maxPriorityFeePerGas'] = this.maxPriorityFeePerGas;
     return data;
   }

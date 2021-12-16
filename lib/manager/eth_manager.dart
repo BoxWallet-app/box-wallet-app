@@ -66,6 +66,22 @@ class EthManager {
     return "1";
   }
 
+  String getDappChainID(Account account) {
+    if (account.coin == "OKT") {
+      return "66";
+    }
+    if (account.coin == "BNB") {
+      return "56";
+    }
+    if (account.coin == "HT") {
+      return "128";
+    }
+    if (account.coin == "ETH") {
+      return "1";
+    }
+    return "1";
+  }
+
   String getCoinName(String name, String symbol) {
     name = name.replaceAll(" ", "");
     if (name.length < symbol.length) {

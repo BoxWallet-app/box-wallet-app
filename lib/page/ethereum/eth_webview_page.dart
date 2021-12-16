@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:box/manager/eth_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +14,10 @@ import '../../main.dart';
 import 'eth_home_page.dart';
 
 class EthWebViewPage extends StatefulWidget {
-  const EthWebViewPage({Key key}) : super(key: key);
+  final String url;
+  final String title;
+
+  const EthWebViewPage({Key key, this.url, this.title}) : super(key: key);
 
   @override
   _EthWebViewPageState createState() => _EthWebViewPageState();
@@ -20,8 +26,26 @@ class EthWebViewPage extends StatefulWidget {
 class _EthWebViewPageState extends State<EthWebViewPage> {
   WebViewController _webViewController;
   double progress = 0;
+  bool isPageFinish = false;
+  String address = "";
+  String rpcUrl = "";
+  String chainID = "";
+  String coinName = "";
   String title = "";
   String url = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    url = widget.url;
+    title = widget.title;
+    print(url);
+    print(title);
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,13 +118,16 @@ class _EthWebViewPageState extends State<EthWebViewPage> {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.refresh,
+                  Icons.more_horiz,
                   color: Colors.black,
                   size: 20,
                 ),
                 onPressed: () async {
                   Future<bool> canGoBack = _webViewController.canGoBack();
                   canGoBack.then((str) {
+                    if (url == null) {
+                      return;
+                    }
                     _webViewController.loadUrl(url);
                   });
                 },
@@ -128,66 +155,95 @@ class _EthWebViewPageState extends State<EthWebViewPage> {
       ),
       body: Column(
         children: [
-          LinearPercentIndicator(
-            width: MediaQuery.of(context).size.width,
-            lineHeight: 2.0,
-            backgroundColor: Colors.transparent,
-            percent: progress,
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-            progressColor: Colors.blue,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-              child: WebView(
-                chainID: "56",
-                rpcUrl: "https://bsc.mytokenpocket.vip",
-                address: "0x990457A97C140DB61c1E8944212752Ee1bC3d288",
-                coinName: "OKT",
-                initialUrl: "https://pancakeswap.finance/swap?utm_source=tokenpocket",
-                // chainID: "66",
-                // rpcUrl: "https://okchain.mytokenpocket.vip",
-                // address: "0x990457A97C140DB61c1E8944212752Ee1bC3d288",
-                // coinName: "TEST",
-                // initialUrl: "https://kswap.finance/?utm_source=moonswap&current_lang=en-en&theme=dark",
-
-                onPostMessage: (webViewController, coinName, message) {
-                  print("FLUTTER:" + message);
-                  final responseJson = jsonDecode(message);
-                  Map<String, dynamic> data = responseJson;
-                  var addr = "0x990457A97C140DB61c1E8944212752Ee1bC3d288";
-                  var id = data["id"];
-                  var setAddress = "window.ethereum.setAddress(\"$addr\");";
-                  var callback = "window.ethereum.sendResponse($id, [\"$addr\"])";
-                  webViewController.evaluateJavascript(setAddress);
-                  webViewController.evaluateJavascript(callback);
-                },
-                onPageFinished: (webViewController, url) {
-                  print("onPageFinished");
-                  // this.title = title;
-                  this.url = url;
-                  setState(() {});
-                },
-                onPageStarted: (webViewController, url) {
-                  print("onPageStarted");
-                },
-                onProgressChanged: (webViewController, progress) {
-                  print(progress);
-                  this.progress = (progress / 100);
-                  setState(() {});
-                },
-
-                onWebViewCreated: (WebViewController webViewController) async {
-                  this._webViewController = webViewController;
-                  print("onWebViewCreated");
-                },
-
-
-              ),
+          if (!isPageFinish)
+            LinearPercentIndicator(
+              width: MediaQuery.of(context).size.width,
+              lineHeight: 2.0,
+              backgroundColor: Colors.transparent,
+              percent: progress,
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              progressColor: Colors.blue,
             ),
-          ),
+          chainID == ""
+              ? Container()
+              : Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
+                    child: WebView(
+                      chainID: chainID,
+                      rpcUrl: rpcUrl,
+                      address: address,
+                      coinName: coinName,
+                      initialUrl: widget.url,
+                      // chainID: "66",
+                      // rpcUrl: "https://okchain.mytokenpocket.vip",
+                      // address: "0x990457A97C140DB61c1E8944212752Ee1bC3d288",
+                      // coinName: "TEST",
+                      // initialUrl: "https://kswap.finance/?utm_source=moonswap&current_lang=en-en&theme=dark",
+
+                      onPostMessage: (webViewController, coinName, message) {
+                        print("FLUTTER:" + message);
+                        final responseJson = jsonDecode(message);
+                        Map<String, dynamic> data = responseJson;
+
+                        if( data["name"] == "requestAccounts"){
+                          var addr = "0x990457A97C140DB61c1E8944212752Ee1bC3d288";
+                          var id = data["id"];
+                          var setAddress = "window.ethereum.setAddress(\"$addr\");";
+                          var callback = "window.ethereum.sendResponse($id, [\"$addr\"])";
+                          webViewController.evaluateJavascript(setAddress);
+                          webViewController.evaluateJavascript(callback);
+                        }
+
+
+                      },
+                      onPageFinished: (webViewController, url) {
+                        // this.title = title;
+                        print("onPageFinished");
+                        isPageFinish = true;
+
+                        _webViewController.evaluateJavascript("document.title").then((result) {
+                          setState(() {
+                            title = result;
+                          });
+                        });
+                        setState(() {});
+                      },
+                      onPageStarted: (webViewController, url) {
+                        print("onPageStarted");
+                        if (url != "" && url != null) this.url = url;
+                        isPageFinish = false;
+                        _webViewController.evaluateJavascript("document.title").then((result) {
+                          setState(() {
+                            title = result;
+                          });
+                        });
+                        setState(() {
+
+                        });
+                      },
+                      onProgressChanged: (webViewController, progress) {
+                        this.progress = (progress / 100);
+                        setState(() {});
+                      },
+
+                      onWebViewCreated: (WebViewController webViewController) async {
+                        this._webViewController = webViewController;
+                      },
+                    ),
+                  ),
+                ),
         ],
       ),
     );
+  }
+
+  getData() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    coinName = account.name;
+    address = account.address;
+    rpcUrl = await EthManager.instance.getNodeUrl(account);
+    chainID = EthManager.instance.getDappChainID(account);
+    setState(() {});
   }
 }

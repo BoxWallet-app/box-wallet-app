@@ -573,17 +573,23 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                       child: InkWell(
                                         borderRadius: BorderRadius.all(Radius.circular(15)),
                                         onTap: () {
-                                          if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthWebViewPage()));
-                                          } else {
-                                            Navigator.push(context, SlideRoute(EthWebViewPage()));
-                                          }
+                                          // if (Platform.isIOS) {
+                                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => EthWebViewPage(title: "test",url:"https://www.cherryswap.net",)));
+                                          // } else {
+                                          //   Navigator.push(context, SlideRoute(EthWebViewPage(title: "test",url:"https://kswap.finance/?utm_source=moonswap&current_lang=en-en&theme=dark",)));
+                                          // }
 
                                           // if (Platform.isIOS) {
                                           //   Navigator.push(context, MaterialPageRoute(builder: (context) => EthInWebViewPage()));
                                           // } else {
                                           //   Navigator.push(context, SlideRoute(EthInWebViewPage()));
                                           // }
+
+                                          if (Platform.isIOS) {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTokenSendOnePage()));
+                                          } else {
+                                            Navigator.push(context, SlideRoute(EthTokenSendOnePage()));
+                                          }
                                         },
                                         child: Container(
                                           height: 90,

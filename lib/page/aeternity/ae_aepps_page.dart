@@ -14,6 +14,7 @@ import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/page/aeternity/ae_swap_page.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/aeternity/ae_wetrue_home_page.dart';
+import 'package:box/page/aeternity/ae_wetrue_web_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -610,10 +611,15 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                   title: '请选择版本',
                                 );
                                 if (result == 0) {
+                                  // if (Platform.isIOS) {
+                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => AeWeTrueHomePage()));
+                                  // } else {
+                                  //   Navigator.push(context, SlideRoute(AeWeTrueHomePage()));
+                                  // }
                                   if (Platform.isIOS) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeWeTrueHomePage()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeWetrueWebPage()));
                                   } else {
-                                    Navigator.push(context, SlideRoute(AeWeTrueHomePage()));
+                                    Navigator.push(context, SlideRoute(AeWetrueWebPage()));
                                   }
 
 

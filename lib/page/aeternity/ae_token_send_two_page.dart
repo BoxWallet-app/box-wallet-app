@@ -363,21 +363,24 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               ),
                                             ),
                                             Positioned(
-                                              right: 28,
+                                              right: 20,
                                               child: Row(
                                                 children: [
                                                   Text(
                                                     tokenCount == null ? "" : tokenCount,
                                                     style: TextStyle(
-                                                      color: Color(0xFF666666),
+                                                      color: Color(0xFF333333),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                      fontSize: 14,
+                                                      fontSize: 16,
                                                     ),
+                                                  ),
+                                                  Container(
+                                                    width: 10,
                                                   ),
                                                   Icon(
                                                     Icons.arrow_forward_ios,
                                                     size: 15,
-                                                    color: Color(0xFF666666),
+                                                    color: Color(0xFF333333),
                                                   ),
                                                 ],
                                               ),

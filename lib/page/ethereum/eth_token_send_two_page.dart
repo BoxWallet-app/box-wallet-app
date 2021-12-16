@@ -11,6 +11,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/ethereum/eth_fee_model.dart';
 import 'package:box/page/ethereum/eth_home_page.dart';
+import 'package:box/page/ethereum/eth_select_fee_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -55,9 +56,12 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   String tokenImage = "";
   String tokenContract = "";
   String fee = "";
+  String feePrice = "";
   String spendFee = "0";
-
   String amountFee = "0";
+  String minute = "";
+  int index = 1;
+  int gasLimit = 25000;
 
   @override
   void initState() {
@@ -147,20 +151,29 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
     spendFee = ethFeeModel.data.feeList[1].fee;
     if (this.tokenContract == "") {
-      amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[2].fee) * 25000 / 1000000000000000000);
+      gasLimit = 25000;
     } else {
-      amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[2].fee) * 60000 / 1000000000000000000);
+      gasLimit = 60000;
     }
+    amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000);
 
+    minute = getFeeMinute(ethFeeModel,1);
     print(amountFee);
-    fee = "Network fee : " + amountFee + " " + account.coin;
+    fee = "" + amountFee + " " + account.coin;
     setState(() {});
     var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
     if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
       String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), amountFee);
-      fee = "Network fee : " + amountFee + " " + account.coin + " ≈ " + price;
+      feePrice = price;
       setState(() {});
     }
+  }
+
+  String getFeeMinute(EthFeeModel ethFeeModel ,int index){
+    if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
+      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+"秒钟";
+    }
+    return "≈"+ethFeeModel.data.feeList[index].minute+"分钟";
   }
 
   @override
@@ -352,6 +365,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
+
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
@@ -359,7 +373,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
-                                            hintText: '',
+                                            hintText: '0.0',
                                             enabledBorder: new UnderlineInputBorder(
                                               borderSide: BorderSide(color: Color(0xFFF6F6F6)),
                                             ),
@@ -485,21 +499,24 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               ),
                                             ),
                                             Positioned(
-                                              right: 28,
+                                              right: 20,
                                               child: Row(
                                                 children: [
                                                   Text(
                                                     tokenCount == null ? "" : tokenCount,
                                                     style: TextStyle(
-                                                      color: Color(0xFF666666),
+                                                      color: Color(0xFF333333),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                      fontSize: 14,
+                                                      fontSize: 16,
                                                     ),
+                                                  ),
+                                                  Container(
+                                                    width: 10,
                                                   ),
                                                   Icon(
                                                     Icons.arrow_forward_ios,
                                                     size: 15,
-                                                    color: Color(0xFF666666),
+                                                    color: Color(0xFF333333),
                                                   ),
                                                 ],
                                               ),
@@ -518,38 +535,131 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     ],
                   ),
                   Container(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        fee == ""
-                            ? Container(
-                                width: 50,
-                                height: 50,
-                                child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                  'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                ),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(top: 0, bottom: 0),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  fee,
-                                  textAlign: TextAlign.center,
-                                  style: new TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  ),
+                    margin: const EdgeInsets.only(top: 12, left: 20, right: 20),
+                    child: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      color: Colors.white,
+                      child: InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        onTap: () {
+                          showMaterialModalBottomSheet(
+                              context: context,
+                              expand: true,
+                              enableDrag: false,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => EthSelectFeePage(
+                                gasLimit: this.gasLimit,
+                                ethSelectFeeCallBackFuture: (String spendFee, String amountFee, String feePrice, String minute,int index) {
+                                  this.spendFee = spendFee;
+                                  this.fee = amountFee;
+                                  this.feePrice = feePrice;
+                                  this.minute = minute;
+                                  this.index = index;
+                                  // getEthFee();
+                                  setState(() {});
+                                  return;
+                                },
+                              ));
+
+
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 70,
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 0, left: 20),
+                                      child: Row(
+                                        children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  "矿工费",
+                                                  style: new TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color(0xff000000),
+//                                            fontWeight: FontWeight.w600,
+                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  ),
+                                                ),
+
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 0),
+                                                child: Text(
+                                                 getType(this.index)+minute,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Expanded(child: Container()),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              if(fee!="")
+                                              Text(
+                                                "≈"+fee,
+                                                style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              ),
+                                              if(fee=="")
+                                              Container(
+                                                width: 50,
+                                                height: 50,
+                                                child: Lottie.asset(
+                                                  'images/loading.json',
+                                                ),
+                                              ),
+                                              if(feePrice!=""&& fee!="")
+                                              Container(
+                                                margin: EdgeInsets.only(top: 2),
+                                                child: Text(
+                                                  "≈"+feePrice,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 15,
+                                            color: Color(0xFF333333),
+                                          ),
+                                          Container(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                      ],
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+
+
                   Container(
-                    margin: const EdgeInsets.only(top: 0, bottom: 10),
+                    margin: const EdgeInsets.only(top: 30, bottom: 10),
                     child: Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width * 0.8,
@@ -576,13 +686,27 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 //
   }
 
+
+  String getType(int index){
+    if(index == 0){
+      return   "慢速";
+    }
+    if(index == 1){
+      return   "正常";
+    }
+    if(index == 2){
+      return   "快速";
+    }
+    return "";
+  }
+
   void clickAllCount() {
     if (this.tokenContract == "") {
       if (double.parse(tokenCount) == 0) {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(this.tokenCount) > (double.parse(amountFee) + double.parse(amountFee))) {
-          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) + double.parse(amountFee))).toStringAsFixed(5);
+        if (double.parse(this.tokenCount) > (double.parse(amountFee)*2 )) {
+          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee)*2 )).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }
@@ -753,7 +877,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [getAccountCardBottomBg(),getAccountCardBottomBg()]),
+      backgroundGradient: LinearGradient(colors: [getAccountCardBottomBg(), getAccountCardBottomBg()]),
       backgroundColor: getAccountCardBottomBg(),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
