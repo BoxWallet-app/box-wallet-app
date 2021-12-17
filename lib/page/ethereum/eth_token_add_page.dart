@@ -42,7 +42,8 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
   final FocusNode focusNodeNode = FocusNode();
   List<EthTokenItemModel> tokenData = [];
   EthTokenSearchModel tokenListModel;
-  String lastText ;
+  String lastText;
+
   bool isUpdate = false;
 
   @override
@@ -91,12 +92,11 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
       model = await EthTokenSearchDao.fetch(chainID, _textEditingControllerNode.text);
     }
 
-
     var address = await BoxApp.getAddress();
     var cfxTokens = await CtTokenManager.instance.getEthCtTokens(chainID, address);
 
     List<EthTokenItemModel> tempToken = [];
-    if (cfxTokens.isNotEmpty && model.data!=null) {
+    if (cfxTokens.isNotEmpty && model.data != null) {
       model.data.forEach((element) {
         cfxTokens.forEach((element2) {
           if (element.address == element2.ctId) {
@@ -107,12 +107,12 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
       });
     }
 
-    if(model.data == null){
+    if (model.data == null) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
     }
-    model.data.removeWhere((item){
+    model.data.removeWhere((item) {
       return item.isSelect;
     });
 
@@ -129,7 +129,7 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
       return;
     }
     loadingType = LoadingType.finish;
-    setState(() {});
+    if (!mounted) setState(() {});
   }
 
   @override
@@ -336,7 +336,7 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    EthManager.instance.getCoinName(tokenData[index].name,tokenData[index].symbol),
+                                    EthManager.instance.getCoinName(tokenData[index].name, tokenData[index].symbol),
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -432,6 +432,4 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
     }
     return iconUrl;
   }
-
-
 }

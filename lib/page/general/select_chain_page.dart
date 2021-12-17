@@ -255,7 +255,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, top: 5,right: 10),
                   child: Text(
-                    chains[index].nameFull + "\n(" + chains[index].name + ")",
+                    (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull )  + "\n(" + chains[index].name + ")",
                     textAlign:TextAlign.center,
                     style: new TextStyle(
                       fontSize: 16,

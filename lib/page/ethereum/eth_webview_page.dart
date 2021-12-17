@@ -175,27 +175,19 @@ class _EthWebViewPageState extends State<EthWebViewPage> {
                       address: address,
                       coinName: coinName,
                       initialUrl: widget.url,
-                      // chainID: "66",
-                      // rpcUrl: "https://okchain.mytokenpocket.vip",
-                      // address: "0x990457A97C140DB61c1E8944212752Ee1bC3d288",
-                      // coinName: "TEST",
-                      // initialUrl: "https://kswap.finance/?utm_source=moonswap&current_lang=en-en&theme=dark",
-
                       onPostMessage: (webViewController, coinName, message) {
                         print("FLUTTER:" + message);
                         final responseJson = jsonDecode(message);
                         Map<String, dynamic> data = responseJson;
 
-                        if( data["name"] == "requestAccounts"){
-                          var addr = "0x990457A97C140DB61c1E8944212752Ee1bC3d288";
+                        if (data["name"] == "requestAccounts") {
+                          var addr = address;
                           var id = data["id"];
                           var setAddress = "window.ethereum.setAddress(\"$addr\");";
                           var callback = "window.ethereum.sendResponse($id, [\"$addr\"])";
                           webViewController.evaluateJavascript(setAddress);
                           webViewController.evaluateJavascript(callback);
                         }
-
-
                       },
                       onPageFinished: (webViewController, url) {
                         // this.title = title;
@@ -203,9 +195,10 @@ class _EthWebViewPageState extends State<EthWebViewPage> {
                         isPageFinish = true;
 
                         _webViewController.evaluateJavascript("document.title").then((result) {
-                          setState(() {
-                            title = result;
-                          });
+                          if (result != null && result != "")
+                            setState(() {
+                              title = result;
+                            });
                         });
                         setState(() {});
                       },
@@ -214,19 +207,17 @@ class _EthWebViewPageState extends State<EthWebViewPage> {
                         if (url != "" && url != null) this.url = url;
                         isPageFinish = false;
                         _webViewController.evaluateJavascript("document.title").then((result) {
+                          if (result != null && result != "")
                           setState(() {
                             title = result;
                           });
                         });
-                        setState(() {
-
-                        });
+                        setState(() {});
                       },
                       onProgressChanged: (webViewController, progress) {
                         this.progress = (progress / 100);
                         setState(() {});
                       },
-
                       onWebViewCreated: (WebViewController webViewController) async {
                         this._webViewController = webViewController;
                       },

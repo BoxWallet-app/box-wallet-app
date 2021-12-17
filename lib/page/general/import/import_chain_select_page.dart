@@ -76,24 +76,22 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
         child: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding:  EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                child: EasyRefresh(
-                  header: BoxHeader(),
-                  child: ListView.builder(
-                    itemCount: chains.length + 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 375),
-                          child: SlideAnimation(
-                            verticalOffset: 50.0,
-                            child: FadeInAnimation(
-                              child: itemListView(context, index),
-                            ),
-                          ));
-                    },
-                  ),
+              child: EasyRefresh(
+                header: BoxHeader(),
+                child: ListView.builder(
+                  itemCount: chains.length + 3,
+                  padding:  EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom+20),
+                  itemBuilder: (BuildContext context, int index) {
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: itemListView(context, index),
+                          ),
+                        ));
+                  },
                 ),
               ),
             ),
@@ -342,7 +340,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  chains[index].nameFull + " (" + chains[index].name + ")",
+                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull ) + " (" + chains[index].name + ")",
                                   softWrap: true,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,

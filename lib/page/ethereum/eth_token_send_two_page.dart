@@ -146,6 +146,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
   Future<void> getEthFee() async {
     fee = "";
+    index = 1;
     setState(() {});
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));

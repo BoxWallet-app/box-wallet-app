@@ -56,24 +56,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     var chainID = EthManager.instance.getChainID(account);
     cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account.address);
 
-    if (cfxCtTokens.length == 0) {
-      var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-      if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-        for (var i = 0; i < ethActivityCoinModel.data.length; i++) {
-          if (ethActivityCoinModel.data[i].address != "") {
-            Tokens token = Tokens();
-            token.ctId = ethActivityCoinModel.data[i].address;
-            token.name = ethActivityCoinModel.data[i].name;
-            token.symbol = ethActivityCoinModel.data[i].symbol;
-            token.quoteUrl = ethActivityCoinModel.data[i].website;
-            token.iconUrl = ethActivityCoinModel.data[i].iconUrl;
-            cfxCtTokens.add(token);
-          }
-        }
-        await CtTokenManager.instance.updateETHCtTokens(chainID, account.address, cfxCtTokens);
-      }
 
-    }
 
     // print(ethTokenRateModel.toJson());
     if (cfxCtTokens.length == 0) {
@@ -117,7 +100,11 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     isLoadBalance = true;
     if (token.balance == null) {
       var nodeUrl = await EthManager.instance.getNodeUrl(account);
+      print(address);
+      print(token.ctId);
+      print(nodeUrl);
       BoxApp.getErcBalanceETH((balance) async {
+        print(balance);
         token.balance = Utils.formatBalanceLength(double.parse(balance));
         isLoadBalance = false;
         if (!mounted) {
@@ -126,6 +113,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
         setState(() {});
         await getBalance(address);
         return;
+
       }, address, token.ctId, nodeUrl);
     }
 
@@ -145,7 +133,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
       ethTokenPriceRequestItemModel.blSymbol = element.symbol;
       tokenPriceRequestModel.tokenList.add(ethTokenPriceRequestItemModel);
     });
-
+     setState(() {});
     var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
 
     for (int i = 0; i < cfxCtTokens.length; i++) {

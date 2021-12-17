@@ -36,7 +36,7 @@ class CfxDappsPage extends StatefulWidget {
 
 class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClientMixin {
   BannerModel bannerModel;
-  CfxDappListModel cfxDappListModel;
+  DappListModel cfxDappListModel;
   List<Widget> childrens = List<Widget>();
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
@@ -54,7 +54,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
   }
 
   void netDapp() {
-    CfxDappListDao.fetch(BoxApp.language).then((CfxDappListModel model) {
+    CfxDappListDao.fetch(BoxApp.language).then((DappListModel model) {
       cfxDappListModel = model;
       updateData();
       setState(() {});

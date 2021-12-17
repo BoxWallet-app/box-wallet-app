@@ -238,31 +238,37 @@ class WalletCoinsManager {
     ChainsModel ae = ChainsModel();
     ae.name = "AE";
     ae.nameFull = "Aeternity";
+    ae.nameFullCN = "阿姨链";
     chains.add(ae);
 
     ChainsModel eth = ChainsModel();
     eth.name = "ETH";
     eth.nameFull = "Ethereum";
+    eth.nameFullCN = "以太坊";
     chains.add(eth);
 
     ChainsModel bnb = ChainsModel();
     bnb.name = "BNB";
     bnb.nameFull = "Binance Smart Chain";
+    bnb.nameFullCN = "币安智能链";
     chains.add(bnb);
 
     ChainsModel okt = ChainsModel();
     okt.name = "OKT";
     okt.nameFull = "OKExChain";
+    okt.nameFullCN = "OK生态链";
     chains.add(okt);
 
     ChainsModel ht = ChainsModel();
     ht.name = "HT";
     ht.nameFull = "HECO Chain";
+    ht.nameFullCN = "火币生态链";
     chains.add(ht);
 
     ChainsModel cfx = ChainsModel();
     cfx.name = "CFX";
     cfx.nameFull = "Conflux";
+    cfx.nameFullCN = "树图链";
     chains.add(cfx);
 
     // ChainsModel eth = ChainsModel();

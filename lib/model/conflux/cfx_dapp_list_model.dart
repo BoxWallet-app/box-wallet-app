@@ -1,12 +1,12 @@
-class CfxDappListModel {
+class DappListModel {
   int code;
   String msg;
   int time;
   List<Data> data;
 
-  CfxDappListModel({this.code, this.msg, this.time, this.data});
+  DappListModel({this.code, this.msg, this.time, this.data});
 
-  CfxDappListModel.fromJson(Map<String, dynamic> json) {
+  DappListModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     msg = json['msg'];
     time = json['time'];

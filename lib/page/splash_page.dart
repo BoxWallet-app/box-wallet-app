@@ -35,8 +35,13 @@ class _SplashPageState extends State<SplashPage> {
     await BoxApp.startAeService(context,() async {
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
-      var isLanguage = sharedPreferences.getString('is_language');
-      if (isLanguage == "true") {
+      String isLanguage = "false";
+      try{
+         isLanguage = sharedPreferences.getString('is_language');
+      }catch(e){
+      }
+
+      if (isLanguage.toString() == "true") {
         var language = await BoxApp.getLanguage();
         BoxApp.language = language;
         logger.info("APP LANGUAGE : " + language);

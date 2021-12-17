@@ -289,7 +289,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  chains[index].nameFull + " (" + chains[index].name + ")",
+                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull ) + " (" + chains[index].name + ")",
                                   softWrap: true,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,

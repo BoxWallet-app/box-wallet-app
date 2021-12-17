@@ -34,7 +34,7 @@ class CfxAppsPage extends StatefulWidget {
 
 class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClientMixin {
   BannerModel bannerModel;
-  CfxDappListModel cfxDappListModel;
+  DappListModel cfxDappListModel;
   List<Widget> childrens = List<Widget>();
 
   @override
@@ -49,7 +49,7 @@ class _CfxAppsPageState extends State<CfxAppsPage> with AutomaticKeepAliveClient
   }
 
   void netDapp() {
-    CfxDappListDao.fetch(BoxApp.language).then((CfxDappListModel model) {
+    CfxDappListDao.fetch(BoxApp.language).then((DappListModel model) {
       cfxDappListModel = model;
       updateData();
       setState(() {});

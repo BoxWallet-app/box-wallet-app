@@ -390,7 +390,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
                           var language =await BoxApp.getLanguage();
                           prefs.clear();
-                          prefs.setBool('is_language',true);
+                          prefs.setString('is_language',"true");
                           BoxApp.setLanguage(language);
                           BoxApp.language = language;
                           WalletCoinsManager.instance.setCoins(null);

@@ -17,6 +17,7 @@ import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/confux/cfx_dapps_page.dart';
 import 'package:box/page/confux/cfx_home_page.dart';
+import 'package:box/page/ethereum/eth_dapps_page.dart';
 import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/page/setting_page.dart';
 import 'package:box/page/general/wallet_select_page.dart';
@@ -70,7 +71,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     cfxWidget.add(SettingPage());
 
     ethWidget.add(EthHomePage());
-    ethWidget.add(CfxDappsPage());
+    ethWidget.add(EthDappsPage());
     ethWidget.add(SettingPage());
 
     eventBus.on<AccountUpdateEvent>().listen((event) {
