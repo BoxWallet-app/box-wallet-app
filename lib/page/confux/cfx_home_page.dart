@@ -11,6 +11,7 @@ import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -78,9 +79,10 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     var address = await BoxApp.getAddress();
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
-      BoxApp.getErcBalanceCFX((balance) async {
+      BoxApp.getErcBalanceCFX((balance,decimal) async {
         if(!mounted)return;
-        CfxHomePage.tokenABC = double.parse(balance).toStringAsFixed(2);
+        balance = AmountDecimal.parseUnits(balance, decimal);
+        CfxHomePage.tokenABC= Utils.formatBalanceLength(double.parse(balance));
         setState(() {});
         return;
       }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
@@ -312,7 +314,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                 Expanded(child: Container()),
                                                 Text(
                                                   CfxHomePage.tokenABC == "loading..."
-                                                      ? "loading..."
+                                                      ? "--.--"
                                                       : double.parse(CfxHomePage.tokenABC) > 1000
                                                           ? double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC"
                                                           : double.parse(CfxHomePage.tokenABC).toStringAsFixed(2) + " ABC",
@@ -464,7 +466,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 
                                                 Text(
                                                   CfxHomePage.token == "loading..."
-                                                      ? "loading..."
+                                                      ? "--.--"
                                                       : double.parse(CfxHomePage.token) > 1000
                                                           ? double.parse(CfxHomePage.token).toStringAsFixed(2) + ""
                                                           : double.parse(CfxHomePage.token).toStringAsFixed(5) + "",

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
@@ -25,6 +26,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import 'eth_in_webview_page.dart';
@@ -102,7 +104,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
       var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
       if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(),  EthHomePage.token);
+        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
       }
       setState(() {});
 
@@ -484,15 +486,24 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                                ),
 //                                              ),
 
-                                                Text(
-                                                  EthHomePage.token == "loading..."
-                                                      ? "loading..."
-                                                      : EthHomePage.token,
+                                                // if (EthHomePage.token == "loading...")
+                                                //   AnimatedFlipCounter(
+                                                //     value:  EthHomePage.token == "loading..."
+                                                //         ? 0.000000
+                                                //         : double.parse(EthHomePage.token),
+                                                //     fractionDigits: 6, // decimal precisio
+                                                //     duration : EthHomePage.token == "loading..."?const Duration(milliseconds: 0):const Duration(milliseconds: 800),// n
+                                                //     suffix: "",
+                                                //     textStyle: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                //   ),
+                                                // if (EthHomePage.token != "loading...")
+                                                  Text(
+                                                    EthHomePage.token == "loading..." ? "--.--" : EthHomePage.token,
 //                                      "9999999.00000",
-                                                  overflow: TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                                ),
+                                                    style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                             ),
@@ -834,12 +845,9 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     }
     if (EthHomePage.account.coin == "HT") {
       return Color(0xFF0F28B1);
-
-
     }
     if (EthHomePage.account.coin == "ETH") {
       return Color(0xFF4F5588);
-
     }
     return Color(0xFFFFFFFF);
   }
@@ -932,7 +940,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (ethTransfer != null && ethTransfer.data!=null)
+              if (ethTransfer != null && ethTransfer.data != null)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -1241,12 +1249,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   String cfxEpochNumber(int index) {
     var nonce = int.parse(ethTransfer.data[index].nonce);
     print(nonce);
-    if(nonce>9999){
-      return (nonce/1000).toStringAsFixed(0)+"K";
-    }else{
+    if (nonce > 9999) {
+      return (nonce / 1000).toStringAsFixed(0) + "K";
+    } else {
       return nonce.toString();
     }
-
   }
 
   Text getFeeWidget(int index) {

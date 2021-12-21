@@ -20,12 +20,12 @@ class EthManager {
       // return "https://exchainrpc.okex.org/";
     }
     if (account.coin == "BNB") {
-      return "https://bsc.mytokenpocket.vip";
-      // return "https://bsc-dataseed4.ninicoin.io/";
+      // return "https://bsc.mytokenpocket.vip";
+      return "https://bsc-dataseed4.ninicoin.io/";
     }
     if (account.coin == "HT") {
-      return "https://heco.mytokenpocket.vip";
-      // return "https://http-mainnet.hecochain.com/";
+      // return "https://heco.meytokenpocket.vip";
+      return "https://http-mainnet.hecochain.com/";
     }
     if (account.coin == "ETH") {
       return "https://web3.mytokenpocket.vip";

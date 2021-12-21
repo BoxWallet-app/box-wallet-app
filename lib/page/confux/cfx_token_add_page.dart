@@ -255,6 +255,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
               Tokens token = Tokens();
               token.ctId = tokenData[index].address;
               token.name = tokenData[index].name;
+              token.decimal = tokenData[index].decimals;
               token.symbol = tokenData[index].symbol;
               token.quoteUrl = tokenData[index].quoteUrl;
               token.iconUrl = getRealIconUrl(index);

@@ -14,6 +14,7 @@ import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -84,8 +85,9 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
     if (isReturn) return;
     isLoadBalance = true;
     if (token.balance == null) {
-      BoxApp.getErcBalanceCFX((balance) async {
-        token.balance = double.parse(balance).toStringAsFixed(2);
+      BoxApp.getErcBalanceCFX((balance,decimal) async {
+        balance = AmountDecimal.parseUnits(balance, decimal);
+        token.balance = Utils.formatBalanceLength(double.parse(balance));
 
         if (!mounted) {
           return;

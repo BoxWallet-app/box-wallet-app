@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:box/dao/conflux/cfx_crc20_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/conflux/cfx_crc20_transfer_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -38,24 +39,26 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   int page = 1;
   String count;
   EasyRefreshController _controller = EasyRefreshController();
-String coinCount;
+  String coinCount;
+  int decimal = 18;
+
   Future<void> _onRefresh() async {
     page = 1;
     netTokenBalance();
-    netTokenRecord();
   }
-
-
 
   Future<void> netTokenBalance() async {
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceCFX((balance) async {
-      coinCount = double.parse(balance).toStringAsFixed(2).toString();
-
+    BoxApp.getErcBalanceCFX((balance, decimal) async {
+      balance = AmountDecimal.parseUnits(balance, decimal);
+      this.decimal = decimal;
+      coinCount = Utils.formatBalanceLength(double.parse(balance));
+      netTokenRecord();
       setState(() {});
       return;
     }, address, widget.ctId);
   }
+
   Future<void> netTokenRecord() async {
     CfxCrc20TransferModel model = await CfxCrc20TransferDao.fetch(page.toString(), widget.ctId);
     if (model != null || model.code == 0) {
@@ -80,8 +83,6 @@ String coinCount;
       setState(() {});
     }
   }
-
-
 
   @override
   void initState() {
@@ -123,7 +124,6 @@ String coinCount;
       ),
       body: LoadingWidget(
         type: loadingType,
-
         onPressedError: () {
           _onRefresh();
         },
@@ -146,7 +146,7 @@ String coinCount;
   }
 
   int itemCount() {
-    if (tokenListModel == null || tokenListModel.data.list == null ||  tokenListModel.data.list.length == 0) {
+    if (tokenListModel == null || tokenListModel.data.list == null || tokenListModel.data.list.length == 0) {
       return 1;
     } else {
       return tokenListModel.data.list.length;
@@ -191,10 +191,14 @@ String coinCount;
                                   child: ClipOval(
                                     child: Image.network(
                                       widget.coinImage,
-                                      errorBuilder: (  BuildContext context,
-                                          Object error,
-                                          StackTrace stackTrace,) {
-                                        return Container(color: Colors.grey.shade200,);
+                                      errorBuilder: (
+                                        BuildContext context,
+                                        Object error,
+                                        StackTrace stackTrace,
+                                      ) {
+                                        return Container(
+                                          color: Colors.grey.shade200,
+                                        );
                                       },
                                       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                         if (wasSynchronouslyLoaded) return child;
@@ -249,11 +253,25 @@ String coinCount;
                     child: FlatButton(
                       onPressed: () {
                         if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenSendOnePage(tokenName: widget.coinName,tokenCount: coinCount,tokenImage: widget.coinImage,tokenContract: widget.ctId,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CfxTokenSendOnePage(
+                                        tokenName: widget.coinName,
+                                        tokenCount: coinCount,
+                                        tokenImage: widget.coinImage,
+                                        tokenContract: widget.ctId,
+                                      )));
                         } else {
-                          Navigator.push(context, SlideRoute( CfxTokenSendOnePage(tokenName: widget.coinName,tokenCount: coinCount,tokenImage: widget.coinImage,tokenContract: widget.ctId,)));
+                          Navigator.push(
+                              context,
+                              SlideRoute(CfxTokenSendOnePage(
+                                tokenName: widget.coinName,
+                                tokenCount: coinCount,
+                                tokenImage: widget.coinImage,
+                                tokenContract: widget.ctId,
+                              )));
                         }
-
                       },
                       child: Text(
                         S.of(context).home_page_function_send,
@@ -276,11 +294,10 @@ String coinCount;
                       onPressed: () {
 //                  goDefi(context);
                         if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  CfxTokenReceivePage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTokenReceivePage()));
                         } else {
-                          Navigator.push(context, SlideRoute( CfxTokenReceivePage()));
+                          Navigator.push(context, SlideRoute(CfxTokenReceivePage()));
                         }
-
                       },
                       child: Text(
                         S.of(context).home_page_function_receive,
@@ -305,7 +322,6 @@ String coinCount;
     );
   }
 
-
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -323,8 +339,6 @@ String coinCount;
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-
-
             _launchURL("https://confluxscan.io/transaction/" + tokenListModel.data.list[index].transactionHash);
           },
           child: Column(
@@ -385,7 +399,7 @@ String coinCount;
                                   ),
                                   child: Image(
                                     width: 25,
-                    height: 25,
+                                    height: 25,
                                     color: tokenListModel.data.list[index - 1].to == CfxHomePage.address ? Color(0xFFF22B79) : Colors.green,
                                     image: tokenListModel.data.list[index - 1].to == CfxHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                                   ),
@@ -404,7 +418,10 @@ String coinCount;
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
-                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000).toLocal().toString().length - 4),
+                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000)
+                                            .toLocal()
+                                            .toString()
+                                            .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000).toLocal().toString().length - 4),
                                         style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
@@ -416,7 +433,9 @@ String coinCount;
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      tokenListModel.data.list[index - 1].from == CfxHomePage.address ? "- " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName : "+ " + (double.parse(tokenListModel.data.list[index - 1].amount) / 1000000000000000000).toStringAsFixed(2) + " " + widget.coinName,
+                                      tokenListModel.data.list[index - 1].from == CfxHomePage.address
+                                          ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data.list[index - 1].amount, this.decimal))) + " " + widget.coinName
+                                          : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data.list[index - 1].amount, this.decimal))) + " " + widget.coinName,
                                       style: TextStyle(fontSize: 15, color: tokenListModel.data.list[index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(
@@ -424,7 +443,7 @@ String coinCount;
                                       color: Color(0xFFfafbfc),
                                     ),
                                     Text(
-                                      S.of(context).cfx_tx_detail_page_jiyuan+":" + tokenListModel.data.list[index - 1].epochNumber.toString() + " ",
+                                      S.of(context).cfx_tx_detail_page_jiyuan + ":" + tokenListModel.data.list[index - 1].epochNumber.toString() + " ",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

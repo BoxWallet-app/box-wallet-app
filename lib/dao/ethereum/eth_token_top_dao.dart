@@ -19,6 +19,7 @@ class EthTokenTopDao {
     Response response = await Dio().post(ETH_TOKEN_HOT_LIST,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
+      print(response.toString());
       EthTokenSearchModel model = EthTokenSearchModel.fromJson(data);
       return model;
     } else {

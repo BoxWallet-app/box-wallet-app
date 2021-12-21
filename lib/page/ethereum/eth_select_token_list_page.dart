@@ -12,6 +12,7 @@ import 'package:box/model/aeternity/ct_token_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -75,8 +76,11 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
     isLoadBalance = true;
     if (token.balance == null) {
       var nodeUrl = await EthManager.instance.getNodeUrl(account);
-      BoxApp.getErcBalanceETH((balance) async {
+      BoxApp.getErcBalanceETH((balance,decimal) async {
+
+        balance = AmountDecimal.parseUnits(balance, decimal);
         token.balance = Utils.formatBalanceLength(double.parse(balance));
+
         isLoadBalance = false;
         if (!mounted) {
           return;

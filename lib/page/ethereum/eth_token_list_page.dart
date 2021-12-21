@@ -21,10 +21,12 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_nft_balance_model.dart';
 import 'package:box/model/conflux/cfx_tokens_list_model.dart';
 import 'package:box/model/ethereum/eth_token_price_request_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -99,12 +101,13 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     };
     isLoadBalance = true;
     if (token.balance == null) {
+      print(address);
       var nodeUrl = await EthManager.instance.getNodeUrl(account);
       print(address);
       print(token.ctId);
       print(nodeUrl);
-      BoxApp.getErcBalanceETH((balance) async {
-        print(balance);
+      BoxApp.getErcBalanceETH((balance,decimal) async {
+        balance = AmountDecimal.parseUnits(balance, decimal);
         token.balance = Utils.formatBalanceLength(double.parse(balance));
         isLoadBalance = false;
         if (!mounted) {

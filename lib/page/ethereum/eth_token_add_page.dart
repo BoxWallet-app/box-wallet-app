@@ -73,6 +73,9 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
   }
 
   Future<void> _onRefresh() async {
+    try{
+
+
     if (lastText == _textEditingControllerNode.text) {
       return;
     }
@@ -107,11 +110,13 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
       });
     }
 
+    print("success");
     if (model.data == null) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
     }
+    print("success2");
     model.data.removeWhere((item) {
       return item.isSelect;
     });
@@ -122,14 +127,18 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
     tokenData = model.data.sublist(0);
 
     // tokenData.sort((left, right) => right.top.compareTo(left.top));
-
+    print("success3");
     if (tokenListModel.data.length == 0) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
     }
+    print("success4");
     loadingType = LoadingType.finish;
-    if (!mounted) setState(() {});
+      setState(() {});
+    }catch(e){
+print(e);
+    }
   }
 
   @override
@@ -286,6 +295,7 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
               Tokens token = Tokens();
               token.ctId = tokenData[index].address;
               token.name = tokenData[index].name;
+              token.decimal = tokenData[index].decimal;
               token.symbol = tokenData[index].symbol;
               token.quoteUrl = tokenData[index].website;
               token.iconUrl = getRealIconUrl(index);

@@ -8,6 +8,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/permission_helper.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
@@ -431,8 +432,9 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
 
   Future<void> createTabAddress(String address) async {
     EasyLoading.show();
-
-    BoxApp.getBalanceCFX((balance) async {
+print(address);
+    BoxApp.getBalanceCFX((balance,decimal) async {
+      balance = AmountDecimal.parseUnits(balance, decimal);
       EasyLoading.dismiss();
       if (balance.isEmpty || balance.contains("error")) {
         showDialog<bool>(

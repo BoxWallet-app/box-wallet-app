@@ -387,7 +387,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                 Expanded(child: Container()),
                                                 Text(
                                                   AeHomePage.tokenABC == "loading..."
-                                                      ? "loading..."
+                                                      ? "--.--"
                                                       : double.parse(AeHomePage.tokenABC) > 1000
                                                           ? double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC"
                                                           : double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC",
@@ -514,7 +514,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
                                                 Text(
                                                   AeHomePage.token == "loading..."
-                                                      ? "loading..."
+                                                      ? "--.--"
                                                       : double.parse(AeHomePage.token) > 1000
                                                           ? double.parse(AeHomePage.token).toStringAsFixed(2) + ""
                                                           : double.parse(AeHomePage.token).toStringAsFixed(5) + "",

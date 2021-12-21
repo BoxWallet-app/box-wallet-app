@@ -25,12 +25,13 @@ class Tokens {
   String ctId;
   String name;
   String symbol;
+  int decimal = 18;
   String quoteUrl;
   String iconUrl;
   String balance;
   String price;
 
-  Tokens({this.ctId, this.name, this.symbol, this.quoteUrl});
+  Tokens({this.ctId, this.name, this.symbol,this.decimal, this.quoteUrl});
 
   Tokens.fromJson(Map<String, dynamic> json) {
     ctId = json['ct_id'];
@@ -39,6 +40,7 @@ class Tokens {
     quoteUrl = json['quoteUrl'];
     iconUrl = json['iconUrl'];
     balance = json['balance'];
+    decimal = json['decimal'];
     price = json['price'];
   }
 
@@ -50,6 +52,7 @@ class Tokens {
     data['quoteUrl'] = this.quoteUrl;
     data['iconUrl'] = this.iconUrl;
     data['balance'] = this.balance;
+    data['decimal'] = this.decimal;
     data['price'] = this.price;
     return data;
   }

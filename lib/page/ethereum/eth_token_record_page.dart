@@ -10,6 +10,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_crc20_transfer_model.dart';
 import 'package:box/model/ethereum/eth_transfer_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -49,19 +50,22 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
   EasyRefreshController _controller = EasyRefreshController();
   String coinCount;
   Account account;
+  int decimal = 18;
 
   Future<void> _onRefresh() async {
     page = 1;
     netTokenBalance();
-    netTokenRecord();
   }
 
   Future<void> netTokenBalance() async {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceETH((balance) async {
-      coinCount = double.parse(balance).toStringAsFixed(6).toString();
+    BoxApp.getErcBalanceETH((balance, decimal) async {
+      balance = AmountDecimal.parseUnits(balance, decimal);
+      this.decimal = decimal;
+      coinCount = Utils.formatBalanceLength(double.parse(balance));
+      netTokenRecord();
 
       setState(() {});
       return;
@@ -363,8 +367,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () async {
-            var scanUrl =await EthManager.instance.getScanUrl(EthHomePage.account);
-            _launchURL(scanUrl+tokenListModel.data[index-1].hash);
+            var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account);
+            _launchURL(scanUrl + tokenListModel.data[index - 1].hash);
           },
           child: Column(
             children: [
@@ -425,8 +429,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   child: Image(
                                     width: 25,
                                     height: 25,
-                                    color: tokenListModel.data[index - 1].from == EthHomePage.address ?  Colors.green:Color(0xFFF22B79) ,
-                                    image: tokenListModel.data[index - 1].from == EthHomePage.address ? AssetImage("images/token_receive.png"):AssetImage("images/token_send.png") ,
+                                    color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.green : Color(0xFFF22B79),
+                                    image: tokenListModel.data[index - 1].from == EthHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                                   ),
                                 ),
                                 Column(
@@ -459,8 +463,12 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   children: [
                                     Text(
                                       tokenListModel.data[index - 1].from == EthHomePage.address
-                                          ? "- " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName
-                                          : "+ " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName,
+
+                                ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
+                                : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
+
+                                          // ? "- " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName
+                                          // : "+ " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName,
                                       style: TextStyle(fontSize: 15, color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(
