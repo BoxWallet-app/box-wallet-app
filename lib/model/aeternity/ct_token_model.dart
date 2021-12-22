@@ -29,6 +29,7 @@ class Tokens {
   String quoteUrl;
   String iconUrl;
   String balance;
+  String balanceCache;
   String price;
 
   Tokens({this.ctId, this.name, this.symbol,this.decimal, this.quoteUrl});

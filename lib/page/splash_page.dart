@@ -45,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
         var language = await BoxApp.getLanguage();
         BoxApp.language = language;
         logger.info("APP LANGUAGE : " + language);
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(Duration(seconds: 0), () {
           S.load(Locale(language, language.toUpperCase()));
           goHome();
         });

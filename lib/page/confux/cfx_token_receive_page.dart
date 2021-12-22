@@ -137,7 +137,7 @@ class _CfxTokenReceivePageState extends State<CfxTokenReceivePage> {
                                       style: TextStyle(fontSize: 15,
                                           color: Colors.black.withAlpha(200),
                                           height: 1.3,
-                                          letterSpacing: 1.0,
+
 
                                           fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                     ),

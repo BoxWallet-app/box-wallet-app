@@ -40,51 +40,96 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _loadingType = LoadingType.finish;
 
-    var height = buildItem2(S.current.ae_tx_detail_page_height,  Container(
-      height: 30,
-      margin: const EdgeInsets.only(top: 0),
-      child: Row(
-        children: [
-          Expanded(child: Container()),
-          Container(
-            alignment: Alignment.centerRight,
-            child: new Text(
-              widget.recordData.blockNumber.toString(),
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+    var status = buildItem2(
+      "状态",
+      Container(
+        margin: const EdgeInsets.only(top: 0),
+        child: Row(
+          children: [
+            Expanded(child: Container()),
+            if (widget.recordData.errorMessage != null)
+              Container(
+                alignment: Alignment.centerRight,
+                child: new Text(
+                  widget.recordData.errorMessage,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  ),
+                ),
+                margin: const EdgeInsets.only(left: 30.0),
+              ),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+              decoration: new BoxDecoration(
+                color: widget.recordData.status == 1 ? Colors.green : Colors.red,
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+
+                //设置四周边框
+              ),
+              child: Text(
+                widget.recordData.status == 1 ? "成功" : "失败",
+                maxLines: 1,
+                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),
             ),
-            margin: const EdgeInsets.only(left: 30.0),
-          ),
-          // Container(
-          //   margin: EdgeInsets.only(left: 10),
-          //   padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-          //   decoration: new BoxDecoration(
-          //     color:Colors.green,
-          //     //设置四周圆角 角度
-          //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          //
-          //     //设置四周边框
-          //   ),
-          //   child: Text(
-          //     (AeHomePage.height - widget.recordData.blockNumber).toString()+" "+S.current.ae_tx_detail_page_height_confirm,
-          //     maxLines: 1,
-          //     style: TextStyle(
-          //         fontSize: 13,
-          //         fontFamily: BoxApp.language == "cn"
-          //             ? "Ubuntu"
-          //             : "Ubuntu",
-          //         color: Color(0xFFFFFFFF)),
-          //   ),
-          // ),
-
-        ],
+          ],
+        ),
       ),
-    ),);
+    );
+    baseItems.add(status);
+
+    var height = buildItem2(
+      S.current.ae_tx_detail_page_height,
+      Container(
+        height: 30,
+        margin: const EdgeInsets.only(top: 0),
+        child: Row(
+          children: [
+            Expanded(child: Container()),
+            Container(
+              alignment: Alignment.centerRight,
+              child: new Text(
+                widget.recordData.blockNumber.toString(),
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                ),
+              ),
+              margin: const EdgeInsets.only(left: 30.0),
+            ),
+            // Container(
+            //   margin: EdgeInsets.only(left: 10),
+            //   padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+            //   decoration: new BoxDecoration(
+            //     color:Colors.green,
+            //     //设置四周圆角 角度
+            //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            //
+            //     //设置四周边框
+            //   ),
+            //   child: Text(
+            //     (AeHomePage.height - widget.recordData.blockNumber).toString()+" "+S.current.ae_tx_detail_page_height_confirm,
+            //     maxLines: 1,
+            //     style: TextStyle(
+            //         fontSize: 13,
+            //         fontFamily: BoxApp.language == "cn"
+            //             ? "Ubuntu"
+            //             : "Ubuntu",
+            //         color: Color(0xFFFFFFFF)),
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
 
     baseItems.add(height);
     var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData.hash);
@@ -95,20 +140,16 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
     //
     // baseItems.add(itemType);
 
-    var itemFee = buildItem(S.current.cfx_tx_detail_page_fee, widget.recordData.fee+" " +EthHomePage.account.coin);
+    var itemFee = buildItem(S.current.cfx_tx_detail_page_fee, widget.recordData.fee + " " + EthHomePage.account.coin);
     baseItems.add(itemFee);
 
-
-    var senderId = buildItem(S.current.cfx_tx_detail_page_from,widget.recordData.from);
+    var senderId = buildItem(S.current.cfx_tx_detail_page_from, widget.recordData.from);
     baseItems.add(senderId);
 
     var recipientId = buildItem(S.current.cfx_tx_detail_page_to, widget.recordData.to);
     baseItems.add(recipientId);
 
-    var time = buildItem(S.current.cfx_tx_detail_page_time,    DateTime.fromMicrosecondsSinceEpoch(
-        widget.recordData.timestamp * 1000000)
-        .toLocal()
-        .toString());
+    var time = buildItem(S.current.cfx_tx_detail_page_time, DateTime.fromMicrosecondsSinceEpoch(widget.recordData.timestamp * 1000000).toLocal().toString());
 
     baseItems.add(time);
 
@@ -174,7 +215,6 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
         backgroundColor: Color(0xFFfafbfc),
         leading: IconButton(
           icon: Icon(
-
             Icons.arrow_back_ios,
             color: Colors.black,
             size: 17,
@@ -182,18 +222,18 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: <Widget>[
-        IconButton(
-        splashRadius:40,
-        icon: Icon(
-          Icons.more_horiz,
-          color: Color(0xFF000000),
-          size: 22,
-        ),
-        onPressed: () async {
-          var scanUrl =await EthManager.instance.getScanUrl(EthHomePage.account);
-          _launchURL(scanUrl+ widget.recordData.hash.toString());
-        },
-      ),
+          IconButton(
+            splashRadius: 40,
+            icon: Icon(
+              Icons.more_horiz,
+              color: Color(0xFF000000),
+              size: 22,
+            ),
+            onPressed: () async {
+              var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account);
+              _launchURL(scanUrl + widget.recordData.hash.toString());
+            },
+          ),
         ],
         title: Text(
           S.current.ae_tx_detail_page_title,
@@ -222,7 +262,6 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -240,12 +279,12 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
   Text getFeeWidget(double size) {
     if (widget.recordData.to.toLowerCase() == EthHomePage.address.toLowerCase()) {
       return Text(
-        "+" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData.value)) / 1000000000000000000).toString())) + " "+EthHomePage.account.coin,
+        "+" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData.value)) / 1000000000000000000).toString())) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "-" + Utils.formatBalanceLength( double.parse((((double.parse(widget.recordData.value)) / 1000000000000000000)).toString())) + " "+EthHomePage.account.coin,
+        "-" + Utils.formatBalanceLength(double.parse((((double.parse(widget.recordData.value)) / 1000000000000000000)).toString())) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
@@ -253,8 +292,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
 
   Widget buildItem(String key, String value) {
     return Padding(
-
-      padding: const EdgeInsets.only(top:12.0),
+      padding: const EdgeInsets.only(top: 12.0),
       child: Material(
         color: Color(0xFFffffff),
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -263,15 +301,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
           onTap: () {
             Clipboard.setData(ClipboardData(text: value));
 
-            Fluttertoast.showToast(msg: S
-                .of(context)
-                .token_receive_page_copy_sucess,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.black,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
           },
           child: Container(
             padding: EdgeInsets.all(20),
@@ -318,7 +348,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
 
   Widget buildItem2(String key, Widget text) {
     return Padding(
-      padding: const EdgeInsets.only(top:12.0),
+      padding: const EdgeInsets.only(top: 12.0),
       child: Material(
         color: Color(0xFFffffff),
         borderRadius: BorderRadius.all(Radius.circular(15.0)),

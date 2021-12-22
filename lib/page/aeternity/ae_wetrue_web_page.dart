@@ -105,7 +105,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                     size: 20,
                   ),
                   onPressed: () {
-                    _webViewController.loadUrl("http://wetrue.io/#/?source=box&userAddress=" + AeHomePage.address);
+                    _webViewController.loadUrl("http://wetrue.io/#/?language="+BoxApp.language+"&source=box&userAddress=" + AeHomePage.address);
                   },
                 ),
               ),
@@ -131,7 +131,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
               child: WebView(
-                initialUrl: "http://wetrue.io/#/?source=box&userAddress=" + AeHomePage.address,
+                initialUrl: "http://wetrue.io/#/?language="+BoxApp.language+"&source=box&userAddress=" + AeHomePage.address,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (url) {
                   isPageFinish = true;
@@ -146,6 +146,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                 onProgress: (progress) {
                   this.progress = (progress / 100);
                   setState(() {});
+
                 },
                 onWebViewCreated: (WebViewController webViewController) async {
                   this._webViewController = webViewController;

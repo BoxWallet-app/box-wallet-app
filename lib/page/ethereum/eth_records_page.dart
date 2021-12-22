@@ -219,7 +219,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                         child: Text(
                           cfxTransfer.data[index].hash,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                         width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
@@ -227,7 +227,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
                           DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.data[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.data[index].timestamp * 1000000).toLocal().toString().length - 4),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
                     ],
@@ -246,14 +246,10 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
   }
 
   String getCfxMethod(int index) {
-    // if(cfxTransfer.list[index].method == "0x"){
-    //   return "Spend";
-    // }
-    // if (cfxTransfer.list[index].method.length > 10) {
-    //   return cfxTransfer.list[index].method.substring(0, 10) + "...";
-    // } else {
-    //   return cfxTransfer.list[index].method;
-    // }
+
+    if(cfxTransfer.data[index].status == 0){
+      return "交易失败";
+    }
     if (cfxTransfer.data[index].from.toString().toLowerCase().contains(address.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;
     } else {
@@ -262,13 +258,13 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
   }
 
   Text getFeeWidget(int index) {
-    // return Text(
-    //   "-" + "" + " CFX",
-    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-    // );
-    // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
-    //   // ignore: unrelated_type_equality_checks
-    //
+    if(cfxTransfer.data[index].status == 0){
+      return  Text(
+        cfxTransfer.data[index].errorMessage,
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      );
+    }
+
     if (cfxTransfer.data[index].to.toString().toLowerCase().contains(address.toLowerCase())) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 0)) + " " + this.account.coin,

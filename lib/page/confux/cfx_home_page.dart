@@ -6,11 +6,13 @@ import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_balance_model.dart';
 import 'package:box/model/conflux/cfx_transfer_model.dart';
+import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -76,9 +78,23 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   Future<void> netCfxBalance() async {
+    if(!mounted)
+      return;
     var address = await BoxApp.getAddress();
+
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance =await CacheManager.instance.getBalance(account.address, account.coin);
+    if(cacheBalance != ""){
+      CfxHomePage.token = cacheBalance;
+      setState(() {
+
+      });
+    }
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
+
+      CacheManager.instance.setBalance(account.address, account.coin, CfxHomePage.token);
+
       BoxApp.getErcBalanceCFX((balance,decimal) async {
         if(!mounted)return;
         balance = AmountDecimal.parseUnits(balance, decimal);
@@ -280,7 +296,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           getAePrice(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                         ),
                                                       ),
 
@@ -321,7 +337,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -412,7 +428,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                               child: Text(
                                                 domain,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                               ),
                                             ),
                                           ],
@@ -460,7 +476,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
 //                                                  getAePrice(),
 //                                                  overflow: TextOverflow.ellipsis,
-//                                                  style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
 //                                                ),
 //                                              ),
 

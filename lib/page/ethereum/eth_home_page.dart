@@ -10,6 +10,7 @@ import 'package:box/dao/ethereum/eth_fee_dao.dart';
 import 'package:box/dao/ethereum/eth_transfer_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/price_model.dart';
@@ -88,9 +89,22 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   Future<void> netCfxBalance() async {
+    if(!mounted)return;
     var address = await BoxApp.getAddress();
-
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance =await CacheManager.instance.getBalance(account.address, account.coin);
+    if(cacheBalance != ""){
+      EthHomePage.token = cacheBalance;
+
+      setState(() {
+
+      });
+      var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
+      if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
+        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
+      }
+      setState(() {});
+    }
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     BoxApp.getBalanceETH((balance) async {
       if (!mounted) return;
@@ -98,26 +112,35 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
         EthHomePage.token = "0.0000";
       } else {
         EthHomePage.token = Utils.formatBalanceLength(double.parse(balance));
+        CacheManager.instance.setBalance(account.address, account.coin, EthHomePage.token);
       }
-
+      if (!mounted) return;
       setState(() {});
-
       var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
       if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
         price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
       }
+      if (!mounted) return;
       setState(() {});
-
       return;
     }, address, nodeUrl);
   }
 
   Future<void> netCfxTransfer() async {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    EthTransferDao.fetch(EthManager.instance.getChainID(account), "", page.toString()).then((EthTransferModel model) {
-      ethTransfer = model;
-      setState(() {});
-    }).catchError((e) {});
+    var ethRecord =await CacheManager.instance.getEthRecord(account.address,account.coin);
+    if(ethRecord!=null){
+      this.ethTransfer = ethRecord;
+      setState(() {
+
+      });
+    }
+    ethTransfer = await EthTransferDao.fetch(EthManager.instance.getChainID(account), "", page.toString());
+    setState(() {
+
+    });
+    await CacheManager.instance.setEthRecord(account.address,account.coin,ethTransfer);
+
   }
 
   getDomainName(String address) {
@@ -1203,8 +1226,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         ethTransfer.data[index].hash,
+
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                       width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                     ),
@@ -1212,7 +1238,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
                         DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().length - 4),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
                   ],
@@ -1230,14 +1256,10 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   String getCfxMethod(int index) {
-    // if(cfxTransfer.list[index].method == "0x"){
-    //   return "Spend";
-    // }
-    // if (cfxTransfer.list[index].method.length > 10) {
-    //   return cfxTransfer.list[index].method.substring(0, 10) + "...";
-    // } else {
-    //   return cfxTransfer.list[index].method;
-    // }
+
+    if(ethTransfer.data[index].status == 0){
+      return "交易失败";
+    }
 
     if (ethTransfer.data[index].from.toString().toLowerCase().contains(EthHomePage.address.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;
@@ -1264,6 +1286,13 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
+    if(ethTransfer.data[index].status == 0){
+      return  Text(
+        ethTransfer.data[index].errorMessage,
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      );
+    }
+
     if (ethTransfer.data[index].to.toLowerCase() == EthHomePage.address.toLowerCase()) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 0)) + " " + EthHomePage.account.coin,

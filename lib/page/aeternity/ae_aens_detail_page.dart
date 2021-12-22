@@ -1,4 +1,3 @@
-
 import 'package:box/dao/aeternity/aens_info_dao.dart';
 import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/event/language_event.dart';
@@ -95,7 +94,10 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
           ),
           title: Text(
             _aensInfoModel.data == null ? "" : _aensInfoModel.data.name,
-            style: TextStyle(fontSize: 18,  color: Colors.black,),
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
           centerTitle: true,
           actions: <Widget>[
@@ -159,12 +161,23 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
         },
         child: Column(
           children: <Widget>[
-            buildItem(S.of(context).aens_detail_page_name, _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
-            buildItem("TxHash", _aensInfoModel.data == null ? "" : _aensInfoModel.data.thHash),
-            buildItem(S.of(context).aens_detail_page_balance + "(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
-            buildItem(S.of(context).aens_detail_page_height, _aensInfoModel.data == null ? "" : _aensInfoModel.data.currentHeight.toString()),
+            buildItem(S.of(context).aens_detail_page_name,
+                _aensInfoModel.data == null ? "" : _aensInfoModel.data.name),
+            buildItem("TxHash",
+                _aensInfoModel.data == null ? "" : _aensInfoModel.data.thHash),
+            buildItem(
+                S.of(context).aens_detail_page_balance + "(ae)",
+                _aensInfoModel.data == null
+                    ? ""
+                    : Utils.formatPrice(_aensInfoModel.data.currentPrice)),
+            buildItem(
+                S.of(context).aens_detail_page_height,
+                _aensInfoModel.data == null
+                    ? ""
+                    : _aensInfoModel.data.currentHeight.toString()),
             buildItem(getTypeKey(), getTypeValue()),
-            buildItem(S.of(context).aens_detail_page_owner, _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
+            buildItem(S.of(context).aens_detail_page_owner,
+                _aensInfoModel.data == null ? "" : _aensInfoModel.data.owner),
             buildItem(S.of(context).name_point, accountPubkey),
             buildBtnAdd(context),
             buildBtnUpdate(context),
@@ -190,11 +203,13 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
     }
 
     if (_aensInfoModel.data.currentHeight > _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.overHeight);
+      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight,
+          _aensInfoModel.data.overHeight);
     }
 
     if (_aensInfoModel.data.currentHeight < _aensInfoModel.data.endHeight) {
-      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight, _aensInfoModel.data.endHeight);
+      return Utils.formatHeight(context, _aensInfoModel.data.currentHeight,
+          _aensInfoModel.data.endHeight);
     }
 
     return "-";
@@ -240,11 +255,15 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
           child: Text(
             S.of(context).aens_detail_page_update,
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                color: Color(0xffffffff)),
           ),
           color: Color(0xff6F53A1),
           textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
@@ -289,18 +308,23 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
           child: Text(
             "指向",
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                color: Color(0xffffffff)),
           ),
           color: Color(0xFFFC2365),
           textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
   }
 
   Future<void> netUpdateV2(BuildContext context) async {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -327,18 +351,19 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                   var aesDecode = Utils.aesDecode(signingKey, key);
 
                   if (aesDecode == "") {
-                    showErrorDialog(context,null);
+                    showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
                   BoxApp.updateName((tx) {
                     showCopyHashDialog(context, tx);
                   }, (error) {
-                    showErrorDialog(context,error);
+                    showErrorDialog(context, error);
                     return;
 
                     // ignore: missing_return
-                  }, aesDecode, address, _aensInfoModel.data.name, accountPubkey == "" ? AeHomePage.address : accountPubkey);
+                  }, aesDecode, address, _aensInfoModel.data.name,
+                      accountPubkey == "" ? AeHomePage.address : accountPubkey);
                   showChainLoading();
                 },
               ),
@@ -355,9 +380,9 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -380,9 +405,9 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[
@@ -406,18 +431,18 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
         );
       },
     ).then((val) {
-      if(val){
+      if (val) {
         Clipboard.setData(ClipboardData(text: tx));
         showFlush(context);
-      }else{
+      } else {
         showFlush(context);
       }
-    }
-    );
+    });
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -432,7 +457,8 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
   }
 
   Future<void> netPreclaimV2(BuildContext context) async {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {},
@@ -459,17 +485,23 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                   var aesDecode = Utils.aesDecode(signingKey, key);
 
                   if (aesDecode == "") {
-                    showErrorDialog(context,null);
+                    showErrorDialog(context, null);
                     return;
                   }
                   // ignore: missing_return
                   BoxApp.bidName((tx) {
                     showCopyHashDialog(context, tx);
                   }, (error) {
-                    showErrorDialog(context,error);
+                    showErrorDialog(context, error);
                     return;
-                  }, aesDecode, address, _aensInfoModel.data.name,
-                      (double.parse(_aensInfoModel.data.currentPrice) + double.parse(_aensInfoModel.data.currentPrice) * 0.1).toString());
+                  },
+                      aesDecode,
+                      address,
+                      _aensInfoModel.data.name,
+                      (double.parse(_aensInfoModel.data.currentPrice) +
+                              double.parse(_aensInfoModel.data.currentPrice) *
+                                  0.1)
+                          .toString());
                   showChainLoading();
                 },
               ),
@@ -482,7 +514,8 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
     flush = Flushbar<bool>(
       title: S.of(context).hint_broadcast_sucess,
       message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
+      backgroundGradient:
+          LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
       flushbarPosition: FlushbarPosition.BOTTOM,
@@ -529,14 +562,20 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
           child: Text(
             S.of(context).aens_detail_page_add +
                 " ≈ " +
-                (double.parse(_aensInfoModel.data.currentPrice) + double.parse(_aensInfoModel.data.currentPrice) * 0.1).toStringAsFixed(2) +
+                (double.parse(_aensInfoModel.data.currentPrice) +
+                        double.parse(_aensInfoModel.data.currentPrice) * 0.1)
+                    .toStringAsFixed(2) +
                 " AE",
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                color: Color(0xffffffff)),
           ),
           color: Color(0xFFFC2365),
           textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
@@ -544,9 +583,8 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
 
   Widget buildItem(String key, String value) {
     return Container(
-      margin: EdgeInsets.only(left: 15, right: 15,top: 12),
+      margin: EdgeInsets.only(left: 15, right: 15, top: 12),
       child: Material(
-
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
         child: InkWell(
@@ -576,7 +614,8 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily:
+                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                         ),
                       ),
                     ),
@@ -591,7 +630,8 @@ class _AeAensDetailPageState extends State<AeAensDetailPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily:
+                            BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),

@@ -11,6 +11,7 @@ import 'package:box/dao/ethereum/eth_activity_coin_dao.dart';
 import 'package:box/dao/ethereum/eth_token_price_dao.dart';
 import 'package:box/dao/ethereum/eth_token_price_rate_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/ct_token_manager.dart';
 import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
@@ -37,6 +38,7 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import 'eth_home_page.dart';
 import 'eth_token_add_page.dart';
 import 'eth_token_record_page.dart';
 
@@ -57,9 +59,6 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
 
     var chainID = EthManager.instance.getChainID(account);
     cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account.address);
-
-
-
     // print(ethTokenRateModel.toJson());
     if (cfxCtTokens.length == 0) {
       tokenLoadingType = LoadingType.no_data;
@@ -71,17 +70,28 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
 
     // tokenLoadingType = LoadingType.finish;
     // setState(() {});
+    await getCacheBalance(account.address);
     await getBalance(account.address);
+  }
 
-
-
+  getCacheBalance(String address) async {
+    for (int i = 0; i < cfxCtTokens.length; i++) {
+      if (cfxCtTokens[i].balanceCache == null) {
+        Account account = await WalletCoinsManager.instance.getCurrentAccount();
+        var cacheBalance = await CacheManager.instance.getTokenBalance(account.address, cfxCtTokens[i].ctId, account.coin);
+        if (cacheBalance != "") {
+          cfxCtTokens[i].balanceCache = cacheBalance;
+          setState(() {});
+        }
+      }
+    }
+    updatePrice();
   }
 
   bool isLoadBalance = false;
 
   Future<void> getBalance(String address) async {
     if (isLoadBalance) {
-
       return;
     }
     bool isReturn = true;
@@ -98,17 +108,17 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     if (isReturn) {
       updatePrice();
       return;
-    };
+    }
     isLoadBalance = true;
     if (token.balance == null) {
       print(address);
       var nodeUrl = await EthManager.instance.getNodeUrl(account);
-      print(address);
-      print(token.ctId);
-      print(nodeUrl);
-      BoxApp.getErcBalanceETH((balance,decimal) async {
+      BoxApp.getErcBalanceETH((balance, decimal) async {
         balance = AmountDecimal.parseUnits(balance, decimal);
         token.balance = Utils.formatBalanceLength(double.parse(balance));
+
+        CacheManager.instance.setTokenBalance(account.address, token.ctId, account.coin, token.balance);
+
         isLoadBalance = false;
         if (!mounted) {
           return;
@@ -116,14 +126,12 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
         setState(() {});
         await getBalance(address);
         return;
-
       }, address, token.ctId, nodeUrl);
     }
-
   }
 
   Future<void> updatePrice() async {
-     account = await WalletCoinsManager.instance.getCurrentAccount();
+    account = await WalletCoinsManager.instance.getCurrentAccount();
 
     var chainID = EthManager.instance.getChainID(account);
     EthTokenPriceRequestModel tokenPriceRequestModel = new EthTokenPriceRequestModel();
@@ -136,17 +144,17 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
       ethTokenPriceRequestItemModel.blSymbol = element.symbol;
       tokenPriceRequestModel.tokenList.add(ethTokenPriceRequestItemModel);
     });
-     setState(() {});
+    setState(() {});
     var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
 
     for (int i = 0; i < cfxCtTokens.length; i++) {
       if (ethTokenPriceModel.data != null && ethTokenPriceModel.data.length > 0) {
-        if (ethTokenPriceModel.data[i] !=null) {
-          cfxCtTokens[i].price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[i], cfxCtTokens[i].balance);
+        if (ethTokenPriceModel.data[i] != null) {
+          cfxCtTokens[i].price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[i], cfxCtTokens[i].balance == null?cfxCtTokens[i].balanceCache:cfxCtTokens[i].balance );
         }
       }
     }
-     setState(() {});
+    setState(() {});
   }
 
   @override
@@ -267,7 +275,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            if (cfxCtTokens[index].balance == null) {
+            if (cfxCtTokens[index].balance == null &&cfxCtTokens[index].balanceCache == null) {
               return;
             }
             Navigator.push(
@@ -275,7 +283,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                 MaterialPageRoute(
                     builder: (context) => EthTokenRecordPage(
                           ctId: cfxCtTokens[index].ctId,
-                          coinCount: cfxCtTokens[index].balance,
+                          coinCount: cfxCtTokens[index].balance == null?cfxCtTokens[index].balanceCache: cfxCtTokens[index].balance ,
                           coinImage: cfxCtTokens[index].iconUrl,
                           coinName: getCoinName(index),
                         )));
@@ -336,7 +344,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   child: Text(
-                                      EthManager.instance.getCoinName(cfxCtTokens[index].name,cfxCtTokens[index].symbol),
+                                    EthManager.instance.getCoinName(cfxCtTokens[index].name, cfxCtTokens[index].symbol),
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -348,7 +356,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15, top: 2),
                                   child: Text(
-                                    cfxCtTokens[index].symbol,
+                                    cfxCtTokens[index].name,
                                     style: new TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff999999),
@@ -364,13 +372,13 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                if (cfxCtTokens[index].balance != null)
+                                if (cfxCtTokens[index].balance != null || cfxCtTokens[index].balanceCache != null)
                                   Text(
-                                    cfxCtTokens[index].balance,
+                                    cfxCtTokens[index].balance == null ? cfxCtTokens[index].balanceCache : cfxCtTokens[index].balance,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
-                                if (cfxCtTokens[index].balance == null)
+                                if (cfxCtTokens[index].balance == null && cfxCtTokens[index].balanceCache == null)
                                   Container(
                                     width: 50,
                                     height: 50,

@@ -3,12 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:box/dao/conflux/cfx_crc20_transfer_dao.dart';
+import 'package:box/dao/ethereum/eth_token_price_dao.dart';
 import 'package:box/dao/ethereum/eth_transfer_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_crc20_transfer_model.dart';
+import 'package:box/model/ethereum/eth_token_price_request_model.dart';
 import 'package:box/model/ethereum/eth_transfer_model.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
@@ -47,6 +49,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
   EthTransferModel tokenListModel;
   int page = 1;
   String count;
+  String price;
   EasyRefreshController _controller = EasyRefreshController();
   String coinCount;
   Account account;
@@ -65,11 +68,32 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
       balance = AmountDecimal.parseUnits(balance, decimal);
       this.decimal = decimal;
       coinCount = Utils.formatBalanceLength(double.parse(balance));
+      updatePrice();
       netTokenRecord();
 
       setState(() {});
       return;
     }, address, widget.ctId, nodeUrl);
+  }
+
+  Future<void> updatePrice() async {
+    account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var chainID = EthManager.instance.getChainID(account);
+    EthTokenPriceRequestModel tokenPriceRequestModel = new EthTokenPriceRequestModel();
+    tokenPriceRequestModel.blockchainId = int.parse(chainID);
+    tokenPriceRequestModel.tokenList = [];
+
+    EthTokenPriceRequestItemModel ethTokenPriceRequestItemModel = new EthTokenPriceRequestItemModel();
+    ethTokenPriceRequestItemModel.address = widget.ctId;
+    ethTokenPriceRequestItemModel.blSymbol = widget.coinName;
+    tokenPriceRequestModel.tokenList.add(ethTokenPriceRequestItemModel);
+    var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
+
+    if (ethTokenPriceModel.data != null && ethTokenPriceModel.data.length > 0) {
+      price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[0], widget.coinCount);
+    }
+    setState(() {});
   }
 
   Future<void> netTokenRecord() async {
@@ -251,10 +275,24 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   ),
                                 ),
                                 Expanded(child: Container()),
-                                Text(
-                                  Utils.formatBalanceLength(double.parse(coinCount)),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      Utils.formatBalanceLength(double.parse(coinCount)),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    ),
+                                    if (price != null)
+                                      Container(
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Text(
+                                        price,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        ),
+                                      ),
+                                  ],
                                 ),
                                 Container(
                                   width: 20,
@@ -462,13 +500,9 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      tokenListModel.data[index - 1].from == EthHomePage.address
-
-                                ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
-                                : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
-
-                                          // ? "- " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName
-                                          // : "+ " + Utils.formatBalanceLength(double.parse(tokenListModel.data[index - 1].tokenValue) / 1000000000000000000) + " " + widget.coinName,
+                                      tokenListModel.data[index - 1].to == EthHomePage.address
+                                          ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
+                                          : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
                                       style: TextStyle(fontSize: 15, color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(

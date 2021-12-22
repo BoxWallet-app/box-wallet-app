@@ -155,7 +155,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                 S.of(context).defi_card_hint_base_content,
                                 strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 style:
-                                    TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                                    TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 22, top: 10, right: 22),

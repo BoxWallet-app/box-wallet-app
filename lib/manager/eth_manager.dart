@@ -101,11 +101,16 @@ class EthManager {
   EthTokenPriceRateModel ethTokenPriceRateModel;
 
   Future<String> getRateFormat(String price, String balance) async {
-    if (ethTokenPriceRateModel == null) {
-      ethTokenPriceRateModel = await EthTokenRateDao.fetch();
+    try{
+      if (ethTokenPriceRateModel == null) {
+        ethTokenPriceRateModel = await EthTokenRateDao.fetch();
+        return formatPrice(price, balance);
+      }
       return formatPrice(price, balance);
+    }catch(e){
+      return null;
     }
-    return formatPrice(price, balance);
+
   }
 
   String formatPrice(String price, String balance) {

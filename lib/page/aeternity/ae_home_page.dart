@@ -10,6 +10,7 @@ import 'package:box/dao/aeternity/swap_dao.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/block_top_model.dart';
@@ -148,16 +149,22 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     });
   }
 
-  void netAccountInfo() {
+  Future<void> netAccountInfo() async {
+    if (!mounted) return;
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account.address, account.coin);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+
     AccountInfoDao.fetch().then((AccountInfoModel model) {
       if (model.code == 200) {
-        // HomePage.token = "8888.88888";
         AeHomePage.token = model.data.balance;
+        CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
         setState(() {});
       } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+    }).catchError((e) {});
   }
 
   void netContractBalance() {
@@ -744,11 +751,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                 child: InkWell(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   onTap: () {
-
                                     if (Platform.isIOS) {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
                                     } else {
-                                      Navigator.push(context, SlideRoute( AeTokenListPage()));
+                                      Navigator.push(context, SlideRoute(AeTokenListPage()));
                                     }
                                   },
                                   child: Container(
@@ -1168,7 +1174,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                       child: Text(
                         walletRecordModel.data[index].hash,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                       width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                     ),
@@ -1176,7 +1182,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
                         DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
                   ],
@@ -1193,10 +1199,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     );
   }
 
-  String getConfirmHeight(int index){
+  String getConfirmHeight(int index) {
     var height = AeHomePage.height - walletRecordModel.data[index].blockHeight;
-    if(height>1000){
-      return (height/1000).toStringAsFixed(0)+"K";
+    if (height > 1000) {
+      return (height / 1000).toStringAsFixed(0) + "K";
     }
 
     return (AeHomePage.height - walletRecordModel.data[index].blockHeight).toString();

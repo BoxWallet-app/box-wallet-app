@@ -12,7 +12,7 @@ import 'package:box/model/aeternity/banner_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_dapp_list_model.dart';
 import 'package:box/page/confux/cfx_nft_page.dart';
-import 'package:box/page/confux/cfx_web_page.dart';
+import 'package:box/page/cfx_web_page.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -52,6 +52,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       cfxDappListModel = null;
+      if(!mounted)return;
       setState(() {
 
       });
@@ -346,7 +347,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                       child: Text(
                         data.content,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Color(0xFF666666), letterSpacing: 1.0, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
                     Container(
@@ -660,7 +661,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                 child: Text(
                                   S.of(context).CfxDappsPage_browser_content,
                                   strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                  style: TextStyle(color: Color(0xFF666666), letterSpacing: 1.0, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
                               ),
                             ],

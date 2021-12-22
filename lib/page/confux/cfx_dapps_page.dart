@@ -27,7 +27,7 @@ import '../../main.dart';
 import 'cfx_apps_page.dart';
 import 'cfx_nft_new_page.dart';
 import 'cfx_rpc_page.dart';
-import 'cfx_web_page.dart';
+import '../cfx_web_page.dart';
 
 class CfxDappsPage extends StatefulWidget {
   @override
@@ -353,7 +353,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                       child: Text(
                         data.content,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Color(0xFF666666), letterSpacing: 1.0, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
                     Container(
@@ -921,7 +921,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                       child: Text(
                                           S.of(context).CfxDappsPage_browser_content,
                                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                        style: TextStyle(color: Color(0xFF666666), letterSpacing: 1.0, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                   ],

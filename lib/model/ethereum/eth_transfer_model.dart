@@ -49,6 +49,7 @@ class EthTransferItemData {
   String input;
   int inputStatus;
   int status;
+  String errorMessage;
 
   EthTransferItemData(
       {this.decimal,
@@ -71,6 +72,7 @@ class EthTransferItemData {
         this.type,
         this.input,
         this.inputStatus,
+        this.errorMessage,
         this.status});
 
   EthTransferItemData.fromJson(Map<String, dynamic> json) {
@@ -95,6 +97,7 @@ class EthTransferItemData {
     input = json['input'];
     inputStatus = json['input_status'];
     status = json['status'];
+    errorMessage = json['error_message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +123,7 @@ class EthTransferItemData {
     data['input'] = this.input;
     data['input_status'] = this.inputStatus;
     data['status'] = this.status;
+    data['error_message'] = this.errorMessage;
     return data;
   }
 }
