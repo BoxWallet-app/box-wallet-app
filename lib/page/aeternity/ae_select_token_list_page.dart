@@ -1,9 +1,14 @@
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/utils/amount_decimal.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +38,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
   PriceModel priceModel;
 
   Future<void> _onRefresh() async {
-    TokenListDao.fetch(AeHomePage.address, "easy").then((TokenListModel model) {
+    TokenListDao.fetch(AeHomePage.address, "easy").then((TokenListModel model) async {
       if (model != null || model.code == 200) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
@@ -43,13 +48,43 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
         loadingType = LoadingType.error;
         setState(() {});
       }
-      for (int i = 0; i < tokenListModel.data.length; i++) {
-        netContractBalance(i);
-      }
+      await getCacheBalance();
+      await getBalance();
     }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
     });
+  }
+
+  getCacheBalance() async {
+    for (int i = 0; i < tokenListModel.data.length; i++) {
+      Account account = await WalletCoinsManager.instance.getCurrentAccount();
+      var cacheBalance = await CacheManager.instance.getTokenBalance(account.address, tokenListModel.data[i].ctAddress, account.coin);
+      if (cacheBalance != "") {
+        tokenListModel.data[i].countStr = cacheBalance;
+        setState(() {});
+      }
+    }
+  }
+
+  Future<void> getBalance() async {
+    var maxLength = tokenListModel.data.length;
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    for (int i = 0; i < tokenListModel.data.length; i++) {
+      BoxApp.getErcBalanceAE((balance, decimal, address, coin) async {
+        print(balance);
+        balance = AmountDecimal.parseUnits(balance, decimal);
+
+        for (int j = 0; j < tokenListModel.data.length; j++) {
+          if (tokenListModel.data[j].ctAddress == address) {
+            tokenListModel.data[j].countStr = Utils.formatBalanceLength(double.parse(balance));
+            CacheManager.instance.setTokenBalance(account.address, tokenListModel.data[j].ctAddress, account.coin, tokenListModel.data[j].countStr);
+          }
+        }
+
+        setState(() {});
+      }, account.address, tokenListModel.data[i].ctAddress);
+    }
   }
 
   @override
@@ -259,7 +294,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                   Text(
                                     widget.aeCount,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
                                 ],
                               ),
@@ -371,9 +406,9 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        double.parse(tokenListModel.data[index].countStr).toStringAsFixed(2),
+                                        tokenListModel.data[index].countStr,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ],
                                   ),

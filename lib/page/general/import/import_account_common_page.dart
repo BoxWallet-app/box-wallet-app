@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:box/config.dart';
 import 'package:box/dao/aeternity/user_login_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/user_model.dart';
@@ -40,7 +41,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
     super.initState();
     // _textEditingController.text = "";
     if (BoxApp.isDev()) {
-      _textEditingController.text = "";
+      _textEditingController.text = TEST_MNEMONIC;
     }
 
     if (widget.mnemonic != null) {

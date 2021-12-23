@@ -13,9 +13,11 @@ import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,14 +39,16 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
+  var authTitle = "";
   String coin = "AE";
   Account account;
-
+  final LocalAuthentication auth = LocalAuthentication();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getMnemonic();
+    availableBiometrics();
     eventBus.on<LanguageEvent>().listen((event) {
       setState(() {});
     });
@@ -67,7 +71,31 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
       setState(() {});
     });
   }
+  Future<void> availableBiometrics() async {
+    List<BiometricType> availableBiometrics;
+    try {
+      availableBiometrics = await auth.getAvailableBiometrics();
+    } on PlatformException catch (e) {
+      availableBiometrics = <BiometricType>[];
+      print(e);
+    }
+    bool deviceSupported =await auth.isDeviceSupported();
 
+    if(deviceSupported){
+      if (availableBiometrics[0] == BiometricType.face) {
+        authTitle = "人脸识别(Face ID)";
+      }
+      if (availableBiometrics[0] == BiometricType.fingerprint) {
+        authTitle = "指纹识别(Touch ID)";
+      }
+      if (availableBiometrics[0] == BiometricType.iris) {
+        authTitle = "虹膜识别(Iris ID)";
+      }
+      if (!mounted) return
+        setState(() {});
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,10 +111,24 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               ),
             ),
             children: [
+              if(authTitle!="")
               Container(
 //              color: Colors.white,
                 height: 12,
               ),
+              if(authTitle!="")
+              buildItem(context, authTitle, "images/setting_node.png", () {
+                if (Platform.isIOS) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                } else {
+                  Navigator.push(context, SlideRoute(AuthPage()));
+                }
+              }, isLine: false),
+              Container(
+//              color: Colors.white,
+                height: 12,
+              ),
+
               if (account != null && (account.accountType == AccountType.MNEMONIC || account.accountType == AccountType.PRIVATE_KEY))
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
@@ -212,6 +254,8 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                     ),
                   ),
                 ),
+
+
 
               Container(
 //              color: Colors.white,

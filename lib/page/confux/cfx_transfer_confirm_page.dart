@@ -1,7 +1,13 @@
 import 'dart:collection';
 import 'dart:ui';
 
+import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/model/conflux/cfx_balance_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:decimal/decimal.dart';
@@ -9,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 
@@ -27,6 +34,10 @@ class CfxTransferConfirmPage extends StatefulWidget {
 
 class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
   List<Widget> baseItems = []; //先建一个数组用于存放循环生成的widget
+
+  double amountAll = 0;
+  double balance = -1;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +56,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     }
   }
 
-  void setData(String amount) {
+  Future<void> setData(String amount) async {
     if (widget.data['from'] != null) {
       var from = buildItem(S.current.CfxTransferConfirmPage_from, (widget.data['from']).toString());
       baseItems.add(from);
@@ -55,7 +66,6 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       var to = buildItem(S.current.CfxTransferConfirmPage_to, (widget.data['to']).toString());
       baseItems.add(to);
     }
-
     var text = Text(
       "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " CFX"),
       style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
@@ -67,26 +77,40 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
     var decimalGasPrice = Decimal.parse(int.parse(widget.data['gasPrice']).toString());
 
-
-
     var decimalGas = Decimal.parse((int.parse(widget.data['gas']).toString()));
     var decimalGasBase = decimalGas / decimalBase;
-
 
     // var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
     var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
     if (widget.data['gas'] != null) {
-      var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -"+formatGas.toStringAsFixed(10)+" CFX");
+      var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -" + formatGas.toStringAsFixed(10) + " CFX");
       baseItems.add(gas);
     }
 
+    amountAll = formatGas + double.parse(amount);
     if (widget.data['data'] != null) {
       var data = buildItem(S.current.CfxTransferConfirmPage_data, (widget.data['data']).toString());
       baseItems.add(data);
     }
+
+
+    CfxBalanceDao.fetch().then((CfxBalanceModel model) {
+      if (!mounted) return;
+
+      balance = double.parse(AmountDecimal.parseUnits(model.balance,18));
+
+      print(balance);
+      print(amountAll);
+      setState(() {});
+    }).catchError((e) {});
+
+    setState(() {});
+    print(amount);
+    setState(() {});
   }
 
   void updateData() {}
+
   void showErrorDialog(BuildContext buildContext, String content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
@@ -95,9 +119,8 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content),
           actions: <Widget>[
@@ -114,6 +137,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       },
     ).then((val) {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,13 +253,28 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                       ),
                     ),
                     Container(
+                      margin: EdgeInsets.only(left: 26, top: 10, right: 26),
+                      alignment: Alignment.topRight,
+                      child: Text(
+                       balance == -1? S.of(context).token_send_two_page_balance + " : " +"--.--":S.of(context).token_send_two_page_balance + " : "+balance.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        ),
+                      ),
+                    ),
+                    Container(
                       margin: EdgeInsets.only(top: 10, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: FlatButton(
                           onPressed: () {
-                            showGeneralDialog(useRootNavigator:false,
+                            if (amountAll > balance || balance == -1) {
+                              return;
+                            }
+                            showGeneralDialog(
+                                useRootNavigator: false,
                                 context: context,
                                 // ignore: missing_return
                                 pageBuilder: (context, anim1, anim2) {},
@@ -261,7 +300,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                           final key = Utils.generateMd5Int(password + address);
                                           var aesDecode = Utils.aesDecode(signingKey, key);
                                           if (aesDecode == "") {
-                                            showErrorDialog(context,null);
+                                            showErrorDialog(context, null);
                                             return;
                                           }
                                           if (widget.cfxTransferConfirmPageCallBackFuture != null) {
@@ -274,12 +313,21 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                   );
                                 });
                           },
-                          child: Text(
-                           S.of(context).dialog_conform,
+                          child: balance == -1?Container(
+                            alignment: Alignment.center,
+                            child: new Center(
+                              child: new CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                              ),
+                            ),
+                            width: 20.0,
+                            height: 20.0,
+                          ):Text(
+                            amountAll > balance ? "手续费不足" : S.of(context).dialog_conform,
                             maxLines: 1,
                             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                           ),
-                          color: Color(0xFFFC2365),
+                          color: amountAll > balance && balance!=-1 ? Color(0xFF999999) : Color(0xFFFC2365),
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),

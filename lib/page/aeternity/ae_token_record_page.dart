@@ -227,7 +227,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                     : Text(
                                         double.parse(count).toStringAsFixed(2),
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                 Container(
                                   width: 20,
@@ -251,9 +251,18 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                     child: FlatButton(
                       onPressed: () {
                         if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTokenSendOnePage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTokenSendOnePage(
+                            tokenName: widget.coinName,
+                            tokenCount: count,
+                            tokenImage: widget.coinImage,
+                            tokenContract: widget.ctId,
+                          )));
                         } else {
-                          Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
+                          Navigator.push(context, SlideRoute( AeTokenSendOnePage(
+                            tokenName: widget.coinName,
+                            tokenCount:count,
+                            tokenImage: widget.coinImage,
+                            tokenContract: widget.ctId,)));
                         }
 
                       },

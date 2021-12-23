@@ -26,7 +26,7 @@ import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
-import 'eth_webview_page.dart';
+import '../dapp_webview_page.dart';
 
 class EthDappsPage extends StatefulWidget {
   @override
@@ -240,9 +240,9 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                               onPressed: () async {
                                                 Navigator.pop(context); //关闭对话框
                                                 if (Platform.isIOS) {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EthWebViewPage(title: data.name,url: data.url,)));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DappWebViewPage(title: data.name,url: data.url,)));
                                                 } else {
-                                                  Navigator.push(context, SlideRoute(EthWebViewPage(title: data.name,url: data.url,)));
+                                                  Navigator.push(context, SlideRoute(DappWebViewPage(title: data.name,url: data.url,)));
                                                 }
 
                                                 // if (Platform.isAndroid) {

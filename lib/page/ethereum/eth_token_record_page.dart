@@ -64,7 +64,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceETH((balance, decimal) async {
+    BoxApp.getErcBalanceETH((balance, decimal,address,coin) async {
       balance = AmountDecimal.parseUnits(balance, decimal);
       this.decimal = decimal;
       coinCount = Utils.formatBalanceLength(double.parse(balance));
@@ -73,7 +73,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
 
       setState(() {});
       return;
-    }, address, widget.ctId, nodeUrl);
+    }, address, widget.ctId,account.coin, nodeUrl);
   }
 
   Future<void> updatePrice() async {
@@ -281,7 +281,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     Text(
                                       Utils.formatBalanceLength(double.parse(coinCount)),
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     if (price != null)
                                       Container(
@@ -289,7 +289,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                         child: Text(
                                         price,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                         ),
                                       ),
                                   ],

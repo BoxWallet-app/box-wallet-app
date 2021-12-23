@@ -108,7 +108,7 @@ class EthManager {
       }
       return formatPrice(price, balance);
     }catch(e){
-      return null;
+      return "";
     }
 
   }

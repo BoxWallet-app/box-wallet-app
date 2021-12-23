@@ -36,7 +36,7 @@ import 'eth_token_list_page.dart';
 import 'eth_token_receive_page.dart';
 import 'eth_token_send_one_page.dart';
 import 'eth_tx_detail_page.dart';
-import 'eth_webview_page.dart';
+import '../dapp_webview_page.dart';
 
 class EthHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -95,7 +95,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     var cacheBalance =await CacheManager.instance.getBalance(account.address, account.coin);
     if(cacheBalance != ""){
       EthHomePage.token = cacheBalance;
-
+      if(!mounted)return;
       setState(() {
 
       });
@@ -103,11 +103,13 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
         price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
       }
+      if(!mounted)return;
       setState(() {});
     }
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance) async {
+    BoxApp.getBalanceETH((balance,coin) async {
       if (!mounted) return;
+      if (account.coin!=coin) return;
       if (balance == "account error") {
         EthHomePage.token = "0.0000";
       } else {
@@ -123,7 +125,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       if (!mounted) return;
       setState(() {});
       return;
-    }, address, nodeUrl);
+    }, address,account.coin, nodeUrl);
   }
 
   Future<void> netCfxTransfer() async {
@@ -136,6 +138,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       });
     }
     ethTransfer = await EthTransferDao.fetch(EthManager.instance.getChainID(account), "", page.toString());
+    if(!mounted)return;
     setState(() {
 
     });

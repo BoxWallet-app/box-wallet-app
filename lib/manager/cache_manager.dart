@@ -49,7 +49,22 @@ class CacheManager {
     }catch(e){
       return null;
     }
-
+  }
+  Future<bool> setAERecord(String address, String coin,  EthTransferModel ethTransferModel) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setString('ae_record_' + address +"_" + coin, jsonEncode(ethTransferModel));
   }
 
+  Future<EthTransferModel> getAERecord(String address,String coin) async {
+    try{
+      var prefs = await SharedPreferences.getInstance();
+      var data = prefs.getString('ae_record_' + address +"_" + coin);
+      var json = jsonDecode(data);
+      print(json);
+      EthTransferModel model = EthTransferModel.fromJson(jsonDecode(data));
+      return model;
+    }catch(e){
+      return null;
+    }
+  }
 }

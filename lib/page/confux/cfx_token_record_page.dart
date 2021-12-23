@@ -229,7 +229,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                 Text(
                                   coinCount,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
                                 Container(
                                   width: 20,

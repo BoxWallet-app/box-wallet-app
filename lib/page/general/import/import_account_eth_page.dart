@@ -542,7 +542,9 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   }
 
   Future<void> createMnemonicAccount(String password, String mnemonic) async {
+    EasyLoading.show();
     BoxApp.getSecretKeyETH((address, signingKey) async {
+      EasyLoading.dismiss();
       if (!await checkAccount(address)) return;
 
       final key = Utils.generateMd5Int(password + address);
@@ -555,7 +557,9 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   }
 
   Future<void> createPrivateKeyAccount(String password, String privateKey) async {
+    EasyLoading.show();
     BoxApp.getSecretPrivateETH((address, signingKey) async {
+      EasyLoading.dismiss();
       if (!await checkAccount(address)) return;
       final key = Utils.generateMd5Int(password + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);

@@ -131,8 +131,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance) async {
+    BoxApp.getBalanceETH((balance,coin) async {
       if (!mounted) return;
+      if (account.coin!=coin) return;
       if (balance == "account error") {
         this.tokenCount = "0.0000";
       } else {
@@ -141,7 +142,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
       setState(() {});
       return;
-    }, address, nodeUrl);
+    }, address,account.coin, nodeUrl);
   }
 
   Future<void> getEthFee() async {
@@ -156,9 +157,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     } else {
       gasLimit = 60000;
     }
-    amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000);
-
+    amountFee = (double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000).toStringAsPrecision(8);
     minute = getFeeMinute(ethFeeModel,1);
+    print(double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit );
     print(amountFee);
     fee = "" + amountFee + " " + account.coin;
     setState(() {});
@@ -600,7 +601,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                 child: Text(
                                                  getType(this.index)+minute,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ),
                                             ],
@@ -629,7 +630,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                 child: Text(
                                                   "≈"+feePrice,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ),
                                             ],

@@ -5,9 +5,13 @@ import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/contract_info_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
@@ -59,13 +63,15 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     netAccountInfo();
   }
 
-  void netAccountInfo() {
-    AccountInfoDao.fetch().then((AccountInfoModel model) {
-      if (model.code == 200) {
-        token = model.data.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {});
+  Future<void> netAccountInfo() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    BoxApp.getBalanceAE((balance,decimal) async {
+      if(!mounted)return;
+      AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      setState(() {});
+      return;
+    }, account.address);
   }
 
   void netContractBalance() {

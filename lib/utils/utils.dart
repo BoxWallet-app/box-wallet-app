@@ -52,7 +52,7 @@ class Utils {
       return balance.toStringAsFixed(5);
     }
     if(balance<1){
-      return balance.toStringAsFixed(6);
+      return balance.toStringAsFixed(5);
     }
     if(balance>=10000){
       return balance.toStringAsFixed(2);
@@ -61,7 +61,6 @@ class Utils {
       return balance.toStringAsFixed(2);
     }
    return balance.toStringAsFixed(6);
-
   }
 
   static formatAddress(String address) {

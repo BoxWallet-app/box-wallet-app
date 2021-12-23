@@ -21,6 +21,7 @@ import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -158,24 +159,48 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       setState(() {});
     }
 
-    AccountInfoDao.fetch().then((AccountInfoModel model) {
-      if (model.code == 200) {
-        AeHomePage.token = model.data.balance;
-        CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
-        setState(() {});
-      } else {}
-    }).catchError((e) {});
+    BoxApp.getBalanceAE((balance,decimal) async {
+      if(!mounted)return;
+      print(AmountDecimal.parseUnits(balance, decimal));
+      AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      setState(() {});
+      return;
+    }, account.address);
+
+    // AccountInfoDao.fetch().then((AccountInfoModel model) {
+    //   if (model.code == 200) {
+    //     AeHomePage.token = model.data.balance;
+    //     CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+    //     setState(() {});
+    //   } else {}
+    // }).catchError((e) {});
   }
 
-  void netContractBalance() {
-    ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        AeHomePage.tokenABC = model.data.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+  Future<void> netContractBalance() async {
+    if (!mounted) return;
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getTokenBalance(account.address, BoxApp.ABC_CONTRACT_AEX9,account.coin);
+    if (cacheBalance != "") {
+      AeHomePage.tokenABC = cacheBalance;
+      setState(() {});
+    }
+    BoxApp.getErcBalanceAE((balance,decimal,address,coin) async {
+      if(!mounted)return;
+      AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+      CacheManager.instance.setTokenBalance(account.address,  BoxApp.ABC_CONTRACT_AEX9,account.coin, AeHomePage.tokenABC);
+      setState(() {});
+      return;
+    }, account.address,BoxApp.ABC_CONTRACT_AEX9);
+
+//     ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
+//       if (model.code == 200) {
+//         AeHomePage.tokenABC = model.data.balance;
+//         setState(() {});
+//       } else {}
+//     }).catchError((e) {
+// //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//     });
   }
 
   getAddress() {
@@ -395,9 +420,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                 Text(
                                                   AeHomePage.tokenABC == "loading..."
                                                       ? "--.--"
-                                                      : double.parse(AeHomePage.tokenABC) > 1000
-                                                          ? double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC"
-                                                          : double.parse(AeHomePage.tokenABC).toStringAsFixed(2) + " ABC",
+
+                                                          : AeHomePage.tokenABC + " ABC",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 

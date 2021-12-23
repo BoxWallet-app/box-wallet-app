@@ -449,12 +449,27 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (double.parse(tokenCount) > 1) {
-      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+    if (this.tokenContract == "") {
+      if (double.parse(tokenCount) == 0) {
+        _textEditingController.text = "0";
+      } else {
+        if (double.parse(this.tokenCount) > (double.parse("0.00001")*2 )) {
+          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse("0.00001")*2 )).toStringAsFixed(8);
+        } else {
+          _textEditingController.text = "0";
+        }
+      }
     } else {
-      _textEditingController.text = (double.parse(tokenCount) - 0.01).toStringAsFixed(2);
+      if (double.parse(tokenCount) > 1) {
+        _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+      } else {
+        if (double.parse(tokenCount) == 0) {
+          _textEditingController.text = "0";
+        } else {
+          _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+        }
+      }
     }
-
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 

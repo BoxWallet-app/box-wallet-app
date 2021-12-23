@@ -57,42 +57,63 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
 
   bool isLoadBalance = false;
 
+  // Future<void> getBalance(String address) async {
+  //   if(isLoadBalance){
+  //     return;
+  //   }
+  //   bool isReturn = true;
+  //   Tokens token;
+  //
+  //   for (int i = 0; i < cfxCtTokens.length; i++) {
+  //     if (cfxCtTokens[i].balance == null) {
+  //       isReturn = false;
+  //       token = cfxCtTokens[i];
+  //       break;
+  //     }
+  //   }
+  //
+  //   if (isReturn) return;
+  //   isLoadBalance = true;
+  //   if (token.balance == null) {
+  //     var nodeUrl = await EthManager.instance.getNodeUrl(account);
+  //     BoxApp.getErcBalanceETH((balance,decimal,address,coin) async {
+  //
+  //       balance = AmountDecimal.parseUnits(balance, decimal);
+  //       token.balance = Utils.formatBalanceLength(double.parse(balance));
+  //
+  //       isLoadBalance = false;
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //       setState(() {});
+  //       await getBalance(address);
+  //       return;
+  //     }, address, token.ctId,account.coin, nodeUrl);
+  //   }
+  //   isLoadBalance = false;
+  // }
   Future<void> getBalance(String address) async {
-    if(isLoadBalance){
-      return;
-    }
-    bool isReturn = true;
-    Tokens token;
-
+    var nodeUrl = await EthManager.instance.getNodeUrl(account);
+    var maxLength =  cfxCtTokens.length;
     for (int i = 0; i < cfxCtTokens.length; i++) {
       if (cfxCtTokens[i].balance == null) {
-        isReturn = false;
-        token = cfxCtTokens[i];
-        break;
+        BoxApp.getErcBalanceETH((balance, decimal, address, coin) async {
+          balance = AmountDecimal.parseUnits(balance, decimal);
+          print(balance);
+          for (int j = 0; j < cfxCtTokens.length; j++) {
+            if (cfxCtTokens[j].ctId == address) {
+              cfxCtTokens[j].balance = Utils.formatBalanceLength(double.parse(balance));
+            }
+          }
+          if(i == maxLength-1){
+            // updatePrice();
+          }
+          setState(() {});
+        }, address, cfxCtTokens[i].ctId, account.coin, nodeUrl);
       }
     }
 
-    if (isReturn) return;
-    isLoadBalance = true;
-    if (token.balance == null) {
-      var nodeUrl = await EthManager.instance.getNodeUrl(account);
-      BoxApp.getErcBalanceETH((balance,decimal) async {
-
-        balance = AmountDecimal.parseUnits(balance, decimal);
-        token.balance = Utils.formatBalanceLength(double.parse(balance));
-
-        isLoadBalance = false;
-        if (!mounted) {
-          return;
-        }
-        setState(() {});
-        await getBalance(address);
-        return;
-      }, address, token.ctId, nodeUrl);
-    }
-    isLoadBalance = false;
   }
-
 
   @override
   void initState() {
@@ -275,7 +296,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                   Text(
                                     widget.aeCount,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
                                 ],
                               ),
@@ -380,7 +401,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                   Text(
                                     cfxCtTokens[index].balance,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
                                 if (cfxCtTokens[index].balance == null)
                                   Container(
@@ -398,7 +419,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                     child: Text(
                                       cfxCtTokens[index].price,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),
                               ],

@@ -608,7 +608,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Text(getAccountName(index, context), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                            child: Text(getAccountName(index, context), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                           ),
                           Container(
                             height: 20,

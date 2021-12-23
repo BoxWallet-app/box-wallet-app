@@ -31,7 +31,7 @@ class _ModelPageState extends State<ModelPage> {
   }
 
   getModel() async {
-    isOpenSecurity = await BoxApp.getModel();
+    isOpenSecurity = await BoxApp.getAuth();
     setState(() {});
   }
 
@@ -107,7 +107,7 @@ class _ModelPageState extends State<ModelPage> {
                                   isOpenSecurity = value;
                                 });
                                 eventBus.fire(ModelUpdateEvent());
-                                BoxApp.setModel(isOpenSecurity);
+                                BoxApp.setAuth(isOpenSecurity);
                               },
                             ),
                           ),

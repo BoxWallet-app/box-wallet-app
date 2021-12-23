@@ -18,6 +18,13 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../main.dart';
 
 class AeTokenSendOnePage extends StatefulWidget {
+  final String tokenName;
+  final String tokenCount;
+  final String tokenImage;
+  final String tokenContract;
+
+  const AeTokenSendOnePage({Key key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+
   @override
   _AeTokenSendOnePageState createState() => _AeTokenSendOnePageState();
 }
@@ -158,21 +165,17 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
                                             child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                                 onTap: () async {
-
                                                   List<Permission> permissions = [
                                                     Permission.camera,
                                                   ];
                                                   PermissionHelper.check(permissions, onSuccess: () async {
-                                                    final data = await Navigator.push(context, SlideRoute( ScanPage()));
+                                                    final data = await Navigator.push(context, SlideRoute(ScanPage()));
                                                     _textEditingController.text = data;
                                                   }, onFailed: () {
                                                     EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
                                                   }, onOpenSetting: () {
                                                     openAppSettings();
                                                   });
-
-
-
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.only(left: 10, right: 10),
@@ -314,9 +317,26 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
       return;
     } else {
       if (Platform.isIOS) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AeTokenSendTwoPage(address: _textEditingController.text)));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AeTokenSendTwoPage(
+                      address: _textEditingController.text,
+                      tokenName: widget.tokenName,
+                      tokenCount: widget.tokenCount,
+                      tokenImage: widget.tokenImage,
+                      tokenContract: widget.tokenContract,
+                    )));
       } else {
-        Navigator.pushReplacement(context, SlideRoute( AeTokenSendTwoPage(address: _textEditingController.text)));
+        Navigator.pushReplacement(
+            context,
+            SlideRoute(AeTokenSendTwoPage(
+              address: _textEditingController.text,
+              tokenName: widget.tokenName,
+              tokenCount: widget.tokenCount,
+              tokenImage: widget.tokenImage,
+              tokenContract: widget.tokenContract,
+            )));
       }
     }
   }

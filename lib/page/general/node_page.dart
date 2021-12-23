@@ -356,6 +356,7 @@ class _NodePageState extends State<NodePage> {
 
 
                       }).catchError((e) {
+                        EasyLoading.dismiss();
                         showDialog<bool>(
                           context: context,
                           barrierDismissible: false,

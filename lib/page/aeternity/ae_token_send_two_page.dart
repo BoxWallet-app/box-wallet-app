@@ -1,6 +1,12 @@
 import 'package:box/dao/aeternity/account_info_dao.dart';
+import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
+import 'package:box/model/aeternity/contract_balance_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
@@ -20,7 +26,12 @@ import 'ae_select_token_list_page.dart';
 class AeTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  AeTokenSendTwoPage({Key key, @required this.address}) : super(key: key);
+  final String tokenName;
+  final String tokenCount;
+  final String tokenImage;
+  final String tokenContract;
+
+  AeTokenSendTwoPage({Key key, @required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _AeTokenSendTwoPageState createState() => _AeTokenSendTwoPageState();
@@ -47,19 +58,46 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     this.tokenName = "AE";
     this.tokenCount = AeHomePage.token;
     this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png";
+
+    if (widget.tokenName != null) {
+      this.tokenName = widget.tokenName;
+    }
+    if (widget.tokenCount != null) {
+      this.tokenCount = widget.tokenCount;
+    }
+    if (widget.tokenImage != null) {
+      this.tokenImage = widget.tokenImage;
+    }
+    if (widget.tokenContract != null) {
+      this.tokenContract = widget.tokenContract;
+    }
+
+    if (widget.tokenContract != null) {
+      netContractBalance();
+    }
+
     netAccountInfo();
     getAddress();
   }
-
-  void netAccountInfo() {
-    AccountInfoDao.fetch().then((AccountInfoModel model) {
+  void netContractBalance() {
+    ContractBalanceDao.fetch(widget.tokenContract).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        AeHomePage.token = model.data.balance;
+        this.tokenCount = model.data.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
-      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
+  }
+  Future<void> netAccountInfo() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    BoxApp.getBalanceAE((balance,decimal) async {
+      if(!mounted)return;
+      AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      setState(() {});
+      return;
+    }, account.address);
   }
 
   @override
