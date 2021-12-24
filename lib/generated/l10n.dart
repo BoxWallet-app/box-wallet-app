@@ -3515,10 +3515,10 @@ class S {
     );
   }
 
-  /// `Multi-currency`
+  /// `Multi-Currency`
   String get ImportChainSelectPage_group1_content {
     return Intl.message(
-      'Multi-currency',
+      'Multi-Currency',
       name: 'ImportChainSelectPage_group1_content',
       desc: '',
       args: [],
@@ -3860,6 +3860,146 @@ class S {
     return Intl.message(
       'Please confirm whether you want to clear the access log',
       name: 'dialog_web_clear_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get record_status_error_full {
+    return Intl.message(
+      'Failed',
+      name: 'record_status_error_full',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get record_status_error {
+    return Intl.message(
+      'Failed',
+      name: 'record_status_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get record_status_success {
+    return Intl.message(
+      'Success',
+      name: 'record_status_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gas Fee`
+  String get fee_title {
+    return Intl.message(
+      'Gas Fee',
+      name: 'fee_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Speed`
+  String get fee_speed_select_title {
+    return Intl.message(
+      'Select Speed',
+      name: 'fee_speed_select_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slow`
+  String get fee_speed_1 {
+    return Intl.message(
+      'Slow',
+      name: 'fee_speed_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Normal`
+  String get fee_speed_2 {
+    return Intl.message(
+      'Normal',
+      name: 'fee_speed_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fast`
+  String get fee_speed_3 {
+    return Intl.message(
+      'Fast',
+      name: 'fee_speed_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` seconds`
+  String get fee_speed_time1 {
+    return Intl.message(
+      ' seconds',
+      name: 'fee_speed_time1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` minutes`
+  String get fee_speed_time2 {
+    return Intl.message(
+      ' minutes',
+      name: 'fee_speed_time2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Face Recognition`
+  String get auth_title_1 {
+    return Intl.message(
+      'Face Recognition',
+      name: 'auth_title_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fingerprint Recognition`
+  String get auth_title_2 {
+    return Intl.message(
+      'Fingerprint Recognition',
+      name: 'auth_title_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Iris Recognition`
+  String get auth_title_3 {
+    return Intl.message(
+      'Iris Recognition',
+      name: 'auth_title_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quick Payment`
+  String get auth_pay_title {
+    return Intl.message(
+      'Quick Payment',
+      name: 'auth_pay_title',
       desc: '',
       args: [],
     );

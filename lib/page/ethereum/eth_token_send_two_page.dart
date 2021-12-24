@@ -52,7 +52,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   List<Widget> items = List<Widget>();
 
   String tokenName = "";
-  String tokenCount = "0";
+  String tokenCount = "";
   String tokenImage = "";
   String tokenContract = "";
   String fee = "";
@@ -131,9 +131,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance,coin) async {
+    BoxApp.getBalanceETH((balance, coin) async {
       if (!mounted) return;
-      if (account.coin!=coin) return;
+      if (account.coin != coin) return;
       if (balance == "account error") {
         this.tokenCount = "0.0000";
       } else {
@@ -142,7 +142,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
       setState(() {});
       return;
-    }, address,account.coin, nodeUrl);
+    }, address, account.coin, nodeUrl);
   }
 
   Future<void> getEthFee() async {
@@ -157,10 +157,8 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     } else {
       gasLimit = 60000;
     }
-    amountFee = (double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000).toStringAsPrecision(8);
-    minute = getFeeMinute(ethFeeModel,1);
-    print(double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit );
-    print(amountFee);
+    amountFee = (double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000).toStringAsFixed(8);
+    minute = getFeeMinute(ethFeeModel, 1);
     fee = "" + amountFee + " " + account.coin;
     setState(() {});
     var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
@@ -171,11 +169,11 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     }
   }
 
-  String getFeeMinute(EthFeeModel ethFeeModel ,int index){
-    if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
-      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+"秒钟";
+  String getFeeMinute(EthFeeModel ethFeeModel, int index) {
+    if (double.parse(ethFeeModel.data.feeList[index].minute) < 1) {
+      return "≈" + (double.parse(ethFeeModel.data.feeList[index].minute) * 60).toStringAsFixed(0) + S.current.fee_speed_time1;
     }
-    return "≈"+ethFeeModel.data.feeList[index].minute+"分钟";
+    return "≈" + ethFeeModel.data.feeList[index].minute + S.current.fee_speed_time2;
   }
 
   @override
@@ -202,11 +200,13 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.refresh_outlined,
+                Icons.replay,
                 size: 17,
                 color: Colors.white,
               ),
               onPressed: () async {
+                this.tokenCount = "";
+                netCfxBalance();
                 if (spendFee != "") return await getEthFee();
               },
             ),
@@ -367,7 +367,6 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
-
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
@@ -504,14 +503,23 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               right: 20,
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                    tokenCount == null ? "" : tokenCount,
-                                                    style: TextStyle(
-                                                      color: Color(0xFF333333),
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                                      fontSize: 16,
+                                                  if (tokenCount == "")
+                                                    Container(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: Lottie.asset(
+                                                        'images/loading.json',
+                                                      ),
                                                     ),
-                                                  ),
+                                                  if (tokenCount != "")
+                                                    Text(
+                                                      tokenCount,
+                                                      style: TextStyle(
+                                                        color: Color(0xFF333333),
+                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
                                                   Container(
                                                     width: 10,
                                                   ),
@@ -550,20 +558,18 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                               enableDrag: false,
                               backgroundColor: Colors.transparent,
                               builder: (context) => EthSelectFeePage(
-                                gasLimit: this.gasLimit,
-                                ethSelectFeeCallBackFuture: (String spendFee, String amountFee, String feePrice, String minute,int index) {
-                                  this.spendFee = spendFee;
-                                  this.fee = amountFee;
-                                  this.feePrice = feePrice;
-                                  this.minute = minute;
-                                  this.index = index;
-                                  // getEthFee();
-                                  setState(() {});
-                                  return;
-                                },
-                              ));
-
-
+                                    gasLimit: this.gasLimit,
+                                    ethSelectFeeCallBackFuture: (String spendFee, String amountFee, String feePrice, String minute, int index) {
+                                      this.spendFee = spendFee;
+                                      this.fee = amountFee;
+                                      this.feePrice = feePrice;
+                                      this.minute = minute;
+                                      this.index = index;
+                                      // getEthFee();
+                                      setState(() {});
+                                      return;
+                                    },
+                                  ));
                         },
                         child: Container(
                           child: Row(
@@ -586,7 +592,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             children: [
                                               Container(
                                                 child: Text(
-                                                  "矿工费",
+                                                  S.of(context).fee_title,
                                                   style: new TextStyle(
                                                     fontSize: 16,
                                                     color: Color(0xff000000),
@@ -594,12 +600,11 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                                   ),
                                                 ),
-
                                               ),
                                               Container(
                                                 margin: EdgeInsets.only(top: 0),
                                                 child: Text(
-                                                 getType(this.index)+minute,
+                                                  getType(this.index) + minute,
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
@@ -611,28 +616,28 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              if(fee!="")
-                                              Text(
-                                                "≈"+fee,
-                                                style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                              ),
-                                              if(fee=="")
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                child: Lottie.asset(
-                                                  'images/loading.json',
+                                              if (fee != "")
+                                                Text(
+                                                  "≈" + fee,
+                                                  style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
-                                              ),
-                                              if(feePrice!=""&& fee!="")
-                                              Container(
-                                                margin: EdgeInsets.only(top: 2),
-                                                child: Text(
-                                                  "≈"+feePrice,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              if (fee == "")
+                                                Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child: Lottie.asset(
+                                                    'images/loading.json',
+                                                  ),
                                                 ),
-                                              ),
+                                              if (feePrice != "" && fee != "")
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 2),
+                                                  child: Text(
+                                                    "≈" + feePrice,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  ),
+                                                ),
                                             ],
                                           ),
                                           Container(
@@ -658,8 +663,6 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       ),
                     ),
                   ),
-
-
                   Container(
                     margin: const EdgeInsets.only(top: 30, bottom: 10),
                     child: Container(
@@ -688,16 +691,15 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 //
   }
 
-
-  String getType(int index){
-    if(index == 0){
-      return   "慢速";
+  String getType(int index) {
+    if (index == 0) {
+      return S.current.fee_speed_1;
     }
-    if(index == 1){
-      return   "正常";
+    if (index == 1) {
+      return S.current.fee_speed_2;
     }
-    if(index == 2){
-      return   "快速";
+    if (index == 2) {
+      return S.current.fee_speed_3;
     }
     return "";
   }
@@ -707,8 +709,8 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
       if (double.parse(tokenCount) == 0) {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(this.tokenCount) > (double.parse(amountFee)*2 )) {
-          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee)*2 )).toStringAsFixed(8);
+        if (double.parse(this.tokenCount) > (double.parse(amountFee) * 5)) {
+          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) * 2)).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }
@@ -740,7 +742,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             title: Text(S.of(context).dialog_hint),
-            content: Text("请输入数量"),
+            content: Text(S.of(context).dialog_amount_null),
             actions: <Widget>[
               TextButton(
                 child: new Text(

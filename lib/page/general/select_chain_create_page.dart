@@ -235,6 +235,12 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
     }
     index = index - 1;
     return Container(
+      decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+        color: Color(0xE6FFFFFF),
+        //设置四周圆角 角度
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),

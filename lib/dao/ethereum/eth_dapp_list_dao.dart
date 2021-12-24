@@ -22,7 +22,6 @@ class EthDappListDao {
       url = OOS_HOST + "dapp_config/" + account.coin + "_dapp_" + language + ".json";
     }
 
-    print(url);
     Response response = await Dio().get(url);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());

@@ -113,11 +113,19 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     });
   }
 
-  void netTopHeightData() {
+  Future<void> netTopHeightData() async {
+    int aeHeight =await CacheManager.instance.getAEHeight();
+    if(aeHeight > 0){
+      AeHomePage.height = aeHeight;
+      netWalletRecord();
+    }
+
+
     BlockTopDao.fetch().then((BlockTopModel model) {
       if (model.code == 200) {
         blockTopModel = model;
         AeHomePage.height = blockTopModel.data.height;
+        CacheManager.instance.setAEHeight( AeHomePage.height);
 //        setState(() {});
         netWalletRecord();
       } else {}
@@ -127,7 +135,16 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     });
   }
 
-  void netWalletRecord() {
+  Future<void> netWalletRecord() async {
+
+    Account account =await WalletCoinsManager.instance.getCurrentAccount();
+    var aeRecord = await CacheManager.instance.getAERecord(account.address, account.coin);
+    if(aeRecord!=null){
+      walletRecordModel = aeRecord;
+      setState(() {
+
+      });
+    }
     WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
       if (model.code == 200) {
         if (page == 1) {
@@ -137,6 +154,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
             return;
           }
           walletRecordModel = model;
+          CacheManager.instance.setAERecord(account.address, account.coin, walletRecordModel);
         } else {
           walletRecordModel.data.addAll(model.data);
         }
@@ -161,7 +179,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
     BoxApp.getBalanceAE((balance,decimal) async {
       if(!mounted)return;
-      print(AmountDecimal.parseUnits(balance, decimal));
       AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
       CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
       setState(() {});
@@ -448,7 +465,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -605,6 +622,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     margin: const EdgeInsets.only(top: 0),
                                     //边框设置
                                     decoration: new BoxDecoration(
+                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                       color: Color(0xE6FFFFFF),
                                       //设置四周圆角 角度
                                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -686,6 +704,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     margin: const EdgeInsets.only(top: 0),
                                     //边框设置
                                     decoration: new BoxDecoration(
+                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                       color: Color(0xE6FFFFFF),
                                       //设置四周圆角 角度
                                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -765,6 +784,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                               margin: const EdgeInsets.only(top: 12),
                               //边框设置
                               decoration: new BoxDecoration(
+                                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
                                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -865,6 +885,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       margin: EdgeInsets.only(top: 12, bottom: MediaQuery.of(context).padding.bottom),
       //边框设置
       decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
         color: Color(0xE6FFFFFF),
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(15.0)),

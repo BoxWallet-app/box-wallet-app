@@ -118,7 +118,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                            "选择速度",
+                            S.of(context).fee_speed_select_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -272,23 +272,24 @@ class _TokenListPathState extends State<EthSelectFeePage> {
 
   String getFeeMinute(int index){
     if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
-      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+"秒钟";
+      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
     }
-    return "≈"+ethFeeModel.data.feeList[index].minute+"分钟";
+    return "≈"+ethFeeModel.data.feeList[index].minute+S.current.fee_speed_time2;
   }
 
   String getType(int index){
     if(index == 0){
-      return   "慢速";
+      return   S.current.fee_speed_1;
     }
     if(index == 1){
-      return   "正常";
+      return   S.current.fee_speed_2;
     }
     if(index == 2){
-      return   "快速";
+      return  S.current.fee_speed_3;
     }
     return "";
   }
+
 
   getFeePrice(int index) {
     var amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000);

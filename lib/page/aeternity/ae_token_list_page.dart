@@ -34,22 +34,34 @@ class _TokenListPathState extends State<AeTokenListPage> {
   PriceModel priceModel;
 
   Future<void> _onRefresh() async {
-    TokenListDao.fetch(AeHomePage.address, "easy").then((TokenListModel model) async {
-      if (model != null || model.code == 200) {
-        tokenListModel = model;
-        loadingType = LoadingType.finish;
-        setState(() {});
-      } else {
-        tokenListModel = null;
-        loadingType = LoadingType.error;
-        setState(() {});
-      }
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var aeTokenList = await CacheManager.instance.getAETokenList(account.address, account.coin);
+
+    if(aeTokenList!=null){
+      tokenListModel = aeTokenList;
+      loadingType = LoadingType.finish;
+      setState(() {
+        
+      });
       await getCacheBalance();
       await getBalance();
-    }).catchError((e) {
+    }
+
+    var model = await TokenListDao.fetch(AeHomePage.address, "easy");
+    if (model != null || model.code == 200) {
+      tokenListModel = model;
+      loadingType = LoadingType.finish;
+
+      CacheManager.instance.setAETokenList(account.address, account.coin, tokenListModel);
+      setState(() {});
+    } else {
+      tokenListModel = null;
       loadingType = LoadingType.error;
       setState(() {});
-    });
+    }
+    await getCacheBalance();
+    await getBalance();
   }
 
   getCacheBalance() async {
@@ -68,16 +80,22 @@ class _TokenListPathState extends State<AeTokenListPage> {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel.data.length; i++) {
       BoxApp.getErcBalanceAE((balance, decimal, address, coin) async {
-        if (!mounted)
-        balance = AmountDecimal.parseUnits(balance, decimal);
+        if (!mounted) return;
+
+        if(balance == "undefined"){
+          balance = "0";
+        }
+
+        String amountBalance = AmountDecimal.parseUnits(balance, decimal);
 
         for (int j = 0; j < tokenListModel.data.length; j++) {
           if (tokenListModel.data[j].ctAddress == address) {
-            tokenListModel.data[j].countStr = Utils.formatBalanceLength(double.parse(balance));
+            tokenListModel.data[j].countStr = Utils.formatBalanceLength(double.parse(amountBalance));
             CacheManager.instance.setTokenBalance(account.address, tokenListModel.data[j].ctAddress, account.coin, tokenListModel.data[j].countStr);
           }
         }
-        if (!mounted) setState(() {});
+        if (!mounted)return;
+        setState(() {});
       }, account.address, tokenListModel.data[i].ctAddress);
     }
   }
@@ -164,7 +182,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
           IconButton(
             splashRadius: 40,
             icon: Icon(
-              Icons.add,
+              Icons.add_circle_outline_outlined,
               color: Color(0xFF000000),
               size: 22,
             ),
@@ -301,17 +319,17 @@ class _TokenListPathState extends State<AeTokenListPage> {
     );
   }
 
-  void netContractBalance(int index) {
-    ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        tokenListModel.data[index].countStr = model.data.balance;
-        tokenListModel.data[index].rate = model.data.rate;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
+//   void netContractBalance(int index) {
+//     ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
+//       if (model.code == 200) {
+//         tokenListModel.data[index].countStr = model.data.balance;
+//         tokenListModel.data[index].rate = model.data.rate;
+//         setState(() {});
+//       } else {}
+//     }).catchError((e) {
+// //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//     });
+//   }
 
   Widget itemListView(BuildContext context, int index) {
     return Container(
@@ -359,6 +377,15 @@ class _TokenListPathState extends State<AeTokenListPage> {
                               child: ClipOval(
                                 child: Image.network(
                                   tokenListModel.data[index].image,
+                                  errorBuilder: (
+                                      BuildContext context,
+                                      Object error,
+                                      StackTrace stackTrace,
+                                      ) {
+                                    return Container(
+                                      color: Colors.grey.shade200,
+                                    );
+                                  },
                                   frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded) return child;
 

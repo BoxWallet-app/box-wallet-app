@@ -52,6 +52,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
   var tokenLoadingType = LoadingType.loading;
   List<Tokens> cfxCtTokens = [];
   Account account;
+  bool isDelete = false;
 
   Future<void> _onRefresh() async {
     // await netTokenBaseData();
@@ -61,6 +62,30 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     var chainID = EthManager.instance.getChainID(account);
     cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account.address);
     // print(ethTokenRateModel.toJson());
+    var firstTokenListLoad = await CacheManager.instance.getFirstTokenListLoad(account.address, account.coin);
+    if (cfxCtTokens.length == 0 && !firstTokenListLoad) {
+      try {
+        var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
+        if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
+          for (var i = 0; i < ethActivityCoinModel.data.length; i++) {
+            if (ethActivityCoinModel.data[i].address != "") {
+              Tokens token = Tokens();
+              token.ctId = ethActivityCoinModel.data[i].address;
+              token.name = ethActivityCoinModel.data[i].name;
+              token.symbol = ethActivityCoinModel.data[i].symbol;
+              token.quoteUrl = ethActivityCoinModel.data[i].website;
+              token.iconUrl = ethActivityCoinModel.data[i].iconUrl;
+              cfxCtTokens.insert(0, token);
+            }
+          }
+          await CacheManager.instance.setFirstTokenListLoad(account.address, account.coin,true);
+          await CtTokenManager.instance.updateETHCtTokens(chainID, account.address, cfxCtTokens);
+        }
+      } catch (e) {
+        tokenLoadingType = LoadingType.error;
+      }
+    }
+
     if (cfxCtTokens.length == 0) {
       tokenLoadingType = LoadingType.no_data;
     } else {
@@ -132,26 +157,24 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
   // }
   Future<void> getBalance(String address) async {
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    var maxLength =  cfxCtTokens.length;
+    var maxLength = cfxCtTokens.length;
     for (int i = 0; i < cfxCtTokens.length; i++) {
       if (cfxCtTokens[i].balance == null) {
         BoxApp.getErcBalanceETH((balance, decimal, address, coin) async {
           balance = AmountDecimal.parseUnits(balance, decimal);
-          print(balance);
           for (int j = 0; j < cfxCtTokens.length; j++) {
             if (cfxCtTokens[j].ctId == address) {
               cfxCtTokens[j].balance = Utils.formatBalanceLength(double.parse(balance));
-              CacheManager.instance.setTokenBalance(account.address,   cfxCtTokens[j].ctId, account.coin,  cfxCtTokens[j].balance);
+              CacheManager.instance.setTokenBalance(account.address, cfxCtTokens[j].ctId, account.coin, cfxCtTokens[j].balance);
             }
           }
-          if(i == maxLength-1){
+          if (i == maxLength - 1) {
             updatePrice();
           }
           setState(() {});
         }, address, cfxCtTokens[i].ctId, account.coin, nodeUrl);
       }
     }
-
   }
 
   Future<void> updatePrice() async {
@@ -222,36 +245,66 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
           },
         ),
         actions: <Widget>[
-          IconButton(
-            splashRadius: 40,
-            icon: Icon(
-              Icons.add,
-              color: Color(0xFF000000),
-              size: 22,
+          if (!isDelete)
+            IconButton(
+              splashRadius: 40,
+              icon: Icon(
+                Icons.delete_outline,
+                color: Color(0xFF000000),
+                size: 22,
+              ),
+              onPressed: () {
+                isDelete = true;
+                setState(() {});
+                return;
+              },
             ),
-            onPressed: () {
-              if (Platform.isIOS) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EthTokenAddPage(
-                              cfxTokenAddPageCallBackFuture: (isUpdate) {
-                                if (isUpdate) _onRefresh();
-                                return;
-                              },
-                            )));
-              } else {
-                Navigator.push(context, SlideRoute(EthTokenAddPage(
-                  cfxTokenAddPageCallBackFuture: (isUpdate) {
-                    if (isUpdate) _onRefresh();
-                    return;
-                  },
-                )));
-              }
+          if (isDelete)
+            MaterialButton(
+              minWidth: 10,
+              child: new Text(
+                S.of(context).dialog_dismiss,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                ),
+              ),
+              onPressed: () {
+                isDelete = false;
+                setState(() {});
+              },
+            ),
+          if (!isDelete)
+            IconButton(
+              splashRadius: 40,
+              icon: Icon(
+                Icons.add_circle_outline_outlined,
+                color: Color(0xFF000000),
+                size: 22,
+              ),
+              onPressed: () {
+                if (Platform.isIOS) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EthTokenAddPage(
+                                cfxTokenAddPageCallBackFuture: (isUpdate) {
+                                  if (isUpdate) _onRefresh();
+                                  return;
+                                },
+                              )));
+                } else {
+                  Navigator.push(context, SlideRoute(EthTokenAddPage(
+                    cfxTokenAddPageCallBackFuture: (isUpdate) {
+                      if (isUpdate) _onRefresh();
+                      return;
+                    },
+                  )));
+                }
 
-              return;
-            },
-          ),
+                return;
+              },
+            ),
         ],
       ),
       body: LoadingWidget(
@@ -400,37 +453,65 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                               ],
                             ),
                             Expanded(child: Container()),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                if (cfxCtTokens[index].balance != null || cfxCtTokens[index].balanceCache != null)
-                                  Text(
-                                    cfxCtTokens[index].balance == null ? cfxCtTokens[index].balanceCache : cfxCtTokens[index].balance,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333),fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                  ),
-                                if (cfxCtTokens[index].balance == null && cfxCtTokens[index].balanceCache == null)
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                      'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                    ),
-                                  ),
-                                if (cfxCtTokens[index].price != null)
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5),
-                                    child: Text(
-                                      cfxCtTokens[index].price,
+
+                            if (isDelete)
+                              IconButton(
+                                splashRadius: 40,
+                                icon: Icon(
+                                  Icons.delete_outline,
+                                  color: Color(0xFF000000),
+                                  size: 22,
+                                ),
+                                onPressed: () async {
+                                  Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                                  var chainID = EthManager.instance.getChainID(account);
+                                  var address = await BoxApp.getAddress();
+                                  var tokens = await CtTokenManager.instance.getEthCtTokens(chainID, address);
+                                  var tokensTemp = tokens.sublist(0);
+                                  tokensTemp.forEach((element) {
+                                    if (element.ctId == cfxCtTokens[index].ctId) {
+                                      tokens.remove(element);
+                                    }
+                                  });
+                                  await CtTokenManager.instance.updateETHCtTokens(chainID, address, tokens);
+                                  if (tokens == null) {}
+                                  _onRefresh();
+                                  setState(() {});
+                                  return;
+                                },
+                              ),
+                            if (!isDelete)
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  if (cfxCtTokens[index].balance != null || cfxCtTokens[index].balanceCache != null)
+                                    Text(
+                                      cfxCtTokens[index].balance == null ? cfxCtTokens[index].balanceCache : cfxCtTokens[index].balance,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff999999),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
-                                  ),
-                              ],
-                            ),
+                                  if (cfxCtTokens[index].balance == null && cfxCtTokens[index].balanceCache == null)
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                        'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                      ),
+                                    ),
+                                  if (cfxCtTokens[index].price != null)
+                                    Container(
+                                      margin: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        cfxCtTokens[index].price,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                    ),
+                                ],
+                              ),
 
                             Container(
                               width: 20,

@@ -99,13 +99,9 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
       balance = double.parse(AmountDecimal.parseUnits(model.balance,18));
 
-      print(balance);
-      print(amountAll);
       setState(() {});
     }).catchError((e) {});
 
-    setState(() {});
-    print(amount);
     setState(() {});
   }
 

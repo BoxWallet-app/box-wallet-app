@@ -99,6 +99,7 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
     var cfxTokens = await CtTokenManager.instance.getEthCtTokens(chainID, address);
 
     List<EthTokenItemModel> tempToken = [];
+
     if (cfxTokens.isNotEmpty && model.data != null) {
       model.data.forEach((element) {
         cfxTokens.forEach((element2) {
@@ -182,6 +183,7 @@ print(e);
                 children: [
                   Container(
                     decoration: new BoxDecoration(
+                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                       color: Color(0xFFedf3f7),
                       //设置四周圆角 角度
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -330,6 +332,7 @@ print(e);
                               width: 36.0,
                               height: 36.0,
                               decoration: BoxDecoration(
+
                                 border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                 borderRadius: BorderRadius.circular(30.0),

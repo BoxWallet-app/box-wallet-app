@@ -74,7 +74,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                 //设置四周边框
               ),
               child: Text(
-                widget.recordData.status == 1 ? "成功" : "失败",
+                widget.recordData.status == 1 ? S.current.record_status_success :  S.current.record_status_error,
                 maxLines: 1,
                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),

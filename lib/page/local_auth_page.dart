@@ -6,6 +6,7 @@
 
 import 'dart:async';
 
+import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/utils/utils.dart';
@@ -71,13 +72,13 @@ class _AuthPageState extends State<AuthPage> {
     if (!mounted) return _availableBiometrics = availableBiometrics;
 
     if (availableBiometrics[0] == BiometricType.face) {
-      title = "人脸识别(Face ID)";
+      title = S.current.auth_title_1;
     }
     if (availableBiometrics[0] == BiometricType.fingerprint) {
-      title = "指纹识别";
+      title = S.current.auth_title_2;
     }
     if (availableBiometrics[0] == BiometricType.iris) {
-      title = "虹膜识别";
+      title = S.current.auth_title_3;
     }
     setState(() {});
   }
@@ -190,7 +191,7 @@ class _AuthPageState extends State<AuthPage> {
                                   /*2*/
                                   Container(
                                     child: Text(
-                                      "快捷支付",
+                                      S.of(context).auth_pay_title,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -261,7 +262,7 @@ class _AuthPageState extends State<AuthPage> {
 
                                                     return;
                                                   }
-                                                  BoxApp.setPassword(password);
+                                                  BoxApp.setPassword(Utils.aesEncode(password, Utils.generateMd5Int(AUTH_KEY)));
                                                   setState(() {
                                                     isOpenAuth = value;
                                                   });

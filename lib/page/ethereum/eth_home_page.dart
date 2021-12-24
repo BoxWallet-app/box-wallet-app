@@ -53,7 +53,7 @@ class EthHomePage extends StatefulWidget {
 class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClientMixin {
   PriceModel priceModel;
   EthTransferModel ethTransfer;
-  static var price = "";
+  var price = "";
   var domain = "";
   var page = 1;
 
@@ -399,10 +399,10 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                   right: 0,
                                   top: 0,
                                   child: Container(
-                                    width: 87,
-                                    height: 58,
+                                    width: 107,
+                                    height: 78,
                                     child: Image(
-                                      image: AssetImage("images/card_top.png"),
+                                      image: getCardTopImg(),
                                     ),
                                   ),
                                 ),
@@ -430,17 +430,17 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                  ),
 //                                ),
 //                              ),
-                                Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    width: 120,
-                                    height: 46,
-                                    child: Image(
-                                      image: AssetImage("images/card_bottom.png"),
-                                    ),
-                                  ),
-                                ),
+//                                 Positioned(
+//                                   right: 0,
+//                                   bottom: 0,
+//                                   child: Container(
+//                                     width: 120,
+//                                     height: 46,
+//                                     child: Image(
+//                                       image: AssetImage("images/card_bottom.png"),
+//                                     ),
+//                                   ),
+//                                 ),
 
                                 Container(
                                   height: 130,
@@ -601,6 +601,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                     //边框设置
                                     decoration: new BoxDecoration(
                                       color: Color(0xE6FFFFFF),
+                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                       //设置四周圆角 角度
                                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                     ),
@@ -675,6 +676,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                     //边框设置
                                     decoration: new BoxDecoration(
                                       color: Color(0xE6FFFFFF),
+                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                       //设置四周圆角 角度
                                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                     ),
@@ -734,6 +736,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                               margin: const EdgeInsets.only(top: 12),
                               //边框设置
                               decoration: new BoxDecoration(
+                                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                 color: Color(0xE6FFFFFF),
                                 //设置四周圆角 角度
                                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -787,6 +790,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                             padding: const EdgeInsets.only(left: 0),
                                             //边框设置
                                             decoration: new BoxDecoration(
+                                              border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                               color: Color(0xFFfafbfc),
                                               //设置四周圆角 角度
                                               borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -823,6 +827,25 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
         ),
       ),
     ));
+  }
+
+  AssetImage getCardTopImg() {
+    if (EthHomePage.account == null) {
+      return  AssetImage("images/card_top.png");
+    }
+    if (EthHomePage.account.coin == "BNB") {
+     return  AssetImage("images/ic_main_bnb.png");
+    }
+    if (EthHomePage.account.coin == "OKT") {
+      return  AssetImage("images/ic_main_okt.png");
+    }
+    if (EthHomePage.account.coin == "HT") {
+      return  AssetImage("images/ic_main_ht.png");
+    }
+    if (EthHomePage.account.coin == "ETH") {
+      return  AssetImage("images/ic_main_eth.png");
+    }
+    return  AssetImage("images/card_top.png");
   }
 
   List<Color> getAccountCardBg() {
@@ -897,6 +920,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       margin: EdgeInsets.only(top: 12, bottom: MediaQuery.of(context).padding.bottom),
       //边框设置
       decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
         color: Color(0xE6FFFFFF),
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -1261,7 +1285,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   String getCfxMethod(int index) {
 
     if(ethTransfer.data[index].status == 0){
-      return "交易失败";
+      return S.current.record_status_error_full;
     }
 
     if (ethTransfer.data[index].from.toString().toLowerCase().contains(EthHomePage.address.toLowerCase())) {
@@ -1273,7 +1297,6 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
   String cfxEpochNumber(int index) {
     var nonce = int.parse(ethTransfer.data[index].nonce);
-    print(nonce);
     if (nonce > 9999) {
       return (nonce / 1000).toStringAsFixed(0) + "K";
     } else {

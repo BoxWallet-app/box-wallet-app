@@ -482,7 +482,6 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                       }
                       // ignore: missing_return
                       BoxApp.claimName((tx) {
-                        print(""+tx);
                         showFlush(context);
 
                         // ignore: missing_return

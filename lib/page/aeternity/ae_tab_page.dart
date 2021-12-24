@@ -29,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,6 +52,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   List<Widget> cfxWidget = List();
   List<Widget> ethWidget = List();
   var _currentIndex = 0;
+
+  _AeTabPageState();
 
   @override
   void dispose() {
@@ -86,6 +89,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     showHint();
     MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
     _platform.setMethodCallHandler(channelHandler);
+
+    tab1Controller = AnimationController(vsync: this);
+    tab2Controller = AnimationController(vsync: this);
+    tab3Controller = AnimationController(vsync: this);
   }
 
   Future<dynamic> channelHandler(MethodCall methodCall) async {
@@ -160,7 +167,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return 'SUCCESS';
         }, (error) {
           return;
-        }, aesDecode, cfxRpcModel.payload.storageLimit != null ? cfxRpcModel.payload.storageLimit : "0", cfxRpcModel.payload.gas != null ? cfxRpcModel.payload.gas : "0", cfxRpcModel.payload.gasPrice != null ? cfxRpcModel.payload.gasPrice : "0", cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.to, cfxRpcModel.payload.data);
+        }, aesDecode, cfxRpcModel.payload.storageLimit != null ? cfxRpcModel.payload.storageLimit : "0", cfxRpcModel.payload.gas != null ? cfxRpcModel.payload.gas : "0", cfxRpcModel.payload.gasPrice != null ? cfxRpcModel.payload.gasPrice : "0",
+            cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.to, cfxRpcModel.payload.data);
 
         return 'SUCCESS';
 
@@ -293,6 +301,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   DateTime lastPopTime;
+  AnimationController tab1Controller;
+  AnimationController tab2Controller;
+  AnimationController tab3Controller;
 
   @override
   Widget build(BuildContext context) {
@@ -503,6 +514,221 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             ),
           ),
         ),
+//         child: Scaffold(
+//           backgroundColor: Color(0xFFfafbfc),
+//           resizeToAvoidBottomInset: false,
+//           bottomNavigationBar: BottomNavigationBar(
+//             items: [
+//               BottomNavigationBarItem(
+//                   icon: Container(
+//                     width: 27,
+//                     height: 27,
+//                     child: Lottie.asset(
+//                       'images/home.json',
+//                       repeat: false,
+//                       controller: tab1Controller,
+//                       onLoaded: (composition) {
+//                         tab1Controller..duration = composition.duration;
+//                         // ..forward();
+//                       },
+//                     ),
+//                   ),
+//                   title: Container()),
+//               BottomNavigationBarItem(
+//                   icon: Container(
+//                     width: 27,
+//                     height: 27,
+//                     child: Lottie.asset(
+//                       'images/discover.json',
+//                       repeat: false,
+//                       controller: tab2Controller,
+//                       onLoaded: (composition) {
+//                         tab2Controller..duration = composition.duration;
+//                         // ..forward();
+//                       },
+//                     ),
+//                   ),
+//                   title: Container()),
+//               BottomNavigationBarItem(
+//                   icon:Container(
+//                     width: 27,
+//                     height: 27,
+//                     child: Lottie.asset(
+//                       'images/profile.json',
+//                       repeat: false,
+//                       controller: tab3Controller,
+//                       onLoaded: (composition) {
+//                         tab3Controller..duration = composition.duration;
+//                         // ..forward();
+//                       },
+//                     ),
+//                   ),
+//
+//                   title: Container()),
+//             ],
+//             currentIndex: _currentIndex,
+//             onTap: (int index) {
+//               tab1Controller.reset();
+//               tab2Controller.reset();
+//               tab3Controller.reset();
+//               if (index == 0) {
+//
+//                 tab1Controller.forward();
+//               }
+//               if (index == 1) {
+//
+//                 tab2Controller.forward();
+//               }
+//               if (index == 2) {
+//
+//                 tab3Controller.forward();
+//               }
+//               setState(() {
+//                 _currentIndex = index;
+//               });
+//               pageControllerTitle.jumpToPage(_currentIndex);
+//             },
+//           ),
+//           body: Container(
+//             child: Column(
+//               children: [
+//                 Container(
+//                   color: Color(0xFFfafbfc),
+//                   height: MediaQueryData.fromWindow(window).padding.top,
+//                 ),
+//                 Container(
+//                   color: Color(0xFFfafbfc),
+// //              color: Colors.blue,
+//                   width: MediaQuery.of(context).size.width,
+//                   height: 52,
+//                   child: Stack(
+//                     children: [
+//                       Positioned(
+//                         height: 52,
+//                         width: MediaQuery.of(context).size.width / 3,
+//                         child: Container(
+//                           child: Container(
+//                             decoration: new BoxDecoration(
+//                               //背景
+//                               //设置四周圆角 角度
+//                               borderRadius: BorderRadius.all(Radius.circular(25)),
+//                             ),
+//                             child: PageView.builder(
+//                               itemCount: 3,
+//                               controller: pageControllerTitle,
+//                               physics: NeverScrollableScrollPhysics(),
+//                               allowImplicitScrolling: true,
+//                               pageSnapping: false,
+//                               itemBuilder: (context, position) {
+//                                 if (position == 0) {
+//                                   return Container(
+//                                     height: 52,
+//                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+//                                     alignment: Alignment.centerLeft,
+//                                     child: Text(
+//                                       S.of(context).tab_1,
+//                                       style: TextStyle(
+//                                         color: Color(0xFF000000),
+//                                         fontWeight: FontWeight.w500,
+//                                         fontSize: 24,
+//                                         fontFamily: BoxApp.language == "cn"
+//                                             ? "Ubuntu"
+//                                             : BoxApp.language == "cn"
+//                                                 ? "Ubuntu"
+//                                                 : "Ubuntu",
+//                                       ),
+//                                     ),
+//                                   );
+//                                 } else if (position == 1) {
+//                                   return Container(
+//                                     height: 52,
+//                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+//                                     alignment: Alignment.centerLeft,
+//                                     child: Text(
+//                                       S.of(context).tab_2,
+//                                       style: TextStyle(
+//                                         color: Color(0xFF000000),
+//                                         fontWeight: FontWeight.w500,
+//                                         fontSize: 24,
+//                                         fontFamily: BoxApp.language == "cn"
+//                                             ? "Ubuntu"
+//                                             : BoxApp.language == "cn"
+//                                                 ? "Ubuntu"
+//                                                 : "Ubuntu",
+//                                       ),
+//                                     ),
+//                                   );
+//                                 } else {
+//                                   return Container(
+//                                     height: 52,
+//                                     margin: EdgeInsets.only(left: 20, right: 0, top: 0, bottom: 0),
+//                                     alignment: Alignment.centerLeft,
+//                                     child: Text(
+//                                       S.of(context).tab_3,
+//                                       style: TextStyle(
+//                                         color: Color(0xFF000000),
+//                                         fontWeight: FontWeight.w500,
+//                                         fontSize: 24,
+//                                         fontFamily: BoxApp.language == "cn"
+//                                             ? "Ubuntu"
+//                                             : BoxApp.language == "cn"
+//                                                 ? "Ubuntu"
+//                                                 : "Ubuntu",
+//                                       ),
+//                                     ),
+//                                   );
+//                                 }
+//                               },
+//                             ),
+//                             width: MediaQuery.of(context).size.width / 2,
+//                             height: 52,
+//                           ),
+//                         ),
+//                       ),
+//                       buildTitleRightIcon(context),
+//                     ],
+//                   ),
+//                 ),
+//                 Expanded(
+//                   child: Container(
+//                     width: MediaQuery.of(context).size.width,
+//                     child: getBody(),
+//                     // child: PageView.builder(
+//                     //   itemCount: 3,
+//                     //   controller: pageControllerBody,
+//                     //   itemBuilder: (context, position) {
+//                     //     if (position == 0) {
+//                     //       if (account == null) {
+//                     //         return Container();
+//                     //       }
+//                     //       if (account.coin == "AE") {
+//                     //         return AeHomePage();
+//                     //       }
+//                     //       if (account.coin == "CFX") {
+//                     //         return CfxHomePage();
+//                     //       }
+//                     //     } else if (position == 1) {
+//                     //       if (account == null) {
+//                     //         return Container();
+//                     //       }
+//                     //       if (account.coin == "AE") {
+//                     //         return AeAeppsPage();
+//                     //       }
+//                     //       if (account.coin == "CFX") {
+//                     //         return CfxDappsPage();
+//                     //       }
+//                     //     } else {
+//                     //       return SettingPage();
+//                     //     }
+//                     //     return Container();
+//                     //   },
+//                     // ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
       ),
     );
   }
@@ -570,19 +796,19 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   Widget getBody() {
     if (account == null) return Container();
 
-    if(account.coin == "AE"){
+    if (account.coin == "AE") {
       return IndexedStack(
         index: _currentIndex,
         children: aeWidget,
       );
     }
-    if(account.coin == "CFX"){
+    if (account.coin == "CFX") {
       return IndexedStack(
         index: _currentIndex,
         children: cfxWidget,
       );
     }
-    if(account.coin == "OKT"|| account.coin == "BNB"||account.coin == "HT"||account.coin == "ETH"){
+    if (account.coin == "OKT" || account.coin == "BNB" || account.coin == "HT" || account.coin == "ETH") {
       return IndexedStack(
         index: _currentIndex,
         children: ethWidget,

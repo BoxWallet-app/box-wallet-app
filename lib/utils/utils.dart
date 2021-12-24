@@ -18,7 +18,7 @@ import 'package:crypto/crypto.dart';
 class Utils {
   // md5 加密
   static String generateMD5(String data) {
-    if(data == ""){
+    if (data == "") {
       return "";
     }
     var content = new Utf8Encoder().convert(data);
@@ -27,40 +27,40 @@ class Utils {
     return hex.encode(digest.bytes);
   }
 
-  static String cfxFormatAsFixed(String balance,int fixed) {
-   if(fixed>0){
-    return (double.parse(balance) / 1000000000000000000).toStringAsFixed(fixed);
-   }else{
-     return (double.parse(balance) / 1000000000000000000).toString();
-   }
+  static String cfxFormatAsFixed(String balance, int fixed) {
+    if (fixed > 0) {
+      return (double.parse(balance) / 1000000000000000000).toStringAsFixed(fixed);
+    } else {
+      return (double.parse(balance) / 1000000000000000000).toString();
+    }
   }
 
   static String cfxFormatTypeAddress(String address) {
-    if(address == null){
+    if (address == null) {
       return "";
     }
     var split = address.split(":");
 
-    return (split[0]+":"+split[2]).toLowerCase();
+    return (split[0] + ":" + split[2]).toLowerCase();
   }
 
   static String formatBalanceLength(double balance) {
-    if(balance == null){
+    if (balance == null) {
       return "0";
     }
-    if(balance ==0){
+    if (balance == 0) {
       return balance.toStringAsFixed(5);
     }
-    if(balance<1){
+    if (balance < 1) {
       return balance.toStringAsFixed(5);
     }
-    if(balance>=10000){
+    if (balance >= 10000) {
       return balance.toStringAsFixed(2);
     }
-    if(balance>=100){
+    if (balance >= 100) {
       return balance.toStringAsFixed(2);
     }
-   return balance.toStringAsFixed(6);
+    return balance.toStringAsFixed(6);
   }
 
   static formatAddress(String address) {
@@ -76,7 +76,7 @@ class Utils {
       return "";
     }
 //    print(address);
-    return address.substring(0,3)+"..." + address.substring(address.length - 4, address.length);
+    return address.substring(0, 3) + "..." + address.substring(address.length - 4, address.length);
   }
 
   static formatAccountAddress(String address) {
@@ -84,18 +84,15 @@ class Utils {
       return "";
     }
 //    print(address);
-    return  address.substring(0, 5) + "..." +  address.substring(address.length - 4, address.length);
-
+    return address.substring(0, 5) + "..." + address.substring(address.length - 4, address.length);
   }
-
 
   static formatAEHash(String hash) {
     if (hash == "" || hash.length <= 4) {
       return "";
     }
 //    print(address);
-    return  hash.substring(0, 10) + "..." +  hash.substring(hash.length - 10, hash.length);
-
+    return hash.substring(0, 10) + "..." + hash.substring(hash.length - 10, hash.length);
   }
 
   static formatHomeCardAccountAddress(String address) {
@@ -104,15 +101,39 @@ class Utils {
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return "ak_ " + address.substring(3, 6) + " "+address.substring(6, 9)+ " "+address.substring(9, 12)+"... \n" + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
+    return "ak_ " +
+        address.substring(3, 6) +
+        " " +
+        address.substring(6, 9) +
+        " " +
+        address.substring(9, 12) +
+        "... \n" +
+        address.substring(address.length - 9, address.length - 6) +
+        " " +
+        address.substring(address.length - 6, address.length - 3) +
+        " " +
+        address.substring(address.length - 3, address.length);
   }
+
   static formatHomeCardAccountAddressCFX(String address) {
     if (address == "" || address.length <= 4) {
       return "";
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return address.substring(0, 4) +" "+ address.substring(4, 6) + " "+address.substring(6, 9)+ " "+address.substring(9, 12)+"... \n" + address.substring(address.length - 9, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
+    return address.substring(0, 4) +
+        " " +
+        address.substring(4, 6) +
+        " " +
+        address.substring(6, 9) +
+        " " +
+        address.substring(9, 12) +
+        "... \n" +
+        address.substring(address.length - 9, address.length - 6) +
+        " " +
+        address.substring(address.length - 6, address.length - 3) +
+        " " +
+        address.substring(address.length - 3, address.length);
   }
 
   static formatHomeCardAddressCFX(String address) {
@@ -121,9 +142,18 @@ class Utils {
     }
 //    print(address);
     //ak_ idk ...\nHKg j3q iCF
-    return  address.substring(0, 4) +" "+  address.substring(4, 6) +" "+  address.substring(6, 7)+ " ...\n" + address.substring(address.length - 8, address.length - 6) + " " + address.substring(address.length - 6, address.length - 3) + " " + address.substring(address.length - 3, address.length);
+    return address.substring(0, 4) +
+        " " +
+        address.substring(4, 6) +
+        " " +
+        address.substring(6, 7) +
+        " ...\n" +
+        address.substring(address.length - 8, address.length - 6) +
+        " " +
+        address.substring(address.length - 6, address.length - 3) +
+        " " +
+        address.substring(address.length - 3, address.length);
   }
-
 
   static formatHomeCardAddress(String address) {
     if (address == "" || address.length <= 4) {
@@ -164,7 +194,7 @@ class Utils {
           return base64decode;
         }
       } catch (e) {
-        print("e:"+e);
+        print("e:" + e);
         return payload;
       }
     }
@@ -173,7 +203,7 @@ class Utils {
   /*
   * Base64加密
   */
-  static String encodeBase64(String data){
+  static String encodeBase64(String data) {
     var content = utf8.encode(data);
     var digest = base64Encode(content);
     return digest;
@@ -188,7 +218,7 @@ class Utils {
     // print("bytes:"+bytes.toString());
     // print("bytes:"+bytes.toString());
     // print("bytes:"+String.fromCharCodes(bytes));
-    String result = Utf8Decoder().convert(bytes );
+    String result = Utf8Decoder().convert(bytes);
     // print("result:"+result);
     return result;
   }
@@ -204,7 +234,7 @@ class Utils {
   //aes加密
   static String aesEncode(String content, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(OTHER_KEY)));
+      final key = encrypt.Key.fromBase64(base64Encode(password + generateMd5Int(OTHER_KEY)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       final encrypted = encrypter.encrypt(content, iv: encrypt.IV.fromBase64(base64Encode(password)));
       return encrypted.base64;
@@ -216,7 +246,7 @@ class Utils {
   //aes解密
   static dynamic aesDecode(dynamic base64, List<int> password) {
     try {
-      final key = encrypt.Key.fromBase64(base64Encode(password+generateMd5Int(OTHER_KEY)));
+      final key = encrypt.Key.fromBase64(base64Encode(password + generateMd5Int(OTHER_KEY)));
       final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
       return encrypter.decrypt64(base64, iv: encrypt.IV.fromBase64(base64Encode(password)));
     } catch (err) {

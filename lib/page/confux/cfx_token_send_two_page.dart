@@ -557,7 +557,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           return new AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             title: Text(S.of(context).dialog_hint),
-            content: Text("请输入数量"),
+            content: Text(S.of(context).dialog_amount_null),
             actions: <Widget>[
               TextButton(
                 child: new Text(

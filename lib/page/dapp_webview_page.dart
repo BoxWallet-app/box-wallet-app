@@ -52,8 +52,6 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
     super.initState();
     url = widget.url;
     title = widget.title;
-    print(url);
-    print(title);
     getData();
   }
 
@@ -130,7 +128,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.more_horiz,
+                  Icons.replay,
                   color: Colors.black,
                   size: 20,
                 ),
@@ -207,7 +205,6 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   setState(() {});
                 },
                 onPageStarted: (webViewController, url) {
-                  print("onPageStarted");
                   if (url != "" && url != null) this.url = url;
                   isPageFinish = false;
                   _webViewController.evaluateJavascript("document.title").then((result) {
@@ -230,10 +227,11 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
           Padding(
             padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
             child: Container(
-              margin: EdgeInsets.all(7),
+              padding:  EdgeInsets.all(7),
               alignment: Alignment.center,
               child: Text(
                 this.url,
+                textAlign:TextAlign.center,
                 style: TextStyle(
                   fontSize: 10,
                   color: Color(0xff666666),
@@ -301,7 +299,6 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                     }
 
                     BoxApp.signTransactionCFX((hash) async {
-                      print(hash);
                       Map<String, dynamic> params = new Map();
                       params['id'] = id;
                       params['jsonrpc'] = "2.0";
@@ -408,7 +405,6 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
     account = await WalletCoinsManager.instance.getCurrentAccount();
     coinName = account.coin;
     address = account.address;
-    print(coinName);
     if (coinName == "CFX") {
       rpcUrl = await BoxApp.getCfxNodeUrl();
       chainID = "1029";

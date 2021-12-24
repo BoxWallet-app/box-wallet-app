@@ -54,7 +54,7 @@ class RecordData {
     data['hash'] = this.hash;
     data['time'] = this.time;
     if (this.tx != null) {
-//      data['tx'] = this.tx.toJson();
+     data['tx'] = this.tx;
     }
     return data;
   }

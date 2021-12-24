@@ -248,7 +248,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
   String getCfxMethod(int index) {
 
     if(cfxTransfer.data[index].status == 0){
-      return "交易失败";
+      return S.current.record_status_error_full;
     }
     if (cfxTransfer.data[index].from.toString().toLowerCase().contains(address.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;

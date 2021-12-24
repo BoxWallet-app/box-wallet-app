@@ -72,7 +72,6 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel.data.length; i++) {
       BoxApp.getErcBalanceAE((balance, decimal, address, coin) async {
-        print(balance);
         balance = AmountDecimal.parseUnits(balance, decimal);
 
         for (int j = 0; j < tokenListModel.data.length; j++) {

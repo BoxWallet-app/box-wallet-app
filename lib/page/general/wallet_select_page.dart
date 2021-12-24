@@ -63,7 +63,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
       address = acc.address;
       account = acc;
-      print(account.toJson());
       if (!mounted) setState(() {});
     });
   }
@@ -485,16 +484,13 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    print(walletCoinsModel.coins[coinIndex].name);
-    print(account.coin);
     return Container(
       height: 100.0,
       margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
       child: Stack(
         children: [
           getCoinBg(),
-
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address&& walletCoinsModel.coins[coinIndex].name==account.coin)
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address && walletCoinsModel.coins[coinIndex].name == account.coin)
             Positioned(
               right: 0,
               top: 0,
@@ -519,24 +515,12 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           Positioned(
             right: 0,
             top: 0,
-            child: Container(
-              width: 87,
-              height: 58,
-              child: Image(
-                image: AssetImage("images/card_top.png"),
-              ),
-            ),
+            child: getCardImage(),
           ),
           Positioned(
             right: 0,
             bottom: 0,
-            child: Container(
-              width: 120,
-              height: 46,
-              child: Image(
-                image: AssetImage("images/card_bottom.png"),
-              ),
-            ),
+            child: getCardImageBottom(),
           ),
           InkWell(
             onTap: () {
@@ -557,7 +541,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               height: 100,
               alignment: Alignment.bottomLeft,
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 16),
-              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+              child: Text(getCoinFormatAddress(index),
+                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
             ),
           ),
           Positioned(
@@ -634,7 +620,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
-                      Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                      Fluttertoast.showToast(
+                          msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     },
                     child: Container(
                       padding: EdgeInsets.only(left: 2, right: 6, top: 14),
@@ -661,7 +654,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address || walletCoinsModel.coins[coinIndex].name!=account.coin)
+          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address || walletCoinsModel.coins[coinIndex].name != account.coin)
             Positioned(
               right: 0,
               top: 0,
@@ -762,6 +755,92 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
+  Container getCardImageBottom() {
+    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+      return Container();
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+      return Container();
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+      return Container();
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+      return Container();
+    }
+    return Container(
+      width: 120,
+      height: 46,
+      child: Image(
+        image: AssetImage("images/card_bottom.png"),
+      ),
+    );
+  }
+
+  Container getCardImage() {
+    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/card_top.png"),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/card_top.png"),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/ic_main_bnb.png"),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/ic_main_eth.png"),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/ic_main_ht.png"),
+        ),
+      );
+    }
+    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+      return Container(
+        width: 87,
+        height: 58,
+        child: Image(
+          image: AssetImage("images/ic_main_okt.png"),
+        ),
+      );
+    }
+    return Container(
+      width: 87,
+      height: 58,
+      child: Image(
+        image: AssetImage("images/card_top.png"),
+      ),
+    );
+  }
+
   String getAccount(int accountType) {
     if (accountType == AccountType.ADDRESS) {
       return S.of(context).WalletSelectPage_account_type3;
@@ -791,7 +870,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (walletCoinsModel.coins[coinIndex].name == "CFX") {
       return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB" || walletCoinsModel.coins[coinIndex].name == "OKT" || walletCoinsModel.coins[coinIndex].name == "HT"|| walletCoinsModel.coins[coinIndex].name == "ETH") {
+    if (walletCoinsModel.coins[coinIndex].name == "BNB" || walletCoinsModel.coins[coinIndex].name == "OKT" || walletCoinsModel.coins[coinIndex].name == "HT" || walletCoinsModel.coins[coinIndex].name == "ETH") {
       return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
     }
     return "";
@@ -849,7 +928,6 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ]),
         ),
       );
-
     }
     if (walletCoinsModel.coins[coinIndex].name == "OKT") {
       return Container(

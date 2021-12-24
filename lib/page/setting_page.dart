@@ -4,9 +4,11 @@ import 'dart:ui';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/ct_token_manager.dart';
+import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
+import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/page/login_page_new.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -49,7 +51,8 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     super.initState();
     getMnemonic();
     availableBiometrics();
-    eventBus.on<LanguageEvent>().listen((event) {
+    eventBus.on<LanguageEvent>().listen((event) async {
+      await availableBiometrics();
       setState(() {});
     });
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
@@ -83,17 +86,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
     if(deviceSupported){
       if (availableBiometrics[0] == BiometricType.face) {
-        authTitle = "人脸识别(Face ID)";
+        authTitle = S.of(context).auth_title_1;
       }
       if (availableBiometrics[0] == BiometricType.fingerprint) {
-        authTitle = "指纹识别(Touch ID)";
+        authTitle = S.of(context).auth_title_2;
       }
       if (availableBiometrics[0] == BiometricType.iris) {
-        authTitle = "虹膜识别(Iris ID)";
+        authTitle = S.of(context).auth_title_3;
       }
-      if (!mounted) return
-        setState(() {});
+
+
     }
+    setState(() {});
 
   }
   @override
@@ -132,6 +136,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               if (account != null && (account.accountType == AccountType.MNEMONIC || account.accountType == AccountType.PRIVATE_KEY))
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
+                  decoration: new BoxDecoration(
+                    border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                    color: Color(0xE6FFFFFF),
+                    //设置四周圆角 角度
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  ),
                   child: Material(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     color: Colors.white,
@@ -284,6 +294,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
+                decoration: new BoxDecoration(
+                  border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                  color: Color(0xE6FFFFFF),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -336,6 +352,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
+                decoration: new BoxDecoration(
+                  border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                  color: Color(0xE6FFFFFF),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -389,6 +411,12 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
+                decoration: new BoxDecoration(
+                  border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                  color: Color(0xE6FFFFFF),
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
                 child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -427,8 +455,13 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
                         },
                       ).then((val) async {
                         if (val) {
+                          AeHomePage.token = "loading...";
                           AeHomePage.tokenABC = "loading...";
                           AeTokenDefiPage.model = null;
+                          EthHomePage.account = null;
+                          EthHomePage.token = "loading...";
+                          EthHomePage.tokenABC = "0.000000";
+                          EthHomePage.address = "";
 
                           var prefs = await SharedPreferences.getInstance();
 
@@ -571,11 +604,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
       margin: EdgeInsets.only(left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
+
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: tab,
           child: Container(
+            decoration: new BoxDecoration(
+              border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+              color: Color(0xE6FFFFFF),
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            ),
             height: 60,
             child: Stack(
               alignment: Alignment.center,

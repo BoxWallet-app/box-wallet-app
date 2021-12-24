@@ -67,6 +67,10 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   }
 
   Future<void> _authenticateWithBiometrics() async {
+    var account = await WalletCoinsManager.instance.getCurrentAccount();
+    if(account.accountType == AccountType.ADDRESS && widget.isAddressPassword == false){
+      return;
+    }
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(localizedReason: '扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
@@ -77,6 +81,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     if (!mounted) return;
     if (authenticated) {
       var password = await BoxApp.getPassword();
+      password = Utils.aesDecode(password, Utils.generateMd5Int(AUTH_KEY));
       if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture(password);
       Navigator.of(context).pop(); //关闭对话框
       return;

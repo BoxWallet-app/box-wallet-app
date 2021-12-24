@@ -78,9 +78,9 @@ class _EthTransferConfirmPageState extends State<EthTransferConfirmPage> {
   }
   String getFeeMinute(EthFeeModel ethFeeModel ,int index){
     if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
-      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+"秒钟";
+      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
     }
-    return "≈"+ethFeeModel.data.feeList[index].minute+"分钟";
+    return "≈"+ethFeeModel.data.feeList[index].minute+S.current.fee_speed_time2;
   }
   Future<void> getEthFee() async {
     fee = "";
@@ -222,13 +222,13 @@ amountAll = double.parse(amountFee) + double.parse(amount);
 
   String getType(int index){
     if(index == 0){
-      return   "慢速";
+      return   S.current.fee_speed_1;
     }
     if(index == 1){
-      return   "正常";
+      return   S.current.fee_speed_2;
     }
     if(index == 2){
-      return   "快速";
+      return  S.current.fee_speed_3;
     }
     return "";
   }
@@ -401,7 +401,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                               children: [
                                                                 Container(
                                                                   child: Text(
-                                                                    "矿工费",
+                                                                    S.of(context).fee_title,
                                                                     style: new TextStyle(
                                                                       fontSize: 14,
                                                                       color: Color(0xff000000),
@@ -472,7 +472,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                         ),
                                       ),
                                     ),
-                                    buildItem(S.current.CfxTransferConfirmPage_data, (widget.data['data'].toString())),
+                                    buildItem(S.of(context).CfxTransferConfirmPage_data, (widget.data['data'].toString())),
                                   ],
                                 ),
                               ),

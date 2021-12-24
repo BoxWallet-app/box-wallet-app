@@ -191,7 +191,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
             IconButton(
               splashRadius: 40,
               icon: Icon(
-                Icons.add,
+                Icons.add_circle_outline_outlined,
                 color: Color(0xFF000000),
                 size: 22,
               ),

@@ -45,11 +45,10 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
   void initState() {
     // TODO: implement initState
     super.initState();
-    netBaseNameData();
-    netContractBalance();
-    netBanner();
+    _onRefresh();
     eventBus.on<LanguageEvent>().listen((event) {
-      if (!mounted) setState(() {});
+      if (!mounted)return;
+        setState(() {});
     });
   }
 
@@ -90,6 +89,8 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
   }
 
   Future<void> _onRefresh() async {
+    netBaseNameData();
+    netContractBalance();
     netBanner();
   }
 
@@ -114,6 +115,8 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
   Widget build(BuildContext context) {
     return Container(
         child: EasyRefresh(
+          header: BoxHeader(),
+          onRefresh: _onRefresh,
       child: Column(
         children: AnimationConfiguration.toStaggeredList(
           duration: const Duration(milliseconds: 375),
@@ -254,6 +257,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
               margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
               //边框设置
               decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                 color: Color(0xE6FFFFFF),
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -273,7 +277,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           alignment: Alignment.center,
                           children: <Widget>[
                             Container(
-                              height: 90,
+                              height: 88,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.only(left: 5),
                               child: Row(
@@ -330,6 +334,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
               margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
               //边框设置
               decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                 color: Color(0xE6FFFFFF),
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -351,7 +356,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             Row(
                               children: [
                                 Container(
-                                  height: 90,
+                                  height: 88,
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.only(left: 5),
                                   child: Row(
@@ -410,6 +415,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
               margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
               //边框设置
               decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                 color: Color(0xE6FFFFFF),
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -582,6 +588,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
               padding: EdgeInsets.only(bottom: 16, top: 16),
               //边框设置
               decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                 color: Color(0xE6FFFFFF),
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),

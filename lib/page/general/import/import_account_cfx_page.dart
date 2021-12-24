@@ -432,7 +432,6 @@ class _ImportAccountCfxPageState extends State<ImportAccountCfxPage> {
 
   Future<void> createTabAddress(String address) async {
     EasyLoading.show();
-print(address);
     BoxApp.getBalanceCFX((balance,decimal) async {
       balance = AmountDecimal.parseUnits(balance, decimal);
       EasyLoading.dismiss();

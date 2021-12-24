@@ -44,20 +44,18 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
   void initState() {
     // TODO: implement initState
     super.initState();
-    netBanner();
-    netDapp();
+    _onRefresh();
     eventBus.on<LanguageEvent>().listen((event) {
-      netBanner();
-      netDapp();
+      _onRefresh();
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       cfxDappListModel = null;
+      childrens.clear();
       if(!mounted)return;
       setState(() {
 
       });
-      netBanner();
-      netDapp();
+      _onRefresh();
     });
   }
 
@@ -672,7 +670,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                   ),
                 ),
               ),
-              if (childrens.isEmpty)
+              if (childrens == null || childrens.isEmpty)
                 Center(
                   child: Container(
                       height: 200,

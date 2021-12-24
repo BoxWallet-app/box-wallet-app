@@ -14,9 +14,6 @@ class AmountDecimal {
       for (var i = 0; i < decimal; i++) {
         decimalStr = decimalStr + "0";
       }
-      // print((Decimal.parse(amount) / Decimal.parse(decimalStr)).toString());
-      // print((double.parse(amount) / double.parse(decimalStr)).toString());
-      // return (Decimal.parse(amount) / Decimal.parse(decimalStr)).toString();
       return (double.parse(amount) / double.parse(decimalStr)).toString();
     } catch (e) {
       return "0";
