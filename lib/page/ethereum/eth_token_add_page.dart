@@ -186,7 +186,7 @@ print(e);
                       border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                       color: Color(0xFFedf3f7),
                       //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     ),
                     width: MediaQuery.of(context).size.width,
                     child: TextField(
@@ -209,6 +209,7 @@ print(e);
                           padding: EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.search,
+                            size: 18,
                             color: Color(0xff999999),
                           ),
                         ),

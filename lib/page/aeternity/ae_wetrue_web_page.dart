@@ -186,7 +186,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                               content: new SingleChildScrollView(
                                 child: new ListBody(
                                   children: <Widget>[
-                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 9)
+                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 10)
                                       new Text("WeTrue " +
                                           S.of(context).wetrue_dialog_transfer_confirm_content1 +
                                           " " +
@@ -197,7 +197,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                                           Utils.formatAddress(receivingAccount) +
                                           " " +
                                           S.of(context).wetrue_dialog_transfer_confirm_content3),
-                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 9)
+                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 10)
                                       new Text("WeTrue " +
                                           S.of(context).wetrue_dialog_transfer_confirm_content1 +
                                           " " +
@@ -217,7 +217,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                                     Navigator.of(dialogContext).pop(false);
                                   },
                                 ),
-                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 9)
+                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 10)
                                   new TextButton(
                                     child: new Text(S.of(context).dialog_conform + "(" + AmountDecimal.parseUnits(amount, 18).toString() + "AE)"),
                                     onPressed: () {
@@ -225,7 +225,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
 
                                     },
                                   ),
-                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 9)
+                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 10)
                                   new TextButton(
                                     child: new Text(S.of(context).dialog_conform),
                                     onPressed: () {
