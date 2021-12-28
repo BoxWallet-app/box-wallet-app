@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
+import 'package:box/model/conflux/cfx_transfer_model.dart';
 import 'package:box/model/ethereum/eth_transfer_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,6 +78,23 @@ class CacheManager {
       var data = prefs.getString('ae_record_' + address +"_" + coin);
       var json = jsonDecode(data);
       WalletTransferRecordModel model = WalletTransferRecordModel.fromJson(jsonDecode(data));
+      return model;
+    }catch(e){
+      return null;
+    }
+  }
+
+  Future<bool> setCFXRecord(String address, String coin,  CfxTransfer cfxTransfer) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setString('cfx_record_' + address +"_" + coin, jsonEncode(cfxTransfer));
+  }
+
+  Future<CfxTransfer> getCFXRecord(String address,String coin) async {
+    try{
+      var prefs = await SharedPreferences.getInstance();
+      var data = prefs.getString('cfx_record_' + address +"_" + coin);
+      var json = jsonDecode(data);
+      CfxTransfer model = CfxTransfer.fromJson(jsonDecode(data));
       return model;
     }catch(e){
       return null;

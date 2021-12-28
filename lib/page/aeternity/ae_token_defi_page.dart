@@ -421,8 +421,8 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                         child: Text(
                           AeTokenDefiPage.model == null ? "loading..." : "≈" + AeTokenDefiPage.model.data.token,
                           style: new TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
-//                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
+                              fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+//                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                         ),
                         alignment: Alignment.topLeft,
                         margin: EdgeInsets.only(left: 18, top: 5),

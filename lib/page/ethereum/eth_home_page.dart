@@ -328,7 +328,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           price,
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                         ),
                                                       ),
 
@@ -369,7 +369,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -392,7 +392,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddressCFX(EthHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: getAccountCardBottomBg(), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddressCFX(EthHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: getAccountCardBottomBg(),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -460,7 +460,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                               child: Text(
                                                 domain,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                               ),
                                             ),
                                           ],
@@ -508,7 +508,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
 //                                                  getAePrice(),
 //                                                  overflow: TextOverflow.ellipsis,
-//                                                  style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
 //                                                ),
 //                                              ),
 
@@ -520,7 +520,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                                 //     fractionDigits: 6, // decimal precisio
                                                 //     duration : EthHomePage.token == "loading..."?const Duration(milliseconds: 0):const Duration(milliseconds: 800),// n
                                                 //     suffix: "",
-                                                //     textStyle: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                //     textStyle: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 //   ),
                                                 // if (EthHomePage.token != "loading...")
                                                   Text(
@@ -528,7 +528,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                     overflow: TextOverflow.ellipsis,
 
-                                                    style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                    style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                   ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -546,7 +546,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 //                                      child: Text(
 //                                        HomePageV2.address,
 //                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
+//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
 //                                      ),
 //                                    ),
                                     ],
@@ -1321,12 +1321,12 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
     if (ethTransfer.data[index].to.toLowerCase() == EthHomePage.address.toLowerCase()) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 0)) + " " + EthHomePage.account.coin,
+        "+ " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 4)) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 0)) + " " + EthHomePage.account.coin,
+        "- " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 4)) + " " + EthHomePage.account.coin,
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

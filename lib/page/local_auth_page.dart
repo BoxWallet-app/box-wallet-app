@@ -69,6 +69,7 @@ class _AuthPageState extends State<AuthPage> {
       availableBiometrics = <BiometricType>[];
       print(e);
     }
+    print(availableBiometrics);
     if (!mounted) return _availableBiometrics = availableBiometrics;
 
     if (availableBiometrics[0] == BiometricType.face) {
@@ -80,6 +81,7 @@ class _AuthPageState extends State<AuthPage> {
     if (availableBiometrics[0] == BiometricType.iris) {
       title = S.current.auth_title_3;
     }
+    print(title);
     setState(() {});
   }
 

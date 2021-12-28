@@ -109,7 +109,8 @@ const BANNER = BASE_HOST + '/api/banner';
 const VERSION = BASE_HOST + '/api/version';
 
 //价格
-const PRICE = 'https://api.coingecko.com/api/v3/simple/price';
+// const PRICE = 'https://api.coingecko.com/api/v3/simple/price';
+const PRICE = 'https://aebox.io/api/price';
 
 //绑定的域名
 const NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';

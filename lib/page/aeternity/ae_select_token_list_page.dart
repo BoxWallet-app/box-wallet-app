@@ -71,7 +71,8 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
     var maxLength = tokenListModel.data.length;
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel.data.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address, coin) async {
+      BoxApp.getErcBalanceAE((balance, decimal, address,from, coin) async {
+        if(from != account.address )return;
         balance = AmountDecimal.parseUnits(balance, decimal);
 
         for (int j = 0; j < tokenListModel.data.length; j++) {

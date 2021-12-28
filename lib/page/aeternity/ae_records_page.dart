@@ -206,7 +206,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         child: Text(
                           walletRecordModel.data[index].hash,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                         width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
@@ -214,7 +214,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
                           DateTime.fromMicrosecondsSinceEpoch(walletRecordModel.data[index].time * 1000).toLocal().toString(),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
                     ],

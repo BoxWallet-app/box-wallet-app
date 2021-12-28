@@ -28,15 +28,16 @@ import 'package:flutter_svg/svg.dart';
 import '../main.dart';
 import 'confux/cfx_rpc_page.dart';
 import 'confux/cfx_token_record_page.dart';
+import 'dapp_webview_page.dart';
 
-class CfxWebPage extends StatefulWidget {
-  const CfxWebPage({Key key}) : super(key: key);
+class WebPage extends StatefulWidget {
+  const WebPage({Key key}) : super(key: key);
 
   @override
   _CfxWebPathState createState() => _CfxWebPathState();
 }
 
-class _CfxWebPathState extends State<CfxWebPage> {
+class _CfxWebPathState extends State<WebPage> {
   var loadingType = LoadingType.finish;
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
@@ -98,6 +99,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                           decoration: new BoxDecoration(
                             // boxShadow: [BoxShadow(color: Colors.grey.withAlpha(50), blurRadius: 100.0)],
                             color: Colors.white,
+                            border: new Border.all(color: Color(0xFF000000).withAlpha(20), width: 1),
                             borderRadius: new BorderRadius.circular((100.0)),
                           ),
                           child: Stack(
@@ -117,7 +119,6 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                   ],
                                   maxLines: 1,
 
-
                                   style: TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 16,
@@ -126,6 +127,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                   ),
 
                                   decoration: InputDecoration(
+
                                     hintText: S.of(context).input_search_hint,
                                     icon: Padding(
                                       padding: EdgeInsets.only(left: 10),
@@ -135,18 +137,20 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                         color: Color(0xff999999),
                                       ),
                                     ),
-
-                                    suffixIcon: _textEditingControllerNode.text !=
-                                        ""?IconButton(
-                                          icon: Icon(
-                                            Icons.close,
-                                            color: Color(0xff999999),
-                                            size: 18,
+                                    suffixIcon: _textEditingControllerNode.text != ""
+                                        ? IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: Color(0xff999999),
+                                              size: 18,
+                                            ),
+                                            onPressed: () {
+                                              _textEditingControllerNode.clear();
+                                            },
+                                          )
+                                        : Container(
+                                            width: 1,
                                           ),
-                                          onPressed: () {
-                                            _textEditingControllerNode.clear();
-                                          },
-                                        ):Container(width: 1,),
                                     contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 0),
                                     enabledBorder: new OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
@@ -194,7 +198,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                       S.of(context).CfxWebPage_dismiss,
                       style: TextStyle(
                         fontSize: 14,
-                        letterSpacing: 1.2,
+
                         //字体间距
 
                         //词间距
@@ -206,171 +210,169 @@ class _CfxWebPathState extends State<CfxWebPage> {
                 )
               ],
             ),
-            if(_textEditingControllerNode.text!="")
-            InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-              onTap: () async {
-                String url = _textEditingControllerNode.text;
-                if (!url.contains("https://")) {
-                  EasyLoading.showToast(S.of(context).input_error_msg, duration: Duration(seconds: 2));
-                  return;
-                }
+            if (_textEditingControllerNode.text != "")
+              Container(
+                margin: EdgeInsets.only(top: 12, left: 16, right: 16),
+                child: Material(
+                  color: Color(0xFFE61665).withAlpha(16),
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  child: InkWell(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 50,
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      ),
+                      child: Text(
+                        S.of(context).web_go + _textEditingControllerNode.text,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFFE61665),
+                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        ),
+                      ),
+                    ),
+                    onTap: () async {
+                      String url = _textEditingControllerNode.text;
+                      if (!url.contains("https://")) {
+                        EasyLoading.showToast(S.of(context).input_error_msg, duration: Duration(seconds: 2));
+                        return;
+                      }
 
-                showGeneralDialog(
-                    useRootNavigator: false,
-                    context: context,
-                    pageBuilder: (context, anim1, anim2) {},
-                    //barrierColor: Colors.grey.withOpacity(.4),
-                    barrierDismissible: true,
-                    barrierLabel: "",
-                    transitionDuration: Duration(milliseconds: 0),
-                    transitionBuilder: (context, anim1, anim2, child) {
-                      final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                      return Transform(
-                          transform: Matrix4.translationValues(0.0, 0, 0.0),
-                          child: Opacity(
-                              opacity: anim1.value,
-                              // ignore: missing_return
-                              child: Material(
-                                type: MaterialType.transparency, //透明类型
-                                child: Center(
-                                  child: Container(
-                                    height: 470,
-                                    width: MediaQuery.of(context).size.width - 40,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                    decoration: ShapeDecoration(
-                                      color: Color(0xffffffff),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
+                      showGeneralDialog(
+                          useRootNavigator: false,
+                          context: context,
+                          pageBuilder: (context, anim1, anim2) {},
+                          //barrierColor: Colors.grey.withOpacity(.4),
+                          barrierDismissible: true,
+                          barrierLabel: "",
+                          transitionDuration: Duration(milliseconds: 0),
+                          transitionBuilder: (context, anim1, anim2, child) {
+                            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                            return Transform(
+                                transform: Matrix4.translationValues(0.0, 0, 0.0),
+                                child: Opacity(
+                                    opacity: anim1.value,
+                                    // ignore: missing_return
+                                    child: Material(
+                                      type: MaterialType.transparency, //透明类型
+                                      child: Center(
+                                        child: Container(
+                                          height: 470,
+                                          width: MediaQuery.of(context).size.width - 40,
+                                          margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                          decoration: ShapeDecoration(
+                                            color: Color(0xffffffff),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                width: MediaQuery.of(context).size.width - 40,
+                                                alignment: Alignment.topLeft,
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: InkWell(
+                                                    borderRadius: BorderRadius.all(Radius.circular(60)),
+                                                    onTap: () async {
+                                                      Navigator.pop(context); //关闭对话框
+                                                    },
+                                                    child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(left: 20, right: 20),
+                                                child: Text(
+                                                  S.of(context).dialog_privacy_hint,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 270,
+                                                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                                child: SingleChildScrollView(
+                                                  child: Container(
+                                                    child: Text(
+                                                      S.of(context).cfx_dapp_mag1 + " " + url + " " + S.of(context).cfx_dapp_mag2,
+                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                                child: TextButton(
+                                                  //定义一下文本样式
+                                                  style: ButtonStyle(
+                                                    //更优美的方式来设置
+                                                    shape: MaterialStateProperty.all(StadiumBorder()),
+                                                    //设置水波纹颜色
+                                                    overlayColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(150)),
+
+                                                    //背景颜色
+                                                    backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                                      //设置按下时的背景颜色
+                                                      if (states.contains(MaterialState.pressed)) {
+                                                        return Color(0xFFFC2365).withAlpha(200);
+                                                      }
+                                                      //默认不使用背景颜色
+                                                      return Color(0xFFFC2365);
+                                                    }),
+                                                    //设置按钮内边距
+                                                    padding: MaterialStateProperty.all(EdgeInsets.only(left: 25, right: 25)),
+                                                  ),
+
+                                                  child: Text(
+                                                    S.of(context).dialog_privacy_confirm,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    Navigator.pop(context); //关闭对话框
+                                                    var address = await BoxApp.getAddress();
+                                                    List<String> urls = await WebManager.instance.getUrls(address);
+
+                                                    if (!urls.contains(url)) {
+                                                      urls.add(url);
+                                                    }
+
+                                                    await WebManager.instance.updateUrls(address, urls);
+                                                    _onRefresh();
+                                                    Navigator.push(
+                                                        navigatorKey.currentState.overlay.context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => DappWebViewPage(
+                                                                  url: url,
+                                                                  title: url,
+                                                                )));
+                                                  },
+                                                ),
+                                              ),
+
+                                              //          Text(text),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          width: MediaQuery.of(context).size.width - 40,
-                                          alignment: Alignment.topLeft,
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              borderRadius: BorderRadius.all(Radius.circular(60)),
-                                              onTap: () async {
-                                                Navigator.pop(context); //关闭对话框
-
-                                                // ignore: unnecessary_statements
-                                                //                                  widget.dismissCallBackFuture("");
-                                              },
-                                              child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 20, right: 20),
-                                          child: Text(
-                                            S.of(context).dialog_privacy_hint,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 270,
-                                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                                          child: SingleChildScrollView(
-                                            child: Container(
-                                              child: Text(
-                                                S.of(context).cfx_dapp_mag1 + " " + url + " " + S.of(context).cfx_dapp_mag2,
-                                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 30, bottom: 20),
-                                          child: TextButton(
-                                            //定义一下文本样式
-                                            style: ButtonStyle(
-                                              //更优美的方式来设置
-                                              shape: MaterialStateProperty.all(StadiumBorder()),
-                                              //设置水波纹颜色
-                                              overlayColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(150)),
-
-                                              //背景颜色
-                                              backgroundColor: MaterialStateProperty.resolveWith((states) {
-                                                //设置按下时的背景颜色
-                                                if (states.contains(MaterialState.pressed)) {
-                                                  return Color(0xFFFC2365).withAlpha(200);
-                                                }
-                                                //默认不使用背景颜色
-                                                return Color(0xFFFC2365);
-                                              }),
-                                              //设置按钮内边距
-                                              padding: MaterialStateProperty.all(EdgeInsets.only(left: 25, right: 25)),
-                                            ),
-
-                                            child: Text(
-                                              S.of(context).dialog_privacy_confirm,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                              ),
-                                            ),
-                                            onPressed: () async {
-                                              Navigator.pop(context); //关闭对话框
-                                              if (Platform.isAndroid) {
-                                                String resultString;
-                                                try {
-                                                  resultString = await PluginManager.pushCfxWebViewActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
-                                                } on PlatformException {
-                                                  resultString = '失败';
-                                                }
-                                                // print(resultString);
-                                                return;
-                                              }
-
-                                              Navigator.push(
-                                                  navigatorKey.currentState.overlay.context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => CfxRpcPage(
-                                                        url: url,
-                                                      )));
-                                            },
-                                          ),
-                                        ),
-
-                                        //          Text(text),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )));
-                    });
-              },
-              child: Container(
-                alignment: Alignment.centerLeft,
-                height: 50,
-                margin:  EdgeInsets.only(left: 16, right: 16),
-                padding: EdgeInsets.only(left: 16, right: 16),
-                decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                ),
-                child: Text(
-                  "前往:" + _textEditingControllerNode.text,
-                  style: TextStyle(
-                    fontSize: 14,
-                    letterSpacing: 1.2,
-                    //字体间距
-
-                    //词间距
-                    color: Color(0xFF666666),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    )));
+                          });
+                    },
                   ),
                 ),
               ),
-            ),
             if (cfxWebListModel != null)
               Container(
                 height: 48,
@@ -527,7 +529,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
             BoxApp.language == "cn" ? data[i].nameCn : data[i].nameEn,
             style: TextStyle(
               fontSize: 14,
-              letterSpacing: 1.2,
+
               //字体间距
 
               //词间距
@@ -608,7 +610,7 @@ class _CfxWebPathState extends State<CfxWebPage> {
                                 child: Container(
                                   child: Text(
                                     S.of(context).cfx_dapp_mag1 + " " + name + " " + S.of(context).cfx_dapp_mag2,
-                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                   ),
                                 ),
                               ),
@@ -655,22 +657,12 @@ class _CfxWebPathState extends State<CfxWebPage> {
 
                                   await WebManager.instance.updateUrls(address, urls);
                                   _onRefresh();
-                                  if (Platform.isAndroid) {
-                                    String resultString;
-                                    try {
-                                      resultString = await PluginManager.pushCfxWebViewActivity({'url': url, 'address': await BoxApp.getAddress(), 'language': await BoxApp.getLanguage(), 'signingKey': await BoxApp.getSigningKey()});
-                                    } on PlatformException {
-                                      resultString = '失败';
-                                    }
-                                    // print(resultString);
-                                    return;
-                                  }
-
                                   Navigator.push(
                                       navigatorKey.currentState.overlay.context,
                                       MaterialPageRoute(
-                                          builder: (context) => CfxRpcPage(
+                                          builder: (context) => DappWebViewPage(
                                                 url: url,
+                                                title: url,
                                               )));
                                 },
                               ),

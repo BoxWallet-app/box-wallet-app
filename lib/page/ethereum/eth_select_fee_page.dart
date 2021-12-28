@@ -292,10 +292,14 @@ class _TokenListPathState extends State<EthSelectFeePage> {
 
 
   getFeePrice(int index) {
-    var amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000);
+    var amountFee = (double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000).toString();
+    print(double.parse(ethFeeModel.data.feeList[index].fee));
+    print("widget.gasLimit:"+widget.gasLimit.toString());
     if (BoxApp.language == "cn") {
       return "¥" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()) * double.parse(amountFee) * double.parse(ethTokenPriceRateModel.data[0].data[0].rate));
     } else {
+      print(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()));
+      print(amountFee);
       return "\$" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()) * double.parse(amountFee));
     }
   }

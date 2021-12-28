@@ -482,7 +482,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             child: Text(
                               wetrueCommentModel.data.data[index].payload.replaceAll("<br>", "\r\n"),
                               strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1.2, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                              style: TextStyle(color: Colors.black, fontSize: 16, letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
                           ),
                         ],

@@ -105,7 +105,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                     size: 20,
                   ),
                   onPressed: () {
-                    _webViewController.loadUrl("http://wetrue.io/#/?language="+BoxApp.language+"&source=box&userAddress=" + AeHomePage.address);
+                    _webViewController.loadUrl("http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address);
                   },
                 ),
               ),
@@ -131,22 +131,21 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
               child: WebView(
-                initialUrl: "http://wetrue.io/#/?language="+BoxApp.language+"&source=box&userAddress=" + AeHomePage.address,
+                initialUrl: "http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (url) {
                   isPageFinish = true;
                   print("onPageFinished");
                   setState(() {});
                   _webViewController.runJavascriptReturningResult("document.title").then((result) {
-                      setState(() {
-                        title = result.replaceAll("\"", "");
-                      });
+                    setState(() {
+                      title = result.replaceAll("\"", "");
+                    });
                   });
                 },
                 onProgress: (progress) {
                   this.progress = (progress / 100);
                   setState(() {});
-
                 },
                 onWebViewCreated: (WebViewController webViewController) async {
                   this._webViewController = webViewController;
@@ -173,17 +172,41 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                         String receivingAccount = data["receivingAccount"];
                         if (data["name"] == "requestAccounts") {}
                         print(message.message);
+
+                        if(double.parse(AmountDecimal.parseUnits(amount, 18))>10){
+                          return;
+                        }
                         showDialog<bool>(
                           context: context,
                           barrierDismissible: false,
                           builder: (BuildContext dialogContext) {
                             return new AlertDialog(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                              title: new Text("转账确认"),
+                              title: new Text(S.of(context).wetrue_dialog_transfer_confirm),
                               content: new SingleChildScrollView(
                                 child: new ListBody(
                                   children: <Widget>[
-                                    new Text("WeTrue想要从你的账户转移" + AmountDecimal.parseUnits(amount, 18).toString() + "AE到" + Utils.formatAddress(receivingAccount) + "地址是否确认?"),
+                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 9)
+                                      new Text("WeTrue " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content1 +
+                                          " " +
+                                          AmountDecimal.parseUnits(amount, 18).toString() +
+                                          "(AE) " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content2 +
+                                          " " +
+                                          Utils.formatAddress(receivingAccount) +
+                                          " " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content3),
+                                    if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 9)
+                                      new Text("WeTrue " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content1 +
+                                          " " +
+                                          "AE " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content2 +
+                                          " " +
+                                          Utils.formatAddress(receivingAccount) +
+                                          " " +
+                                          S.of(context).wetrue_dialog_transfer_confirm_content3),
                                   ],
                                 ),
                               ),
@@ -194,12 +217,21 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                                     Navigator.of(dialogContext).pop(false);
                                   },
                                 ),
-                                new TextButton(
-                                  child: new Text(S.of(context).dialog_conform+ "("+AmountDecimal.parseUnits(amount, 18).toString() +"AE)" ),
-                                  onPressed: () {
-                                    Navigator.of(dialogContext).pop(true);
-                                  },
-                                ),
+                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) > 9)
+                                  new TextButton(
+                                    child: new Text(S.of(context).dialog_conform + "(" + AmountDecimal.parseUnits(amount, 18).toString() + "AE)"),
+                                    onPressed: () {
+                                      Navigator.of(dialogContext).pop(true);
+
+                                    },
+                                  ),
+                                if (double.parse(AmountDecimal.parseUnits(amount, 18)) <= 9)
+                                  new TextButton(
+                                    child: new Text(S.of(context).dialog_conform),
+                                    onPressed: () {
+                                      Navigator.of(dialogContext).pop(true);
+                                    },
+                                  ),
                               ],
                             );
                           },

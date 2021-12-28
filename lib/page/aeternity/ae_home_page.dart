@@ -141,6 +141,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     var aeRecord = await CacheManager.instance.getAERecord(account.address, account.coin);
     if(aeRecord!=null){
       walletRecordModel = aeRecord;
+      if(!mounted)return;
       setState(() {
 
       });
@@ -202,8 +203,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       AeHomePage.tokenABC = cacheBalance;
       setState(() {});
     }
-    BoxApp.getErcBalanceAE((balance,decimal,address,coin) async {
+    BoxApp.getErcBalanceAE((balance,decimal,address,from,coin) async {
       if(!mounted)return;
+      if(from != account.address )return;
       AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
       CacheManager.instance.setTokenBalance(account.address,  BoxApp.ABC_CONTRACT_AEX9,account.coin, AeHomePage.tokenABC);
       setState(() {});
@@ -279,6 +281,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);  //需要调用super
     return Container(
         child: EasyRefresh(
       header: BoxHeader(),
@@ -402,7 +405,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           getAePrice(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                         ),
                                                       ),
 
@@ -442,7 +445,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -465,7 +468,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -508,7 +511,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                               child: Text(
                                                 namesModel == null ? "" : namesModel[0].name,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                               ),
                                             ),
                                           ],
@@ -556,7 +559,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
 //                                                  getAePrice(),
 //                                                  overflow: TextOverflow.ellipsis,
-//                                                  style: TextStyle(fontSize: 12, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
 //                                                ),
 //                                              ),
 
@@ -569,7 +572,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -587,7 +590,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      child: Text(
 //                                        HomePageV2.address,
 //                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
+//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
 //                                      ),
 //                                    ),
                                     ],

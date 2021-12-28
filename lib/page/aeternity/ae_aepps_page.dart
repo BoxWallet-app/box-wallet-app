@@ -113,6 +113,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);  //需要调用super
     return Container(
         child: EasyRefresh(
           header: BoxHeader(),
@@ -602,11 +603,123 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                     children: [
                         InkWell(
                           onTap: () async {
-                            if (Platform.isIOS) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AeWetrueWebPage()));
-                            } else {
-                              Navigator.push(context, SlideRoute(AeWetrueWebPage()));
-                            }
+
+                            showGeneralDialog(
+                                useRootNavigator: false,
+                                context: context,
+                                pageBuilder: (con, anim1, anim2) {},
+                                //barrierColor: Colors.grey.withOpacity(.4),
+                                barrierDismissible: true,
+                                barrierLabel: "",
+                                transitionDuration: Duration(milliseconds: 0),
+                                transitionBuilder: (transitionBuilderContext, anim1, anim2, child) {
+                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                                  return Material(
+                                    type: MaterialType.transparency, //透明类型
+                                    child: Center(
+                                      child: Container(
+                                        height: 470,
+                                        width: MediaQuery.of(context).size.width - 40,
+                                        margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                        decoration: ShapeDecoration(
+                                          color: Color(0xffffffff),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0),
+                                            ),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: MediaQuery.of(context).size.width - 40,
+                                              alignment: Alignment.topLeft,
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                                                  onTap: () {
+                                                    Navigator.pop(transitionBuilderContext); //关闭对话框
+                                                    // ignore: unnecessary_statements
+                                                    //                                  widget.dismissCallBackFuture("");
+                                                  },
+                                                  child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 20, right: 20),
+                                              child: Text(
+                                                S.of(context).dialog_privacy_hint,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 270,
+                                              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                              child: SingleChildScrollView(
+                                                child: Container(
+                                                  child: Text(
+                                                    S.of(context).wetrue_risk,
+                                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 30, bottom: 20),
+                                              child: TextButton(
+                                                //定义一下文本样式
+                                                style: ButtonStyle(
+                                                  //更优美的方式来设置
+                                                  shape: MaterialStateProperty.all(StadiumBorder()),
+                                                  //设置水波纹颜色
+                                                  overlayColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(150)),
+
+                                                  //背景颜色
+                                                  backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                                    //设置按下时的背景颜色
+                                                    if (states.contains(MaterialState.pressed)) {
+                                                      return Color(0xFFFC2365).withAlpha(200);
+                                                    }
+                                                    //默认不使用背景颜色
+                                                    return Color(0xFFFC2365);
+                                                  }),
+                                                  //设置按钮内边距
+                                                  padding: MaterialStateProperty.all(EdgeInsets.only(left: 25, right: 25)),
+                                                ),
+
+                                                child: Text(
+                                                  S.of(context).dialog_privacy_confirm,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  Navigator.pop(transitionBuilderContext); //关闭对话框
+
+                                                  if (Platform.isIOS) {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeWetrueWebPage()));
+                                                  } else {
+                                                    Navigator.push(context, SlideRoute(AeWetrueWebPage()));
+                                                  }
+                                                },
+                                              ),
+                                            ),
+
+                                            //          Text(text),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 22, bottom: 22),
@@ -947,7 +1060,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         child: Container(
                           child: Text(
                             S.of(context).dialog_name_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                           ),
                         ),
                       ),
@@ -1070,7 +1183,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                 child: Container(
                                   child: Text(
                                     S.of(context).dialog_name_hint,
-                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                   ),
                                 ),
                               ),
@@ -1227,7 +1340,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         child: Container(
                           child: Text(
                             S.of(context).dialog_defi_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                           ),
                         ),
                       ),
@@ -1352,7 +1465,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         child: Container(
                           child: Text(
                             S.of(context).dialog_swap_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                           ),
                         ),
                       ),

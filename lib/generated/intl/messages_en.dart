@@ -281,6 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_update_content" : MessageLookupByLibrary.simpleMessage("A new version is available, please download the update"),
     "dialog_update_title" : MessageLookupByLibrary.simpleMessage("Discover new version"),
     "dialog_web_clear_content" : MessageLookupByLibrary.simpleMessage("Please confirm whether you want to clear the access log"),
+    "fee_low" : MessageLookupByLibrary.simpleMessage("No Fees"),
     "fee_speed_1" : MessageLookupByLibrary.simpleMessage("Slow"),
     "fee_speed_2" : MessageLookupByLibrary.simpleMessage("Normal"),
     "fee_speed_3" : MessageLookupByLibrary.simpleMessage("Fast"),
@@ -351,7 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_wallet_page_add_account_2" : MessageLookupByLibrary.simpleMessage("Account"),
     "select_wallet_page_create_account" : MessageLookupByLibrary.simpleMessage("Create"),
     "select_wallet_page_input_account" : MessageLookupByLibrary.simpleMessage("Import"),
-    "select_wallet_page_wallet" : MessageLookupByLibrary.simpleMessage("Wallet"),
+    "select_wallet_page_wallet" : MessageLookupByLibrary.simpleMessage("Accounts"),
     "setting_clear_data_content" : MessageLookupByLibrary.simpleMessage("This action will irreversibly empty all data of \nthe wallet (including all accounts), please operate with caution. Confirm to continue?"),
     "setting_clear_data_title" : MessageLookupByLibrary.simpleMessage("Clear all data"),
     "setting_page_compiler_url" : MessageLookupByLibrary.simpleMessage("Editor Address"),
@@ -397,7 +398,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("Swap"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("My Swap"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("Initiate exchange"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("Account"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("Wallet"),
     "tab_2" : MessageLookupByLibrary.simpleMessage("Discover"),
     "tab_3" : MessageLookupByLibrary.simpleMessage("Setting"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("Node not use"),
@@ -417,6 +418,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2 Please enter the amount to send"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("To"),
     "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("AEX9 protocol tokens can be created for free through aeasy.io. To increase the user experience and prevent the tokens from flying randomly, the excellent tokens set up in the Integral list need to be reviewed. \n Listing process: on The Integral fee is 10000AE and 1000ABC. This fee is used as the Integral lock-up fee. Any centralized exchange or delisting on the Integral can return the pledge Integral \n Delisting process: Delisting tokens requires recycling all tokens on the market The Integral price will be recovered according to the collected value. Or the Integral will not flow for a long time. Form a dead Integral \n Please prepare the contract address, Integral name, Integral logo to AE BBS @baixin"),
-    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("Description of Listing")
+    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("Description of Listing"),
+    "web_go" : MessageLookupByLibrary.simpleMessage("Click to: "),
+    "wetrue_dialog_transfer_confirm" : MessageLookupByLibrary.simpleMessage("Confirmation"),
+    "wetrue_dialog_transfer_confirm_content1" : MessageLookupByLibrary.simpleMessage("Want to transfer from your account"),
+    "wetrue_dialog_transfer_confirm_content2" : MessageLookupByLibrary.simpleMessage("to"),
+    "wetrue_dialog_transfer_confirm_content3" : MessageLookupByLibrary.simpleMessage("address"),
+    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?")
   };
 }

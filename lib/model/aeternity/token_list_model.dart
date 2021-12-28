@@ -37,7 +37,7 @@ class Data {
   String image;
   String name;
   String type;
-  String rate = "";
+  String rate = "0";
 
   Data({this.count, this.ctAddress, this.image, this.name, this.type});
 

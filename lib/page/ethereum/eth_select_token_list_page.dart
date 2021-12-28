@@ -97,7 +97,8 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
     var maxLength =  cfxCtTokens.length;
     for (int i = 0; i < cfxCtTokens.length; i++) {
       if (cfxCtTokens[i].balance == null) {
-        BoxApp.getErcBalanceETH((balance, decimal, address, coin) async {
+        BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
+          if(from != account.address )return;
           balance = AmountDecimal.parseUnits(balance, decimal);
           print(balance);
           for (int j = 0; j < cfxCtTokens.length; j++) {

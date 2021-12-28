@@ -143,7 +143,7 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                             fontSize: 18,
                             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                             color: Colors.black,
-                            letterSpacing: 1.0,
+
                           ),
                           maxLength: 8,
                           // maxLength: 8,

@@ -79,8 +79,9 @@ class _TokenListPathState extends State<AeTokenListPage> {
     var maxLength = tokenListModel.data.length;
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel.data.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address, coin) async {
+      BoxApp.getErcBalanceAE((balance, decimal, address,from, coin) async {
         if (!mounted) return;
+        if(from != account.address )return;
 
         if(balance == "undefined"){
           balance = "0";
@@ -126,7 +127,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
   }
 
   String getAePrice(int index) {
-    if (tokenListModel.data[index].countStr == null || tokenListModel.data[index].countStr == "") {
+    if (tokenListModel.data[index].countStr == null || tokenListModel.data[index].countStr == "" || tokenListModel.data[index].rate == null || tokenListModel.data[index].rate == "") {
       return "";
     }
     if (priceModel == null) {
@@ -252,7 +253,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                           child: Container(
                                             child: Text(
                                               S.of(context).tokens_dialog_content,
-                                              style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                              style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                             ),
                                           ),
                                         ),

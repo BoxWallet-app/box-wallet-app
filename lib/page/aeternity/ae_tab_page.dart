@@ -325,54 +325,117 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         },
 
         child: Scaffold(
-          backgroundColor: Color(0xFFfafbfc),
+          // backgroundColor: Color(0xFFffffff),
           resizeToAvoidBottomInset: false,
-          bottomNavigationBar: BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                  icon: Image(
-                    width: 27,
-                    height: 27,
-                    image: AssetImage("images/tab_home.png"),
-                  ),
-                  activeIcon: Image(
-                    width: 27,
-                    height: 27,
-                    image: AssetImage("images/tab_home_p.png"),
-                  ),
-                  title: Container()),
-              BottomNavigationBarItem(
-                  icon: Image(
-                    width: 27,
-                    height: 27,
-                    image: AssetImage("images/tab_swap.png"),
-                  ),
-                  activeIcon: Image(
-                    width: 27,
-                    height: 27,
-                    image: AssetImage("images/tab_swap_p.png"),
-                  ),
-                  title: Container()),
-              BottomNavigationBarItem(
-                  icon: Image(
-                    width: 30,
-                    height: 30,
-                    image: AssetImage("images/tab_app.png"),
-                  ),
-                  activeIcon: Image(
-                    width: 30,
-                    height: 30,
-                    image: AssetImage("images/tab_app_p.png"),
-                  ),
-                  title: Container()),
-            ],
-            currentIndex: _currentIndex,
-            onTap: (int index) {
-              setState(() {
-                _currentIndex = index;
-              });
-              pageControllerTitle.jumpToPage(_currentIndex);
-            },
+          bottomNavigationBar: Container(
+            // child: BottomNavigationBar(
+            //   selectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+            //   unselectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+            //   selectedItemColor:Color(0xFF000000),
+            //     selectedFontSize:12,
+            //   backgroundColor: Color(0xFFffffff),
+            //   items: [
+            //     BottomNavigationBarItem(
+            //         icon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_home.png"),
+            //         ),
+            //         activeIcon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_home_p.png"),
+            //         ),
+            //       label: S.of(context).tab_1,),
+            //     BottomNavigationBarItem(
+            //         icon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_swap.png"),
+            //         ),
+            //         activeIcon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_swap_p.png"),
+            //         ),
+            //       label:S.of(context).tab_2,),
+            //     BottomNavigationBarItem(
+            //         icon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_app.png"),
+            //         ),
+            //         activeIcon: Image(
+            //           width: 24,
+            //           height: 24,
+            //           image: AssetImage("images/tab_app_p.png"),
+            //         ),
+            //         label: S.of(context).tab_3,
+            //     ),
+            //   ],
+            //   currentIndex: _currentIndex,
+            //   onTap: (int index) {
+            //
+            //     setState(() {
+            //       _currentIndex = index;
+            //     });
+            //     pageControllerTitle.jumpToPage(_currentIndex);
+            //   },
+            // ),
+            child: BottomNavigationBar(
+              selectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+              unselectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+              selectedItemColor:Color(0xFF000000),
+                selectedFontSize:12,
+              backgroundColor: Color(0xFFffffff),
+              items: [
+                BottomNavigationBarItem(
+                    icon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_home.png"),
+                    ),
+                    activeIcon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_home_p.png"),
+                    ),
+                  label: S.of(context).tab_1,),
+                BottomNavigationBarItem(
+                    icon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_swap.png"),
+                    ),
+                    activeIcon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_swap_p.png"),
+                    ),
+                  label:S.of(context).tab_2,),
+                BottomNavigationBarItem(
+                    icon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_app.png"),
+                    ),
+                    activeIcon: Image(
+                      width: 24,
+                      height: 24,
+                      image: AssetImage("images/tab_app_p.png"),
+                    ),
+                    label: S.of(context).tab_3,
+                ),
+              ],
+              currentIndex: _currentIndex,
+              onTap: (int index) {
+
+                setState(() {
+                  _currentIndex = index;
+                });
+                pageControllerTitle.jumpToPage(_currentIndex);
+              },
+            ),
           ),
           body: Container(
             child: Column(
@@ -521,8 +584,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //             items: [
 //               BottomNavigationBarItem(
 //                   icon: Container(
-//                     width: 27,
-//                     height: 27,
+//                     width: 23,
+//                     height: 23,
 //                     child: Lottie.asset(
 //                       'images/home.json',
 //                       repeat: false,
@@ -536,8 +599,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //                   title: Container()),
 //               BottomNavigationBarItem(
 //                   icon: Container(
-//                     width: 27,
-//                     height: 27,
+//                     width: 23,
+//                     height: 23,
 //                     child: Lottie.asset(
 //                       'images/discover.json',
 //                       repeat: false,
@@ -551,8 +614,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //                   title: Container()),
 //               BottomNavigationBarItem(
 //                   icon:Container(
-//                     width: 27,
-//                     height: 27,
+//                     width: 23,
+//                     height: 23,
 //                     child: Lottie.asset(
 //                       'images/profile.json',
 //                       repeat: false,
@@ -861,8 +924,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   if (account != null)
                     ClipOval(
                       child: Container(
-                        width: 27.0,
-                        height: 27.0,
+                        width: 23.0,
+                        height: 23.0,
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0),

@@ -1995,10 +1995,10 @@ class S {
     );
   }
 
-  /// `Account`
+  /// `Wallet`
   String get tab_1 {
     return Intl.message(
-      'Account',
+      'Wallet',
       name: 'tab_1',
       desc: '',
       args: [],
@@ -2665,10 +2665,10 @@ class S {
     );
   }
 
-  /// `Wallet`
+  /// `Accounts`
   String get select_wallet_page_wallet {
     return Intl.message(
-      'Wallet',
+      'Accounts',
       name: 'select_wallet_page_wallet',
       desc: '',
       args: [],
@@ -4000,6 +4000,76 @@ class S {
     return Intl.message(
       'Quick Payment',
       name: 'auth_pay_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Fees`
+  String get fee_low {
+    return Intl.message(
+      'No Fees',
+      name: 'fee_low',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmation`
+  String get wetrue_dialog_transfer_confirm {
+    return Intl.message(
+      'Confirmation',
+      name: 'wetrue_dialog_transfer_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Want to transfer from your account`
+  String get wetrue_dialog_transfer_confirm_content1 {
+    return Intl.message(
+      'Want to transfer from your account',
+      name: 'wetrue_dialog_transfer_confirm_content1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to`
+  String get wetrue_dialog_transfer_confirm_content2 {
+    return Intl.message(
+      'to',
+      name: 'wetrue_dialog_transfer_confirm_content2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `address`
+  String get wetrue_dialog_transfer_confirm_content3 {
+    return Intl.message(
+      'address',
+      name: 'wetrue_dialog_transfer_confirm_content3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click to: `
+  String get web_go {
+    return Intl.message(
+      'Click to: ',
+      name: 'web_go',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?`
+  String get wetrue_risk {
+    return Intl.message(
+      'WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?',
+      name: 'wetrue_risk',
       desc: '',
       args: [],
     );

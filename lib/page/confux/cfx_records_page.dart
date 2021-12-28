@@ -269,12 +269,12 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     var split = address.split(":");
     if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 6)) + " CFX",
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 6)) + " CFX",
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

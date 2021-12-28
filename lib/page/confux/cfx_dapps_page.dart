@@ -28,7 +28,7 @@ import '../../main.dart';
 import 'cfx_apps_page.dart';
 import 'cfx_nft_new_page.dart';
 import 'cfx_rpc_page.dart';
-import '../cfx_web_page.dart';
+import '../web_page.dart';
 
 class CfxDappsPage extends StatefulWidget {
   @override
@@ -194,7 +194,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                               child: Container(
                                                 child: Text(
                                                   S.of(context).cfx_dapp_mag1 + " " + data.name + " " + S.of(context).cfx_dapp_mag2,
-                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                                 ),
                                               ),
                                             ),
@@ -369,7 +369,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
           tabs[i],
           style: TextStyle(
             fontSize: 14,
-            letterSpacing: 1.2,
+
             //字体间距
 
             //词间距
@@ -641,7 +641,7 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
 //                                                                     .cfx_dapp_mag1 + " " + url + " " + S
 //                                                                     .of(context)
 //                                                                     .cfx_dapp_mag2,
-//                                                                 style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+//                                                                 style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
 //                                                               ),
 //                                                             ),
 //                                                           ),
@@ -804,9 +804,9 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                               return;
                             }
                             if (Platform.isIOS) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxWebPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => WebPage()));
                             } else {
-                              Navigator.push(context, SlideRoute(CfxWebPage()));
+                              Navigator.push(context, SlideRoute(WebPage()));
                             }
                           },
                           child: Column(

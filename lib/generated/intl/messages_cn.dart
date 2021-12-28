@@ -281,6 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dialog_update_content" : MessageLookupByLibrary.simpleMessage("有新版本使用,请下载更新"),
     "dialog_update_title" : MessageLookupByLibrary.simpleMessage("发现新版本"),
     "dialog_web_clear_content" : MessageLookupByLibrary.simpleMessage("请确认是否要清楚访问记录"),
+    "fee_low" : MessageLookupByLibrary.simpleMessage("手续费不足"),
     "fee_speed_1" : MessageLookupByLibrary.simpleMessage("慢速"),
     "fee_speed_2" : MessageLookupByLibrary.simpleMessage("正常"),
     "fee_speed_3" : MessageLookupByLibrary.simpleMessage("快速"),
@@ -351,7 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_wallet_page_add_account_2" : MessageLookupByLibrary.simpleMessage("账户"),
     "select_wallet_page_create_account" : MessageLookupByLibrary.simpleMessage("创建"),
     "select_wallet_page_input_account" : MessageLookupByLibrary.simpleMessage("导入"),
-    "select_wallet_page_wallet" : MessageLookupByLibrary.simpleMessage("钱包"),
+    "select_wallet_page_wallet" : MessageLookupByLibrary.simpleMessage("账户"),
     "setting_clear_data_content" : MessageLookupByLibrary.simpleMessage("清空钱包所有数据（包括所有账户），不可挽回，请谨慎操作。是否确认？"),
     "setting_clear_data_title" : MessageLookupByLibrary.simpleMessage("清除全部数据"),
     "setting_page_compiler_url" : MessageLookupByLibrary.simpleMessage("编辑器地址"),
@@ -397,7 +398,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swap_title" : MessageLookupByLibrary.simpleMessage("兑换"),
     "swap_title_my" : MessageLookupByLibrary.simpleMessage("我的兑换"),
     "swap_title_send" : MessageLookupByLibrary.simpleMessage("发起兑换"),
-    "tab_1" : MessageLookupByLibrary.simpleMessage("账户"),
+    "tab_1" : MessageLookupByLibrary.simpleMessage("钱包"),
     "tab_2" : MessageLookupByLibrary.simpleMessage("发现"),
     "tab_3" : MessageLookupByLibrary.simpleMessage("设置"),
     "tab_node_error" : MessageLookupByLibrary.simpleMessage("节点不可用"),
@@ -417,6 +418,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "token_send_two_page_title" : MessageLookupByLibrary.simpleMessage("2/2请输入发送数量"),
     "token_send_two_page_to" : MessageLookupByLibrary.simpleMessage("到"),
     "tokens_dialog_content" : MessageLookupByLibrary.simpleMessage("通过 aeasy.io 可以免费创建AEX9协议积分。积分列表为了增加用户体验防止积分乱飞所设置的优秀Tokens，优秀积分需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为积分锁仓费用，积分上任何中心化交易所或者退市即可退回质押积分\n下架流程：下架积分需要回收市场上全部积分，积分价格按照所采价值进行回收。或者积分长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、积分名称，积分logo，发送帖子到AE官方论坛并且@百鑫"),
-    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明")
+    "tokens_dialog_title" : MessageLookupByLibrary.simpleMessage("上架说明"),
+    "web_go" : MessageLookupByLibrary.simpleMessage("点击前往："),
+    "wetrue_dialog_transfer_confirm" : MessageLookupByLibrary.simpleMessage("转账确认"),
+    "wetrue_dialog_transfer_confirm_content1" : MessageLookupByLibrary.simpleMessage("想要从你的账户转移"),
+    "wetrue_dialog_transfer_confirm_content2" : MessageLookupByLibrary.simpleMessage("到"),
+    "wetrue_dialog_transfer_confirm_content3" : MessageLookupByLibrary.simpleMessage("到地址"),
+    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue是第三方应用非BoxWallet系列产品，在使用WeTrue时将由WeTrue您承担法律责任，部分功能将会扣除钱包最高10(AE)的手续费，是否继续使用？")
   };
 }

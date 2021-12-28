@@ -554,7 +554,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                   height: 20.0,
                                 )
                               : Text(
-                                  amountAll > balance ? "手续费不足" : S.of(context).dialog_conform,
+                                  amountAll > balance ?  S.of(context).fee_low : S.of(context).dialog_conform,
                                   maxLines: 1,
                                   style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                                 ),

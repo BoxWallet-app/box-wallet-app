@@ -710,7 +710,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         _textEditingController.text = "0";
       } else {
         if (double.parse(this.tokenCount) > (double.parse(amountFee) * 5)) {
-          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) * 2)).toStringAsFixed(8);
+          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) * 5)).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }

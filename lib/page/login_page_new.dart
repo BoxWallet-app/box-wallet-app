@@ -96,7 +96,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
                                       child: Container(
                                         child: Text(
                                           S.of(context).dialog_statement_content,
-                                          style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", letterSpacing: 2, height: 2),
+                                          style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                         ),
                                       ),
                                     ),

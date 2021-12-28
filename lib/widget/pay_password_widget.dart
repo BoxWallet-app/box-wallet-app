@@ -73,9 +73,13 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     }
     bool authenticated = false;
     try {
-      authenticated = await auth.authenticate(localizedReason: '扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
+      authenticated = await auth.authenticate(localizedReason: 'Scan your fingerprint (or face or otherwise) to verify\n扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
     } on PlatformException catch (e) {
-      print(e);
+      if (!mounted) return;
+      Future.delayed(Duration(milliseconds: 800), () {
+        if (!mounted) return;
+        FocusScope.of(context).requestFocus(_commentFocus);
+      });
       return;
     }
     if (!mounted) return;

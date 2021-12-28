@@ -38,13 +38,16 @@ class SettingPage extends StatefulWidget {
   _SettingPageState createState() => _SettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
+class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientMixin<SettingPage> {
   var mnemonic = "";
   var version = "";
   var authTitle = "";
   String coin = "AE";
   Account account;
   final LocalAuthentication auth = LocalAuthentication();
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -102,6 +105,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);  //需要调用super
     return Container(
       child: EasyRefresh(
         header: BoxHeader(),

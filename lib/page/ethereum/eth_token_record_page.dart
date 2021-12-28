@@ -64,7 +64,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceETH((balance, decimal,address,coin) async {
+    BoxApp.getErcBalanceETH((balance, decimal,address,from,coin) async {
+      if(from != account.address )return;
       balance = AmountDecimal.parseUnits(balance, decimal);
       this.decimal = decimal;
       coinCount = Utils.formatBalanceLength(double.parse(balance));

@@ -543,7 +543,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 16),
               child: Text(getCoinFormatAddress(index),
                   strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), letterSpacing: 1.5, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
             ),
           ),
           Positioned(

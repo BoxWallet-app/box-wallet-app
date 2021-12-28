@@ -43,6 +43,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
 
   String tokenName;
   String tokenCount;
+  String amountAll;
   String tokenImage;
   String tokenContract;
 
@@ -66,10 +67,8 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       this.tokenContract = widget.tokenContract;
     }
 
-    if (widget.tokenContract == null) {
-      netCfxBalance();
-    }
-
+    if (widget.tokenContract == null) {}
+    netCfxBalance();
     getAddress();
   }
 
@@ -77,9 +76,10 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
       this.tokenCount = CfxHomePage.token;
+      this.amountAll = CfxHomePage.token;
+      print(amountAll);
       setState(() {});
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   @override
@@ -345,17 +345,25 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                       width: 36.0,
                                                       height: 36.0,
                                                       decoration: BoxDecoration(
-                                                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                        border: Border(
+                                                            bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                            right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                         borderRadius: BorderRadius.circular(36.0),
                                                       ),
                                                       child: ClipOval(
                                                         child: Image.network(
                                                           tokenImage,
-                                                          errorBuilder: (  BuildContext context,
-                                                              Object error,
-                                                              StackTrace stackTrace,) {
-                                                            return Container(color: Colors.grey.shade200,);
+                                                          errorBuilder: (
+                                                            BuildContext context,
+                                                            Object error,
+                                                            StackTrace stackTrace,
+                                                          ) {
+                                                            return Container(
+                                                              color: Colors.grey.shade200,
+                                                            );
                                                           },
                                                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                             if (wasSynchronouslyLoaded) return child;
@@ -427,14 +435,29 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
+                          if (double.parse(this.amountAll) < 0.002) {
+                            return;
+                          }
                           netSendV2(context);
                         },
-                        child: Text(
-                          S.of(context).token_send_two_page_conform,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
-                        ),
-                        color: Color(0xFF37A1DB),
+                        child: amountAll == null
+                            ? Container(
+                                alignment: Alignment.center,
+                                child: new Center(
+                                  child: new CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFFFFFFF)),
+                                  ),
+                                ),
+                                width: 20.0,
+                                height: 20.0,
+                              )
+                            : Text(
+                                double.parse(this.amountAll) > 0.002 ? S.of(context).token_send_two_page_conform : S.of(context).fee_low,
+                                maxLines: 1,
+                                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                              ),
+                        color: ( amountAll==null || double.parse(this.amountAll) > 0.002 ) ? Color(0xFF37A1DB) : Color(0xFF999999),
+                        // color: Color(0xFF37A1DB),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
@@ -449,12 +472,13 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (this.tokenContract == "") {
+    if (this.tokenContract == "" || this.tokenContract == null) {
       if (double.parse(tokenCount) == 0) {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(this.tokenCount) > (double.parse("0.00001")*2 )) {
-          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse("0.00001")*2 )).toStringAsFixed(8);
+        print(this.tokenCount);
+        if (double.parse(this.tokenCount) > (0.001 * 2)) {
+          _textEditingController.text = (double.parse(this.tokenCount) - ((0.001 * 2))).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }
@@ -776,7 +800,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       },
     ).then((val) {
       if (val) {
-        Clipboard.setData(ClipboardData(text: "https://confluxscan.io/transaction/"+tx));
+        Clipboard.setData(ClipboardData(text: "https://confluxscan.io/transaction/" + tx));
         showFlushSucess(context);
       } else {
         showFlushSucess(context);

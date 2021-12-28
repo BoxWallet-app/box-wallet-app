@@ -459,7 +459,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_5,
-                  style: TextStyle(fontSize: 14, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  style: TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],

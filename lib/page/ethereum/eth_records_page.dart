@@ -267,12 +267,12 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
 
     if (cfxTransfer.data[index].to.toString().toLowerCase().contains(address.toLowerCase())) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 0)) + " " + this.account.coin,
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 6)) + " " + this.account.coin,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 0)) + " " + this.account.coin,
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 6)) + " " + this.account.coin,
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

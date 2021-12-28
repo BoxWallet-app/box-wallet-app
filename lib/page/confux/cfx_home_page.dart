@@ -107,9 +107,18 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     }).catchError((e) {});
   }
 
-  void netCfxTransfer() {
+  Future<void> netCfxTransfer() async {
+    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    var transfer =await CacheManager.instance.getCFXRecord(account.address, account.coin);
+    if(transfer != null){
+      cfxTransfer = transfer;
+      setState(() {
+
+      });
+    }
     CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
       cfxTransfer = model;
+      CacheManager.instance.setCFXRecord(account.address, account.coin, cfxTransfer);
       setState(() {});
     }).catchError((e) {});
   }
@@ -360,7 +369,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF3F7FB5).withAlpha(180), letterSpacing: 1.3, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF3F7FB5).withAlpha(180),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -489,7 +498,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 38, color: Colors.white, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -507,7 +516,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      child: Text(
 //                                        HomePageV2.address,
 //                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                        style: TextStyle(fontSize: 13, letterSpacing: 1.0, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
+//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
 //                                      ),
 //                                    ),
                                     ],
@@ -1115,7 +1124,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                       child: Text(
                         cfxTransfer.list[index].hash,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), letterSpacing: 1.0, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                       width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                     ),
@@ -1123,7 +1132,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
                         DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, letterSpacing: 1.0, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
                   ],
@@ -1172,12 +1181,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     var split = CfxHomePage.address.split(":");
     if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 4)) + " CFX",
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 0)) + " CFX",
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 4)) + " CFX",
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
