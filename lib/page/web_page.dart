@@ -95,18 +95,13 @@ class _CfxWebPathState extends State<WebPage> {
                     child: Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 0, left: 18),
-                          decoration: new BoxDecoration(
-                            // boxShadow: [BoxShadow(color: Colors.grey.withAlpha(50), blurRadius: 100.0)],
-                            color: Colors.white,
-                            border: new Border.all(color: Color(0xFF000000).withAlpha(20), width: 1),
-                            borderRadius: new BorderRadius.circular((100.0)),
-                          ),
+                          margin: EdgeInsets.only(left: 15, right: 15),
                           child: Stack(
                             children: [
                               Container(
                                 decoration: new BoxDecoration(
-                                  color: Color(0xFFFFFFFF),
+                                  border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                                  color: Color(0xFFedf3f7),
                                   //设置四周圆角 角度
                                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                 ),
@@ -118,17 +113,15 @@ class _CfxWebPathState extends State<WebPage> {
                                     // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
                                   ],
                                   maxLines: 1,
-
                                   style: TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     color: Colors.black,
                                   ),
 
                                   decoration: InputDecoration(
-
-                                    hintText: S.of(context).input_search_hint,
+                                    hintText: S.of(context).CfxTokenAdd_input,
                                     icon: Padding(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Icon(
