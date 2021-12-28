@@ -91,7 +91,7 @@ class QrcodeReaderViewState extends State<QrcodeReaderView>
   Future _onQrBack(data, _) async {
     if (isScan == true) return;
     isScan = true;
-    stopScan();
+    // stopScan();
     await widget.onScan(data);
   }
 

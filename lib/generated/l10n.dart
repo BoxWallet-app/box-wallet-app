@@ -4065,10 +4065,10 @@ class S {
     );
   }
 
-  /// `WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?`
+  /// `WeTrue is a third-party application that is not a series of BoxWallet products, WeTrue will assume legal liability to you when using WeTrue, WeTrue can directly post and other functions will deduct AE in the wallet, the amount will not be suggested when the payment is lower than 10AE, but the amount will be suggested when the payment is higher, please confirm carefully when making payment. And the problem is unrelated to BoxWallet. Are you sure to use it?`
   String get wetrue_risk {
     return Intl.message(
-      'WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?',
+      'WeTrue is a third-party application that is not a series of BoxWallet products, WeTrue will assume legal liability to you when using WeTrue, WeTrue can directly post and other functions will deduct AE in the wallet, the amount will not be suggested when the payment is lower than 10AE, but the amount will be suggested when the payment is higher, please confirm carefully when making payment. And the problem is unrelated to BoxWallet. Are you sure to use it?',
       name: 'wetrue_risk',
       desc: '',
       args: [],

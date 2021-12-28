@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/conflux/cfx_crc20_transfer_dao.dart';
 import 'package:box/dao/ethereum/eth_token_price_dao.dart';
 import 'package:box/dao/ethereum/eth_transfer_dao.dart';
@@ -275,25 +276,27 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     ),
                                   ),
                                 ),
-                                Expanded(child: Container()),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      Utils.formatBalanceLength(double.parse(coinCount)),
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                    ),
-                                    if (price != null)
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        child: Text(
-                                        price,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                        ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      AutoSizeText(
+                                        Utils.formatBalanceLength(double.parse(coinCount)),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
-                                  ],
+                                      if (price != null)
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5),
+                                          child: Text(
+                                          price,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   width: 20,
@@ -495,27 +498,30 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     ),
                                   ],
                                 ),
-                                Expanded(child: Container()),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      tokenListModel.data[index - 1].to == EthHomePage.address
-                                          ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
-                                          : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
-                                      style: TextStyle(fontSize: 15, color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                    ),
-                                    Container(
-                                      height: 5,
-                                      color: Color(0xFFfafbfc),
-                                    ),
-                                    Text(
-                                      "-" + tokenListModel.data[index - 1].fee.toString() + account.coin,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+
+                                    children: [
+                                      AutoSizeText(
+                                        tokenListModel.data[index - 1].to == EthHomePage.address
+                                            ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
+                                            : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
+                                        maxLines: 1,
+                                        style: TextStyle(fontSize: 15, color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                      Container(
+                                        height: 5,
+                                        color: Color(0xFFfafbfc),
+                                      ),
+                                      Text(
+                                        "-" + tokenListModel.data[index - 1].fee.toString() + account.coin,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                    ],
+                                  ),
                                 ),
 
                                 Container(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/conflux/cfx_balance_dao.dart';
 import 'package:box/dao/ethereum/eth_activity_coin_dao.dart';
 import 'package:box/dao/ethereum/eth_fee_dao.dart';
@@ -512,8 +513,9 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                       ),
                                                     ),
                                                   if (tokenCount != "")
-                                                    Text(
+                                                    AutoSizeText(
                                                       tokenCount,
+                                                      maxLines: 1,
                                                       style: TextStyle(
                                                         color: Color(0xFF333333),
                                                         fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",

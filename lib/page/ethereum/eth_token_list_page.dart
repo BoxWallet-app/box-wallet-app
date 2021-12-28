@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_nft_balance_dao.dart';
 import 'package:box/dao/conflux/cfx_token_address_dao.dart';
@@ -172,6 +173,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
           if (i == maxLength - 1) {
             updatePrice();
           }
+          if(!mounted)return;
           setState(() {});
         }, address, cfxCtTokens[i].ctId, account.coin, nodeUrl);
       }
@@ -192,6 +194,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
       ethTokenPriceRequestItemModel.blSymbol = element.symbol;
       tokenPriceRequestModel.tokenList.add(ethTokenPriceRequestItemModel);
     });
+    if(!mounted)return;
     setState(() {});
     var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
 
@@ -202,6 +205,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
         }
       }
     }
+    if(!mounted)return;
     setState(() {});
   }
 
@@ -320,15 +324,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
             padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
             itemCount: cfxCtTokens.length,
             itemBuilder: (BuildContext context, int index) {
-              return AnimationConfiguration.staggeredList(
-                  position: index,
-                  duration: const Duration(milliseconds: 375),
-                  child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: FadeInAnimation(
-                      child: itemListView(context, index),
-                    ),
-                  ));
+              return itemListView(context, index);
             },
           ),
         ),
@@ -453,7 +449,6 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                 ),
                               ],
                             ),
-                            Expanded(child: Container()),
 
                             if (isDelete)
                               IconButton(
@@ -482,36 +477,39 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                 },
                               ),
                             if (!isDelete)
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  if (cfxCtTokens[index].balance != null || cfxCtTokens[index].balanceCache != null)
-                                    Text(
-                                      cfxCtTokens[index].balance == null ? cfxCtTokens[index].balanceCache : cfxCtTokens[index].balance,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                    ),
-                                  if (cfxCtTokens[index].balance == null && cfxCtTokens[index].balanceCache == null)
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                        'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                      ),
-                                    ),
-                                  if (cfxCtTokens[index].price != null)
-                                    Container(
-                                      margin: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        cfxCtTokens[index].price,
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    if (cfxCtTokens[index].balance != null || cfxCtTokens[index].balanceCache != null)
+                                      AutoSizeText(
+                                        cfxCtTokens[index].balance == null ? cfxCtTokens[index].balanceCache : cfxCtTokens[index].balance,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        maxLines: 1,
+                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
-                                    ),
-                                ],
+                                    if (cfxCtTokens[index].balance == null && cfxCtTokens[index].balanceCache == null)
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                          'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                        ),
+                                      ),
+                                    if (cfxCtTokens[index].price != null)
+                                      Container(
+                                        margin: EdgeInsets.only(top: 5),
+                                        child: Text(
+                                          cfxCtTokens[index].price,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
 
                             Container(

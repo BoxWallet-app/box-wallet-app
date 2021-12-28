@@ -1,4 +1,5 @@
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
@@ -427,7 +428,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         tokenListModel.data[index].countStr,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),

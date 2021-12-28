@@ -173,9 +173,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                         if (data["name"] == "requestAccounts") {}
                         print(message.message);
 
-                        if(double.parse(AmountDecimal.parseUnits(amount, 18))>10){
-                          return;
-                        }
+
                         showDialog<bool>(
                           context: context,
                           barrierDismissible: false,

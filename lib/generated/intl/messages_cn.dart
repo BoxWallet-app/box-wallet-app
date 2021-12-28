@@ -424,6 +424,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "wetrue_dialog_transfer_confirm_content1" : MessageLookupByLibrary.simpleMessage("想要从你的账户转移"),
     "wetrue_dialog_transfer_confirm_content2" : MessageLookupByLibrary.simpleMessage("到"),
     "wetrue_dialog_transfer_confirm_content3" : MessageLookupByLibrary.simpleMessage("到地址"),
-    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue是第三方应用非BoxWallet系列产品，在使用WeTrue时将由WeTrue您承担法律责任，部分功能将会扣除钱包最高10(AE)的手续费，是否继续使用？")
+    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue是第三方应用非BoxWallet系列产品，在使用WeTrue时将由WeTrue向您承担法律责任，WeTrue可以直接发帖等功能将会扣除钱包中的AE，在支付低于10AE时将不做数量提示，高于时会提示支付数量，请支付时仔细确认，并出现问题时与BoxWallet无关。是否确认使用？")
   };
 }

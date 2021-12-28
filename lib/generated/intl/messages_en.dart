@@ -424,6 +424,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "wetrue_dialog_transfer_confirm_content1" : MessageLookupByLibrary.simpleMessage("Want to transfer from your account"),
     "wetrue_dialog_transfer_confirm_content2" : MessageLookupByLibrary.simpleMessage("to"),
     "wetrue_dialog_transfer_confirm_content3" : MessageLookupByLibrary.simpleMessage("address"),
-    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue is a third-party application that is not a BoxWallet series product. WeTrue will assume legal liability to you when using WeTrue, and some functions will deduct the handling fee of wallet up to 10(AE). Do you want to continue using it?")
+    "wetrue_risk" : MessageLookupByLibrary.simpleMessage("WeTrue is a third-party application that is not a series of BoxWallet products, WeTrue will assume legal liability to you when using WeTrue, WeTrue can directly post and other functions will deduct AE in the wallet, the amount will not be suggested when the payment is lower than 10AE, but the amount will be suggested when the payment is higher, please confirm carefully when making payment. And the problem is unrelated to BoxWallet. Are you sure to use it?")
   };
 }

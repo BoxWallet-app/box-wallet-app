@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/conflux/cfx_token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -393,37 +394,40 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                 ),
                               ),
                             ),
-                            Expanded(child: Container()),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                if (cfxCtTokens[index].balance != null)
-                                  Text(
-                                    cfxCtTokens[index].balance,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                  ),
-                                if (cfxCtTokens[index].balance == null)
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                      'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                    ),
-                                  ),
-                                if (cfxCtTokens[index].price != null)
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5),
-                                    child: Text(
-                                      cfxCtTokens[index].price,
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  if (cfxCtTokens[index].balance != null)
+                                    AutoSizeText(
+                                      cfxCtTokens[index].balance,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      maxLines: 1,
+                                      style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
-                                  ),
-                              ],
+                                  if (cfxCtTokens[index].balance == null)
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                        'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                      ),
+                                    ),
+                                  if (cfxCtTokens[index].price != null)
+                                    Container(
+                                      margin: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        cfxCtTokens[index].price,
+                                        overflow: TextOverflow.ellipsis,
+
+                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                             Container(
                               width: 20,
