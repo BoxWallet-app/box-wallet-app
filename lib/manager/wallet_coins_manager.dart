@@ -158,6 +158,22 @@ class WalletCoinsManager {
 
   Future<bool> removeAccount(WalletCoinsModel walletCoinsModel, String address) async {
     await setCoins(walletCoinsModel);
+    WalletCoinsModel coins = await getCoins();
+    if(coins.coins == null || coins.coins.length == 0){
+      return null;
+    }
+    //增加循环，因为eth系列地址私钥和助记词一样，只有本地存在eth系列地址大于1的情况下，就不清空本地私钥和助记词
+    int count = 0;
+    for (var i = 0; i < coins.coins.length; i++) {
+      for (var j = 0; j < coins.coins[i].accounts.length; j++) {
+        if (coins.coins[i].accounts[j].address == address) {
+          count++;
+        }
+      }
+    }
+    if(count > 1){
+      return true;
+    }
     await setMnemonicAndSigningKey(address, "", "", false);
     return true;
   }
