@@ -22,10 +22,11 @@ class PayPasswordWidget extends StatefulWidget {
   final int color;
   final bool isSignOld;
   final bool isAddressPassword;
+  final bool isSetsPassword;
   final PayPasswordCallBackFuture passwordCallBackFuture;
   final PayPasswordCallBackFuture dismissCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false}) : super(key: key);
+  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false, this.isSetsPassword = false}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() {
@@ -52,23 +53,24 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    auth.isDeviceSupported().then((isSupported) async {
-      // this.isSupported = isSupported;
-      var isAuth = await BoxApp.getAuth();
-      if (isSupported && isAuth) {
-        _authenticateWithBiometrics();
-        return;
-      }
-      Future.delayed(Duration(milliseconds: 800), () {
-        if (!mounted) return;
-        FocusScope.of(context).requestFocus(_commentFocus);
+    if (!widget.isSetsPassword)
+      auth.isDeviceSupported().then((isSupported) async {
+        // this.isSupported = isSupported;
+        var isAuth = await BoxApp.getAuth();
+        if (isSupported && isAuth) {
+          _authenticateWithBiometrics();
+          return;
+        }
+        Future.delayed(Duration(milliseconds: 800), () {
+          if (!mounted) return;
+          FocusScope.of(context).requestFocus(_commentFocus);
+        });
       });
-    });
   }
 
   Future<void> _authenticateWithBiometrics() async {
     var account = await WalletCoinsManager.instance.getCurrentAccount();
-    if(account.accountType == AccountType.ADDRESS && widget.isAddressPassword == false){
+    if (account.accountType == AccountType.ADDRESS && widget.isAddressPassword == false) {
       return;
     }
     bool authenticated = false;
