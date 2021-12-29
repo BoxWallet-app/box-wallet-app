@@ -53,7 +53,10 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
 //      }
 
     });
-    _textEditingController.text = "0xF99760E82fB180cC5A313753e4f8EC152D97d3E2";
+    if(BoxApp.isDev()){
+      _textEditingController.text = "0xF99760E82fB180cC5A313753e4f8EC152D97d3E2";
+    }
+
     getAddress();
   }
   getAddress() {
