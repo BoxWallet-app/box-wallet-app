@@ -410,7 +410,6 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
       chainID = "1029";
     } else {
       rpcUrl = await EthManager.instance.getNodeUrl(account);
-      print(rpcUrl);
       chainID = EthManager.instance.getDappChainID(account);
     }
     print(chainID);

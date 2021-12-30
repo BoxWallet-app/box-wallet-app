@@ -71,8 +71,8 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
     var maxLength = tokenListModel.data.length;
     Account account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel.data.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address,from, coin) async {
-        if(from != account.address )return;
+      BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
+        if (from != account.address) return;
         balance = AmountDecimal.parseUnits(balance, decimal);
 
         for (int j = 0; j < tokenListModel.data.length; j++) {
@@ -81,7 +81,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
             CacheManager.instance.setTokenBalance(account.address, tokenListModel.data[j].ctAddress, account.coin, tokenListModel.data[j].countStr);
           }
         }
-
+        if (!mounted) return;
         setState(() {});
       }, account.address, tokenListModel.data[i].ctAddress);
     }
@@ -142,7 +142,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
                           child: Text(
-                           S.of(context).ae_select_token_page_title,
+                            S.of(context).ae_select_token_page_title,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -250,11 +250,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                 width: 40.0,
                                 height: 40.0,
                                 decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                      top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                      left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                      right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                  border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
@@ -324,13 +320,12 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            if(tokenListModel.data[index].countStr == null){
+            if (tokenListModel.data[index].countStr == null) {
               EasyLoading.showToast('正在获取数量，请稍后', duration: Duration(seconds: 2));
               return;
             }
             if (widget.aeSelectTokenListCallBackFuture != null) {
-              widget.aeSelectTokenListCallBackFuture(
-                  tokenListModel.data[index].name, tokenListModel.data[index].countStr, tokenListModel.data[index].image, tokenListModel.data[index].ctAddress);
+              widget.aeSelectTokenListCallBackFuture(tokenListModel.data[index].name, tokenListModel.data[index].countStr, tokenListModel.data[index].image, tokenListModel.data[index].ctAddress);
             }
             Navigator.pop(context);
           },
@@ -354,11 +349,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                               width: 40.0,
                               height: 40.0,
                               decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                    top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                    left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                    right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                 borderRadius: BorderRadius.circular(30.0),
                               ),

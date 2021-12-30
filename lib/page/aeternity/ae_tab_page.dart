@@ -383,10 +383,11 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             //   },
             // ),
             child: BottomNavigationBar(
-              selectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
-              unselectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+              selectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+              unselectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
               selectedItemColor:Color(0xFF000000),
-                selectedFontSize:12,
+                selectedFontSize:10,
+              unselectedFontSize:10,
               backgroundColor: Color(0xFFffffff),
               items: [
                 BottomNavigationBarItem(

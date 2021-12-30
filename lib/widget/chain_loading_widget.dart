@@ -31,6 +31,7 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
     _controller = AnimationController(vsync: this);
     super.initState();
     BoxApp.getStatus((status) {
+
       if (status == "sucess" || status == "error") {
         Navigator.pop(context); //关闭对话框
         return;
