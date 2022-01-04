@@ -17,7 +17,7 @@ class ContractTransferCallDao {
     params["senderID"] = senderID;
     params["recipientID"] = recipientID;
     params["amount"] = amount;
-    Response response = await Dio().post(CONTRACT_TRANSFER, queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_TRANSFER, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
 

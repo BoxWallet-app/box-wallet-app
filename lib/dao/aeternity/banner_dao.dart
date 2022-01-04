@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 class BannerDao {
   static Future<BannerModel> fetch() async {
     Map<String, String> params = new Map();
-    Response response = await Dio().post(BANNER, queryParameters: params);
+    Response response = await Dio().post(Host.BANNER, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       BannerModel model = BannerModel.fromJson(data);

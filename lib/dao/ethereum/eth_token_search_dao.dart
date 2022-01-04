@@ -17,7 +17,7 @@ class EthTokenSearchDao {
     Map<String, String> params = new Map();
     params["blockchain_id"] = chainID;
     params["key"] = key;
-    Response response = await Dio().post(ETH_TOKEN_SEARCH,queryParameters: params);
+    Response response = await Dio().post(Host.ETH_TOKEN_SEARCH,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       EthTokenSearchModel model = EthTokenSearchModel.fromJson(data);

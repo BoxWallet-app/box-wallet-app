@@ -14,7 +14,7 @@ class AccountInfoDao {
       address = await BoxApp.getAddress();
     }
     params["address"] = address;
-    Response response = await Dio().post(ACCOUNT_INFO,queryParameters: params);
+    Response response = await Dio().post(Host.ACCOUNT_INFO,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AccountInfoModel model = AccountInfoModel.fromJson(data);

@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 
 class BaseNameDataDao {
   static Future<BaseNameDataModel> fetch() async {
-    Response response = await Dio().post(BASE_NAME_DATA);
+    Response response = await Dio().post(Host.BASE_NAME_DATA);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       BaseNameDataModel model = BaseNameDataModel.fromJson(data);

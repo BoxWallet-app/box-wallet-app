@@ -12,7 +12,7 @@ class UserLoginDao {
   static Future<UserModel> fetch(String mnemonic) async {
     Map<String, String> params = new Map();
     params["mnemonic"] = mnemonic;
-    Response response = await Dio().post(USER_LOGIN, queryParameters: params);
+    Response response = await Dio().post(Host.USER_LOGIN, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       UserModel model = UserModel.fromJson(data);

@@ -16,7 +16,7 @@ class ContractDecodeDao {
     Map<String, String> params = new Map();
     params["hash"] = hash;
     params["function"] = function;
-    Response response = await Dio().post(CONTRACT_DECODE,queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_DECODE,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       ContractDecodeModel model = ContractDecodeModel.fromJson(data);
@@ -31,7 +31,7 @@ class ContractDecodeDao {
     params["hash"] = hash;
     params["function"] = function;
     params["ct_id"] = "ct_Evidt2ZUPzYYPWhestzpGsJ8uWzB1NgMpEvHHin7GCfgWLpjv";
-    Response response = await Dio().post(CONTRACT_DECODE,queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_DECODE,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       ContractDecodeModel model = ContractDecodeModel.fromJson(data);

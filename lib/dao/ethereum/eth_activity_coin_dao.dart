@@ -15,7 +15,7 @@ class EthActivityCoinDao {
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["blockchain_id"] = chainID;
-    Response response = await Dio().post(ETH_TOKEN_LIST_ACTIVITY,queryParameters: params);
+    Response response = await Dio().post(Host.ETH_TOKEN_LIST_ACTIVITY,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       EthActivityCoinModel model = EthActivityCoinModel.fromJson(data);

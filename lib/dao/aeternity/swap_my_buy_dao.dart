@@ -12,7 +12,7 @@ class SwapMyBuyDao {
     Map<String, String> params = new Map();
     params['ct_id'] = BoxApp.SWAP_CONTRACT;
     params['address'] =await BoxApp.getAddress();
-    Response response = await Dio().post(SWAP_MY_BUY_LIST, queryParameters: params);
+    Response response = await Dio().post(Host.SWAP_MY_BUY_LIST, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       SwapOrderModel model = SwapOrderModel.fromJson(data);

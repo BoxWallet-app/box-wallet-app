@@ -8,7 +8,7 @@ class AensInfoDao {
   static Future<AensInfoModel> fetch(String name) async {
     Map<String, String> params = new Map();
     params['name'] = name;
-    Response response = await Dio().post(NAME_INFO, queryParameters: params);
+    Response response = await Dio().post(Host.NAME_INFO, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AensInfoModel model = AensInfoModel.fromJson(data);

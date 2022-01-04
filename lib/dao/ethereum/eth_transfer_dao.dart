@@ -18,7 +18,7 @@ class EthTransferDao {
     params["blockchain_id"] = chainID;
     params["contract_address"] = ctAddress;
     params["page"] = page;
-    Response response = await Dio().post(ETH_TRANSFER_RECORD,queryParameters: params);
+    Response response = await Dio().post(Host.ETH_TRANSFER_RECORD,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       EthTransferModel model = EthTransferModel.fromJson(data);

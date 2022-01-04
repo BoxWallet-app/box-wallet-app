@@ -15,7 +15,7 @@ class TxBroadcastDao {
     params['signature'] = signature;
     params['tx'] = tx;
     params['type'] = type;
-    Response response = await Dio().post(TX_BROADCAST, queryParameters: params);
+    Response response = await Dio().post(Host.TX_BROADCAST, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       TxBroadcastModel model = TxBroadcastModel.fromJson(data);

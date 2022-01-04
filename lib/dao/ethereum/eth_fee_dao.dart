@@ -15,7 +15,7 @@ class EthFeeDao {
   static Future<EthFeeModel> fetch(String chainID) async {
     Map<String, String> params = new Map();
     params["blockchain_id"] = chainID;
-    Response response = await Dio().post(ETH_FEE,queryParameters: params);
+    Response response = await Dio().post(Host.ETH_FEE,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       EthFeeModel model = EthFeeModel.fromJson(data);

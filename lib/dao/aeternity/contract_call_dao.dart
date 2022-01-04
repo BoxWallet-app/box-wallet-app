@@ -19,7 +19,7 @@ class ContractCallDao {
     params["params"] = paramsValue;
     params["address"] = address;
     params["amount"] = amount;
-    Response response = await Dio().post(CONTRACT_CALL, queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_CALL, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
 
@@ -36,7 +36,7 @@ class ContractCallDao {
     params["params"] = paramsValue;
     params["address"] = address;
     params["amount"] = amount;
-    Response response = await Dio().post(CONTRACT_CALL, queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_CALL, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
 

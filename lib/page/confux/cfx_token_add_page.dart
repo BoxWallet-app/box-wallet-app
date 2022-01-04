@@ -153,7 +153,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                       decoration: new BoxDecoration(
                         color: Color(0xFFedf3f7),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(

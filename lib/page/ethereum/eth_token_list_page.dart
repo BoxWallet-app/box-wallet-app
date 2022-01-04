@@ -451,6 +451,8 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                             ),
 
                             if (isDelete)
+                              Expanded(child: Container(),),
+                            if (isDelete)
                               IconButton(
                                 splashRadius: 40,
                                 icon: Icon(

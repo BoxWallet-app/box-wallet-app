@@ -20,7 +20,7 @@ class CfxCrc20TransferDao {
       params["contract"] = ctAddress;
     }
 
-    Response response = await Dio().post(CFX_CRC20_TRANSACTION_HASH, queryParameters: params);
+    Response response = await Dio().post(Host.CFX_CRC20_TRANSACTION_HASH, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxCrc20TransferModel model = CfxCrc20TransferModel.fromJson(data);

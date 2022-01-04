@@ -19,7 +19,7 @@ class CfxTransferDao {
       params["ct_address"] = ctAddress;
     }
 
-    Response response = await Dio().post(CFX_TRANSACTION, queryParameters: params);
+    Response response = await Dio().post(Host.CFX_TRANSACTION, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxTransfer model = CfxTransfer.fromJson(data);

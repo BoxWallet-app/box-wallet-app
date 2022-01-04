@@ -14,7 +14,7 @@ class CfxTokenAddressDao {
   static Future<TokensData> fetch(String address) async {
     Map<String, String> params = new Map();
     params["address"] = address;
-    Response response = await Dio().post(CFX_TOKENS_ADDRESS, queryParameters: params);
+    Response response = await Dio().post(Host.CFX_TOKENS_ADDRESS, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       TokensData model = TokensData.fromJson(data);

@@ -15,7 +15,7 @@ class TokenSendDao {
     params['senderID'] = senderID;
     params['recipientID'] = recipientID;
     params['data'] = "Box aepp";
-    Response response = await Dio().post(WALLET_TRANSFER, queryParameters: params);
+    Response response = await Dio().post(Host.WALLET_TRANSFER, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       MsgSignModel model = MsgSignModel.fromJson(data);

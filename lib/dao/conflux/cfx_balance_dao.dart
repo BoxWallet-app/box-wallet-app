@@ -13,7 +13,7 @@ class CfxBalanceDao {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
-    Response response = await Dio().post(CFX_BALANCE,queryParameters: params);
+    Response response = await Dio().post(Host.CFX_BALANCE,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxBalanceModel model = CfxBalanceModel.fromJson(data);

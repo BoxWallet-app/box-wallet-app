@@ -16,7 +16,7 @@ class CfxNftTokenDao {
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["contract"] = contract;
-    Response response = await Dio().post(CFX_NFT_TOKEN,queryParameters: params);
+    Response response = await Dio().post(Host.CFX_NFT_TOKEN,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxNftTokenModel model = CfxNftTokenModel.fromJson(data);

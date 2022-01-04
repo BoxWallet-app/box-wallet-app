@@ -14,7 +14,7 @@ class SwapCoinOrderDao {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
-    Response response = await Dio().post(SWAP_COIN_ORDER_MY,queryParameters: params);
+    Response response = await Dio().post(Host.SWAP_COIN_ORDER_MY,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       SwapCoinOrderModel model = SwapCoinOrderModel.fromJson(data);

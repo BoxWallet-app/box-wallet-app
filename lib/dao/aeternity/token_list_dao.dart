@@ -10,7 +10,7 @@ class TokenListDao {
     Map<String, String> params = new Map();
     params['address'] = address;
     params['type'] = type;
-    Response response = await Dio().post(TOKEN_LIST, queryParameters: params);
+    Response response = await Dio().post(Host.TOKEN_LIST, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       TokenListModel model = TokenListModel.fromJson(data);

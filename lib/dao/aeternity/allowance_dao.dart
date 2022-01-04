@@ -16,7 +16,7 @@ class AllowanceDao {
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params['ct_id'] = ctId;
-    Response response = await Dio().post(AEX9_ALLOWANCE, queryParameters: params);
+    Response response = await Dio().post(Host.AEX9_ALLOWANCE, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AllowanceModel model = AllowanceModel.fromJson(data);

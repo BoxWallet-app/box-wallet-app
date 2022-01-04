@@ -12,7 +12,7 @@ class ContractRankingDao {
   static Future<RankingModel> fetch() async {
     Map<String, String> params = new Map();
     params['ct_id'] = BoxApp.ABC_CONTRACT_AEX9;
-    Response response = await Dio().post(CONTRACT_RANKING,queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_RANKING,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       RankingModel model = RankingModel.fromJson(data);

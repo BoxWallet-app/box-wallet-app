@@ -280,6 +280,7 @@ class _AuthPageState extends State<AuthPage> {
                                     setState(() {
                                       isOpenAuth = value;
                                     });
+                                    BoxApp.setPassword("");
                                     BoxApp.setAuth(isOpenAuth);
                                   }
 

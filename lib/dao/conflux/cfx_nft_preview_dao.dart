@@ -16,7 +16,7 @@ class CfxNftPreviewDao {
     Map<String, String> params = new Map();
     params["tokenId"] = tokenId;
     params["contract"] = contract;
-    Response response = await Dio().post(CFX_NFT_PREVIEW,queryParameters: params);
+    Response response = await Dio().post(Host.CFX_NFT_PREVIEW,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxNftPreviewModel model = CfxNftPreviewModel.fromJson(data);

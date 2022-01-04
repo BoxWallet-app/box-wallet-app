@@ -10,7 +10,7 @@ import 'package:dio/dio.dart';
 class AppStoreDao {
   static Future<AppStoreModel> fetch() async {
     Map<String, String> params = new Map();
-    Response response = await Dio().post(APP_STORE, queryParameters: params);
+    Response response = await Dio().post(Host.APP_STORE, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       AppStoreModel model = AppStoreModel.fromJson(data);

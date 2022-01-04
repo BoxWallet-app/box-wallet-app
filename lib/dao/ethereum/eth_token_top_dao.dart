@@ -16,7 +16,7 @@ class EthTokenTopDao {
   static Future<EthTokenSearchModel> fetch(String chainID) async {
     Map<String, String> params = new Map();
     params["blockchain_id"] = chainID;
-    Response response = await Dio().post(ETH_TOKEN_HOT_LIST,queryParameters: params);
+    Response response = await Dio().post(Host.ETH_TOKEN_HOT_LIST,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       EthTokenSearchModel model = EthTokenSearchModel.fromJson(data);

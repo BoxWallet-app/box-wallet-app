@@ -1,154 +1,155 @@
 //OSS HOST
+import 'dart:core';
+
+
 const OOS_HOST = 'https://ae-source.oss-cn-hongkong.aliyuncs.com/';
-//WETRUE HOST
 const WE_TRUE_URL = 'https://api.wetrue.io';
+const ETH_TOKEN_PRICE = 'https://preserver.mytokenpocket.vip/v1/wallet/token_price_list';
+const ETH_TOKEN_PRICE_RATE = 'https://preserver.mytokenpocket.vip/v1/currency_rate_list_new';
 
-// const BASE_HOST = 'http://192.168.1.250:7070';
-// const BASE_HOST = 'http://10.53.5.50:7070';
+class Host {
 
-const BASE_HOST = 'https://aebox.io';
-// const BASE_HOST = 'http://localhost:7070';
+  static var BASE_HOST = 'https://boxwallet.app';
 
-//获取区块高度
-const BLOCK_TOP = BASE_HOST + '/api/ae/block_top';
+  //获取区块高度
+  static var BLOCK_TOP = Host.BASE_HOST + '/api/ae/block_top';
 
 //获取拍卖中的域名
-const NAME_AUCTIONS = BASE_HOST + '/api/names/auctions';
+  static var NAME_AUCTIONS = BASE_HOST + '/api/names/auctions';
 
 //获取拍卖中的域名-价格
-const NAME_PRICE = BASE_HOST + '/api/names/price';
+  static var NAME_PRICE = BASE_HOST + '/api/names/price';
 
 //获取拍即将过期的域名
-const NAME_OVER = BASE_HOST + '/api/names/over';
+  static var NAME_OVER = BASE_HOST + '/api/names/over';
 
 //获取我的注册中域名
-const NAME_MY_REGISTER = BASE_HOST + '/api/names/my/register';
+  static var NAME_MY_REGISTER = BASE_HOST + '/api/names/my/register';
 
 //获取我的已注册域名
-const NAME_MY_OVER = BASE_HOST + '/api/names/my/over';
+  static var NAME_MY_OVER = BASE_HOST + '/api/names/my/over';
 
 //注册域名
-const NAME_ADD = BASE_HOST + '/api/names/claim';
+  static var NAME_ADD = BASE_HOST + '/api/names/claim';
 
 //更新域名
-const NAME_UPDATE = BASE_HOST + '/api/names/update';
+  static var NAME_UPDATE = BASE_HOST + '/api/names/update';
 
 //声明域名
-const NAME_PRECLAI = BASE_HOST + '/api/names/preclaim';
+  static var NAME_PRECLAI = BASE_HOST + '/api/names/preclaim';
 
 //域名详情
-const NAME_INFO = BASE_HOST + '/api/names/info';
+  static var NAME_INFO = BASE_HOST + '/api/names/info';
 
 //交易记录
-const SWAP_LIST = BASE_HOST + '/api/contract/swap/records';
+  static var SWAP_LIST = BASE_HOST + '/api/contract/swap/records';
 
 //我的兑换记录
-const SWAP_MY_LIST = BASE_HOST + '/api/contract/swap/records/my';
+  static var SWAP_MY_LIST = BASE_HOST + '/api/contract/swap/records/my';
 
 //我的售卖
-const SWAP_MY_BUY_LIST = BASE_HOST + '/api/contract/swap/records/my/buy';
+  static var SWAP_MY_BUY_LIST = BASE_HOST + '/api/contract/swap/records/my/buy';
 
 //我的购买
-const SWAP_MY_SELL_LIST = BASE_HOST + '/api/contract/swap/records/my/sell';
+  static var SWAP_MY_SELL_LIST = BASE_HOST + '/api/contract/swap/records/my/sell';
 
 //用户详情
-const ACCOUNT_INFO = BASE_HOST + '/api/user/info';
+  static var ACCOUNT_INFO = BASE_HOST + '/api/user/info';
 
 //生成账户
-const USER_REGISTER = BASE_HOST + '/api/user/register';
+  static var USER_REGISTER = BASE_HOST + '/api/user/register';
 
 //登录账户
-const USER_LOGIN = BASE_HOST + '/api/user/login';
+  static var USER_LOGIN = BASE_HOST + '/api/user/login';
 
 //基础数据
-const BASE_DATA = BASE_HOST + '/api/base/data';
+  static var BASE_DATA = BASE_HOST + '/api/base/data';
 
 //基础Name数据
-const BASE_NAME_DATA = BASE_HOST + '/api/names/base';
+  static var BASE_NAME_DATA = BASE_HOST + '/api/names/base';
 
 //交易记录
-const WALLET_RECORD = BASE_HOST + '/api/wallet/transfer/record';
+  static var WALLET_RECORD = BASE_HOST + '/api/wallet/transfer/record';
 
 //交易
-const WALLET_TRANSFER = BASE_HOST + '/api/wallet/transfer';
+  static var WALLET_TRANSFER = BASE_HOST + '/api/wallet/transfer';
 
 //获取合约余额
-const CONTRACT_BALANCE = BASE_HOST + '/api/aex9/balance';
+  static var CONTRACT_BALANCE = BASE_HOST + '/api/aex9/balance';
 
 //获取合约基本信息
-const CONTRACT_INFO = BASE_HOST + '/api/defi/info';
+  static var CONTRACT_INFO = BASE_HOST + '/api/defi/info';
 
 //获取交易记录
-const CONTRACT_RECORD = BASE_HOST + '/api/contract/record';
+  static var CONTRACT_RECORD = BASE_HOST + '/api/contract/record';
 
 //调用合约
-const CONTRACT_CALL = BASE_HOST + '/api/contract/call';
+  static var CONTRACT_CALL = BASE_HOST + '/api/contract/call';
 
 //获取hash
-const TH_HASH = BASE_HOST + '/api/ae/th_hash';
+  static var TH_HASH = BASE_HOST + '/api/ae/th_hash';
 
 //调用合约转账
-const CONTRACT_TRANSFER = BASE_HOST + '/api/contract/transfer';
+  static var CONTRACT_TRANSFER = BASE_HOST + '/api/contract/transfer';
 
 //查看合约结果
-const CONTRACT_DECODE = BASE_HOST + '/api/contract/decode';
+  static var CONTRACT_DECODE = BASE_HOST + '/api/contract/decode';
 
 //排行榜
-const CONTRACT_RANKING = BASE_HOST + '/api/aex9/ranking';
+  static var CONTRACT_RANKING = BASE_HOST + '/api/aex9/ranking';
 
 //广播
-const TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
+  static var TX_BROADCAST = BASE_HOST + '/api/tx/broadcast';
 
 //Tokens列表
-const TOKEN_LIST = BASE_HOST + '/api/tokens/list';
+  static var TOKEN_LIST = BASE_HOST + '/api/tokens/list';
 
 //banner
-const BANNER = BASE_HOST + '/api/banner';
+  static var BANNER = BASE_HOST + '/api/banner';
 
 //版本号
-const VERSION = BASE_HOST + '/api/version';
+  static var VERSION = BASE_HOST + '/api/version';
 
 //价格
 // const PRICE = 'https://api.coingecko.com/api/v3/simple/price';
-const PRICE = 'https://aebox.io/api/price';
+  static var PRICE = 'https://aebox.io/api/price';
 
 //绑定的域名
-const NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';
+  static var NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';
 
 //域名归属
-const NAME_OWNER = '/v2/names/';
+  static var NAME_OWNER = '/v2/names/';
 //兑换币种列表
-const SWAP_COIN_LIST = BASE_HOST + '/api/swap/coin/list';
+  static var SWAP_COIN_LIST = BASE_HOST + '/api/swap/coin/list';
 ////兑换币种下用户挂单
-const SWAP_COIN_ACCOUNT = BASE_HOST + '/api/swap/coin/account';
+  static var SWAP_COIN_ACCOUNT = BASE_HOST + '/api/swap/coin/account';
 ////兑换币种下正在挂单的
-const SWAP_COIN_ACCOUNT_MY = BASE_HOST + '/api/swap/coin/account/my';
+  static var SWAP_COIN_ACCOUNT_MY = BASE_HOST + '/api/swap/coin/account/my';
 //兑换订单
-const SWAP_COIN_ORDER_MY = BASE_HOST + '/api/swap/coin/order/my';
+  static var SWAP_COIN_ORDER_MY = BASE_HOST + '/api/swap/coin/order/my';
 
-const AEX9_ALLOWANCE = BASE_HOST + '/api/aex9/allowance';
+  static var AEX9_ALLOWANCE = BASE_HOST + '/api/aex9/allowance';
 
-const APP_STORE = BASE_HOST + '/api/config/store';
+  static var APP_STORE = BASE_HOST + '/api/config/store';
 
-const AEX9_RECORD = BASE_HOST + '/api/tokens/record';
+  static var AEX9_RECORD = BASE_HOST + '/api/tokens/record';
 
 //Cfx
-const CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
-const CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
-const CFX_TOKENS = BASE_HOST + '/cfx/api/tokens/list';
-const CFX_TOKENS_ADDRESS = BASE_HOST + '/cfx/api/tokens/by-address';
-const CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
-const CFX_CRC20_TRANSACTION_HASH = BASE_HOST + '/cfx/api/crc20/transaction';
-const CFX_NFT_BALANCE = BASE_HOST + '/cfx/api/nft/balance';
-const CFX_NFT_TOKEN = BASE_HOST + '/cfx/api/nft/token';
-const CFX_NFT_PREVIEW = BASE_HOST + '/cfx/api/nft/preview';
+  static var CFX_BALANCE = BASE_HOST + '/cfx/api/balance';
+  static var CFX_TRANSACTION = BASE_HOST + '/cfx/api/transaction';
+  static var CFX_TOKENS = BASE_HOST + '/cfx/api/tokens/list';
+  static var CFX_TOKENS_ADDRESS = BASE_HOST + '/cfx/api/tokens/by-address';
+  static var CFX_TRANSACTION_HASH = BASE_HOST + '/cfx/api/transaction/hash';
+  static var CFX_CRC20_TRANSACTION_HASH = BASE_HOST + '/cfx/api/crc20/transaction';
+  static var CFX_NFT_BALANCE = BASE_HOST + '/cfx/api/nft/balance';
+  static var CFX_NFT_TOKEN = BASE_HOST + '/cfx/api/nft/token';
+  static var CFX_NFT_PREVIEW = BASE_HOST + '/cfx/api/nft/preview';
 
 //ETH
-const ETH_TOKEN_LIST_ACTIVITY = BASE_HOST + '/eth/api/token_list/activity';
-const ETH_TRANSFER_RECORD = BASE_HOST + '/eth/api/transaction_action/universal_list';
-const ETH_TOKEN_HOT_LIST = BASE_HOST + '/eth/api/token/hot_list';
-const ETH_TOKEN_SEARCH = BASE_HOST + '/eth/api/token/search';
-const ETH_FEE = BASE_HOST + '/eth/api/block_chain/fee_list';
+  static var ETH_TOKEN_LIST_ACTIVITY = BASE_HOST + '/eth/api/token_list/activity';
+  static var ETH_TRANSFER_RECORD = BASE_HOST + '/eth/api/transaction_action/universal_list';
+  static var ETH_TOKEN_HOT_LIST = BASE_HOST + '/eth/api/token/hot_list';
+  static var ETH_TOKEN_SEARCH = BASE_HOST + '/eth/api/token/search';
+  static var ETH_FEE = BASE_HOST + '/eth/api/block_chain/fee_list';
+}
 
-const ETH_TOKEN_PRICE = 'https://preserver.mytokenpocket.vip/v1/wallet/token_price_list';
-const ETH_TOKEN_PRICE_RATE = 'https://preserver.mytokenpocket.vip/v1/currency_rate_list_new';

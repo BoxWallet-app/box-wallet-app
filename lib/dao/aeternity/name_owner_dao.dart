@@ -12,7 +12,7 @@ class NameOwnerDao {
     if ( nodeUrl == null || nodeUrl == "") {
       nodeUrl = "https://node.aeasy.io";
     }
-    Response response = await Dio().get(nodeUrl+NAME_OWNER + name);
+    Response response = await Dio().get(nodeUrl+Host.NAME_OWNER + name);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       NameOwnerModel model = NameOwnerModel.fromJson(data);

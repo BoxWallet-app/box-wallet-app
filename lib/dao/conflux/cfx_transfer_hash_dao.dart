@@ -14,7 +14,7 @@ class CfxTransactionHashDao {
   static Future<CfxTransactionHashModel> fetch(String hash) async {
     Map<String, String> params = new Map();
     params["hash"] = hash;
-    Response response = await Dio().post(CFX_TRANSACTION_HASH, queryParameters: params);
+    Response response = await Dio().post(Host.CFX_TRANSACTION_HASH, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       CfxTransactionHashModel model = CfxTransactionHashModel.fromJson(data);

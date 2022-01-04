@@ -3,21 +3,21 @@ import 'dart:convert';
 import 'package:box/dao/urls.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
+import 'package:box/model/aeternity/app_store_model.dart';
+import 'package:box/model/aeternity/host_model.dart';
 import 'package:box/model/aeternity/swap_model.dart';
 import 'package:dio/dio.dart';
 
-class SwapMyDao {
-  static Future<SwapModel> fetch() async {
+class HostDao {
+  static Future<HostModel> fetch() async {
     Map<String, String> params = new Map();
-    params['ct_id'] = BoxApp.SWAP_CONTRACT;
-    params['address'] =await BoxApp.getAddress();
-    Response response = await Dio().post(Host.SWAP_MY_LIST, queryParameters: params);
+    Response response = await Dio().get("https://ae-source.oss-cn-hongkong.aliyuncs.com/config/host.json", queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
-      SwapModel model = SwapModel.fromJson(data);
+      HostModel model = HostModel.fromJson(data);
       return model;
     } else {
-      throw Exception('Failed to load SwapModel.json');
+      throw Exception('Failed to load HostModel.json');
     }
   }
 }

@@ -16,7 +16,7 @@ class ThHashDao {
   static Future<ThHashModel> fetch(String th) async {
     Map<String, String> params = new Map();
     params["th"] = th;
-    Response response = await Dio().post(TH_HASH, queryParameters: params);
+    Response response = await Dio().post(Host.TH_HASH, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
 

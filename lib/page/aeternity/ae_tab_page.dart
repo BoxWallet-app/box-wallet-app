@@ -5,11 +5,14 @@ import 'dart:ui';
 
 import 'package:box/config.dart';
 import 'package:box/dao/aeternity/ae_account_error_list_dao.dart';
+import 'package:box/dao/aeternity/host_dao.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
+import 'package:box/dao/urls.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/plugin_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/host_model.dart';
 import 'package:box/model/aeternity/version_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_rpc_model.dart';
@@ -84,9 +87,11 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     eventBus.on<AccountUpdateNameEvent>().listen((event) {
       getAddress();
     });
+    netHost();
     netVersion();
     getAddress();
     showHint();
+
     MethodChannel _platform = const MethodChannel('BOX_NAV_TO_DART');
     _platform.setMethodCallHandler(channelHandler);
 
@@ -194,6 +199,13 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }
   }
 
+  void netHost() {
+
+    HostDao.fetch().then((HostModel model) {
+      Host.BASE_HOST = model.baseUrl;
+      BoxApp.setBaseHost(Host.BASE_HOST);
+    }).catchError((e) {});
+  }
   void netVersion() {
     if (BoxApp.isDev()) {
       return;

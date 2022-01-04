@@ -53,19 +53,22 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (!widget.isSetsPassword)
-      auth.isDeviceSupported().then((isSupported) async {
-        // this.isSupported = isSupported;
-        var isAuth = await BoxApp.getAuth();
-        if (isSupported && isAuth) {
-          _authenticateWithBiometrics();
-          return;
-        }
-        Future.delayed(Duration(milliseconds: 800), () {
-          if (!mounted) return;
-          FocusScope.of(context).requestFocus(_commentFocus);
+
+    try {
+      if (!widget.isSetsPassword)
+        auth.isDeviceSupported().then((isSupported) async {
+          // this.isSupported = isSupported;
+          var isAuth = await BoxApp.getAuth();
+          if (isSupported && isAuth) {
+            _authenticateWithBiometrics();
+            return;
+          }
+          Future.delayed(Duration(milliseconds: 800), () {
+            if (!mounted) return;
+            FocusScope.of(context).requestFocus(_commentFocus);
+          });
         });
-      });
+    } catch (e) {}
   }
 
   Future<void> _authenticateWithBiometrics() async {
@@ -76,24 +79,31 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(localizedReason: 'Scan your fingerprint (or face or otherwise) to verify\n扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
+      if (!mounted) return;
+      if (authenticated) {
+        var password = await BoxApp.getPassword();
+        password = Utils.aesDecode(password, Utils.generateMd5Int(AUTH_KEY));
+        if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture(password);
+        Navigator.of(context).pop(); //关闭对话框
+        return;
+      }
+      if (!mounted) return;
+      FocusScope.of(context).requestFocus(_commentFocus);
     } on PlatformException catch (e) {
       if (!mounted) return;
       Future.delayed(Duration(milliseconds: 800), () {
-        if (!mounted) return;
-        FocusScope.of(context).requestFocus(_commentFocus);
+
+        try{
+          if (!mounted) return;
+          FocusScope.of(context).requestFocus(_commentFocus);
+        }catch(e){
+
+        }
+
       });
       return;
     }
-    if (!mounted) return;
-    if (authenticated) {
-      var password = await BoxApp.getPassword();
-      password = Utils.aesDecode(password, Utils.generateMd5Int(AUTH_KEY));
-      if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture(password);
-      Navigator.of(context).pop(); //关闭对话框
-      return;
-    }
-    if (!mounted) return;
-    FocusScope.of(context).requestFocus(_commentFocus);
+
   }
 
   //异步加载方法

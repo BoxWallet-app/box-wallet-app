@@ -12,7 +12,7 @@ class SwapCoinAccountDao {
   static Future<SwapCoinAccountModel> fetch(String ctId) async {
     Map<String, String> params = new Map();
     params["ct_id"] = ctId;
-    Response response = await Dio().post(SWAP_COIN_ACCOUNT,queryParameters: params);
+    Response response = await Dio().post(Host.SWAP_COIN_ACCOUNT,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       SwapCoinAccountModel model = SwapCoinAccountModel.fromJson(data);

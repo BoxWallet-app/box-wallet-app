@@ -8,8 +8,8 @@ import 'package:dio/dio.dart';
 
 class PriceDao {
   static Future<PriceModel> fetch(String ids, String type) async {
-    Response response = await Dio().get(PRICE + "?ids=" + ids + "&type=" + type);
-    print(PRICE + "?ids=" + ids + "&vs_currencies=" + type);
+    Response response = await Dio().get(Host.PRICE + "?ids=" + ids + "&type=" + type);
+    print(Host.PRICE + "?ids=" + ids + "&vs_currencies=" + type);
     if (response.statusCode == 200) {
       print(response.toString());
       var data = jsonDecode(response.toString());

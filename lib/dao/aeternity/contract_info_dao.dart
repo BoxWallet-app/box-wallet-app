@@ -14,7 +14,7 @@ class ContractInfoDao {
     Map<String, String> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
-    Response response = await Dio().post(CONTRACT_INFO,queryParameters: params);
+    Response response = await Dio().post(Host.CONTRACT_INFO,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       ContractInfoModel model = ContractInfoModel.fromJson(data);

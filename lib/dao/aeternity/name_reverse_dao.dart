@@ -10,7 +10,7 @@ import 'package:dio/dio.dart';
 class NameReverseDao {
   static Future< List<NameReverseModel>> fetch() async {
     var address = await BoxApp.getAddress();
-    Response response = await Dio().get(NAME + address);
+    Response response = await Dio().get(Host.NAME + address);
     if (response.statusCode == 200) {
       List responseJson = json.decode(json.encode(response.data));
       List<NameReverseModel> data = new List<NameReverseModel>();

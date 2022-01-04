@@ -16,7 +16,7 @@ class TokenRecordDao {
     params["address"] = address;
     params["ct_id"] = ctId;
     params["page"] = page;
-    Response response = await Dio().post(AEX9_RECORD, queryParameters: params);
+    Response response = await Dio().post(Host.AEX9_RECORD, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       TokenRecordModel model = TokenRecordModel.fromJson(data);

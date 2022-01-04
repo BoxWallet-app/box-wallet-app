@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:box/dao/urls.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
@@ -106,6 +107,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> goHome() async {
+    Host.BASE_HOST = await BoxApp.getBaseHost();
     String nodeUrl = await BoxApp.getNodeUrl();
     String compilerUrl = await BoxApp.getCompilerUrl();
     String nodeCfxUrl = await BoxApp.getCfxNodeUrl();

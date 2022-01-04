@@ -13,7 +13,7 @@ class AensUpdaterDao {
     Map<String, String> params = new Map();
     params['name'] = name;
     params['address'] = address;
-    Response response = await Dio().post(NAME_UPDATE, queryParameters: params);
+    Response response = await Dio().post(Host.NAME_UPDATE, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       MsgSignModel model = MsgSignModel.fromJson(data);

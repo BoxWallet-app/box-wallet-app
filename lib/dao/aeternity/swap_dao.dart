@@ -12,7 +12,7 @@ class SwapDao {
     params['ct_id'] = BoxApp.SWAP_CONTRACT;
     params['coin_address'] = coinAdress;
     params['address'] =await BoxApp.getAddress();
-    Response response = await Dio().post(SWAP_LIST, queryParameters: params);
+    Response response = await Dio().post(Host.SWAP_LIST, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       SwapModel model = SwapModel.fromJson(data);

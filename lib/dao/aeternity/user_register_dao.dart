@@ -10,7 +10,7 @@ import 'package:dio/dio.dart';
 class UserRegisterDao {
   static Future<UserModel> fetch() async {
     Map<String, String> params = new Map();
-    Response response = await Dio().post(USER_REGISTER, queryParameters: params);
+    Response response = await Dio().post(Host.USER_REGISTER, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       UserModel model = UserModel.fromJson(data);

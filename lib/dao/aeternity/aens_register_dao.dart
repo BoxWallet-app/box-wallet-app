@@ -13,7 +13,7 @@ class AensRegisterDao {
     params['name'] = name;
     params['address'] = address;
     params['nameSalt'] = nameSalt;
-    Response response = await Dio().post(NAME_ADD, queryParameters: params);
+    Response response = await Dio().post(Host.NAME_ADD, queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       MsgSignModel model = MsgSignModel.fromJson(data);
