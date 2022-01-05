@@ -150,7 +150,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
 //          controller: _controller,
           child: ListView.builder(
             itemBuilder: buildColumn,
-            itemCount: cfxTransfer == null ? 0 : cfxTransfer.data.length,
+            itemCount: (cfxTransfer == null || cfxTransfer.data == null) ? 0 : cfxTransfer.data.length,
           ),
         ),
         type: _loadingType,

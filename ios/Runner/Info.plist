@@ -42,6 +42,8 @@
 	<string>Box wallet needs to get camera permissions, which are used to get the address of the receiving account。Box Wallet需要获取相机权限，用于识别接收账户地址。</string>
 	<key>NSContactsUsageDescription</key>
 	<string>BoxWallet</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Why is my app authenticating using face id ?应用程序使用面部识别进行认证?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>BoxWallet</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
