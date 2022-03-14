@@ -46,7 +46,7 @@ class EthTokenRecordPage extends StatefulWidget {
 }
 
 class _TokenRecordState extends State<EthTokenRecordPage> {
-  var loadingType = LoadingType.loading;
+  var loadingType = LoadingType.finish;
   EthTransferModel tokenListModel;
   int page = 1;
   String count;
@@ -59,6 +59,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
   Future<void> _onRefresh() async {
     page = 1;
     netTokenBalance();
+    netTokenRecord();
   }
 
   Future<void> netTokenBalance() async {
@@ -67,11 +68,12 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     var address = await BoxApp.getAddress();
     BoxApp.getErcBalanceETH((balance, decimal,address,from,coin) async {
       if(from != account.address )return;
+      if(address != widget.ctId )return;
       balance = AmountDecimal.parseUnits(balance, decimal);
       this.decimal = decimal;
       coinCount = Utils.formatBalanceLength(double.parse(balance));
       updatePrice();
-      netTokenRecord();
+
 
       setState(() {});
       return;
@@ -95,13 +97,21 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     if (ethTokenPriceModel.data != null && ethTokenPriceModel.data.length > 0) {
       price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[0], widget.coinCount);
     }
+    if(!mounted)return;
     setState(() {});
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<void> netTokenRecord() async {
     // CfxCrc20TransferModel model =
     //     await CfxCrc20TransferDao.fetch(page.toString(), widget.ctId);
-    print(widget.ctId);
     try {
       account = await WalletCoinsManager.instance.getCurrentAccount();
       EthTransferModel model = await EthTransferDao.fetch(EthManager.instance.getChainID(account), widget.ctId, "");
@@ -171,6 +181,21 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
 //              Navigator.pop(context);
           },
         ),
+        actions: <Widget>[
+            IconButton(
+              splashRadius: 40,
+              icon: Icon(
+                Icons.info_outline,
+                color: Color(0xFF000000),
+                size: 22,
+              ),
+              onPressed: () async {
+                var scanUrl = await EthManager.instance.getTokenScanUrl(EthHomePage.account);
+                _launchURL(scanUrl + widget.ctId);
+                return;
+              },
+            ),
+        ],
       ),
       body: LoadingWidget(
         type: loadingType,
@@ -212,6 +237,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
         child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {},
           child: Column(
             children: [
@@ -389,13 +415,6 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     );
   }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   Widget itemView(BuildContext context, int index) {
     if (account == null) {
@@ -513,7 +532,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                       ),
                                       Container(
                                         height: 5,
-                                        color: Color(0xFFfafbfc),
+                                        // color: Color(0xFFfafbfc),
                                       ),
                                       Text(
                                         "-" + tokenListModel.data[index - 1].fee.toString() + account.coin,

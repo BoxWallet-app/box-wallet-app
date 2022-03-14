@@ -20,45 +20,45 @@ class MainActivity : FlutterFragmentActivity() {
         //定义接收通道
         MethodChannel(flutterEngine.dartExecutor, channel).setMethodCallHandler { call, result ->
             when (call.method) {
-                "CfxWebViewActivity" -> {
-                    // 跳转
-                    val intent = Intent(this@MainActivity, CfxWebViewActivity::class.java)
-                    intent.putExtra("url", call.argument<String>("url"))
-                    intent.putExtra("address", call.argument<String>("address"))
-                    intent.putExtra("language", call.argument<String>("language"))
-                    intent.putExtra("signingKey", call.argument<String>("signingKey"))
-                    startActivity(intent)
-                    result.success("success")
-                }
-                "CfxGetGas" -> {
-                    val it = Intent()
-                    it.putExtra("type", call.argument<String>("type"))
-                    it.putExtra("from", call.argument<String>("from"))
-                    it.putExtra("to", call.argument<String>("to"))
-                    it.putExtra("value", call.argument<String>("value"))
-                    it.putExtra("gas", call.argument<String>("gas"))
-                    it.putExtra("data", call.argument<String>("data"))
-                    sendBroadcast(it)
-                    result.success("success")
-
-                }
-                "CfxSignTransaction" -> {
-                    val it = Intent()
-                    it.putExtra("type", call.argument<String>("type"))
-                    it.putExtra("data", call.argument<String>("data"))
-                    sendBroadcast(it)
-                    result.success("success")
-                }
-                "passwordError" -> {
-                    val it = Intent()
-                    it.putExtra("type", call.argument<String>("type"))
-                    it.putExtra("data", call.argument<String>("data"))
-                    sendBroadcast(it)
-                    result.success("success")
-                }
-                else -> {
-                    result.notImplemented()
-                }
+//                "CfxWebViewActivity" -> {
+//                    // 跳转
+//                    val intent = Intent(this@MainActivity, CfxWebViewActivity::class.java)
+//                    intent.putExtra("url", call.argument<String>("url"))
+//                    intent.putExtra("address", call.argument<String>("address"))
+//                    intent.putExtra("language", call.argument<String>("language"))
+//                    intent.putExtra("signingKey", call.argument<String>("signingKey"))
+//                    startActivity(intent)
+//                    result.success("success")
+//                }
+//                "CfxGetGas" -> {
+//                    val it = Intent()
+//                    it.putExtra("type", call.argument<String>("type"))
+//                    it.putExtra("from", call.argument<String>("from"))
+//                    it.putExtra("to", call.argument<String>("to"))
+//                    it.putExtra("value", call.argument<String>("value"))
+//                    it.putExtra("gas", call.argument<String>("gas"))
+//                    it.putExtra("data", call.argument<String>("data"))
+//                    sendBroadcast(it)
+//                    result.success("success")
+//
+//                }
+//                "CfxSignTransaction" -> {
+//                    val it = Intent()
+//                    it.putExtra("type", call.argument<String>("type"))
+//                    it.putExtra("data", call.argument<String>("data"))
+//                    sendBroadcast(it)
+//                    result.success("success")
+//                }
+//                "passwordError" -> {
+//                    val it = Intent()
+//                    it.putExtra("type", call.argument<String>("type"))
+//                    it.putExtra("data", call.argument<String>("data"))
+//                    sendBroadcast(it)
+//                    result.success("success")
+//                }
+//                else -> {
+//                    result.notImplemented()
+//                }
             }
         }
 

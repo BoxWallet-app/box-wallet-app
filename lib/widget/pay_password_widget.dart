@@ -88,9 +88,27 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
         return;
       }
       if (!mounted) return;
-      FocusScope.of(context).requestFocus(_commentFocus);
+      isAuthError = true;
+      setState(() {
+
+      });
+      Future.delayed(Duration(milliseconds: 800), () {
+
+        try{
+          if (!mounted) return;
+          FocusScope.of(context).requestFocus(_commentFocus);
+        }catch(e){
+
+        }
+
+      });
     } on PlatformException catch (e) {
       if (!mounted) return;
+
+      isAuthError = true;
+      setState(() {
+
+      });
       Future.delayed(Duration(milliseconds: 800), () {
 
         try{
@@ -105,10 +123,18 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     }
 
   }
+  bool isAuth =false;
+  bool isAuthError =false;
 
   //异步加载方法
   Future<int> _loadFuture() async {
     var account = await WalletCoinsManager.instance.getCurrentAccount();
+    bool isSupported =await auth.isDeviceSupported();
+    var isAuth = await BoxApp.getAuth();
+    if (isSupported && isAuth) {
+      print("true");
+      this.isAuth = true;
+    }
     return account.accountType;
   }
 
@@ -118,6 +144,9 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
         future: _loadFuture(),
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (snapshot == null || snapshot.data == null) {
+            return Container();
+          }
+          if(isAuth && !isAuthError){
             return Container();
           }
           if (snapshot.data == AccountType.ADDRESS && widget.isAddressPassword == false) {

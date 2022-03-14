@@ -48,6 +48,21 @@ class EthManager {
     }
     return "";
   }
+  Future<String> getTokenScanUrl(Account account) async {
+    if (account.coin == "OKT") {
+      return "https://www.oklink.com/en/oec/tokenAddr/";
+    }
+    if (account.coin == "BNB") {
+      return "https://www.bscscan.com/token/";
+    }
+    if (account.coin == "HT") {
+      return "https://hecoinfo.com/token/";
+    }
+    if (account.coin == "ETH") {
+      return "https://etherscan.io/token/";
+    }
+    return "";
+  }
 
   // eth =1 bsc=12 hero=15 ok=20
   String getChainID(Account account) {

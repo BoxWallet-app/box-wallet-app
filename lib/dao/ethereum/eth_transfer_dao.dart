@@ -21,6 +21,7 @@ class EthTransferDao {
     Response response = await Dio().post(Host.ETH_TRANSFER_RECORD,queryParameters: params);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
+      print(response.toString());
       EthTransferModel model = EthTransferModel.fromJson(data);
       return model;
     } else {
