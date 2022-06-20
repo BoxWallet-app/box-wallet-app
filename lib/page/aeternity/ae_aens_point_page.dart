@@ -1,9 +1,11 @@
+import 'dart:async';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,16 +13,16 @@ import 'package:flutter/widgets.dart';
 import '../../main.dart';
 
 class AeAensPointPage extends StatefulWidget {
-  final String name;
+  final String? name;
 
-  const AeAensPointPage({Key key, this.name}) : super(key: key);
+  const AeAensPointPage({Key? key, this.name}) : super(key: key);
 
   @override
   _AeAensPointPageState createState() => _AeAensPointPageState();
 }
 
 class _AeAensPointPageState extends State<AeAensPointPage> {
-  Flushbar flush;
+  late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
 
@@ -45,7 +47,6 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xff000000),
           leading: IconButton(
             icon: Icon(
@@ -58,7 +59,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -221,7 +222,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -239,7 +240,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -253,11 +254,11 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
                     showCopyHashDialog(context, tx);
 
                     // ignore: missing_return
-                  }, (error) {
+                  } as Future<dynamic> Function(String), (error) {
                     showErrorDialog(context, error);
 
                     // ignore: missing_return
-                  }, aesDecode, address, widget.name, _textEditingController.text);
+                  }, aesDecode, address, widget.name!, _textEditingController.text);
                   showChainLoading();
                 },
               ),
@@ -270,7 +271,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -313,7 +314,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
       });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -325,7 +326,7 @@ class _AeAensPointPageState extends State<AeAensPointPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

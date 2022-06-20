@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PasswordWidget extends Dialog {
   String text;
 
-  PasswordWidget({Key key, @required this.text}) : super(key: key);
+  PasswordWidget({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -17,10 +17,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'box_code_mnemonic_page.dart';
 
 class LookMnemonicPage extends StatefulWidget {
-  final String mnemonic;
-  final String privateKey;
+  final String? mnemonic;
+  final String? privateKey;
 
-  const LookMnemonicPage({Key key, this.mnemonic, this.privateKey}) : super(key: key);
+  const LookMnemonicPage({Key? key, this.mnemonic, this.privateKey}) : super(key: key);
 
   @override
   _SelectMnemonicPathState createState() => _SelectMnemonicPathState();
@@ -28,8 +28,8 @@ class LookMnemonicPage extends StatefulWidget {
 
 class _SelectMnemonicPathState extends State<LookMnemonicPage> {
   var loadingType = LoadingType.finish;
-  List<String> mnemonics = List();
-  PriceModel priceModel;
+  List<String> mnemonics = [];
+  PriceModel? priceModel;
 
   @override
   void initState() {
@@ -129,7 +129,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                                           child: Container(
                                             padding: const EdgeInsets.only(top: 10, bottom: 15, right: 10, left: 10),
                                             child: Text(
-                                              widget.mnemonic,
+                                              widget.mnemonic!,
                                               style: new TextStyle(
                                                 fontSize: 20,
                                                 height: 1.5,
@@ -193,7 +193,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                                         child: Container(
                                           padding: const EdgeInsets.only(top: 10, bottom: 15, right: 10, left: 10),
                                           child: Text(
-                                            widget.privateKey,
+                                            widget.privateKey!,
                                             style: new TextStyle(
                                               fontSize: 20,
                                               height: 1.5,

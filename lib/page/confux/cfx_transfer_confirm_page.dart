@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
 
@@ -22,11 +23,11 @@ import '../../main.dart';
 typedef CfxTransferConfirmPageCallBackFuture = Future Function(String);
 
 class CfxTransferConfirmPage extends StatefulWidget {
-  final CfxTransferConfirmPageCallBackFuture cfxTransferConfirmPageCallBackFuture;
+  final CfxTransferConfirmPageCallBackFuture? cfxTransferConfirmPageCallBackFuture;
 
-  final LinkedHashMap<String, dynamic> data;
+  final LinkedHashMap<String, dynamic>? data;
 
-  const CfxTransferConfirmPage({Key key, this.cfxTransferConfirmPageCallBackFuture, this.data}) : super(key: key);
+  const CfxTransferConfirmPage({Key? key, this.cfxTransferConfirmPageCallBackFuture, this.data}) : super(key: key);
 
   @override
   _CfxTransferConfirmPageState createState() => _CfxTransferConfirmPageState();
@@ -43,7 +44,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     // TODO: implement initState
     super.initState();
 
-    if (widget.data['value'] == null) {
+    if (widget.data!['value'] == null) {
       setData("0.0");
       setState(() {});
     } else {
@@ -52,18 +53,18 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
         setState(() {});
         return;
-      }, widget.data['value']);
+      }, widget.data!['value']);
     }
   }
 
   Future<void> setData(String amount) async {
-    if (widget.data['from'] != null) {
-      var from = buildItem(S.current.CfxTransferConfirmPage_from, (widget.data['from']).toString());
+    if (widget.data!['from'] != null) {
+      var from = buildItem(S.current.CfxTransferConfirmPage_from, (widget.data!['from']).toString());
       baseItems.add(from);
     }
 
-    if (widget.data['to'] != null) {
-      var to = buildItem(S.current.CfxTransferConfirmPage_to, (widget.data['to']).toString());
+    if (widget.data!['to'] != null) {
+      var to = buildItem(S.current.CfxTransferConfirmPage_to, (widget.data!['to']).toString());
       baseItems.add(to);
     }
     var text = Text(
@@ -75,21 +76,21 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
     var decimalBase = Decimal.parse('1000000000000000000');
 
-    var decimalGasPrice = Decimal.parse(int.parse(widget.data['gasPrice']).toString());
+    var decimalGasPrice = Decimal.parse(int.parse(widget.data!['gasPrice']).toString());
 
-    var decimalGas = Decimal.parse((int.parse(widget.data['gas']).toString()));
+    var decimalGas = Decimal.parse((int.parse(widget.data!['gas']).toString()));
     var decimalGasBase = decimalGas / decimalBase;
 
     // var storageLimit = Decimal.parse((int.parse(widget.data['storageLimit']).toString()));
     var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
-    if (widget.data['gas'] != null) {
+    if (widget.data!['gas'] != null) {
       var gas = buildItem(S.current.CfxTransferConfirmPage_fee, "≈ -" + formatGas.toStringAsFixed(10) + " CFX");
       baseItems.add(gas);
     }
 
     amountAll = formatGas + double.parse(amount);
-    if (widget.data['data'] != null) {
-      var data = buildItem(S.current.CfxTransferConfirmPage_data, (widget.data['data']).toString());
+    if (widget.data!['data'] != null) {
+      var data = buildItem(S.current.CfxTransferConfirmPage_data, (widget.data!['data']).toString());
       baseItems.add(data);
     }
 
@@ -107,7 +108,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
 
   void updateData() {}
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -118,7 +119,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -149,7 +150,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                 radius: 0.0,
                 onTap: () {
                   if (widget.cfxTransferConfirmPageCallBackFuture != null) {
-                    widget.cfxTransferConfirmPageCallBackFuture("");
+                    widget.cfxTransferConfirmPageCallBackFuture!("");
                   }
                   Navigator.pop(context);
                 },
@@ -190,7 +191,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                 onTap: () {
                                   if (widget.cfxTransferConfirmPageCallBackFuture != null) {
-                                    widget.cfxTransferConfirmPageCallBackFuture("");
+                                    widget.cfxTransferConfirmPageCallBackFuture!("");
                                   }
                                   Navigator.pop(context);
                                 },
@@ -273,7 +274,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                 useRootNavigator: false,
                                 context: context,
                                 // ignore: missing_return
-                                pageBuilder: (context, anim1, anim2) {},
+                                pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                 //barrierColor: Colors.grey.withOpacity(.4),
                                 barrierDismissible: true,
                                 barrierLabel: "",
@@ -291,7 +292,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                           return;
                                         },
                                         passwordCallBackFuture: (String password) async {
-                                          var signingKey = await BoxApp.getSigningKey();
+                                          var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                                           var address = await BoxApp.getAddress();
                                           final key = Utils.generateMd5Int(password + address);
                                           var aesDecode = Utils.aesDecode(signingKey, key);
@@ -300,7 +301,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                             return;
                                           }
                                           if (widget.cfxTransferConfirmPageCallBackFuture != null) {
-                                            widget.cfxTransferConfirmPageCallBackFuture(aesDecode);
+                                            widget.cfxTransferConfirmPageCallBackFuture!(aesDecode);
                                           }
                                           Navigator.pop(context);
                                         },

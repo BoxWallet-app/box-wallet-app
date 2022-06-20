@@ -4,7 +4,6 @@ import 'package:box/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'numeric_keyboard.dart';
 
 
@@ -15,10 +14,10 @@ typedef PayDismissCallBackFuture = Future Function(String password);
 class WeTrueCommentInputWidget extends StatefulWidget {
   final String title;
   final int color;
-  final PayPasswordCallBackFuture passwordCallBackFuture;
-  final PayPasswordCallBackFuture dismissCallBackFuture;
+  final PayPasswordCallBackFuture? passwordCallBackFuture;
+  final PayPasswordCallBackFuture? dismissCallBackFuture;
 
-  const WeTrueCommentInputWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365}) : super(key: key);
+  const WeTrueCommentInputWidget({Key? key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365}) : super(key: key);
 
   @override
   _WeTrueCommentInputWidgetState createState() => _WeTrueCommentInputWidgetState();
@@ -81,10 +80,10 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
                   controller: _textEditingController,
                   focusNode: _commentFocus,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                   inputFormatters: [
-//                    WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                      FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                   ],
                   maxLines: 3,
                   style: TextStyle(
@@ -127,7 +126,7 @@ class _WeTrueCommentInputWidgetState extends State<WeTrueCommentInputWidget> {
                 child: FlatButton(
                   onPressed: () {
                     Navigator.pop(context); //关闭对话框
-                    widget.passwordCallBackFuture(_textEditingController.text);
+                    widget.passwordCallBackFuture!(_textEditingController.text);
                   },
                   child: Text(
                     S.of(context).password_widget_conform+" "+widget.title+"AE",

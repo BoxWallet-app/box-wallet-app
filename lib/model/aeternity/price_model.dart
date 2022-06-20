@@ -1,7 +1,7 @@
 class PriceModel {
-  Aeternity aeternity;
-  Conflux conflux;
-  Tether tether;
+  Aeternity? aeternity;
+  Conflux? conflux;
+  Tether? tether;
 
   PriceModel({this.aeternity});
 
@@ -14,17 +14,17 @@ class PriceModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.aeternity != null) {
-      data['aeternity'] = this.aeternity.toJson();
-      data['conflux-token'] = this.conflux.toJson();
-      data['Tether'] = this.tether.toJson();
+      data['aeternity'] = this.aeternity!.toJson();
+      data['conflux-token'] = this.conflux!.toJson();
+      data['Tether'] = this.tether!.toJson();
     }
     return data;
   }
 }
 
 class Aeternity {
-  double usd;
-  double cny;
+  double? usd;
+  double? cny;
 
   Aeternity({this.usd, this.cny});
 
@@ -42,8 +42,8 @@ class Aeternity {
 }
 
 class Conflux {
-  double usd;
-  double cny;
+  double? usd;
+  double? cny;
 
   Conflux({this.usd, this.cny});
 
@@ -61,8 +61,8 @@ class Conflux {
 }
 
 class Tether {
-  double usd;
-  double cny;
+  double? usd;
+  double? cny;
 
   Tether({this.usd, this.cny});
 

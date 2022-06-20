@@ -1,17 +1,17 @@
 class AensPageModel {
-  int code;
-  List<Data> data;
-  String msg;
-  int time;
+  int? code;
+  List<Data>? data;
+  String? msg;
+  int? time;
 
   AensPageModel({this.code, this.data, this.msg, this.time});
 
   AensPageModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     msg = json['msg'];
@@ -22,7 +22,7 @@ class AensPageModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['msg'] = this.msg;
     data['time'] = this.time;
@@ -31,16 +31,16 @@ class AensPageModel {
 }
 
 class Data {
-  int currentHeight;
-  String currentPrice;
-  int endHeight;
-  int length;
-  String name;
-  int overHeight;
-  String owner;
-  String price;
-  int startHeight;
-  String thHash;
+  int? currentHeight;
+  String? currentPrice;
+  int? endHeight;
+  int? length;
+  String? name;
+  int? overHeight;
+  String? owner;
+  String? price;
+  int? startHeight;
+  String? thHash;
 
   Data(
       {this.currentHeight,

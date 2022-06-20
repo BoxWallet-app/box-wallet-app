@@ -6,7 +6,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/utils/permission_helper.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -19,19 +19,19 @@ import 'eth_home_page.dart';
 import 'eth_token_send_two_page.dart';
 
 class EthTokenSendOnePage extends StatefulWidget {
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  const EthTokenSendOnePage({Key key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  const EthTokenSendOnePage({Key? key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _EthTokenSendOnePageState createState() => _EthTokenSendOnePageState();
 }
 
 class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
 
@@ -60,12 +60,12 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
     getAddress();
   }
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       if (!mounted) {
         return;
       }
       EthHomePage.account = account;
-      EthHomePage.address = account.address;
+      EthHomePage.address = account!.address;
       setState(() {});
     });
   }
@@ -73,16 +73,16 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
     if(EthHomePage.account == null){
       return Color(0xFFFFFFFF);
     }
-    if(EthHomePage.account.coin == "BNB"){
+    if(EthHomePage.account!.coin == "BNB"){
       return Color(0xFFE6A700);
     }
-    if(EthHomePage.account.coin == "OKT"){
+    if(EthHomePage.account!.coin == "OKT"){
       return Color(0xFF1F94FF);
     }
-    if(EthHomePage.account.coin == "HT"){
+    if(EthHomePage.account!.coin == "HT"){
       return Color(0xFF112FD0);
     }
-    if(EthHomePage.account.coin == "ETH"){
+    if(EthHomePage.account!.coin == "ETH"){
       return Color(0xFF5F66A3);
     }
     return Color(0xFFFFFFFF);
@@ -94,7 +94,6 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: getAccountCardBottomBg(),
           leading: IconButton(
             icon: Icon(
@@ -107,7 +106,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,

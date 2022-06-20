@@ -14,19 +14,19 @@ import '../main.dart';
 // ignore: must_be_immutable
 class MnemonicCopyPage extends StatefulWidget {
 
-  final String mnemonic;
+  final String? mnemonic;
 
-  const MnemonicCopyPage({Key key, this.mnemonic}) : super(key: key);
+  const MnemonicCopyPage({Key? key, this.mnemonic}) : super(key: key);
 
   @override
   _MnemonicCopyPagePageState createState() => _MnemonicCopyPagePageState();
 }
 
 class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
-  var mnemonicWord = Map<String, bool>();
-  var childrenFalse = List<Widget>();
-  var childrenTrue = List<Widget>();
-  var childrenWordTrue = List<String>();
+  var mnemonicWord = Map<String?, bool>();
+  var childrenFalse = <Widget>[];
+  var childrenTrue = <Widget>[];
+  var childrenWordTrue = <String>[];
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 //    String mnemonic = " track gravity";
 //    List mnemonicList = mnemonic.split(" ");
 
-    List mnemonicList = widget.mnemonic.split(" ");
+    List mnemonicList = widget.mnemonic!.split(" ");
     for( var i = 0 ; i < mnemonicList.length; i++ ) {
       mnemonicWord[mnemonicList[i]+"_"+i.toString()] = false;
     }
@@ -44,7 +44,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 //    for (String item in mnemonicList) {
 //      mnemonicWord[item] = false;
 //    }
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance!.addPostFrameCallback((_){
       updateData();
     });
 
@@ -166,7 +166,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
     childrenFalse.clear();
 
     mnemonicWord.forEach((k, v) {
-      if (!v) childrenFalse.add(getItemContainer(k, false));
+      if (!v) childrenFalse.add(getItemContainer(k!, false));
     });
 
     childrenTrue.clear();

@@ -1,7 +1,7 @@
 class CfxTransfer {
-  int total;
-  int listLimit;
-  List<Data> list;
+  int? total;
+  int? listLimit;
+  List<Data>? list;
 
   CfxTransfer({this.total, this.listLimit, this.list});
 
@@ -9,9 +9,9 @@ class CfxTransfer {
     total = json['total'];
     listLimit = json['listLimit'];
     if (json['list'] != null) {
-      list = new List<Data>();
+      list = <Data>[];
       json['list'].forEach((v) {
-        list.add(new Data.fromJson(v));
+        list!.add(new Data.fromJson(v));
       });
     }
   }
@@ -21,30 +21,30 @@ class CfxTransfer {
     data['total'] = this.total;
     data['listLimit'] = this.listLimit;
     if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
+      data['list'] = this.list!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String blockHash;
-  String method;
-  int transactionIndex;
-  String nonce;
-  String hash;
-  String from;
-  String to;
-  String value;
-  String gasPrice;
-  int status;
-  int timestamp;
-  int epochNumber;
-  int syncTimestamp;
-  String gasFee;
-  ToContractInfo toContractInfo;
-  ToTokenInfo toTokenInfo;
-  String txExecErrorMsg;
+  String? blockHash;
+  String? method;
+  int? transactionIndex;
+  String? nonce;
+  String? hash;
+  String? from;
+  String? to;
+  String? value;
+  String? gasPrice;
+  int? status;
+  int? timestamp;
+  int? epochNumber;
+  int? syncTimestamp;
+  String? gasFee;
+  ToContractInfo? toContractInfo;
+  ToTokenInfo? toTokenInfo;
+  String? txExecErrorMsg;
 
   Data(
       {this.blockHash,
@@ -106,10 +106,10 @@ class Data {
     data['syncTimestamp'] = this.syncTimestamp;
     data['gasFee'] = this.gasFee;
     if (this.toContractInfo != null) {
-      data['toContractInfo'] = this.toContractInfo.toJson();
+      data['toContractInfo'] = this.toContractInfo!.toJson();
     }
     if (this.toTokenInfo != null) {
-      data['toTokenInfo'] = this.toTokenInfo.toJson();
+      data['toTokenInfo'] = this.toTokenInfo!.toJson();
     }
     data['txExecErrorMsg'] = this.txExecErrorMsg;
     return data;
@@ -117,9 +117,9 @@ class Data {
 }
 
 class ToContractInfo {
-  String address;
-  String name;
-  Verify verify;
+  String? address;
+  String? name;
+  Verify? verify;
 
   ToContractInfo({this.address, this.name, this.verify});
 
@@ -135,14 +135,14 @@ class ToContractInfo {
     data['address'] = this.address;
     data['name'] = this.name;
     if (this.verify != null) {
-      data['verify'] = this.verify.toJson();
+      data['verify'] = this.verify!.toJson();
     }
     return data;
   }
 }
 
 class Verify {
-  int result;
+  int? result;
 
   Verify({this.result});
 
@@ -158,11 +158,11 @@ class Verify {
 }
 
 class ToTokenInfo {
-  String address;
-  String name;
-  String symbol;
-  String icon;
-  int decimals;
+  String? address;
+  String? name;
+  String? symbol;
+  String? icon;
+  int? decimals;
 
   ToTokenInfo({this.address, this.name, this.symbol, this.icon, this.decimals});
 

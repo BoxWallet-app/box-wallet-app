@@ -8,7 +8,7 @@ import 'package:box/model/conflux/cfx_transaction_hash_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,9 +18,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'cfx_home_page.dart';
 
 class CfxTxDetailPage extends StatefulWidget {
-  final String hash;
+  final String? hash;
 
-  const CfxTxDetailPage({Key key, this.hash}) : super(key: key);
+  const CfxTxDetailPage({Key? key, this.hash}) : super(key: key);
 
   @override
   _CfxTxDetailPageState createState() => _CfxTxDetailPageState();
@@ -29,10 +29,10 @@ class CfxTxDetailPage extends StatefulWidget {
 class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
   AensInfoModel _aensInfoModel = AensInfoModel();
   LoadingType _loadingType = LoadingType.loading;
-  Flushbar flush;
+  Flushbar? flush;
   List<Widget> baseItems = []; //先建一个数组用于存放循环生成的widget
   List<Widget> allItems = []; //先建一个数组用于存放循环生成的widget
-  CfxTransactionHashModel cfxTransactionHashModel;
+  CfxTransactionHashModel? cfxTransactionHashModel;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
             Container(
               alignment: Alignment.centerRight,
               child: new Text(
-                cfxTransactionHashModel.epochHeight.toString(),
+                cfxTransactionHashModel!.epochHeight.toString(),
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
@@ -74,7 +74,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                 //设置四周边框
               ),
               child: Text(
-                cfxTransactionHashModel.confirmedEpochCount.toString() + " " + S.current.cfx_tx_detail_page_height_confirm,
+                cfxTransactionHashModel!.confirmedEpochCount.toString() + " " + S.current.cfx_tx_detail_page_height_confirm,
                 maxLines: 1,
                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),
@@ -85,7 +85,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
     );
 
     baseItems.add(height);
-    var hash = buildItem(S.current.cfx_tx_detail_page_hash, cfxTransactionHashModel.hash.toString());
+    var hash = buildItem(S.current.cfx_tx_detail_page_hash, cfxTransactionHashModel!.hash.toString());
 
     baseItems.add(hash);
     //
@@ -101,15 +101,15 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
 
     baseItems.add(itemFee);
 
-    var senderId = buildItem(S.current.cfx_tx_detail_page_from, Utils.cfxFormatTypeAddress(cfxTransactionHashModel.from));
+    var senderId = buildItem(S.current.cfx_tx_detail_page_from, Utils.cfxFormatTypeAddress(cfxTransactionHashModel!.from));
     baseItems.add(senderId);
 
-    var recipientId = buildItem(S.current.cfx_tx_detail_page_to, Utils.cfxFormatTypeAddress(cfxTransactionHashModel.to));
+    var recipientId = buildItem(S.current.cfx_tx_detail_page_to, Utils.cfxFormatTypeAddress(cfxTransactionHashModel!.to));
     baseItems.add(recipientId);
 
     var time = buildItem(
       S.current.cfx_tx_detail_page_time,
-      DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel.timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel.timestamp * 1000000).toLocal().toString().length - 4),
+      DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel!.timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransactionHashModel!.timestamp! * 1000000).toLocal().toString().length - 4),
     );
     baseItems.add(time);
     baseItems.add(Container(
@@ -153,7 +153,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
               size: 22,
             ),
             onPressed: () async {
-              _launchURL("https://confluxscan.io/transaction/" + widget.hash);
+              _launchURL("https://confluxscan.io/transaction/" + widget.hash!);
             },
           ),
         ],
@@ -208,14 +208,14 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
   }
 
   Text getCfxWidget(double size) {
-    if (Utils.cfxFormatTypeAddress(cfxTransactionHashModel.to) == CfxHomePage.address) {
+    if (Utils.cfxFormatTypeAddress(cfxTransactionHashModel!.to) == CfxHomePage.address) {
       return Text(
-        "+" + double.parse(((double.parse(cfxTransactionHashModel.value)) / 1000000000000000000).toString()).toStringAsFixed(6) + " CFX",
+        "+" + double.parse(((double.parse(cfxTransactionHashModel!.value!)) / 1000000000000000000).toString()).toStringAsFixed(6) + " CFX",
         style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "-" + double.parse((((double.parse(cfxTransactionHashModel.value)) / 1000000000000000000)).toString()).toStringAsFixed(6) + " CFX",
+        "-" + double.parse(((double.parse(cfxTransactionHashModel!.value!)) / 1000000000000000000).toString()).toStringAsFixed(6) + " CFX",
         style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
@@ -225,10 +225,10 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
 
     var gasPrice = Decimal.parse('1000000000');
     var decimal = Decimal.parse('1000000000000000000');
-    var decimal2 = Decimal.parse(int.parse(cfxTransactionHashModel.gasUsed).toString());
+    var decimal2 = Decimal.parse(int.parse(cfxTransactionHashModel!.gasUsed!).toString());
     var decimal3 = decimal2 / decimal;
     // var storageLimit = Decimal.parse((int.parse(cfxTransactionHashModel.storageLimit).toString()));
-    var formatGas = double.parse(decimal3.toString()) * (double.parse(cfxTransactionHashModel.gasPrice.toString()));
+    var formatGas = double.parse(decimal3.toString()) * (double.parse(cfxTransactionHashModel!.gasPrice.toString()));
     return Text(
       Decimal.parse(formatGas.toString()).toStringAsFixed(10) + " CFX",
       style: TextStyle(color: Colors.black, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),

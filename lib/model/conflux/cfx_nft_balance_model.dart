@@ -1,15 +1,15 @@
 class CfxNftBalanceModel {
-  int code;
-  List<NftData> data;
+  int? code;
+  List<NftData>? data;
 
   CfxNftBalanceModel({this.code, this.data});
 
   CfxNftBalanceModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     if (json['data'] != null) {
-      data = new List<NftData>();
+      data = <NftData>[];
       json['data'].forEach((v) {
-        data.add(new NftData.fromJson(v));
+        data!.add(new NftData.fromJson(v));
       });
     }
   }
@@ -18,17 +18,17 @@ class CfxNftBalanceModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class NftData {
-  String address;
-  String type;
-  Name name;
-  String balance;
+  String? address;
+  String? type;
+  Name? name;
+  String? balance;
 
   NftData({this.address, this.type, this.name, this.balance});
 
@@ -44,7 +44,7 @@ class NftData {
     data['address'] = this.address;
     data['type'] = this.type;
     if (this.name != null) {
-      data['name'] = this.name.toJson();
+      data['name'] = this.name!.toJson();
     }
     data['balance'] = this.balance;
     return data;
@@ -52,8 +52,8 @@ class NftData {
 }
 
 class Name {
-  String zh;
-  String en;
+  String? zh;
+  String? en;
 
   Name({this.zh, this.en});
 

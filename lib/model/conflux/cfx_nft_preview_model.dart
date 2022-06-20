@@ -1,6 +1,6 @@
 class CfxNftPreviewModel {
-  int code;
-  Data data;
+  int? code;
+  Data? data;
 
   CfxNftPreviewModel({this.code, this.data});
 
@@ -13,16 +13,16 @@ class CfxNftPreviewModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int imageMinHeight;
-  String imageUri;
-  ImageName imageName;
+  int? imageMinHeight;
+  String? imageUri;
+  ImageName? imageName;
 
   Data({this.imageMinHeight, this.imageUri, this.imageName});
 
@@ -39,15 +39,15 @@ class Data {
     data['imageMinHeight'] = this.imageMinHeight;
     data['imageUri'] = this.imageUri;
     if (this.imageName != null) {
-      data['imageName'] = this.imageName.toJson();
+      data['imageName'] = this.imageName!.toJson();
     }
     return data;
   }
 }
 
 class ImageName {
-  String zh;
-  String en;
+  String? zh;
+  String? en;
 
   ImageName({this.zh, this.en});
 

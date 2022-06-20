@@ -1,8 +1,8 @@
 class ContractBalanceModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   ContractBalanceModel({this.code, this.msg, this.time, this.data});
 
@@ -19,15 +19,15 @@ class ContractBalanceModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String balance;
-  String rate;
+  String? balance;
+  String? rate;
 
   Data({this.balance});
 

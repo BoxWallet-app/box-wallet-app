@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 
 class BoxHeader extends Header {
   /// Key
-  final Key key;
+  final Key? key;
 
   final LinkHeaderNotifier linkNotifier = LinkHeaderNotifier();
 
@@ -24,7 +24,7 @@ class BoxHeader extends Header {
         );
 
   @override
-  Widget contentBuilder(BuildContext context, RefreshMode refreshState, double pulledExtent, double refreshTriggerPullDistance, double refreshIndicatorExtent, AxisDirection axisDirection, bool float, Duration completeDuration, bool enableInfiniteRefresh, bool success, bool noMore) {
+  Widget contentBuilder(BuildContext context, RefreshMode refreshState, double pulledExtent, double refreshTriggerPullDistance, double refreshIndicatorExtent, AxisDirection axisDirection, bool float, Duration? completeDuration, bool enableInfiniteRefresh, bool success, bool noMore) {
     // 不能为水平方向以及反向
     assert(axisDirection == AxisDirection.down, 'Widget can only be vertical and cannot be reversed');
     linkNotifier.contentBuilder(context, refreshState, pulledExtent, refreshTriggerPullDistance, refreshIndicatorExtent, axisDirection, float, completeDuration, enableInfiniteRefresh, success, noMore);
@@ -35,10 +35,10 @@ class BoxHeader extends Header {
 }
 
 class AEHeaderWidget extends StatefulWidget {
-  final LinkHeaderNotifier linkNotifier;
+  final LinkHeaderNotifier? linkNotifier;
 
   const AEHeaderWidget({
-    Key key,
+    Key? key,
     this.linkNotifier,
   }) : super(key: key);
 
@@ -49,7 +49,7 @@ class AEHeaderWidget extends StatefulWidget {
 }
 
 class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -80,7 +80,7 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
               onLoaded: (composition) {
                 // Configure the AnimationController with the duration of the
                 // Lottie file and start the animation.
-                _controller
+                _controller!
                   ..duration = Duration(milliseconds: 1000)
                   ..repeat();
               },

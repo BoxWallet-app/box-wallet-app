@@ -21,7 +21,7 @@ import '../../main.dart';
 import 'eth_tx_detail_page.dart';
 
 class EthRecordsPage extends StatefulWidget {
-  const EthRecordsPage({Key key}) : super(key: key);
+  const EthRecordsPage({Key? key}) : super(key: key);
 
   @override
   _EthRecordsPageState createState() => _EthRecordsPageState();
@@ -30,20 +30,20 @@ class EthRecordsPage extends StatefulWidget {
 class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  EthTransferModel cfxTransfer;
+  EthTransferModel? cfxTransfer;
   int page = 1;
-  var address = '';
-  Account account;
+  String? address = '';
+  Account? account;
 
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     super.initState();
 
     getAddress();
   }
 
   Future<void> netData() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     EthTransferModel model = await EthTransferDao.fetch(EthManager.instance.getChainID(account), "", page.toString());
     if (!mounted) {
       return;
@@ -52,10 +52,10 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
     if (page == 1) {
       cfxTransfer = model;
     } else {
-      if (model.data != null) cfxTransfer.data.addAll(model.data);
+      if (model.data != null) cfxTransfer!.data!.addAll(model.data!);
     }
 
-    if (cfxTransfer.data == null) {
+    if (cfxTransfer!.data == null) {
       _loadingType = LoadingType.no_data;
       setState(() {});
       return;
@@ -64,7 +64,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
     setState(() {});
     page++;
 
-    if (model.data == null || model.data.length < 20) {
+    if (model.data == null || model.data!.length < 20) {
       _controller.finishLoad(noMore: true);
     }
 
@@ -103,13 +103,13 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
     super.dispose();
   }
 
-  Future<String> getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
+   getAddress() {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? acc) {
       if (!mounted) {
         return;
       }
       this.account = acc;
-      this.address = acc.address;
+      this.address = acc!.address;
       netData();
       setState(() {});
     });
@@ -150,7 +150,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
 //          controller: _controller,
           child: ListView.builder(
             itemBuilder: buildColumn,
-            itemCount: (cfxTransfer == null || cfxTransfer.data == null) ? 0 : cfxTransfer.data.length,
+            itemCount: (cfxTransfer == null || cfxTransfer!.data == null) ? 0 : cfxTransfer!.data!.length,
           ),
         ),
         type: _loadingType,
@@ -183,9 +183,9 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EthTxDetailPage(recordData: cfxTransfer.data[index])));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EthTxDetailPage(recordData: cfxTransfer!.data![index])));
             } else {
-              Navigator.push(context, SlideRoute(EthTxDetailPage(recordData: cfxTransfer.data[index])));
+              Navigator.push(context, SlideRoute(EthTxDetailPage(recordData: cfxTransfer!.data![index])));
             }
           },
           child: Container(
@@ -217,7 +217,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                       Container(
                         margin: EdgeInsets.only(top: 8),
                         child: Text(
-                          cfxTransfer.data[index].hash,
+                          cfxTransfer!.data![index].hash!,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
@@ -226,7 +226,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                       Container(
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
-                          DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.data[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.data[index].timestamp * 1000000).toLocal().toString().length - 4),
+                          DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.data![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.data![index].timestamp! * 1000000).toLocal().toString().length - 4),
                           style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
@@ -247,10 +247,10 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
 
   String getCfxMethod(int index) {
 
-    if(cfxTransfer.data[index].status == 0){
+    if(cfxTransfer!.data![index].status == 0){
       return S.current.record_status_error_full;
     }
-    if (cfxTransfer.data[index].from.toString().toLowerCase().contains(address.toLowerCase())) {
+    if (cfxTransfer!.data![index].from.toString().toLowerCase().contains(address!.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;
     } else {
       return S.current.cfx_home_page_transfer_receive;
@@ -258,21 +258,21 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
   }
 
   Text getFeeWidget(int index) {
-    if(cfxTransfer.data[index].status == 0){
+    if(cfxTransfer!.data![index].status == 0){
       return  Text(
-        cfxTransfer.data[index].errorMessage,
+        cfxTransfer!.data![index].errorMessage!,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
 
-    if (cfxTransfer.data[index].to.toString().toLowerCase().contains(address.toLowerCase())) {
+    if (cfxTransfer!.data![index].to.toString().toLowerCase().contains(address!.toLowerCase())) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 6)) + " " + this.account.coin,
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.data![index].value, 6)) + " " + this.account!.coin!,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.data[index].value, 6)) + " " + this.account.coin,
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.data![index].value, 6)) + " " + this.account!.coin!,
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

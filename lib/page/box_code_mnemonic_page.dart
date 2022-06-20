@@ -1,6 +1,6 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -8,16 +8,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class BoxCodeMnemonicPage extends StatefulWidget {
-  final String code;
+  final String? code;
 
-  const BoxCodeMnemonicPage({Key key, this.code}) : super(key: key);
+  const BoxCodeMnemonicPage({Key? key, this.code}) : super(key: key);
 
   @override
   _BoxCodeMnemonicPageState createState() => _BoxCodeMnemonicPageState();
 }
 
 class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   var contentText = "";
 
@@ -32,7 +32,6 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
         backgroundColor: Color(0xFF000000),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFF000000),
           leading: IconButton(
             icon: Icon(
@@ -45,7 +44,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -116,7 +115,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 40),
                                     child: QrImage(
-                                      data: widget.code,
+                                      data: widget.code!,
                                       version: QrVersions.auto,
                                       size: 200.0,
                                     ),
@@ -125,7 +124,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                                     alignment: Alignment.center,
                                     margin: const EdgeInsets.only(top: 18, left: 22, right: 22),
                                     child: Text(
-                                      widget.code,
+                                      widget.code!,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

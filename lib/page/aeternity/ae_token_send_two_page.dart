@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -11,7 +13,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -26,31 +28,31 @@ import 'ae_select_token_list_page.dart';
 class AeTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  AeTokenSendTwoPage({Key key, @required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  AeTokenSendTwoPage({Key? key, required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _AeTokenSendTwoPageState createState() => _AeTokenSendTwoPageState();
 }
 
 class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
-  Flushbar flush;
+  late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
   final FocusNode focusNode = FocusNode();
   String address = '';
   var loadingType = LoadingType.loading;
-  List<Widget> items = List<Widget>();
+  List<Widget> items = <Widget>[];
 
-  String tokenName;
-  String tokenCount;
-  String tokenImage;
-  String tokenContract;
+  String? tokenName;
+  String? tokenCount;
+  String? tokenImage;
+  String? tokenContract;
 
   @override
   void initState() {
@@ -82,7 +84,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   void netContractBalance() {
     ContractBalanceDao.fetch(widget.tokenContract).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        this.tokenCount = model.data.balance;
+        this.tokenCount = model.data!.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -90,14 +92,14 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     });
   }
   Future<void> netAccountInfo() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     BoxApp.getBalanceAE((balance,decimal) async {
       if(!mounted)return;
       AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
-    }, account.address);
+    }, account.address!);
   }
 
   @override
@@ -107,7 +109,6 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
@@ -120,7 +121,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -274,7 +275,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                           controller: _textEditingController,
                                           focusNode: focusNode,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -338,7 +339,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                             backgroundColor: Colors.transparent,
                                             builder: (context) => AeSelectTokenListPage(
                                                   aeCount: AeHomePage.token,
-                                                  aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
+                                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
                                                     this.tokenName = tokenName;
                                                     this.tokenCount = tokenCount;
                                                     this.tokenImage = tokenImage;
@@ -370,7 +371,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                                     child: tokenImage != null
                                                         ? ClipOval(
                                                             child: Image.network(
-                                                              tokenImage,
+                                                              tokenImage!,
                                                               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                                 if (wasSynchronouslyLoaded) return child;
 
@@ -388,7 +389,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
-                                                      tokenName == null ? "" : tokenName,
+                                                      tokenName == null ? "" : tokenName!,
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
@@ -405,7 +406,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    tokenCount == null ? "" : tokenCount,
+                                                    tokenCount == null ? "" : tokenCount!,
                                                     style: TextStyle(
                                                       color: Color(0xFF333333),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -442,7 +443,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                               controller: _textEditingControllerNode,
                                               focusNode: focusNodeNode,
                                               inputFormatters: [
-                                                // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                                                //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                                               ],
                                               maxLines: 1,
                                               style: TextStyle(
@@ -518,16 +519,16 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
   }
 
   void clickAllCount() {
-    if (double.parse(tokenCount) > 1) {
-      _textEditingController.text = (double.parse(tokenCount) - 0.1).toString();
+    if (double.parse(tokenCount!) > 1) {
+      _textEditingController.text = (double.parse(tokenCount!) - 0.1).toString();
     } else {
-      _textEditingController.text = tokenCount;
+      _textEditingController.text = tokenCount!;
     }
 
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
@@ -578,7 +579,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -596,7 +597,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -625,7 +626,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -643,7 +644,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -656,10 +657,10 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                     BoxApp.contractTransfer((tx) {
                       showCopyHashDialog(context, tx);
                       // ignore: missing_return
-                    }, (error) {
+                    } as Future<dynamic> Function(String), (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, address, tokenContract, widget.address, _textEditingController.text, "full");
+                    }, aesDecode, address, tokenContract!, widget.address, _textEditingController.text, "full");
                     showChainLoading();
                   },
                 ),
@@ -674,7 +675,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -716,7 +717,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -727,7 +728,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -773,7 +774,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
         );
       },
     ).then((val) {
-      if (val) {
+      if (val!) {
         Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/"+tx));
         showFlushSucess(context);
       } else {

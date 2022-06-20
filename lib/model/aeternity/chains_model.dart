@@ -1,8 +1,8 @@
 class ChainsModel {
-  String name;
-  String nameFull;
-  String nameFullCN;
-  bool isSelect = false;
+  String? name;
+  String? nameFull;
+  String? nameFullCN;
+  bool? isSelect = false;
 
   ChainsModel({this.name, this.nameFull,this.nameFullCN});
 

@@ -1,8 +1,8 @@
 class TokenRecordModel {
-  int code;
-  String msg;
-  int time;
-  List<Data> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<Data>? data;
 
   TokenRecordModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class TokenRecordModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -24,25 +24,25 @@ class TokenRecordModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String blockHash;
-  int blockHeight;
-  String hash;
-  String function;
-  String contractId;
-  String callAddress;
-  String aex9Amount;
-  String amount;
-  String fee;
-  String resultType;
-  String aex9ReceiveAddress;
-  int createTime;
+  String? blockHash;
+  int? blockHeight;
+  String? hash;
+  String? function;
+  String? contractId;
+  String? callAddress;
+  String? aex9Amount;
+  String? amount;
+  String? fee;
+  String? resultType;
+  String? aex9ReceiveAddress;
+  int? createTime;
 
   Data(
       {this.blockHash,

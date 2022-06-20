@@ -25,13 +25,13 @@ import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 
-typedef EthSelectTokenListCallBackFuture = Future Function(String tokenName, String tokenCount, String tokenImage, String tokenContract);
+typedef EthSelectTokenListCallBackFuture = Future? Function(String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract);
 
 class EthSelectTokenListPage extends StatefulWidget {
-  final String aeCount;
-  final EthSelectTokenListCallBackFuture aeSelectTokenListCallBackFuture;
+  final String? aeCount;
+  final EthSelectTokenListCallBackFuture? aeSelectTokenListCallBackFuture;
 
-  const EthSelectTokenListPage({Key key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
+  const EthSelectTokenListPage({Key? key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
 
   @override
   _TokenListPathState createState() => _TokenListPathState();
@@ -39,21 +39,21 @@ class EthSelectTokenListPage extends StatefulWidget {
 
 class _TokenListPathState extends State<EthSelectTokenListPage> {
   var loadingType = LoadingType.loading;
-  List<Tokens> cfxCtTokens = [];
-  Account account;
+  List<Tokens>? cfxCtTokens = [];
+  Account? account;
   Future<void> _onRefresh() async {
    account = await WalletCoinsManager.instance.getCurrentAccount();
 
-    var chainID = EthManager.instance.getChainID(account);
-    cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account.address);
-    if (cfxCtTokens.length == 0) {
+    var chainID = EthManager.instance.getChainID(account!);
+    cfxCtTokens = await CtTokenManager.instance.getEthCtTokens(chainID, account!.address!);
+    if (cfxCtTokens!.length == 0) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
     }
     loadingType = LoadingType.finish;
     setState(() {});
-    getBalance(account.address);
+    getBalance(account!.address);
   }
 
   bool isLoadBalance = false;
@@ -93,25 +93,25 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
   //   }
   //   isLoadBalance = false;
   // }
-  Future<void> getBalance(String address) async {
-    var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    var maxLength =  cfxCtTokens.length;
-    for (int i = 0; i < cfxCtTokens.length; i++) {
-      if (cfxCtTokens[i].balance == null) {
+  Future<void> getBalance(String? address) async {
+    var nodeUrl = await EthManager.instance.getNodeUrl(account!);
+    var maxLength =  cfxCtTokens!.length;
+    for (int i = 0; i < cfxCtTokens!.length; i++) {
+      if (cfxCtTokens![i].balance == null) {
         BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
-          if(from != account.address )return;
+          if(from != account!.address )return;
           balance = AmountDecimal.parseUnits(balance, decimal);
           print(balance);
-          for (int j = 0; j < cfxCtTokens.length; j++) {
-            if (cfxCtTokens[j].ctId == address) {
-              cfxCtTokens[j].balance = Utils.formatBalanceLength(double.parse(balance));
+          for (int j = 0; j < cfxCtTokens!.length; j++) {
+            if (cfxCtTokens![j].ctId == address) {
+              cfxCtTokens![j].balance = Utils.formatBalanceLength(double.parse(balance));
             }
           }
           if(i == maxLength-1){
             // updatePrice();
           }
           setState(() {});
-        }, address, cfxCtTokens[i].ctId, account.coin, nodeUrl);
+        }, address!, cfxCtTokens![i].ctId!, account!.coin!, nodeUrl);
       }
     }
 
@@ -218,7 +218,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                       onRefresh: _onRefresh,
                       child: ListView.builder(
                         padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                        itemCount: cfxCtTokens.length + 1,
+                        itemCount: cfxCtTokens!.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return itemListView(context, index);
                         },
@@ -245,7 +245,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
-                widget.aeSelectTokenListCallBackFuture(account.coin, widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/"+account.coin+".png", "");
+                widget.aeSelectTokenListCallBackFuture!(account!.coin, widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/"+account!.coin!+".png", "");
               }
               Navigator.pop(context);
             },
@@ -274,14 +274,14 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
 //                                                      shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(36.0),
                                   image: DecorationImage(
-                                    image: AssetImage("images/" + account.coin+ ".png"),
+                                    image: AssetImage("images/" + account!.coin!+ ".png"),
                                   ),
                                 ),
                               ),
                               Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  account.coin,
+                                  account!.coin!,
                                   style: new TextStyle(
                                     fontSize: 20,
                                     color: Color(0xff333333),
@@ -296,7 +296,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    widget.aeCount,
+                                    widget.aeCount!,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
@@ -329,7 +329,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             if (widget.aeSelectTokenListCallBackFuture != null) {
-              widget.aeSelectTokenListCallBackFuture(getCoinName(index), cfxCtTokens[index].balance, cfxCtTokens[index].iconUrl, cfxCtTokens[index].ctId);
+              widget.aeSelectTokenListCallBackFuture!(getCoinName(index), cfxCtTokens![index].balance, cfxCtTokens![index].iconUrl, cfxCtTokens![index].ctId);
             }
             Navigator.pop(context);
           },
@@ -359,11 +359,11 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  cfxCtTokens[index].iconUrl,
+                                  cfxCtTokens![index].iconUrl!,
                                   errorBuilder: (
                                     BuildContext context,
                                     Object error,
-                                    StackTrace stackTrace,
+                                    StackTrace? stackTrace,
                                   ) {
                                     return Container(
                                       color: Colors.grey.shade200,
@@ -385,7 +385,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                getCoinName(index),
+                                getCoinName(index)!,
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),
@@ -399,14 +399,14 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  if (cfxCtTokens[index].balance != null)
+                                  if (cfxCtTokens![index].balance != null)
                                     AutoSizeText(
-                                      cfxCtTokens[index].balance,
+                                      cfxCtTokens![index].balance!,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
-                                  if (cfxCtTokens[index].balance == null)
+                                  if (cfxCtTokens![index].balance == null)
                                     Container(
                                       width: 50,
                                       height: 50,
@@ -416,11 +416,11 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
 //              'images/animation_khzuiqgg.json',
                                       ),
                                     ),
-                                  if (cfxCtTokens[index].price != null)
+                                  if (cfxCtTokens![index].price != null)
                                     Container(
                                       margin: EdgeInsets.only(top: 5),
                                       child: Text(
-                                        cfxCtTokens[index].price,
+                                        cfxCtTokens![index].price!,
                                         overflow: TextOverflow.ellipsis,
 
                                         style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
@@ -446,14 +446,14 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
     );
   }
 
-  String getCoinName(int index) {
-    String name;
-    if (cfxCtTokens[index].name.length < cfxCtTokens[index].symbol.length) {
-      name = cfxCtTokens[index].name;
+  String? getCoinName(int index) {
+    String? name;
+    if (cfxCtTokens![index].name!.length < cfxCtTokens![index].symbol!.length) {
+      name = cfxCtTokens![index].name;
     } else {
-      name = cfxCtTokens[index].symbol;
+      name = cfxCtTokens![index].symbol;
     }
-    if (name.length > 10) {
+    if (name!.length > 10) {
       name = name.substring(0, 5) + "..." + name.substring(name.length - 4, name.length);
     }
     return name;

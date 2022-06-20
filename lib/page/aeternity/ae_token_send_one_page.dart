@@ -7,7 +7,7 @@ import 'package:box/page/aeternity/ae_token_send_two_page.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/utils/permission_helper.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -18,19 +18,19 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../main.dart';
 
 class AeTokenSendOnePage extends StatefulWidget {
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  const AeTokenSendOnePage({Key key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  const AeTokenSendOnePage({Key? key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _AeTokenSendOnePageState createState() => _AeTokenSendOnePageState();
 }
 
 class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
 
@@ -60,7 +60,6 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
@@ -73,7 +72,7 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -287,9 +286,9 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
       EasyLoading.show();
       NameOwnerDao.fetch(address).then((NameOwnerModel model) {
         EasyLoading.dismiss(animation: true);
-        if (model != null && model.owner.isNotEmpty) {
-          var accountPubkey = "";
-          model.pointers.forEach((element) {
+        if (model.owner!.isNotEmpty) {
+          String? accountPubkey = "";
+          model.pointers!.forEach((element) {
             if (element.key == "account_pubkey") {
               accountPubkey = element.id;
             }
@@ -298,8 +297,8 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
             accountPubkey = model.owner;
           }
 
-          _textEditingController.text = accountPubkey;
-          final length = accountPubkey.length;
+          _textEditingController.text = accountPubkey!;
+          final length = accountPubkey!.length;
           _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
           _focus.unfocus();
         } else {

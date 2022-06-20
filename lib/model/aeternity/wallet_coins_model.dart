@@ -1,13 +1,13 @@
 class WalletCoinsModel {
-  List<Coin> coins;
+  List<Coin>? coins;
 
   WalletCoinsModel({this.coins});
 
   WalletCoinsModel.fromJson(Map<String, dynamic> json) {
     if (json['coins'] != null) {
-      coins = new List<Coin>();
+      coins = <Coin>[];
       json['coins'].forEach((v) {
-        coins.add(new Coin.fromJson(v));
+        coins!.add(new Coin.fromJson(v));
       });
     }
   }
@@ -15,16 +15,16 @@ class WalletCoinsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.coins != null) {
-      data['coins'] = this.coins.map((v) => v.toJson()).toList();
+      data['coins'] = this.coins!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Coin {
-  String name;
-  String fullName;
-  List<Account> accounts;
+  String? name;
+  String? fullName;
+  List<Account>? accounts;
 
   Coin({this.name, this.fullName, this.accounts});
 
@@ -32,9 +32,9 @@ class Coin {
     name = json['name'];
     fullName = json['full_name'];
     if (json['accounts'] != null) {
-      accounts = new List<Account>();
+      accounts = <Account>[];
       json['accounts'].forEach((v) {
-        accounts.add(new Account.fromJson(v));
+        accounts!.add(new Account.fromJson(v));
       });
     }
   }
@@ -44,7 +44,7 @@ class Coin {
     data['name'] = this.name;
     data['full_name'] = this.fullName;
     if (this.accounts != null) {
-      data['accounts'] = this.accounts.map((v) => v.toJson()).toList();
+      data['accounts'] = this.accounts!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -58,13 +58,13 @@ class AccountType {
 }
 
 class Account {
-  String address;
-  String name;
+  String? address;
+  String? name;
 
   //0 mnemonic ,1 privateKey 3,address ,4 offline
-  int accountType = 0;
-  bool isSelect;
-  String coin;
+  int? accountType = 0;
+  bool? isSelect;
+  String? coin;
 
   Account({this.address, this.isSelect});
 

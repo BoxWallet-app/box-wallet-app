@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -16,14 +17,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../main.dart';
 
 class AeWetrueWebPage extends StatefulWidget {
-  const AeWetrueWebPage({Key key}) : super(key: key);
+  const AeWetrueWebPage({Key? key}) : super(key: key);
 
   @override
   _AeWetrueWebPageState createState() => _AeWetrueWebPageState();
 }
 
 class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _commentFocus = FocusNode();
   double progress = 0;
@@ -94,7 +95,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                     Icons.arrow_back_ios,
                     color: Colors.transparent,
                     size: 17,
-                  ),
+                  ), onPressed: () {  },
                 ),
               ),
               Container(
@@ -105,7 +106,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                     size: 20,
                   ),
                   onPressed: () {
-                    _webViewController.loadUrl("http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address);
+                    _webViewController.loadUrl("http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!);
                   },
                 ),
               ),
@@ -131,7 +132,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
               child: WebView(
-                initialUrl: "http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address,
+                initialUrl: "http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (url) {
                   isPageFinish = true;
@@ -167,9 +168,9 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                         final responseJson = jsonDecode(message.message);
                         Map<String, dynamic> data = responseJson;
 
-                        String amount = data["amount"];
+                        String? amount = data["amount"];
 
-                        String receivingAccount = data["receivingAccount"];
+                        String? receivingAccount = data["receivingAccount"];
                         if (data["name"] == "requestAccounts") {}
                         print(message.message);
 
@@ -234,12 +235,12 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                             );
                           },
                         ).then((val) async {
-                          if (val)
+                          if (val!)
                             showGeneralDialog(
                                 useRootNavigator: false,
                                 context: context,
                                 // ignore: missing_return
-                                pageBuilder: (context, anim1, anim2) {},
+                                pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                 //barrierColor: Colors.grey.withOpacity(.4),
                                 barrierDismissible: true,
                                 barrierLabel: "",
@@ -257,7 +258,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                                           return;
                                         },
                                         passwordCallBackFuture: (String password) async {
-                                          var signingKey = await BoxApp.getSigningKey();
+                                          var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                                           var address = await BoxApp.getAddress();
                                           final key = Utils.generateMd5Int(password + address);
                                           var aesDecode = Utils.aesDecode(signingKey, key);
@@ -330,13 +331,13 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
         );
       },
     ).then((val) {
-      if (val) {
+      if (val!) {
         Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/" + tx));
       } else {}
     });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -347,7 +348,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -368,7 +369,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",

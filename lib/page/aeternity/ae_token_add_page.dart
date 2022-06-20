@@ -87,10 +87,10 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")), //只允许输入字母
+                            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")), //只允许输入字母
                         ],
                         maxLines: 1,
                         style: TextStyle(
@@ -172,7 +172,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                         controller: _textEditingControllerCompiler,
                         focusNode: focusNodeCompiler,
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                         ],
 
                         maxLines: 1,

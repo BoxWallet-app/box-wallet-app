@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -38,8 +39,8 @@ class AeAeppsPage extends StatefulWidget {
 }
 
 class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClientMixin {
-  BaseNameDataModel baseNameDataModel;
-  BannerModel bannerModel;
+  BaseNameDataModel? baseNameDataModel;
+  BannerModel? bannerModel;
 
   @override
   void initState() {
@@ -77,7 +78,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -145,8 +146,8 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           bannerModel == null
                               ? ""
                               : BoxApp.language == "cn"
-                                  ? bannerModel.cn.url
-                                  : bannerModel.en.url,
+                                  ? bannerModel!.cn!.url!
+                                  : bannerModel!.en!.url!,
                         );
                       },
                       child: Container(
@@ -166,8 +167,8 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             bannerModel == null
                                 ? ""
                                 : BoxApp.language == "cn"
-                                    ? bannerModel.cn.image
-                                    : bannerModel.en.image,
+                                    ? bannerModel!.cn!.image!
+                                    : bannerModel!.en!.image!,
                             fit: BoxFit.cover,
 
                             loadingBuilder: (context, child, loadingProgress) {
@@ -207,8 +208,8 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           bannerModel == null
                               ? "-"
                               : BoxApp.language == "cn"
-                                  ? bannerModel.cn.title
-                                  : bannerModel.en.title,
+                                  ? bannerModel!.cn!.title!
+                                  : bannerModel!.en!.title!,
                           style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
                         ),
                       ),
@@ -503,7 +504,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(top: 5, left: 20),
                                   child: Text(
-                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sum.toString() + S.of(context).home_page_function_name_count_number,
+                                    baseNameDataModel == null ? "-" : baseNameDataModel!.data!.sum.toString() + S.of(context).home_page_function_name_count_number,
                                     style: TextStyle(
                                       fontSize: 19,
                                       letterSpacing: -1,
@@ -539,7 +540,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                   alignment: Alignment.topLeft,
                                   margin: const EdgeInsets.only(top: 5, left: 20),
                                   child: Text(
-                                    baseNameDataModel == null ? "-" : baseNameDataModel.data.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
+                                    baseNameDataModel == null ? "-" : baseNameDataModel!.data!.sumPrice.toString() + S.of(context).home_page_function_name_count_number,
                                     style: TextStyle(
                                         fontSize: 19,
                                         letterSpacing: -1,
@@ -607,7 +608,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             showGeneralDialog(
                                 useRootNavigator: false,
                                 context: context,
-                                pageBuilder: (con, anim1, anim2) {},
+                                pageBuilder: (con, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                 //barrierColor: Colors.grey.withOpacity(.4),
                                 barrierDismissible: true,
                                 barrierLabel: "",
@@ -1003,7 +1004,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
     showGeneralDialog(
         useRootNavigator: false,
         context: context,
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -1100,9 +1101,9 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           Navigator.pop(context); //关闭对话框
 
                           if (Platform.isIOS) {
-                            Navigator.push(navigatorKey.currentState.overlay.context, MaterialPageRoute(builder: (context) => AeAensPage()));
+                            Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeAensPage()));
                           } else {
-                            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeAensPage()));
+                            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(AeAensPage()));
                           }
                         },
                       ),
@@ -1121,7 +1122,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
     showGeneralDialog(
         useRootNavigator: false,
         context: buildContext,
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -1236,7 +1237,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -1254,7 +1255,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -1388,7 +1389,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             if (Platform.isIOS) {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenDefiPage()));
                             } else {
-                              Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeTokenDefiPage()));
+                              Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(AeTokenDefiPage()));
                             }
                           }
                         },
@@ -1408,7 +1409,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
     showGeneralDialog(
         useRootNavigator: false,
         context: buildContext,
-        pageBuilder: (con, anim1, anim2) {},
+        pageBuilder: (con, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -1504,9 +1505,9 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                         onPressed: () async {
                           Navigator.pop(transitionBuilderContext); //关闭对话框
                           if (Platform.isIOS) {
-                            Navigator.push(navigatorKey.currentState.overlay.context, MaterialPageRoute(builder: (context) => AeSwapPage()));
+                            Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeSwapPage()));
                           } else {
-                            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(AeSwapPage()));
+                            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(AeSwapPage()));
                           }
                         },
                       ),
@@ -1525,7 +1526,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -1536,7 +1537,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

@@ -10,8 +10,8 @@ import '../../main.dart';
 
 
 class TokenRecordDao {
-  static Future<TokenRecordModel> fetch(String ctId, String page) async {
-    Map<String, String> params = new Map();
+  static Future<TokenRecordModel> fetch(String? ctId, String page) async {
+    Map<String, String?> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["ct_id"] = ctId;

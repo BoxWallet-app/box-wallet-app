@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/allowance_dao.dart';
@@ -31,11 +32,11 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
 
   TextEditingController _textEditingControllerCompiler2 = TextEditingController();
   final FocusNode focusNodeCompiler2 = FocusNode();
-  String ctBalance = "loading...";
+  String? ctBalance = "loading...";
 
-  SwapCoinModel swapCoinModel;
-  SwapCoinModelData dropdownValue;
-  List<DropdownMenuItem<SwapCoinModelData>> coins = List();
+  SwapCoinModel? swapCoinModel;
+  SwapCoinModelData? dropdownValue;
+  List<DropdownMenuItem<SwapCoinModelData>> coins = [];
 
   @override
   void initState() {
@@ -93,10 +94,10 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
 
   void netContractBalance() {
     ctBalance = "loading...";
-    ContractBalanceDao.fetch(dropdownValue.ctAddress).then((ContractBalanceModel model) {
+    ContractBalanceDao.fetch(dropdownValue!.ctAddress).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        ctBalance = model.data.balance;
-        _textEditingControllerCompiler2.text = model.data.rate;
+        ctBalance = model.data!.balance;
+        _textEditingControllerCompiler2.text = model.data!.rate!;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -108,10 +109,10 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
     SwapCoinDao.fetch().then((SwapCoinModel model) {
       if (dropdownValue == null) {
         swapCoinModel = model;
-        dropdownValue = model.data[0];
-        model.data.forEach((element) {
+        dropdownValue = model.data![0];
+        model.data!.forEach((element) {
           final DropdownMenuItem<SwapCoinModelData> item = DropdownMenuItem(
-            child: Text(element.name),
+            child: Text(element.name!),
             value: element,
           );
           coins.add(item);
@@ -189,10 +190,10 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                         ],
                         maxLines: 1,
                         style: TextStyle(
@@ -215,7 +216,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowTokenCount.toString(),
+                          hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue!.lowTokenCount.toString(),
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666).withAlpha(85),
@@ -235,7 +236,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                               child: DropdownButton<SwapCoinModelData>(
                                 underline: Container(),
                                 value: dropdownValue,
-                                onChanged: (SwapCoinModelData newValue) {
+                                onChanged: (SwapCoinModelData? newValue) {
                                   setState(() {
                                     dropdownValue = newValue;
                                   });
@@ -252,7 +253,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 margin: EdgeInsets.only(left: 26, top: 10, right: 26),
                 alignment: Alignment.topRight,
                 child: Text(
-                  S.of(context).token_send_two_page_balance + " : " + ctBalance,
+                  S.of(context).token_send_two_page_balance + " : " + ctBalance!,
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -310,7 +311,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                             controller: _textEditingControllerCompiler,
                             focusNode: focusNodeCompiler,
                             inputFormatters: [
-                              WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                                FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                             ],
 
                             maxLines: 1,
@@ -334,7 +335,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
-                              hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue.lowAeCount.toString(),
+                              hintText: dropdownValue == null ? S.of(context).swap_text_hint : S.of(context).swap_text_hint + " > " + dropdownValue!.lowAeCount.toString(),
                               hintStyle: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666).withAlpha(85),
@@ -383,7 +384,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                             controller: _textEditingControllerCompiler2,
                             focusNode: focusNodeCompiler2,
                             inputFormatters: [
-                              WhitelistingTextInputFormatter(RegExp("[0-9\.]")), //只允许输入字母
+                                FilteringTextInputFormatter.allow(RegExp("[0-9\.]")), //只允许输入字母
                             ],
 
                             maxLines: 1,
@@ -477,16 +478,16 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
       return;
     }
     var inputTokenBalanceString = _textEditingControllerNode.text;
-    if (double.parse(ctBalance) < double.parse(inputTokenBalanceString)) {
+    if (double.parse(ctBalance!) < double.parse(inputTokenBalanceString)) {
       return;
     }
     EasyLoading.show();
-    AllowanceDao.fetch(dropdownValue.ctAddress).then((AllowanceModel model) {
+    AllowanceDao.fetch(dropdownValue!.ctAddress).then((AllowanceModel model) {
       EasyLoading.dismiss(animation: true);
       showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -504,7 +505,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -546,10 +547,10 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       ).then((val) {
                         Navigator.pop(context);
                       });
-                    }, (error) {
+                    } as Future<dynamic> Function(String), (error) {
                       showErrorDialog(context, error);
                       return;
-                    }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data.allowance);
+                    }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue!.ctAddress!, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data!.allowance!);
                     showChainLoading();
                   },
                 ),
@@ -569,7 +570,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -579,7 +580,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
           return ChainLoadingWidget();
         });
   }
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -591,7 +592,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

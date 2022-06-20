@@ -10,7 +10,7 @@ class CtTokenManager {
 
   static final CtTokenManager instance = CtTokenManager._privateConstructor();
 
-  Future<List<Tokens>> getCfxCtTokens(String address) async {
+  Future<List<Tokens>?> getCfxCtTokens(String address) async {
     try {
       var prefs = await SharedPreferences.getInstance();
       var ctCfxTokens = prefs.getString('ct_cfx_tokens_' + address);
@@ -42,7 +42,7 @@ class CtTokenManager {
     CtTokenModel model = CtTokenModel();
     model.tokens = ctTokens;
     var prefs = await SharedPreferences.getInstance();
-    if (ctTokens == null || ctTokens.isEmpty) {
+    if (ctTokens.isEmpty) {
       prefs.setString('ct_cfx_tokens_' + address, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(LOCAL_KEY)));
       return true;
     }
@@ -50,7 +50,7 @@ class CtTokenManager {
     return true;
   }
 
-  Future<List<Tokens>> getEthCtTokens(String chainID, String address) async {
+  Future<List<Tokens>?> getEthCtTokens(String chainID, String address) async {
     try {
       var prefs = await SharedPreferences.getInstance();
 
@@ -75,15 +75,15 @@ class CtTokenManager {
   }
 
 
-  Future<bool> updateETHCtTokens(String chainID,String address , List<Tokens> ctTokens) async {
+  Future<bool> updateETHCtTokens(String chainID,String? address , List<Tokens>? ctTokens) async {
     CtTokenModel model = CtTokenModel();
     model.tokens = ctTokens;
     var prefs = await SharedPreferences.getInstance();
     if (ctTokens == null || ctTokens.isEmpty) {
-      await prefs.setString('ct_eth_tokens_' + chainID + address, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(LOCAL_KEY)));
+      await prefs.setString('ct_eth_tokens_' + chainID + address!, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(LOCAL_KEY)));
       return true;
     }
-    await prefs.setString('ct_eth_tokens_' + chainID +  address, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(LOCAL_KEY)));
+    await prefs.setString('ct_eth_tokens_' + chainID +  address!, Utils.aesEncode(jsonEncode(model), Utils.generateMd5Int(LOCAL_KEY)));
     return true;
   }
 }

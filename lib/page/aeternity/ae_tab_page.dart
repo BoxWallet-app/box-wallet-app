@@ -47,13 +47,13 @@ class AeTabPage extends StatefulWidget {
 
 class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   PageController pageControllerTitle = PageController();
-  BuildContext buildContext;
-  Account account;
-  CfxRpcModel cfxRpcModel;
+  BuildContext? buildContext;
+  Account? account;
+  CfxRpcModel? cfxRpcModel;
 
-  List<Widget> aeWidget = List();
-  List<Widget> cfxWidget = List();
-  List<Widget> ethWidget = List();
+  List<Widget> aeWidget = [];
+  List<Widget> cfxWidget = [];
+  List<Widget> ethWidget = [];
   var _currentIndex = 0;
 
   _AeTabPageState();
@@ -108,33 +108,33 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
         await BoxApp.getGasCFX((data) async {
           var split = data.split("#");
-          cfxRpcModel.payload.storageLimit = split[2].toString();
-          cfxRpcModel.payload.gasPrice = "1000000000";
-          cfxRpcModel.payload.gas = split[0].toString();
+          cfxRpcModel!.payload!.storageLimit = split[2].toString();
+          cfxRpcModel!.payload!.gasPrice = "1000000000";
+          cfxRpcModel!.payload!.gas = split[0].toString();
           String value = "- 0 CFX";
           var decimalBase = Decimal.parse('1000000000000000000');
-          if (cfxRpcModel.payload.value != null) {
-            value = "- " + (Decimal.parse(int.parse(cfxRpcModel.payload.value).toString()) / decimalBase).toString() + " CFX";
+          if (cfxRpcModel!.payload!.value != null) {
+            value = "- " + (Decimal.parse(int.parse(cfxRpcModel!.payload!.value!).toString()) / decimalBase).toString() + " CFX";
           }
 
-          var decimalGasPrice = Decimal.parse(int.parse(cfxRpcModel.payload.gasPrice).toString());
+          var decimalGasPrice = Decimal.parse(int.parse(cfxRpcModel!.payload!.gasPrice!).toString());
 
-          var decimalGas = Decimal.parse(int.parse(cfxRpcModel.payload.gas).toString());
+          var decimalGas = Decimal.parse(int.parse(cfxRpcModel!.payload!.gas!).toString());
           var decimalGasBase = decimalGas / decimalBase;
 
-          var storageLimit = Decimal.parse((int.parse(cfxRpcModel.payload.storageLimit).toString()));
+          var storageLimit = Decimal.parse((int.parse(cfxRpcModel!.payload!.storageLimit!).toString()));
 
           var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
           await PluginManager.cfxGetGas({
             'type': methodCall.method,
-            'from': cfxRpcModel.payload.from,
-            'to': cfxRpcModel.payload.to,
+            'from': cfxRpcModel!.payload!.from,
+            'to': cfxRpcModel!.payload!.to,
             'value': value,
             'gas': "- " + formatGas.toStringAsFixed(10) + " CFX",
-            'data': cfxRpcModel.payload.data,
+            'data': cfxRpcModel!.payload!.data,
           });
           return;
-        }, cfxRpcModel.payload.from, cfxRpcModel.payload.to, cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.data);
+        }, cfxRpcModel!.payload!.from!, cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.data!);
 
         return 'SUCCESS';
       case 'signTransaction':
@@ -143,7 +143,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         }
         var password = methodCall.arguments.toString();
         password = Utils.generateMD5(password + PSD_KEY);
-        var signingKey = await BoxApp.getSigningKey();
+        var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
         var address = await BoxApp.getAddress();
         final key = Utils.generateMd5Int(password + address);
         var aesDecode;
@@ -172,8 +172,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           return 'SUCCESS';
         }, (error) {
           return;
-        }, aesDecode, cfxRpcModel.payload.storageLimit != null ? cfxRpcModel.payload.storageLimit : "0", cfxRpcModel.payload.gas != null ? cfxRpcModel.payload.gas : "0", cfxRpcModel.payload.gasPrice != null ? cfxRpcModel.payload.gasPrice : "0",
-            cfxRpcModel.payload.value != null ? cfxRpcModel.payload.value : "0", cfxRpcModel.payload.to, cfxRpcModel.payload.data);
+        }, aesDecode, cfxRpcModel!.payload!.storageLimit != null ? cfxRpcModel!.payload!.storageLimit! : "0", cfxRpcModel!.payload!.gas != null ? cfxRpcModel!.payload!.gas! : "0", cfxRpcModel!.payload!.gasPrice != null ? cfxRpcModel!.payload!.gasPrice! : "0",
+            cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.data!);
 
         return 'SUCCESS';
 
@@ -183,7 +183,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       // AeHomePage.address = account.address;
       this.account = account;
       if (!mounted) return;
@@ -203,7 +203,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 
     HostDao.fetch().then((HostModel model) {
       Host.BASE_HOST = model.baseUrl;
-      BoxApp.setBaseHost(Host.BASE_HOST);
+      BoxApp.setBaseHost(Host.BASE_HOST!);
     }).catchError((e) {});
   }
   void netVersion() {
@@ -215,23 +215,23 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
           var newVersion = 0;
           if (Platform.isIOS) {
-            newVersion = int.parse(model.data.versionIos.replaceAll(".", ""));
+            newVersion = int.parse(model.data!.versionIos!.replaceAll(".", ""));
           } else {
-            newVersion = int.parse(model.data.version.replaceAll(".", ""));
+            newVersion = int.parse(model.data!.version!.replaceAll(".", ""));
           }
 
 //          var oldVersion = 100;
 //          model.data.isMandatory = "1";
           var oldVersion = int.parse(packageInfo.version.replaceAll(".", ""));
           if (newVersion > oldVersion) {
-            if (model.data.msgCN == null) {
-              model.data.msgCN = "发现新版本";
+            if (model.data!.msgCN == null) {
+              model.data!.msgCN = "发现新版本";
             }
-            if (model.data.msgEN == null) {
-              model.data.msgEN = "Discover a new version";
+            if (model.data!.msgEN == null) {
+              model.data!.msgEN = "Discover a new version";
             }
             Future.delayed(Duration.zero, () {
-              model.data.isMandatory == "1"
+              model.data!.isMandatory == "1"
                   ? showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
@@ -246,7 +246,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               S.of(context).dialog_update_title,
                             ),
                             content: Text(
-                              BoxApp.language == "cn" ? model.data.msgCN : model.data.msgEN,
+                              BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!,
                             ),
                             actions: <Widget>[
                               TextButton(
@@ -255,9 +255,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                                 ),
                                 onPressed: () {
                                   if (Platform.isIOS) {
-                                    _launchURL(model.data.urlIos);
+                                    _launchURL(model.data!.urlIos!);
                                   } else if (Platform.isAndroid) {
-                                    _launchURL(model.data.urlAndroid);
+                                    _launchURL(model.data!.urlAndroid!);
                                   }
                                 },
                               ),
@@ -266,7 +266,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                         );
                       },
                     ).then((value) {
-                      if (value) {}
+                      if (value!) {}
                     })
                   : showDialog<bool>(
                       context: context,
@@ -278,7 +278,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                             S.of(context).dialog_update_title,
                           ),
                           content: Text(
-                            BoxApp.language == "cn" ? model.data.msgCN : model.data.msgEN,
+                            BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!,
                           ),
                           actions: <Widget>[
                             TextButton(
@@ -295,9 +295,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                               ),
                               onPressed: () {
                                 if (Platform.isIOS) {
-                                  _launchURL(model.data.urlIos);
+                                  _launchURL(model.data!.urlIos!);
                                 } else if (Platform.isAndroid) {
-                                  _launchURL(model.data.urlAndroid);
+                                  _launchURL(model.data!.urlAndroid!);
                                 }
                               },
                             ),
@@ -312,10 +312,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     }).catchError((e) {});
   }
 
-  DateTime lastPopTime;
-  AnimationController tab1Controller;
-  AnimationController tab2Controller;
-  AnimationController tab3Controller;
+  DateTime? lastPopTime;
+  AnimationController? tab1Controller;
+  AnimationController? tab2Controller;
+  AnimationController? tab3Controller;
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +326,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         // ignore: missing_return
         onWillPop: () async {
           // 点击返回键的操作
-          if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+          if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
             lastPopTime = DateTime.now();
             Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
           } else {
@@ -334,7 +334,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             // 退出app
             exit(0);
           }
-        },
+          return true;
+        } ,
 
         child: Scaffold(
           // backgroundColor: Color(0xFFffffff),
@@ -846,9 +847,9 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
               );
             },
           ).then((val) async {
-            if (val) {
-              var mnemonic = await BoxApp.getMnemonic();
-              var signKey = await BoxApp.getSigningKey();
+            if (val!) {
+              var mnemonic = await (BoxApp.getMnemonic() as FutureOr<String>);
+              var signKey = await (BoxApp.getSigningKey() as FutureOr<String>);
               var address = await BoxApp.getAddress();
 
               var msg = "address:" +
@@ -872,24 +873,25 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   Widget getBody() {
     if (account == null) return Container();
 
-    if (account.coin == "AE") {
+    if (account!.coin == "AE") {
       return IndexedStack(
         index: _currentIndex,
         children: aeWidget,
       );
     }
-    if (account.coin == "CFX") {
+    if (account!.coin == "CFX") {
       return IndexedStack(
         index: _currentIndex,
         children: cfxWidget,
       );
     }
-    if (account.coin == "OKT" || account.coin == "BNB" || account.coin == "HT" || account.coin == "ETH") {
+    if (account!.coin == "OKT" || account!.coin == "BNB" || account!.coin == "HT" || account!.coin == "ETH") {
       return IndexedStack(
         index: _currentIndex,
         children: ethWidget,
       );
     }
+    return Container();
   }
 
   Positioned buildTitleRightIcon(BuildContext context) {
@@ -949,7 +951,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
 //                                                      shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(36.0),
                           image: DecorationImage(
-                            image: AssetImage("images/" + account.coin + ".png"),
+                            image: AssetImage("images/" + account!.coin! + ".png"),
                           ),
                         ),
                       ),
@@ -994,10 +996,10 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
     if (account == null) {
       return "";
     }
-    if (account.name == null || account.name == "") {
-      return Utils.formatAccountAddress(account.address);
+    if (account!.name == null || account!.name == "") {
+      return Utils.formatAccountAddress(account!.address);
     } else {
-      return account.name;
+      return account!.name;
     }
   }
 

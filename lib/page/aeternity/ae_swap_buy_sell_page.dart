@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:box/dao/aeternity/swap_coin_order_dao.dart';
@@ -16,9 +17,9 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class AeSwapBuySellPage extends StatefulWidget {
-  final int type;
+  final int? type;
 
-  const AeSwapBuySellPage({Key key, this.type}) : super(key: key);
+  const AeSwapBuySellPage({Key? key, this.type}) : super(key: key);
 
   @override
   _AeSwapBuySellPageState createState() => _AeSwapBuySellPageState();
@@ -27,7 +28,7 @@ class AeSwapBuySellPage extends StatefulWidget {
 class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapCoinOrderModel swapModels;
+  SwapCoinOrderModel? swapModels;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -63,7 +64,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
               header: BoxHeader(),
               onRefresh: _onRefresh,
               child: ListView.builder(
-                itemCount: swapModels == null ? 0 : swapModels.data.length,
+                itemCount: swapModels == null ? 0 : swapModels!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return getItem(context, index);
                 },
@@ -88,7 +89,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
     if (model != null || model.code == 200) {
       swapModels = model;
       loadingType = LoadingType.finish;
-      if (swapModels.data == null || swapModels.data.length == 0) {
+      if (swapModels!.data == null || swapModels!.data!.length == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -116,7 +117,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
 
               //设置四周边框
             ),
-            margin: index == swapModels.data.length-1 ? EdgeInsets.only(left: 16, right: 16, bottom:  MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
+            margin: index == swapModels!.data!.length-1 ? EdgeInsets.only(left: 16, right: 16, bottom:  MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 15, right: 15, bottom: 18, top: 18),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +139,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             ),
                             Container(
                               child: Text(
-                                Utils.formatAddress(swapModels.data[index].sellAddress),
+                                Utils.formatAddress(swapModels!.data![index].sellAddress),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -160,7 +161,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             ),
                             Container(
                               child: Text(
-                                Utils.formatAddress(swapModels.data[index].buyAddress),
+                                Utils.formatAddress(swapModels!.data![index].buyAddress),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -183,7 +184,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             ),
                             Container(
                               child: Text(
-                                Utils.formatTime( swapModels.data[index].payTime),
+                                Utils.formatTime( swapModels!.data![index].payTime),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -198,14 +199,14 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             Expanded(
                               child: Container(
                                 child: Text(
-                                  S.of(context).swap_buy_sell_order_item_7 +" ("+swapModels.data[index].coinName+")",
+                                  S.of(context).swap_buy_sell_order_item_7 +" ("+swapModels!.data![index].coinName!+")",
                                   style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                                 ),
                               ),
                             ),
                             Container(
                               child: Text(
-                                swapModels.data[index].tokenCount.toString(),
+                                swapModels!.data![index].tokenCount.toString(),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -227,7 +228,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             ),
                             Container(
                               child: Text(
-                                swapModels.data[index].aeCount.toString(),
+                                swapModels!.data![index].aeCount.toString(),
                                 style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -250,7 +251,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                             ),
                             Container(
                               child: Text(
-                                (swapModels.data[index].currentHeight - swapModels.data[index].payHeight).toString(),
+                                (swapModels!.data![index].currentHeight! - swapModels!.data![index].payHeight!).toString(),
                                 style: TextStyle(color: Color(0xFFE51363), fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
                               ),
                             ),
@@ -276,7 +277,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -292,7 +293,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -326,7 +327,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                               ),
                               onPressed: () {
                                 eventBus.fire(SwapEvent());
-                                swapModels.data.removeAt(index - 1);
+                                swapModels!.data!.removeAt(index - 1);
                                 setState(() {});
                                 loadingType = LoadingType.loading;
                                 setState(() {});
@@ -338,7 +339,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                         );
                       },
                     ).then((val) {});
-                  }, (error) {
+                  } as Future<dynamic> Function(String), (error) {
                     showErrorDialog(context, error);
                     return;
                   }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
@@ -355,7 +356,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
-        },
+        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -457,7 +458,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -469,7 +470,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

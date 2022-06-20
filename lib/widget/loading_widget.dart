@@ -10,23 +10,23 @@ import '../main.dart';
 enum LoadingType { loading, error, finish, no_data }
 
 class LoadingWidget extends StatefulWidget {
-  final Widget child;
-  final LoadingType type;
-  final VoidCallback onPressedError;
+  final Widget? child;
+  final LoadingType? type;
+  final VoidCallback? onPressedError;
 
-  const LoadingWidget({Key key, this.type, this.onPressedError, this.child}) : super(key: key);
+  const LoadingWidget({Key? key, this.type, this.onPressedError, this.child}) : super(key: key);
 
   @override
   _LoadingWidgetState createState() => _LoadingWidgetState();
 }
 
 class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -47,12 +47,13 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
         return _error(widget.onPressedError);
         break;
       case LoadingType.finish:
-        return widget.child;
+        return widget.child!;
       case LoadingType.no_data:
         return _noData;
 //        return _error(widget.onPressedError);;
-        break;
     }
+    return _loadingView;
+
   }
 
   Widget get _loadingView {
@@ -72,7 +73,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
           onLoaded: (composition) {
             // Configure the AnimationController with the duration of the
             // Lottie file and start the animation.
-            _controller
+            _controller!
               ..duration = Duration(milliseconds: 1000)
               ..repeat();
           },

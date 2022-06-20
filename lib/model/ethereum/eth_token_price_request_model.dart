@@ -1,15 +1,15 @@
 class EthTokenPriceRequestModel {
-  int blockchainId;
-  List<EthTokenPriceRequestItemModel> tokenList;
+  int? blockchainId;
+  List<EthTokenPriceRequestItemModel>? tokenList;
 
   EthTokenPriceRequestModel({this.blockchainId, this.tokenList});
 
   EthTokenPriceRequestModel.fromJson(Map<String, dynamic> json) {
     blockchainId = json['blockchain_id'];
     if (json['token_list'] != null) {
-      tokenList = new List<EthTokenPriceRequestItemModel>();
+      tokenList = <EthTokenPriceRequestItemModel>[];
       json['token_list'].forEach((v) {
-        tokenList.add(new EthTokenPriceRequestItemModel.fromJson(v));
+        tokenList!.add(new EthTokenPriceRequestItemModel.fromJson(v));
       });
     }
   }
@@ -18,15 +18,15 @@ class EthTokenPriceRequestModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['blockchain_id'] = this.blockchainId;
     if (this.tokenList != null) {
-      data['token_list'] = this.tokenList.map((v) => v.toJson()).toList();
+      data['token_list'] = this.tokenList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class EthTokenPriceRequestItemModel {
-  String address;
-  String blSymbol;
+  String? address;
+  String? blSymbol;
 
   EthTokenPriceRequestItemModel({this.address, this.blSymbol});
 

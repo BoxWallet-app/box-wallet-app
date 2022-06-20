@@ -14,14 +14,14 @@ class AeAex2Page extends StatefulWidget {
   final signingKey;
   final address;
 
-  const AeAex2Page({Key key, this.url, this.title, this.signingKey, this.address}) : super(key: key);
+  const AeAex2Page({Key? key, this.url, this.title, this.signingKey, this.address}) : super(key: key);
 
   @override
   _AeAex2PageState createState() => _AeAex2PageState();
 }
 
 class _AeAex2PageState extends State<AeAex2Page> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool isFinish = false;
   String sign = "";
 
@@ -99,10 +99,10 @@ class _AeAex2PageState extends State<AeAex2Page> {
                 JavascriptChannel(
                     name: 'onSignData_JS',
                     onMessageReceived: (JavascriptMessage message) {
-                      Map<String, dynamic> tx = jsonDecode(message.message);
+                      Map<String, dynamic>? tx = jsonDecode(message.message);
                       showGeneralDialog(useRootNavigator:false,
                           context: context,
-                          pageBuilder: (context, anim1, anim2) {},
+                          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                           //barrierColor: Colors.grey.withOpacity(.4),
                           barrierDismissible: true,
                           barrierLabel: "",

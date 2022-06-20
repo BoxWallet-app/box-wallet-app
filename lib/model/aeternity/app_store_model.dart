@@ -1,8 +1,8 @@
 class AppStoreModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   AppStoreModel({this.code, this.msg, this.time, this.data});
 
@@ -19,16 +19,16 @@ class AppStoreModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  bool isOpen;
-  String version;
-  bool nextOpen;
+  bool? isOpen;
+  String? version;
+  bool? nextOpen;
 
   Data({this.isOpen, this.version, this.nextOpen});
 

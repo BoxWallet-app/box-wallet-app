@@ -22,7 +22,7 @@ class WeTrueConfigDao {
       options.headers = Map();
     }
     ///请求header的配置
-    options.headers["ak-token"]=address;
+    options.headers!["ak-token"]=address;
     url = WE_TRUE_URL+"/Config/info";
     Response response = await Dio().post(url,options: options);
     if (response.statusCode == 200) {

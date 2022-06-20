@@ -8,17 +8,17 @@ import '../../main.dart';
 
 class WebPage extends StatefulWidget {
 
-  final String url;
-  final String title;
+  final String? url;
+  final String? title;
 
-  const WebPage({Key key, this.url, this.title}) : super(key: key);
+  const WebPage({Key? key, this.url, this.title}) : super(key: key);
 
   @override
   _WebPageState createState() => _WebPageState();
 }
 
 class _WebPageState extends State<WebPage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool isFinish = false;
 
   @override
@@ -34,7 +34,7 @@ class _WebPageState extends State<WebPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          widget.title,
+          widget.title!,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,

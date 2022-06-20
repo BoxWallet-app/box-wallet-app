@@ -7,7 +7,7 @@ import 'package:box/model/aeternity/we_true_praise_model.dart';
 import 'package:dio/dio.dart';
 
 class WeTruePraiseDao {
-  static Future<WeTruePraiseModel> fetch(String hash) async {
+  static Future<WeTruePraiseModel> fetch(String? hash) async {
     String url = "";
 
     FormData formData = FormData.fromMap({
@@ -20,7 +20,7 @@ class WeTruePraiseDao {
       options.headers = Map();
     }
     ///请求header的配置
-    options.headers["ak-token"]=address;
+    options.headers!["ak-token"]=address;
     url = WE_TRUE_URL+"/Submit/praise";
     Response response = await Dio().post(url, data: formData,options: options);
     if (response.statusCode == 200) {

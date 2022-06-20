@@ -16,7 +16,7 @@ import '../../main.dart';
 import 'cfx_tx_detail_page.dart';
 
 class CfxRecordsPage extends StatefulWidget {
-  const CfxRecordsPage({Key key}) : super(key: key);
+  const CfxRecordsPage({Key? key}) : super(key: key);
 
   @override
   _CfxRecordsPageState createState() => _CfxRecordsPageState();
@@ -25,12 +25,12 @@ class CfxRecordsPage extends StatefulWidget {
 class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  CfxTransfer cfxTransfer;
+  CfxTransfer? cfxTransfer;
   int page = 1;
   var address = '';
 
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     super.initState();
 
     getAddress();
@@ -54,15 +54,15 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     if (page == 1) {
       cfxTransfer = model;
     } else {
-      cfxTransfer.list.addAll(model.list);
+      cfxTransfer!.list!.addAll(model.list!);
     }
     setState(() {});
-    if (cfxTransfer.list.length == 0) {
+    if (cfxTransfer!.list!.length == 0) {
       _loadingType = LoadingType.no_data;
     }
     page++;
 
-    if (model.list.length < 20) {
+    if (model.list!.length < 20) {
       _controller.finishLoad(noMore: true);
     }
 
@@ -101,7 +101,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     super.dispose();
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       this.address = address;
       netData();
@@ -144,7 +144,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
 //          controller: _controller,
           child: ListView.builder(
             itemBuilder: buildColumn,
-            itemCount: cfxTransfer == null ? 0 : cfxTransfer.list.length,
+            itemCount: cfxTransfer == null ? 0 : cfxTransfer!.list!.length,
           ),
         ),
         type: _loadingType,
@@ -170,7 +170,6 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
   Widget getItem(BuildContext context, int index) {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
-
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         color: Colors.white,
@@ -178,11 +177,10 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer!.list![index].hash)));
             } else {
-              Navigator.push(context, SlideRoute( CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+              Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer!.list![index].hash)));
             }
-
           },
           child: Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
@@ -213,17 +211,17 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
                       Container(
                         margin: EdgeInsets.only(top: 8),
                         child: Text(
-                          cfxTransfer.list[index].hash,
+                          cfxTransfer!.list![index].hash!,
                           strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                         width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
-                          DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().length - 4),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
                     ],
@@ -251,7 +249,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     //   return cfxTransfer.list[index].method;
     // }
     var split = address.split(":");
-    if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
+    if (cfxTransfer!.list![index].from.toString().toLowerCase().contains(split[1])) {
       return S.current.cfx_home_page_transfer_send;
     } else {
       return S.current.cfx_home_page_transfer_receive;
@@ -267,14 +265,14 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     //   // ignore: unrelated_type_equality_checks
     //
     var split = address.split(":");
-    if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
+    if (cfxTransfer!.list![index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 6)) + " CFX",
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 6)) + " CFX",
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 6)) + " CFX",
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 6)) + " CFX",
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

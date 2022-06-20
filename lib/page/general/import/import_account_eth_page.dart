@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:box/config.dart';
@@ -21,11 +22,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ImportAccountEthPage extends StatefulWidget {
-  final String coinName;
-  final String fullName;
-  final String password;
+  final String? coinName;
+  final String? fullName;
+  final String? password;
 
-  const ImportAccountEthPage({Key key, this.coinName, this.fullName, this.password = ""}) : super(key: key);
+  const ImportAccountEthPage({Key? key, this.coinName, this.fullName, this.password = ""}) : super(key: key);
 
   @override
   _ImportAccountEthPageState createState() => _ImportAccountEthPageState();
@@ -54,7 +55,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            S.of(context).ImportAccountPage_title1 + "" + widget.fullName + S.of(context).ImportAccountPage_title2,
+            S.of(context).ImportAccountPage_title1 + "" + widget.fullName! + S.of(context).ImportAccountPage_title2,
             softWrap: true,
             textAlign: TextAlign.left,
             overflow: TextOverflow.ellipsis,
@@ -230,9 +231,9 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
                                   child: FlatButton(
                                     onPressed: () async {
-                                      ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-                                      _textEditingController.text = data.text;
-                                      _textEditingController.value = TextEditingValue(text: data.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text.length)));
+                                      ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain) as FutureOr<ClipboardData>);
+                                      _textEditingController.text = data.text!;
+                                      _textEditingController.value = TextEditingValue(text: data.text!, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text!.length)));
                                     },
                                     child: Text(
                                       S.of(context).ImportAccountPage_copy,
@@ -278,7 +279,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   }
 
   inputPassword(String data, bool isQR) {
-    if (data == null || data == "") {
+    if (data == "") {
       return;
     }
     if (!data.toString().contains("box_")) {
@@ -292,7 +293,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
-        },
+        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -324,7 +325,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     return;
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -335,7 +336,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -353,7 +354,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
 
   clickLogin() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    if (_textEditingController.text == null || _textEditingController.text == "") {
+    if (_textEditingController.text == "") {
       EasyLoading.showToast(S.of(context).account_login_msg, duration: Duration(seconds: 2));
       return;
     }
@@ -403,7 +404,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
           },
         ).then((val) {});
       } else {
-        if (widget.password.isEmpty) {
+        if (widget.password!.isEmpty) {
           if (Platform.isIOS) {
             Navigator.push(
                 context,
@@ -415,7 +416,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                           },
                         )));
           } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
                 await createPrivateKeyAccount(password, privateKey);
                 return;
@@ -457,7 +458,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
         },
       ).then((val) {});
     } else {
-      if (widget.password.isEmpty) {
+      if (widget.password!.isEmpty) {
         if (Platform.isIOS) {
           Navigator.push(
               context,
@@ -469,7 +470,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                         },
                       )));
         } else {
-          Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+          Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
             setPasswordPageCallBackFuture: (password) async {
               await createAddressAccount(password, address);
               return;
@@ -487,7 +488,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     BoxApp.getValidationMnemonic((isSucess) {
       EasyLoading.dismiss();
       if (isSucess) {
-        if (widget.password.isEmpty) {
+        if (widget.password!.isEmpty) {
           if (Platform.isIOS) {
             Navigator.push(
                 context,
@@ -499,7 +500,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                           },
                         )));
           } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
                 await createMnemonicAccount(password, mnemonic);
                 return;
@@ -541,13 +542,13 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     }, mnemonic);
   }
 
-  Future<void> createMnemonicAccount(String password, String mnemonic) async {
+  Future<void> createMnemonicAccount(String? password, String mnemonic) async {
     EasyLoading.show();
     BoxApp.getSecretKeyETH((address, signingKey) async {
       EasyLoading.dismiss();
       if (!await checkAccount(address)) return;
 
-      final key = Utils.generateMd5Int(password + address);
+      final key = Utils.generateMd5Int(password! + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
       await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
@@ -556,12 +557,12 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     }, mnemonic);
   }
 
-  Future<void> createPrivateKeyAccount(String password, String privateKey) async {
+  Future<void> createPrivateKeyAccount(String? password, String privateKey) async {
     EasyLoading.show();
     BoxApp.getSecretPrivateETH((address, signingKey) async {
       EasyLoading.dismiss();
       if (!await checkAccount(address)) return;
-      final key = Utils.generateMd5Int(password + address);
+      final key = Utils.generateMd5Int(password! + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
       await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, "", signingKeyAesEncode, AccountType.PRIVATE_KEY, false);
@@ -569,9 +570,9 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
     }, privateKey);
   }
 
-  Future<void> createAddressAccount(String password, String address) async {
+  Future<void> createAddressAccount(String? password, String address) async {
     if (!await checkAccount(address)) return;
-    final key = Utils.generateMd5Int(password + address);
+    final key = Utils.generateMd5Int(password! + address);
     var addressPassword = Utils.aesEncode(address, key);
     await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
     await WalletCoinsManager.instance.setAddressPassword(address, addressPassword);
@@ -585,9 +586,9 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
       return true;
     }
     bool isExist = false;
-    for (var i = 0; i < walletCoinModel.coins.length; i++) {
-      for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
-        if (walletCoinModel.coins[i].accounts[j].address == address && widget.coinName == walletCoinModel.coins[i].name) {
+    for (var i = 0; i < walletCoinModel.coins!.length; i++) {
+      for (var j = 0; j < walletCoinModel.coins![i].accounts!.length; j++) {
+        if (walletCoinModel.coins![i].accounts![j].address == address && widget.coinName == walletCoinModel.coins![i].name) {
           isExist = true;
         }
       }
@@ -620,7 +621,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
   }
 
   void switchAddType() {
-    if (widget.password.isEmpty) {
+    if (widget.password!.isEmpty) {
       Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
     } else {
       eventBus.fire(AddImportAccount());

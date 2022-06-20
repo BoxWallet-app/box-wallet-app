@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -21,13 +22,13 @@ import '../../main.dart';
 import 'cfx_token_record_page.dart';
 
 
-typedef CfxTokenAddPageCallBackFuture = Future Function();
+typedef CfxTokenAddPageCallBackFuture = Future? Function();
 
 class CfxTokenAddPage extends StatefulWidget {
 
-  final CfxTokenAddPageCallBackFuture cfxTokenAddPageCallBackFuture;
+  final CfxTokenAddPageCallBackFuture? cfxTokenAddPageCallBackFuture;
 
-  const CfxTokenAddPage({Key key, this.cfxTokenAddPageCallBackFuture}) : super(key: key);
+  const CfxTokenAddPage({Key? key, this.cfxTokenAddPageCallBackFuture}) : super(key: key);
 
   @override
   _TokenAddPathState createState() => _TokenAddPathState();
@@ -38,14 +39,14 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
   List<TokensData> tokenData = [];
-  CfxTokensListModel tokenListModel;
+  late CfxTokensListModel tokenListModel;
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     if(widget.cfxTokenAddPageCallBackFuture!=null){
-      widget.cfxTokenAddPageCallBackFuture();
+      widget.cfxTokenAddPageCallBackFuture!();
     }
   }
 
@@ -57,15 +58,15 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
 
     _textEditingControllerNode.addListener(() {
       var data = _textEditingControllerNode.text;
-      if (data == null || data == "") {
-        tokenData = tokenListModel.list.sublist(0);
+      if (data == "") {
+        tokenData = tokenListModel.list!.sublist(0);
         setState(() {});
 
         return;
       }
       tokenData.clear();
-      tokenListModel.list.forEach((element) {
-        if (element.name.toLowerCase().contains(data.toLowerCase()) || element.symbol.toLowerCase().contains(data.toLowerCase()) || element.address.toLowerCase().contains(data.toLowerCase())) {
+      tokenListModel.list!.forEach((element) {
+        if (element.name!.toLowerCase().contains(data.toLowerCase()) || element.symbol!.toLowerCase().contains(data.toLowerCase()) || element.address!.toLowerCase().contains(data.toLowerCase())) {
           tokenData.add(element);
         }
       });
@@ -77,10 +78,10 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
   Future<void> _onRefresh() async {
     CfxTokenListDao.fetch().then((CfxTokensListModel model) async {
       var address = await BoxApp.getAddress();
-      var cfxTokens = await CtTokenManager.instance.getCfxCtTokens(address);
+      var cfxTokens = await (CtTokenManager.instance.getCfxCtTokens(address) as FutureOr<List<Tokens>>);
 
       if(cfxTokens.isNotEmpty){
-        model.list.forEach((element) {
+        model.list!.forEach((element) {
           cfxTokens.forEach((element2) {
             if(element.address == element2.ctId){
               element.isSelect = true;
@@ -91,7 +92,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
 
       
       tokenListModel = model;
-      tokenData = tokenListModel.list.sublist(0);
+      tokenData = tokenListModel.list!.sublist(0);
       if (tokenListModel.total == 0) {
         loadingType = LoadingType.no_data;
         setState(() {});
@@ -160,7 +161,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
                         inputFormatters: [
-                          // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                          //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                         ],
                         maxLines: 1,
                         style: TextStyle(
@@ -238,13 +239,13 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () async {
             tokenData[index].isSelect = !tokenData[index].isSelect;
-            tokenListModel.list.forEach((element) {
+            tokenListModel.list!.forEach((element) {
               if (tokenData[index].address == element.address) {
                 element.isSelect = tokenData[index].isSelect;
               }
             });
             var address = await BoxApp.getAddress();
-            var tokens = await CtTokenManager.instance.getCfxCtTokens(address);
+            var tokens = await (CtTokenManager.instance.getCfxCtTokens(address) as FutureOr<List<Tokens>>);
             var tokensTemp = tokens.sublist(0);
             if (tokenData[index].isSelect) {
               tokensTemp.forEach((element) {
@@ -306,7 +307,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    getCoinName(index),
+                                    getCoinName(index)!,
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -318,7 +319,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15, top: 3),
                                   child: Text(
-                                    tokenData[index].address.substring(0, 10) + "...." + tokenData[index].address.substring(tokenData[index].address.length - 10, tokenData[index].address.length),
+                                    tokenData[index].address!.substring(0, 10) + "...." + tokenData[index].address!.substring(tokenData[index].address!.length - 10, tokenData[index].address!.length),
                                     style: new TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff999999),
@@ -372,35 +373,35 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
       },
       errorBuilder: (  BuildContext context,
           Object error,
-          StackTrace stackTrace,) {
+          StackTrace? stackTrace,) {
         return Container(color: Colors.grey.shade200,);
       },
     );
   }
 
   String getRealIconUrl(int index) {
-     String iconUrl;
+     String? iconUrl;
     iconUrl = tokenData[index].iconUrl == null ? "" : tokenData[index].iconUrl;
-    if (iconUrl.contains(".svg")) {
+    if (iconUrl!.contains(".svg")) {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/DEF.png";
     }
     if (tokenData[index].address == "cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2") {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/FC.png";
     }
-    if(iconUrl == null || iconUrl==""){
-      iconUrl = "https://scan-icons.oss-cn-hongkong.aliyuncs.com/mainnet/"+tokenData[index].address;
+    if(iconUrl==""){
+      iconUrl = "https://scan-icons.oss-cn-hongkong.aliyuncs.com/mainnet/"+tokenData[index].address!;
     }
     return iconUrl;
   }
 
-  String getCoinName(int index) {
-    String name;
-    if (tokenData[index].name.length < tokenData[index].symbol.length) {
+  String? getCoinName(int index) {
+    String? name;
+    if (tokenData[index].name!.length < tokenData[index].symbol!.length) {
       name = tokenData[index].name;
     } else {
       name = tokenData[index].symbol;
     }
-    if (name.length > 10) {
+    if (name!.length > 10) {
       name = name.substring(0, 5) + "..." + name.substring(name.length - 4, name.length);
     }
     return name;

@@ -10,7 +10,7 @@ import 'package:box/model/aeternity/wetrue_comment_model.dart';
 import 'package:dio/dio.dart';
 
 class WetrueCommentDao {
-  static Future<WetrueCommentModel> fetch(String hash, int page) async {
+  static Future<WetrueCommentModel> fetch(String? hash, int? page) async {
     String url = "";
 
     url = WE_TRUE_URL + "/Comment/list";
@@ -28,7 +28,7 @@ class WetrueCommentDao {
       options.headers = Map();
     }
     ///请求header的配置
-    options.headers["ak-token"] = address;
+    options.headers!["ak-token"] = address;
 
     Response response = await Dio().post(url, data: formData, options: options);
     if (response.statusCode == 200) {

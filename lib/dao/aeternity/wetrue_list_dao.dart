@@ -9,7 +9,7 @@ import 'package:box/model/aeternity/swap_order_model.dart';
 import 'package:dio/dio.dart';
 
 class WeTrueListDao {
-  static Future<WetrueListModel> fetch(int type, int page) async {
+  static Future<WetrueListModel> fetch(int? type, int page) async {
     String url = "";
     switch (type) {
       case 0:
@@ -33,7 +33,7 @@ class WeTrueListDao {
       options.headers = Map();
     }
     ///请求header的配置
-    options.headers["ak-token"]=address;
+    options.headers!["ak-token"]=address;
 
 
     Response response = await Dio().post(url, data: formData,options: options);

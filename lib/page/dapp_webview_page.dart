@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:ui';
@@ -16,7 +17,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:native_webview/native_webview.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import '../main.dart';
 import 'confux/cfx_transfer_confirm_page.dart';
@@ -24,26 +25,26 @@ import 'ethereum/eth_home_page.dart';
 import 'ethereum/eth_transfer_confirm_page.dart';
 
 class DappWebViewPage extends StatefulWidget {
-  final String url;
-  final String title;
+  final String? url;
+  final String? title;
 
-  const DappWebViewPage({Key key, this.url, this.title}) : super(key: key);
+  const DappWebViewPage({Key? key, this.url, this.title}) : super(key: key);
 
   @override
   _DappWebViewPageState createState() => _DappWebViewPageState();
 }
 
 class _DappWebViewPageState extends State<DappWebViewPage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   double progress = 0;
   bool isPageFinish = false;
-  String address = "";
+  String? address = "";
   String rpcUrl = "";
   String chainID = "";
-  String coinName = "";
-  String title = "";
-  String url = "";
-  Account account;
+  String? coinName = "";
+  String? title = "";
+  String? url = "";
+  Account? account;
 
   @override
   void initState() {
@@ -82,9 +83,9 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                     size: 17,
                   ),
                   onPressed: () async {
-                    Future<bool> canGoBack = _webViewController.canGoBack();
+                    Future<bool?> canGoBack = _webViewController.canGoBack();
                     canGoBack.then((str) {
-                      if (str) {
+                      if (str!) {
                         _webViewController.goBack();
                         // _webViewController.reload();
                       } else {
@@ -101,7 +102,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   size: 20,
                 ),
                 onPressed: () async {
-                  Future<bool> canGoBack = _webViewController.canGoBack();
+                  Future<bool?> canGoBack = _webViewController.canGoBack();
                   canGoBack.then((str) {
                     Navigator.of(context).pop();
                   });
@@ -110,7 +111,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
               Expanded(
                 child: Center(
                   child: Text(
-                    title,
+                    title!,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -124,7 +125,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   Icons.arrow_back_ios,
                   color: Colors.transparent,
                   size: 22,
-                ),
+                ), onPressed: () {  },
               ),
               IconButton(
                 icon: Icon(
@@ -133,12 +134,12 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   size: 20,
                 ),
                 onPressed: () async {
-                  Future<bool> canGoBack = _webViewController.canGoBack();
+                  Future<bool?> canGoBack = _webViewController.canGoBack();
                   canGoBack.then((str) {
                     if (url == null) {
                       return;
                     }
-                    _webViewController.loadUrl(url);
+                    _webViewController.loadUrl(url!);
                   });
                 },
               ),
@@ -185,10 +186,10 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                 coinName: coinName,
                 initialUrl: widget.url,
                 onPostMessage: (webViewController, coinName, message) async {
-                  if (account.coin == "CFX") {
-                    await cfxToDapp(message, webViewController, context);
+                  if (account!.coin == "CFX") {
+                    await cfxToDapp(message!, webViewController, context);
                   } else {
-                    await ethToDapp(message, webViewController, context);
+                    await ethToDapp(message!, webViewController, context);
                   }
                 },
                 onPageFinished: (webViewController, url) {
@@ -230,7 +231,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
               padding:  EdgeInsets.all(7),
               alignment: Alignment.center,
               child: Text(
-                this.url,
+                this.url!,
                 textAlign:TextAlign.center,
                 style: TextStyle(
                   fontSize: 10,
@@ -259,7 +260,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
     }
     if (data["type"] == "signTypedMessage") {
       var id = data["resolver"];
-      Map<String, String> params = new Map();
+      Map<String, String?> params = new Map();
       params['id'] = id;
       params['jsonrpc'] = "2.0";
       params['result'] = "";
@@ -357,7 +358,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
       BoxApp.getGasEth((gasLimit) async {
         object["gasLimit"] = gasLimit;
         EasyLoading.dismiss(animation: true);
-        Account account = await WalletCoinsManager.instance.getCurrentAccount();
+        Account? account = await WalletCoinsManager.instance.getCurrentAccount();
         showMaterialModalBottomSheet(
             expand: true,
             context: context,
@@ -374,7 +375,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   return;
                 }
 
-                Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                 EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
 
                 BoxApp.signTransactionETH((signData) {
@@ -388,7 +389,7 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
                   webViewController.evaluateJavascript(callback);
                   showErrorDialog(context, error);
                   return;
-                }, signingKey, gasLimit, fee , objectValue, objectTo, objectData, rpcUrl);
+                }, signingKey, gasLimit, fee! , objectValue, objectTo, objectData, rpcUrl);
                 // }, signingKey, gasLimit, ethFeeModel.data.feeList[1].fee, objectValue, objectTo, objectData, rpcUrl);
                 return;
               },
@@ -403,14 +404,14 @@ class _DappWebViewPageState extends State<DappWebViewPage> {
 
   getData() async {
     account = await WalletCoinsManager.instance.getCurrentAccount();
-    coinName = account.coin;
-    address = account.address;
+    coinName = account!.coin;
+    address = account!.address;
     if (coinName == "CFX") {
       rpcUrl = await BoxApp.getCfxNodeUrl();
       chainID = "1029";
     } else {
-      rpcUrl = await EthManager.instance.getNodeUrl(account);
-      chainID = EthManager.instance.getDappChainID(account);
+      rpcUrl = await EthManager.instance.getNodeUrl(account!);
+      chainID = EthManager.instance.getDappChainID(account!);
     }
     print(chainID);
     setState(() {});

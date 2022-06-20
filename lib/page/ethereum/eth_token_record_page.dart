@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -34,12 +35,12 @@ import 'eth_token_send_one_page.dart';
 // import 'cfx_token_send_one_page.dart';
 
 class EthTokenRecordPage extends StatefulWidget {
-  final String ctId;
-  final String coinName;
-  final String coinImage;
-  final String coinCount;
+  final String? ctId;
+  final String? coinName;
+  final String? coinImage;
+  final String? coinCount;
 
-  const EthTokenRecordPage({Key key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
+  const EthTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
 
   @override
   _TokenRecordState createState() => _TokenRecordState();
@@ -47,13 +48,13 @@ class EthTokenRecordPage extends StatefulWidget {
 
 class _TokenRecordState extends State<EthTokenRecordPage> {
   var loadingType = LoadingType.finish;
-  EthTransferModel tokenListModel;
+  EthTransferModel? tokenListModel;
   int page = 1;
-  String count;
-  String price;
+  String? count;
+  String? price;
   EasyRefreshController _controller = EasyRefreshController();
-  String coinCount;
-  Account account;
+  String? coinCount;
+  Account? account;
   int decimal = 18;
 
   Future<void> _onRefresh() async {
@@ -63,7 +64,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
   }
 
   Future<void> netTokenBalance() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     var address = await BoxApp.getAddress();
     BoxApp.getErcBalanceETH((balance, decimal,address,from,coin) async {
@@ -77,13 +78,13 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
 
       setState(() {});
       return;
-    }, address, widget.ctId,account.coin, nodeUrl);
+    }, address, widget.ctId!,account.coin!, nodeUrl);
   }
 
   Future<void> updatePrice() async {
     account = await WalletCoinsManager.instance.getCurrentAccount();
 
-    var chainID = EthManager.instance.getChainID(account);
+    var chainID = EthManager.instance.getChainID(account!);
     EthTokenPriceRequestModel tokenPriceRequestModel = new EthTokenPriceRequestModel();
     tokenPriceRequestModel.blockchainId = int.parse(chainID);
     tokenPriceRequestModel.tokenList = [];
@@ -91,11 +92,11 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     EthTokenPriceRequestItemModel ethTokenPriceRequestItemModel = new EthTokenPriceRequestItemModel();
     ethTokenPriceRequestItemModel.address = widget.ctId;
     ethTokenPriceRequestItemModel.blSymbol = widget.coinName;
-    tokenPriceRequestModel.tokenList.add(ethTokenPriceRequestItemModel);
+    tokenPriceRequestModel.tokenList!.add(ethTokenPriceRequestItemModel);
     var ethTokenPriceModel = await EthTokenPriceDao.fetch(tokenPriceRequestModel);
 
-    if (ethTokenPriceModel.data != null && ethTokenPriceModel.data.length > 0) {
-      price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data[0], widget.coinCount);
+    if (ethTokenPriceModel.data != null && ethTokenPriceModel.data!.length > 0) {
+      price = await EthManager.instance.getRateFormat(ethTokenPriceModel.data![0], widget.coinCount);
     }
     if(!mounted)return;
     setState(() {});
@@ -114,20 +115,20 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     //     await CfxCrc20TransferDao.fetch(page.toString(), widget.ctId);
     try {
       account = await WalletCoinsManager.instance.getCurrentAccount();
-      EthTransferModel model = await EthTransferDao.fetch(EthManager.instance.getChainID(account), widget.ctId, "");
+      EthTransferModel model = await EthTransferDao.fetch(EthManager.instance.getChainID(account!), widget.ctId, "");
 
-      if (model != null && model.data != null) {
+      if (model.data != null) {
         if (page == 1) {
           tokenListModel = model;
           loadingType = LoadingType.finish;
         } else {
-          tokenListModel.data.addAll(model.data);
+          tokenListModel!.data!.addAll(model.data!);
           loadingType = LoadingType.finish;
         }
-        print(tokenListModel.toJson());
+        print(tokenListModel!.toJson());
         _controller.finishRefresh();
         _controller.finishLoad();
-        if (tokenListModel.data.length < 20) {
+        if (tokenListModel!.data!.length < 20) {
           _controller.finishLoad(noMore: true);
           _controller.finishLoad(success: true, noMore: true);
         }
@@ -190,8 +191,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                 size: 22,
               ),
               onPressed: () async {
-                var scanUrl = await EthManager.instance.getTokenScanUrl(EthHomePage.account);
-                _launchURL(scanUrl + widget.ctId);
+                var scanUrl = await EthManager.instance.getTokenScanUrl(EthHomePage.account!);
+                _launchURL(scanUrl + widget.ctId!);
                 return;
               },
             ),
@@ -222,10 +223,10 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
   }
 
   int itemCount() {
-    if (tokenListModel == null || tokenListModel.data == null || tokenListModel.data.length == 0) {
+    if (tokenListModel == null || tokenListModel!.data == null || tokenListModel!.data!.length == 0) {
       return 1;
     } else {
-      return tokenListModel.data.length + 1;
+      return tokenListModel!.data!.length + 1;
     }
   }
 
@@ -267,11 +268,11 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      widget.coinImage,
+                                      widget.coinImage!,
                                       errorBuilder: (
                                         BuildContext context,
                                         Object error,
-                                        StackTrace stackTrace,
+                                        StackTrace? stackTrace,
                                       ) {
                                         return Container(
                                           color: Colors.grey.shade200,
@@ -293,7 +294,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   child: Text(
-                                    widget.coinName,
+                                    widget.coinName!,
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -307,7 +308,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       AutoSizeText(
-                                        Utils.formatBalanceLength(double.parse(coinCount)),
+                                        Utils.formatBalanceLength(double.parse(coinCount!)),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
@@ -316,7 +317,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                         Container(
                                           margin: EdgeInsets.only(top: 5),
                                           child: Text(
-                                          price,
+                                          price!,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                           ),
@@ -428,8 +429,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () async {
-            var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account);
-            _launchURL(scanUrl + tokenListModel.data[index - 1].hash);
+            var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account!);
+            _launchURL(scanUrl + tokenListModel!.data![index - 1].hash!);
           },
           child: Column(
             children: [
@@ -490,8 +491,8 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                   child: Image(
                                     width: 25,
                                     height: 25,
-                                    color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.green : Color(0xFFF22B79),
-                                    image: tokenListModel.data[index - 1].from == EthHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
+                                    color: tokenListModel!.data![index - 1].from == EthHomePage.address ? Colors.green : Color(0xFFF22B79),
+                                    image: tokenListModel!.data![index - 1].from == EthHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                                   ),
                                 ),
                                 Column(
@@ -501,17 +502,17 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     Container(
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
-                                        tokenListModel.data[index - 1].from == EthHomePage.address ? Utils.formatAddress(tokenListModel.data[index - 1].to) : Utils.formatAddress(tokenListModel.data[index - 1].from),
+                                        tokenListModel!.data![index - 1].from == EthHomePage.address ? Utils.formatAddress(tokenListModel!.data![index - 1].to) : Utils.formatAddress(tokenListModel!.data![index - 1].from),
                                         style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
-                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data[index - 1].timestamp * 1000000)
+                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data![index - 1].timestamp! * 1000000)
                                             .toLocal()
                                             .toString()
-                                            .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data[index - 1].timestamp * 1000000).toLocal().toString().length - 4),
+                                            .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data![index - 1].timestamp! * 1000000).toLocal().toString().length - 4),
                                         style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
@@ -524,18 +525,18 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
 
                                     children: [
                                       AutoSizeText(
-                                        tokenListModel.data[index - 1].to == EthHomePage.address
-                                            ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName
-                                            : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data[index - 1].tokenValue, this.decimal))) + " " + widget.coinName,
+                                        tokenListModel!.data![index - 1].to == EthHomePage.address
+                                            ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data![index - 1].tokenValue, this.decimal))) + " " + widget.coinName!
+                                            : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data![index - 1].tokenValue, this.decimal))) + " " + widget.coinName!,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 15, color: tokenListModel.data[index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                       Container(
                                         height: 5,
                                         // color: Color(0xFFfafbfc),
                                       ),
                                       Text(
-                                        "-" + tokenListModel.data[index - 1].fee.toString() + account.coin,
+                                        "-" + tokenListModel!.data![index - 1].fee.toString() + account!.coin!,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),

@@ -113,9 +113,9 @@ class EthManager {
     return name;
   }
 
-  EthTokenPriceRateModel ethTokenPriceRateModel;
+  EthTokenPriceRateModel? ethTokenPriceRateModel;
 
-  Future<String> getRateFormat(String price, String balance) async {
+  Future<String> getRateFormat(String price, String? balance) async {
     try{
       if (ethTokenPriceRateModel == null) {
         ethTokenPriceRateModel = await EthTokenRateDao.fetch();
@@ -128,11 +128,11 @@ class EthManager {
 
   }
 
-  String formatPrice(String price, String balance) {
+  String formatPrice(String price, String? balance) {
      if (BoxApp.language == "cn") {
-      return "¥" +Utils.formatBalanceLength (double.parse(price) * double.parse(balance) * double.parse(ethTokenPriceRateModel.data[0].data[0].rate));
+      return "¥" +Utils.formatBalanceLength (double.parse(price) * double.parse(balance!) * double.parse(ethTokenPriceRateModel!.data![0].data![0].rate!));
     } else {
-      return "\$" + Utils.formatBalanceLength (double.parse(price) * double.parse(balance));
+      return "\$" + Utils.formatBalanceLength (double.parse(price) * double.parse(balance!));
     }
   }
 

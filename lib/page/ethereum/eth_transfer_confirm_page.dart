@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
 
@@ -26,14 +27,14 @@ import '../../main.dart';
 import 'eth_home_page.dart';
 import 'eth_select_fee_page.dart';
 
-typedef EthTransferConfirmPageCallBackFuture = Future Function(String, String);
+typedef EthTransferConfirmPageCallBackFuture = Future Function(String, String?);
 
 class EthTransferConfirmPage extends StatefulWidget {
-  final EthTransferConfirmPageCallBackFuture ethTransferConfirmPageCallBackFuture;
-  final Account account;
-  final LinkedHashMap<String, dynamic> data;
+  final EthTransferConfirmPageCallBackFuture? ethTransferConfirmPageCallBackFuture;
+  final Account? account;
+  final LinkedHashMap<String, dynamic>? data;
 
-  const EthTransferConfirmPage({Key key, this.ethTransferConfirmPageCallBackFuture, this.data, this.account}) : super(key: key);
+  const EthTransferConfirmPage({Key? key, this.ethTransferConfirmPageCallBackFuture, this.data, this.account}) : super(key: key);
 
   @override
   _EthTransferConfirmPageState createState() => _EthTransferConfirmPageState();
@@ -45,15 +46,15 @@ class _EthTransferConfirmPageState extends State<EthTransferConfirmPage> {
   double amountAll = 0;
   double balance = -1;
 
-  String from;
-  String to;
+  String? from;
+  String? to;
   String amount = "0";
   String fee = "";
-  String data;
+  String? data;
 
   String feePrice = "";
 
-  String spendFee = "0";
+  String? spendFee = "0";
   String amountFee = "0";
   String minute = "";
   int index = 1;
@@ -63,7 +64,7 @@ class _EthTransferConfirmPageState extends State<EthTransferConfirmPage> {
     // TODO: implement initState
     super.initState();
 
-    if (widget.data['value'] == null) {
+    if (widget.data!['value'] == null) {
       setState(() {});
     } else {
       BoxApp.toFormatCfx((amount) {
@@ -71,41 +72,41 @@ class _EthTransferConfirmPageState extends State<EthTransferConfirmPage> {
 
         setState(() {});
         return;
-      }, widget.data['value']);
+      }, widget.data!['value']);
     }
     netCfxBalance();
     getEthFee();
   }
   String getFeeMinute(EthFeeModel ethFeeModel ,int index){
-    if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
-      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
+    if(double.parse(ethFeeModel.data!.feeList![index].minute!)<1){
+      return "≈"+(double.parse(ethFeeModel.data!.feeList![index].minute!)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
     }
-    return "≈"+ethFeeModel.data.feeList[index].minute+S.current.fee_speed_time2;
+    return "≈"+ethFeeModel.data!.feeList![index].minute!+S.current.fee_speed_time2;
   }
   Future<void> getEthFee() async {
     fee = "";
     index = 1;
     setState(() {});
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
-    spendFee = ethFeeModel.data.feeList[1].fee;
+    spendFee = ethFeeModel.data!.feeList![1].fee;
 
-    amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[1].fee) * int.parse(widget.data['gasLimit']) / 1000000000000000000);
+    amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data!.feeList![1].fee!) * int.parse(widget.data!['gasLimit']) / 1000000000000000000);
 amountAll = double.parse(amountFee) + double.parse(amount);
     minute = getFeeMinute(ethFeeModel,1);
     print(amountFee);
-    fee = "" + amountFee + " " + account.coin;
+    fee = "" + amountFee + " " + account.coin!;
     setState(() {});
     var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-    if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-      String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), amountFee);
+    if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
+      String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), amountFee);
       feePrice = price;
       setState(() {});
     }
   }
   Future<void> netCfxBalance() async {
     if (!mounted) return;
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     // var cacheBalance = await CacheManager.instance.getBalance(account.address, account.coin);
     // if (cacheBalance != "") {
     //   balance = double.parse(cacheBalance);
@@ -122,12 +123,12 @@ amountAll = double.parse(amountFee) + double.parse(amount);
         this.balance = 0.0000;
       } else {
        this. balance = double.parse(Utils.formatBalanceLength(double.parse(balance)));
-        CacheManager.instance.setBalance(account.address, account.coin, EthHomePage.token);
+        CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
       }
       if (!mounted) return;
       setState(() {});
       return;
-    }, account.address, account.coin, nodeUrl);
+    }, account.address!, account.coin!, nodeUrl);
   }
   // Future<void> setData(String amount) async {
   //   this.amount = amount;
@@ -192,7 +193,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
 
   void updateData() {}
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -203,7 +204,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -249,7 +250,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                 radius: 0.0,
                 onTap: () {
                   if (widget.ethTransferConfirmPageCallBackFuture != null) {
-                    widget.ethTransferConfirmPageCallBackFuture("", "");
+                    widget.ethTransferConfirmPageCallBackFuture!("", "");
                   }
                   Navigator.pop(context);
                 },
@@ -290,7 +291,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                 onTap: () {
                                   if (widget.ethTransferConfirmPageCallBackFuture != null) {
-                                    widget.ethTransferConfirmPageCallBackFuture("", "");
+                                    widget.ethTransferConfirmPageCallBackFuture!("", "");
                                   }
                                   Navigator.pop(context);
                                 },
@@ -341,12 +342,12 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                               child: Material(
                                 child: Column(
                                   children: [
-                                    buildItem(S.current.CfxTransferConfirmPage_from, (widget.data['from']).toString()),
-                                    buildItem(S.current.CfxTransferConfirmPage_to, (widget.data['to']).toString()),
+                                    buildItem(S.current.CfxTransferConfirmPage_from, (widget.data!['from']).toString()),
+                                    buildItem(S.current.CfxTransferConfirmPage_to, (widget.data!['to']).toString()),
                                     buildItem2(
                                         S.current.CfxTransferConfirmPage_count,
                                         Text(
-                                          "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " " + widget.account.coin),
+                                          "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " " + widget.account!.coin!),
                                           style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                         )),
                                     // buildItem(S.current.CfxTransferConfirmPage_fee, fee),
@@ -365,13 +366,13 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                 enableDrag: false,
                                                 backgroundColor: Colors.transparent,
                                                 builder: (context) => EthSelectFeePage(
-                                                  gasLimit: int.parse(widget.data['gasLimit']),
-                                                  ethSelectFeeCallBackFuture: (String spendFee, String amountFee, String feePrice, String minute,int index) {
+                                                  gasLimit: int.parse(widget.data!['gasLimit']),
+                                                  ethSelectFeeCallBackFuture: (String? spendFee, String? amountFee, String? feePrice, String? minute,int? index) {
                                                     this.spendFee = spendFee;
-                                                    this.fee = amountFee;
-                                                    this.feePrice = feePrice;
-                                                    this.minute = minute;
-                                                    this.index = index;
+                                                    this.fee = amountFee!;
+                                                    this.feePrice = feePrice!;
+                                                    this.minute = minute!;
+                                                    this.index = index!;
                                                     // getEthFee();
                                                     setState(() {});
                                                     return;
@@ -472,7 +473,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                         ),
                                       ),
                                     ),
-                                    buildItem(S.of(context).CfxTransferConfirmPage_data, (widget.data['data'].toString())),
+                                    buildItem(S.of(context).CfxTransferConfirmPage_data, (widget.data!['data'].toString())),
                                   ],
                                 ),
                               ),
@@ -506,7 +507,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                 useRootNavigator: false,
                                 context: context,
                                 // ignore: missing_return
-                                pageBuilder: (context, anim1, anim2) {},
+                                pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                 //barrierColor: Colors.grey.withOpacity(.4),
                                 barrierDismissible: true,
                                 barrierLabel: "",
@@ -524,7 +525,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                           return;
                                         },
                                         passwordCallBackFuture: (String password) async {
-                                          var signingKey = await BoxApp.getSigningKey();
+                                          var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                                           var address = await BoxApp.getAddress();
                                           final key = Utils.generateMd5Int(password + address);
                                           var aesDecode = Utils.aesDecode(signingKey, key);
@@ -533,7 +534,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                             return;
                                           }
                                           if (widget.ethTransferConfirmPageCallBackFuture != null) {
-                                            widget.ethTransferConfirmPageCallBackFuture(aesDecode, spendFee);
+                                            widget.ethTransferConfirmPageCallBackFuture!(aesDecode, spendFee);
                                           }
                                           Navigator.pop(context);
                                         },

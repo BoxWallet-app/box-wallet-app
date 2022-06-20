@@ -14,14 +14,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../main.dart';
 
-typedef SetAddressNamePageCallBackFuture = Future Function();
+typedef SetAddressNamePageCallBackFuture = Future? Function();
 
 class SetAddressNamePage extends StatefulWidget {
-  final SetAddressNamePageCallBackFuture setAddressNamePageCallBackFuture;
-  final String address;
-  final String name;
+  final SetAddressNamePageCallBackFuture? setAddressNamePageCallBackFuture;
+  final String? address;
+  final String? name;
 
-  const SetAddressNamePage({Key key, this.address, this.name, this.setAddressNamePageCallBackFuture}) : super(key: key);
+  const SetAddressNamePage({Key? key, this.address, this.name, this.setAddressNamePageCallBackFuture}) : super(key: key);
 
   @override
   _SetAddressNamePageState createState() => _SetAddressNamePageState();
@@ -105,7 +105,7 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                   margin: EdgeInsets.only(left: 18, top: 10,right: 18),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    widget.address,
+                    widget.address!,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black.withAlpha(180),
@@ -131,10 +131,10 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                           controller: _textEditingControllerNode,
                           focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                           inputFormatters: [
-                            // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                           ],
                           maxLines: 1,
 
@@ -187,20 +187,20 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: FlatButton(
                       onPressed: () {
-                        if (_textEditingControllerNode.text == null || _textEditingControllerNode.text == "") {
+                        if (_textEditingControllerNode.text == "") {
                           if(widget.setAddressNamePageCallBackFuture!=null){
-                            widget.setAddressNamePageCallBackFuture();
+                            widget.setAddressNamePageCallBackFuture!();
                             Navigator.of(context).pop();
                           }
                           return;
                         }
                         EasyLoading.show();
                         WalletCoinsManager.instance.getCoins().then((walletCoinsModel) async {
-                          for (var i = 0; i < walletCoinsModel.coins.length; i++) {
-                            for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
-                              var address =walletCoinsModel.coins[i].accounts[j].address;
+                          for (var i = 0; i < walletCoinsModel.coins!.length; i++) {
+                            for (var j = 0; j < walletCoinsModel.coins![i].accounts!.length; j++) {
+                              var address =walletCoinsModel.coins![i].accounts![j].address;
                               if(address == widget.address){
-                                walletCoinsModel.coins[i].accounts[j].name = _textEditingControllerNode.text;
+                                walletCoinsModel.coins![i].accounts![j].name = _textEditingControllerNode.text;
                                 break;
                               }
                             }
@@ -209,7 +209,7 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                           WalletCoinsManager.instance.setCoins(walletCoinsModel);
                           eventBus.fire(AccountUpdateNameEvent());
                           if(widget.setAddressNamePageCallBackFuture!=null){
-                            widget.setAddressNamePageCallBackFuture();
+                            widget.setAddressNamePageCallBackFuture!();
                             Navigator.of(context).pop();
                           }
 

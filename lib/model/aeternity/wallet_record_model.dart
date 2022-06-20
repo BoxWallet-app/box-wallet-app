@@ -1,8 +1,8 @@
 class WalletTransferRecordModel {
-  int code;
-  String msg;
-  int time;
-  List<RecordData> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<RecordData>? data;
 
   WalletTransferRecordModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class WalletTransferRecordModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<RecordData>();
+      data = <RecordData>[];
       json['data'].forEach((v) {
-        data.add(new RecordData.fromJson(v));
+        data!.add(new RecordData.fromJson(v));
       });
     }
   }
@@ -24,18 +24,18 @@ class WalletTransferRecordModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class RecordData {
-  String blockHash;
-  int blockHeight;
-  String hash;
-  int time;
-  Map<String,dynamic>  tx;
+  String? blockHash;
+  int? blockHeight;
+  String? hash;
+  int? time;
+  Map<String,dynamic>?  tx;
 
   RecordData({this.blockHash, this.blockHeight, this.hash, this.time, this.tx});
 
@@ -61,25 +61,25 @@ class RecordData {
 }
 
 class Tx {
-  int fee;
-  int nonce;
-  String oracleId;
-  String query;
-  int queryFee;
-  QueryTtl queryTtl;
-  QueryTtl responseTtl;
-  String senderId;
-  int ttl;
-  String type;
-  int version;
-  int abiVersion;
-  String accountId;
-  QueryTtl oracleTtl;
-  String queryFormat;
-  String responseFormat;
-  String amount;
-  String payload;
-  String recipientId;
+  int? fee;
+  int? nonce;
+  String? oracleId;
+  String? query;
+  int? queryFee;
+  QueryTtl? queryTtl;
+  QueryTtl? responseTtl;
+  String? senderId;
+  int? ttl;
+  String? type;
+  int? version;
+  int? abiVersion;
+  String? accountId;
+  QueryTtl? oracleTtl;
+  String? queryFormat;
+  String? responseFormat;
+  String? amount;
+  String? payload;
+  String? recipientId;
 
   Tx(
       {this.fee,
@@ -138,10 +138,10 @@ class Tx {
     data['query'] = this.query;
     data['query_fee'] = this.queryFee;
     if (this.queryTtl != null) {
-      data['query_ttl'] = this.queryTtl.toJson();
+      data['query_ttl'] = this.queryTtl!.toJson();
     }
     if (this.responseTtl != null) {
-      data['response_ttl'] = this.responseTtl.toJson();
+      data['response_ttl'] = this.responseTtl!.toJson();
     }
     data['sender_id'] = this.senderId;
     data['ttl'] = this.ttl;
@@ -150,7 +150,7 @@ class Tx {
     data['abi_version'] = this.abiVersion;
     data['account_id'] = this.accountId;
     if (this.oracleTtl != null) {
-      data['oracle_ttl'] = this.oracleTtl.toJson();
+      data['oracle_ttl'] = this.oracleTtl!.toJson();
     }
     data['query_format'] = this.queryFormat;
     data['response_format'] = this.responseFormat;
@@ -162,8 +162,8 @@ class Tx {
 }
 
 class QueryTtl {
-  String type;
-  int value;
+  String? type;
+  int? value;
 
   QueryTtl({this.type, this.value});
 

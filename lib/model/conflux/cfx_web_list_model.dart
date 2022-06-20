@@ -1,8 +1,8 @@
 class CfxWebListModel {
-  int code;
-  String msg;
-  int time;
-  List<CfxWebListModelData> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<CfxWebListModelData>? data;
 
   CfxWebListModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class CfxWebListModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<CfxWebListModelData>();
+      data = <CfxWebListModelData>[];
       json['data'].forEach((v) {
-        data.add(new CfxWebListModelData.fromJson(v));
+        data!.add(new CfxWebListModelData.fromJson(v));
       });
     }
   }
@@ -24,16 +24,16 @@ class CfxWebListModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CfxWebListModelData {
-  String nameCn;
-  String nameEn;
-  String url;
+  String? nameCn;
+  String? nameEn;
+  String? url;
 
   CfxWebListModelData({this.nameCn, this.nameEn, this.url});
 

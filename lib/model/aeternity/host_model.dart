@@ -1,5 +1,5 @@
 class HostModel {
-  String baseUrl;
+  String? baseUrl;
 
   HostModel({this.baseUrl});
 

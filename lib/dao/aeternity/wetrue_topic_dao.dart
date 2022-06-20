@@ -23,7 +23,7 @@ class WeTrueTopicDao {
     }
 
     ///请求header的配置
-    options.headers["ak-token"] = address;
+    options.headers!["ak-token"] = address;
     options.sendTimeout = 3;
     options.receiveTimeout = 3;
     url = WE_TRUE_URL + "/Submit/hash";

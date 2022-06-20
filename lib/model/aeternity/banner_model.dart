@@ -1,6 +1,6 @@
 class BannerModel {
-  Cn cn;
-  Cn en;
+  Cn? cn;
+  Cn? en;
 
   BannerModel({this.cn, this.en});
 
@@ -12,19 +12,19 @@ class BannerModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.cn != null) {
-      data['cn'] = this.cn.toJson();
+      data['cn'] = this.cn!.toJson();
     }
     if (this.en != null) {
-      data['en'] = this.en.toJson();
+      data['en'] = this.en!.toJson();
     }
     return data;
   }
 }
 
 class Cn {
-  String image;
-  String title;
-  String url;
+  String? image;
+  String? title;
+  String? url;
 
   Cn({this.image, this.title, this.url});
 

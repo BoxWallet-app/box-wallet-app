@@ -22,12 +22,12 @@ import 'cfx_token_receive_page.dart';
 import 'cfx_token_send_one_page.dart';
 
 class CfxTokenRecordPage extends StatefulWidget {
-  final String ctId;
-  final String coinName;
-  final String coinImage;
-  final String coinCount;
+  final String? ctId;
+  final String? coinName;
+  final String? coinImage;
+  final String? coinCount;
 
-  const CfxTokenRecordPage({Key key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
+  const CfxTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
 
   @override
   _TokenRecordState createState() => _TokenRecordState();
@@ -35,11 +35,11 @@ class CfxTokenRecordPage extends StatefulWidget {
 
 class _TokenRecordState extends State<CfxTokenRecordPage> {
   var loadingType = LoadingType.loading;
-  CfxCrc20TransferModel tokenListModel;
+  CfxCrc20TransferModel? tokenListModel;
   int page = 1;
-  String count;
+  String? count;
   EasyRefreshController _controller = EasyRefreshController();
-  String coinCount;
+  String? coinCount;
   int decimal = 18;
 
   Future<void> _onRefresh() async {
@@ -56,7 +56,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
       netTokenRecord();
       setState(() {});
       return;
-    }, address, widget.ctId);
+    }, address, widget.ctId!);
   }
 
   Future<void> netTokenRecord() async {
@@ -66,12 +66,12 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
         tokenListModel = model;
         loadingType = LoadingType.finish;
       } else {
-        tokenListModel.data.list.addAll(model.data.list);
+        tokenListModel!.data!.list!.addAll(model.data!.list!);
         loadingType = LoadingType.finish;
       }
       _controller.finishRefresh();
       _controller.finishLoad();
-      if (tokenListModel.data.list.length < 20) {
+      if (tokenListModel!.data!.list!.length < 20) {
         _controller.finishLoad(noMore: true);
         _controller.finishLoad(success: true, noMore: true);
       }
@@ -146,10 +146,10 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
   }
 
   int itemCount() {
-    if (tokenListModel == null || tokenListModel.data.list == null || tokenListModel.data.list.length == 0) {
+    if (tokenListModel == null || tokenListModel!.data!.list == null || tokenListModel!.data!.list!.length == 0) {
       return 1;
     } else {
-      return tokenListModel.data.list.length;
+      return tokenListModel!.data!.list!.length;
     }
   }
 
@@ -190,11 +190,11 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      widget.coinImage,
+                                      widget.coinImage!,
                                       errorBuilder: (
                                         BuildContext context,
                                         Object error,
-                                        StackTrace stackTrace,
+                                        StackTrace? stackTrace,
                                       ) {
                                         return Container(
                                           color: Colors.grey.shade200,
@@ -216,7 +216,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   child: Text(
-                                    widget.coinName,
+                                    widget.coinName!,
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -227,7 +227,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  coinCount,
+                                  coinCount!,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                 ),
@@ -339,7 +339,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            _launchURL("https://confluxscan.io/transaction/" + tokenListModel.data.list[index].transactionHash);
+            _launchURL("https://confluxscan.io/transaction/" + tokenListModel!.data!.list![index].transactionHash!);
           },
           child: Column(
             children: [
@@ -400,8 +400,8 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                   child: Image(
                                     width: 25,
                                     height: 25,
-                                    color: tokenListModel.data.list[index - 1].to == CfxHomePage.address ? Color(0xFFF22B79) : Colors.green,
-                                    image: tokenListModel.data.list[index - 1].to == CfxHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
+                                    color: tokenListModel!.data!.list![index - 1].to == CfxHomePage.address ? Color(0xFFF22B79) : Colors.green,
+                                    image: tokenListModel!.data!.list![index - 1].to == CfxHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                                   ),
                                 ),
                                 Column(
@@ -411,17 +411,17 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                     Container(
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
-                                        tokenListModel.data.list[index - 1].from == CfxHomePage.address ? Utils.formatAddress(tokenListModel.data.list[index - 1].to) : Utils.formatAddress(tokenListModel.data.list[index - 1].from),
+                                        tokenListModel!.data!.list![index - 1].from == CfxHomePage.address ? Utils.formatAddress(tokenListModel!.data!.list![index - 1].to) : Utils.formatAddress(tokenListModel!.data!.list![index - 1].from),
                                         style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
-                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000)
+                                        DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data!.list![index - 1].timestamp! * 1000000)
                                             .toLocal()
                                             .toString()
-                                            .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel.data.list[index - 1].timestamp * 1000000).toLocal().toString().length - 4),
+                                            .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data!.list![index - 1].timestamp! * 1000000).toLocal().toString().length - 4),
                                         style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
@@ -433,17 +433,17 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      tokenListModel.data.list[index - 1].from == CfxHomePage.address
-                                          ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data.list[index - 1].amount, this.decimal))) + " " + widget.coinName
-                                          : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel.data.list[index - 1].amount, this.decimal))) + " " + widget.coinName,
-                                      style: TextStyle(fontSize: 15, color: tokenListModel.data.list[index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      tokenListModel!.data!.list![index - 1].from == CfxHomePage.address
+                                          ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data!.list![index - 1].amount, this.decimal))) + " " + widget.coinName!
+                                          : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data!.list![index - 1].amount, this.decimal))) + " " + widget.coinName!,
+                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data!.list![index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(
                                       height: 5,
                                       color: Color(0xFFfafbfc),
                                     ),
                                     Text(
-                                      S.of(context).cfx_tx_detail_page_jiyuan + ":" + tokenListModel.data.list[index - 1].epochNumber.toString() + " ",
+                                      S.of(context).cfx_tx_detail_page_jiyuan + ":" + tokenListModel!.data!.list![index - 1].epochNumber.toString() + " ",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

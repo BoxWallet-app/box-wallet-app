@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 
 class BoxFooter extends Footer {
   /// Key
-  final Key key;
+  final Key? key;
 
   final LinkHeaderNotifier linkNotifier = LinkHeaderNotifier();
 
@@ -23,7 +23,7 @@ class BoxFooter extends Footer {
         );
 
   @override
-  Widget contentBuilder(BuildContext context, LoadMode loadState, double pulledExtent, double loadTriggerPullDistance, double loadIndicatorExtent, AxisDirection axisDirection, bool float, Duration completeDuration, bool enableInfiniteLoad, bool success, bool noMore) {
+  Widget contentBuilder(BuildContext context, LoadMode loadState, double pulledExtent, double loadTriggerPullDistance, double loadIndicatorExtent, AxisDirection axisDirection, bool float, Duration? completeDuration, bool enableInfiniteLoad, bool success, bool noMore) {
     // TODO: implement contentBuilder
     throw AEHeaderWidget();
   }
@@ -32,10 +32,10 @@ class BoxFooter extends Footer {
 }
 
 class AEHeaderWidget extends StatefulWidget {
-  final LinkHeaderNotifier linkNotifier;
+  final LinkHeaderNotifier? linkNotifier;
 
   const AEHeaderWidget({
-    Key key,
+    Key? key,
     this.linkNotifier,
   }) : super(key: key);
 
@@ -46,7 +46,7 @@ class AEHeaderWidget extends StatefulWidget {
 }
 
 class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -77,7 +77,7 @@ class AEHeaderWidgetState extends State<AEHeaderWidget> with TickerProviderState
               onLoaded: (composition) {
                 // Configure the AnimationController with the duration of the
                 // Lottie file and start the animation.
-                _controller
+                _controller!
                   ..duration = Duration(milliseconds: 1000)
                   ..repeat();
               },

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -23,18 +24,18 @@ import '../../main.dart';
 import '../aeternity/ae_home_page.dart';
 
 class WalletSelectPage extends StatefulWidget {
-  const WalletSelectPage({Key key}) : super(key: key);
+  const WalletSelectPage({Key? key}) : super(key: key);
 
   @override
   _WalletSelectPageState createState() => _WalletSelectPageState();
 }
 
 class _WalletSelectPageState extends State<WalletSelectPage> {
-  WalletCoinsModel walletCoinsModel;
-  int coinIndex;
-  int coinLength;
-  String address = "";
-  Account account;
+  WalletCoinsModel? walletCoinsModel;
+  int? coinIndex;
+  late int coinLength;
+  String? address = "";
+  Account? account;
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
       if (coinIndex == null) {
         WalletCoinsManager.instance.getCurrentCoin().then((value) {
-          coinIndex = value[1];
+          coinIndex = value![1] as int?;
           setState(() {});
         });
       }
@@ -60,8 +61,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
-      address = acc.address;
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? acc) {
+      address = acc!.address;
       account = acc;
       if (!mounted) setState(() {});
     });
@@ -173,7 +174,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                               width: 56,
                               child: EasyRefresh(
                                 child: ListView.builder(
-                                  itemCount: walletCoinsModel == null ? 0 : walletCoinsModel.coins.length + 1,
+                                  itemCount: walletCoinsModel == null ? 0 : walletCoinsModel!.coins!.length + 1,
                                   itemBuilder: (context, index) {
                                     return itemCoin(index);
                                   },
@@ -200,7 +201,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          walletCoinsModel == null ? "" : walletCoinsModel.coins[coinIndex].fullName,
+                                          walletCoinsModel == null ? "" : walletCoinsModel!.coins![coinIndex!].fullName!,
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 16,
@@ -242,7 +243,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                   width: MediaQuery.of(context).size.width - 56 - 1,
                                   child: EasyRefresh(
                                     child: ListView.builder(
-                                      itemCount: walletCoinsModel == null ? 1 : walletCoinsModel.coins[coinIndex].accounts.length + 1,
+                                      itemCount: walletCoinsModel == null ? 1 : walletCoinsModel!.coins![coinIndex!].accounts!.length + 1,
                                       itemBuilder: (context, index) {
                                         return itemAccount(context, index);
                                       },
@@ -283,8 +284,8 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   Widget itemCoin(int index) {
-    if (walletCoinsModel.coins.length == index) {
-      if (coinLength > walletCoinsModel.coins.length) {
+    if (walletCoinsModel!.coins!.length == index) {
+      if (coinLength > walletCoinsModel!.coins!.length) {
         return Material(
           color: Colors.transparent,
           child: InkWell(
@@ -329,7 +330,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                 );
                               },
                             ).then((val) {
-                              if (val) {}
+                              if (val!) {}
                             });
                           });
                           return;
@@ -409,7 +410,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 //                                                      shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(36.0),
                     image: DecorationImage(
-                      image: AssetImage("images/" + walletCoinsModel.coins[index].name + ".png"),
+                      image: AssetImage("images/" + walletCoinsModel!.coins![index].name! + ".png"),
                     ),
                   ),
                 ),
@@ -425,7 +426,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     if (walletCoinsModel == null || account == null) {
       return Container();
     }
-    if (index >= walletCoinsModel.coins[coinIndex].accounts.length) {
+    if (index >= walletCoinsModel!.coins![coinIndex!].accounts!.length) {
       return Container(
         height: 50,
         margin: EdgeInsets.only(left: 15, right: 15, bottom: MediaQuery.of(context).padding.bottom + 20),
@@ -490,7 +491,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
       child: Stack(
         children: [
           getCoinBg(),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address == address && walletCoinsModel.coins[coinIndex].name == account.coin)
+          if (walletCoinsModel!.coins![coinIndex!].accounts![index].address == address && walletCoinsModel!.coins![coinIndex!].name == account!.coin)
             Positioned(
               right: 0,
               top: 0,
@@ -524,14 +525,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
           ),
           InkWell(
             onTap: () {
-              for (var i = 0; i < walletCoinsModel.coins.length; i++) {
-                for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
-                  walletCoinsModel.coins[i].accounts[j].isSelect = false;
+              for (var i = 0; i < walletCoinsModel!.coins!.length; i++) {
+                for (var j = 0; j < walletCoinsModel!.coins![i].accounts!.length; j++) {
+                  walletCoinsModel!.coins![i].accounts![j].isSelect = false;
                 }
               }
 
-              walletCoinsModel.coins[coinIndex].accounts[index].isSelect = true;
-              WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel.coins[coinIndex].accounts[index].address).then((value) {
+              walletCoinsModel!.coins![coinIndex!].accounts![index].isSelect = true;
+              WalletCoinsManager.instance.changeAccount(walletCoinsModel, walletCoinsModel!.coins![coinIndex!].accounts![index].address!).then((value) {
                 eventBus.fire(AccountUpdateEvent());
                 Navigator.of(context).pop();
               });
@@ -566,7 +567,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                             MaterialPageRoute(
                                 builder: (context) => SetAddressNamePage(
                                       name: getAccountName(index, context),
-                                      address: walletCoinsModel.coins[coinIndex].accounts[index].address,
+                                      address: walletCoinsModel!.coins![coinIndex!].accounts![index].address,
                                       setAddressNamePageCallBackFuture: () {
                                         getWallet();
 
@@ -578,7 +579,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                             context,
                             SlideRoute(SetAddressNamePage(
                               name: getAccountName(index, context),
-                              address: walletCoinsModel.coins[coinIndex].accounts[index].address,
+                              address: walletCoinsModel!.coins![coinIndex!].accounts![index].address,
                               setAddressNamePageCallBackFuture: () {
                                 getWallet();
 
@@ -594,7 +595,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Text(getAccountName(index, context), style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                            child: Text(getAccountName(index, context)!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                           ),
                           Container(
                             height: 20,
@@ -619,9 +620,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     splashColor: Colors.transparent,
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     onTap: () {
-                      Clipboard.setData(ClipboardData(text: walletCoinsModel.coins[coinIndex].accounts[index].address));
+                      Clipboard.setData(ClipboardData(text: walletCoinsModel!.coins![coinIndex!].accounts![index].address));
                       Fluttertoast.showToast(
-                          msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel.coins[coinIndex].accounts[index].address,
+                          msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel!.coins![coinIndex!].accounts![index].address!,
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,
@@ -654,7 +655,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               ),
             ),
           ),
-          if (walletCoinsModel.coins[coinIndex].accounts[index].address != address || walletCoinsModel.coins[coinIndex].name != account.coin)
+          if (walletCoinsModel!.coins![coinIndex!].accounts![index].address != address || walletCoinsModel!.coins![coinIndex!].name != account!.coin)
             Positioned(
               right: 0,
               top: 0,
@@ -697,9 +698,9 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         );
                       },
                     ).then((val) {
-                      if (val) {
-                        var removeAddress = walletCoinsModel.coins[coinIndex].accounts[index].address;
-                        walletCoinsModel.coins[coinIndex].accounts.removeAt(index);
+                      if (val!) {
+                        var removeAddress = walletCoinsModel!.coins![coinIndex!].accounts![index].address;
+                        walletCoinsModel!.coins![coinIndex!].accounts!.removeAt(index);
 
                         WalletCoinsManager.instance.removeAccount(walletCoinsModel, removeAddress).then((value) {
                           getWallet();
@@ -742,7 +743,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      getAccount(walletCoinsModel.coins[coinIndex].accounts[index].accountType),
+                      getAccount(walletCoinsModel!.coins![coinIndex!].accounts![index].accountType),
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(150), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                     ),
                   ],
@@ -756,16 +757,16 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   Container getCardImageBottom() {
-    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB") {
       return Container();
     }
-    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "ETH") {
       return Container();
     }
-    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "HT") {
       return Container();
     }
-    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "OKT") {
       return Container();
     }
     return Container(
@@ -778,7 +779,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
   }
 
   Container getCardImage() {
-    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "AE") {
       return Container(
         width: 87,
         height: 58,
@@ -787,7 +788,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "CFX") {
       return Container(
         width: 87,
         height: 58,
@@ -796,7 +797,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB") {
       return Container(
         width: 87,
         height: 58,
@@ -805,7 +806,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "ETH") {
       return Container(
         width: 87,
         height: 58,
@@ -814,7 +815,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "HT") {
       return Container(
         width: 87,
         height: 58,
@@ -823,7 +824,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "OKT") {
       return Container(
         width: 87,
         height: 58,
@@ -841,7 +842,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     );
   }
 
-  String getAccount(int accountType) {
+  String getAccount(int? accountType) {
     if (accountType == AccountType.ADDRESS) {
       return S.of(context).WalletSelectPage_account_type3;
     }
@@ -854,30 +855,30 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
     return "";
   }
 
-  String getAccountName(int index, BuildContext context) {
-    var name = walletCoinsModel.coins[coinIndex].accounts[index].name;
+  String? getAccountName(int index, BuildContext context) {
+    var name = walletCoinsModel!.coins![coinIndex!].accounts![index].name;
     if (name == null || name == "") {
       return S.of(context).select_wallet_page_add_account_2 + "-" + (index + 1).toString();
     } else {
-      return walletCoinsModel.coins[coinIndex].accounts[index].name;
+      return walletCoinsModel!.coins![coinIndex!].accounts![index].name;
     }
   }
 
   String getCoinFormatAddress(int index) {
-    if (walletCoinsModel.coins[coinIndex].name == "AE") {
-      return Utils.formatHomeCardAccountAddress(walletCoinsModel.coins[coinIndex].accounts[index].address);
+    if (walletCoinsModel!.coins![coinIndex!].name == "AE") {
+      return Utils.formatHomeCardAccountAddress(walletCoinsModel!.coins![coinIndex!].accounts![index].address);
     }
-    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
-      return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
+    if (walletCoinsModel!.coins![coinIndex!].name == "CFX") {
+      return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel!.coins![coinIndex!].accounts![index].address);
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB" || walletCoinsModel.coins[coinIndex].name == "OKT" || walletCoinsModel.coins[coinIndex].name == "HT" || walletCoinsModel.coins[coinIndex].name == "ETH") {
-      return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel.coins[coinIndex].accounts[index].address);
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB" || walletCoinsModel!.coins![coinIndex!].name == "OKT" || walletCoinsModel!.coins![coinIndex!].name == "HT" || walletCoinsModel!.coins![coinIndex!].name == "ETH") {
+      return Utils.formatHomeCardAccountAddressCFX(walletCoinsModel!.coins![coinIndex!].accounts![index].address);
     }
     return "";
   }
 
   Container getCoinBg() {
-    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "AE") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -890,7 +891,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "CFX") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -903,7 +904,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -916,7 +917,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -929,7 +930,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "OKT") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -942,7 +943,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "HT") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -955,7 +956,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
-    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "ETH") {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 100,
@@ -968,34 +969,36 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         ),
       );
     }
+    return Container();
   }
 
   Color getCoinColor() {
-    if (walletCoinsModel.coins[coinIndex].name == "AE") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "AE") {
       return Color(0xFFE51363);
     }
-    if (walletCoinsModel.coins[coinIndex].name == "CFX") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "CFX") {
       return Color(0xFF37A1DB);
     }
 
-    if (walletCoinsModel.coins[coinIndex].name == "BNB") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "BNB") {
       return Color(0xFFE1A200);
     }
 
-    if (walletCoinsModel.coins[coinIndex].name == "HT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "HT") {
       return Color(0xFF112FD0);
     }
 
-    if (walletCoinsModel.coins[coinIndex].name == "OKT") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "OKT") {
       return Color(0xFF1F94FF);
     }
 
-    if (walletCoinsModel.coins[coinIndex].name == "ETH") {
+    if (walletCoinsModel!.coins![coinIndex!].name == "ETH") {
       return Color(0xFF5F66A3);
     }
+    return Color(0xFFE51363);
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -1006,7 +1009,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -1024,14 +1027,14 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
 
   void createImportAccount(BuildContext buildContext) async {
     // ignore: unnecessary_statements
-    var coin = walletCoinsModel.coins[coinIndex];
+    var coin = walletCoinsModel!.coins![coinIndex!];
 
     showGeneralDialog(
         useRootNavigator: false,
         context: buildContext,
         pageBuilder: (context, anim1, anim2) {
           return;
-        },
+        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -1047,7 +1050,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     title: S.of(context).password_widget_input_password,
                     isAddressPassword: true,
                     passwordCallBackFuture: (String password) async {
-                      var account = await WalletCoinsManager.instance.getCurrentAccount();
+                      var account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                       if (account.accountType == AccountType.ADDRESS) {
                         var isValidation = await WalletCoinsManager.instance.validationAddressPassword(password);
                         if (!isValidation) {
@@ -1055,7 +1058,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                           return;
                         }
                       } else {
-                        var signingKey = await BoxApp.getSigningKey();
+                        var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                         var address = await BoxApp.getAddress();
                         final key = Utils.generateMd5Int(password + address);
                         var aesDecode = Utils.aesDecode(signingKey, key);

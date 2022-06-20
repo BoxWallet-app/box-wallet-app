@@ -1,13 +1,13 @@
 class CtTokenModel {
-  List<Tokens> tokens;
+  List<Tokens>? tokens;
 
   CtTokenModel({this.tokens});
 
   CtTokenModel.fromJson(Map<String, dynamic> json) {
     if (json['tokens'] != null) {
-      tokens = new List<Tokens>();
+      tokens = <Tokens>[];
       json['tokens'].forEach((v) {
-        tokens.add(new Tokens.fromJson(v));
+        tokens!.add(new Tokens.fromJson(v));
       });
     }
   }
@@ -15,22 +15,22 @@ class CtTokenModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.tokens != null) {
-      data['tokens'] = this.tokens.map((v) => v.toJson()).toList();
+      data['tokens'] = this.tokens!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Tokens {
-  String ctId;
-  String name;
-  String symbol;
-  int decimal = 18;
-  String quoteUrl;
-  String iconUrl;
-  String balance;
-  String balanceCache;
-  String price;
+  String? ctId;
+  String? name;
+  String? symbol;
+  int? decimal = 18;
+  String? quoteUrl;
+  String? iconUrl;
+  String? balance;
+  String? balanceCache;
+  String? price;
 
   Tokens({this.ctId, this.name, this.symbol,this.decimal, this.quoteUrl});
 

@@ -1,12 +1,12 @@
 class NameReverseModel {
-  String name;
-  String nameHash;
-  String txHash;
-  int createdAtHeight;
-  int auctionEndHeight;
-  String owner;
-  int expiresAt;
-  List<Pointers> pointers;
+  String? name;
+  String? nameHash;
+  String? txHash;
+  int? createdAtHeight;
+  int? auctionEndHeight;
+  String? owner;
+  int? expiresAt;
+  List<Pointers>? pointers;
 
   NameReverseModel(
       {this.name,
@@ -27,9 +27,9 @@ class NameReverseModel {
     owner = json['owner'];
     expiresAt = json['expires_at'];
     if (json['pointers'] != null) {
-      pointers = new List<Pointers>();
+      pointers = <Pointers>[];
       json['pointers'].forEach((v) {
-        pointers.add(new Pointers.fromJson(v));
+        pointers!.add(new Pointers.fromJson(v));
       });
     }
   }
@@ -44,15 +44,15 @@ class NameReverseModel {
     data['owner'] = this.owner;
     data['expires_at'] = this.expiresAt;
     if (this.pointers != null) {
-      data['pointers'] = this.pointers.map((v) => v.toJson()).toList();
+      data['pointers'] = this.pointers!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Pointers {
-  String id;
-  String key;
+  String? id;
+  String? key;
 
   Pointers({this.id, this.key});
 

@@ -4,23 +4,22 @@ import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../main.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
-typedef ConformCallBackFuture = Future Function();
-typedef DismissCallBackFuture = Future Function();
+typedef ConformCallBackFuture = Future? Function();
+typedef DismissCallBackFuture = Future? Function();
 
 class TxConformWidget extends StatefulWidget {
   final int color;
-  final ConformCallBackFuture conformCallBackFuture;
-  final DismissCallBackFuture dismissCallBackFuture;
-  final Map<String, dynamic> tx;
+  final ConformCallBackFuture? conformCallBackFuture;
+  final DismissCallBackFuture? dismissCallBackFuture;
+  final Map<String, dynamic>? tx;
 
   const TxConformWidget({
-    Key key,
+    Key? key,
     this.tx,
     this.conformCallBackFuture,
     this.dismissCallBackFuture,
@@ -39,7 +38,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
   void dispose() {
     super.dispose();
     if (widget.dismissCallBackFuture != null) {
-      widget.dismissCallBackFuture();
+      widget.dismissCallBackFuture!();
     }
   }
 
@@ -52,7 +51,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
       ),
     );
 
-    widget.tx.forEach((key, value) {
+    widget.tx!.forEach((key, value) {
       if (value is int || value is double) {
         if (value > 10000000000) value = value / 1000000000000000000;
       }
@@ -171,10 +170,10 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                       child: FlatButton(
                         onPressed: () {
                           Navigator.pop(context); //关闭对话框
-                          if (widget.conformCallBackFuture != null) widget.conformCallBackFuture();
+                          if (widget.conformCallBackFuture != null) widget.conformCallBackFuture!();
                         },
                         child: Text(
-                          S.of(context).password_widget_conform+ " " +(double.parse(widget.tx["amount"].toString()) / 100000000000000000).toString() + "AE",
+                          S.of(context).password_widget_conform+ " " +(double.parse(widget.tx!["amount"].toString()) / 100000000000000000).toString() + "AE",
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),

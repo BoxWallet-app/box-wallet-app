@@ -2,7 +2,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +17,7 @@ class EthTokenReceivePage extends StatefulWidget {
 }
 
 class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   var contentText = "";
 
@@ -34,16 +34,16 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
     if(EthHomePage.account == null){
       return Color(0xFFFFFFFF);
     }
-    if(EthHomePage.account.coin == "BNB"){
+    if(EthHomePage.account!.coin == "BNB"){
       return Color(0xFFE6A700);
     }
-    if(EthHomePage.account.coin == "OKT"){
+    if(EthHomePage.account!.coin == "OKT"){
       return Color(0xFF1F94FF);
     }
-    if(EthHomePage.account.coin == "HT"){
+    if(EthHomePage.account!.coin == "HT"){
       return Color(0xFF112FD0);
     }
-    if(EthHomePage.account.coin == "ETH"){
+    if(EthHomePage.account!.coin == "ETH"){
       return Color(0xFF5F66A3);
     }
     return Color(0xFFFFFFFF);
@@ -54,7 +54,6 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: getAccountCardBottomBg(),
           leading: IconButton(
             icon: Icon(
@@ -67,7 +66,7 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -144,7 +143,7 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 40),
                                     child: QrImage(
-                                      data:  EthHomePage.address,
+                                      data:  EthHomePage.address!,
                                       version: QrVersions.auto,
                                       size: 200.0,
                                     ),
@@ -153,7 +152,7 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
                                     alignment: Alignment.center,
                                     margin: const EdgeInsets.only(top: 18, left: 22, right: 22),
                                     child: Text(
-                                      EthHomePage.address,
+                                      EthHomePage.address!,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 15,
                                           color: Colors.black.withAlpha(200),
@@ -212,12 +211,12 @@ class _EthTokenReceivePageState extends State<EthTokenReceivePage> {
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       if (!mounted) {
         return;
       }
       EthHomePage.account = account;
-      EthHomePage.address = account.address;
+      EthHomePage.address = account!.address;
       setState(() {});
     });
   }

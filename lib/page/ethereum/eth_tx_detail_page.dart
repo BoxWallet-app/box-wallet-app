@@ -11,7 +11,7 @@ import 'package:box/model/ethereum/eth_transfer_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +21,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'eth_home_page.dart';
 
 class EthTxDetailPage extends StatefulWidget {
-  final EthTransferItemData recordData;
+  final EthTransferItemData? recordData;
 
-  const EthTxDetailPage({Key key, this.recordData}) : super(key: key);
+  const EthTxDetailPage({Key? key, this.recordData}) : super(key: key);
 
   @override
   _EthTxDetailPageState createState() => _EthTxDetailPageState();
@@ -32,7 +32,7 @@ class EthTxDetailPage extends StatefulWidget {
 class _EthTxDetailPageState extends State<EthTxDetailPage> {
   AensInfoModel _aensInfoModel = AensInfoModel();
   LoadingType _loadingType = LoadingType.loading;
-  Flushbar flush;
+  Flushbar? flush;
   List<Widget> baseItems = []; //先建一个数组用于存放循环生成的widget
   List<Widget> allItems = []; //先建一个数组用于存放循环生成的widget
 
@@ -50,11 +50,11 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
         child: Row(
           children: [
             Expanded(child: Container()),
-            if (widget.recordData.errorMessage != null)
+            if (widget.recordData!.errorMessage != null)
               Container(
                 alignment: Alignment.centerRight,
                 child: new Text(
-                  widget.recordData.errorMessage,
+                  widget.recordData!.errorMessage!,
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14,
@@ -67,14 +67,14 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
               margin: EdgeInsets.only(left: 10),
               padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
               decoration: new BoxDecoration(
-                color: widget.recordData.status == 1 ? Colors.green : Colors.red,
+                color: widget.recordData!.status == 1 ? Colors.green : Colors.red,
                 //设置四周圆角 角度
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
 
                 //设置四周边框
               ),
               child: Text(
-                widget.recordData.status == 1 ? S.current.record_status_success :  S.current.record_status_error,
+                widget.recordData!.status == 1 ? S.current.record_status_success :  S.current.record_status_error,
                 maxLines: 1,
                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
               ),
@@ -96,7 +96,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
             Container(
               alignment: Alignment.centerRight,
               child: new Text(
-                widget.recordData.blockNumber.toString(),
+                widget.recordData!.blockNumber.toString(),
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
@@ -132,7 +132,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
     );
 
     baseItems.add(height);
-    var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData.hash);
+    var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData!.hash!);
 
     baseItems.add(hash);
 
@@ -140,16 +140,16 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
     //
     // baseItems.add(itemType);
 
-    var itemFee = buildItem(S.current.cfx_tx_detail_page_fee, widget.recordData.fee + " " + EthHomePage.account.coin);
+    var itemFee = buildItem(S.current.cfx_tx_detail_page_fee, widget.recordData!.fee! + " " + EthHomePage.account!.coin!);
     baseItems.add(itemFee);
 
-    var senderId = buildItem(S.current.cfx_tx_detail_page_from, widget.recordData.from);
+    var senderId = buildItem(S.current.cfx_tx_detail_page_from, widget.recordData!.from!);
     baseItems.add(senderId);
 
-    var recipientId = buildItem(S.current.cfx_tx_detail_page_to, widget.recordData.to);
+    var recipientId = buildItem(S.current.cfx_tx_detail_page_to, widget.recordData!.to!);
     baseItems.add(recipientId);
 
-    var time = buildItem(S.current.cfx_tx_detail_page_time, DateTime.fromMicrosecondsSinceEpoch(widget.recordData.timestamp * 1000000).toLocal().toString());
+    var time = buildItem(S.current.cfx_tx_detail_page_time, DateTime.fromMicrosecondsSinceEpoch(widget.recordData!.timestamp! * 1000000).toLocal().toString());
 
     baseItems.add(time);
 
@@ -200,7 +200,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
   void netTopHeightData() {
     BlockTopDao.fetch().then((BlockTopModel model) {
       if (model.code == 200) {
-        AeHomePage.height = model.data.height;
+        AeHomePage.height = model.data!.height;
         setState(() {});
       } else {}
     }).catchError((e) {});
@@ -230,8 +230,8 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
               size: 22,
             ),
             onPressed: () async {
-              var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account);
-              _launchURL(scanUrl + widget.recordData.hash.toString());
+              var scanUrl = await EthManager.instance.getScanUrl(EthHomePage.account!);
+              _launchURL(scanUrl + widget.recordData!.hash.toString());
             },
           ),
         ],
@@ -277,14 +277,14 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
   }
 
   Text getFeeWidget(double size) {
-    if (widget.recordData.to.toLowerCase() == EthHomePage.address.toLowerCase()) {
+    if (widget.recordData!.to!.toLowerCase() == EthHomePage.address!.toLowerCase()) {
       return Text(
-        "+" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData.value)) / 1000000000000000000).toString())) + " " + EthHomePage.account.coin,
+        "+" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData!.value!)) / 1000000000000000000).toString())) + " " + EthHomePage.account!.coin!,
         style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "-" + Utils.formatBalanceLength(double.parse((((double.parse(widget.recordData.value)) / 1000000000000000000)).toString())) + " " + EthHomePage.account.coin,
+        "-" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData!.value!)) / 1000000000000000000).toString())) + " " + EthHomePage.account!.coin!,
         style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

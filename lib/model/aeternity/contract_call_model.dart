@@ -1,8 +1,8 @@
 class ContractCallModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   ContractCallModel({this.code, this.msg, this.time, this.data});
 
@@ -19,15 +19,15 @@ class ContractCallModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String function;
-  String tx;
+  String? function;
+  String? tx;
 
   Data({this.function, this.tx});
 

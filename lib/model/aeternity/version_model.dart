@@ -1,8 +1,8 @@
 class VersionModel {
-  int code;
-  String msg;
-  String time;
-  Data data;
+  int? code;
+  String? msg;
+  String? time;
+  Data? data;
 
   VersionModel({this.code, this.msg, this.time, this.data});
 
@@ -19,20 +19,20 @@ class VersionModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String isMandatory;
-  String urlAndroid;
-  String urlIos;
-  String version;
-  String msgCN;
-  String msgEN;
-  String versionIos;
+  String? isMandatory;
+  String? urlAndroid;
+  String? urlIos;
+  String? version;
+  String? msgCN;
+  String? msgEN;
+  String? versionIos;
 
   Data({this.isMandatory, this.urlAndroid, this.urlIos, this.version});
 

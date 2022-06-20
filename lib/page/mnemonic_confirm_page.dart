@@ -11,25 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MnemonicConfirmPage extends StatefulWidget {
-  final String mnemonic;
+  final String? mnemonic;
 
-  const MnemonicConfirmPage({Key key, this.mnemonic}) : super(key: key);
+  const MnemonicConfirmPage({Key? key, this.mnemonic}) : super(key: key);
 
   @override
   _AccountRegisterPageState createState() => _AccountRegisterPageState();
 }
 
 class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
-  var mnemonicWord = Map<String, bool>();
-  var childrenFalse = List<Widget>();
-  var childrenTrue = List<Widget>();
-  var childrenWordTrue = List<String>();
+  var mnemonicWord = Map<String?, bool>();
+  var childrenFalse = <Widget>[];
+  var childrenTrue = <Widget>[];
+  var childrenWordTrue = <String>[];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    List mnemonicList = widget.mnemonic.split(" ");
+    List mnemonicList = widget.mnemonic!.split(" ");
     if(!BoxApp.isDev()){
       mnemonicList.shuffle();
     }
@@ -37,7 +37,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance!.addPostFrameCallback((_){
       updateData();
     });
   }
@@ -116,7 +116,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: FlatButton(
                     onPressed: () {
-                      if (childrenWordTrue.toString() == widget.mnemonic.split(" ").toString()) {
+                      if (childrenWordTrue.toString() == widget.mnemonic!.split(" ").toString()) {
                         showDialog<bool>(
                       context: context,
                       barrierDismissible: false,
@@ -197,7 +197,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     childrenFalse.clear();
 
     mnemonicWord.forEach((k, v) {
-      if (!v) childrenFalse.add(getItemContainer(k, false));
+      if (!v) childrenFalse.add(getItemContainer(k!, false));
     });
 
     childrenTrue.clear();

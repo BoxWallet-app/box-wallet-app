@@ -24,9 +24,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AeWeTrueListPage extends StatefulWidget {
-  final int type;
+  final int? type;
 
-  const AeWeTrueListPage({Key key, this.type}) : super(key: key);
+  const AeWeTrueListPage({Key? key, this.type}) : super(key: key);
 
   @override
   _AeWeTrueListPageState createState() => _AeWeTrueListPageState();
@@ -35,7 +35,7 @@ class AeWeTrueListPage extends StatefulWidget {
 class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     with AutomaticKeepAliveClientMixin {
   int page = 1;
-  WetrueListModel wetrueListModels;
+  WetrueListModel? wetrueListModels;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -81,7 +81,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                       shrinkWrap: true, // 关键
                       itemCount: wetrueListModels == null
                           ? 0
-                          : wetrueListModels.data.data.length,
+                          : wetrueListModels!.data!.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return getItem(context, index);
                       },
@@ -106,7 +106,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     if (model != null || model.code == 200) {
       wetrueListModels = model;
       loadingType = LoadingType.finish;
-      if (wetrueListModels.data == null || wetrueListModels.data.size == 0) {
+      if (wetrueListModels!.data == null || wetrueListModels!.data!.size == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -125,9 +125,9 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
       return;
     }
     if (model != null || model.code == 200) {
-      wetrueListModels.data.data.addAll(model.data.data);
+      wetrueListModels!.data!.data!.addAll(model.data!.data!);
       loadingType = LoadingType.finish;
-      if (wetrueListModels.data == null || wetrueListModels.data.size == 0) {
+      if (wetrueListModels!.data == null || wetrueListModels!.data!.size == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -166,7 +166,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
 
               //设置四周边框
             ),
-            margin: index == wetrueListModels.data.size - 1
+            margin: index == wetrueListModels!.data!.size! - 1
                 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 5)
                 : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 5),
             padding: EdgeInsets.only( top: 18),
@@ -186,8 +186,8 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                               children: <Widget>[
                                 ClipOval(
                                   child: Image.network(
-                                      wetrueListModels
-                                          .data.data[index].users.portrait,
+                                      wetrueListModels!
+                                          .data!.data![index].users!.portrait!,
                                       width: 45,
                                       height: 45),
                                 ),
@@ -213,8 +213,8 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                       child: Center(
                                         child: Text(
                                           "v" +
-                                              wetrueListModels.data.data[index]
-                                                  .users.userActive
+                                              wetrueListModels!.data!.data![index]
+                                                  .users!.userActive
                                                   .toString(),
                                           style: TextStyle(
                                               color: Colors.white, fontSize: 9),
@@ -233,26 +233,26 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                   Container(
                                     width: 200,
                                     child: Text(
-                                      wetrueListModels.data.data[index].users
+                                      wetrueListModels!.data!.data![index].users!
                                                   .nickname ==
                                               ""
                                           ? "匿名用户 " +
                                               "(" +
                                               Utils.formatAddress(
-                                                  wetrueListModels
-                                                      .data
-                                                      .data[index]
-                                                      .users
+                                                  wetrueListModels!
+                                                      .data!
+                                                      .data![index]
+                                                      .users!
                                                       .userAddress) +
                                               ")"
-                                          : wetrueListModels.data.data[index]
-                                                  .users.nickname +
+                                          : wetrueListModels!.data!.data![index]
+                                                  .users!.nickname! +
                                               " (" +
                                               Utils.formatAddress(
-                                                  wetrueListModels
-                                                      .data
-                                                      .data[index]
-                                                      .users
+                                                  wetrueListModels!
+                                                      .data!
+                                                      .data![index]
+                                                      .users!
                                                       .userAddress) +
                                               ")",
                                       style: TextStyle(
@@ -266,11 +266,11 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                   Container(
                                     margin: EdgeInsets.only(top: 2),
                                     child: Text(
-                                      RelativeDateFormat.format(wetrueListModels
-                                              .data.data[index].utcTime) +
+                                      RelativeDateFormat.format(wetrueListModels!
+                                              .data!.data![index].utcTime!) +
                                           " 来自:" +
-                                          wetrueListModels
-                                              .data.data[index].source,
+                                          wetrueListModels!
+                                              .data!.data![index].source!,
                                       style: TextStyle(
                                           color: Colors.black.withAlpha(100),
                                           fontSize: 13,
@@ -295,7 +295,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                   Container(
                                     margin: EdgeInsets.only(left: 5),
                                     child: Text(
-                                      (wetrueListModels.data.data[index].read /
+                                      (wetrueListModels!.data!.data![index].read! /
                                                   1000)
                                               .toStringAsFixed(1) +
                                           "k",
@@ -325,7 +325,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                             margin: EdgeInsets.only(left: 15, right: 15,top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
-                              wetrueListModels.data.data[index].payload
+                              wetrueListModels!.data!.data![index].payload!
                                   .replaceAll("<br>", "\r\n"),
                               strutStyle: StrutStyle(
                                   forceStrutHeight: true,
@@ -346,23 +346,23 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                         ],
                       ),
 
-                      if (wetrueListModels.data.data[index].imgTx != null &&
-                          wetrueListModels.data.data[index].imgTx != "")
+                      if (wetrueListModels!.data!.data![index].imgTx != null &&
+                          wetrueListModels!.data!.data![index].imgTx != "")
                         InkWell(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => PhotoPage(
-                                        address: wetrueListModels
-                                            .data.data[index].imgTx)));
+                                        address: wetrueListModels!
+                                            .data!.data![index].imgTx)));
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 15, right: 15,top: 10),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(0.1),
                               child: Image.network(
-                                wetrueListModels.data.data[index].imgTx,
+                                wetrueListModels!.data!.data![index].imgTx!,
                                 fit: BoxFit.cover,
                                 loadingBuilder:
                                     (context, child, loadingProgress) {
@@ -385,7 +385,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                               null
                                           ? loadingProgress
                                                   .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes
+                                              loadingProgress.expectedTotalBytes!
                                           : null,
                                     ),
                                   );
@@ -419,13 +419,13 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                   onTap: () {
 
                                     Clipboard.setData(ClipboardData(
-                                        text: "以下内容来自AE区块链：\n\n" +wetrueListModels.data.data[index].payload
+                                        text: "以下内容来自AE区块链：\n\n" +wetrueListModels!.data!.data![index].payload!
                                             .replaceAll("<br>", "\r\n") +
                                             "\n\n" +
                                             "我在WeTrue发现一个有趣的内容一起来看看吧~" +
                                             "\n" +
                                             "https://wetrue.io/#/pages/index/detail?hash=" +
-                                            wetrueListModels.data.data[index].hash));
+                                            wetrueListModels!.data!.data![index].hash!));
                                     EasyLoading.showToast('复制成功,请打开其他应用粘贴',
                                         duration: Duration(seconds: 1));
 
@@ -446,12 +446,12 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                           Container(
                                             margin: EdgeInsets.only(left: 5),
                                             child: Text(
-                                              wetrueListModels.data.data[index]
+                                              wetrueListModels!.data!.data![index]
                                                           .commentNumber ==
                                                       0
                                                   ? ""
-                                                  : wetrueListModels.data
-                                                      .data[index].commentNumber
+                                                  : wetrueListModels!.data!
+                                                      .data![index].commentNumber
                                                       .toString(),
                                               style: TextStyle(
                                                 color: Colors.grey,
@@ -478,8 +478,8 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                         backgroundColor:
                                             Colors.transparent.withAlpha(10),
                                         builder: (context) => WeTrueCommentWidget(
-                                              hash: wetrueListModels
-                                                  .data.data[index].hash,
+                                              hash: wetrueListModels!
+                                                  .data!.data![index].hash,
                                             ));
                                   },
                                   child: Container(
@@ -498,12 +498,12 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                           Container(
                                             margin: EdgeInsets.only(left: 5),
                                             child: Text(
-                                              wetrueListModels.data.data[index]
+                                              wetrueListModels!.data!.data![index]
                                                           .commentNumber ==
                                                       0
                                                   ? ""
-                                                  : wetrueListModels.data
-                                                      .data[index].commentNumber
+                                                  : wetrueListModels!.data!
+                                                      .data![index].commentNumber
                                                       .toString(),
                                               style: TextStyle(
                                                 color: Colors.grey,
@@ -527,8 +527,8 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                                   alignment: Alignment.center,
                                   child: LikeButton(
                                     size: 25,
-                                    isLiked: wetrueListModels
-                                        .data.data[index].isPraise,
+                                    isLiked: wetrueListModels!
+                                        .data!.data![index].isPraise,
                                     circleColor: CircleColor(
                                         start: Color(0xFFF22B79),
                                         end: Color(0xFFF22B79)),
@@ -549,16 +549,16 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
 //    WeTruePraiseDao.fetch(hash)   We
                                       var weTruePraiseModel =
                                           await WeTruePraiseDao.fetch(
-                                              wetrueListModels
-                                                  .data.data[index].hash);
-                                      wetrueListModels.data.data[index].isPraise =
-                                          weTruePraiseModel.data.isPraise;
-                                      return weTruePraiseModel.data.isPraise;
+                                              wetrueListModels!
+                                                  .data!.data![index].hash);
+                                      wetrueListModels!.data!.data![index].isPraise =
+                                          weTruePraiseModel.data!.isPraise;
+                                      return weTruePraiseModel.data!.isPraise;
                                     },
                                     likeCount:
-                                        wetrueListModels.data.data[index].praise,
+                                        wetrueListModels!.data!.data![index].praise,
                                     countBuilder:
-                                        (int count, bool isLiked, String text) {
+                                        (int? count, bool isLiked, String text) {
                                       var color = isLiked
                                           ? Color(0xFFF22B79)
                                           : Colors.grey;
@@ -621,7 +621,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",

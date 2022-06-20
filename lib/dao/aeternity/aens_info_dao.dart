@@ -5,8 +5,8 @@ import 'package:box/model/aeternity/aens_info_model.dart';
 import 'package:dio/dio.dart';
 
 class AensInfoDao {
-  static Future<AensInfoModel> fetch(String name) async {
-    Map<String, String> params = new Map();
+  static Future<AensInfoModel> fetch(String? name) async {
+    Map<String, String?> params = new Map();
     params['name'] = name;
     Response response = await Dio().post(Host.NAME_INFO, queryParameters: params);
     if (response.statusCode == 200) {

@@ -1,8 +1,8 @@
 class MsgSignModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   MsgSignModel({this.code, this.msg, this.time, this.data});
 
@@ -19,16 +19,16 @@ class MsgSignModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String msg;
-  String tx;
-  double salt;
+  String? msg;
+  String? tx;
+  double? salt;
 
   Data({this.msg, this.tx});
 

@@ -1,7 +1,7 @@
 class WeTruePraiseModel {
-  int code;
-  Data data;
-  String msg;
+  int? code;
+  Data? data;
+  String? msg;
 
   WeTruePraiseModel({this.code, this.data, this.msg});
 
@@ -15,7 +15,7 @@ class WeTruePraiseModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['msg'] = this.msg;
     return data;
@@ -23,8 +23,8 @@ class WeTruePraiseModel {
 }
 
 class Data {
-  int praise;
-  bool isPraise;
+  int? praise;
+  bool? isPraise;
 
   Data({this.praise, this.isPraise});
 

@@ -1,7 +1,7 @@
 class CfxRpcModel {
-  String type;
-  Payload payload;
-  int resolver;
+  String? type;
+  Payload? payload;
+  int? resolver;
 
   CfxRpcModel({this.type, this.payload, this.resolver});
 
@@ -16,7 +16,7 @@ class CfxRpcModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['type'] = this.type;
     if (this.payload != null) {
-      data['payload'] = this.payload.toJson();
+      data['payload'] = this.payload!.toJson();
     }
     data['resolver'] = this.resolver;
     return data;
@@ -24,13 +24,13 @@ class CfxRpcModel {
 }
 
 class Payload {
-  String storageLimit;
-  String gas;
-  String gasPrice;
-  String value;
-  String from;
-  String to;
-  String data;
+  String? storageLimit;
+  String? gas;
+  String? gasPrice;
+  String? value;
+  String? from;
+  String? to;
+  String? data;
 
   Payload(
       {this.storageLimit,

@@ -12,7 +12,7 @@ class AeWeTruePage extends StatefulWidget {
 }
 
 class _AeWeTruePageState extends State<AeWeTruePage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool isFinish = false;
 
   @override

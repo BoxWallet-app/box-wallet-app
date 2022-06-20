@@ -1,7 +1,7 @@
 class WeTrueConfigModel {
-  int code;
-  String msg;
-  Data data;
+  int? code;
+  String? msg;
+  Data? data;
 
   WeTrueConfigModel({this.code, this.msg, this.data});
 
@@ -16,31 +16,31 @@ class WeTrueConfigModel {
     data['code'] = this.code;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String weTrue;
-  String requireVersion;
-  String topicAmount;
-  String commentAmount;
-  String replyAmount;
-  String nicknameAmount;
-  String sexAmount;
-  String portraitAmount;
-  String openMapAmount;
-  String openMapAddress;
-  String receivingAccount;
-  int contentActive;
-  int commentActive;
-  int praiseActive;
-  int nicknameActive;
-  int portraitActive;
-  int complainActive;
-  String frontEndUrl;
+  String? weTrue;
+  String? requireVersion;
+  String? topicAmount;
+  String? commentAmount;
+  String? replyAmount;
+  String? nicknameAmount;
+  String? sexAmount;
+  String? portraitAmount;
+  String? openMapAmount;
+  String? openMapAddress;
+  String? receivingAccount;
+  int? contentActive;
+  int? commentActive;
+  int? praiseActive;
+  int? nicknameActive;
+  int? portraitActive;
+  int? complainActive;
+  String? frontEndUrl;
 
   Data(
       {this.weTrue,

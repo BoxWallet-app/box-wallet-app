@@ -1,15 +1,15 @@
 class EthTokenTopModel {
-  List<Data> data;
-  String message;
-  int result;
+  List<Data>? data;
+  String? message;
+  int? result;
 
   EthTokenTopModel({this.data, this.message, this.result});
 
   EthTokenTopModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     message = json['message'];
@@ -19,7 +19,7 @@ class EthTokenTopModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -28,40 +28,40 @@ class EthTokenTopModel {
 }
 
 class Data {
-  int hid;
-  int blockchainId;
+  int? hid;
+  int? blockchainId;
   Null blockchain;
-  int tokenType;
-  String name;
-  String symbol;
-  String blSymbol;
-  int gas;
-  int decimal;
-  int precision;
-  String balance;
+  int? tokenType;
+  String? name;
+  String? symbol;
+  String? blSymbol;
+  int? gas;
+  int? decimal;
+  int? precision;
+  String? balance;
   Null frozenBalances;
-  double priceUsd;
-  int percentChange24h;
-  int asset;
-  int added;
-  String address;
-  String ownerAddress;
-  String website;
-  String description;
-  int updateContract;
-  String totalSupply;
-  int holderCount;
-  int published;
-  String tiLink;
-  int tokenStatus;
-  int validated;
-  String iconUrl;
-  int autoAdd;
-  String dappCode;
-  int tokenProtocol;
-  int metadataType;
-  String createTime;
-  int weight;
+  double? priceUsd;
+  int? percentChange24h;
+  int? asset;
+  int? added;
+  String? address;
+  String? ownerAddress;
+  String? website;
+  String? description;
+  int? updateContract;
+  String? totalSupply;
+  int? holderCount;
+  int? published;
+  String? tiLink;
+  int? tokenStatus;
+  int? validated;
+  String? iconUrl;
+  int? autoAdd;
+  String? dappCode;
+  int? tokenProtocol;
+  int? metadataType;
+  String? createTime;
+  int? weight;
 
   Data(
       {this.hid,

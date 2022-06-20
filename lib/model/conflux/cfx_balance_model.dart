@@ -1,12 +1,12 @@
 class CfxBalanceModel {
-  String address;
-  String balance;
-  String stakingBalance;
-  String collateralForStorage;
-  String accumulatedInterestReturn;
-  String nonce;
-  String admin;
-  String codeHash;
+  String? address;
+  String? balance;
+  String? stakingBalance;
+  String? collateralForStorage;
+  String? accumulatedInterestReturn;
+  String? nonce;
+  String? admin;
+  String? codeHash;
 
   CfxBalanceModel(
       {this.address,

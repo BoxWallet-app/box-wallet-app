@@ -21,8 +21,8 @@ class CfxNftPage extends StatefulWidget {
 }
 
 class _CfxNftPageState extends State<CfxNftPage> {
-  List<Widget> tabs = List<Widget>();
-  List<Widget> tabsView = List<Widget>();
+  List<Widget> tabs = <Widget>[];
+  List<Widget> tabsView = <Widget>[];
 
   @override
   void initState() {
@@ -37,10 +37,10 @@ class _CfxNftPageState extends State<CfxNftPage> {
       }
       tabs.clear();
       tabsView.clear();
-      for (var i = 0; i < model.data.length; i++) {
-        var tab = createTab(context, model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
+      for (var i = 0; i < model.data!.length; i++) {
+        var tab = createTab(context, model.data![i].name!.zh! + "(" + model.data![i].balance.toString() + ")");
         tabs.add(tab);
-        tabsView.add(CfxNftListPage(data: model.data[i]));
+        tabsView.add(CfxNftListPage(data: model.data![i]));
       }
       setState(() {});
     }).catchError((e) {

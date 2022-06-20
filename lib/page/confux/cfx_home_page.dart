@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -35,15 +36,15 @@ class CfxHomePage extends StatefulWidget {
   static var token = "loading...";
   static var tokenABC = "0.000000";
   static var height = 0;
-  static var address = "";
+  static String? address = "";
 
   @override
   _CfxHomePageState createState() => _CfxHomePageState();
 }
 
 class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClientMixin {
-  PriceModel priceModel;
-  CfxTransfer cfxTransfer;
+  PriceModel? priceModel;
+  CfxTransfer? cfxTransfer;
   var domain = "";
   var page = 1;
 
@@ -82,8 +83,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       return;
     var address = await BoxApp.getAddress();
 
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    var cacheBalance =await CacheManager.instance.getBalance(account.address, account.coin);
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+    var cacheBalance =await CacheManager.instance.getBalance(account.address!, account.coin!);
     if(cacheBalance != ""){
       CfxHomePage.token = cacheBalance;
       setState(() {
@@ -93,7 +94,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     CfxBalanceDao.fetch().then((CfxBalanceModel model) {
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
 
-      CacheManager.instance.setBalance(account.address, account.coin, CfxHomePage.token);
+      CacheManager.instance.setBalance(account.address!, account.coin!, CfxHomePage.token);
 
       BoxApp.getErcBalanceCFX((balance,decimal) async {
         if(!mounted)return;
@@ -108,8 +109,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   Future<void> netCfxTransfer() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    var transfer =await CacheManager.instance.getCFXRecord(account.address, account.coin);
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+    var transfer =await CacheManager.instance.getCFXRecord(account.address!, account.coin!);
     if(transfer != null){
       cfxTransfer = transfer;
       setState(() {
@@ -118,7 +119,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     }
     CfxTransferDao.fetch(page.toString(), "").then((CfxTransfer model) {
       cfxTransfer = model;
-      CacheManager.instance.setCFXRecord(account.address, account.coin, cfxTransfer);
+      CacheManager.instance.setCFXRecord(account.address!, account.coin!, cfxTransfer);
       setState(() {});
     }).catchError((e) {});
   }
@@ -135,12 +136,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       if (!mounted) {
         return;
       }
-      CfxHomePage.address = account.address;
-      getDomainName(CfxHomePage.address);
+      CfxHomePage.address = account!.address;
+      getDomainName(CfxHomePage.address!);
       setState(() {});
     });
   }
@@ -164,21 +165,21 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     if (CfxHomePage.token == "loading...") {
       return "";
     }
-    if (BoxApp.language == "cn" && priceModel.conflux != null) {
-      if (priceModel.conflux.cny == null) {
+    if (BoxApp.language == "cn" && priceModel!.conflux != null) {
+      if (priceModel!.conflux!.cny == null) {
         return "";
       }
       if (double.parse(CfxHomePage.token) < 1000) {
-        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel!.conflux!.cny! * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModel.conflux.cny * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel!.conflux!.cny! * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
       }
     } else {
-      if (priceModel.conflux.usd == null) {
+      if (priceModel!.conflux!.usd == null) {
         return "";
       }
-      return "\$" + (priceModel.conflux.usd * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
+      return "\$" + (priceModel!.conflux!.usd! * double.parse(CfxHomePage.token)).toStringAsFixed(4) + " ≈";
     }
   }
 
@@ -864,7 +865,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (cfxTransfer != null && cfxTransfer.list.length > 0)
+              if (cfxTransfer != null && cfxTransfer!.list!.length > 0)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -887,7 +888,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                           ),
                         ),
                       ),
-                    if (cfxTransfer != null && cfxTransfer.total == 0)
+                    if (cfxTransfer != null && cfxTransfer!.total == 0)
                       Container(
                           child: Center(
                               child: Container(
@@ -1066,7 +1067,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   Widget getItem(BuildContext context, int index) {
-    if (cfxTransfer == null || cfxTransfer.list.length <= index) {
+    if (cfxTransfer == null || cfxTransfer!.list!.length <= index) {
       return Container();
     }
     if (index == 0) {}
@@ -1076,9 +1077,9 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       child: InkWell(
         onTap: () {
           if (Platform.isIOS) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CfxTxDetailPage(hash: cfxTransfer!.list![index].hash)));
           } else {
-            Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer.list[index].hash)));
+            Navigator.push(context, SlideRoute(CfxTxDetailPage(hash: cfxTransfer!.list![index].hash)));
           }
         },
         child: Container(
@@ -1122,7 +1123,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                        cfxTransfer.list[index].hash,
+                        cfxTransfer!.list![index].hash!,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
@@ -1131,7 +1132,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer.list[index].timestamp * 1000000).toLocal().toString().length - 4),
+                        DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().length - 4),
                         style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
@@ -1158,8 +1159,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     // } else {
     //   return cfxTransfer.list[index].method;
     // }
-    var split = CfxHomePage.address.split(":");
-    if (cfxTransfer.list[index].from.toString().toLowerCase().contains(split[1])) {
+    var split = CfxHomePage.address!.split(":");
+    if (cfxTransfer!.list![index].from.toString().toLowerCase().contains(split[1])) {
       return S.current.cfx_home_page_transfer_send;
     } else {
       return S.current.cfx_home_page_transfer_receive;
@@ -1167,7 +1168,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   }
 
   String cfxEpochNumber(int index) {
-    return cfxTransfer.list[index].nonce.toString();
+    return cfxTransfer!.list![index].nonce.toString();
   }
 
   Text getFeeWidget(int index) {
@@ -1178,15 +1179,15 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
-    var split = CfxHomePage.address.split(":");
-    if (cfxTransfer.list[index].to.toString().toLowerCase().contains(split[1])) {
+    var split = CfxHomePage.address!.split(":");
+    if (cfxTransfer!.list![index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 4)) + " CFX",
+        "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 4)) + " CFX",
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(cfxTransfer.list[index].value, 4)) + " CFX",
+        "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 4)) + " CFX",
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

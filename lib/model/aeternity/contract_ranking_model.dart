@@ -1,8 +1,8 @@
 class RankingModel {
-    int code;
-    String msg;
-    int time;
-    Data data;
+    int? code;
+    String? msg;
+    int? time;
+    Data? data;
 
     RankingModel({this.code, this.msg, this.time, this.data});
 
@@ -19,24 +19,24 @@ class RankingModel {
         data['msg'] = this.msg;
         data['time'] = this.time;
         if (this.data != null) {
-            data['data'] = this.data.toJson();
+            data['data'] = this.data!.toJson();
         }
         return data;
     }
 }
 
 class Data {
-    String outCount;
-    List<Ranking> ranking;
+    String? outCount;
+    List<Ranking>? ranking;
 
     Data({this.outCount, this.ranking});
 
     Data.fromJson(Map<String, dynamic> json) {
         outCount = json['out_count'];
         if (json['ranking'] != null) {
-            ranking = new List<Ranking>();
+            ranking = <Ranking>[];
             json['ranking'].forEach((v) {
-                ranking.add(new Ranking.fromJson(v));
+                ranking!.add(new Ranking.fromJson(v));
             });
         }
     }
@@ -45,17 +45,17 @@ class Data {
         final Map<String, dynamic> data = new Map<String, dynamic>();
         data['out_count'] = this.outCount;
         if (this.ranking != null) {
-            data['ranking'] = this.ranking.map((v) => v.toJson()).toList();
+            data['ranking'] = this.ranking!.map((v) => v.toJson()).toList();
         }
         return data;
     }
 }
 
 class Ranking {
-    String address;
-    String count;
-    String outCount;
-    String proportion;
+    String? address;
+    String? count;
+    String? outCount;
+    String? proportion;
 
     Ranking({this.address, this.count, this.outCount, this.proportion});
 

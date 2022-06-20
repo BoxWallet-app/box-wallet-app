@@ -14,14 +14,14 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef SelectMnemonicCallBackFuture = Future Function(String);
+typedef SelectMnemonicCallBackFuture = Future? Function(String);
 
 class SelectMnemonicPage extends StatefulWidget {
-  final String password;
-  final Coin coin;
-  final SelectMnemonicCallBackFuture selectMnemonicCallBackFuture;
+  final String? password;
+  final Coin? coin;
+  final SelectMnemonicCallBackFuture? selectMnemonicCallBackFuture;
 
-  const SelectMnemonicPage({Key key, this.password, this.coin, this.selectMnemonicCallBackFuture}) : super(key: key);
+  const SelectMnemonicPage({Key? key, this.password, this.coin, this.selectMnemonicCallBackFuture}) : super(key: key);
 
   @override
   _SelectMnemonicPathState createState() => _SelectMnemonicPathState();
@@ -29,8 +29,8 @@ class SelectMnemonicPage extends StatefulWidget {
 
 class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
   var loadingType = LoadingType.finish;
-  List<String> mnemonics = List();
-  PriceModel priceModel;
+  List<String> mnemonics = [];
+  PriceModel? priceModel;
 
   @override
   void initState() {
@@ -39,17 +39,17 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
 
     WalletCoinsManager.instance.getCoins().then((walletCoinsModel) async {
       mnemonics.clear();
-      for (var i = 0; i < walletCoinsModel.coins.length; i++) {
-        if (widget.coin.name == walletCoinsModel.coins[i].name) {
+      for (var i = 0; i < walletCoinsModel.coins!.length; i++) {
+        if (widget.coin!.name == walletCoinsModel.coins![i].name) {
           continue;
         }
 
-        for (var j = 0; j < walletCoinsModel.coins[i].accounts.length; j++) {
-          var address = walletCoinsModel.coins[i].accounts[j].address;
+        for (var j = 0; j < walletCoinsModel.coins![i].accounts!.length; j++) {
+          var address = walletCoinsModel.coins![i].accounts![j].address!;
 
           var prefs = await SharedPreferences.getInstance();
-          var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
-          final key = Utils.generateMd5Int(widget.password + address);
+          var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")))!;
+          final key = Utils.generateMd5Int(widget.password! + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if (mnemonicAesEncode != null && mnemonicAesEncode !="") mnemonics.add(mnemonicAesEncode);
@@ -60,10 +60,10 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
       List<String> result = [];
       result = mnemonics.sublist(0);
       mnemonics.forEach((element) async {
-        for (var j = 0; j < widget.coin.accounts.length; j++) {
-          var address = widget.coin.accounts[j].address;
-          var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")));
-          final key = Utils.generateMd5Int(widget.password + address);
+        for (var j = 0; j < widget.coin!.accounts!.length; j++) {
+          var address = widget.coin!.accounts![j].address!;
+          var mnemonic = prefs.getString((Utils.generateMD5(address + "mnemonic")))!;
+          final key = Utils.generateMd5Int(widget.password! + address);
 
           var mnemonicAesEncode = Utils.aesDecode(mnemonic, key);
           if (mnemonicAesEncode == element) {
@@ -162,7 +162,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
           onTap: () {
             Navigator.of(context).pop();
             if (widget.selectMnemonicCallBackFuture != null) {
-              widget.selectMnemonicCallBackFuture(mnemonics[index]);
+              widget.selectMnemonicCallBackFuture!(mnemonics[index]);
             }
           },
           child: Container(

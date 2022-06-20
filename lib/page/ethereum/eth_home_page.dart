@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -42,17 +43,17 @@ class EthHomePage extends StatefulWidget {
   static var token = "loading...";
   static var tokenABC = "0.000000";
   static var height = 0;
-  static var address = "";
+  static String? address = "";
 
-  static Account account;
+  static Account? account;
 
   @override
   _EthHomePageState createState() => _EthHomePageState();
 }
 
 class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClientMixin {
-  PriceModel priceModel;
-  EthTransferModel ethTransfer;
+  PriceModel? priceModel;
+  EthTransferModel? ethTransfer;
   var price = "";
   var domain = "";
   var page = 1;
@@ -91,8 +92,8 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   Future<void> netCfxBalance() async {
     if(!mounted)return;
     var address = await BoxApp.getAddress();
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    var cacheBalance =await CacheManager.instance.getBalance(account.address, account.coin);
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+    var cacheBalance =await CacheManager.instance.getBalance(account.address!, account.coin!);
     if(cacheBalance != ""){
       EthHomePage.token = cacheBalance;
       if(!mounted)return;
@@ -100,8 +101,8 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
       });
       var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-      if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
+      if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
+        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), EthHomePage.token);
       }
       if(!mounted)return;
       setState(() {});
@@ -114,23 +115,23 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
         EthHomePage.token = "0.0000";
       } else {
         EthHomePage.token = Utils.formatBalanceLength(double.parse(balance));
-        CacheManager.instance.setBalance(account.address, account.coin, EthHomePage.token);
+        CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
       }
       if (!mounted) return;
       setState(() {});
       var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-      if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), EthHomePage.token);
+      if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
+        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), EthHomePage.token);
       }
       if (!mounted) return;
       setState(() {});
       return;
-    }, address,account.coin, nodeUrl);
+    }, address,account.coin!, nodeUrl);
   }
 
   Future<void> netCfxTransfer() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    var ethRecord =await CacheManager.instance.getEthRecord(account.address,account.coin);
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+    var ethRecord =await CacheManager.instance.getEthRecord(account.address!,account.coin!);
     if(ethRecord!=null){
       this.ethTransfer = ethRecord;
       setState(() {
@@ -142,7 +143,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     setState(() {
 
     });
-    await CacheManager.instance.setEthRecord(account.address,account.coin,ethTransfer);
+    await CacheManager.instance.setEthRecord(account.address!,account.coin!,ethTransfer);
 
   }
 
@@ -158,14 +159,14 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       if (!mounted) {
         return;
       }
 
       EthHomePage.account = account;
-      EthHomePage.address = account.address;
-      getDomainName(EthHomePage.address);
+      EthHomePage.address = account!.address;
+      getDomainName(EthHomePage.address!);
       setState(() {});
     });
   }
@@ -189,21 +190,21 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     if (EthHomePage.token == "loading...") {
       return "";
     }
-    if (BoxApp.language == "cn" && priceModel.conflux != null) {
-      if (priceModel.conflux.cny == null) {
+    if (BoxApp.language == "cn" && priceModel!.conflux != null) {
+      if (priceModel!.conflux!.cny == null) {
         return "";
       }
       if (double.parse(EthHomePage.token) < 1000) {
-        return "¥" + (priceModel.conflux.cny * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel!.conflux!.cny! * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "¥" + (priceModel.conflux.cny * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
+        return "¥" + (priceModel!.conflux!.cny! * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
       }
     } else {
-      if (priceModel.conflux.usd == null) {
+      if (priceModel!.conflux!.usd == null) {
         return "";
       }
-      return "\$" + (priceModel.conflux.usd * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
+      return "\$" + (priceModel!.conflux!.usd! * double.parse(EthHomePage.token)).toStringAsFixed(4) + " ≈";
     }
   }
 
@@ -451,7 +452,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                                         child: Row(
                                           children: <Widget>[
                                             Text(
-                                              S.of(context).home_page_my_count + " (" + getAccountCoinName() + "）",
+                                              S.of(context).home_page_my_count + " (" + getAccountCoinName()! + "）",
                                               style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
                                             Expanded(child: Container()),
@@ -833,16 +834,16 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     if (EthHomePage.account == null) {
       return  AssetImage("images/card_top.png");
     }
-    if (EthHomePage.account.coin == "BNB") {
+    if (EthHomePage.account!.coin == "BNB") {
      return  AssetImage("images/ic_main_bnb.png");
     }
-    if (EthHomePage.account.coin == "OKT") {
+    if (EthHomePage.account!.coin == "OKT") {
       return  AssetImage("images/ic_main_okt.png");
     }
-    if (EthHomePage.account.coin == "HT") {
+    if (EthHomePage.account!.coin == "HT") {
       return  AssetImage("images/ic_main_ht.png");
     }
-    if (EthHomePage.account.coin == "ETH") {
+    if (EthHomePage.account!.coin == "ETH") {
       return  AssetImage("images/ic_main_eth.png");
     }
     return  AssetImage("images/card_top.png");
@@ -852,25 +853,25 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     if (EthHomePage.account == null) {
       return [];
     }
-    if (EthHomePage.account.coin == "BNB") {
+    if (EthHomePage.account!.coin == "BNB") {
       return [
         Color(0xFFE1A200),
         Color(0xFFE6A700),
       ];
     }
-    if (EthHomePage.account.coin == "OKT") {
+    if (EthHomePage.account!.coin == "OKT") {
       return [
         Color(0xFF0062DB),
         Color(0xFF1F94FF),
       ];
     }
-    if (EthHomePage.account.coin == "HT") {
+    if (EthHomePage.account!.coin == "HT") {
       return [
         Color(0xFF112FD0),
         Color(0xFF112FD0),
       ];
     }
-    if (EthHomePage.account.coin == "ETH") {
+    if (EthHomePage.account!.coin == "ETH") {
       return [
         Color(0xFF5F66A3),
         Color(0xFF5F66A3),
@@ -886,26 +887,26 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     if (EthHomePage.account == null) {
       return Color(0xFFFFFFFF);
     }
-    if (EthHomePage.account.coin == "BNB") {
+    if (EthHomePage.account!.coin == "BNB") {
       return Color(0xFFCD8E00);
     }
-    if (EthHomePage.account.coin == "OKT") {
+    if (EthHomePage.account!.coin == "OKT") {
       return Color(0xFF0060C2);
     }
-    if (EthHomePage.account.coin == "HT") {
+    if (EthHomePage.account!.coin == "HT") {
       return Color(0xFF0F28B1);
     }
-    if (EthHomePage.account.coin == "ETH") {
+    if (EthHomePage.account!.coin == "ETH") {
       return Color(0xFF4F5588);
     }
     return Color(0xFFFFFFFF);
   }
 
-  String getAccountCoinName() {
+  String? getAccountCoinName() {
     if (EthHomePage.account == null) {
       return "";
     }
-    return EthHomePage.account.coin;
+    return EthHomePage.account!.coin;
   }
 
   Container getRecordContainer(BuildContext context) {
@@ -990,7 +991,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                   ],
                 ),
               ),
-              if (ethTransfer != null && ethTransfer.data != null)
+              if (ethTransfer != null && ethTransfer!.data != null)
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 15, top: 0),
@@ -1013,7 +1014,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                           ),
                         ),
                       ),
-                    if (ethTransfer != null && ethTransfer.data == null)
+                    if (ethTransfer != null && ethTransfer!.data == null)
                       Container(
                           child: Center(
                               child: Container(
@@ -1192,7 +1193,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   Widget getItem(BuildContext context, int index) {
-    if (ethTransfer == null || ethTransfer.data == null || ethTransfer.data.length <= index) {
+    if (ethTransfer == null || ethTransfer!.data == null || ethTransfer!.data!.length <= index) {
       return Container();
     }
     if (index == 0) {}
@@ -1202,9 +1203,9 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       child: InkWell(
         onTap: () {
           if (Platform.isIOS) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTxDetailPage(recordData: ethTransfer.data[index])));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EthTxDetailPage(recordData: ethTransfer!.data![index])));
           } else {
-            Navigator.push(context, SlideRoute(EthTxDetailPage(recordData: ethTransfer.data[index])));
+            Navigator.push(context, SlideRoute(EthTxDetailPage(recordData: ethTransfer!.data![index])));
           }
         },
         child: Container(
@@ -1252,7 +1253,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                        ethTransfer.data[index].hash,
+                        ethTransfer!.data![index].hash!,
 
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -1264,7 +1265,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
                     Container(
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(ethTransfer.data[index].timestamp * 1000000).toLocal().toString().length - 4),
+                        DateTime.fromMicrosecondsSinceEpoch(ethTransfer!.data![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(ethTransfer!.data![index].timestamp! * 1000000).toLocal().toString().length - 4),
                         style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
                     ),
@@ -1284,11 +1285,11 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
   String getCfxMethod(int index) {
 
-    if(ethTransfer.data[index].status == 0){
+    if(ethTransfer!.data![index].status == 0){
       return S.current.record_status_error_full;
     }
 
-    if (ethTransfer.data[index].from.toString().toLowerCase().contains(EthHomePage.address.toLowerCase())) {
+    if (ethTransfer!.data![index].from.toString().toLowerCase().contains(EthHomePage.address!.toLowerCase())) {
       return S.current.cfx_home_page_transfer_send;
     } else {
       return S.current.cfx_home_page_transfer_receive;
@@ -1296,7 +1297,7 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
   }
 
   String cfxEpochNumber(int index) {
-    var nonce = int.parse(ethTransfer.data[index].nonce);
+    var nonce = int.parse(ethTransfer!.data![index].nonce!);
     if (nonce > 9999) {
       return (nonce / 1000).toStringAsFixed(0) + "K";
     } else {
@@ -1312,21 +1313,21 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
     //
-    if(ethTransfer.data[index].status == 0){
+    if(ethTransfer!.data![index].status == 0){
       return  Text(
-        ethTransfer.data[index].errorMessage,
+        ethTransfer!.data![index].errorMessage!,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }
 
-    if (ethTransfer.data[index].to.toLowerCase() == EthHomePage.address.toLowerCase()) {
+    if (ethTransfer!.data![index].to!.toLowerCase() == EthHomePage.address!.toLowerCase()) {
       return Text(
-        "+ " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 4)) + " " + EthHomePage.account.coin,
+        "+ " + (Utils.cfxFormatAsFixed(ethTransfer!.data![index].value, 4)) + " " + EthHomePage.account!.coin!,
         style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     } else {
       return Text(
-        "- " + (Utils.cfxFormatAsFixed(ethTransfer.data[index].value, 4)) + " " + EthHomePage.account.coin,
+        "- " + (Utils.cfxFormatAsFixed(ethTransfer!.data![index].value, 4)) + " " + EthHomePage.account!.coin!,
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );
     }

@@ -11,8 +11,8 @@ import 'package:dio/dio.dart';
 import '../../main.dart';
 
 class EthTransferDao {
-  static Future<EthTransferModel> fetch(String chainID,String ctAddress,String page) async {
-    Map<String, String> params = new Map();
+  static Future<EthTransferModel> fetch(String chainID,String? ctAddress,String page) async {
+    Map<String, String?> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["blockchain_id"] = chainID;

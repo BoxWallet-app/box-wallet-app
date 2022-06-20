@@ -15,13 +15,13 @@ class ChainLoadingWidget extends StatefulWidget {
 }
 
 class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
   String text = 'Loading...';
   List<Widget> items = [];
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -111,7 +111,7 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                         'images/loading.json',
                         controller: _controller,
                         onLoaded: (composition) {
-                          _controller
+                          _controller!
                             ..duration = Duration(milliseconds: 1000)
                             ..repeat();
                         },

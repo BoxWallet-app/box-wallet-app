@@ -9,20 +9,20 @@ import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 
-typedef SelectChainPageCallBackFuture = Future Function(ChainsModel);
+typedef SelectChainPageCallBackFuture = Future? Function(ChainsModel);
 
 class SelectChainPage extends StatefulWidget {
-  final int type;
-  final SelectChainPageCallBackFuture selectChainPageCallBackFuture;
+  final int? type;
+  final SelectChainPageCallBackFuture? selectChainPageCallBackFuture;
 
-  const SelectChainPage({Key key, this.type, this.selectChainPageCallBackFuture}) : super(key: key);
+  const SelectChainPage({Key? key, this.type, this.selectChainPageCallBackFuture}) : super(key: key);
 
   @override
   _SelectChainPageState createState() => _SelectChainPageState();
 }
 
 class _SelectChainPageState extends State<SelectChainPage> {
-  List<ChainsModel> chains;
+  late List<ChainsModel> chains;
 
   @override
   void initState() {
@@ -219,12 +219,12 @@ class _SelectChainPageState extends State<SelectChainPage> {
                 break;
               case 1:
                 Navigator.of(context).pop();
-                if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
+                if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture!(chains[index]);
 
 
                 break;
               case 2:
-                if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture(chains[index]);
+                if (widget.selectChainPageCallBackFuture != null) widget.selectChainPageCallBackFuture!(chains[index]);
 
                 Navigator.of(context).pop();
                 break;
@@ -245,7 +245,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
 //                                                      shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(36.0),
                       image: DecorationImage(
-                        image: AssetImage("images/" + chains[index].name + ".png"),
+                        image: AssetImage("images/" + chains[index].name! + ".png"),
                       ),
                     ),
                   ),
@@ -255,7 +255,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, top: 5,right: 10),
                   child: Text(
-                    (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull )  + "\n(" + chains[index].name + ")",
+                    (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull )!  + "\n(" + chains[index].name! + ")",
                     textAlign:TextAlign.center,
                     style: new TextStyle(
                       fontSize: 16,
@@ -276,7 +276,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
     BoxApp.getGenerateSecretKey((address, signingKey, mnemonic) {
       showGeneralDialog(useRootNavigator:false,
           context: context,
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -317,7 +317,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
     BoxApp.getGenerateSecretKeyCFX((address, signingKey, mnemonic) {
       showGeneralDialog(useRootNavigator:false,
           context: context,
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",

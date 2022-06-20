@@ -1,8 +1,8 @@
 class SwapCoinModel {
-  int code;
-  String msg;
-  int time;
-  List<SwapCoinModelData> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<SwapCoinModelData>? data;
 
   SwapCoinModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class SwapCoinModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<SwapCoinModelData>();
+      data = <SwapCoinModelData>[];
       json['data'].forEach((v) {
-        data.add(new SwapCoinModelData.fromJson(v));
+        data!.add(new SwapCoinModelData.fromJson(v));
       });
     }
   }
@@ -24,17 +24,17 @@ class SwapCoinModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SwapCoinModelData {
-  String name;
-  String ctAddress;
-  double lowTokenCount;
-  double lowAeCount;
+  String? name;
+  String? ctAddress;
+  double? lowTokenCount;
+  double? lowAeCount;
 
   SwapCoinModelData({this.name, this.ctAddress, this.lowTokenCount, this.lowAeCount});
 

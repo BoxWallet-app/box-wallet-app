@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -8,7 +9,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -22,30 +23,30 @@ import 'cfx_select_token_list_page.dart';
 class CfxTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  CfxTokenSendTwoPage({Key key, @required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  CfxTokenSendTwoPage({Key? key, required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _CfxTokenSendTwoPageState createState() => _CfxTokenSendTwoPageState();
 }
 
 class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
-  Flushbar flush;
+  late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String address = '';
   var loadingType = LoadingType.loading;
-  List<Widget> items = List<Widget>();
+  List<Widget> items = <Widget>[];
 
-  String tokenName;
-  String tokenCount;
-  String amountAll;
-  String tokenImage;
-  String tokenContract;
+  String? tokenName;
+  String? tokenCount;
+  String? amountAll;
+  String? tokenImage;
+  String? tokenContract;
 
   @override
   void initState() {
@@ -89,7 +90,6 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFF37A1DB),
           leading: IconButton(
             icon: Icon(
@@ -102,7 +102,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -256,7 +256,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                           controller: _textEditingController,
                                           focusNode: focusNode,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -320,7 +320,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                             backgroundColor: Colors.transparent,
                                             builder: (context) => CfxSelectTokenListPage(
                                                   aeCount: CfxHomePage.token,
-                                                  aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
+                                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
                                                     this.tokenName = tokenName;
                                                     this.tokenCount = tokenCount;
                                                     this.tokenImage = tokenImage;
@@ -355,11 +355,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                       ),
                                                       child: ClipOval(
                                                         child: Image.network(
-                                                          tokenImage,
+                                                          tokenImage!,
                                                           errorBuilder: (
                                                             BuildContext context,
                                                             Object error,
-                                                            StackTrace stackTrace,
+                                                            StackTrace? stackTrace,
                                                           ) {
                                                             return Container(
                                                               color: Colors.grey.shade200,
@@ -380,7 +380,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
-                                                      tokenName == null ? "" : tokenName,
+                                                      tokenName == null ? "" : tokenName!,
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
@@ -397,7 +397,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    tokenCount == null ? "" : tokenCount,
+                                                    tokenCount == null ? "" : tokenCount!,
                                                     style: TextStyle(
                                                       color: Color(0xFF333333),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -435,7 +435,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
-                          if (double.parse(this.amountAll) < 0.002) {
+                          if (double.parse(this.amountAll!) < 0.002) {
                             return;
                           }
                           netSendV2(context);
@@ -452,11 +452,11 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                 height: 20.0,
                               )
                             : Text(
-                                double.parse(this.amountAll) > 0.002 ? S.of(context).token_send_two_page_conform : S.of(context).fee_low,
+                                double.parse(this.amountAll!) > 0.002 ? S.of(context).token_send_two_page_conform : S.of(context).fee_low,
                                 maxLines: 1,
                                 style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                               ),
-                        color: ( amountAll==null || double.parse(this.amountAll) > 0.002 ) ? Color(0xFF37A1DB) : Color(0xFF999999),
+                        color: ( amountAll==null || double.parse(this.amountAll!) > 0.002 ) ? Color(0xFF37A1DB) : Color(0xFF999999),
                         // color: Color(0xFF37A1DB),
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -473,31 +473,31 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
 
   void clickAllCount() {
     if (this.tokenContract == "" || this.tokenContract == null) {
-      if (double.parse(tokenCount) == 0) {
+      if (double.parse(tokenCount!) == 0) {
         _textEditingController.text = "0";
       } else {
         print(this.tokenCount);
-        if (double.parse(this.tokenCount) > (0.001 * 2)) {
-          _textEditingController.text = (double.parse(this.tokenCount) - ((0.001 * 2))).toStringAsFixed(8);
+        if (double.parse(this.tokenCount!) > (0.001 * 2)) {
+          _textEditingController.text = (double.parse(this.tokenCount!) - ((0.001 * 2))).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }
       }
     } else {
-      if (double.parse(tokenCount) > 1) {
-        _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+      if (double.parse(tokenCount!) > 1) {
+        _textEditingController.text = (double.parse(tokenCount!)).toStringAsFixed(5);
       } else {
-        if (double.parse(tokenCount) == 0) {
+        if (double.parse(tokenCount!) == 0) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+          _textEditingController.text = (double.parse(tokenCount!)).toStringAsFixed(5);
         }
       }
     }
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
@@ -604,7 +604,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -622,7 +622,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -651,7 +651,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -669,7 +669,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -685,7 +685,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, widget.address, tokenContract, _textEditingController.text);
+                    }, aesDecode, widget.address, tokenContract!, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
@@ -700,7 +700,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -742,7 +742,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
       });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -753,7 +753,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -799,7 +799,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
         );
       },
     ).then((val) {
-      if (val) {
+      if (val!) {
         Clipboard.setData(ClipboardData(text: "https://confluxscan.io/transaction/" + tx));
         showFlushSucess(context);
       } else {

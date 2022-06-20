@@ -4,9 +4,9 @@ import 'package:photo_view/photo_view.dart';
 
 
 class PhotoPage extends StatefulWidget {
-  final String address;
+  final String? address;
 
-  const PhotoPage({Key key, this.address}) : super(key: key);
+  const PhotoPage({Key? key, this.address}) : super(key: key);
 
   @override
   _PhotoPageState createState() => _PhotoPageState();
@@ -27,7 +27,7 @@ class _PhotoPageState extends State<PhotoPage> {
             bottom: 0,
             child: PhotoView(
 //              imageProvider: NetworkImage("https://www.gravatar.com/avatar/" + Utils.generateMD5(DateTime.now().toIso8601String()) + "?s=1024&d=robohash&r=PG"),
-                  imageProvider: NetworkImage(widget.address),
+                  imageProvider: NetworkImage(widget.address!),
               loadingBuilder: (context, _progress) => Center(
                 child: Container(
                   width: 40.0,

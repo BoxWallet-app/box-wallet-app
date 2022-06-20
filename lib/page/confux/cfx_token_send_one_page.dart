@@ -4,7 +4,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/utils/permission_helper.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,19 +16,19 @@ import '../../main.dart';
 import 'cfx_token_send_two_page.dart';
 
 class CfxTokenSendOnePage extends StatefulWidget {
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  const CfxTokenSendOnePage({Key key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  const CfxTokenSendOnePage({Key? key, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _CfxTokenSendOnePageState createState() => _CfxTokenSendOnePageState();
 }
 
 class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
 
@@ -58,7 +58,6 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFF37A1DB),
           leading: IconButton(
             icon: Icon(
@@ -71,7 +70,7 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,

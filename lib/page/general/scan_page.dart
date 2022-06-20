@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanPage extends StatefulWidget {
-  const ScanPage({Key key}) : super(key: key);
+  const ScanPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ScanPageState();
 }
 
 class _ScanPageState extends State<ScanPage> {
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -25,9 +25,9 @@ class _ScanPageState extends State<ScanPage> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller!.pauseCamera();
     }
-    controller.resumeCamera();
+    controller!.resumeCamera();
   }
 
   @override
@@ -153,7 +153,7 @@ class _ScanPageState extends State<ScanPage> {
       onQRViewCreated: (QRViewController controller) {
         if (this.controller != null) return;
         this.controller = controller;
-        this.controller.scannedDataStream.listen((scanData) {
+        this.controller!.scannedDataStream.listen((scanData) {
           print(scanData.code);
           if (result != null) return;
           result = scanData;

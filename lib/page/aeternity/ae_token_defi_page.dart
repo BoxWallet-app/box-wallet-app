@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -16,7 +17,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -27,14 +28,14 @@ import 'ae_defi_in_page.dart';
 import 'ae_defi_ranking_page.dart';
 
 class AeTokenDefiPage extends StatefulWidget {
-  static ContractInfoModel model;
+  static ContractInfoModel? model;
 
   @override
   _AeTokenDefiPageState createState() => _AeTokenDefiPageState();
 }
 
 class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   ScrollController _scrollController = ScrollController();
   bool isInput = true;
@@ -64,14 +65,14 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
   }
 
   Future<void> netAccountInfo() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     BoxApp.getBalanceAE((balance,decimal) async {
       if(!mounted)return;
       AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
-    }, account.address);
+    }, account.address!);
   }
 
   void netContractBalance() {
@@ -419,7 +420,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                     children: [
                       Container(
                         child: Text(
-                          AeTokenDefiPage.model == null ? "loading..." : "≈" + AeTokenDefiPage.model.data.token,
+                          AeTokenDefiPage.model == null ? "loading..." : "≈" + AeTokenDefiPage.model!.data!.token!,
                           style: new TextStyle(
                               fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
 //                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
@@ -461,7 +462,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             ),
                             Container(
                               child: Text(
-                                AeTokenDefiPage.model == null ? "loading..." : double.parse(AeTokenDefiPage.model.data.count).toStringAsFixed(2),
+                                AeTokenDefiPage.model == null ? "loading..." : double.parse(AeTokenDefiPage.model!.data!.count!).toStringAsFixed(2),
                                 style: new TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
@@ -494,7 +495,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             ),
                             Container(
                               child: Text(
-                                AeTokenDefiPage.model == null ? "loading..." : AeTokenDefiPage.model.data.allCount + "",
+                                AeTokenDefiPage.model == null ? "loading..." : AeTokenDefiPage.model!.data!.allCount! + "",
                                 style: new TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
@@ -522,7 +523,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
   }
 
   Container beBtn() {
-    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model.data.height == -1) {
+    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model!.data!.height == -1) {
       return Container();
     }
     return Container(
@@ -530,11 +531,11 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       margin: const EdgeInsets.only(right: 20, top: 5),
       child: FlatButton(
         onPressed: () {
-          if (AeTokenDefiPage.model.data.token == null) {
+          if (AeTokenDefiPage.model!.data!.token == null) {
             return;
           }
-          if (AeTokenDefiPage.model.data.afterHeight <= AeTokenDefiPage.model.data.minHeight) {
-            var waitHeight = (AeTokenDefiPage.model.data.minHeight + 1 - AeTokenDefiPage.model.data.afterHeight) * 3;
+          if (AeTokenDefiPage.model!.data!.afterHeight! <= AeTokenDefiPage.model!.data!.minHeight!) {
+            var waitHeight = (AeTokenDefiPage.model!.data!.minHeight! + 1 - AeTokenDefiPage.model!.data!.afterHeight!) * 3;
 
             showDialog<bool>(
               context: context,
@@ -563,7 +564,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           showGeneralDialog(useRootNavigator:false,
               context: context,
               // ignore: missing_return
-              pageBuilder: (context, anim1, anim2) {},
+              pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
               //barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
@@ -581,7 +582,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                         return;
                       },
                       passwordCallBackFuture: (String password) async {
-                        var signingKey = await BoxApp.getSigningKey();
+                        var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                         var address = await BoxApp.getAddress();
                         final key = Utils.generateMd5Int(password + address);
                         var aesDecode = Utils.aesDecode(signingKey, key);
@@ -675,7 +676,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
   }
 
   Container lockBtn() {
-    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model.data.height != -1) {
+    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model!.data!.height != -1) {
       return Container();
     }
     return Container(
@@ -704,7 +705,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
   }
 
   Container unLockBtn() {
-    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model.data.height == -1) {
+    if (AeTokenDefiPage.model == null || AeTokenDefiPage.model!.data!.height == -1) {
       return Container();
     }
 
@@ -714,7 +715,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       margin: EdgeInsets.only(top: 40),
       child: FlatButton(
         onPressed: () {
-          if (AeTokenDefiPage.model.data.afterHeight > AeTokenDefiPage.model.data.minHeight) {
+          if (AeTokenDefiPage.model!.data!.afterHeight! > AeTokenDefiPage.model!.data!.minHeight!) {
 
             showDialog<bool>(
               context: context,
@@ -743,7 +744,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                         showGeneralDialog(useRootNavigator:false,
                             context: context,
                             // ignore: missing_return
-                            pageBuilder: (context, anim1, anim2) {},
+                            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                             //barrierColor: Colors.grey.withOpacity(.4),
                             barrierDismissible: true,
                             barrierLabel: "",
@@ -761,7 +762,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                       return;
                                     },
                                     passwordCallBackFuture: (String password) async {
-                                      var signingKey = await BoxApp.getSigningKey();
+                                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                                       var address = await BoxApp.getAddress();
                                       final key = Utils.generateMd5Int(password + address);
                                       var aesDecode = Utils.aesDecode(signingKey, key);
@@ -821,7 +822,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
             showGeneralDialog(useRootNavigator:false,
                 context: context,
                 // ignore: missing_return
-                pageBuilder: (context, anim1, anim2) {},
+                pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                 //barrierColor: Colors.grey.withOpacity(.4),
                 barrierDismissible: true,
                 barrierLabel: "",
@@ -839,7 +840,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           return;
                         },
                         passwordCallBackFuture: (String password) async {
-                          var signingKey = await BoxApp.getSigningKey();
+                          var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                           var address = await BoxApp.getAddress();
                           final key = Utils.generateMd5Int(password + address);
                           var aesDecode = Utils.aesDecode(signingKey, key);
@@ -906,7 +907,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -916,7 +917,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           return ChainLoadingWidget();
         });
   }
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -928,7 +929,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

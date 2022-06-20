@@ -1,7 +1,7 @@
 class CfxCrc20TransferModel {
-  int code;
-  String message;
-  Data data;
+  int? code;
+  String? message;
+  Data? data;
 
   CfxCrc20TransferModel({this.code, this.message, this.data});
 
@@ -16,15 +16,15 @@ class CfxCrc20TransferModel {
     data['code'] = this.code;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int total;
-  List<Transfer> list;
+  int? total;
+  List<Transfer>? list;
   // AddressInfo addressInfo;
 
   Data({this.total, this.list});
@@ -32,9 +32,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     total = json['total'];
     if (json['list'] != null) {
-      list = new List<Transfer>();
+      list = <Transfer>[];
       json['list'].forEach((v) {
-        list.add(new Transfer.fromJson(v));
+        list!.add(new Transfer.fromJson(v));
       });
     }
 
@@ -44,20 +44,20 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['total'] = this.total;
     if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
+      data['list'] = this.list!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Transfer {
-  int epochNumber;
-  String transactionHash;
-  String from;
-  String to;
-  int timestamp;
-  String contract;
-  String amount;
+  int? epochNumber;
+  String? transactionHash;
+  String? from;
+  String? to;
+  int? timestamp;
+  String? contract;
+  String? amount;
 
   Transfer(
       {this.epochNumber,

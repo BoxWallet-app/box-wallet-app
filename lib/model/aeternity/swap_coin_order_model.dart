@@ -1,8 +1,8 @@
 class SwapCoinOrderModel {
-  int code;
-  String msg;
-  int time;
-  List<Data> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<Data>? data;
 
   SwapCoinOrderModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class SwapCoinOrderModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -24,23 +24,23 @@ class SwapCoinOrderModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String aeCount;
-  String buyAddress;
-  String coinName;
-  int createHeight;
-  int createTime;
-  int currentHeight;
-  int payHeight;
-  int payTime;
-  String sellAddress;
-  String tokenCount;
+  String? aeCount;
+  String? buyAddress;
+  String? coinName;
+  int? createHeight;
+  int? createTime;
+  int? currentHeight;
+  int? payHeight;
+  int? payTime;
+  String? sellAddress;
+  String? tokenCount;
 
   Data(
       {this.aeCount,

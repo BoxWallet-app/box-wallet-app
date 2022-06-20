@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:box/config.dart';
@@ -24,11 +25,11 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 
 class ImportAccountAePage extends StatefulWidget {
-  final String coinName;
-  final String fullName;
-  final String password;
+  final String? coinName;
+  final String? fullName;
+  final String? password;
 
-  const ImportAccountAePage({Key key, this.coinName, this.fullName, this.password}) : super(key: key);
+  const ImportAccountAePage({Key? key, this.coinName, this.fullName, this.password}) : super(key: key);
 
   @override
   _ImportAccountAePageState createState() => _ImportAccountAePageState();
@@ -57,7 +58,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            S.of(context).ImportAccountPage_title1+" " + widget.fullName + S.of(context).ImportAccountPage_title2,
+            S.of(context).ImportAccountPage_title1+" " + widget.fullName! + S.of(context).ImportAccountPage_title2,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -225,9 +226,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
                                   child: FlatButton(
                                     onPressed: () async {
-                                      ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-                                      _textEditingController.text = data.text;
-                                      _textEditingController.value = TextEditingValue(text: data.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text.length)));
+                                      ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain) as FutureOr<ClipboardData>);
+                                      _textEditingController.text = data.text!;
+                                      _textEditingController.value = TextEditingValue(text: data.text!, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text!.length)));
                                     },
                                     child: Text(
                                       S.of(context).ImportAccountPage_copy,
@@ -273,7 +274,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
   }
 
   inputPassword(String data, bool isQR) {
-    if (data == null || data == "") {
+    if (data == "") {
       return;
     }
     if (!data.toString().contains("box_")) {
@@ -287,7 +288,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
-        },
+        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -319,7 +320,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     return;
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -330,7 +331,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -348,7 +349,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
 
   clickLogin() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    if (_textEditingController.text == null || _textEditingController.text == "") {
+    if (_textEditingController.text == "") {
       EasyLoading.showToast(S.of(context).account_login_msg, duration: Duration(seconds: 2));
       return;
     }
@@ -368,7 +369,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     EasyLoading.show();
     AccountInfoDao.fetch(address: address).then((AccountInfoModel model) {
       EasyLoading.dismiss();
-      if (model.code == 200 && model.data.balance.isNotEmpty) {
+      if (model.code == 200 && model.data!.balance!.isNotEmpty) {
         if(widget.password == null){
           if (Platform.isIOS) {
             Navigator.push(
@@ -381,7 +382,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       },
                     )));
           } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
                 await createAddressAccount(password, address);
                 return;
@@ -466,7 +467,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       },
                     )));
           } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(
+            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
               setPasswordPageCallBackFuture: (password) async {
                 await createMnemonicAccount(password, mnemonic);
                 return;
@@ -509,10 +510,10 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     }, mnemonic);
   }
 
-  Future<void> createMnemonicAccount(String password, String mnemonic) async {
+  Future<void> createMnemonicAccount(String? password, String mnemonic) async {
     BoxApp.getSecretKey((address, signingKey) async {
       if (!await checkAccount(address)) return;
-      final key = Utils.generateMd5Int(password + address);
+      final key = Utils.generateMd5Int(password! + address);
       var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
       var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
       await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
@@ -521,9 +522,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     }, mnemonic);
   }
 
-  Future<void> createAddressAccount(String password, String address) async {
+  Future<void> createAddressAccount(String? password, String address) async {
     if (!await checkAccount(address)) return;
-    final key = Utils.generateMd5Int(password + address);
+    final key = Utils.generateMd5Int(password! + address);
     var addressPassword = Utils.aesEncode(address, key);
     await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
     await WalletCoinsManager.instance.setAddressPassword(address, addressPassword);
@@ -539,9 +540,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     if(walletCoinModel.coins == null){
       return true;
     }
-    for (var i = 0; i < walletCoinModel.coins.length; i++) {
-      for (var j = 0; j < walletCoinModel.coins[i].accounts.length; j++) {
-        if (walletCoinModel.coins[i].accounts[j].address == address) {
+    for (var i = 0; i < walletCoinModel.coins!.length; i++) {
+      for (var j = 0; j < walletCoinModel.coins![i].accounts!.length; j++) {
+        if (walletCoinModel.coins![i].accounts![j].address == address) {
           isExist = true;
         }
       }

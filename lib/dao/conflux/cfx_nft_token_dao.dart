@@ -11,8 +11,8 @@ import 'package:dio/dio.dart';
 import '../../main.dart';
 
 class CfxNftTokenDao {
-  static Future<CfxNftTokenModel> fetch(String contract) async {
-    Map<String, String> params = new Map();
+  static Future<CfxNftTokenModel> fetch(String? contract) async {
+    Map<String, String?> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["contract"] = contract;

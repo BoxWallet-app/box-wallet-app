@@ -39,22 +39,22 @@ class CfxTokenListPage extends StatefulWidget {
 class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProviderStateMixin{
   var tokenLoadingType = LoadingType.loading;
   var nftLoadingType = LoadingType.loading;
-  List<Tokens> cfxCtTokens = [];
-  PriceModel priceModel;
-  PriceModel priceModelCfx;
+  List<Tokens>? cfxCtTokens = [];
+  PriceModel? priceModel;
+  PriceModel? priceModelCfx;
   int tabIndex = 0;
-  List<String> tabs = List<String>();
-  List<String> tabsCt = List<String>();
+  List<String> tabs = <String>[];
+  List<String?> tabsCt = <String?>[];
 
   PageController pageController = PageController();
-  TabController tabBarController ;
+  TabController? tabBarController ;
 
   Future<void> _onRefresh() async {
     // await netTokenBaseData();
     netNftBalance();
     var address = await BoxApp.getAddress();
     cfxCtTokens = await CtTokenManager.instance.getCfxCtTokens(address);
-    if (cfxCtTokens.length == 0) {
+    if (cfxCtTokens!.length == 0) {
       tokenLoadingType = LoadingType.no_data;
       setState(() {});
       return;
@@ -72,12 +72,12 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
       return;
     }
     bool isReturn = true;
-    Tokens token;
+    late Tokens token;
 
-    for (int i = 0; i < cfxCtTokens.length; i++) {
-      if (cfxCtTokens[i].balance == null) {
+    for (int i = 0; i < cfxCtTokens!.length; i++) {
+      if (cfxCtTokens![i].balance == null) {
         isReturn = false;
-        token = cfxCtTokens[i];
+        token = cfxCtTokens![i];
         break;
       }
     }
@@ -95,7 +95,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
         setState(() {});
         getBalance(address);
         return;
-      }, address, token.ctId);
+      }, address, token.ctId!);
     }
     isLoadBalance = false;
   }
@@ -263,7 +263,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                         onRefresh: _onRefresh,
                         child: ListView.builder(
                           padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                          itemCount: cfxCtTokens.length,
+                          itemCount: cfxCtTokens!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return itemListView(context, index);
                           },
@@ -311,7 +311,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () async {
-              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position];
+              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position]!;
               _launchURL(url);
               return;
             },
@@ -377,9 +377,9 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
         return;
       }
       tabs.clear();
-      for (var i = 0; i < model.data.length; i++) {
-        tabs.add(model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
-        tabsCt.add(model.data[i].address);
+      for (var i = 0; i < model.data!.length; i++) {
+        tabs.add(model.data![i].name!.zh! + "(" + model.data![i].balance.toString() + ")");
+        tabsCt.add(model.data![i].address);
       }
       if (tabs.isEmpty) {
         nftLoadingType = LoadingType.no_data;
@@ -404,16 +404,16 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            if (cfxCtTokens[index].balance == null) {
+            if (cfxCtTokens![index].balance == null) {
               return;
             }
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => CfxTokenRecordPage(
-                          ctId: cfxCtTokens[index].ctId,
-                          coinCount: cfxCtTokens[index].balance,
-                          coinImage: cfxCtTokens[index].iconUrl,
+                          ctId: cfxCtTokens![index].ctId,
+                          coinCount: cfxCtTokens![index].balance,
+                          coinImage: cfxCtTokens![index].iconUrl,
                           coinName: getCoinName(index),
                         )));
           },
@@ -443,11 +443,11 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  cfxCtTokens[index].iconUrl,
+                                  cfxCtTokens![index].iconUrl!,
                                   errorBuilder: (
                                     BuildContext context,
                                     Object error,
-                                    StackTrace stackTrace,
+                                    StackTrace? stackTrace,
                                   ) {
                                     return Container(
                                       color: Colors.grey.shade200,
@@ -469,7 +469,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                getCoinName(index),
+                                getCoinName(index)!,
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),
@@ -483,13 +483,13 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                if (cfxCtTokens[index].balance != null)
+                                if (cfxCtTokens![index].balance != null)
                                   Text(
-                                    cfxCtTokens[index].balance,
+                                    cfxCtTokens![index].balance!,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
-                                if (cfxCtTokens[index].balance == null)
+                                if (cfxCtTokens![index].balance == null)
                                   Container(
                                     width: 50,
                                     height: 50,
@@ -499,11 +499,11 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
 //              'images/animation_khzuiqgg.json',
                                     ),
                                   ),
-                                if (cfxCtTokens[index].price != null)
+                                if (cfxCtTokens![index].price != null)
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(
-                                      cfxCtTokens[index].price,
+                                      cfxCtTokens![index].price!,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
@@ -528,14 +528,14 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
     );
   }
 
-  String getCoinName(int index) {
-    String name;
-    if (cfxCtTokens[index].name.length < cfxCtTokens[index].symbol.length) {
-      name = cfxCtTokens[index].name;
+  String? getCoinName(int index) {
+    String? name;
+    if (cfxCtTokens![index].name!.length < cfxCtTokens![index].symbol!.length) {
+      name = cfxCtTokens![index].name;
     } else {
-      name = cfxCtTokens[index].symbol;
+      name = cfxCtTokens![index].symbol;
     }
-    if (name.length > 10) {
+    if (name!.length > 10) {
       name = name.substring(0, 5) + "..." + name.substring(name.length - 4, name.length);
     }
     return name;

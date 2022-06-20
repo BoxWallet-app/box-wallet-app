@@ -1,8 +1,8 @@
 class AensUpdateModel {
-  int code;
-  Data data;
-  String msg;
-  int time;
+  int? code;
+  Data? data;
+  String? msg;
+  int? time;
 
   AensUpdateModel({this.code, this.data, this.msg, this.time});
 
@@ -17,7 +17,7 @@ class AensUpdateModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['msg'] = this.msg;
     data['time'] = this.time;
@@ -26,14 +26,14 @@ class AensUpdateModel {
 }
 
 class Data {
-  String blockHash;
-  int blockHeight;
+  String? blockHash;
+  int? blockHeight;
   Null error;
-  String hash;
-  bool mined;
-  String signature;
-  String signedTx;
-  Tx tx;
+  String? hash;
+  bool? mined;
+  String? signature;
+  String? signedTx;
+  Tx? tx;
 
   Data(
       {this.blockHash,
@@ -66,20 +66,20 @@ class Data {
     data['Signature'] = this.signature;
     data['SignedTx'] = this.signedTx;
     if (this.tx != null) {
-      data['Tx'] = this.tx.toJson();
+      data['Tx'] = this.tx!.toJson();
     }
     return data;
   }
 }
 
 class Tx {
-  String accountID;
-  int accountNonce;
-  int fee;
-  String name;
-  int nameFee;
-  num nameSalt;
-  int tTL;
+  String? accountID;
+  int? accountNonce;
+  int? fee;
+  String? name;
+  int? nameFee;
+  num? nameSalt;
+  int? tTL;
 
   Tx(
       {this.accountID,

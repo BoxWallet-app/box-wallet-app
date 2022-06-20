@@ -1,7 +1,7 @@
 class WetrueCommentModel {
-  int code;
-  Data data;
-  String msg;
+  int? code;
+  Data? data;
+  String? msg;
 
   WetrueCommentModel({this.code, this.data, this.msg});
 
@@ -15,7 +15,7 @@ class WetrueCommentModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['msg'] = this.msg;
     return data;
@@ -23,11 +23,11 @@ class WetrueCommentModel {
 }
 
 class Data {
-  int page;
-  int size;
-  int totalPage;
-  int totalSize;
-  List<Data2> data;
+  int? page;
+  int? size;
+  int? totalPage;
+  int? totalSize;
+  List<Data2>? data;
 
   Data({this.page, this.size, this.totalPage, this.totalSize, this.data});
 
@@ -37,9 +37,9 @@ class Data {
     totalPage = json['totalPage'];
     totalSize = json['totalSize'];
     if (json['data'] != null) {
-      data = new List<Data2>();
+      data = <Data2>[];
       json['data'].forEach((v) {
-        data.add(new Data2.fromJson(v));
+        data!.add(new Data2.fromJson(v));
       });
     }
   }
@@ -51,22 +51,22 @@ class Data {
     data['totalPage'] = this.totalPage;
     data['totalSize'] = this.totalSize;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data2 {
-  String hash;
-  String toHash;
-  String payload;
-  int utcTime;
-  int replyNumber;
-  int praise;
-  bool isPraise;
-  Users users;
-  List<CommentList> commentList;
+  String? hash;
+  String? toHash;
+  String? payload;
+  int? utcTime;
+  int? replyNumber;
+  int? praise;
+  bool? isPraise;
+  Users? users;
+  List<CommentList>? commentList;
 
   Data2(
       {this.hash,
@@ -89,9 +89,9 @@ class Data2 {
     isPraise = json['isPraise'];
     users = json['users'] != null ? new Users.fromJson(json['users']) : null;
     if (json['commentList'] != null) {
-      commentList = new List<CommentList>();
+      commentList = <CommentList>[];
       json['commentList'].forEach((v) {
-        commentList.add(new CommentList.fromJson(v));
+        commentList!.add(new CommentList.fromJson(v));
       });
     }
   }
@@ -106,21 +106,21 @@ class Data2 {
     data['praise'] = this.praise;
     data['isPraise'] = this.isPraise;
     if (this.users != null) {
-      data['users'] = this.users.toJson();
+      data['users'] = this.users!.toJson();
     }
     if (this.commentList != null) {
-      data['commentList'] = this.commentList.map((v) => v.toJson()).toList();
+      data['commentList'] = this.commentList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Users {
-  String userAddress;
-  String nickname;
-  int active;
-  int userActive;
-  String portrait;
+  String? userAddress;
+  String? nickname;
+  int? active;
+  int? userActive;
+  String? portrait;
 
   Users(
       {this.userAddress,
@@ -149,18 +149,18 @@ class Users {
 }
 
 class CommentList {
-  String hash;
-  String toHash;
-  String replyType;
-  String replyHash;
-  String payload;
-  String senderId;
-  String toAddress;
-  String receiverName;
-  int utcTime;
-  int praise;
-  bool isPraise;
-  Users users;
+  String? hash;
+  String? toHash;
+  String? replyType;
+  String? replyHash;
+  String? payload;
+  String? senderId;
+  String? toAddress;
+  String? receiverName;
+  int? utcTime;
+  int? praise;
+  bool? isPraise;
+  Users? users;
 
   CommentList(
       {this.hash,
@@ -205,7 +205,7 @@ class CommentList {
     data['praise'] = this.praise;
     data['isPraise'] = this.isPraise;
     if (this.users != null) {
-      data['users'] = this.users.toJson();
+      data['users'] = this.users!.toJson();
     }
     return data;
   }

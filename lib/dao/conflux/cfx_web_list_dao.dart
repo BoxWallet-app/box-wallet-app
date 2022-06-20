@@ -14,11 +14,11 @@ import 'package:dio/dio.dart';
 class CfxWebListDao {
   static Future<CfxWebListModel> fetch(String language) async {
     String url = "";
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     if (Platform.isIOS) {
-      url = OOS_HOST+"dapp_web/" + account.coin+"_web_ios.json";
+      url = OOS_HOST+"dapp_web/" + account!.coin!+"_web_ios.json";
     } else {
-      url = OOS_HOST+"dapp_web/" +  account.coin+"_web_android.json";
+      url = OOS_HOST+"dapp_web/" +  account!.coin!+"_web_android.json";
     }
 
     Response response = await Dio().get(url);

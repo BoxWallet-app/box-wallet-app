@@ -1,4 +1,6 @@
+import 'dart:async';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/aens_info_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
@@ -6,7 +8,6 @@ import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -20,17 +21,17 @@ class AeAensRegister extends StatefulWidget {
 }
 
 class _AeAensRegisterState extends State<AeAensRegister> {
-  Flushbar flush;
+  late Flushbar flush;
   int price = 0;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
-  String address;
+  String? address;
 
   int errorCount = 0;
 
   String textClaim = "";
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
@@ -108,7 +109,6 @@ class _AeAensRegisterState extends State<AeAensRegister> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
@@ -121,7 +121,7 @@ class _AeAensRegisterState extends State<AeAensRegister> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -205,7 +205,7 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                                       controller: _textEditingController,
                                       focusNode: focusNode,
                                       inputFormatters: [
-                                        WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9]")), //只允许输入字母
+                                        //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9]")), //只允许输入字母
                                       ],
                                       maxLines: 1,
                                       maxLength: 13,
@@ -259,7 +259,7 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                   S.of(context).token_send_two_page_balance + " : " + AeHomePage.token,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
@@ -395,18 +395,19 @@ class _AeAensRegisterState extends State<AeAensRegister> {
       Fluttertoast.showToast(msg: "钱包余额不足", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
-    if (_textEditingController.text == null || _textEditingController.text == "") {
+    if (_textEditingController.text == "") {
       return;
     }
     var name = _textEditingController.text + ".chain";
     AensInfoDao.fetch(name).then((AensInfoModel model) {
-      if (model.code == 200 && model.data.currentHeight < model.data.overHeight) {
+      if (model.code == 200 && model.data!.currentHeight! < model.data!.overHeight!) {
         Fluttertoast.showToast(msg: S.of(context).msg_name_already, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       } else if (model.code == 201) {
-        showGeneralDialog(useRootNavigator:false,
+        showGeneralDialog(
+            useRootNavigator: false,
             context: context,
             // ignore: missing_return
-            pageBuilder: (context, anim1, anim2) {},
+            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
             //barrierColor: Colors.grey.withOpacity(.4),
             barrierDismissible: true,
             barrierLabel: "",
@@ -424,21 +425,22 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                       return;
                     },
                     passwordCallBackFuture: (String password) async {
-                      var signingKey = await BoxApp.getSigningKey();
+                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                       var address = await BoxApp.getAddress();
                       final key = Utils.generateMd5Int(password + address);
                       var aesDecode = Utils.aesDecode(signingKey, key);
 
                       if (aesDecode == "") {
-                       showErrorDialog(context, null);
+                        showErrorDialog(context, null);
                         return;
                       }
                       // ignore: missing_return
-                      BoxApp.claimName((tx) {
-                        showCopyHashDialog(context, tx);
+                      BoxApp.claimName(
+                          (tx) {
+                            showCopyHashDialog(context, tx);
 
-                        // ignore: missing_return
-                      }, (error) {
+                            // ignore: missing_return
+                          } as Future<dynamic> Function(String), (error) {
                         showErrorDialog(context, error);
 
                         // ignore: missing_return
@@ -450,10 +452,11 @@ class _AeAensRegisterState extends State<AeAensRegister> {
               );
             });
       } else {
-        showGeneralDialog(useRootNavigator:false,
+        showGeneralDialog(
+            useRootNavigator: false,
             context: context,
             // ignore: missing_return
-            pageBuilder: (context, anim1, anim2) {},
+            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
             //barrierColor: Colors.grey.withOpacity(.4),
             barrierDismissible: true,
             barrierLabel: "",
@@ -471,7 +474,7 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                       return;
                     },
                     passwordCallBackFuture: (String password) async {
-                      var signingKey = await BoxApp.getSigningKey();
+                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                       var address = await BoxApp.getAddress();
                       final key = Utils.generateMd5Int(password + address);
                       var aesDecode = Utils.aesDecode(signingKey, key);
@@ -481,11 +484,12 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                         return;
                       }
                       // ignore: missing_return
-                      BoxApp.claimName((tx) {
-                        showFlush(context);
+                      BoxApp.claimName(
+                          (tx) {
+                            showFlush(context);
 
-                        // ignore: missing_return
-                      }, (error) {
+                            // ignore: missing_return
+                          } as Future<dynamic> Function(String), (error) {
                         showErrorDialog(context, error);
 
                         // ignore: missing_return
@@ -503,10 +507,11 @@ class _AeAensRegisterState extends State<AeAensRegister> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -547,7 +552,8 @@ class _AeAensRegisterState extends State<AeAensRegister> {
         Navigator.pop(context);
       });
   }
-  void showErrorDialog(BuildContext buildContext, String content) {
+
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -555,11 +561,10 @@ class _AeAensRegisterState extends State<AeAensRegister> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -574,14 +579,14 @@ class _AeAensRegisterState extends State<AeAensRegister> {
       },
     ).then((val) {});
   }
+
   void showCopyHashDialog(BuildContext buildContext, String tx) {
     showDialog<bool>(
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[
@@ -605,10 +610,10 @@ class _AeAensRegisterState extends State<AeAensRegister> {
         );
       },
     ).then((val) {
-      if(val){
+      if (val!) {
         Clipboard.setData(ClipboardData(text: tx));
         showFlush(context);
-      }else{
+      } else {
         showFlush(context);
       }
     });

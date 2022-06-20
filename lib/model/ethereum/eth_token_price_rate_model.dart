@@ -1,15 +1,15 @@
 class EthTokenPriceRateModel {
-  List<Data> data;
-  String message;
-  int result;
+  List<Data>? data;
+  String? message;
+  int? result;
 
   EthTokenPriceRateModel({this.data, this.message, this.result});
 
   EthTokenPriceRateModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     message = json['message'];
@@ -19,7 +19,7 @@ class EthTokenPriceRateModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -28,17 +28,17 @@ class EthTokenPriceRateModel {
 }
 
 class Data {
-  String title;
-  List<DataPrice> data;
+  String? title;
+  List<DataPrice>? data;
 
   Data({this.title, this.data});
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-      data = new List<DataPrice>();
+      data = <DataPrice>[];
       json['data'].forEach((v) {
-        data.add(new DataPrice.fromJson(v));
+        data!.add(new DataPrice.fromJson(v));
       });
     }
   }
@@ -47,16 +47,16 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class DataPrice {
-  String name;
-  String symbol;
-  String rate;
+  String? name;
+  String? symbol;
+  String? rate;
 
   DataPrice({this.name, this.symbol, this.rate});
 

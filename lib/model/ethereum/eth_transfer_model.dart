@@ -1,15 +1,15 @@
 class EthTransferModel {
-  List<EthTransferItemData> data;
-  String message;
-  int result;
+  List<EthTransferItemData>? data;
+  String? message;
+  int? result;
 
   EthTransferModel({this.data, this.message, this.result});
 
   EthTransferModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<EthTransferItemData>();
+      data = <EthTransferItemData>[];
       json['data'].forEach((v) {
-        data.add(new EthTransferItemData.fromJson(v));
+        data!.add(new EthTransferItemData.fromJson(v));
       });
     }
     message = json['message'];
@@ -19,7 +19,7 @@ class EthTransferModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -28,28 +28,28 @@ class EthTransferModel {
 }
 
 class EthTransferItemData {
-  int decimal;
-  String fee;
-  String symbol;
-  int timestamp;
-  int blockNumber;
-  String gas;
-  String gasPrice;
-  String usedGas;
-  String value;
-  String tokenValue;
-  String hash;
-  String nonce;
-  String blockHash;
-  int logIndex;
-  String from;
-  String to;
-  String addrToken;
-  int type;
-  String input;
-  int inputStatus;
-  int status;
-  String errorMessage;
+  int? decimal;
+  String? fee;
+  String? symbol;
+  int? timestamp;
+  int? blockNumber;
+  String? gas;
+  String? gasPrice;
+  String? usedGas;
+  String? value;
+  String? tokenValue;
+  String? hash;
+  String? nonce;
+  String? blockHash;
+  int? logIndex;
+  String? from;
+  String? to;
+  String? addrToken;
+  int? type;
+  String? input;
+  int? inputStatus;
+  int? status;
+  String? errorMessage;
 
   EthTransferItemData(
       {this.decimal,

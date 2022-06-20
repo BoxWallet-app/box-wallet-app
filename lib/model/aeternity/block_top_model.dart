@@ -1,8 +1,8 @@
 class BlockTopModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   BlockTopModel({this.code, this.msg, this.time, this.data});
 
@@ -19,14 +19,14 @@ class BlockTopModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int height;
+  int? height;
 
   Data({this.height});
 

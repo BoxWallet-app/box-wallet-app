@@ -12,8 +12,8 @@ import 'package:dio/dio.dart';
 import '../../main.dart';
 
 class CfxNftPreviewDao {
-  static Future<CfxNftPreviewModel> fetch(String contract,String tokenId) async {
-    Map<String, String> params = new Map();
+  static Future<CfxNftPreviewModel> fetch(String? contract,String tokenId) async {
+    Map<String, String?> params = new Map();
     params["tokenId"] = tokenId;
     params["contract"] = contract;
     Response response = await Dio().post(Host.CFX_NFT_PREVIEW,queryParameters: params);

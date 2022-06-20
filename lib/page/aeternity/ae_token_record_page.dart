@@ -21,12 +21,12 @@ import '../../main.dart';
 import 'ae_home_page.dart';
 
 class AeTokenRecordPage extends StatefulWidget {
-  final String ctId;
-  final String coinName;
-  final String coinImage;
-  final String coinCount;
+  final String? ctId;
+  final String? coinName;
+  final String? coinImage;
+  final String? coinCount;
 
-  const AeTokenRecordPage({Key key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
+  const AeTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
 
   @override
   _TokenRecordState createState() => _TokenRecordState();
@@ -34,9 +34,9 @@ class AeTokenRecordPage extends StatefulWidget {
 
 class _TokenRecordState extends State<AeTokenRecordPage> {
   var loadingType = LoadingType.loading;
-  TokenRecordModel tokenListModel;
+  TokenRecordModel? tokenListModel;
   int page = 1;
-  String count;
+  String? count;
   EasyRefreshController _controller = EasyRefreshController();
 
   Future<void> _onRefresh() async {
@@ -52,12 +52,12 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
         tokenListModel = model;
         loadingType = LoadingType.finish;
       } else {
-        tokenListModel.data.addAll(model.data);
+        tokenListModel!.data!.addAll(model.data!);
         loadingType = LoadingType.finish;
       }
       _controller.finishRefresh();
       _controller.finishLoad();
-      if (tokenListModel.data.length < 20) {
+      if (tokenListModel!.data!.length < 20) {
         _controller.finishLoad(noMore: true);
         _controller.finishLoad(success: true, noMore: true);
       }
@@ -78,7 +78,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
   void netContractBalance() {
     ContractBalanceDao.fetch(widget.ctId).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        count = model.data.balance;
+        count = model.data!.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -135,7 +135,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
           footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,
           child: ListView.builder(
-            itemCount: tokenListModel == null ? 1 : tokenListModel.data.length + 1,
+            itemCount: tokenListModel == null ? 1 : tokenListModel!.data!.length + 1,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
                 return itemHeaderView(context, index);
@@ -187,7 +187,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      widget.coinImage,
+                                      widget.coinImage!,
                                       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                         if (wasSynchronouslyLoaded) return child;
 
@@ -204,7 +204,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                 Container(
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   child: Text(
-                                    widget.coinName,
+                                    widget.coinName!,
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -225,7 +225,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                         ),
                                       )
                                     : Text(
-                                        double.parse(count).toStringAsFixed(2),
+                                        double.parse(count!).toStringAsFixed(2),
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
@@ -333,7 +333,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
-            _launchURL("https://www.aeknow.org/block/transaction/" + tokenListModel.data[index - 1].hash);
+            _launchURL("https://www.aeknow.org/block/transaction/" + tokenListModel!.data![index - 1].hash!);
           },
           child: Column(
             children: [
@@ -394,8 +394,8 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                   child: Image(
                                     width: 25,
                     height: 25,
-                                    color: tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
-                                    image: tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
+                                    color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
+                                    image: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                                   ),
                                 ),
                                 Column(
@@ -405,14 +405,14 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                     Container(
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
-                                        tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? Utils.formatAddress(tokenListModel.data[index - 1].callAddress) : Utils.formatAddress(tokenListModel.data[index - 1].aex9ReceiveAddress),
+                                        tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Utils.formatAddress(tokenListModel!.data![index - 1].callAddress) : Utils.formatAddress(tokenListModel!.data![index - 1].aex9ReceiveAddress),
                                         style: TextStyle(fontSize: 17, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
-                                        Utils.formatTime(tokenListModel.data[index - 1].createTime),
+                                        Utils.formatTime(tokenListModel!.data![index - 1].createTime),
                                         style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
@@ -424,15 +424,15 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? "+ " + double.parse(tokenListModel.data[index - 1].aex9Amount).toStringAsFixed(2) + " " + widget.coinName : "- " + double.parse(tokenListModel.data[index - 1].aex9Amount).toStringAsFixed(2) + " " + widget.coinName,
-                                      style: TextStyle(fontSize: 17, color: tokenListModel.data[index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? "+ " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName! : "- " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName!,
+                                      style: TextStyle(fontSize: 17, color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(
                                       height: 5,
                                       color: Color(0xFFfafbfc),
                                     ),
                                     Text(
-                                      "- " + tokenListModel.data[index - 1].fee + " AE",
+                                      "- " + tokenListModel!.data![index - 1].fee! + " AE",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),

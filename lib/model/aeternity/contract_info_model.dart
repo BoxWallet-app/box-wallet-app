@@ -1,8 +1,8 @@
 class ContractInfoModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   ContractInfoModel({this.code, this.msg, this.time, this.data});
 
@@ -19,20 +19,20 @@ class ContractInfoModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String account;
-  int afterHeight;
-  String allCount;
-  String count;
-  int height;
-  int minHeight;
-  String token;
+  String? account;
+  int? afterHeight;
+  String? allCount;
+  String? count;
+  int? height;
+  int? minHeight;
+  String? token;
 
   Data(
       {this.account,

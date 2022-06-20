@@ -1,8 +1,8 @@
 class ContractDecodeModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   ContractDecodeModel({this.code, this.msg, this.time, this.data});
 
@@ -19,14 +19,14 @@ class ContractDecodeModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String tokenNumber;
+  String? tokenNumber;
 
   Data({this.tokenNumber});
 

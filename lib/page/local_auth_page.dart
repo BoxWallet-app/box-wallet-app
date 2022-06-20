@@ -23,8 +23,8 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   final LocalAuthentication auth = LocalAuthentication();
   _SupportState _supportState = _SupportState.unknown;
-  bool _canCheckBiometrics;
-  List<BiometricType> _availableBiometrics;
+  bool? _canCheckBiometrics;
+  List<BiometricType>? _availableBiometrics;
   String _authorized = 'Not Authorized';
   bool _isAuthenticating = false;
   bool isOpenAuth = false;
@@ -70,7 +70,7 @@ class _AuthPageState extends State<AuthPage> {
       print(e);
     }
     print(availableBiometrics);
-    if (!mounted) return _availableBiometrics = availableBiometrics;
+    if (!mounted) return ;
 
     if (availableBiometrics[0] == BiometricType.face) {
       title = S.current.auth_title_1;
@@ -92,7 +92,7 @@ class _AuthPageState extends State<AuthPage> {
         _isAuthenticating = true;
         _authorized = '进行身份验证';
       });
-      authenticated = await auth.authenticate(localizedReason: '让OS决定认证方法', useErrorDialogs: true, stickyAuth: true);
+      authenticated = await auth.authenticate(localizedReason: '让OS决定认证方法');
       setState(() {
         _isAuthenticating = false;
       });
@@ -116,7 +116,7 @@ class _AuthPageState extends State<AuthPage> {
         _isAuthenticating = true;
         _authorized = '进行身份验证';
       });
-      authenticated = await auth.authenticate(localizedReason: '扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
+      authenticated = await auth.authenticate(localizedReason: '扫描你的指纹(或脸或其他)来验证');
       setState(() {
         _isAuthenticating = false;
         _authorized = '进行身份验证';
@@ -217,7 +217,7 @@ class _AuthPageState extends State<AuthPage> {
                                     showGeneralDialog(
                                         useRootNavigator: false,
                                         context: context,
-                                        pageBuilder: (context, anim1, anim2) {},
+                                        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                         //barrierColor: Colors.grey.withOpacity(.4),
                                         barrierDismissible: true,
                                         barrierLabel: "",
@@ -233,7 +233,7 @@ class _AuthPageState extends State<AuthPage> {
                                                 title: S.of(context).password_widget_input_password,
                                                 dismissCallBackFuture: (String password) {return;},
                                                 passwordCallBackFuture: (String password) async {
-                                                  var signingKey = await BoxApp.getSigningKey();
+                                                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                                                   var address = await BoxApp.getAddress();
                                                   final key = Utils.generateMd5Int(password + address);
                                                   var signingKeyDecode = Utils.aesDecode(signingKey, key);

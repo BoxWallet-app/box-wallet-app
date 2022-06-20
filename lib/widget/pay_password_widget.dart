@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -10,11 +12,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
-typedef PayPasswordCallBackFuture = Future Function(String password);
+typedef PayPasswordCallBackFuture = Future? Function(String password);
 typedef PayDismissCallBackFuture = Future Function(String password);
 
 class PayPasswordWidget extends StatefulWidget {
@@ -23,10 +24,10 @@ class PayPasswordWidget extends StatefulWidget {
   final bool isSignOld;
   final bool isAddressPassword;
   final bool isSetsPassword;
-  final PayPasswordCallBackFuture passwordCallBackFuture;
-  final PayPasswordCallBackFuture dismissCallBackFuture;
+  final PayPasswordCallBackFuture? passwordCallBackFuture;
+  final PayPasswordCallBackFuture? dismissCallBackFuture;
 
-  const PayPasswordWidget({Key key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false, this.isSetsPassword = false}) : super(key: key);
+  const PayPasswordWidget({Key? key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false, this.isSetsPassword = false}) : super(key: key);
 
   @override
   _PayPasswordWidgetState createState() {
@@ -47,7 +48,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   FocusNode _commentFocus = FocusNode();
   TextEditingController _textEditingController = TextEditingController();
   var marginBottom;
-  bool isSupported;
+  bool? isSupported;
 
   @override
   void initState() {
@@ -72,18 +73,18 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   }
 
   Future<void> _authenticateWithBiometrics() async {
-    var account = await WalletCoinsManager.instance.getCurrentAccount();
+    var account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     if (account.accountType == AccountType.ADDRESS && widget.isAddressPassword == false) {
       return;
     }
     bool authenticated = false;
     try {
-      authenticated = await auth.authenticate(localizedReason: 'Scan your fingerprint (or face or otherwise) to verify\n扫描你的指纹(或脸或其他)来验证', useErrorDialogs: true, stickyAuth: true, biometricOnly: true);
+      authenticated = await auth.authenticate(localizedReason: 'Scan your fingerprint (or face or otherwise) to verify\n扫描你的指纹(或脸或其他)来验证');
       if (!mounted) return;
       if (authenticated) {
-        var password = await BoxApp.getPassword();
+        var password = await (BoxApp.getPassword() as FutureOr<String>);
         password = Utils.aesDecode(password, Utils.generateMd5Int(AUTH_KEY));
-        if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture(password);
+        if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture!(password);
         Navigator.of(context).pop(); //关闭对话框
         return;
       }
@@ -102,7 +103,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
         }
 
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       if (!mounted) return;
 
       isAuthError = true;
@@ -127,8 +128,8 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   bool isAuthError =false;
 
   //异步加载方法
-  Future<int> _loadFuture() async {
-    var account = await WalletCoinsManager.instance.getCurrentAccount();
+  Future<int?> _loadFuture() async {
+    var account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     bool isSupported =await auth.isDeviceSupported();
     var isAuth = await BoxApp.getAuth();
     if (isSupported && isAuth) {
@@ -140,10 +141,10 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<int>(
+    return FutureBuilder<int?>(
         future: _loadFuture(),
-        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-          if (snapshot == null || snapshot.data == null) {
+        builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
+          if (snapshot.data == null) {
             return Container();
           }
           if(isAuth && !isAuthError){
@@ -179,7 +180,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                                 borderRadius: BorderRadius.all(Radius.circular(60)),
                                 onTap: () {
                                   // ignore: unnecessary_statements
-                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
                                   Navigator.of(context).pop(); //关闭对话框
                                 },
                                 child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
@@ -206,7 +207,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                               child: FlatButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(); //关闭对话框
-                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                                  if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
                                 },
                                 child: Text(
                                   S.of(context).password_widget_conform,
@@ -258,7 +259,7 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                               borderRadius: BorderRadius.all(Radius.circular(60)),
                               onTap: () {
                                 // ignore: unnecessary_statements
-                                if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture("");
+                                if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
                                 Navigator.of(context).pop(); //关闭对话框
                               },
                               child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
@@ -333,9 +334,9 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
                               onPressed: () {
                                 Navigator.of(context).pop(); //关闭对话框
                                 if (widget.isSignOld) {
-                                  widget.passwordCallBackFuture(_textEditingController.text);
+                                  widget.passwordCallBackFuture!(_textEditingController.text);
                                 } else {
-                                  widget.passwordCallBackFuture(Utils.generateMD5(_textEditingController.text + PSD_KEY));
+                                  widget.passwordCallBackFuture!(Utils.generateMD5(_textEditingController.text + PSD_KEY));
                                 }
                               },
                               child: Text(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -17,7 +18,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -34,31 +35,31 @@ import 'eth_select_token_list_page.dart';
 class EthTokenSendTwoPage extends StatefulWidget {
   final String address;
 
-  final String tokenName;
-  final String tokenCount;
-  final String tokenImage;
-  final String tokenContract;
+  final String? tokenName;
+  final String? tokenCount;
+  final String? tokenImage;
+  final String? tokenContract;
 
-  EthTokenSendTwoPage({Key key, @required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  EthTokenSendTwoPage({Key? key, required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
 
   @override
   _EthTokenSendTwoPageState createState() => _EthTokenSendTwoPageState();
 }
 
 class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
-  Flushbar flush;
+  late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   var loadingType = LoadingType.loading;
-  List<Widget> items = List<Widget>();
+  List<Widget> items = <Widget>[];
 
-  String tokenName = "";
-  String tokenCount = "";
-  String tokenImage = "";
-  String tokenContract = "";
+  String? tokenName = "";
+  String? tokenCount = "";
+  String? tokenImage = "";
+  String? tokenContract = "";
   String fee = "";
   String feePrice = "";
-  String spendFee = "0";
+  String? spendFee = "0";
   String amountFee = "0";
   String minute = "";
   int index = 1;
@@ -86,12 +87,12 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account account) {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       if (!mounted) {
         return;
       }
       EthHomePage.account = account;
-      EthHomePage.address = account.address;
+      EthHomePage.address = account!.address;
       if (widget.tokenContract == null) {
         getDefTokenData();
       }
@@ -103,34 +104,34 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
     if (EthHomePage.account == null) {
       return Color(0xFFFFFFFF);
     }
-    if (EthHomePage.account.coin == "BNB") {
+    if (EthHomePage.account!.coin == "BNB") {
       return Color(0xFFE6A700);
     }
-    if (EthHomePage.account.coin == "OKT") {
+    if (EthHomePage.account!.coin == "OKT") {
       return Color(0xFF1F94FF);
     }
-    if (EthHomePage.account.coin == "HT") {
+    if (EthHomePage.account!.coin == "HT") {
       return Color(0xFF112FD0);
     }
 
-    if (EthHomePage.account.coin == "ETH") {
+    if (EthHomePage.account!.coin == "ETH") {
       return Color(0xFF5F66A3);
     }
     return Color(0xFFFFFFFF);
   }
 
   getDefTokenData() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     this.tokenName = account.coin;
     this.tokenCount = EthHomePage.token;
-    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/" + EthHomePage.account.coin + ".png";
+    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/" + EthHomePage.account!.coin! + ".png";
     netCfxBalance();
   }
 
   Future<void> netCfxBalance() async {
     var address = await BoxApp.getAddress();
 
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     BoxApp.getBalanceETH((balance, coin) async {
       if (!mounted) return;
@@ -143,38 +144,38 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
       setState(() {});
       return;
-    }, address, account.coin, nodeUrl);
+    }, address, account.coin!, nodeUrl);
   }
 
   Future<void> getEthFee() async {
     fee = "";
     index = 1;
     setState(() {});
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     EthFeeModel ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
-    spendFee = ethFeeModel.data.feeList[1].fee;
+    spendFee = ethFeeModel.data!.feeList![1].fee;
     if (this.tokenContract == "") {
       gasLimit = 25000;
     } else {
       gasLimit = 60000;
     }
-    amountFee = (double.parse(ethFeeModel.data.feeList[1].fee) * gasLimit / 1000000000000000000).toStringAsFixed(8);
+    amountFee = (double.parse(ethFeeModel.data!.feeList![1].fee!) * gasLimit / 1000000000000000000).toStringAsFixed(8);
     minute = getFeeMinute(ethFeeModel, 1);
-    fee = "" + amountFee + " " + account.coin;
+    fee = "" + amountFee + " " + account.coin!;
     setState(() {});
     var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-    if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
-      String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data[0].priceUsd.toString(), amountFee);
+    if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
+      String price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), amountFee);
       feePrice = price;
       setState(() {});
     }
   }
 
   String getFeeMinute(EthFeeModel ethFeeModel, int index) {
-    if (double.parse(ethFeeModel.data.feeList[index].minute) < 1) {
-      return "≈" + (double.parse(ethFeeModel.data.feeList[index].minute) * 60).toStringAsFixed(0) + S.current.fee_speed_time1;
+    if (double.parse(ethFeeModel.data!.feeList![index].minute!) < 1) {
+      return "≈" + (double.parse(ethFeeModel.data!.feeList![index].minute!) * 60).toStringAsFixed(0) + S.current.fee_speed_time1;
     }
-    return "≈" + ethFeeModel.data.feeList[index].minute + S.current.fee_speed_time2;
+    return "≈" + ethFeeModel.data!.feeList![index].minute! + S.current.fee_speed_time2;
   }
 
   @override
@@ -184,7 +185,6 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: getAccountCardBottomBg(),
           leading: IconButton(
             icon: Icon(
@@ -211,7 +211,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                 if (spendFee != "") return await getEthFee();
               },
             ),
-          ],
+          ], systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -365,7 +365,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                           controller: _textEditingController,
                                           focusNode: focusNode,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -429,7 +429,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             backgroundColor: Colors.transparent,
                                             builder: (context) => EthSelectTokenListPage(
                                                   aeCount: EthHomePage.token,
-                                                  aeSelectTokenListCallBackFuture: (String tokenName, String tokenCount, String tokenImage, String tokenContract) {
+                                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
                                                     this.tokenName = tokenName;
                                                     this.tokenCount = tokenCount;
                                                     this.tokenImage = tokenImage;
@@ -463,11 +463,11 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                       ),
                                                       child: ClipOval(
                                                         child: Image.network(
-                                                          tokenImage,
+                                                          tokenImage!,
                                                           errorBuilder: (
                                                             BuildContext context,
                                                             Object error,
-                                                            StackTrace stackTrace,
+                                                            StackTrace? stackTrace,
                                                           ) {
                                                             return Container(
                                                               color: Colors.grey.shade200,
@@ -488,7 +488,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                   Container(
                                                     padding: const EdgeInsets.only(left: 15),
                                                     child: Text(
-                                                      tokenName == null ? "" : tokenName,
+                                                      tokenName == null ? "" : tokenName!,
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
@@ -514,7 +514,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                     ),
                                                   if (tokenCount != "")
                                                     AutoSizeText(
-                                                      tokenCount,
+                                                      tokenCount!,
                                                       maxLines: 1,
                                                       style: TextStyle(
                                                         color: Color(0xFF333333),
@@ -561,12 +561,13 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                               backgroundColor: Colors.transparent,
                               builder: (context) => EthSelectFeePage(
                                     gasLimit: this.gasLimit,
-                                    ethSelectFeeCallBackFuture: (String spendFee, String amountFee, String feePrice, String minute, int index) {
+
+                                    ethSelectFeeCallBackFuture: (String? spendFee, String? amountFee, String? feePrice, String? minute, int? index) {
                                       this.spendFee = spendFee;
-                                      this.fee = amountFee;
-                                      this.feePrice = feePrice;
-                                      this.minute = minute;
-                                      this.index = index;
+                                      this.fee = amountFee!;
+                                      this.feePrice = feePrice!;
+                                      this.minute = minute!;
+                                      this.index = index!;
                                       // getEthFee();
                                       setState(() {});
                                       return;
@@ -708,23 +709,23 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
   void clickAllCount() {
     if (this.tokenContract == "") {
-      if (double.parse(tokenCount) == 0) {
+      if (double.parse(tokenCount!) == 0) {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(this.tokenCount) > (double.parse(amountFee) * 5)) {
-          _textEditingController.text = (double.parse(this.tokenCount) - (double.parse(amountFee) * 5)).toStringAsFixed(8);
+        if (double.parse(this.tokenCount!) > (double.parse(amountFee) * 5)) {
+          _textEditingController.text = (double.parse(this.tokenCount!) - (double.parse(amountFee) * 5)).toStringAsFixed(8);
         } else {
           _textEditingController.text = "0";
         }
       }
     } else {
-      if (double.parse(tokenCount) > 1) {
-        _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+      if (double.parse(tokenCount!) > 1) {
+        _textEditingController.text = (double.parse(tokenCount!)).toStringAsFixed(5);
       } else {
-        if (double.parse(tokenCount) == 0) {
+        if (double.parse(tokenCount!) == 0) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(tokenCount)).toStringAsFixed(5);
+          _textEditingController.text = (double.parse(tokenCount!)).toStringAsFixed(5);
         }
       }
     }
@@ -767,7 +768,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -785,7 +786,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -794,7 +795,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       showErrorDialog(context, null);
                       return;
                     }
-                    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                     String nodeUrl = await EthManager.instance.getNodeUrl(account);
 
                     BoxApp.spendETH((tx) {
@@ -804,7 +805,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       // ignore: missing_return
                     }, (error) {
                       showErrorDialog(context, error);
-                    }, aesDecode, widget.address, _textEditingController.text, spendFee, nodeUrl);
+                    }, aesDecode, widget.address, _textEditingController.text, spendFee!, nodeUrl);
                     showChainLoading();
                   },
                 ),
@@ -817,7 +818,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
           useRootNavigator: false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -835,7 +836,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -844,7 +845,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                       showErrorDialog(context, null);
                       return;
                     }
-                    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+                    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                     String nodeUrl = await EthManager.instance.getNodeUrl(account);
                     BoxApp.spendErc20ETH((tx) {
                       showCopyHashDialog(context, tx);
@@ -853,7 +854,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     }, (error) {
                       showErrorDialog(context, error);
                       // ignore: missing_return
-                    }, aesDecode, widget.address, tokenContract, _textEditingController.text, spendFee, nodeUrl);
+                    }, aesDecode, widget.address, tokenContract!, _textEditingController.text, spendFee!, nodeUrl);
                     showChainLoading();
                   },
                 ),
@@ -868,7 +869,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -910,7 +911,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
       });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -921,7 +922,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -967,8 +968,8 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
         );
       },
     ).then((val) async {
-      if (val) {
-        Account account = await WalletCoinsManager.instance.getCurrentAccount();
+      if (val!) {
+        Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
         var scanUrl = await EthManager.instance.getScanUrl(account);
         Clipboard.setData(ClipboardData(text: scanUrl + tx));
         showFlushSucess(context);

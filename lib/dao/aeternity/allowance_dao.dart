@@ -11,8 +11,8 @@ import 'package:box/model/aeternity/tx_broadcast_model.dart';
 import 'package:dio/dio.dart';
 
 class AllowanceDao {
-  static Future<AllowanceModel> fetch(String ctId) async {
-    Map<String, String> params = new Map();
+  static Future<AllowanceModel> fetch(String? ctId) async {
+    Map<String, String?> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params['ct_id'] = ctId;

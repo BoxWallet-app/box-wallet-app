@@ -17,7 +17,7 @@ class CfxNodePage extends StatefulWidget {
 class _CfxNodePageState extends State<CfxNodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
-  String dropdownValue = 'Official';
+  String? dropdownValue = 'Official';
 
 
   @override
@@ -26,7 +26,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
     super.initState();
 
     BoxApp.getCfxNodeUrl().then((nodeUrl) {
-      if (nodeUrl == "" || nodeUrl == null) {
+      if (nodeUrl == "") {
         _textEditingControllerNode.text = "https://main.confluxrpc.com";
         dropdownValue = "Official";
       }else{
@@ -129,7 +129,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                     child: DropdownButton<String>(
                       underline: Container(),
                       value: dropdownValue,
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
                           dropdownValue = newValue;
                         });
@@ -174,7 +174,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                         maxLines: 1,
                         style: TextStyle(

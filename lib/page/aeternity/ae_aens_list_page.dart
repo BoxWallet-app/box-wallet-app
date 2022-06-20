@@ -16,9 +16,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../main.dart';
 
 class AeAensListPage extends StatefulWidget {
-  final AensPageType aensPageType;
+  final AensPageType? aensPageType;
 
-  const AeAensListPage({Key key, this.aensPageType}) : super(key: key);
+  const AeAensListPage({Key? key, this.aensPageType}) : super(key: key);
 
   @override
   _AeAensListPageState createState() => _AeAensListPageState();
@@ -27,11 +27,11 @@ class AeAensListPage extends StatefulWidget {
 class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  AensPageModel _aensPageModel;
+  AensPageModel? _aensPageModel;
   int page = 1;
 
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     super.initState();
     _controller.callRefresh();
     _controller.callLoad();
@@ -48,21 +48,21 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
         if (page == 1) {
           _aensPageModel = model;
         } else {
-          _aensPageModel.data.addAll(model.data);
+          _aensPageModel!.data!.addAll(model.data!);
         }
       }
-      if(_aensPageModel.data.length ==0) {
+      if (_aensPageModel!.data!.length == 0) {
         _loadingType = LoadingType.no_data;
       }
       page++;
       _controller.finishRefresh();
       _controller.finishLoad();
-      if (model.data.length < 20) {
+      if (model.data!.length < 20) {
         _controller.finishLoad(noMore: true);
       }
       setState(() {});
     }).catchError((e) {
-      if (page == 1 && (_aensPageModel == null || _aensPageModel.data == null)) {
+      if (page == 1 && (_aensPageModel == null || _aensPageModel!.data == null)) {
         setState(() {
           _loadingType = LoadingType.error;
         });
@@ -85,12 +85,11 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
           onRefresh: _onRefresh,
           onLoad: _onLoad,
           header: BoxHeader(),
-
           footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,
           child: ListView.builder(
             itemBuilder: _renderRow,
-            itemCount: _aensPageModel == null ? 0 : _aensPageModel.data.length,
+            itemCount: _aensPageModel == null ? 0 : _aensPageModel!.data!.length,
           ),
         ),
         type: _loadingType,
@@ -106,9 +105,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
 
   Widget _renderRow(BuildContext context, int index) {
 //    if (index < list.length) {
-    return Container(
-        margin: EdgeInsets.only(left: 15, right: 15,top: 12),
-        child: buildColumn(context, index));
+    return Container(margin: EdgeInsets.only(left: 15, right: 15, top: 12), child: buildColumn(context, index));
   }
 
   Column buildColumn(BuildContext context, int position) {
@@ -124,7 +121,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                   context,
                   MaterialPageRoute(
                       builder: (context) => AeAensDetailPage(
-                            name: _aensPageModel.data[position].name,
+                            name: _aensPageModel!.data![position].name,
                           )));
             },
             child: Container(
@@ -142,12 +139,12 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                _aensPageModel.data[position].name,
+                                _aensPageModel!.data![position].name!,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -156,7 +153,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                               setNameTime(position),
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ],
@@ -171,17 +168,21 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                Utils.formatPrice(_aensPageModel.data[position].currentPrice) + " AE",
+                                Utils.formatPrice(_aensPageModel!.data![position].currentPrice!) + " AE",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             Text(
-                                S.of(context).aens_list_page_item_address+": " + Utils.formatAddress(_aensPageModel.data[position].owner),
-                              style: TextStyle(color: Colors.black54, fontSize: 14,fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                              S.of(context).aens_list_page_item_address + ": " + Utils.formatAddress(_aensPageModel!.data![position].owner),
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              ),
                             ),
                           ],
                         ),
@@ -203,11 +204,12 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
       case AensPageType.auction:
       case AensPageType.price:
       case AensPageType.my_auction:
-        return S.of(context).aens_list_page_item_time_end+': ' + Utils.formatHeight(context,_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].endHeight);
+        return S.of(context).aens_list_page_item_time_end + ': ' + Utils.formatHeight(context, _aensPageModel!.data![position].currentHeight!, _aensPageModel!.data![position].endHeight!);
       case AensPageType.over:
       case AensPageType.my_over:
-        return S.of(context).aens_list_page_item_time_over+' :' + Utils.formatHeight(context,_aensPageModel.data[position].currentHeight, _aensPageModel.data[position].overHeight);
+        return S.of(context).aens_list_page_item_time_over + ' :' + Utils.formatHeight(context, _aensPageModel!.data![position].currentHeight!, _aensPageModel!.data![position].overHeight!);
     }
+    return "";
   }
 
   Future<void> _onRefresh() async {

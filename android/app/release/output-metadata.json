@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.aepp.box",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 353,
+      "versionName": "3.5.3",
+      "outputFile": "com.aepp.box_release_v3.5.3_20220104092630.apk"
+    }
+  ]
+}

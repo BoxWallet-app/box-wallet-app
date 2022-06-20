@@ -18,10 +18,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../config.dart';
 
 class SelectChainCreatePage extends StatefulWidget {
-  final String mnemonic;
-  final String password;
+  final String? mnemonic;
+  final String? password;
 
-  const SelectChainCreatePage({Key key, this.mnemonic, this.password}) : super(key: key);
+  const SelectChainCreatePage({Key? key, this.mnemonic, this.password}) : super(key: key);
 
   @override
   _SelectChainCreatePathState createState() => _SelectChainCreatePathState();
@@ -29,8 +29,8 @@ class SelectChainCreatePage extends StatefulWidget {
 
 class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
   var loadingType = LoadingType.finish;
-  List<ChainsModel> chains;
-  PriceModel priceModel;
+  late List<ChainsModel> chains;
+  PriceModel? priceModel;
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                   onPressed: () async {
                     bool isSelect = false;
                     for (var i = 0; i < chains.length; i++) {
-                      if (chains[i].isSelect) {
+                      if (chains[i].isSelect!) {
                         isSelect = true;
                         break;
                       }
@@ -138,78 +138,78 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
 
   Future createChain() async {
     for (var i = 0; i < chains.length; i++) {
-      if (chains[i].isSelect) {
+      if (chains[i].isSelect!) {
         if (chains[i].name == "AE") {
           BoxApp.getSecretKey((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
         if (chains[i].name == "CFX") {
           BoxApp.getSecretKeyCFX((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
 
         if (chains[i].name == "OKT") {
           BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
         if (chains[i].name == "BNB") {
           BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
         if (chains[i].name == "HT") {
           BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
         if (chains[i].name == "ETH") {
           BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password + address);
+            final key = Utils.generateMd5Int(widget.password! + address);
             var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic, key);
+            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
             await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
             await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
             chains[i].isSelect = false;
             createChain();
-          }, widget.mnemonic);
+          }, widget.mnemonic!);
           return;
         }
       }
@@ -249,7 +249,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             setState(() {
-              chains[index].isSelect = !chains[index].isSelect;
+              chains[index].isSelect = !chains[index].isSelect!;
             });
           },
           child: Container(
@@ -285,7 +285,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
 //                                                      shape: BoxShape.rectangle,
                                     borderRadius: BorderRadius.circular(36.0),
                                     image: DecorationImage(
-                                      image: AssetImage("images/" + chains[index].name + ".png"),
+                                      image: AssetImage("images/" + chains[index].name! + ".png"),
                                     ),
                                   ),
                                 ),
@@ -295,7 +295,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull ) + " (" + chains[index].name + ")",
+                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull )! + " (" + chains[index].name! + ")",
                                   softWrap: true,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
@@ -316,7 +316,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                               child: Image(
                                 width: 22,
                                 height: 22,
-                                image: AssetImage(chains[index].isSelect ? "images/check_box_select.png" : "images/check_box_normal.png"),
+                                image: AssetImage(chains[index].isSelect! ? "images/check_box_select.png" : "images/check_box_normal.png"),
                               ),
                               margin: const EdgeInsets.only(left: 0.0),
                             ),
@@ -340,7 +340,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
 
   void checkSuccess() {
     for (var i = 0; i < chains.length; i++) {
-      if(chains[i].isSelect){
+      if(chains[i].isSelect!){
         return;
       }
     }

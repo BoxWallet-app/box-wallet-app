@@ -22,12 +22,12 @@ import '../../../main.dart';
 typedef AccountLoginCallBackFuture = Future Function(String data);
 
 class ImportAccountCommonPage extends StatefulWidget {
-  final int type;
-  final String mnemonic;
+  final int? type;
+  final String? mnemonic;
 
-  final AccountLoginCallBackFuture accountLoginCallBackFuture;
+  final AccountLoginCallBackFuture? accountLoginCallBackFuture;
 
-  const ImportAccountCommonPage({Key key, this.type, this.accountLoginCallBackFuture, this.mnemonic}) : super(key: key);
+  const ImportAccountCommonPage({Key? key, this.type, this.accountLoginCallBackFuture, this.mnemonic}) : super(key: key);
 
   @override
   _ImportAccountCommonPageState createState() => _ImportAccountCommonPageState();
@@ -45,14 +45,13 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
     }
 
     if (widget.mnemonic != null) {
-      _textEditingController.text = widget.mnemonic;
+      _textEditingController.text = widget.mnemonic!;
     }
 
     _textEditingController.addListener(() {
       inputPassword(_textEditingController.text.toString());
     });
 
-    ;
   }
 
   @override
@@ -234,7 +233,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
         ));
   }
 
-  inputPassword(String data) {
+  inputPassword(String? data) {
     if (data == null || data == "") {
       return;
     }
@@ -248,7 +247,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
         context: context,
         pageBuilder: (context, anim1, anim2) {
           return;
-        },
+        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -280,7 +279,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
     return;
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -291,7 +290,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(
@@ -309,7 +308,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
 
   clickLogin() {
     FocusScope.of(context).requestFocus(FocusNode());
-    if (_textEditingController.text == null || _textEditingController.text == "") {
+    if (_textEditingController.text == "") {
       EasyLoading.showToast(S.of(context).account_login_msg, duration: Duration(seconds: 2));
       return;
     }
@@ -324,13 +323,13 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
           if (Platform.isIOS) {
              Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));
           } else {
-            Navigator.push(navigatorKey.currentState.overlay.context, SlideRoute(SetPasswordPage(mnemonic: mnemonic)));
+            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(mnemonic: mnemonic)));
           }
 
 
         } else {
           if (widget.accountLoginCallBackFuture != null) {
-            widget.accountLoginCallBackFuture(mnemonic);
+            widget.accountLoginCallBackFuture!(mnemonic);
           }
           Navigator.pop(context);
         }

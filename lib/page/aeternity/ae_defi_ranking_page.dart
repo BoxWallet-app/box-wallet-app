@@ -20,7 +20,7 @@ class AeDefiRankingPage extends StatefulWidget {
 class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  RankingModel rankingModel;
+  RankingModel? rankingModel;
   int page = 1;
   var address = '';
 
@@ -147,7 +147,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                   child: ListView.builder(
                     itemBuilder: buildColumn,
 //            itemCount: 10,
-                    itemCount: rankingModel == null ? 0 : rankingModel.data.ranking.length,
+                    itemCount: rankingModel == null ? 0 : rankingModel!.data!.ranking!.length,
                   ),
                 ),
               ),
@@ -203,7 +203,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                             height: 60,
                             alignment: Alignment.center,
                             child: Text(
-                              rankingModel == null ? "loading..." : rankingModel.data.outCount,
+                              rankingModel == null ? "loading..." : rankingModel!.data!.outCount!,
                               style: new TextStyle(fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0,
@@ -294,14 +294,14 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
           Expanded(
             child: Container(
               child: Text(
-                Utils.formatAddress(rankingModel.data.ranking[index].address),
+                Utils.formatAddress(rankingModel!.data!.ranking![index].address),
                 style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
               ),
             ),
           ),
           Container(
             child: Text(
-              rankingModel.data.ranking[index].proportion + "%",
+              rankingModel!.data!.ranking![index].proportion! + "%",
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
@@ -312,7 +312,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
             width: 130,
             alignment: Alignment.centerRight,
             child: Text(
-              rankingModel.data.ranking[index].count,
+              rankingModel!.data!.ranking![index].count!,
               style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
             ),
           ),
@@ -402,7 +402,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
     );
   }
 
-  Future<String> getAddress() {
+   getAddress() {
     BoxApp.getAddress().then((String address) {
       netData();
       setState(() {
@@ -424,15 +424,15 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
     if (page == 1) {
       rankingModel = model;
     } else {
-      rankingModel.data.ranking.addAll(model.data.ranking);
+      rankingModel!.data!.ranking!.addAll(model.data!.ranking!);
     }
     setState(() {});
-    if (rankingModel.data.ranking.length == 0) {
+    if (rankingModel!.data!.ranking!.length == 0) {
       _loadingType = LoadingType.no_data;
     }
     page++;
 
-    if (rankingModel.data.ranking.length < 20) {
+    if (rankingModel!.data!.ranking!.length < 20) {
       _controller.finishLoad(noMore: true);
     }
     setState(() {});

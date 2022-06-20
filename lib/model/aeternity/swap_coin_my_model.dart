@@ -1,8 +1,8 @@
 class SwapCoinAccountModel {
-  int code;
-  String msg;
-  int time;
-  List<Data> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<Data>? data;
 
   SwapCoinAccountModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class SwapCoinAccountModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -24,19 +24,19 @@ class SwapCoinAccountModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String account;
-  String coinName;
-  String aeCount;
-  String tokenCount;
-  String token;
-  double rate;
+  String? account;
+  String? coinName;
+  String? aeCount;
+  String? tokenCount;
+  String? token;
+  double? rate;
 
   Data(
       {this.account,

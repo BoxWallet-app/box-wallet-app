@@ -1,15 +1,15 @@
 class EthActivityCoinModel {
-  List<Data> data;
-  String message;
-  int result;
+  List<Data>? data;
+  String? message;
+  int? result;
 
   EthActivityCoinModel({this.data, this.message, this.result});
 
   EthActivityCoinModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     message = json['message'];
@@ -19,7 +19,7 @@ class EthActivityCoinModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -28,23 +28,23 @@ class EthActivityCoinModel {
 }
 
 class Data {
-  int hid;
-  int blockchainId;
-  int tokenType;
-  String name;
-  String symbol;
-  String blSymbol;
-  int gas;
-  int decimal;
-  int precision;
-  String priceUsd;
-  String address;
-  int tokenStatus;
-  String iconUrl;
-  int tokenProtocol;
-  String website;
-  String description;
-  int ts;
+  int? hid;
+  int? blockchainId;
+  int? tokenType;
+  String? name;
+  String? symbol;
+  String? blSymbol;
+  int? gas;
+  int? decimal;
+  int? precision;
+  String? priceUsd;
+  String? address;
+  int? tokenStatus;
+  String? iconUrl;
+  int? tokenProtocol;
+  String? website;
+  String? description;
+  int? ts;
 
   Data(
       {this.hid,

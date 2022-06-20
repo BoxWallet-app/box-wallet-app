@@ -24,7 +24,7 @@ import 'import_account_cfx_page.dart';
 import 'import_account_eth_page.dart';
 
 class ImportChainSelectPage extends StatefulWidget {
-  const ImportChainSelectPage({Key key}) : super(key: key);
+  const ImportChainSelectPage({Key? key}) : super(key: key);
 
   @override
   _SelectChainCreatePathState createState() => _SelectChainCreatePathState();
@@ -32,8 +32,8 @@ class ImportChainSelectPage extends StatefulWidget {
 
 class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
   var loadingType = LoadingType.finish;
-  List<ChainsModel> chains;
-  PriceModel priceModel;
+  late List<ChainsModel> chains;
+  PriceModel? priceModel;
 
   @override
   void initState() {
@@ -342,7 +342,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
 //                                                      shape: BoxShape.rectangle,
                                     borderRadius: BorderRadius.circular(36.0),
                                     image: DecorationImage(
-                                      image: AssetImage("images/" + chains[index].name + ".png"),
+                                      image: AssetImage("images/" + chains[index].name! + ".png"),
                                     ),
                                   ),
                                 ),
@@ -352,7 +352,7 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: Text(
-                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull ) + " (" + chains[index].name + ")",
+                                  (BoxApp.language == "cn" ? chains[index].nameFullCN : chains[index].nameFull )! + " (" + chains[index].name! + ")",
                                   softWrap: true,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,

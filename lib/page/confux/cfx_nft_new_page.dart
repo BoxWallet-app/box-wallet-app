@@ -26,8 +26,8 @@ class CfxNftNewPage extends StatefulWidget {
 }
 
 class _CfxNftNewPageState extends State<CfxNftNewPage> {
-  List<String> tabs = List<String>();
-  List<String> tabsCt = List<String>();
+  List<String> tabs = <String>[];
+  List<String?> tabsCt = <String?>[];
   var _loadingType = LoadingType.loading;
 
   @override
@@ -42,9 +42,9 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
         return;
       }
       tabs.clear();
-      for (var i = 0; i < model.data.length; i++) {
-        tabs.add(model.data[i].name.zh + "(" + model.data[i].balance.toString() + ")");
-        tabsCt.add(model.data[i].address);
+      for (var i = 0; i < model.data!.length; i++) {
+        tabs.add(model.data![i].name!.zh! + "(" + model.data![i].balance.toString() + ")");
+        tabsCt.add(model.data![i].address);
       }
       if (tabs.isEmpty) {
         _loadingType = LoadingType.no_data;
@@ -119,7 +119,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () async {
-              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position];
+              String url = "https://confluxscan.io/nft-checker/" + await BoxApp.getAddress() + "?NFTAddress=" + tabsCt[position]!;
               _launchURL(url);
               return;
             },

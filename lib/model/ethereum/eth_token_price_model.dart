@@ -1,7 +1,7 @@
 class EthTokenPriceModel {
-  List<String> data;
-  String message;
-  int result;
+  List<String>? data;
+  String? message;
+  int? result;
 
   EthTokenPriceModel({this.data, this.message, this.result});
 

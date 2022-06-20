@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 enum AensPageType { auction, price, over, my_auction, my_over }
 
 class AensPageDao {
-  static Future<AensPageModel> fetch(AensPageType aensPageType, int page) async {
+  static Future<AensPageModel> fetch(AensPageType? aensPageType, int page) async {
     Map<String, String> params = new Map();
     var address =await  BoxApp.getAddress();
     var url = "";

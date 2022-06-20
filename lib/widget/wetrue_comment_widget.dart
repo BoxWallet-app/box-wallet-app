@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:math';
 import 'dart:ui';
@@ -30,18 +31,18 @@ import 'chain_loading_widget.dart';
 import 'loading_widget.dart';
 
 class WeTrueCommentWidget extends StatefulWidget {
-  final String hash;
+  final String? hash;
 
-  const WeTrueCommentWidget({Key key, this.hash}) : super(key: key);
+  const WeTrueCommentWidget({Key? key, this.hash}) : super(key: key);
 
   @override
   _WeTrueCommentWidgetState createState() => _WeTrueCommentWidgetState();
 }
 
 class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
-  int page;
-  WeTrueConfigModel weTrueConfigModel;
-  WetrueCommentModel wetrueCommentModel;
+  int page =0;
+  WeTrueConfigModel? weTrueConfigModel;
+  WetrueCommentModel? wetrueCommentModel;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -63,14 +64,14 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     if (model != null || model.code == 200) {
       wetrueCommentModel = model;
       loadingType = LoadingType.finish;
-      if (wetrueCommentModel.data.data == null || wetrueCommentModel.data.data.length == 0) {
+      if (wetrueCommentModel!.data!.data == null || wetrueCommentModel!.data!.data!.length == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
       loadingType = LoadingType.error;
     }
 
-    if (wetrueCommentModel.data.data.length < 30) {
+    if (wetrueCommentModel!.data!.data!.length < 30) {
       controller.finishLoad(success: true, noMore: true);
     }
     controller.finishRefresh();
@@ -85,9 +86,9 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
       return;
     }
     if (model != null || model.code == 200) {
-      wetrueCommentModel.data.data.addAll(model.data.data);
+      wetrueCommentModel!.data!.data!.addAll(model.data!.data!);
       loadingType = LoadingType.finish;
-      if (wetrueCommentModel.data == null || wetrueCommentModel.data.size == 0) {
+      if (wetrueCommentModel!.data == null || wetrueCommentModel!.data!.size == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -95,7 +96,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     }
 
     controller.finishRefresh();
-    if (wetrueCommentModel.data.data.length < 30) {
+    if (wetrueCommentModel!.data!.data!.length < 30) {
       controller.finishLoad(success: true, noMore: true);
     }
     page++;
@@ -174,7 +175,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                           children: ListTile.divideTiles(
                               context: context,
                               tiles: List.generate(
-                                wetrueCommentModel == null ? 0 : wetrueCommentModel.data.data.length,
+                                wetrueCommentModel == null ? 0 : wetrueCommentModel!.data!.data!.length,
                                 (index) => getItem(context, index),
                               )).toList(),
                         ),
@@ -193,9 +194,9 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                           bounce: true,
                           backgroundColor: Colors.transparent.withAlpha(0),
                           builder: (context) => WeTrueCommentInputWidget(
-                              title: Decimal.parse((double.parse(weTrueConfigModel.data.commentAmount) / 1000000000000000000).toString()).toString(),
+                              title: Decimal.parse((double.parse(weTrueConfigModel!.data!.commentAmount!) / 1000000000000000000).toString()).toString(),
                               passwordCallBackFuture: (String content) async {
-                                if (content == null || content == "") {
+                                if (content == "") {
                                   return;
                                 }
                                 clickLogin(content);
@@ -244,16 +245,16 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     }
 
     String content = Utils.encodeBase64('{"WeTrue":"' +
-        weTrueConfigModel.data.weTrue +
+        weTrueConfigModel!.data!.weTrue! +
         '","type":"comment","source":"Box æpp","toHash":"' +
-        widget.hash +
+        widget.hash! +
         '","content":"' +
         conetnt.replaceAll("\n", "\\n") +
         '"}');
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -271,7 +272,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -320,7 +321,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     // ignore: missing_return
                   }, (error) {
                     showErrorDialog(context, error);
-                  }, aesDecode, address, weTrueConfigModel.data.receivingAccount, Decimal.parse((double.parse(weTrueConfigModel.data.commentAmount) / 1000000000000000000).toString()).toString(),
+                  }, aesDecode, address, weTrueConfigModel!.data!.receivingAccount!, Decimal.parse((double.parse(weTrueConfigModel!.data!.commentAmount!) / 1000000000000000000).toString()).toString(),
                       content);
                   showChainLoading();
                 },
@@ -334,7 +335,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -361,7 +362,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
 
               //设置四周边框
             ),
-            margin: index == wetrueCommentModel.data.size - 1 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0) : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
+            margin: index == wetrueCommentModel!.data!.size! - 1 ? EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0) : EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
             padding: EdgeInsets.only(left: 15, right: 15, top: 14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,7 +377,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             Stack(
                               children: <Widget>[
                                 ClipOval(
-                                  child: Image.network(wetrueCommentModel.data.data[index].users.portrait, width: 35, height: 35),
+                                  child: Image.network(wetrueCommentModel!.data!.data![index].users!.portrait!, width: 35, height: 35),
                                 ),
                                 Positioned(
                                   right: 0,
@@ -399,7 +400,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                       height: 12,
                                       child: Center(
                                         child: Text(
-                                          "v" + wetrueCommentModel.data.data[index].users.userActive.toString(),
+                                          "v" + wetrueCommentModel!.data!.data![index].users!.userActive.toString(),
                                           style: TextStyle(color: Colors.white, fontSize: 8),
                                         ),
                                       ),
@@ -415,7 +416,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      wetrueCommentModel.data.data[index].users.nickname == "" ? "匿名用户" : wetrueCommentModel.data.data[index].users.nickname,
+                                      wetrueCommentModel!.data!.data![index].users!.nickname == "" ? "匿名用户" : wetrueCommentModel!.data!.data![index].users!.nickname!,
                                       style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ),
@@ -480,7 +481,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             margin: EdgeInsets.only(top: 10),
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
-                              wetrueCommentModel.data.data[index].payload.replaceAll("<br>", "\r\n"),
+                              wetrueCommentModel!.data!.data![index].payload!.replaceAll("<br>", "\r\n"),
                               strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1.2, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                               style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                             ),
@@ -490,7 +491,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                       Container(
                         margin: EdgeInsets.only(bottom: 14, top: 5),
                         child: Text(
-                          RelativeDateFormat.format(wetrueCommentModel.data.data[index].utcTime),
+                          RelativeDateFormat.format(wetrueCommentModel!.data!.data![index].utcTime!),
                           style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         ),
                       ),
@@ -509,7 +510,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
     );
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -521,7 +522,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

@@ -5,7 +5,7 @@ import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +14,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 
 class AeTokenTxDetailPage extends StatefulWidget {
-  final RecordData recordData;
+  final RecordData? recordData;
 
-  const AeTokenTxDetailPage({Key key, this.recordData}) : super(key: key);
+  const AeTokenTxDetailPage({Key? key, this.recordData}) : super(key: key);
 
   @override
   _AeTokenTxDetailPageState createState() => _AeTokenTxDetailPageState();
@@ -25,7 +25,7 @@ class AeTokenTxDetailPage extends StatefulWidget {
 class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
   AensInfoModel _aensInfoModel = AensInfoModel();
   LoadingType _loadingType = LoadingType.loading;
-  Flushbar flush;
+  Flushbar? flush;
   List<Widget> items = []; //先建一个数组用于存放循环生成的widget
 
   @override
@@ -60,7 +60,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
-    var item = buildItem("Tx", widget.recordData.hash);
+    var item = buildItem("Tx", widget.recordData!.hash.toString());
 
     items.add(item);
     items.add(
@@ -72,7 +72,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
-    var itemType = buildItem("Type", widget.recordData.tx["type"]);
+    var itemType = buildItem("Type", widget.recordData!.tx!["type"]);
 
     items.add(itemType);
     items.add(
@@ -98,7 +98,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           color: Color(0xFFFFFFFF)),
     );
 
-    var item2 = buildItem("Conform Height", (AeHomePage.height - widget.recordData.blockHeight).toString());
+    var item2 = buildItem("Conform Height", (AeHomePage.height! - widget.recordData!.blockHeight!).toString());
     items.add(item2);
     items.add(
       Container(
@@ -139,14 +139,14 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           height: 1.0,
           color: Color(0xFFFFFFFF)),
     );
-    widget.recordData.tx.forEach(
+    widget.recordData!.tx!.forEach(
       (key, value) {
-        var payload = widget.recordData.tx['payload'].toString();
-        if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
+        var payload = widget.recordData!.tx!['payload'].toString();
+        if (payload != "" && payload != "null" && payload.length >= 11) {
           try {
-            widget.recordData.tx['payload'] = Utils.formatPayload(payload);
+            widget.recordData!.tx!['payload'] = Utils.formatPayload(payload);
           } catch (e) {
-            widget.recordData.tx['payload'] = payload;
+            widget.recordData!.tx!['payload'] = payload;
           }
         }
 
@@ -202,7 +202,7 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
           ),
         ],
         title: Text(
-          widget.recordData.hash.toString(),
+          widget.recordData!.hash.toString(),
           style: TextStyle(
             fontSize: 18,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
@@ -217,23 +217,23 @@ class _AeTokenTxDetailPageState extends State<AeTokenTxDetailPage> {
   }
 
   Text getFeeWidget() {
-    if (widget.recordData.tx['type'].toString() == "SpendTx") {
+    if (widget.recordData!.tx!['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (widget.recordData.tx['recipient_id'].toString() == AeHomePage.address) {
+      if (widget.recordData!.tx!['recipient_id'].toString() == AeHomePage.address) {
         return Text(
-          "+" + ((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
+          "+" + ((widget.recordData!.tx!['amount'].toDouble() + widget.recordData!.tx!['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
           style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       } else {
         return Text(
-          "-" + (((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000)).toString() + " AE",
+          "-" + ((widget.recordData!.tx!['amount'].toDouble() + widget.recordData!.tx!['fee'].toDouble()) / 1000000000000000000).toString() + " AE",
           style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
         );
       }
     } else {
       return Text(
-        "-" + (widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString() + " AE",
+        "-" + (widget.recordData!.tx!['fee'].toDouble() / 1000000000000000000).toString() + " AE",
         style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu"),
       );
     }

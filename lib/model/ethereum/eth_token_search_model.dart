@@ -1,15 +1,15 @@
 class EthTokenSearchModel {
-  List<EthTokenItemModel> data;
-  String message;
-  int result;
+  List<EthTokenItemModel>? data;
+  String? message;
+  int? result;
 
   EthTokenSearchModel({this.data, this.message, this.result});
 
   EthTokenSearchModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<EthTokenItemModel>();
+      data = <EthTokenItemModel>[];
       json['data'].forEach((v) {
-        data.add(new EthTokenItemModel.fromJson(v));
+        data!.add(new EthTokenItemModel.fromJson(v));
       });
     }
     message = json['message'];
@@ -19,7 +19,7 @@ class EthTokenSearchModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -28,33 +28,33 @@ class EthTokenSearchModel {
 }
 
 class EthTokenItemModel {
-  int hid;
-  int blockchainId;
-  int tokenType;
-  String name;
-  String symbol;
-  String blSymbol;
-  int decimal;
-  int precision;
-  String balance;
-  String address;
-  String ownerAddress;
-  String website;
-  String description;
-  int updateContract;
-  String totalSupply;
-  int holderCount;
-  int published;
-  String tiLink;
-  int tokenStatus;
-  int validated;
-  String iconUrl;
-  int autoAdd;
-  String dappCode;
-  int tokenProtocol;
-  int metadataType;
-  String createTime;
-  int weight;
+  int? hid;
+  int? blockchainId;
+  int? tokenType;
+  String? name;
+  String? symbol;
+  String? blSymbol;
+  int? decimal;
+  int? precision;
+  String? balance;
+  String? address;
+  String? ownerAddress;
+  String? website;
+  String? description;
+  int? updateContract;
+  String? totalSupply;
+  int? holderCount;
+  int? published;
+  String? tiLink;
+  int? tokenStatus;
+  int? validated;
+  String? iconUrl;
+  int? autoAdd;
+  String? dappCode;
+  int? tokenProtocol;
+  int? metadataType;
+  String? createTime;
+  int? weight;
   bool isSelect =false;
 
   int get top => isSelect ? 1 : 0;

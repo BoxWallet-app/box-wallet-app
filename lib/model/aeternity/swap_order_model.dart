@@ -1,8 +1,8 @@
 class SwapOrderModel {
-  int code;
-  String msg;
-  int time;
-  List<Data> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<Data>? data;
 
   SwapOrderModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class SwapOrderModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -24,22 +24,22 @@ class SwapOrderModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String ae;
-  String buyAddress;
-  int cHeight;
-  int cTime;
-  String coin;
-  String count;
-  int pHeight;
-  int pTime;
-  String sellAddress;
+  String? ae;
+  String? buyAddress;
+  int? cHeight;
+  int? cTime;
+  String? coin;
+  String? count;
+  int? pHeight;
+  int? pTime;
+  String? sellAddress;
 
   Data(
       {this.ae,

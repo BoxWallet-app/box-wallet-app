@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -34,9 +35,9 @@ class EthDappsPage extends StatefulWidget {
 }
 
 class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClientMixin {
-  BannerModel bannerModel;
-  DappListModel cfxDappListModel;
-  List<Widget> childrens = List<Widget>();
+  BannerModel? bannerModel;
+  DappListModel? cfxDappListModel;
+  List<Widget> childrens = <Widget>[];
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
 
@@ -74,11 +75,11 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
       return;
     }
     childrens.clear();
-    for (var i = 0; i < cfxDappListModel.data.length; i++) {
-      var groupTitle = getGroupTitle(cfxDappListModel.data[i].type);
+    for (var i = 0; i < cfxDappListModel!.data!.length; i++) {
+      var groupTitle = getGroupTitle(cfxDappListModel!.data![i].type!);
       childrens.add(groupTitle);
-      for (var j = 0; j < cfxDappListModel.data[i].dataList.length; j++) {
-        var childItem = getChildItem(cfxDappListModel.data[i].dataList[j]);
+      for (var j = 0; j < cfxDappListModel!.data![i].dataList!.length; j++) {
+        var childItem = getChildItem(cfxDappListModel!.data![i].dataList![j]);
         childrens.add(childItem);
       }
     }
@@ -104,14 +105,14 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
               InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 onTap: () async {
-                  var currentAccount = await WalletCoinsManager.instance.getCurrentAccount();
+                  var currentAccount = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                   if (currentAccount.accountType == AccountType.ADDRESS) {
                     showGeneralDialog(
                         useRootNavigator: false,
                         context: context,
                         pageBuilder: (context, anim1, anim2) {
                           return;
-                        },
+                        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
                         //barrierColor: Colors.grey.withOpacity(.4),
                         barrierDismissible: true,
                         barrierLabel: "",
@@ -136,7 +137,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                   showGeneralDialog(
                       useRootNavigator: false,
                       context: context,
-                      pageBuilder: (context, anim1, anim2) {},
+                      pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                       //barrierColor: Colors.grey.withOpacity(.4),
                       barrierDismissible: true,
                       barrierLabel: "",
@@ -198,7 +199,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                             child: SingleChildScrollView(
                                               child: Container(
                                                 child: Text(
-                                                  S.of(context).cfx_dapp_mag1 + " " + data.name + " " + S.of(context).cfx_dapp_mag2,
+                                                  S.of(context).cfx_dapp_mag1 + " " + data.name! + " " + S.of(context).cfx_dapp_mag2,
                                                   style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
                                                 ),
                                               ),
@@ -282,7 +283,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 20, right: 20),
                             child: Text(
-                              data.name,
+                              data.name!,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
@@ -312,7 +313,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: Image.network(
-                                    data.icon,
+                                    data.icon!,
                                     fit: BoxFit.cover,
 
                                     loadingBuilder: (context, child, loadingProgress) {
@@ -343,7 +344,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                       alignment: Alignment.topLeft,
                       margin: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 0),
                       child: Text(
-                        data.content,
+                        data.content!,
                         strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                         style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                       ),
@@ -351,7 +352,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                     Container(
                       margin: const EdgeInsets.only(top: 8, left: 20, bottom: 18),
                       child: Row(
-                        children: getTabs(data.tabs),
+                        children: getTabs(data.tabs!),
                       ),
                     ),
                   ],
@@ -365,7 +366,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
   }
 
   List<Widget> getTabs(List<String> tabs) {
-    List<Widget> tabsWidget = List<Widget>();
+    List<Widget> tabsWidget = <Widget>[];
     for (var i = 0; i < tabs.length; i++) {
       tabsWidget.add(Container(
         margin: const EdgeInsets.only(right: 10),
@@ -473,8 +474,8 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                             bannerModel == null
                                 ? ""
                                 : BoxApp.language == "cn"
-                                    ? bannerModel.cn.url
-                                    : bannerModel.en.url,
+                                    ? bannerModel!.cn!.url!
+                                    : bannerModel!.en!.url!,
                           );
                         },
                         child: Container(
@@ -496,8 +497,8 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                     bannerModel == null
                                         ? ""
                                         : BoxApp.language == "cn"
-                                            ? bannerModel.cn.image
-                                            : bannerModel.en.image,
+                                            ? bannerModel!.cn!.image!
+                                            : bannerModel!.en!.image!,
                                     fit: BoxFit.cover,
 
                                     //设置图片的填充样式
@@ -522,8 +523,8 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                             bannerModel == null
                                 ? "-"
                                 : BoxApp.language == "cn"
-                                    ? bannerModel.cn.title
-                                    : bannerModel.en.title,
+                                    ? bannerModel!.cn!.title!
+                                    : bannerModel!.en!.title!,
                             style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
                           ),
                         ),
@@ -552,14 +553,14 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                         InkWell(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                           onTap: () async {
-                            var currentAccount = await WalletCoinsManager.instance.getCurrentAccount();
+                            var currentAccount = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                             if (currentAccount.accountType == AccountType.ADDRESS) {
                               showGeneralDialog(
                                   useRootNavigator: false,
                                   context: context,
                                   pageBuilder: (context, anim1, anim2) {
                                     return;
-                                  },
+                                  } as Widget Function(BuildContext, Animation<double>, Animation<double>),
                                   //barrierColor: Colors.grey.withOpacity(.4),
                                   barrierDismissible: true,
                                   barrierLabel: "",
@@ -670,7 +671,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                   ),
                 ),
               ),
-              if (childrens == null || childrens.isEmpty)
+              if (childrens.isEmpty)
                 Center(
                   child: Container(
                       height: 200,

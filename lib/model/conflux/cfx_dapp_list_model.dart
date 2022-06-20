@@ -1,8 +1,8 @@
 class DappListModel {
-  int code;
-  String msg;
-  int time;
-  List<Data> data;
+  int? code;
+  String? msg;
+  int? time;
+  List<Data>? data;
 
   DappListModel({this.code, this.msg, this.time, this.data});
 
@@ -11,9 +11,9 @@ class DappListModel {
     msg = json['msg'];
     time = json['time'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -24,24 +24,24 @@ class DappListModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String type;
-  List<DataList> dataList;
+  String? type;
+  List<DataList>? dataList;
 
   Data({this.type, this.dataList});
 
   Data.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['data_list'] != null) {
-      dataList = new List<DataList>();
+      dataList = <DataList>[];
       json['data_list'].forEach((v) {
-        dataList.add(new DataList.fromJson(v));
+        dataList!.add(new DataList.fromJson(v));
       });
     }
   }
@@ -50,18 +50,18 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['type'] = this.type;
     if (this.dataList != null) {
-      data['data_list'] = this.dataList.map((v) => v.toJson()).toList();
+      data['data_list'] = this.dataList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class DataList {
-  String name;
-  String url;
-  String icon;
-  String content;
-  List<String> tabs;
+  String? name;
+  String? url;
+  String? icon;
+  String? content;
+  List<String>? tabs;
 
   DataList({this.name, this.url, this.icon, this.content, this.tabs});
 

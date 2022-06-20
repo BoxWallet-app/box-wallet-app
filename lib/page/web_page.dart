@@ -31,7 +31,7 @@ import 'confux/cfx_token_record_page.dart';
 import 'dapp_webview_page.dart';
 
 class WebPage extends StatefulWidget {
-  const WebPage({Key key}) : super(key: key);
+  const WebPage({Key? key}) : super(key: key);
 
   @override
   _CfxWebPathState createState() => _CfxWebPathState();
@@ -41,10 +41,10 @@ class _CfxWebPathState extends State<WebPage> {
   var loadingType = LoadingType.finish;
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
-  CfxTokensListModel tokenListModel;
-  CfxWebListModel cfxWebListModel;
+  CfxTokensListModel? tokenListModel;
+  CfxWebListModel? cfxWebListModel;
 
-  List<String> urls = [];
+  List<String?> urls = [];
 
   @override
   void dispose() {
@@ -110,7 +110,7 @@ class _CfxWebPathState extends State<WebPage> {
                                   controller: _textEditingControllerNode,
                                   focusNode: focusNodeNode,
                                   inputFormatters: [
-                                    // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                                    //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                                   ],
                                   maxLines: 1,
                                   style: TextStyle(
@@ -237,7 +237,7 @@ class _CfxWebPathState extends State<WebPage> {
                       showGeneralDialog(
                           useRootNavigator: false,
                           context: context,
-                          pageBuilder: (context, anim1, anim2) {},
+                          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                           //barrierColor: Colors.grey.withOpacity(.4),
                           barrierDismissible: true,
                           barrierLabel: "",
@@ -336,7 +336,7 @@ class _CfxWebPathState extends State<WebPage> {
                                                   onPressed: () async {
                                                     Navigator.pop(context); //关闭对话框
                                                     var address = await BoxApp.getAddress();
-                                                    List<String> urls = await WebManager.instance.getUrls(address);
+                                                    List<String?> urls = await WebManager.instance.getUrls(address);
 
                                                     if (!urls.contains(url)) {
                                                       urls.add(url);
@@ -345,7 +345,7 @@ class _CfxWebPathState extends State<WebPage> {
                                                     await WebManager.instance.updateUrls(address, urls);
                                                     _onRefresh();
                                                     Navigator.push(
-                                                        navigatorKey.currentState.overlay.context,
+                                                        navigatorKey.currentState!.overlay!.context,
                                                         MaterialPageRoute(
                                                             builder: (context) => DappWebViewPage(
                                                                   url: url,
@@ -389,10 +389,10 @@ class _CfxWebPathState extends State<WebPage> {
               Container(
                 margin: const EdgeInsets.only(top: 8, left: 20, bottom: 18),
                 child: Row(
-                  children: getTabs(cfxWebListModel.data),
+                  children: getTabs(cfxWebListModel!.data!),
                 ),
               ),
-            if (urls != null && urls.length != 0)
+            if (urls.length != 0)
               Row(
                 children: [
                   Expanded(
@@ -451,7 +451,7 @@ class _CfxWebPathState extends State<WebPage> {
                           );
                         },
                       ).then((val) async {
-                        if (val) {
+                        if (val!) {
                           var address = await BoxApp.getAddress();
                           await WebManager.instance.updateUrls(address, []);
                           _onRefresh();
@@ -481,7 +481,7 @@ class _CfxWebPathState extends State<WebPage> {
                   ),
                 ],
               ),
-            if (urls != null && urls.length != 0)
+            if (urls.length != 0)
               Expanded(
                 child: Container(
                   child: EasyRefresh(
@@ -503,7 +503,7 @@ class _CfxWebPathState extends State<WebPage> {
   }
 
   List<Widget> getTabs(List<CfxWebListModelData> data) {
-    List<Widget> tabsWidget = List<Widget>();
+    List<Widget> tabsWidget = <Widget>[];
     for (var i = 0; i < data.length; i++) {
       tabsWidget.add(InkWell(
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -519,7 +519,7 @@ class _CfxWebPathState extends State<WebPage> {
             borderRadius: BorderRadius.all(Radius.circular(30.0)),
           ),
           child: Text(
-            BoxApp.language == "cn" ? data[i].nameCn : data[i].nameEn,
+            BoxApp.language == "cn" ? data[i].nameCn! : data[i].nameEn!,
             style: TextStyle(
               fontSize: 14,
 
@@ -540,7 +540,7 @@ class _CfxWebPathState extends State<WebPage> {
     showGeneralDialog(
         useRootNavigator: false,
         context: context,
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -642,7 +642,7 @@ class _CfxWebPathState extends State<WebPage> {
                                 onPressed: () async {
                                   Navigator.pop(context); //关闭对话框
                                   var address = await BoxApp.getAddress();
-                                  List<String> urls = await WebManager.instance.getUrls(address);
+                                  List<String?> urls = await WebManager.instance.getUrls(address);
 
                                   if (!urls.contains(url)) {
                                     urls.add(url);
@@ -651,7 +651,7 @@ class _CfxWebPathState extends State<WebPage> {
                                   await WebManager.instance.updateUrls(address, urls);
                                   _onRefresh();
                                   Navigator.push(
-                                      navigatorKey.currentState.overlay.context,
+                                      navigatorKey.currentState!.overlay!.context,
                                       MaterialPageRoute(
                                           builder: (context) => DappWebViewPage(
                                                 url: url,
@@ -696,7 +696,7 @@ class _CfxWebPathState extends State<WebPage> {
                           /*2*/
                           Container(
                             child: Text(
-                              urls[index],
+                              urls[index]!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

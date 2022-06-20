@@ -1,8 +1,8 @@
 class AensInfoModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   AensInfoModel({this.code, this.msg, this.time, this.data});
 
@@ -19,7 +19,7 @@ class AensInfoModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
@@ -27,17 +27,17 @@ class AensInfoModel {
 
 
 class Data {
-  List<Claim> claim;
-  int currentHeight;
-  String currentPrice;
-  int endHeight;
-  int length;
-  String name;
-  int overHeight;
-  String owner;
-  String price;
-  int startHeight;
-  String thHash;
+  List<Claim>? claim;
+  int? currentHeight;
+  String? currentPrice;
+  int? endHeight;
+  int? length;
+  String? name;
+  int? overHeight;
+  String? owner;
+  String? price;
+  int? startHeight;
+  String? thHash;
 
   Data(
       {this.claim,
@@ -54,9 +54,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['claim'] != null) {
-      claim = new List<Claim>();
+      claim = <Claim>[];
       json['claim'].forEach((v) {
-        claim.add(new Claim.fromJson(v));
+        claim!.add(new Claim.fromJson(v));
       });
     }
     currentHeight = json['current_height'];
@@ -74,7 +74,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.claim != null) {
-      data['claim'] = this.claim.map((v) => v.toJson()).toList();
+      data['claim'] = this.claim!.map((v) => v.toJson()).toList();
     }
     data['current_height'] = this.currentHeight;
     data['current_price'] = this.currentPrice;
@@ -91,18 +91,18 @@ class Data {
 }
 
 class Claim {
-  String accountId;
-  int blockHeight;
-  int fee;
-  String hash;
-  String name;
-  String nameFee;
-  num nameSalt;
-  int nonce;
-  int time;
-  int ttl;
-  String type;
-  int version;
+  String? accountId;
+  int? blockHeight;
+  int? fee;
+  String? hash;
+  String? name;
+  String? nameFee;
+  num? nameSalt;
+  int? nonce;
+  int? time;
+  int? ttl;
+  String? type;
+  int? version;
 
   Claim(
       {this.accountId,

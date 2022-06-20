@@ -1,8 +1,8 @@
 class BaseDataModel {
-  int code;
-  String msg;
-  int time;
-  Data data;
+  int? code;
+  String? msg;
+  int? time;
+  Data? data;
 
   BaseDataModel({this.code, this.msg, this.time, this.data});
 
@@ -19,24 +19,24 @@ class BaseDataModel {
     data['msg'] = this.msg;
     data['time'] = this.time;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String priceUsdt;
-  String priceBtc;
-  String blockHeight;
-  String totalTransactions;
-  String maxTps;
-  String marketCap;
-  String totalCoins;
-  String aensTotal;
-  String oraclesTotal;
-  String contractsTotal;
-  String accountsTotal;
+  String? priceUsdt;
+  String? priceBtc;
+  String? blockHeight;
+  String? totalTransactions;
+  String? maxTps;
+  String? marketCap;
+  String? totalCoins;
+  String? aensTotal;
+  String? oraclesTotal;
+  String? contractsTotal;
+  String? accountsTotal;
 
   Data(
       {this.priceUsdt,

@@ -18,10 +18,10 @@ import '../../main.dart';
 typedef SetPasswordPageCallBackFuture = Future Function(String password);
 
 class SetPasswordPage extends StatefulWidget {
-  final String mnemonic;
-  final SetPasswordPageCallBackFuture setPasswordPageCallBackFuture;
+  final String? mnemonic;
+  final SetPasswordPageCallBackFuture? setPasswordPageCallBackFuture;
 
-  const SetPasswordPage({Key key, this.mnemonic, this.setPasswordPageCallBackFuture}) : super(key: key);
+  const SetPasswordPage({Key? key, this.mnemonic, this.setPasswordPageCallBackFuture}) : super(key: key);
 
   @override
   _SetPasswordPageState createState() => _SetPasswordPageState();
@@ -113,10 +113,10 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                           controller: _textEditingControllerNode,
                           focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                           inputFormatters: [
-                            // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                           ],
 
                           maxLines: 1,
@@ -185,10 +185,10 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                           controller: _textEditingControllerCompiler,
                           focusNode: focusNodeCompiler,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                           inputFormatters: [
-                            // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                            //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                           ],
 
                           maxLines: 1,
@@ -259,7 +259,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
 
                         if (widget.setPasswordPageCallBackFuture != null) {
                           if (widget.setPasswordPageCallBackFuture != null) {
-                            widget.setPasswordPageCallBackFuture(Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY));
+                            widget.setPasswordPageCallBackFuture!(Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY));
                           }
                           Navigator.pop(context);
                           return;

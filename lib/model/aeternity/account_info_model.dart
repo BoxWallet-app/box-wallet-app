@@ -1,8 +1,8 @@
 class AccountInfoModel {
-  int code;
-  Data data;
-  String msg;
-  int time;
+  int? code;
+  Data? data;
+  String? msg;
+  int? time;
 
   AccountInfoModel({this.code, this.data, this.msg, this.time});
 
@@ -17,7 +17,7 @@ class AccountInfoModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['msg'] = this.msg;
     data['time'] = this.time;
@@ -26,8 +26,8 @@ class AccountInfoModel {
 }
 
 class Data {
-  String address;
-  String balance;
+  String? address;
+  String? balance;
 
   Data({this.address, this.balance});
 

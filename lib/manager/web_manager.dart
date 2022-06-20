@@ -10,7 +10,7 @@ class WebManager {
 
   static final WebManager instance = WebManager._privateConstructor();
 
-  Future<List<String>> getUrls(String address) async {
+  Future<List<String?>> getUrls(String address) async {
     try {
       var prefs = await SharedPreferences.getInstance();
       var urls = prefs.getString('ct_web_dapp_' + address);
@@ -28,7 +28,7 @@ class WebManager {
         ctCfxTokensJson = "[]";
       }
       var data = jsonDecode(ctCfxTokensJson.toString());
-      List<String> stringList = (data as List<dynamic>).cast<String>();
+      List<String?> stringList = (data as List<dynamic>).cast<String?>();
       if (stringList == null) {
         return [];
       }
@@ -38,9 +38,9 @@ class WebManager {
     }
   }
 
-  Future<bool> updateUrls(String address, List<String> data) async {
+  Future<bool> updateUrls(String address, List<String?> data) async {
     var prefs = await SharedPreferences.getInstance();
-    if (data == null || data.isEmpty) {
+    if (data.isEmpty) {
       prefs.setString('ct_web_dapp_' + address, Utils.aesEncode(jsonEncode(data), Utils.generateMd5Int(LOCAL_KEY)));
       return true;
     }

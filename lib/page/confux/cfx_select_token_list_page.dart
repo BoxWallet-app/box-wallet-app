@@ -22,13 +22,13 @@ import 'package:lottie/lottie.dart';
 import '../../main.dart';
 import 'cfx_home_page.dart';
 
-typedef CfxSelectTokenListCallBackFuture = Future Function(String tokenName, String tokenCount, String tokenImage, String tokenContract);
+typedef CfxSelectTokenListCallBackFuture = Future? Function(String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract);
 
 class CfxSelectTokenListPage extends StatefulWidget {
-  final String aeCount;
-  final CfxSelectTokenListCallBackFuture aeSelectTokenListCallBackFuture;
+  final String? aeCount;
+  final CfxSelectTokenListCallBackFuture? aeSelectTokenListCallBackFuture;
 
-  const CfxSelectTokenListPage({Key key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
+  const CfxSelectTokenListPage({Key? key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
 
   @override
   _TokenListPathState createState() => _TokenListPathState();
@@ -36,12 +36,12 @@ class CfxSelectTokenListPage extends StatefulWidget {
 
 class _TokenListPathState extends State<CfxSelectTokenListPage> {
   var loadingType = LoadingType.loading;
-  List<Tokens> cfxCtTokens = [];
+  List<Tokens>? cfxCtTokens = [];
 
   Future<void> _onRefresh() async {
     var address = await BoxApp.getAddress();
     cfxCtTokens = await CtTokenManager.instance.getCfxCtTokens(address);
-    if (cfxCtTokens.length == 0) {
+    if (cfxCtTokens!.length == 0) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
@@ -58,12 +58,12 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
       return;
     }
     bool isReturn = true;
-    Tokens token;
+    late Tokens token;
 
-    for (int i = 0; i < cfxCtTokens.length; i++) {
-      if (cfxCtTokens[i].balance == null) {
+    for (int i = 0; i < cfxCtTokens!.length; i++) {
+      if (cfxCtTokens![i].balance == null) {
         isReturn = false;
-        token = cfxCtTokens[i];
+        token = cfxCtTokens![i];
         break;
       }
     }
@@ -79,7 +79,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
         setState(() {});
         getBalance(address);
         return;
-      }, address, token.ctId);
+      }, address, token.ctId!);
     }
     isLoadBalance = false;
   }
@@ -185,7 +185,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                       onRefresh: _onRefresh,
                       child: ListView.builder(
                         padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
-                        itemCount: cfxCtTokens.length + 1,
+                        itemCount: cfxCtTokens!.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return itemListView(context, index);
                         },
@@ -212,7 +212,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
-                widget.aeSelectTokenListCallBackFuture("CFX", widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png", "");
+                widget.aeSelectTokenListCallBackFuture!("CFX", widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/CFX.png", "");
               }
               Navigator.pop(context);
             },
@@ -263,7 +263,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    widget.aeCount,
+                                    widget.aeCount!,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
@@ -296,7 +296,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             if (widget.aeSelectTokenListCallBackFuture != null) {
-              widget.aeSelectTokenListCallBackFuture(getCoinName(index), cfxCtTokens[index].balance, cfxCtTokens[index].iconUrl, cfxCtTokens[index].ctId);
+              widget.aeSelectTokenListCallBackFuture!(getCoinName(index), cfxCtTokens![index].balance, cfxCtTokens![index].iconUrl, cfxCtTokens![index].ctId);
             }
             Navigator.pop(context);
           },
@@ -326,11 +326,11 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  cfxCtTokens[index].iconUrl,
+                                  cfxCtTokens![index].iconUrl!,
                                   errorBuilder: (
                                     BuildContext context,
                                     Object error,
-                                    StackTrace stackTrace,
+                                    StackTrace? stackTrace,
                                   ) {
                                     return Container(
                                       color: Colors.grey.shade200,
@@ -352,7 +352,7 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                getCoinName(index),
+                                getCoinName(index)!,
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),
@@ -366,13 +366,13 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                if (cfxCtTokens[index].balance != null)
+                                if (cfxCtTokens![index].balance != null)
                                   Text(
-                                    cfxCtTokens[index].balance,
+                                    cfxCtTokens![index].balance!,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
-                                if (cfxCtTokens[index].balance == null)
+                                if (cfxCtTokens![index].balance == null)
                                   Container(
                                     width: 50,
                                     height: 50,
@@ -382,11 +382,11 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
 //              'images/animation_khzuiqgg.json',
                                     ),
                                   ),
-                                if (cfxCtTokens[index].price != null)
+                                if (cfxCtTokens![index].price != null)
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(
-                                      cfxCtTokens[index].price,
+                                      cfxCtTokens![index].price!,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
@@ -410,14 +410,14 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     );
   }
 
-  String getCoinName(int index) {
-    String name;
-    if (cfxCtTokens[index].name.length < cfxCtTokens[index].symbol.length) {
-      name = cfxCtTokens[index].name;
+  String? getCoinName(int index) {
+    String? name;
+    if (cfxCtTokens![index].name!.length < cfxCtTokens![index].symbol!.length) {
+      name = cfxCtTokens![index].name;
     } else {
-      name = cfxCtTokens[index].symbol;
+      name = cfxCtTokens![index].symbol;
     }
-    if (name.length > 10) {
+    if (name!.length > 10) {
       name = name.substring(0, 5) + "..." + name.substring(name.length - 4, name.length);
     }
     return name;

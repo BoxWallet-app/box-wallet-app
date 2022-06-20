@@ -20,9 +20,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'ae_aens_page.dart';
 
 class AeWeTrueHomePage extends StatefulWidget {
-  final int type;
+  final int? type;
 
-  const AeWeTrueHomePage({Key key, this.type}) : super(key: key);
+  const AeWeTrueHomePage({Key? key, this.type}) : super(key: key);
 
   @override
   _AeWeTrueHomePageState createState() => _AeWeTrueHomePageState();
@@ -31,7 +31,7 @@ class AeWeTrueHomePage extends StatefulWidget {
 class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepAliveClientMixin {
   var mnemonic = "";
   var version = "";
-  SwapCoinOrderModel swapModels;
+  SwapCoinOrderModel? swapModels;
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -174,7 +174,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
     if (model != null || model.code == 200) {
       swapModels = model;
       loadingType = LoadingType.finish;
-      if (swapModels.data == null || swapModels.data.length == 0) {
+      if (swapModels!.data == null || swapModels!.data!.length == 0) {
         loadingType = LoadingType.no_data;
       }
     } else {
@@ -190,7 +190,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",

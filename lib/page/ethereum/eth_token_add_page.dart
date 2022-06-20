@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -25,12 +26,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../main.dart';
 
-typedef EthTokenAddPageCallBackFuture = Future Function(bool);
+typedef EthTokenAddPageCallBackFuture = Future? Function(bool);
 
 class EthTokenAddPage extends StatefulWidget {
-  final EthTokenAddPageCallBackFuture cfxTokenAddPageCallBackFuture;
+  final EthTokenAddPageCallBackFuture? cfxTokenAddPageCallBackFuture;
 
-  const EthTokenAddPage({Key key, this.cfxTokenAddPageCallBackFuture}) : super(key: key);
+  const EthTokenAddPage({Key? key, this.cfxTokenAddPageCallBackFuture}) : super(key: key);
 
   @override
   _TokenAddPathState createState() => _TokenAddPathState();
@@ -41,8 +42,8 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
   List<EthTokenItemModel> tokenData = [];
-  EthTokenSearchModel tokenListModel;
-  String lastText;
+  EthTokenSearchModel? tokenListModel;
+  String? lastText;
 
   bool isUpdate = false;
 
@@ -51,7 +52,7 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
     // TODO: implement dispose
     super.dispose();
     if (widget.cfxTokenAddPageCallBackFuture != null) {
-      widget.cfxTokenAddPageCallBackFuture(isUpdate);
+      widget.cfxTokenAddPageCallBackFuture!(isUpdate);
     }
   }
 
@@ -85,23 +86,23 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
     tokenData.clear();
     tokenListModel = null;
 
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     var chainID = EthManager.instance.getChainID(account);
 
     EthTokenSearchModel model;
-    if (_textEditingControllerNode.text == null || _textEditingControllerNode.text == "") {
+    if (_textEditingControllerNode.text == "") {
       model = await EthTokenTopDao.fetch(chainID);
     } else {
       model = await EthTokenSearchDao.fetch(chainID, _textEditingControllerNode.text);
     }
 
     var address = await BoxApp.getAddress();
-    var cfxTokens = await CtTokenManager.instance.getEthCtTokens(chainID, address);
+    var cfxTokens = await (CtTokenManager.instance.getEthCtTokens(chainID, address) as FutureOr<List<Tokens>>);
 
     List<EthTokenItemModel> tempToken = [];
 
     if (cfxTokens.isNotEmpty && model.data != null) {
-      model.data.forEach((element) {
+      model.data!.forEach((element) {
         cfxTokens.forEach((element2) {
           if (element.address == element2.ctId) {
             element.isSelect = true;
@@ -118,18 +119,18 @@ class _TokenAddPathState extends State<EthTokenAddPage> {
       return;
     }
     print("success2");
-    model.data.removeWhere((item) {
+    model.data!.removeWhere((item) {
       return item.isSelect;
     });
 
-    model.data.insertAll(0, tempToken);
+    model.data!.insertAll(0, tempToken);
 
     tokenListModel = model;
-    tokenData = model.data.sublist(0);
+    tokenData = model.data!.sublist(0);
 
     // tokenData.sort((left, right) => right.top.compareTo(left.top));
     print("success3");
-    if (tokenListModel.data.length == 0) {
+    if (tokenListModel!.data!.length == 0) {
       loadingType = LoadingType.no_data;
       setState(() {});
       return;
@@ -193,7 +194,7 @@ print(e);
                       controller: _textEditingControllerNode,
                       focusNode: focusNodeNode,
                       inputFormatters: [
-                        // WhitelistingTextInputFormatter(RegExp("[0-9]")), //只允许输入字母
+                        //   FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
                       ],
                       maxLines: 1,
                       style: TextStyle(
@@ -279,15 +280,15 @@ print(e);
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () async {
             tokenData[index].isSelect = !tokenData[index].isSelect;
-            tokenListModel.data.forEach((element) {
+            tokenListModel!.data!.forEach((element) {
               if (tokenData[index].address == element.address) {
                 element.isSelect = tokenData[index].isSelect;
               }
             });
-            Account account = await WalletCoinsManager.instance.getCurrentAccount();
+            Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
             var chainID = EthManager.instance.getChainID(account);
             var address = await BoxApp.getAddress();
-            var tokens = await CtTokenManager.instance.getEthCtTokens(chainID, address);
+            var tokens = await (CtTokenManager.instance.getEthCtTokens(chainID, address) as FutureOr<List<Tokens>>);
             var tokensTemp = tokens.sublist(0);
             if (tokenData[index].isSelect) {
               tokensTemp.forEach((element) {
@@ -350,7 +351,7 @@ print(e);
                                   padding: const EdgeInsets.only(left: 15, right: 15),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    EthManager.instance.getCoinName(tokenData[index].name, tokenData[index].symbol),
+                                    EthManager.instance.getCoinName(tokenData[index].name!, tokenData[index].symbol!),
                                     style: new TextStyle(
                                       fontSize: 20,
                                       color: Color(0xff333333),
@@ -400,8 +401,8 @@ print(e);
   }
 
   String getAddress(int index) {
-    if (tokenData[index].address.length > 10) {
-      return tokenData[index].address.substring(0, 10) + "...." + tokenData[index].address.substring(tokenData[index].address.length - 10, tokenData[index].address.length);
+    if (tokenData[index].address!.length > 10) {
+      return tokenData[index].address!.substring(0, 10) + "...." + tokenData[index].address!.substring(tokenData[index].address!.length - 10, tokenData[index].address!.length);
     }
     return "";
   }
@@ -423,7 +424,7 @@ print(e);
       errorBuilder: (
         BuildContext context,
         Object error,
-        StackTrace stackTrace,
+        StackTrace? stackTrace,
       ) {
         return Container(
           color: Colors.grey.shade200,
@@ -433,16 +434,16 @@ print(e);
   }
 
   String getRealIconUrl(int index) {
-    String iconUrl;
+    String? iconUrl;
     iconUrl = tokenData[index].iconUrl == null ? "" : tokenData[index].iconUrl;
-    if (iconUrl.contains(".svg")) {
+    if (iconUrl!.contains(".svg")) {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/DEF.png";
     }
     if (tokenData[index].address == "cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2") {
       iconUrl = "https://ae-source.oss-cn-hongkong.aliyuncs.com/FC.png";
     }
-    if (iconUrl == null || iconUrl == "") {
-      iconUrl = "https://scan-icons.oss-cn-hongkong.aliyuncs.com/mainnet/" + tokenData[index].address;
+    if (iconUrl == "") {
+      iconUrl = "https://scan-icons.oss-cn-hongkong.aliyuncs.com/mainnet/" + tokenData[index].address!;
     }
     return iconUrl;
   }

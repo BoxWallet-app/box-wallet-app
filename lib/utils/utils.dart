@@ -27,15 +27,15 @@ class Utils {
     return hex.encode(digest.bytes);
   }
 
-  static String cfxFormatAsFixed(String balance, int fixed) {
+  static String cfxFormatAsFixed(String? balance, int fixed) {
     if (fixed > 0) {
-      return (double.parse(balance) / 1000000000000000000).toStringAsFixed(fixed);
+      return (double.parse(balance!) / 1000000000000000000).toStringAsFixed(fixed);
     } else {
-      return (double.parse(balance) / 1000000000000000000).toString();
+      return (double.parse(balance!) / 1000000000000000000).toString();
     }
   }
 
-  static String cfxFormatTypeAddress(String address) {
+  static String cfxFormatTypeAddress(String? address) {
     if (address == null) {
       return "";
     }
@@ -63,24 +63,24 @@ class Utils {
     return balance.toStringAsFixed(6);
   }
 
-  static formatAddress(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatAddress(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
     return "ak_..." + address.substring(address.length - 4, address.length);
   }
 
-  static formatAddressCFX(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatAddressCFX(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
     return address.substring(0, 3) + "..." + address.substring(address.length - 4, address.length);
   }
 
-  static formatAccountAddress(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatAccountAddress(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
@@ -95,8 +95,8 @@ class Utils {
     return hash.substring(0, 10) + "..." + hash.substring(hash.length - 10, hash.length);
   }
 
-  static formatHomeCardAccountAddress(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatHomeCardAccountAddress(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
@@ -115,8 +115,8 @@ class Utils {
         address.substring(address.length - 3, address.length);
   }
 
-  static formatHomeCardAccountAddressCFX(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatHomeCardAccountAddressCFX(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
@@ -136,8 +136,8 @@ class Utils {
         address.substring(address.length - 3, address.length);
   }
 
-  static formatHomeCardAddressCFX(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatHomeCardAddressCFX(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
@@ -155,8 +155,8 @@ class Utils {
         address.substring(address.length - 3, address.length);
   }
 
-  static formatHomeCardAddress(String address) {
-    if (address == "" || address.length <= 4) {
+  static formatHomeCardAddress(String? address) {
+    if (address == "" || address!.length <= 4) {
       return "";
     }
 //    print(address);
@@ -182,7 +182,7 @@ class Utils {
   }
 
   static formatPayload(String payload) {
-    if (payload != "" && payload != null && payload != "null") {
+    if (payload != "" && payload != "null") {
       try {
         if (payload.contains("ba_")) {
           var substring = payload.substring(3);
@@ -194,7 +194,7 @@ class Utils {
           return base64decode;
         }
       } catch (e) {
-        print("e:" + e);
+        print("e:" + e.toString());
         return payload;
       }
     }
@@ -283,17 +283,17 @@ class Utils {
     //秒
     var time = height * 3;
     if (time > 60 * 24) {
-      return (time / (60 * 24)).toInt().toString() + S.of(context).common_day;
+      return (time / (60 * 24)).toString() + S.of(context).common_day;
     }
     if (time > 60) {
-      return (time / (60)).toInt().toString() + S.of(context).common_hours;
+      return (time / (60)).toString() + S.of(context).common_hours;
     }
     return (time).toInt().toString() + S.of(context).common_points;
   }
 
-  static String formatABCLockV3Hint(String msg) {
+  static String? formatABCLockV3Hint(String? msg) {
     if (BoxApp.language == "cn") {
-      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
+      if (msg!.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
         return "当前账户已被加入黑名单";
       }
       if (msg.contains("IS_MAPPING_ACCOUNTS_TRUE")) {
@@ -319,7 +319,7 @@ class Utils {
       }
       return msg;
     } else {
-      if (msg.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
+      if (msg!.contains("IS_MAPPING_ACCOUNTS_BLACK_LIST_TRUE")) {
         return "The current account has been blacklisted";
       }
       if (msg.contains("IS_MAPPING_ACCOUNTS_TRUE")) {

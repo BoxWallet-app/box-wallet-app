@@ -9,8 +9,8 @@ import 'package:dio/dio.dart';
 import '../../main.dart';
 
 class SwapCoinAccountDao {
-  static Future<SwapCoinAccountModel> fetch(String ctId) async {
-    Map<String, String> params = new Map();
+  static Future<SwapCoinAccountModel> fetch(String? ctId) async {
+    Map<String, String?> params = new Map();
     params["ct_id"] = ctId;
     Response response = await Dio().post(Host.SWAP_COIN_ACCOUNT,queryParameters: params);
     if (response.statusCode == 200) {

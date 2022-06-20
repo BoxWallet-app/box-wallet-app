@@ -6,10 +6,10 @@ class PermissionHelper {
 
   ///检查权限
   static void check(List<Permission> permissionList,
-      {String errMsg,
-        VoidCallback onSuccess,
-        VoidCallback onFailed,
-        VoidCallback onOpenSetting}) async {
+      {String? errMsg,
+        VoidCallback? onSuccess,
+        VoidCallback? onFailed,
+        VoidCallback? onOpenSetting}) async {
     bool flag = true;
     for (var value in permissionList) {
       var status = await value.status;

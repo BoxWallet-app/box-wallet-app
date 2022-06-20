@@ -1,8 +1,8 @@
 class NameOwnerModel {
-  String id;
-  String owner;
-  List<Pointers> pointers;
-  int ttl;
+  String? id;
+  String? owner;
+  List<Pointers>? pointers;
+  int? ttl;
 
   NameOwnerModel({this.id, this.owner, this.pointers, this.ttl});
 
@@ -10,9 +10,9 @@ class NameOwnerModel {
     id = json['id'];
     owner = json['owner'];
     if (json['pointers'] != null) {
-      pointers = new List<Pointers>();
+      pointers = <Pointers>[];
       json['pointers'].forEach((v) {
-        pointers.add(new Pointers.fromJson(v));
+        pointers!.add(new Pointers.fromJson(v));
       });
     }
     ttl = json['ttl'];
@@ -23,7 +23,7 @@ class NameOwnerModel {
     data['id'] = this.id;
     data['owner'] = this.owner;
     if (this.pointers != null) {
-      data['pointers'] = this.pointers.map((v) => v.toJson()).toList();
+      data['pointers'] = this.pointers!.map((v) => v.toJson()).toList();
     }
     data['ttl'] = this.ttl;
     return data;
@@ -31,8 +31,8 @@ class NameOwnerModel {
 }
 
 class Pointers {
-  String id;
-  String key;
+  String? id;
+  String? key;
 
   Pointers({this.id, this.key});
 

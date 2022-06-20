@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
@@ -31,13 +33,13 @@ class AeTokenListPage extends StatefulWidget {
 
 class _TokenListPathState extends State<AeTokenListPage> {
   var loadingType = LoadingType.loading;
-  TokenListModel tokenListModel;
-  PriceModel priceModel;
+  TokenListModel? tokenListModel;
+  PriceModel? priceModel;
 
   Future<void> _onRefresh() async {
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
 
-    var aeTokenList = await CacheManager.instance.getAETokenList(account.address, account.coin);
+    var aeTokenList = await CacheManager.instance.getAETokenList(account.address!, account.coin!);
 
     if(aeTokenList!=null){
       tokenListModel = aeTokenList;
@@ -54,7 +56,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
       tokenListModel = model;
       loadingType = LoadingType.finish;
 
-      CacheManager.instance.setAETokenList(account.address, account.coin, tokenListModel);
+      CacheManager.instance.setAETokenList(account.address!, account.coin!, tokenListModel);
       setState(() {});
     } else {
       tokenListModel = null;
@@ -66,23 +68,23 @@ class _TokenListPathState extends State<AeTokenListPage> {
   }
 
   getCacheBalance() async {
-    for (int i = 0; i < tokenListModel.data.length; i++) {
-      Account account = await WalletCoinsManager.instance.getCurrentAccount();
-      var cacheBalance = await CacheManager.instance.getTokenBalance(account.address, tokenListModel.data[i].ctAddress, account.coin);
+    for (int i = 0; i < tokenListModel!.data!.length; i++) {
+      Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+      var cacheBalance = await CacheManager.instance.getTokenBalance(account.address!, tokenListModel!.data![i].ctAddress!, account.coin!);
       if (cacheBalance != "") {
-        tokenListModel.data[i].countStr = cacheBalance;
+        tokenListModel!.data![i].countStr = cacheBalance;
         setState(() {});
       }
     }
   }
 
   Future<void> getBalance() async {
-    var maxLength = tokenListModel.data.length;
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
-    for (int i = 0; i < tokenListModel.data.length; i++) {
+    var maxLength = tokenListModel!.data!.length;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    for (int i = 0; i < tokenListModel!.data!.length; i++) {
       BoxApp.getErcBalanceAE((balance, decimal, address,from, coin) async {
         if (!mounted) return;
-        if(from != account.address )return;
+        if(from != account!.address )return;
 
         if(balance == "undefined"){
           balance = "0";
@@ -90,15 +92,15 @@ class _TokenListPathState extends State<AeTokenListPage> {
 
         String amountBalance = AmountDecimal.parseUnits(balance, decimal);
 
-        for (int j = 0; j < tokenListModel.data.length; j++) {
-          if (tokenListModel.data[j].ctAddress == address) {
-            tokenListModel.data[j].countStr = Utils.formatBalanceLength(double.parse(amountBalance));
-            CacheManager.instance.setTokenBalance(account.address, tokenListModel.data[j].ctAddress, account.coin, tokenListModel.data[j].countStr);
+        for (int j = 0; j < tokenListModel!.data!.length; j++) {
+          if (tokenListModel!.data![j].ctAddress == address) {
+            tokenListModel!.data![j].countStr = Utils.formatBalanceLength(double.parse(amountBalance));
+            CacheManager.instance.setTokenBalance(account.address!, tokenListModel!.data![j].ctAddress, account.coin!, tokenListModel!.data![j].countStr!);
           }
         }
         if (!mounted)return;
         setState(() {});
-      }, account.address, tokenListModel.data[i].ctAddress);
+      }, account!.address!, tokenListModel!.data![i].ctAddress!);
     }
   }
 
@@ -128,27 +130,27 @@ class _TokenListPathState extends State<AeTokenListPage> {
   }
 
   String getAePrice(int index) {
-    if (tokenListModel.data[index].countStr == null || tokenListModel.data[index].countStr == "" || tokenListModel.data[index].rate == null || tokenListModel.data[index].rate == "") {
+    if (tokenListModel!.data![index].countStr == null || tokenListModel!.data![index].countStr == "" || tokenListModel!.data![index].rate == null || tokenListModel!.data![index].rate == "") {
       return "";
     }
     if (priceModel == null) {
       return "";
     }
-    if (BoxApp.language == "cn" && priceModel.aeternity != null) {
-      if (priceModel.aeternity.cny == null) {
+    if (BoxApp.language == "cn" && priceModel!.aeternity != null) {
+      if (priceModel!.aeternity!.cny == null) {
         return "";
       }
-      if (double.parse(tokenListModel.data[index].countStr) < 1000) {
-        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+      if (double.parse(tokenListModel!.data![index].countStr!) < 1000) {
+        return "≈ " + (priceModel!.aeternity!.cny! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (CNY)";
       } else {
 //        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "≈ " + (priceModel.aeternity.cny * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (CNY)";
+        return "≈ " + (priceModel!.aeternity!.cny! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (CNY)";
       }
     } else {
-      if (priceModel.aeternity.usd == null) {
+      if (priceModel!.aeternity!.usd == null) {
         return "";
       }
-      return "≈ " + (priceModel.aeternity.usd * double.parse(tokenListModel.data[index].countStr) * double.parse(tokenListModel.data[index].rate)).toStringAsFixed(2) + " (USD)";
+      return "≈ " + (priceModel!.aeternity!.usd! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (USD)";
     }
   }
 
@@ -192,7 +194,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
               showGeneralDialog(
                   useRootNavigator: false,
                   context: context,
-                  pageBuilder: (context, anim1, anim2) {},
+                  pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                   //barrierColor: Colors.grey.withOpacity(.4),
                   barrierDismissible: true,
                   barrierLabel: "",
@@ -311,7 +313,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
           header: BoxHeader(),
           onRefresh: _onRefresh,
           child: ListView.builder(
-            itemCount: tokenListModel == null ? 0 : tokenListModel.data.length,
+            itemCount: tokenListModel == null ? 0 : tokenListModel!.data!.length,
             itemBuilder: (BuildContext context, int index) {
               return itemListView(context, index);
             },
@@ -346,10 +348,10 @@ class _TokenListPathState extends State<AeTokenListPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => AeTokenRecordPage(
-                          ctId: tokenListModel.data[index].ctAddress,
-                          coinCount: tokenListModel.data[index].count,
-                          coinImage: tokenListModel.data[index].image,
-                          coinName: tokenListModel.data[index].name,
+                          ctId: tokenListModel!.data![index].ctAddress,
+                          coinCount: tokenListModel!.data![index].count,
+                          coinImage: tokenListModel!.data![index].image,
+                          coinName: tokenListModel!.data![index].name,
                         )));
           },
           child: Container(
@@ -378,11 +380,11 @@ class _TokenListPathState extends State<AeTokenListPage> {
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  tokenListModel.data[index].image,
+                                  tokenListModel!.data![index].image!,
                                   errorBuilder: (
                                       BuildContext context,
                                       Object error,
-                                      StackTrace stackTrace,
+                                      StackTrace? stackTrace,
                                       ) {
                                     return Container(
                                       color: Colors.grey.shade200,
@@ -404,7 +406,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                             Container(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                tokenListModel.data[index].name,
+                                tokenListModel!.data![index].name!,
                                 style: new TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff333333),
@@ -414,7 +416,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                               ),
                             ),
                             Expanded(child: Container()),
-                            tokenListModel.data[index].countStr == null
+                            tokenListModel!.data![index].countStr == null
                                 ? Container(
                                     width: 50,
                                     height: 50,
@@ -429,7 +431,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       AutoSizeText(
-                                        tokenListModel.data[index].countStr,
+                                        tokenListModel!.data![index].countStr!,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),

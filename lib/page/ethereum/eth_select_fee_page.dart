@@ -29,33 +29,33 @@ import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 
-typedef EthSelectFeeCallBackFuture = Future Function(String spendFee, String amountFee, String feePrice, String minute,int type);
+typedef EthSelectFeeCallBackFuture = Future? Function(String? spendFee, String amountFee, String feePrice, String minute,int type);
 
 class EthSelectFeePage extends StatefulWidget {
-  final int gasLimit;
-  final EthSelectFeeCallBackFuture ethSelectFeeCallBackFuture;
+  final int? gasLimit;
+  final EthSelectFeeCallBackFuture? ethSelectFeeCallBackFuture;
 
-  const EthSelectFeePage({Key key, this.ethSelectFeeCallBackFuture, this.gasLimit}) : super(key: key);
+  const EthSelectFeePage({Key? key, this.ethSelectFeeCallBackFuture, this.gasLimit}) : super(key: key);
 
   @override
   _TokenListPathState createState() => _TokenListPathState();
 }
 
 class _TokenListPathState extends State<EthSelectFeePage> {
-  Account account;
-  EthFeeModel ethFeeModel;
-  EthActivityCoinModel ethActivityCoinModel;
-  EthTokenPriceRateModel ethTokenPriceRateModel;
+  Account? account;
+  EthFeeModel? ethFeeModel;
+  EthActivityCoinModel? ethActivityCoinModel;
+  EthTokenPriceRateModel? ethTokenPriceRateModel;
 
   Future<void> _onRefresh() async {
     setState(() {});
      account = await WalletCoinsManager.instance.getCurrentAccount();
-    ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account));
+    ethFeeModel = await EthFeeDao.fetch(EthManager.instance.getChainID(account!));
     // if (this.tokenContract == "") {
-    var amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel.data.feeList[0].fee) * widget.gasLimit / 1000000000000000000);
+    var amountFee = Utils.formatBalanceLength(double.parse(ethFeeModel!.data!.feeList![0].fee!) * widget.gasLimit! / 1000000000000000000);
     setState(() {});
-    ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-    if (ethActivityCoinModel != null && ethActivityCoinModel.data != null && ethActivityCoinModel.data.length > 0) {
+    ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account!));
+    if (ethActivityCoinModel != null && ethActivityCoinModel!.data != null && ethActivityCoinModel!.data!.length > 0) {
       ethTokenPriceRateModel = await EthTokenRateDao.fetch();
       if(!mounted)return;
       setState(() {});
@@ -173,9 +173,9 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     onTap: () {
                       // Future Function(String spendFee, String amountFee, String feePrice, String minute,int type);
-                      widget.ethSelectFeeCallBackFuture(
-                          ethFeeModel.data.feeList[index].fee,
-                        (double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000).toString()+" "+account.coin,getFeePrice(index),getFeeMinute(index),index);
+                      widget.ethSelectFeeCallBackFuture!(
+                          ethFeeModel!.data!.feeList![index].fee,
+                        (double.parse(ethFeeModel!.data!.feeList![index].fee!) * widget.gasLimit! / 1000000000000000000).toString()+" "+account!.coin!,getFeePrice(index),getFeeMinute(index),index);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -229,7 +229,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                                         children: [
                                           if (ethFeeModel != null)
                                             Text(
-                      "≈"+ (double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000).toStringAsFixed(8)+" "+account.coin,
+                      "≈"+ (double.parse(ethFeeModel!.data!.feeList![index].fee!) * widget.gasLimit! / 1000000000000000000).toStringAsFixed(8)+" "+account!.coin!,
                                               style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
                                           if (ethFeeModel == null)
@@ -271,10 +271,10 @@ class _TokenListPathState extends State<EthSelectFeePage> {
   }
 
   String getFeeMinute(int index){
-    if(double.parse(ethFeeModel.data.feeList[index].minute)<1){
-      return "≈"+(double.parse(ethFeeModel.data.feeList[index].minute)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
+    if(double.parse(ethFeeModel!.data!.feeList![index].minute!)<1){
+      return "≈"+(double.parse(ethFeeModel!.data!.feeList![index].minute!)*60).toStringAsFixed(0)+S.current.fee_speed_time1;
     }
-    return "≈"+ethFeeModel.data.feeList[index].minute+S.current.fee_speed_time2;
+    return "≈"+ethFeeModel!.data!.feeList![index].minute!+S.current.fee_speed_time2;
   }
 
   String getType(int index){
@@ -292,15 +292,15 @@ class _TokenListPathState extends State<EthSelectFeePage> {
 
 
   getFeePrice(int index) {
-    var amountFee = (double.parse(ethFeeModel.data.feeList[index].fee) * widget.gasLimit / 1000000000000000000).toString();
-    print(double.parse(ethFeeModel.data.feeList[index].fee));
+    var amountFee = (double.parse(ethFeeModel!.data!.feeList![index].fee!) * widget.gasLimit! / 1000000000000000000).toString();
+    print(double.parse(ethFeeModel!.data!.feeList![index].fee!));
     print("widget.gasLimit:"+widget.gasLimit.toString());
     if (BoxApp.language == "cn") {
-      return "¥" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()) * double.parse(amountFee) * double.parse(ethTokenPriceRateModel.data[0].data[0].rate));
+      return "¥" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel!.data![0].priceUsd.toString()) * double.parse(amountFee) * double.parse(ethTokenPriceRateModel!.data![0].data![0].rate!));
     } else {
-      print(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()));
+      print(double.parse(ethActivityCoinModel!.data![0].priceUsd.toString()));
       print(amountFee);
-      return "\$" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel.data[0].priceUsd.toString()) * double.parse(amountFee));
+      return "\$" + Utils.formatBalanceLength(double.parse(ethActivityCoinModel!.data![0].priceUsd.toString()) * double.parse(amountFee));
     }
   }
 }

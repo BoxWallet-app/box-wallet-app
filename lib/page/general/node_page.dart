@@ -17,7 +17,7 @@ class NodePage extends StatefulWidget {
 class _NodePageState extends State<NodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
-  String dropdownValue = 'custom';
+  String? dropdownValue = 'custom';
   TextEditingController _textEditingControllerCompiler = TextEditingController();
   final FocusNode focusNodeCompiler = FocusNode();
 
@@ -28,7 +28,7 @@ class _NodePageState extends State<NodePage> {
 
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl == "" || nodeUrl == null) {
+        if (nodeUrl == "") {
           _textEditingControllerNode.text = "https://node.aechina.io";
           dropdownValue = "wetrue";
         } else {
@@ -44,7 +44,7 @@ class _NodePageState extends State<NodePage> {
             dropdownValue = "wetrue";
           }
         }
-        if (compilerUrl == "" || nodeUrl == null) {
+        if (compilerUrl == "") {
           _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
         } else {
           _textEditingControllerCompiler.text = compilerUrl;
@@ -132,7 +132,7 @@ class _NodePageState extends State<NodePage> {
                     child: DropdownButton<String>(
                       underline: Container(),
                       value: dropdownValue,
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
                           dropdownValue = newValue;
                         });
@@ -177,7 +177,7 @@ class _NodePageState extends State<NodePage> {
                         controller: _textEditingControllerNode,
                         focusNode: focusNodeNode,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
                         maxLines: 1,
                         style: TextStyle(
@@ -243,7 +243,7 @@ class _NodePageState extends State<NodePage> {
                   controller: _textEditingControllerCompiler,
                   focusNode: focusNodeCompiler,
 //              inputFormatters: [
-//                WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
 
                   maxLines: 1,

@@ -13,15 +13,13 @@ class AeAeppBasePage extends StatefulWidget {
 }
 
 class _AeAeppBasePageState extends State<AeAeppBasePage> {
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   bool isFinish = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
-        //设置为白色字体
         backgroundColor: Color(0xFFf7296e),
         elevation: 0,
         // 隐藏阴影
@@ -64,7 +62,7 @@ class _AeAeppBasePageState extends State<AeAeppBasePage> {
 //              Navigator.pop(context);
             },
           ),
-        ],
+        ], systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       backgroundColor: Color(0xFF001227),
       body: Stack(

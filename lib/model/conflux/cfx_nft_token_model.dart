@@ -1,6 +1,6 @@
 class CfxNftTokenModel {
-  int code;
-  List<dynamic> data;
+  int? code;
+  List<dynamic>? data;
 
   CfxNftTokenModel({this.code, this.data});
 

@@ -22,7 +22,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     super.initState();
     if (Platform.isIOS) {
       UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603de7826ee47d382b6d2a8b', 'App Store');
@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
     await BoxApp.startAeService(context,() async {
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
-      String isLanguage = "false";
+      String? isLanguage = "false";
       try{
          isLanguage = sharedPreferences.getString('is_language');
       }catch(e){
@@ -111,10 +111,10 @@ class _SplashPageState extends State<SplashPage> {
     String nodeUrl = await BoxApp.getNodeUrl();
     String compilerUrl = await BoxApp.getCompilerUrl();
     String nodeCfxUrl = await BoxApp.getCfxNodeUrl();
-    if (nodeUrl != null && nodeUrl != "" && compilerUrl != null && compilerUrl != "") {
+    if (nodeUrl != "" && compilerUrl != "") {
       BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
     }
-    if (nodeCfxUrl != null && nodeCfxUrl != "") {
+    if (nodeCfxUrl != "") {
       BoxApp.setCfxNodeCompilerUrl(nodeCfxUrl);
     }
 
@@ -124,7 +124,8 @@ class _SplashPageState extends State<SplashPage> {
     var sp = await SharedPreferences.getInstance();
     sp.setString('is_language', "true");
     if (address.length > 10 && account!=null) {
-      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => route == null);
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AeTabPage()), (route) => true);
+      // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => true);
       // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));
     } else {
       Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new LoginPageNew()), (route) => route == null);

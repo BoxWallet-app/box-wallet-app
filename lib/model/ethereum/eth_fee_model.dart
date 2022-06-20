@@ -1,7 +1,7 @@
 class EthFeeModel {
-  Data data;
-  String message;
-  int result;
+  Data? data;
+  String? message;
+  int? result;
 
   EthFeeModel({this.data, this.message, this.result});
 
@@ -14,7 +14,7 @@ class EthFeeModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['message'] = this.message;
     data['result'] = this.result;
@@ -23,14 +23,14 @@ class EthFeeModel {
 }
 
 class Data {
-  List<FeeList> feeList;
-  String max;
-  String maxFee;
-  String maxTip;
-  String min;
-  String minFee;
-  String minTip;
-  String maxMinutes;
+  List<FeeList>? feeList;
+  String? max;
+  String? maxFee;
+  String? maxTip;
+  String? min;
+  String? minFee;
+  String? minTip;
+  String? maxMinutes;
 
   Data(
       {this.feeList,
@@ -44,9 +44,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['fee_list'] != null) {
-      feeList = new List<FeeList>();
+      feeList = <FeeList>[];
       json['fee_list'].forEach((v) {
-        feeList.add(new FeeList.fromJson(v));
+        feeList!.add(new FeeList.fromJson(v));
       });
     }
     max = json['max'];
@@ -61,7 +61,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.feeList != null) {
-      data['fee_list'] = this.feeList.map((v) => v.toJson()).toList();
+      data['fee_list'] = this.feeList!.map((v) => v.toJson()).toList();
     }
     data['max'] = this.max;
     data['maxFee'] = this.maxFee;
@@ -75,10 +75,10 @@ class Data {
 }
 
 class FeeList {
-  String fee;
-  String maxFeePerGas;
-  String minute;
-  String maxPriorityFeePerGas;
+  String? fee;
+  String? maxFeePerGas;
+  String? minute;
+  String? maxPriorityFeePerGas;
 
   FeeList(
       {

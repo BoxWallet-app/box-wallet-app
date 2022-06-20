@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -32,10 +33,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   var mnemonic = "";
   var version = "";
 
-  SwapCoinAccountModel swapModels;
-  SwapCoinModel swapCoinModel;
-  SwapCoinModelData dropdownValue;
-  List<DropdownMenuItem<SwapCoinModelData>> coins = List();
+  SwapCoinAccountModel? swapModels;
+  SwapCoinModel? swapCoinModel;
+  SwapCoinModelData? dropdownValue;
+  List<DropdownMenuItem<SwapCoinModelData>> coins = [];
   EasyRefreshController controller = EasyRefreshController();
   var loadingType = LoadingType.loading;
 
@@ -91,7 +92,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                     child: DropdownButton<SwapCoinModelData>(
                       underline: Container(),
                       value: dropdownValue,
-                      onChanged: (SwapCoinModelData newValue) {
+                      onChanged: (SwapCoinModelData? newValue) {
                         setState(() {
                           dropdownValue = newValue;
                         });
@@ -127,7 +128,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                     header: BoxHeader(),
                     onRefresh: _onRefresh,
                     child: ListView.builder(
-                      itemCount: swapModels == null ? 1 : swapModels.data.length + 1,
+                      itemCount: swapModels == null ? 1 : swapModels!.data!.length + 1,
                       itemBuilder: (BuildContext context, int index) {
                         return getItem(context, index);
                       },
@@ -146,24 +147,24 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
     SwapCoinDao.fetch().then((SwapCoinModel model) {
       if (dropdownValue == null) {
         swapCoinModel = model;
-        dropdownValue = model.data[0];
-        model.data.forEach((element) {
+        dropdownValue = model.data![0];
+        model.data!.forEach((element) {
           final DropdownMenuItem<SwapCoinModelData> item = DropdownMenuItem(
-            child: Text(element.name),
+            child: Text(element.name!),
             value: element,
           );
           coins.add(item);
         });
       }
 
-      SwapCoinAccountDao.fetch(dropdownValue.ctAddress).then((SwapCoinAccountModel model) {
+      SwapCoinAccountDao.fetch(dropdownValue!.ctAddress).then((SwapCoinAccountModel model) {
         if (model.code == 200) {
           if (swapModels != null) {
             swapModels = null;
           }
           if (model != null || model.code == 200) {
             swapModels = model;
-            if (model.data.isEmpty) {
+            if (model.data!.isEmpty) {
               controller.finishRefresh();
               swapModels = null;
               loadingType = LoadingType.finish;
@@ -195,7 +196,6 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       controller.finishRefresh();
       setState(() {});
     });
-    ;
   }
 
   Widget getItem(BuildContext context, int index) {
@@ -342,7 +342,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
         child: Container(
           color: Color(0xFFfafbfc),
           child: Container(
-            margin: index == swapModels.data.length ? EdgeInsets.only(left: 16, right: 16, bottom: 180 + MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
+            margin: index == swapModels!.data!.length ? EdgeInsets.only(left: 16, right: 16, bottom: 180 + MediaQueryData.fromWindow(window).padding.bottom, top: 0) : EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 0),
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
             child: Column(
               children: [
@@ -376,7 +376,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           // sets background color, default Colors.white
 //                            borderWidth: 10,  // sets border, default 0.0
                           initialsText: Text(
-                            swapModels.data[index - 1].account.substring(swapModels.data[index - 1].account.length - 2, swapModels.data[index - 1].account.length).toUpperCase(),
+                            swapModels!.data![index - 1].account!.substring(swapModels!.data![index - 1].account!.length - 2, swapModels!.data![index - 1].account!.length).toUpperCase(),
                             style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
                           // sets initials text, set your own style, default Text('')
@@ -396,7 +396,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels.data[index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels!.data![index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -421,7 +421,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 0, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].rate,
+                              swapModels!.data![index - 1].rate!,
                               style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: -1,
@@ -451,7 +451,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 18, left: 0),
                             child: Text(
-                              S.of(context).swap_item_2 + " (" + swapModels.data[index - 1].coinName + ")",
+                              S.of(context).swap_item_2 + " (" + swapModels!.data![index - 1].coinName! + ")",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -463,7 +463,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].tokenCount + " " + S.of(context).swap_item_6,
+                              swapModels!.data![index - 1].tokenCount! + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -499,7 +499,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(top: 5, left: 0),
                             child: Text(
-                              swapModels.data[index - 1].aeCount + " " + S.of(context).swap_item_6,
+                              swapModels!.data![index - 1].aeCount! + " " + S.of(context).swap_item_6,
                               style: TextStyle(
                                   fontSize: 19,
                                   letterSpacing: -1,
@@ -554,7 +554,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -572,7 +572,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -597,8 +597,8 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                 S.of(context).dialog_conform,
                               ),
                               onPressed: () {
-                                swapModels.data.removeAt(index - 1);
-                                if (swapModels.data.isEmpty) {
+                                swapModels!.data!.removeAt(index - 1);
+                                if (swapModels!.data!.isEmpty) {
                                   _onRefresh();
                                 } else {
                                   setState(() {});
@@ -611,11 +611,11 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                         );
                       },
                     ).then((val) {});
-                  }, (error) {
+                  } as Future<dynamic> Function(String), (error) {
                     // ignore: missing_return, missing_return
                     showErrorDialog(context, error);
                     return;
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue.ctAddress, swapModels.data[index - 1].account, swapModels.data[index - 1].aeCount);
+                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue!.ctAddress!, swapModels!.data![index - 1].account!, swapModels!.data![index - 1].aeCount!);
                   showChainLoading();
                 },
               ),
@@ -629,7 +629,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
         useRootNavigator: false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -732,7 +732,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -743,7 +743,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
         return new AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

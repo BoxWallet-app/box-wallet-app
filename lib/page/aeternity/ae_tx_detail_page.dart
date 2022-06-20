@@ -8,7 +8,7 @@ import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,9 +16,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AeTxDetailPage extends StatefulWidget {
-  final RecordData recordData;
+  final RecordData? recordData;
 
-  const AeTxDetailPage({Key key, this.recordData}) : super(key: key);
+  const AeTxDetailPage({Key? key, this.recordData}) : super(key: key);
 
   @override
   _AeTxDetailPageState createState() => _AeTxDetailPageState();
@@ -27,7 +27,7 @@ class AeTxDetailPage extends StatefulWidget {
 class _AeTxDetailPageState extends State<AeTxDetailPage> {
   AensInfoModel _aensInfoModel = AensInfoModel();
   LoadingType _loadingType = LoadingType.loading;
-  Flushbar flush;
+  Flushbar? flush;
   List<Widget> baseItems = []; //先建一个数组用于存放循环生成的widget
   List<Widget> allItems = []; //先建一个数组用于存放循环生成的widget
 
@@ -46,7 +46,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           Container(
             alignment: Alignment.centerRight,
             child: new Text(
-              widget.recordData.blockHeight.toString(),
+              widget.recordData!.blockHeight.toString(),
               textAlign: TextAlign.end,
               style: TextStyle(
                 fontSize: 14,
@@ -66,7 +66,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
               //设置四周边框
             ),
             child: Text(
-              (AeHomePage.height - widget.recordData.blockHeight).toString()+" "+S.current.ae_tx_detail_page_height_confirm,
+              (AeHomePage.height! - widget.recordData!.blockHeight!).toString()+" "+S.current.ae_tx_detail_page_height_confirm,
               maxLines: 1,
               style: TextStyle(
                   fontSize: 13,
@@ -82,11 +82,11 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
     ),);
 
     baseItems.add(height);
-    var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData.hash);
+    var hash = buildItem(S.current.ae_tx_detail_page_hash, widget.recordData!.hash!);
 
     baseItems.add(hash);
 
-    var itemType = buildItem(S.current.ae_tx_detail_page_type, widget.recordData.tx["type"]);
+    var itemType = buildItem(S.current.ae_tx_detail_page_type, widget.recordData!.tx!["type"]);
 
     baseItems.add(itemType);
 
@@ -94,26 +94,26 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
 
     baseItems.add(itemFee);
 
-    if (widget.recordData.tx["type"] == "SpendTx") {
-      var senderId = buildItem(S.current.ae_tx_detail_page_from, widget.recordData.tx["sender_id"]);
+    if (widget.recordData!.tx!["type"] == "SpendTx") {
+      var senderId = buildItem(S.current.ae_tx_detail_page_from, widget.recordData!.tx!["sender_id"]);
       baseItems.add(senderId);
 
-      var recipientId = buildItem(S.current.ae_tx_detail_page_to, widget.recordData.tx["recipient_id"]);
+      var recipientId = buildItem(S.current.ae_tx_detail_page_to, widget.recordData!.tx!["recipient_id"]);
       baseItems.add(recipientId);
     } else {
-      var senderId = buildItem(S.current.ae_tx_detail_page_from, AeHomePage.address);
+      var senderId = buildItem(S.current.ae_tx_detail_page_from, AeHomePage.address!);
       baseItems.add(senderId);
     }
     var time = buildItem(S.current.cfx_tx_detail_page_time,    DateTime.fromMicrosecondsSinceEpoch(
-        widget.recordData.time * 1000)
+        widget.recordData!.time! * 1000)
         .toLocal()
         .toString());
 
     baseItems.add(time);
 
-    if(null!=widget.recordData.tx['payload']){
-      var payload = widget.recordData.tx['payload'].toString();
-      if (payload != "" && payload != null && payload != "null" && payload.length >= 11) {
+    if(null!=widget.recordData!.tx!['payload']){
+      var payload = widget.recordData!.tx!['payload'].toString();
+      if (payload != "" && payload != "null" && payload.length >= 11) {
         try {
 
           if (payload.contains("ba_")) {
@@ -158,7 +158,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
   void netTopHeightData() {
     BlockTopDao.fetch().then((BlockTopModel model) {
       if (model.code == 200) {
-        AeHomePage.height = model.data.height;
+        AeHomePage.height = model.data!.height;
         setState(() {});
       } else {}
     }).catchError((e) {});
@@ -189,7 +189,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           size: 22,
         ),
         onPressed: () async {
-          _launchURL("https://www.aeknow.org/block/transaction/" + widget.recordData.hash.toString());
+          _launchURL("https://www.aeknow.org/block/transaction/" + widget.recordData!.hash.toString());
         },
       ),
         ],
@@ -236,30 +236,30 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
   }
 
   Text getFeeWidget(double size) {
-    if (widget.recordData.tx['type'].toString() == "SpendTx") {
+    if (widget.recordData!.tx!['type'].toString() == "SpendTx") {
       // ignore: unrelated_type_equality_checks
 
-      if (widget.recordData.tx['recipient_id'].toString() == AeHomePage.address) {
+      if (widget.recordData!.tx!['recipient_id'].toString() == AeHomePage.address) {
         return Text(
-          "+" + double.parse(((widget.recordData.tx['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
+          "+" + double.parse(((widget.recordData!.tx!['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
           style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       } else {
         return Text(
-          "-" + double.parse((((widget.recordData.tx['amount'].toDouble() + widget.recordData.tx['fee'].toDouble()) / 1000000000000000000)).toString()).toStringAsFixed(8) + " AE",
+          "-" + double.parse(((widget.recordData!.tx!['amount'].toDouble() + widget.recordData!.tx!['fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
           style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       }
     } else {
-      if (widget.recordData.tx['type'].toString() == "NameClaimTx") {
+      if (widget.recordData!.tx!['type'].toString() == "NameClaimTx") {
         return Text(
-          "-" + double.parse(((widget.recordData.tx['fee'].toDouble() + widget.recordData.tx['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
+          "-" + double.parse(((widget.recordData!.tx!['fee'].toDouble() + widget.recordData!.tx!['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
           style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
         );
       }
 
       return Text(
-        "-" + double.parse((widget.recordData.tx['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
+        "-" + double.parse((widget.recordData!.tx!['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
 
         style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
       );

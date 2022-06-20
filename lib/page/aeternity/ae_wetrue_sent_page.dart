@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:box/dao/aeternity/wetrue_config_dao.dart';
 import 'package:box/dao/aeternity/wetrue_topic_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -6,7 +8,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +25,8 @@ class AeWeTrueSendPage extends StatefulWidget {
 
 class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
   TextEditingController _textEditingController = TextEditingController();
-  WeTrueConfigModel weTrueConfigModel;
-  Flushbar flush;
+  WeTrueConfigModel? weTrueConfigModel;
+  late Flushbar flush;
 
   @override
   void initState() {
@@ -178,7 +180,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                                   "发布" +
                                   " ≈ " +
                                   Decimal.parse(
-                                          (double.parse(weTrueConfigModel.data.topicAmount) /
+                                          (double.parse(weTrueConfigModel!.data!.topicAmount!) /
                                                   1000000000000000000)
                                               .toString())
                                       .toString() +
@@ -214,14 +216,14 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
 
 
     String content = Utils.encodeBase64('{"WeTrue":"' +
-        weTrueConfigModel.data.weTrue +
+        weTrueConfigModel!.data!.weTrue! +
         '","type":"topic","source":"Box æpp","content":"' +
         _textEditingController.text.replaceAll("\n", "\\n") +
         '"}');
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -239,7 +241,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
-                  var signingKey = await BoxApp.getSigningKey();
+                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
                   var aesDecode = Utils.aesDecode(signingKey, key);
@@ -266,8 +268,8 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                   },
                       aesDecode,
                       address,
-                      weTrueConfigModel.data.receivingAccount,
-                      Decimal.parse((double.parse(weTrueConfigModel.data.topicAmount) /
+                      weTrueConfigModel!.data!.receivingAccount!,
+                      Decimal.parse((double.parse(weTrueConfigModel!.data!.topicAmount!) /
                                   1000000000000000000)
                               .toString())
                           .toString(),
@@ -284,7 +286,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -327,7 +329,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
       });
   }
 
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -339,7 +341,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content),
+          content: Text(content!),
           actions: <Widget>[
             TextButton(
               child: new Text(

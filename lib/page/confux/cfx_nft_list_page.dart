@@ -24,9 +24,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../main.dart';
 
 class CfxNftListPage extends StatefulWidget {
-  final NftData data;
+  final NftData? data;
 
-  const CfxNftListPage({Key key, this.data}) : super(key: key);
+  const CfxNftListPage({Key? key, this.data}) : super(key: key);
 
   @override
   _CfxNftListPageState createState() => _CfxNftListPageState();
@@ -35,23 +35,23 @@ class CfxNftListPage extends StatefulWidget {
 class _CfxNftListPageState extends State<CfxNftListPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  AensPageModel _aensPageModel;
+  AensPageModel? _aensPageModel;
   int page = 1;
-  List<CfxNftPreviewModel> cfxNftModel = List();
+  List<CfxNftPreviewModel> cfxNftModel = [];
 
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     super.initState();
     netData();
   }
 
   Future<void> netData() async {
-    CfxNftTokenModel cfxNftTokenModel = await CfxNftTokenDao.fetch(widget.data.address);
+    CfxNftTokenModel cfxNftTokenModel = await CfxNftTokenDao.fetch(widget.data!.address);
     _loadingType = LoadingType.finish;
     cfxNftModel.clear();
-    for (var i = 0; i < cfxNftTokenModel.data[1].length; i++) {
-      var tokenId = cfxNftTokenModel.data[1][i].toString();
-      CfxNftPreviewModel cfxNftPreviewModel = await CfxNftPreviewDao.fetch(widget.data.address, tokenId);
+    for (var i = 0; i < cfxNftTokenModel.data![1].length; i++) {
+      var tokenId = cfxNftTokenModel.data![1][i].toString();
+      CfxNftPreviewModel cfxNftPreviewModel = await CfxNftPreviewDao.fetch(widget.data!.address, tokenId);
       cfxNftModel.add(cfxNftPreviewModel);
       setState(() {});
     }
@@ -99,19 +99,19 @@ class _CfxNftListPageState extends State<CfxNftListPage> with AutomaticKeepAlive
   }
 
   Widget getItemContainer(CfxNftPreviewModel item) {
-    String title = "";
+    String? title = "";
 
     if(item.data == null){
       title = "";
     }else{
-      title = item.data.imageUri;
+      title = item.data!.imageUri;
     }
 
     return Container(
       width: 5.0,
       height: 5.0,
       alignment: Alignment.center,
-      child: getIconImage(title),
+      child: getIconImage(title!),
       color: Colors.blue,
     );
   }
@@ -180,6 +180,7 @@ class _CfxNftListPageState extends State<CfxNftListPage> with AutomaticKeepAlive
       }
     }
 
+    return Container();
 
   }
 

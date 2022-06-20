@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -38,15 +39,13 @@ class SettingPage extends StatefulWidget {
   _SettingPageState createState() => _SettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientMixin<SettingPage> {
+class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin<SettingPage> {
   var mnemonic = "";
   var version = "";
   var authTitle = "";
-  String coin = "AE";
-  Account account;
+  String? coin = "AE";
+  Account? account;
   final LocalAuthentication auth = LocalAuthentication();
-
-
 
   @override
   void initState() {
@@ -70,13 +69,14 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
   }
 
   getAddress() {
-    WalletCoinsManager.instance.getCurrentAccount().then((Account acc) {
-      coin = acc.coin;
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? acc) {
+      coin = acc!.coin;
       account = acc;
       if (!mounted) return;
       setState(() {});
     });
   }
+
   Future<void> availableBiometrics() async {
     List<BiometricType> availableBiometrics;
     try {
@@ -85,9 +85,9 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
       availableBiometrics = <BiometricType>[];
       print(e);
     }
-    bool deviceSupported =await auth.isDeviceSupported();
+    bool deviceSupported = await auth.isDeviceSupported();
 
-    if(deviceSupported){
+    if (deviceSupported) {
       if (availableBiometrics[0] == BiometricType.face) {
         authTitle = S.of(context).auth_title_1;
       }
@@ -97,15 +97,13 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
       if (availableBiometrics[0] == BiometricType.iris) {
         authTitle = S.of(context).auth_title_3;
       }
-
-
     }
     setState(() {});
-
   }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);  //需要调用super
+    super.build(context); //需要调用super
     return Container(
       child: EasyRefresh(
         header: BoxHeader(),
@@ -119,25 +117,25 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
               ),
             ),
             children: [
-              if(authTitle!="")
-              Container(
+              if (authTitle != "")
+                Container(
 //              color: Colors.white,
-                height: 12,
-              ),
-              if(authTitle!="")
-              buildItem(context, authTitle, "images/setting_node.png", () {
-                if (Platform.isIOS) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
-                } else {
-                  Navigator.push(context, SlideRoute(AuthPage()));
-                }
-              }, isLine: false),
+                  height: 12,
+                ),
+              if (authTitle != "")
+                buildItem(context, authTitle, "images/setting_node.png", () {
+                  if (Platform.isIOS) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                  } else {
+                    Navigator.push(context, SlideRoute(AuthPage()));
+                  }
+                }, isLine: false),
               Container(
 //              color: Colors.white,
                 height: 12,
               ),
 
-              if (account != null && (account.accountType == AccountType.MNEMONIC || account.accountType == AccountType.PRIVATE_KEY))
+              if (account != null && (account!.accountType == AccountType.MNEMONIC || account!.accountType == AccountType.PRIVATE_KEY))
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   decoration: new BoxDecoration(
@@ -155,7 +153,7 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                         showGeneralDialog(
                             useRootNavigator: false,
                             context: context,
-                            pageBuilder: (context, anim1, anim2) {},
+                            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
                             //barrierColor: Colors.grey.withOpacity(.4),
                             barrierDismissible: true,
                             barrierLabel: "",
@@ -171,8 +169,8 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                                     title: S.of(context).password_widget_input_password,
                                     dismissCallBackFuture: (String password) {},
                                     passwordCallBackFuture: (String password) async {
-                                      var mnemonic = await BoxApp.getMnemonic();
-                                      var signingKey = await BoxApp.getSigningKey();
+                                      var mnemonic = await (BoxApp.getMnemonic() as FutureOr<String>);
+                                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
 
                                       var address = await BoxApp.getAddress();
                                       final key = Utils.generateMd5Int(password + address);
@@ -200,8 +198,7 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                                               ],
                                             );
                                           },
-                                        ).then((val) {
-                                        });
+                                        ).then((val) {});
                                         return;
                                       }
                                       if (Platform.isIOS) {
@@ -268,8 +265,6 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                     ),
                   ),
                 ),
-
-
 
               Container(
 //              color: Colors.white,
@@ -458,7 +453,7 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                           );
                         },
                       ).then((val) async {
-                        if (val) {
+                        if (val!) {
                           AeHomePage.token = "loading...";
                           AeHomePage.tokenABC = "loading...";
                           AeTokenDefiPage.model = null;
@@ -469,9 +464,9 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
 
                           var prefs = await SharedPreferences.getInstance();
 
-                          var language =await BoxApp.getLanguage();
+                          var language = await BoxApp.getLanguage();
                           prefs.clear();
-                          prefs.setString('is_language',"true");
+                          prefs.setString('is_language', "true");
                           BoxApp.setLanguage(language);
                           BoxApp.language = language;
                           WalletCoinsManager.instance.setCoins(null);
@@ -516,7 +511,6 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     InkWell(
                       onTap: () {
                         _launchURL("https://qm.qq.com/cgi-bin/qm/qr?k=jnFWHm16iJM888smlrKE5PUkbshkdUT5&authKey=dGXI17gaZNaGwlDfLxFt1vWYqQLrvxrzGZiEMWgSKytSjWabHnSLz/f/PG9EQsre&noverify=0");
@@ -595,7 +589,7 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
     }
   }
 
-  Future<String> getMnemonic() {
+  getMnemonic() {
     BoxApp.getAddress().then((String mnemonic) {
       setState(() {
         this.mnemonic = mnemonic;
@@ -608,7 +602,6 @@ class _SettingPageState extends State<SettingPage>with AutomaticKeepAliveClientM
       margin: EdgeInsets.only(left: 15, right: 15),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),

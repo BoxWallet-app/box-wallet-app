@@ -12,7 +12,7 @@ import '../../main.dart';
 
 class CfxCrc20TransferDao {
   static Future<CfxCrc20TransferModel> fetch(String page, ctAddress) async {
-    Map<String, String> params = new Map();
+    Map<String, String?> params = new Map();
     var address = await BoxApp.getAddress();
     params["address"] = address;
     params["page"] = page;

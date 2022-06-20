@@ -1,6 +1,6 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +13,7 @@ class TokenReceivePage extends StatefulWidget {
 }
 
 class _TokenReceivePageState extends State<TokenReceivePage> {
-  Flushbar flush;
+  Flushbar? flush;
   TextEditingController _textEditingController = TextEditingController();
   var contentText = "";
   var address = "";
@@ -31,7 +31,6 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
         backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xFFFC2365),
           leading: IconButton(
             icon: Icon(
@@ -44,7 +43,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -172,7 +171,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
         ));
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;

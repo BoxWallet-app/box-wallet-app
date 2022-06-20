@@ -28,12 +28,12 @@ class _LoginPageNewState extends State<LoginPageNew> {
     super.initState();
     Future.delayed(Duration.zero, () {
       SharedPreferences.getInstance().then((value) {
-        String isShow = value.getString("is_show_hint");
+        String? isShow = value.getString("is_show_hint");
         if (isShow == null || isShow == "")
           showGeneralDialog(
               useRootNavigator: false,
               context: context,
-              pageBuilder: (context, anim1, anim2) {},
+              pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
               //barrierColor: Colors.grey.withOpacity(.4),
               barrierDismissible: true,
               barrierLabel: "",
@@ -146,7 +146,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
     });
   }
 
-  DateTime lastPopTime;
+  DateTime? lastPopTime;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +154,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
       onWillPop: () async {
         // 点击返回键的操作
         // ignore: missing_return, missing_return
-        if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+        if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
           lastPopTime = DateTime.now();
           Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
         } else {
@@ -163,7 +163,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
           exit(0);
         }
         return;
-      },
+      } as Future<bool> Function()?,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Color(0xFFFC2365),

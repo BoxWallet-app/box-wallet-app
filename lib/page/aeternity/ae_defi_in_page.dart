@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/event/language_event.dart';
@@ -13,7 +15,7 @@ import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -22,14 +24,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../main.dart';
 
 class AeDefiInPage extends StatefulWidget {
-  AeDefiInPage({Key key}) : super(key: key);
+  AeDefiInPage({Key? key}) : super(key: key);
 
   @override
   _AeDefiInPageState createState() => _AeDefiInPageState();
 }
 
 class _AeDefiInPageState extends State<AeDefiInPage> {
-  Flushbar flush;
+  late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   String address = '';
@@ -46,7 +48,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
   void netContractBalance() {
     ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
       if (model.code == 200) {
-        AeHomePage.tokenABC = model.data.balance;
+        AeHomePage.tokenABC = model.data!.balance;
         setState(() {});
       } else {}
     }).catchError((e) {
@@ -56,14 +58,14 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
 
   Future<void> netAccountInfo() async {
 
-    Account account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     BoxApp.getBalanceAE((balance,decimal) async {
       if(!mounted)return;
       AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
+      CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
-    }, account.address);
+    }, account.address!);
 
     // AccountInfoDao.fetch().then((AccountInfoModel model) {
     //   if (model.code == 200) {
@@ -82,7 +84,6 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
         backgroundColor: Color(0xFFeeeeee),
         appBar: AppBar(
           elevation: 0,
-          brightness: Brightness.dark,
           backgroundColor: Color(0xff3460ee),
           leading: IconButton(
             icon: Icon(
@@ -95,7 +96,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ),
+          ), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -249,7 +250,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                                           controller: _textEditingController,
                                           focusNode: focusNode,
                                           inputFormatters: [
-                                            WhitelistingTextInputFormatter(RegExp("[0-9.]")), //只允许输入字母
+                                            //   FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -347,7 +348,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    currentCoinName == "AE" ? AeHomePage.token + " " : AeHomePage.tokenABC + " ",
+                                                    currentCoinName == "AE" ? AeHomePage.token + " " : AeHomePage.tokenABC! + " ",
                                                     style: TextStyle(
                                                       color: Color(0xFF666666),
                                                       fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
@@ -413,17 +414,17 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       if (AeHomePage.tokenABC == "loading...") {
         _textEditingController.text = "0";
       } else {
-        if (double.parse(AeHomePage.tokenABC) < 1) {
+        if (double.parse(AeHomePage.tokenABC!) < 1) {
           _textEditingController.text = "0";
         } else {
-          _textEditingController.text = (double.parse(AeHomePage.tokenABC) - 1).toString();
+          _textEditingController.text = (double.parse(AeHomePage.tokenABC!) - 1).toString();
         }
       }
       _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
     }
   }
 
-  Future<String> getAddress() {
+  getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
@@ -468,7 +469,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -487,7 +488,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -502,7 +503,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                       showFlushSucess(context);
 
                       // ignore: missing_return
-                    }, (error) {
+                    } as Future<dynamic> Function(String), (error) {
                     showErrorDialog(context, error);
 
                     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, _textEditingController.text);
@@ -517,7 +518,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       showGeneralDialog(useRootNavigator:false,
           context: context,
           // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {},
+          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
           //barrierColor: Colors.grey.withOpacity(.4),
           barrierDismissible: true,
           barrierLabel: "",
@@ -536,7 +537,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                     return;
                   },
                   passwordCallBackFuture: (String password) async {
-                    var signingKey = await BoxApp.getSigningKey();
+                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
                     var address = await BoxApp.getAddress();
                     final key = Utils.generateMd5Int(password + address);
                     var aesDecode = Utils.aesDecode(signingKey, key);
@@ -559,7 +560,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
     showGeneralDialog(useRootNavigator:false,
         context: context,
         // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {},
+        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
         //barrierColor: Colors.grey.withOpacity(.4),
         barrierDismissible: true,
         barrierLabel: "",
@@ -600,7 +601,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
         Navigator.pop(context);
       });
   }
-  void showErrorDialog(BuildContext buildContext, String content) {
+  void showErrorDialog(BuildContext buildContext, String? content) {
     if (content == null) {
       content = S.of(buildContext).dialog_hint_check_error_content;
     }
@@ -612,7 +613,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(10))
                                         ),
           title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(Utils.formatABCLockV3Hint(content)),
+          content: Text(Utils.formatABCLockV3Hint(content)!),
           actions: <Widget>[
             TextButton(
               child: new Text(

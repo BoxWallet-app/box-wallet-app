@@ -1,15 +1,15 @@
 class CfxTokensListModel {
-  int total;
-  List<TokensData> list;
+  int? total;
+  List<TokensData>? list;
 
   CfxTokensListModel({this.total, this.list});
 
   CfxTokensListModel.fromJson(Map<String, dynamic> json) {
     total = json['total'];
     if (json['list'] != null) {
-      list = new List<TokensData>();
+      list = <TokensData>[];
       json['list'].forEach((v) {
-        list.add(new TokensData.fromJson(v));
+        list!.add(new TokensData.fromJson(v));
       });
     }
   }
@@ -18,27 +18,27 @@ class CfxTokensListModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['total'] = this.total;
     if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
+      data['list'] = this.list!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class TokensData {
-  int hex40id;
-  String address;
-  String name;
-  String symbol;
-  int decimals;
-  int granularity;
-  String totalSupply;
-  String transferType;
-  int holderCount;
-  int transferCount;
-  String price;
-  String totalPrice;
-  String quoteUrl;
-  String iconUrl;
+  int? hex40id;
+  String? address;
+  String? name;
+  String? symbol;
+  int? decimals;
+  int? granularity;
+  String? totalSupply;
+  String? transferType;
+  int? holderCount;
+  int? transferCount;
+  String? price;
+  String? totalPrice;
+  String? quoteUrl;
+  String? iconUrl;
   bool isSelect = false;
 
   TokensData(

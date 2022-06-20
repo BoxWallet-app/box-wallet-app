@@ -1,9 +1,9 @@
 
 class UserModel {
-  int code;
-  Data data;
-  String msg;
-  int time;
+  int? code;
+  Data? data;
+  String? msg;
+  int? time;
 
   UserModel({this.code, this.data, this.msg, this.time});
 
@@ -18,7 +18,7 @@ class UserModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['msg'] = this.msg;
     data['time'] = this.time;
@@ -27,10 +27,10 @@ class UserModel {
 }
 
 class Data {
-  String address;
-  String mnemonic;
-  String redirectUri;
-  String signingKey;
+  String? address;
+  String? mnemonic;
+  String? redirectUri;
+  String? signingKey;
 
   Data({this.address, this.mnemonic, this.redirectUri, this.signingKey});
 
