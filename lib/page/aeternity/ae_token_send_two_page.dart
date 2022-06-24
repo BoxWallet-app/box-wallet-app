@@ -22,10 +22,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../main.dart';
+import '../base_page.dart';
 import 'ae_home_page.dart';
 import 'ae_select_token_list_page.dart';
 
-class AeTokenSendTwoPage extends StatefulWidget {
+class AeTokenSendTwoPage extends BaseWidget {
   final String address;
 
   final String? tokenName;
@@ -33,14 +34,13 @@ class AeTokenSendTwoPage extends StatefulWidget {
   final String? tokenImage;
   final String? tokenContract;
 
-  AeTokenSendTwoPage({Key? key, required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract}) : super(key: key);
+  AeTokenSendTwoPage({Key? key, required this.address, this.tokenName, this.tokenCount, this.tokenImage, this.tokenContract});
 
   @override
   _AeTokenSendTwoPageState createState() => _AeTokenSendTwoPageState();
 }
 
-class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
-  late Flushbar flush;
+class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
@@ -59,7 +59,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     super.initState();
     this.tokenName = "AE";
     this.tokenCount = AeHomePage.token;
-    this.tokenImage = "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png";
+    this.tokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png";
 
     if (widget.tokenName != null) {
       this.tokenName = widget.tokenName;
@@ -81,21 +81,21 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     netAccountInfo();
     getAddress();
   }
+
   void netContractBalance() {
     ContractBalanceDao.fetch(widget.tokenContract).then((ContractBalanceModel model) {
       if (model.code == 200) {
         this.tokenCount = model.data!.balance;
         setState(() {});
       } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+    }).catchError((e) {});
   }
+
   Future<void> netAccountInfo() async {
-    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
-    BoxApp.getBalanceAE((balance,decimal) async {
-      if(!mounted)return;
-      AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+    Account account = await getCurrentAccount();
+    BoxApp.getBalanceAE((balance, decimal) async {
+      if (!mounted) return;
+      AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
       CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
@@ -121,7 +121,8 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ), systemOverlayStyle: SystemUiOverlayStyle.light,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -228,20 +229,13 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(20),
-                              height: tokenName !="AE" ?172:222,
+                              height: tokenName != "AE" ? 172 : 222,
                               //边框设置
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
                                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-//                                    BoxShadow(
-//                                        color: Colors.black12,
-//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-//                                        blurRadius: 15.0, //阴影模糊程度
-//                                        spreadRadius: 1.0 //阴影扩散程度
-//                                        )
-                                  ]
+                                  boxShadow: []
                                   //设置四周边框
                                   ),
                               child: Column(
@@ -275,7 +269,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                           controller: _textEditingController,
                                           focusNode: focusNode,
                                           inputFormatters: [
-                                              FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                            FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
                                           ],
 
                                           maxLines: 1,
@@ -332,6 +326,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
+                                        focusNode.unfocus();
                                         showMaterialModalBottomSheet(
                                             context: context,
                                             expand: true,
@@ -364,7 +359,11 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                                                     width: 36.0,
                                                     height: 36.0,
                                                     decoration: BoxDecoration(
-                                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                      border: Border(
+                                                          bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
+                                                          right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                       borderRadius: BorderRadius.circular(36.0),
                                                     ),
@@ -497,7 +496,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
-                          netSendV2(context);
+                          netSend(context);
                         },
                         child: Text(
                           S.of(context).token_send_two_page_conform,
@@ -524,11 +523,10 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     } else {
       _textEditingController.text = tokenCount!;
     }
-
     _textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length));
   }
 
-  getAddress() {
+  void getAddress() {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
@@ -540,7 +538,7 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
     return Utils.formatAddress(widget.address);
   }
 
-  Future<void> netSendV2(BuildContext context) async {
+  Future<void> netSend(BuildContext context) async {
     var note = "";
     if (_textEditingControllerNode.text == "") {
       note = "Box Wallet";
@@ -548,237 +546,31 @@ class _AeTokenSendTwoPageState extends State<AeTokenSendTwoPage> {
       note = _textEditingControllerNode.text;
     }
     if (_textEditingController.text == "") {
-      showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext dialogContext) {
-          return new AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            title: Text(S.of(context).dialog_hint),
-            content: Text(S.of(context).dialog_amount_null),
-            actions: <Widget>[
-              TextButton(
-                child: new Text(
-                  S.of(context).dialog_conform,
-                ),
-                onPressed: () {
-                  Navigator.of(dialogContext, rootNavigator: true).pop(false);
-                },
-              ),
-            ],
-          );
-        },
-      ).then((val) {});
+      showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_amount_null);
       return;
     }
     focusNode.unfocus();
-    var senderID = await BoxApp.getAddress();
-    if (tokenContract == null || tokenContract == "") {
-//      startLoading();
-      showGeneralDialog(
-          useRootNavigator: false,
-          context: context,
-          // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-          //barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 0),
-          transitionBuilder: (_, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-              transform: Matrix4.translationValues(0.0, 0, 0.0),
-              child: Opacity(
-                opacity: anim1.value,
-                // ignore: missing_return
-                child: PayPasswordWidget(
-                  title: S.of(context).password_widget_input_password,
-                  dismissCallBackFuture: (String password) {
-                    return;
-                  },
-                  passwordCallBackFuture: (String password) async {
-                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                    var address = await BoxApp.getAddress();
-                    final key = Utils.generateMd5Int(password + address);
-                    var aesDecode = Utils.aesDecode(signingKey, key);
-
-                    if (aesDecode == "") {
-                      showErrorDialog(context, null);
-                      return;
-                    }
-                    // ignore: missing_return
-                    BoxApp.spend((tx) {
-                      showCopyHashDialog(context, tx);
-
-                      // ignore: missing_return
-                    }, (error) {
-                      showErrorDialog(context, error);
-                    }, aesDecode, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
-                    showChainLoading();
-                  },
-                ),
-              ),
-            );
+    showPasswordDialog(context, (address, privateKey) async {
+      showChainLoading();
+      if (tokenContract == null || tokenContract == "") {
+        BoxApp.spend((tx) {
+          showCopyHashDialog(context, tx, (val) async {
+            showFlushSucess(context);
           });
-    } else {
-//      startLoading();
-      showGeneralDialog(
-          useRootNavigator: false,
-          context: context,
-          // ignore: missing_return
-          pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-          //barrierColor: Colors.grey.withOpacity(.4),
-          barrierDismissible: true,
-          barrierLabel: "",
-          transitionDuration: Duration(milliseconds: 0),
-          transitionBuilder: (_, anim1, anim2, child) {
-            final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-            return Transform(
-              transform: Matrix4.translationValues(0.0, 0, 0.0),
-              child: Opacity(
-                opacity: anim1.value,
-                // ignore: missing_return
-                child: PayPasswordWidget(
-                  title: S.of(context).password_widget_input_password,
-                  dismissCallBackFuture: (String password) {
-                    return;
-                  },
-                  passwordCallBackFuture: (String password) async {
-                    var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                    var address = await BoxApp.getAddress();
-                    final key = Utils.generateMd5Int(password + address);
-                    var aesDecode = Utils.aesDecode(signingKey, key);
-
-                    if (aesDecode == "") {
-                      showErrorDialog(context, null);
-                      return;
-                    }
-                    // ignore: missing_return
-                    BoxApp.contractTransfer((tx) {
-                      showCopyHashDialog(context, tx);
-                      // ignore: missing_return
-                    } as Future<dynamic> Function(String), (error) {
-                      showErrorDialog(context, error);
-                      // ignore: missing_return
-                    }, aesDecode, address, tokenContract!, widget.address, _textEditingController.text, "full");
-                    showChainLoading();
-                  },
-                ),
-              ),
-            );
-          });
-    }
-  }
-
-  void showChainLoading() {
-    showGeneralDialog(
-        useRootNavigator: false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget();
-        });
-  }
-
-  void showFlushSucess(BuildContext context) {
-    flush = Flushbar<bool>(
-      title: S.of(context).hint_broadcast_sucess,
-      message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
-      blockBackgroundInteraction: true,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      //                        flushbarStyle: FlushbarStyle.GROUNDED,
-
-      mainButton: FlatButton(
-        onPressed: () {
-          flush.dismiss(true); // result = true
-        },
-        child: Text(
-          S.of(context).dialog_conform,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Colors.black.withAlpha(80),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 13.0,
-        )
-      ],
-    )..show(context).then((result) {
-        Navigator.pop(context);
-      });
-  }
-
-  void showErrorDialog(BuildContext buildContext, String? content) {
-    if (content == null) {
-      content = S.of(buildContext).dialog_hint_check_error_content;
-    }
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content!),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_conform,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
-
-  void showCopyHashDialog(BuildContext buildContext, String tx) {
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.current.dialog_hint_hash),
-          content: Text(tx),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_copy,
-              ),
-              onPressed: () {
-                Navigator.of(buildContext, rootNavigator: true).pop(true);
-              },
-            ),
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_dismiss,
-              ),
-              onPressed: () {
-                Navigator.of(buildContext, rootNavigator: true).pop(false);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {
-      if (val!) {
-        Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/"+tx));
-        showFlushSucess(context);
+          return;
+        }, (error) {
+          showConfirmDialog(S.of(context).dialog_hint, error);
+          return;
+        }, privateKey, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
       } else {
-        showFlushSucess(context);
+        BoxApp.contractTransfer((tx) async {
+          showCopyHashDialog(context, tx, (val) async {
+            showFlushSucess(context);
+          });
+        }, (error) {
+          showConfirmDialog(S.of(context).dialog_hint, error);
+          return;
+        }, privateKey, address, tokenContract!, widget.address, _textEditingController.text, "full");
       }
     });
   }

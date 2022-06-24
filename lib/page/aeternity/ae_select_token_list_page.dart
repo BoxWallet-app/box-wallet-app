@@ -6,15 +6,14 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:lottie/lottie.dart';
@@ -24,24 +23,23 @@ import 'ae_home_page.dart';
 
 typedef AeSelectTokenListCallBackFuture = Future? Function(String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract);
 
-class AeSelectTokenListPage extends StatefulWidget {
+class AeSelectTokenListPage extends BaseWidget {
   final String? aeCount;
   final AeSelectTokenListCallBackFuture? aeSelectTokenListCallBackFuture;
 
-  const AeSelectTokenListPage({Key? key, this.aeCount, this.aeSelectTokenListCallBackFuture}) : super(key: key);
+  AeSelectTokenListPage({Key? key, this.aeCount, this.aeSelectTokenListCallBackFuture});
 
   @override
   _TokenListPathState createState() => _TokenListPathState();
 }
 
-class _TokenListPathState extends State<AeSelectTokenListPage> {
+class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
   var loadingType = LoadingType.loading;
   TokenListModel? tokenListModel;
-  PriceModel? priceModel;
 
   Future<void> _onRefresh() async {
     TokenListDao.fetch(AeHomePage.address, "easy").then((TokenListModel model) async {
-      if (model != null || model.code == 200) {
+      if (model.code == 200) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
         setState(() {});
@@ -60,7 +58,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
 
   getCacheBalance() async {
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
-      Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+      Account account = await getCurrentAccount();
       var cacheBalance = await CacheManager.instance.getTokenBalance(account.address!, tokenListModel!.data![i].ctAddress!, account.coin!);
       if (cacheBalance != "") {
         tokenListModel!.data![i].countStr = cacheBalance;
@@ -70,7 +68,6 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
   }
 
   Future<void> getBalance() async {
-    var maxLength = tokenListModel!.data!.length;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
       BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
@@ -93,7 +90,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 600), () {
+    Future.delayed(Duration(milliseconds: 0), () {
       _onRefresh();
     });
   }
@@ -103,104 +100,106 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
     return Scaffold(
       backgroundColor: Colors.transparent.withAlpha(0),
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          InkResponse(
-              highlightColor: Colors.transparent,
-              radius: 0.0,
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.25,
-                width: MediaQuery.of(context).size.width,
-              )),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.75,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            decoration: ShapeDecoration(
-              // color: Color(0xffffffff),
-              // color: Color(0xFFfafafa),
-              color: Color(0xFFfafbfc),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            InkResponse(
+                highlightColor: Colors.transparent,
+                radius: 0.0,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width,
+                )),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.75,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: ShapeDecoration(
+                // color: Color(0xffffffff),
+                // color: Color(0xFFfafafa),
+                color: Color(0xFFfafbfc),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                 ),
               ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  height: 52,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Container(
-                          height: 52,
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.center,
-                          child: Text(
-                            S.of(context).ae_select_token_page_title,
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: 52,
-                              width: 52,
-                              padding: EdgeInsets.all(15),
-                              child: Icon(
-                                Icons.close,
-                                size: 22,
+              child: Column(
+                children: [
+                  Container(
+                    height: 52,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 52,
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            child: Text(
+                              S.of(context).ae_select_token_page_title,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 52,
+                                width: 52,
+                                padding: EdgeInsets.all(15),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.75 - 52,
-                  child: LoadingWidget(
-                    type: loadingType,
-                    onPressedError: () {
-                      _onRefresh();
-                    },
-                    child: EasyRefresh(
-                      header: BoxHeader(),
-                      onRefresh: _onRefresh,
-                      child: ListView.builder(
-                        itemCount: tokenListModel == null ? 0 : tokenListModel!.data!.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          return itemListView(context, index);
-                        },
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.75 - 52,
+                    child: LoadingWidget(
+                      type: loadingType,
+                      onPressedError: () {
+                        _onRefresh();
+                      },
+                      child: EasyRefresh(
+                        header: BoxHeader(),
+                        onRefresh: _onRefresh,
+                        child: ListView.builder(
+                          itemCount: tokenListModel == null ? 0 : tokenListModel!.data!.length + 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            return itemListView(context, index);
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -212,9 +211,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
         tokenListModel!.data![index].rate = model.data!.rate;
         setState(() {});
       } else {}
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+    }).catchError((e) {});
   }
 
   Widget itemListView(BuildContext context, int index) {
@@ -228,7 +225,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
-                widget.aeSelectTokenListCallBackFuture!("AE", widget.aeCount, "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png", "");
+                widget.aeSelectTokenListCallBackFuture!("AE", widget.aeCount, "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png", "");
               }
               Navigator.pop(context);
             },
@@ -246,19 +243,16 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                           margin: const EdgeInsets.only(top: 0, left: 15),
                           child: Row(
                             children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-
                               Container(
                                 width: 40.0,
                                 height: 40.0,
                                 decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    "https://ae-source.oss-cn-hongkong.aliyuncs.com/ae.png",
+                                    "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png",
                                     frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                       if (wasSynchronouslyLoaded) return child;
 
@@ -296,7 +290,6 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                   ),
                                 ],
                               ),
-
                               Container(
                                 width: 20,
                               ),
@@ -345,8 +338,6 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                         margin: const EdgeInsets.only(top: 0, left: 15),
                         child: Row(
                           children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-
                             Container(
                               width: 40.0,
                               height: 40.0,
@@ -389,9 +380,7 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                     width: 50,
                                     height: 50,
                                     child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
                                       'images/loading.json',
-//              'images/animation_khzuiqgg.json',
                                     ),
                                   )
                                 : Column(
@@ -405,7 +394,6 @@ class _TokenListPathState extends State<AeSelectTokenListPage> {
                                       ),
                                     ],
                                   ),
-
                             Container(
                               width: 20,
                             ),

@@ -139,7 +139,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   Future<void> netWalletRecord() async {
 
     Account? account =await WalletCoinsManager.instance.getCurrentAccount() ;
-    var aeRecord = await CacheManager.instance.getAERecord(account!.address!, account!.coin!);
+    var aeRecord = await CacheManager.instance.getAERecord(account!.address!, account.coin!);
     if(aeRecord!=null){
       walletRecordModel = aeRecord;
       if(!mounted)return;

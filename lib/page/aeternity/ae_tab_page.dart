@@ -202,8 +202,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
   void netHost() {
 
     HostDao.fetch().then((HostModel model) {
-      Host.BASE_HOST = model.baseUrl;
-      BoxApp.setBaseHost(Host.BASE_HOST!);
+      Host.baseHost = model.baseUrl;
+      BoxApp.setBaseHost(Host.baseHost!);
     }).catchError((e) {});
   }
   void netVersion() {

@@ -22,25 +22,29 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    if (Platform.isIOS) {
-      UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603de7826ee47d382b6d2a8b', 'App Store');
-    } else {
-      UmengCommonSdk.initCommon('603dd6d86ee47d382b6cecb0', '603dd6d86ee47d382b6cecb0', 'Google');
-    }
-    startService();
+    Future.delayed(Duration(milliseconds: 0), () async {
+      try {
+        if (!mounted) return;
+        if (Platform.isIOS) {
+          UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603de7826ee47d382b6d2a8b', 'App Store');
+        } else {
+          UmengCommonSdk.initCommon('603dd6d86ee47d382b6cecb0', '603dd6d86ee47d382b6cecb0', 'Google');
+        }
+        await startService();
+      } catch (e) {}
+    });
   }
 
   Future<void> startService() async {
-    await BoxApp.startAeService(context,() async {
+    await BoxApp.startAeService(context, () async {
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
       String? isLanguage = "false";
-      try{
-         isLanguage = sharedPreferences.getString('is_language');
-      }catch(e){
-      }
+      try {
+        isLanguage = sharedPreferences.getString('is_language');
+      } catch (e) {}
 
       if (isLanguage.toString() == "true") {
         var language = await BoxApp.getLanguage();
@@ -50,7 +54,6 @@ class _SplashPageState extends State<SplashPage> {
           S.load(Locale(language, language.toUpperCase()));
           goHome();
         });
-
       } else {
         Future.delayed(Duration.zero, () {
           showDialog<bool>(
@@ -103,11 +106,10 @@ class _SplashPageState extends State<SplashPage> {
       }
       return;
     });
-
   }
 
   Future<void> goHome() async {
-    Host.BASE_HOST = await BoxApp.getBaseHost();
+    Host.baseHost = await BoxApp.getBaseHost();
     String nodeUrl = await BoxApp.getNodeUrl();
     String compilerUrl = await BoxApp.getCompilerUrl();
     String nodeCfxUrl = await BoxApp.getCfxNodeUrl();
@@ -123,7 +125,7 @@ class _SplashPageState extends State<SplashPage> {
     String address = await BoxApp.getAddress();
     var sp = await SharedPreferences.getInstance();
     sp.setString('is_language', "true");
-    if (address.length > 10 && account!=null) {
+    if (address.length > 10 && account != null) {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AeTabPage()), (route) => true);
       // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => true);
       // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));

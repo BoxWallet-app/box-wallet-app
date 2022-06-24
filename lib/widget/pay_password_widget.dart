@@ -12,13 +12,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:local_auth/local_auth.dart';
+import '../page/base_page.dart';
 import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
 typedef PayPasswordCallBackFuture = Future? Function(String password);
 typedef PayDismissCallBackFuture = Future Function(String password);
 
-class PayPasswordWidget extends StatefulWidget {
+class PayPasswordWidget extends BaseWidget {
   final String title;
   final int color;
   final bool isSignOld;
@@ -27,7 +28,7 @@ class PayPasswordWidget extends StatefulWidget {
   final PayPasswordCallBackFuture? passwordCallBackFuture;
   final PayPasswordCallBackFuture? dismissCallBackFuture;
 
-  const PayPasswordWidget({Key? key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false, this.isSetsPassword = false}) : super(key: key);
+  PayPasswordWidget({Key? key, this.title = "请输入你的安全密码", this.passwordCallBackFuture, this.dismissCallBackFuture, this.color = 0xFFFC2365, this.isSignOld = false, this.isAddressPassword = false, this.isSetsPassword = false});
 
   @override
   _PayPasswordWidgetState createState() {
@@ -41,7 +42,7 @@ enum _SupportState {
   unsupported,
 }
 
-class _PayPasswordWidgetState extends State<PayPasswordWidget> {
+class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
   final LocalAuthentication auth = LocalAuthentication();
 
   String text = '';
@@ -73,8 +74,8 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
   }
 
   Future<void> _authenticateWithBiometrics() async {
-    var account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
-    if (account.accountType == AccountType.ADDRESS && widget.isAddressPassword == false) {
+    var account = await WalletCoinsManager.instance.getCurrentAccount();
+    if (account!.accountType == AccountType.ADDRESS && widget.isAddressPassword == false) {
       return;
     }
     bool authenticated = false;
@@ -82,55 +83,43 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
       authenticated = await auth.authenticate(localizedReason: 'Scan your fingerprint (or face or otherwise) to verify\n扫描你的指纹(或脸或其他)来验证');
       if (!mounted) return;
       if (authenticated) {
-        var password = await (BoxApp.getPassword() as FutureOr<String>);
+        var password = await BoxApp.getPassword();
         password = Utils.aesDecode(password, Utils.generateMd5Int(AUTH_KEY));
-        if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture!(password);
+        if (widget.passwordCallBackFuture != null) widget.passwordCallBackFuture!(password!);
         Navigator.of(context).pop(); //关闭对话框
         return;
       }
       if (!mounted) return;
       isAuthError = true;
-      setState(() {
-
-      });
+      setState(() {});
       Future.delayed(Duration(milliseconds: 800), () {
-
-        try{
+        try {
           if (!mounted) return;
           FocusScope.of(context).requestFocus(_commentFocus);
-        }catch(e){
-
-        }
-
+        } catch (e) {}
       });
     } on PlatformException {
       if (!mounted) return;
 
       isAuthError = true;
-      setState(() {
-
-      });
+      setState(() {});
       Future.delayed(Duration(milliseconds: 800), () {
-
-        try{
+        try {
           if (!mounted) return;
           FocusScope.of(context).requestFocus(_commentFocus);
-        }catch(e){
-
-        }
-
+        } catch (e) {}
       });
       return;
     }
-
   }
-  bool isAuth =false;
-  bool isAuthError =false;
+
+  bool isAuth = false;
+  bool isAuthError = false;
 
   //异步加载方法
   Future<int?> _loadFuture() async {
-    var account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
-    bool isSupported =await auth.isDeviceSupported();
+    var account = await getCurrentAccount();
+    bool isSupported = await auth.isDeviceSupported();
     var isAuth = await BoxApp.getAuth();
     if (isSupported && isAuth) {
       print("true");
@@ -144,10 +133,11 @@ class _PayPasswordWidgetState extends State<PayPasswordWidget> {
     return FutureBuilder<int?>(
         future: _loadFuture(),
         builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
+          print(snapshot);
           if (snapshot.data == null) {
             return Container();
           }
-          if(isAuth && !isAuthError){
+          if (isAuth && !isAuthError) {
             return Container();
           }
           if (snapshot.data == AccountType.ADDRESS && widget.isAddressPassword == false) {

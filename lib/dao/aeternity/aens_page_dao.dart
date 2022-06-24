@@ -14,10 +14,10 @@ class AensPageDao {
     var url = "";
     switch (aensPageType) {
       case AensPageType.auction:
-        url = Host.NAME_AUCTIONS;
+        url = Host.urlNameAuctions;
         break;
       case AensPageType.price:
-        url = Host.NAME_PRICE;
+        url = Host.urlNamePrice;
         break;
       case AensPageType.over:
         url = Host.NAME_OVER;

@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 class BlockTopDao {
   static Future<BlockTopModel> fetch() async {
-    Response response = await Dio().post(Host.BLOCK_TOP);
+    Response response = await Dio().post(Host.urlBlockTop);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       BlockTopModel model = BlockTopModel.fromJson(data);

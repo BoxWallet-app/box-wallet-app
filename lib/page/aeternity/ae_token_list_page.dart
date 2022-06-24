@@ -2,23 +2,18 @@ import 'dart:async';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/price_model.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
-import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_record_page.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
@@ -26,50 +21,46 @@ import 'package:lottie/lottie.dart';
 import '../../main.dart';
 import 'ae_home_page.dart';
 
-class AeTokenListPage extends StatefulWidget {
+class AeTokenListPage extends BaseWidget {
   @override
   _TokenListPathState createState() => _TokenListPathState();
 }
 
-class _TokenListPathState extends State<AeTokenListPage> {
+class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
   var loadingType = LoadingType.loading;
   TokenListModel? tokenListModel;
-  PriceModel? priceModel;
 
   Future<void> _onRefresh() async {
-    Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+    Account account = await getCurrentAccount();
 
     var aeTokenList = await CacheManager.instance.getAETokenList(account.address!, account.coin!);
 
-    if(aeTokenList!=null){
+    if (aeTokenList != null) {
       tokenListModel = aeTokenList;
       loadingType = LoadingType.finish;
-      setState(() {
-        
-      });
+      setState(() {});
       await getCacheBalance();
       await getBalance();
     }
 
     var model = await TokenListDao.fetch(AeHomePage.address, "easy");
-    if (model != null || model.code == 200) {
+    if (model.code == 200) {
       tokenListModel = model;
       loadingType = LoadingType.finish;
-
-      CacheManager.instance.setAETokenList(account.address!, account.coin!, tokenListModel);
       setState(() {});
+      CacheManager.instance.setAETokenList(account.address!, account.coin!, tokenListModel);
+      await getCacheBalance();
+      await getBalance();
     } else {
       tokenListModel = null;
       loadingType = LoadingType.error;
       setState(() {});
     }
-    await getCacheBalance();
-    await getBalance();
   }
 
   getCacheBalance() async {
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
-      Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
+      Account account = await getCurrentAccount();
       var cacheBalance = await CacheManager.instance.getTokenBalance(account.address!, tokenListModel!.data![i].ctAddress!, account.coin!);
       if (cacheBalance != "") {
         tokenListModel!.data![i].countStr = cacheBalance;
@@ -79,14 +70,13 @@ class _TokenListPathState extends State<AeTokenListPage> {
   }
 
   Future<void> getBalance() async {
-    var maxLength = tokenListModel!.data!.length;
-    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    Account account = await getCurrentAccount();
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address,from, coin) async {
+      BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
         if (!mounted) return;
-        if(from != account!.address )return;
+        if (from != account.address) return;
 
-        if(balance == "undefined"){
+        if (balance == "undefined") {
           balance = "0";
         }
 
@@ -98,61 +88,20 @@ class _TokenListPathState extends State<AeTokenListPage> {
             CacheManager.instance.setTokenBalance(account.address!, tokenListModel!.data![j].ctAddress, account.coin!, tokenListModel!.data![j].countStr!);
           }
         }
-        if (!mounted)return;
+        if (!mounted) return;
         setState(() {});
-      }, account!.address!, tokenListModel!.data![i].ctAddress!);
+      }, account.address!, tokenListModel!.data![i].ctAddress!);
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    netBaseData();
-    Future.delayed(Duration(milliseconds: 600), () {
+    Future.delayed(Duration(milliseconds: 0), () {
       _onRefresh();
     });
   }
 
-  void netBaseData() {
-    var type = "usd";
-    if (BoxApp.language == "cn") {
-      type = "cny";
-    } else {
-      type = "usd";
-    }
-    PriceDao.fetch("aeternity", type).then((PriceModel model) {
-      priceModel = model;
-      setState(() {});
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
-
-  String getAePrice(int index) {
-    if (tokenListModel!.data![index].countStr == null || tokenListModel!.data![index].countStr == "" || tokenListModel!.data![index].rate == null || tokenListModel!.data![index].rate == "") {
-      return "";
-    }
-    if (priceModel == null) {
-      return "";
-    }
-    if (BoxApp.language == "cn" && priceModel!.aeternity != null) {
-      if (priceModel!.aeternity!.cny == null) {
-        return "";
-      }
-      if (double.parse(tokenListModel!.data![index].countStr!) < 1000) {
-        return "≈ " + (priceModel!.aeternity!.cny! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (CNY)";
-      } else {
-//        return "≈ " + (2000.00*6.5 * double.parse(HomePage.token)).toStringAsFixed(0) + " (CNY)";
-        return "≈ " + (priceModel!.aeternity!.cny! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (CNY)";
-      }
-    } else {
-      if (priceModel!.aeternity!.usd == null) {
-        return "";
-      }
-      return "≈ " + (priceModel!.aeternity!.usd! * double.parse(tokenListModel!.data![index].countStr!) * double.parse(tokenListModel!.data![index].rate!)).toStringAsFixed(2) + " (USD)";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,13 +143,10 @@ class _TokenListPathState extends State<AeTokenListPage> {
               showGeneralDialog(
                   useRootNavigator: false,
                   context: context,
-                  pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-                  //barrierColor: Colors.grey.withOpacity(.4),
                   barrierDismissible: true,
                   barrierLabel: "",
                   transitionDuration: Duration(milliseconds: 0),
                   transitionBuilder: (context, anim1, anim2, child) {
-                    final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
                     return Transform(
                         transform: Matrix4.translationValues(0.0, 0, 0.0),
                         child: Opacity(
@@ -232,8 +178,6 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(60)),
                                             onTap: () {
                                               Navigator.pop(context); //关闭对话框
-                                              // ignore: unnecessary_statements
-//                                  widget.dismissCallBackFuture("");
                                             },
                                             child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
                                           ),
@@ -261,7 +205,6 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                           ),
                                         ),
                                       ),
-
                                       Container(
                                         margin: const EdgeInsets.only(top: 30, bottom: 20),
                                         child: ArgonButton(
@@ -292,13 +235,14 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                           color: Color(0xFFFC2365),
                                         ),
                                       ),
-
-//          Text(text),
                                     ],
                                   ),
                                 ),
                               ),
                             )));
+                  },
+                  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                    return Container();
                   });
             },
           ),
@@ -382,10 +326,10 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                 child: Image.network(
                                   tokenListModel!.data![index].image!,
                                   errorBuilder: (
-                                      BuildContext context,
-                                      Object error,
-                                      StackTrace? stackTrace,
-                                      ) {
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                  ) {
                                     return Container(
                                       color: Colors.grey.shade200,
                                     );
@@ -421,9 +365,7 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                     width: 50,
                                     height: 50,
                                     child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
                                       'images/loading.json',
-//              'images/animation_khzuiqgg.json',
                                     ),
                                   )
                                 : Column(
@@ -435,15 +377,6 @@ class _TokenListPathState extends State<AeTokenListPage> {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
-                                      if (getAePrice(index) != "")
-                                        Container(
-                                          margin: EdgeInsets.only(top: 5),
-                                          child: Text(
-                                            getAePrice(index),
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                          ),
-                                        ),
                                     ],
                                   ),
 
