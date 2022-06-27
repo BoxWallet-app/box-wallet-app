@@ -9,18 +9,19 @@ import 'dart:async';
 import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
-class AuthPage extends StatefulWidget {
+class AuthPage extends BaseWidget {
   @override
   _AuthPageState createState() => _AuthPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthPageState extends BaseWidgetState<AuthPage> {
   final LocalAuthentication auth = LocalAuthentication();
   _SupportState _supportState = _SupportState.unknown;
   bool? _canCheckBiometrics;
@@ -44,21 +45,6 @@ class _AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
-  Future<void> _checkBiometrics() async {
-    bool canCheckBiometrics;
-    try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      canCheckBiometrics = false;
-      print(e);
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _canCheckBiometrics = canCheckBiometrics;
-    });
-  }
-
   String title = "";
 
   Future<void> availableBiometrics() async {
@@ -70,7 +56,7 @@ class _AuthPageState extends State<AuthPage> {
       print(e);
     }
     print(availableBiometrics);
-    if (!mounted) return ;
+    if (!mounted) return;
 
     if (availableBiometrics[0] == BiometricType.face) {
       title = S.current.auth_title_1;
@@ -83,63 +69,6 @@ class _AuthPageState extends State<AuthPage> {
     }
     print(title);
     setState(() {});
-  }
-
-  Future<void> _authenticate() async {
-    bool authenticated = false;
-    try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = '进行身份验证';
-      });
-      authenticated = await auth.authenticate(localizedReason: '让OS决定认证方法');
-      setState(() {
-        _isAuthenticating = false;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = "Error - ${e.message}";
-      });
-      return;
-    }
-    if (!mounted) return;
-
-    setState(() => _authorized = authenticated ? 'Authorized' : 'Not Authorized');
-  }
-
-  Future<void> _authenticateWithBiometrics() async {
-    bool authenticated = false;
-    try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = '进行身份验证';
-      });
-      authenticated = await auth.authenticate(localizedReason: '扫描你的指纹(或脸或其他)来验证');
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = '进行身份验证';
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = "Error - ${e.message}";
-      });
-      return;
-    }
-    if (!mounted) return;
-
-    final String message = authenticated ? '授权' : '未授权';
-    setState(() {
-      _authorized = message;
-    });
-  }
-
-  void _cancelAuthentication() async {
-    await auth.stopAuthentication();
-    setState(() => _isAuthenticating = false);
   }
 
   @override
@@ -169,7 +98,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       backgroundColor: Color(0xfffafafa),
       body: Container(
-        margin: EdgeInsets.only(left: 18,right: 18),
+        margin: EdgeInsets.only(left: 18, right: 18),
         child: ListView(
           children: [
             Column(
@@ -179,7 +108,6 @@ class _AuthPageState extends State<AuthPage> {
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   color: Colors.white,
                   child: Container(
-
                     padding: const EdgeInsets.all(18),
                     child: Column(
                       children: <Widget>[
@@ -212,78 +140,21 @@ class _AuthPageState extends State<AuthPage> {
                                 value: isOpenAuth,
                                 activeColor: Color(0xFFFC2365),
                                 onChanged: (value) {
-
-                                  if(value){
-                                    showGeneralDialog(
-                                        useRootNavigator: false,
-                                        context: context,
-                                        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-                                        //barrierColor: Colors.grey.withOpacity(.4),
-                                        barrierDismissible: true,
-                                        barrierLabel: "",
-                                        transitionDuration: Duration(milliseconds: 0),
-                                        transitionBuilder: (_, anim1, anim2, child) {
-                                          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                                          return Transform(
-                                            transform: Matrix4.translationValues(0.0, 0, 0.0),
-                                            child: Opacity(
-                                              opacity: anim1.value,
-                                              // ignore: missing_return
-                                              child: PayPasswordWidget(
-                                                title: S.of(context).password_widget_input_password,
-                                                dismissCallBackFuture: (String password) {return;},
-                                                passwordCallBackFuture: (String password) async {
-                                                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                                                  var address = await BoxApp.getAddress();
-                                                  final key = Utils.generateMd5Int(password + address);
-                                                  var signingKeyDecode = Utils.aesDecode(signingKey, key);
-
-                                                  if (signingKeyDecode == "") {
-                                                    showDialog<bool>(
-                                                      context: context,
-                                                      barrierDismissible: false,
-                                                      builder: (BuildContext dialogContext) {
-                                                        return new AlertDialog(
-                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                                                          title: Text(S.of(context).dialog_hint_check_error),
-                                                          content: Text(S.of(context).dialog_hint_check_error_content),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              child: new Text(
-                                                                S.of(context).dialog_conform,
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.of(dialogContext).pop(false);
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    ).then((val) {
-                                                    });
-
-                                                    return;
-                                                  }
-                                                  BoxApp.setPassword(Utils.aesEncode(password, Utils.generateMd5Int(AUTH_KEY)));
-                                                  setState(() {
-                                                    isOpenAuth = value;
-                                                  });
-                                                  BoxApp.setAuth(isOpenAuth);
-
-                                                },
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  }else{
-
+                                  if (value) {
+                                    showPasswordDialog(context, (address, privateKey, password) async {
+                                      BoxApp.setPassword(Utils.aesEncode(password, Utils.generateMd5Int(AUTH_KEY)));
+                                      setState(() {
+                                        isOpenAuth = value;
+                                      });
+                                      BoxApp.setAuth(isOpenAuth);
+                                    });
+                                  } else {
                                     setState(() {
                                       isOpenAuth = value;
                                     });
                                     BoxApp.setPassword("");
                                     BoxApp.setAuth(isOpenAuth);
                                   }
-
                                 },
                               ),
                             ),
@@ -294,56 +165,6 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   ),
                 ),
-                // if (_supportState == _SupportState.unknown) CircularProgressIndicator() else if (_supportState == _SupportState.supported) Text("支持此设备") else Text("不支持该设备"),
-                // Divider(height: 100),
-                // Text('可以检查生物识别技术:$_canCheckBiometrics\n'),
-                // ElevatedButton(
-                //   child: const Text('检查生物识别技术'),
-                //   onPressed: _checkBiometrics,
-                // ),
-                // Divider(height: 100),
-                // Text('可用的生物识别技术:$_availableBiometrics\n'),
-                // ElevatedButton(
-                //   child: const Text('获得可用的生物识别技术'),
-                //   onPressed: availableBiometrics,
-                // ),
-                // Divider(height: 100),
-                // Text('当前状态: $_authorized\n'),
-                // (_isAuthenticating)
-                //     ? ElevatedButton(
-                //         onPressed: _cancelAuthentication,
-                //         child: Row(
-                //           mainAxisSize: MainAxisSize.min,
-                //           children: [
-                //             Text("取消认证"),
-                //             Icon(Icons.cancel),
-                //           ],
-                //         ),
-                //       )
-                //     : Column(
-                //         children: [
-                //           ElevatedButton(
-                //             child: Row(
-                //               mainAxisSize: MainAxisSize.min,
-                //               children: [
-                //                 Text('进行身份验证'),
-                //                 Icon(Icons.perm_device_information),
-                //               ],
-                //             ),
-                //             onPressed: _authenticate,
-                //           ),
-                //           ElevatedButton(
-                //             child: Row(
-                //               mainAxisSize: MainAxisSize.min,
-                //               children: [
-                //                 Text(_isAuthenticating ? '取消' : '验证:生物识别技术'),
-                //                 Icon(Icons.fingerprint),
-                //               ],
-                //             ),
-                //             onPressed: _authenticateWithBiometrics,
-                //           ),
-                //         ],
-                //       ),
               ],
             ),
           ],

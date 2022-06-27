@@ -281,12 +281,13 @@ class Utils {
       return "3" + S.of(context).common_points;
     }
     //秒
-    var time = height * 3;
+    int time = height * 3;
     if (time > 60 * 24) {
-      return (time / (60 * 24)).toString() + S.of(context).common_day;
+      int i = (60 * 24);
+      return (time ~/ i).toString() + S.of(context).common_day;
     }
     if (time > 60) {
-      return (time / (60)).toString() + S.of(context).common_hours;
+      return (time ~/ 60).toString() + S.of(context).common_hours;
     }
     return (time).toInt().toString() + S.of(context).common_points;
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -12,16 +13,16 @@ import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 
-class AeAensTransferPage extends StatefulWidget {
+class AeAensTransferPage extends BaseWidget {
   final String? name;
 
-  const AeAensTransferPage({Key? key, this.name}) : super(key: key);
+  AeAensTransferPage({Key? key, this.name});
 
   @override
   _AeAensTransferPageState createState() => _AeAensTransferPageState();
 }
 
-class _AeAensTransferPageState extends State<AeAensTransferPage> {
+class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
   late Flushbar flush;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _focus = FocusNode();
@@ -220,160 +221,17 @@ class _AeAensTransferPageState extends State<AeAensTransferPage> {
 
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();
-    showGeneralDialog(useRootNavigator:false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, 0, 0.0),
-            child: Opacity(
-              opacity: anim1.value,
-              // ignore: missing_return
-              child: PayPasswordWidget(
-                title: S.of(context).password_widget_input_password,
-                dismissCallBackFuture: (String password) {
-                  return;
-                },
-                passwordCallBackFuture: (String password) async {
-                  var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                  var address = await BoxApp.getAddress();
-                  final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                  if (aesDecode == "") {
-                    showErrorDialog(context, null);
-                    return;
-                  }
-                  // ignore: missing_return
-                  BoxApp.transferName((tx) {
-                    showCopyHashDialog(context, tx);
-
-                    // ignore: missing_return
-                  } as Future<dynamic> Function(String), (error) {
-                    showErrorDialog(context, error);
-
-                    // ignore: missing_return
-                  }, aesDecode, address, widget.name!, _textEditingController.text);
-                  showChainLoading();
-                },
-              ),
-            ),
-          );
+    showPasswordDialog(context, (address, privateKey, password) async {
+      BoxApp.transferName((tx) async {
+        showCopyHashDialog(context, tx, (val) async {
+          showFlushSucess(context);
         });
+      }, (error) {
+        showConfirmDialog(S.of(context).dialog_hint, error);
+        return;
+      }, privateKey, address, widget.name!, _textEditingController.text);
+      showChainLoading();
+    });
   }
 
-  void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget();
-        });
-  }
-
-  void showFlush(BuildContext context) {
-    flush = Flushbar<bool>(
-      title: S.of(context).hint_broadcast_sucess,
-      message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
-      blockBackgroundInteraction: true,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      //                        flushbarStyle: FlushbarStyle.GROUNDED,
-
-      mainButton: FlatButton(
-        onPressed: () {
-          flush.dismiss(true); // result = true
-        },
-        child: Text(
-          S.of(context).dialog_conform,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Color(0x88000000),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-    )..show(context).then((result) {
-        eventBus.fire(NameEvent());
-        Navigator.pop(context);
-      });
-  }
-  void showErrorDialog(BuildContext buildContext, String? content) {
-    if (content == null) {
-      content = S.of(buildContext).dialog_hint_check_error_content;
-    }
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-          title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content!),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_conform,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
-
-  void showCopyHashDialog(BuildContext buildContext, String tx) {
-    showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-          title: Text(S.current.dialog_hint_hash),
-          content: Text(tx),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_copy,
-              ),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: tx));
-                Navigator.of(dialogContext, rootNavigator: true).pop();
-                showFlush(context);
-              },
-            ),
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_dismiss,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
 }

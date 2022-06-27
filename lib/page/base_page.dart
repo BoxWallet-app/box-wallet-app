@@ -10,7 +10,7 @@ import '../utils/utils.dart';
 import '../widget/chain_loading_widget.dart';
 import '../widget/pay_password_widget.dart';
 
-typedef ShowPasswordDialogListener = Future Function(String address, String privateKey);
+typedef ShowPasswordDialogListener = Future Function(String address, String privateKey, String password);
 typedef ShowCopyHashDialogListener = Future Function(bool val);
 
 abstract class BaseWidget extends StatefulWidget {}
@@ -83,6 +83,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
       },
     ).then((val) {
       if (val!) {
+        // Clipboard.setData(ClipboardData(text: "https://explorer.aeternity.io/transactions/" + hash));
         Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/" + hash));
       }
       showCopyHashDialogListener(val);
@@ -123,6 +124,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
         useRootNavigator: false,
         context: context,
         barrierDismissible: true,
+        barrierColor : const Color(0x00000000),
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
@@ -145,7 +147,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                     showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
                     return;
                   }
-                  passwordDialogListener(address, aesDecode!);
+                  passwordDialogListener(address, aesDecode!, password);
 
                   return;
                 },

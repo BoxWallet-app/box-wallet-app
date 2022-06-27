@@ -31,11 +31,16 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
   int page = 1;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    _controller.callRefresh();
-    _controller.callLoad();
-    _onLoad();
+    Future.delayed(Duration(milliseconds: 0), () async {
+      try {
+        if (!mounted) return;
+        _controller.callRefresh();
+        _controller.callLoad();
+        _onLoad();
+      } catch (e) {}
+    });
   }
 
   Future<void> netData() async {
@@ -200,7 +205,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
   }
 
   String setNameTime(int position) {
-    switch (widget.aensPageType) {
+    switch (widget.aensPageType!) {
       case AensPageType.auction:
       case AensPageType.price:
       case AensPageType.my_auction:
@@ -209,7 +214,6 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
       case AensPageType.my_over:
         return S.of(context).aens_list_page_item_time_over + ' :' + Utils.formatHeight(context, _aensPageModel!.data![position].currentHeight!, _aensPageModel!.data![position].overHeight!);
     }
-    return "";
   }
 
   Future<void> _onRefresh() async {

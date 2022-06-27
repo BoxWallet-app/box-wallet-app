@@ -7,6 +7,7 @@ import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/token_record_model.dart';
 import 'package:box/page/aeternity/ae_token_receive_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -20,19 +21,19 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../main.dart';
 import 'ae_home_page.dart';
 
-class AeTokenRecordPage extends StatefulWidget {
+class AeTokenRecordPage extends BaseWidget {
   final String? ctId;
   final String? coinName;
   final String? coinImage;
   final String? coinCount;
 
-  const AeTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) : super(key: key);
+  AeTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) ;
 
   @override
   _TokenRecordState createState() => _TokenRecordState();
 }
 
-class _TokenRecordState extends State<AeTokenRecordPage> {
+class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
   var loadingType = LoadingType.loading;
   TokenRecordModel? tokenListModel;
   int page = 1;
@@ -47,7 +48,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
 
   Future<void> netTokenRecord() async {
     TokenRecordModel model = await TokenRecordDao.fetch(widget.ctId, page.toString());
-    if (model != null || model.code == 200) {
+    if (model.code == 200) {
       if (page == 1) {
         tokenListModel = model;
         loadingType = LoadingType.finish;
@@ -82,7 +83,6 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
         setState(() {});
       } else {}
     }).catchError((e) {
-//      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
 
@@ -406,14 +406,14 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
                                         tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Utils.formatAddress(tokenListModel!.data![index - 1].callAddress) : Utils.formatAddress(tokenListModel!.data![index - 1].aex9ReceiveAddress),
-                                        style: TextStyle(fontSize: 17, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
                                         Utils.formatTime(tokenListModel!.data![index - 1].createTime),
-                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),
                                     ),
                                   ],
@@ -425,7 +425,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                   children: [
                                     Text(
                                       tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? "+ " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName! : "- " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName!,
-                                      style: TextStyle(fontSize: 17, color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                     Container(
                                       height: 5,
@@ -434,7 +434,7 @@ class _TokenRecordState extends State<AeTokenRecordPage> {
                                     Text(
                                       "- " + tokenListModel!.data![index - 1].fee! + " AE",
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                     ),
                                   ],
                                 ),

@@ -550,7 +550,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
       return;
     }
     focusNode.unfocus();
-    showPasswordDialog(context, (address, privateKey) async {
+    showPasswordDialog(context, (address, privateKey, password) async {
       showChainLoading();
       if (tokenContract == null || tokenContract == "") {
         BoxApp.spend((tx) {
