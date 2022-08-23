@@ -15,7 +15,7 @@ class WalletCoinsManager {
 
   Future<bool> init() async {
     var prefs = await SharedPreferences.getInstance();
-    var walletCoinsJson = prefs.getString('wallet_coins')!;
+    var walletCoinsJson = prefs.getString('wallet_coins');
     final key = Utils.generateMd5Int(LOCAL_KEY);
     walletCoinsJson = Utils.aesDecode(walletCoinsJson, key);
     WalletCoinsModel model;
@@ -133,6 +133,15 @@ class WalletCoinsManager {
       for (var i = 0; i < coins.coins!.length; i++) {
         if (coins.coins![i].accounts != null) {
           for (var j = 0; j < coins.coins![i].accounts!.length; j++) {
+            if (coins.coins![i].accounts![j].address == address) {
+              return false;
+            }
+          }
+        }
+      }
+      for (var i = 0; i < coins.coins!.length; i++) {
+        if (coins.coins![i].accounts != null) {
+          for (var j = 0; j < coins.coins![i].accounts!.length; j++) {
             coins.coins![i].accounts![j].isSelect = false;
           }
         }
@@ -159,7 +168,7 @@ class WalletCoinsManager {
   Future<bool?> removeAccount(WalletCoinsModel? walletCoinsModel, String? address) async {
     await setCoins(walletCoinsModel);
     WalletCoinsModel coins = await getCoins();
-    if(coins.coins == null || coins.coins!.length == 0){
+    if (coins.coins == null || coins.coins!.length == 0) {
       return null;
     }
     //增加循环，因为eth系列地址私钥和助记词一样，只有本地存在eth系列地址大于1的情况下，就不清空本地私钥和助记词
@@ -171,7 +180,7 @@ class WalletCoinsManager {
         }
       }
     }
-    if(count > 1){
+    if (count > 1) {
       return true;
     }
     await setMnemonicAndSigningKey(address!, "", "", false);
@@ -197,7 +206,7 @@ class WalletCoinsManager {
 
   Future<Account?> getCurrentAccount() async {
     WalletCoinsModel coins = await getCoins();
-    if(coins.coins == null || coins.coins!.length == 0){
+    if (coins.coins == null || coins.coins!.length == 0) {
       return null;
     }
     for (var i = 0; i < coins.coins!.length; i++) {

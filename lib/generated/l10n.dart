@@ -2600,20 +2600,20 @@ class S {
     );
   }
 
-  /// `User-friendly multi-chain wallet`
+  /// `A wallet specially designed for the Aeternity chain`
   String get login_sg1 {
     return Intl.message(
-      'User-friendly multi-chain wallet',
+      'A wallet specially designed for the Aeternity chain',
       name: 'login_sg1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Strong project incubator`
+  /// `Multiple Aepp support, a magical magic box`
   String get login_sg2 {
     return Intl.message(
-      'Strong project incubator',
+      'Multiple Aepp support, a magical magic box',
       name: 'login_sg2',
       desc: '',
       args: [],

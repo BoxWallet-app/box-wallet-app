@@ -318,7 +318,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
       EasyLoading.dismiss();
       if (isSucess) {
         _textEditingController.text = "";
-        if (widget.type == CreateMnemonicCopyPage.LOGIN) {
+        if (widget.type == CreateMnemonicCopyPage.login) {
 
           if (Platform.isIOS) {
              Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));

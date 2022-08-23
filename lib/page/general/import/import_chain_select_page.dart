@@ -131,9 +131,9 @@ class _SelectChainCreatePathState extends State<ImportChainSelectPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (Platform.isIOS) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ImportAccountCommonPage(type: CreateMnemonicCopyPage.LOGIN)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ImportAccountCommonPage(type: CreateMnemonicCopyPage.login)));
               } else {
-                Navigator.push(context, SlideRoute(ImportAccountCommonPage(type: CreateMnemonicCopyPage.LOGIN)));
+                Navigator.push(context, SlideRoute(ImportAccountCommonPage(type: CreateMnemonicCopyPage.login)));
               }
             },
             child: Container(

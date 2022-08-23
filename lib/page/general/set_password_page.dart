@@ -244,7 +244,8 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   child: Container(
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.8,
-                    child: FlatButton(
+                    child: TextButton(
+                      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                       onPressed: () {
                         if (!BoxApp.isDev()) {
                           if (_textEditingControllerNode.text.length < 7) {
@@ -257,30 +258,11 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                           }
                         }
 
+                        //只需要回调,不需要走业务逻辑,往下进行
                         if (widget.setPasswordPageCallBackFuture != null) {
-                          if (widget.setPasswordPageCallBackFuture != null) {
-                            widget.setPasswordPageCallBackFuture!(Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY));
-                          }
-                          Navigator.pop(context);
-                          return;
+                          widget.setPasswordPageCallBackFuture!(Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY));
                         }
-                        if (Platform.isIOS) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SelectChainCreatePage(
-                                        mnemonic: widget.mnemonic,
-                                        password: Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY),
-                                      )));
-                        } else {
-                          Navigator.push(
-                              context,
-                              SlideRoute(SelectChainCreatePage(
-                                mnemonic: widget.mnemonic,
-                                password: Utils.generateMD5(_textEditingControllerNode.text + PSD_KEY),
-                              )));
-                        }
-
+                        Navigator.pop(context);
                         return;
                       },
                       child: Text(
@@ -288,9 +270,6 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                         maxLines: 1,
                         style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                       ),
-                      color: Color(0xFFFC2365),
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                 ),

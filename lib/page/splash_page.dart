@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -5,6 +6,7 @@ import 'package:box/dao/urls.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,40 +15,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:umeng_common_sdk/umeng_common_sdk.dart';
 
 import '../main.dart';
+import 'aeternity/ae_home_page.dart';
+import 'aeternity/new_home_page.dart';
 import 'login_page_new.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends BaseWidget {
   @override
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends BaseWidgetState<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 0), () async {
-      try {
-        if (!mounted) return;
-        if (Platform.isIOS) {
-          UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603de7826ee47d382b6d2a8b', 'App Store');
-        } else {
-          UmengCommonSdk.initCommon('603dd6d86ee47d382b6cecb0', '603dd6d86ee47d382b6cecb0', 'Google');
-        }
-        await startService();
-      } catch (e) {}
-    });
+    //友盟统计
+    UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603dd6d86ee47d382b6cecb0', '');
+    //启动服务
+    startService();
   }
 
+  //服务
   Future<void> startService() async {
+    //开启SDK 服务
     await BoxApp.startAeService(context, () async {
+      //初始化钱包相关代码
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
-      String? isLanguage = "false";
+      bool? isLanguage = false;
       try {
-        isLanguage = sharedPreferences.getString('is_language');
-      } catch (e) {}
-
-      if (isLanguage.toString() == "true") {
+        isLanguage = sharedPreferences.getBool('is_language');
+      } catch (e) {
+        // logger.warning("SPLASH ERROR : " + e.toString());
+      }
+      if (isLanguage == null) {
+        isLanguage = false;
+      }
+      if (isLanguage) {
         var language = await BoxApp.getLanguage();
         BoxApp.language = language;
         logger.info("APP LANGUAGE : " + language);
@@ -55,53 +59,18 @@ class _SplashPageState extends State<SplashPage> {
           goHome();
         });
       } else {
-        Future.delayed(Duration.zero, () {
-          showDialog<bool>(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return new AlertDialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: Text(
-                  "选择语言 / Language",
-                ),
-                content: Text(
-                  "Please choose the language you want to use\n请选择你要使用的语言",
-                  style: TextStyle(
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: new Text(
-                      "中文",
-                    ),
-                    onPressed: () {
-                      BoxApp.language = "cn";
-                      BoxApp.setLanguage("cn");
-                      //通知将第一页背景色变成红色
-                      S.load(Locale("cn", "cn".toUpperCase()));
-                      Navigator.of(context, rootNavigator: true).pop();
-                      goHome();
-                    },
-                  ),
-                  TextButton(
-                    child: new Text(
-                      "English",
-                    ),
-                    onPressed: () {
-                      BoxApp.language = "en";
-                      BoxApp.setLanguage("en");
-                      //通知将第一页背景色变成红色
-                      S.load(Locale("en", "en".toUpperCase()));
-                      Navigator.of(context, rootNavigator: true).pop();
-                      goHome();
-                    },
-                  ),
-                ],
-              );
-            },
-          ).then((val) {});
+        showCommonDialog(context, "选择语言 / Language", "Please choose the language you want to use\n请选择你要使用的语言", "中文", "English", (val) async {
+          if (val) {
+            BoxApp.language = "cn";
+            BoxApp.setLanguage("cn");
+            S.load(Locale("cn", "cn".toUpperCase()));
+          } else {
+            BoxApp.language = "en";
+            BoxApp.setLanguage("en");
+            S.load(Locale("en", "en".toUpperCase()));
+          }
+          Navigator.of(context, rootNavigator: true).pop();
+          goHome();
         });
       }
       return;
@@ -111,28 +80,32 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> goHome() async {
     Host.baseHost = await BoxApp.getBaseHost();
     String nodeUrl = await BoxApp.getNodeUrl();
-    String compilerUrl = await BoxApp.getCompilerUrl();
-    String nodeCfxUrl = await BoxApp.getCfxNodeUrl();
-    if (nodeUrl != "" && compilerUrl != "") {
-      BoxApp.setNodeCompilerUrl(nodeUrl, compilerUrl);
+    if (nodeUrl != "") {
+      setSDKBaseUrl(nodeUrl);
     }
-    if (nodeCfxUrl != "") {
-      BoxApp.setCfxNodeCompilerUrl(nodeCfxUrl);
-    }
-
+    //获取当前的账号
     var account = await WalletCoinsManager.instance.getCurrentAccount();
-
     String address = await BoxApp.getAddress();
     var sp = await SharedPreferences.getInstance();
-    sp.setString('is_language', "true");
+    sp.setBool('is_language', true);
+    //获取用户是否登录了
     if (address.length > 10 && account != null) {
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AeTabPage()), (route) => true);
-      // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => new AeTabPage()), (route) => true);
-      // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => NewHomePage()), (route) => true);
     } else {
-      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new LoginPageNew()), (route) => route == null);
-      // Navigator.of(context).pushNamedAndRemoveUntil('/login',ModalRoute.withName('/splash'));
+      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new LoginPageNew()), (route) => true);
     }
+  }
+
+  //设置SDK Url
+  void setSDKBaseUrl(String nodeUrl) {
+    var jsonData = {
+      "name": "aeSetNodeUrl",
+      "params": {"url": nodeUrl}
+    };
+    var channelJson = json.encode(jsonData);
+    BoxApp.sdkChannelCall((result) {
+      return;
+    }, channelJson);
   }
 
   @override
@@ -157,7 +130,7 @@ class _SplashPageState extends State<SplashPage> {
                     child: Image(
                       width: 280,
                       height: 280,
-                      image: AssetImage('images/splasn_logo.png'),
+                      image: AssetImage('images/splash_logo.png'),
                     ),
                   ),
                 ),

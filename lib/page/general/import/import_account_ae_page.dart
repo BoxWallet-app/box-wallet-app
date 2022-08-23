@@ -58,7 +58,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            S.of(context).ImportAccountPage_title1+" " + widget.fullName! + S.of(context).ImportAccountPage_title2,
+            S.of(context).ImportAccountPage_title1+"" + widget.fullName! + S.of(context).ImportAccountPage_title2,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,

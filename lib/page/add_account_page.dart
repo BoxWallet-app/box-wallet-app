@@ -184,9 +184,9 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                   EasyLoading.dismiss();
 
                                   if (Platform.isIOS) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.add)));
                                   } else {
-                                    Navigator.push(context, SlideRoute(CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.ADD)));
+                                    Navigator.push(context, SlideRoute(CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.add)));
                                   }
 
 

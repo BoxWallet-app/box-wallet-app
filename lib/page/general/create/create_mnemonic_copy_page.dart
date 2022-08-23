@@ -11,8 +11,8 @@ import 'create_mnemonic_confirm_page.dart';
 
 // ignore: must_be_immutable
 class CreateMnemonicCopyPage extends StatefulWidget {
-  static final int LOGIN = 0;
-  static final int ADD = 1;
+  static final int login = 0;
+  static final int add = 1;
   final String? mnemonic;
   final int? type;
 
@@ -32,18 +32,10 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-//    String mnemonic = " track gravity";
-//    List mnemonicList = mnemonic.split(" ");
-
     List mnemonicList = widget.mnemonic!.split(" ");
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-
-//    for (String item in mnemonicList) {
-//      mnemonicWord[item] = false;
-//    }
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       updateData();
     });
@@ -55,7 +47,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFfafbfc),
         appBar: AppBar(
-          centerTitle:true,
+          centerTitle: true,
           backgroundColor: Color(0xFFfafbfc),
           elevation: 0,
           title: Text(
@@ -100,13 +92,12 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       ),
                     ),
                   ),
-
                   Center(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                       padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(12))),
                       child: Wrap(
                         spacing: 10, //主轴上子控件的间距
                         runSpacing: 10, //交叉轴上子控件之间的间距
@@ -114,20 +105,11 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       ),
                     ),
                   ),
-//              Container(
-//                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-//                width: MediaQuery.of(context).size.width,
-//                child: Wrap(
-//                  spacing: 10, //主轴上子控件的间距
-//                  runSpacing: 10, //交叉轴上子控件之间的间距
-//                  children: childrenFalse,
-//                ),
-//              ),
                   Container(
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     child: Text(
-                     S.of(context).CreateMnemonicCopyPage_tips,
+                      S.of(context).CreateMnemonicCopyPage_tips,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.red,
@@ -140,21 +122,13 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                     child: Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
+                      child: TextButton(
+                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                         onPressed: () {
-                          if (widget.type == CreateMnemonicCopyPage.LOGIN) {
-                            if (Platform.isIOS) {
-                               Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
-                            } else {
-                              Navigator.push(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.LOGIN)));
-                            }
-
+                          if (widget.type == CreateMnemonicCopyPage.login) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.login)));
                           } else {
-                            if (Platform.isIOS) {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
-                            } else {
-                              Navigator.pushReplacement(context, SlideRoute( CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.ADD)));
-                            }
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateMnemonicConfirmPage(mnemonic: widget.mnemonic, type: CreateMnemonicCopyPage.add)));
                           }
                         },
                         child: Text(
@@ -162,9 +136,6 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFFFC2365),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),
@@ -177,7 +148,6 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
 
   updateData() {
     childrenFalse.clear();
-
     mnemonicWord.forEach((k, v) {
       if (!v) childrenFalse.add(getItemContainer(k!, false));
     });
@@ -198,12 +168,11 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
             border: Border.all(color: Color(0xFFCCCCCC)),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           child: InkWell(
-            // borderRadius: BorderRadius.all(Radius.circular(15)),
             onTap: () {},
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             child: Center(
               child: Container(
                 alignment: Alignment.center,

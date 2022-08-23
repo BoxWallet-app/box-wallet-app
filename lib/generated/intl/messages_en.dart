@@ -566,9 +566,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create a new account"),
         "login_page_login": MessageLookupByLibrary.simpleMessage("Get started"),
         "login_sg1": MessageLookupByLibrary.simpleMessage(
-            "User-friendly multi-chain wallet"),
-        "login_sg2":
-            MessageLookupByLibrary.simpleMessage("Strong project incubator"),
+            "A wallet specially designed for the Aeternity chain"),
+        "login_sg2": MessageLookupByLibrary.simpleMessage(
+            "Multiple Aepp support, a magical magic box"),
         "login_sg3": MessageLookupByLibrary.simpleMessage(
             "Customized ecological support"),
         "mnemonic_confirm_content": MessageLookupByLibrary.simpleMessage(

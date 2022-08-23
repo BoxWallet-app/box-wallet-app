@@ -457,9 +457,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_btn_input": MessageLookupByLibrary.simpleMessage("恢复钱包"),
         "login_page_create": MessageLookupByLibrary.simpleMessage("创建新账户"),
         "login_page_login": MessageLookupByLibrary.simpleMessage("开始使用"),
-        "login_sg1": MessageLookupByLibrary.simpleMessage("更好用的多币种 多链钱包"),
-        "login_sg2": MessageLookupByLibrary.simpleMessage("优秀公链孵化器 好项目值得被发现"),
-        "login_sg3": MessageLookupByLibrary.simpleMessage("匠心精神，做好每一条公链的生态建设"),
+        "login_sg1":
+            MessageLookupByLibrary.simpleMessage("专为Aeternity公链定制的一款钱包"),
+        "login_sg2": MessageLookupByLibrary.simpleMessage("支持多种Aepp，神奇的魔盒"),
+        "login_sg3": MessageLookupByLibrary.simpleMessage("匠心精神，做好每一个功能"),
         "mnemonic_confirm_content":
             MessageLookupByLibrary.simpleMessage("为了确认您的助记词正确抄写,请按照对应的顺序点击助记词"),
         "mnemonic_confirm_title":
