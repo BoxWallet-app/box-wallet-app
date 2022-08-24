@@ -39,6 +39,7 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import '../general/wallet_select_page_new.dart';
 import '../mnemonic_copy_page.dart';
 
 class NewHomePage extends BaseWidget {
@@ -233,7 +234,6 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
         },
 
         child: Scaffold(
-          // backgroundColor: Color(0xFFffffff),
           resizeToAvoidBottomInset: false,
           body: Container(
             child: Column(
@@ -249,8 +249,8 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                   height: 52,
                   child: Stack(
                     children: [
-                      buildTitleAccount(context),
-                      buildTitleSettings(context),
+                      buildTitleAccount(),
+                      buildTitleSettings(),
                     ],
                   ),
                 ),
@@ -262,6 +262,19 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                 ),
               ],
             ),
+          ),
+
+          drawer: ClipRRect(
+            borderRadius: BorderRadius.only(topRight:Radius.circular(20),bottomRight:Radius.circular(20)),
+            child:  Container(
+                width: MediaQuery.of(context).size.width-60,child: WalletSelectPageNew(),
+            ),
+          ),
+          // 右侧抽屉
+          endDrawer: ClipRRect(
+            borderRadius: BorderRadius.only(topLeft:Radius.circular(20),bottomLeft:Radius.circular(20)),
+            child: Container(
+                width: MediaQuery.of(context).size.width-60,child: SettingPage()),
           ),
         ),
       ),
@@ -276,141 +289,128 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     );
   }
 
-  Positioned buildTitleAccount(BuildContext context) {
+  Positioned buildTitleAccount() {
     return Positioned(
       left: 18,
-      child: Container(
-        height: 52,
-        alignment: Alignment.center,
-        child: Material(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-          child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(50)),
-            onTap: () {
-              showMaterialModalBottomSheet(
-                  expand: false,
-                  context: context,
-                  enableDrag: false,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return WalletSelectPage();
-                  });
-              // Navigator.push(context, SlideRoute( AddAccountPage(coin:coin,password: password,)));
-              // Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
-            },
-            child: Container(
-              height: 35,
-              decoration: new BoxDecoration(
-                //设置四周圆角 角度
-                borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                //设置四周边框
-                border: new Border.all(width: 1, color: Color(0xFFedf3f7)),
-                //设置四周边框
-              ),
-              padding: EdgeInsets.only(left: 4, right: 4),
-              margin: const EdgeInsets.only(top: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (account != null)
-                    ClipOval(
-                      child: Container(
-                        width: 23.0,
-                        height: 23.0,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
-                            top: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
-                            left: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
-                            right: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
-                          ),
+      child: Builder(builder: (context) {
+        return Container(
+          height: 52,
+          alignment: Alignment.center,
+          child: Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              onTap: () {
+                // showMaterialModalBottomSheet(
+                //     expand: false,
+                //     context: context,
+                //     enableDrag: false,
+                //     backgroundColor: Colors.transparent,
+                //     builder: (context) {
+                //       return WalletSelectPage();
+                //     });
+                Scaffold.of(context).openDrawer(); //打开右边抽屉
+              },
+              child: Container(
+                height: 35,
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  border: new Border.all(width: 1, color: Color(0xFFedf3f7)),
+                ),
+                padding: EdgeInsets.only(left: 4, right: 4),
+                margin: const EdgeInsets.only(top: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (account != null)
+                      ClipOval(
+                        child: Container(
+                          width: 23.0,
+                          height: 23.0,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                              top: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                              left: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                              right: BorderSide(color: Color(0xFFedf3f7), width: 1.0),
+                            ),
 //                                                      shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(36.0),
-                          image: DecorationImage(
-                            image: AssetImage("images/" + account!.coin! + ".png"),
+                            borderRadius: BorderRadius.circular(36.0),
+                            image: DecorationImage(
+                              image: AssetImage("images/" + account!.coin! + ".png"),
+                            ),
                           ),
                         ),
                       ),
+                    Container(
+                      width: 4,
                     ),
-                  Container(
-                    width: 4,
-                  ),
-                  Text(
-                    getAccountName(),
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                  ),
-                  Container(
-                    width: 2,
-                  ),
-                  Container(
-                    width: 15,
-                    height: 15,
-                    margin: const EdgeInsets.only(right: 4),
-                    //边框设置
-                    decoration: new BoxDecoration(
-                      // color: Color(0xFFfafbfc),
-                      //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    Text(
+                      getAccountName(),
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
                     ),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                      color: Color(0xFFCCCCCC),
+                    Container(
+                      width: 2,
                     ),
-                  ),
-                ],
+                    Container(
+                      width: 15,
+                      height: 15,
+                      margin: const EdgeInsets.only(right: 4),
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Color(0xFFCCCCCC),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
-  Positioned buildTitleSettings(BuildContext context) {
+  Positioned buildTitleSettings() {
     return Positioned(
       right: 18,
-      child: Container(
-        height: 52,
-        width: 52,
-        alignment: Alignment.center,
-        child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-          child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(50)),
-            onTap: () {
-              showMaterialModalBottomSheet(
-                  expand: false,
-                  context: context,
-                  enableDrag: false,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) {
-                    return WalletSelectPage();
-                  });
-              // Navigator.push(context, SlideRoute( AddAccountPage(coin:coin,password: password,)));
-              // Navigator.push(context, SlideRoute( AeTokenSendOnePage()));
-            },
-            child: Container(
-              padding: EdgeInsets.all(13),
-              margin: const EdgeInsets.only(top: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image(
-                    color: Colors.black87,
-                    image: AssetImage(
-                      "images/home_settings.png",
+      child: Builder(builder: (context) {
+        return Container(
+          height: 52,
+          width: 52,
+          alignment: Alignment.center,
+          child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              onTap: () {
+                Scaffold.of(context).openEndDrawer(); //打开右边抽屉
+              },
+              child: Container(
+                padding: EdgeInsets.all(14),
+                margin: const EdgeInsets.only(top: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image(
+                      color: Colors.black87,
+                      image: AssetImage(
+                        "images/home_settings.png",
+                      ),
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

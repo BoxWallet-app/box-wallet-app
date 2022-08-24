@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:box/config.dart';
@@ -9,6 +10,7 @@ import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
 import 'package:box/utils/permission_helper.dart';
@@ -23,27 +25,23 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
-
-class ImportAccountAePage extends StatefulWidget {
+class ImportAccountAePage extends BaseWidget {
   final String? coinName;
   final String? fullName;
   final String? password;
 
-  const ImportAccountAePage({Key? key, this.coinName, this.fullName, this.password}) : super(key: key);
+  ImportAccountAePage({Key? key, this.coinName, this.fullName, this.password});
 
   @override
   _ImportAccountAePageState createState() => _ImportAccountAePageState();
 }
 
-class _ImportAccountAePageState extends State<ImportAccountAePage> {
-  TextEditingController _textEditingController = TextEditingController();
+class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
+  TextEditingController inputController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _textEditingController.addListener(() {
-      inputPassword(_textEditingController.text.toString(), false);
-    });
     updateDevText();
   }
 
@@ -58,7 +56,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            S.of(context).ImportAccountPage_title1+"" + widget.fullName! + S.of(context).ImportAccountPage_title2,
+            S.of(context).ImportAccountPage_title1 + "" + widget.fullName! + S.of(context).ImportAccountPage_title2,
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
@@ -74,42 +72,6 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
             ),
             onPressed: () => Navigator.pop(context),
           ),
-          actions: <Widget>[
-            IconButton(
-              splashRadius:40,
-              icon: Icon(
-                Icons.add_a_photo_outlined,
-                color: Color(0xFF000000),
-                size: 22,
-              ),
-              onPressed: () async {
-                List<Permission> permissions = [
-                  Permission.camera,
-                ];
-                PermissionHelper.check(permissions, onSuccess: () async {
-                  var data;
-                  data =await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-
-                  if(data == null|| data==""){
-                    return;
-                  }
-                  inputPassword(data.toString(), true);
-                }, onFailed: () {
-                  EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                }, onOpenSetting: () {
-                  openAppSettings();
-                });
-
-
-                // Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                // if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
-
-                // } else {
-                //   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                // }
-              },
-            ),
-          ],
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -128,26 +90,23 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                   ),
                 ),
                 children: [
-                  // Directly use inside yoru [TabBar]
                   DefaultTabController(
                     length: 2,
                     initialIndex: 0,
                     child: TabBar(
-
                       onTap: (index) {
                         setState(() {
                           tabIndex = index;
                         });
-
                         updateDevText();
-                        _textEditingController.value = TextEditingValue(text: _textEditingController.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: _textEditingController.text.length)));
+                        inputController.value = TextEditingValue(text: inputController.text, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: inputController.text.length)));
                       },
                       tabs: [
                         Tab(
-                          text:  S.of(context).ImportAccountPage_group1,
+                          text: S.of(context).ImportAccountPage_group1,
                         ),
                         Tab(
-                          text:  S.of(context).ImportAccountPage_group3,
+                          text: S.of(context).ImportAccountPage_group3,
                         ),
                       ],
                       labelColor: Colors.black,
@@ -164,7 +123,6 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       ),
                     ),
                   ),
-
                   Container(
                     alignment: Alignment.topLeft,
                     margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -189,7 +147,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                             padding: EdgeInsets.only(left: 16, right: 16),
                             decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
                             child: TextField(
-                              controller: _textEditingController,
+                              controller: inputController,
                               style: TextStyle(
                                 fontSize: 19,
                                 color: Colors.black,
@@ -227,8 +185,8 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                                   child: FlatButton(
                                     onPressed: () async {
                                       ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain) as FutureOr<ClipboardData>);
-                                      _textEditingController.text = data.text!;
-                                      _textEditingController.value = TextEditingValue(text: data.text!, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text!.length)));
+                                      inputController.text = data.text!;
+                                      inputController.value = TextEditingValue(text: data.text!, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text!.length)));
                                     },
                                     child: Text(
                                       S.of(context).ImportAccountPage_copy,
@@ -253,7 +211,7 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: FlatButton(
                         onPressed: () {
-                          clickLogin();
+                          switchLogin();
                         },
                         child: Text(
                           S.of(context).account_login_page_conform,
@@ -273,87 +231,13 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
         ));
   }
 
-  inputPassword(String data, bool isQR) {
-    if (data == "") {
-      return;
-    }
-    if (!data.toString().contains("box_")) {
-      if (isQR) _textEditingController.text = data.toString();
-      return;
-    }
-    var mnemonic = data.toString().replaceAll("box_", "");
-    _textEditingController.text = "";
-    showGeneralDialog(
-        useRootNavigator: false,
-        context: context,
-        pageBuilder: (context, anim1, anim2) {
-          return;
-        } as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (context, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return Transform(
-              transform: Matrix4.translationValues(0.0, 0, 0.0),
-              child: Opacity(
-                opacity: anim1.value,
-                // ignore: missing_return
-                child: PayPasswordWidget(
-                    title: S.of(context).password_widget_input_password,
-                    dismissCallBackFuture: (password) {
-                      return;
-                    },
-                    passwordCallBackFuture: (String password) async {
-                      final key = Utils.generateMd5Int(password);
-                      var aesDecode = Utils.aesDecode(mnemonic, key);
-                      if (aesDecode == "") {
-                        showErrorDialog(context, null);
-                        return;
-                      }
-                      _textEditingController.text = aesDecode;
-                      clickLogin();
-                    }),
-              ));
-        });
-    return;
-  }
-
-  void showErrorDialog(BuildContext buildContext, String? content) {
-    if (content == null) {
-      content = S.of(buildContext).dialog_hint_check_error_content;
-    }
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.of(context).dialog_hint_check_error),
-          content: Text(content!),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_conform,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
-
-  clickLogin() async {
+  switchLogin() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    if (_textEditingController.text == "") {
+    if (inputController.text == "") {
       EasyLoading.showToast(S.of(context).account_login_msg, duration: Duration(seconds: 2));
       return;
     }
-    var data = _textEditingController.text;
+    var data = inputController.text;
 
     switch (tabIndex) {
       case 0:
@@ -367,159 +251,229 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
 
   Future<void> createTabAddress(String address) async {
     EasyLoading.show();
-    AccountInfoDao.fetch(address: address).then((AccountInfoModel model) {
+
+    var params = {
+      "name": "aeBalance",
+      "params": {"address": address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) async {
       EasyLoading.dismiss();
-      if (model.code == 200 && model.data!.balance!.isNotEmpty) {
-        if(widget.password == null){
-          if (Platform.isIOS) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SetPasswordPage(
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      if (balance == "0.0") {
+        showConfirmDialog(S.of(context).dialog_hint, S.of(context).ImportAccountPage_address_msg);
+        return;
+      }
+      if (widget.password == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SetPasswordPage(
                       setPasswordPageCallBackFuture: (password) async {
                         await createAddressAccount(password, address);
                         return;
                       },
                     )));
-          } else {
-            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
-              setPasswordPageCallBackFuture: (password) async {
-                await createAddressAccount(password, address);
-                return;
-              },
-            )));
-          }
-        }else{
-          createAddressAccount(widget.password, address);
-        }
       } else {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext dialogContext) {
-            return new AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              title: Text(S.of(context).dialog_hint),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    Text(S.of(context).ImportAccountPage_address_msg),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: new Text(S.of(context).dialog_conform),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((val) {});
+        createAddressAccount(widget.password!, address);
       }
-    }).catchError((e) {
-      EasyLoading.dismiss();
-      showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext dialogContext) {
-          return new AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            title: Text(S.of(context).dialog_hint),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: <Widget>[
-                  Text(S.of(context).ImportAccountPage_address_msg),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: new Text(S.of(context).dialog_conform),
-                onPressed: () {
-                  Navigator.of(dialogContext).pop(false);
-                },
-              ),
-            ],
-          );
-        },
-      ).then((val) {});
-    });
+      setState(() {});
+      return;
+    }, channelJson);
+
+    // AccountInfoDao.fetch(address: address).then((AccountInfoModel model) {
+    //   EasyLoading.dismiss();
+    //   if (model.code == 200 && model.data!.balance!.isNotEmpty) {
+    //     if (widget.password == null) {
+    //       if (Platform.isIOS) {
+    //         Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //                 builder: (context) => SetPasswordPage(
+    //                       setPasswordPageCallBackFuture: (password) async {
+    //                         await createAddressAccount(password, address);
+    //                         return;
+    //                       },
+    //                     )));
+    //       } else {
+    //         Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
+    //           setPasswordPageCallBackFuture: (password) async {
+    //             await createAddressAccount(password, address);
+    //             return;
+    //           },
+    //         )));
+    //       }
+    //     } else {
+    //       createAddressAccount(widget.password, address);
+    //     }
+    //   } else {
+    //     showDialog<bool>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext dialogContext) {
+    //         return new AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //           title: Text(S.of(context).dialog_hint),
+    //           content: new SingleChildScrollView(
+    //             child: new ListBody(
+    //               children: <Widget>[
+    //                 Text(S.of(context).ImportAccountPage_address_msg),
+    //               ],
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: new Text(S.of(context).dialog_conform),
+    //               onPressed: () {
+    //                 Navigator.of(dialogContext).pop(false);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ).then((val) {});
+    //   }
+    // }).catchError((e) {
+    //   EasyLoading.dismiss();
+    //   showDialog<bool>(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (BuildContext dialogContext) {
+    //       return new AlertDialog(
+    //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //         title: Text(S.of(context).dialog_hint),
+    //         content: new SingleChildScrollView(
+    //           child: new ListBody(
+    //             children: <Widget>[
+    //               Text(S.of(context).ImportAccountPage_address_msg),
+    //             ],
+    //           ),
+    //         ),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             child: new Text(S.of(context).dialog_conform),
+    //             onPressed: () {
+    //               Navigator.of(dialogContext).pop(false);
+    //             },
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   ).then((val) {});
+    // });
   }
 
   Future<void> createTabMnemonic(String mnemonic) async {
     EasyLoading.show();
-    BoxApp.getValidationMnemonic((isSucess) {
-      EasyLoading.dismiss();
-      if (isSucess) {
+    var params = {
+      "name": "aeRestoreAccountMnemonic",
+      "params": {"mnemonic": mnemonic}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) async {
+      EasyLoading.dismiss(animation: true);
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      if (jsonResponse["code"] != 200) {
+        showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_hint_mnemonic);
+        return;
+      }
 
-        if (widget.password == null) {
-          if (Platform.isIOS) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SetPasswordPage(
+      logger.info(jsonResponse["result"]["mnemonic"]);
+      logger.info(jsonResponse["result"]["publicKey"]);
+      logger.info(jsonResponse["result"]["secretKey"]);
+      var address = jsonResponse["result"]["publicKey"];
+      var secretKey = jsonResponse["result"]["secretKey"];
+      if (widget.password == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SetPasswordPage(
                       setPasswordPageCallBackFuture: (password) async {
-                        await createMnemonicAccount(password, mnemonic);
+                        await createAccount(password, address, secretKey, mnemonic);
                         return;
                       },
                     )));
-          } else {
-            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
-              setPasswordPageCallBackFuture: (password) async {
-                await createMnemonicAccount(password, mnemonic);
-                return;
-              },
-            )));
-          }
-        } else {
-
-          createMnemonicAccount(widget.password, mnemonic);
-          return;
-        }
       } else {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext dialogContext) {
-            return new AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              title: Text(S.of(context).dialog_hint),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    Text(S.of(context).dialog_hint_mnemonic),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: new Text(S.of(context).dialog_conform),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((val) {});
+        await createAccount(widget.password!, address, secretKey, mnemonic);
       }
+
       return;
-    }, mnemonic);
+    }, channelJson);
+
+    // BoxApp.getValidationMnemonic((isSucess) {
+    //   EasyLoading.dismiss();
+    //   if (isSucess) {
+    //     if (widget.password == null) {
+    //       if (Platform.isIOS) {
+    //         Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //                 builder: (context) => SetPasswordPage(
+    //                       setPasswordPageCallBackFuture: (password) async {
+    //                         await createMnemonicAccount(password, mnemonic);
+    //                         return;
+    //                       },
+    //                     )));
+    //       } else {
+    //         Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
+    //           setPasswordPageCallBackFuture: (password) async {
+    //             await createMnemonicAccount(password, mnemonic);
+    //             return;
+    //           },
+    //         )));
+    //       }
+    //     } else {
+    //       createMnemonicAccount(widget.password, mnemonic);
+    //       return;
+    //     }
+    //   } else {
+    //     showDialog<bool>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext dialogContext) {
+    //         return new AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //           title: Text(S.of(context).dialog_hint),
+    //           content: new SingleChildScrollView(
+    //             child: new ListBody(
+    //               children: <Widget>[
+    //                 Text(S.of(context).dialog_hint_mnemonic),
+    //               ],
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: new Text(S.of(context).dialog_conform),
+    //               onPressed: () {
+    //                 Navigator.of(dialogContext).pop(false);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ).then((val) {});
+    //   }
+    //   return;
+    // }, mnemonic);
   }
 
-  Future<void> createMnemonicAccount(String? password, String mnemonic) async {
-    BoxApp.getSecretKey((address, signingKey) async {
-      if (!await checkAccount(address)) return;
-      final key = Utils.generateMd5Int(password! + address);
-      var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-      var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-      await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
-      await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
-      switchAddType();
-    }, mnemonic);
+  Future<void> createAccount(String password, address, secretKey, String mnemonic) async {
+    if (!await checkAccount(address)) return;
+    final key = Utils.generateMd5Int(password + address);
+    var signingKeyAesEncode = Utils.aesEncode(secretKey, key);
+    var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+    await WalletCoinsManager.instance.addChain("AE", "Aeternity");
+    await WalletCoinsManager.instance.addAccount("AE", "Aeternity", address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
+
+    Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
   }
 
   Future<void> createAddressAccount(String? password, String address) async {
@@ -532,12 +486,10 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     switchAddType();
   }
 
-
-
   Future<bool> checkAccount(String address) async {
     var walletCoinModel = await WalletCoinsManager.instance.getCoins();
     bool isExist = false;
-    if(walletCoinModel.coins == null){
+    if (walletCoinModel.coins == null) {
       return true;
     }
     for (var i = 0; i < walletCoinModel.coins!.length; i++) {
@@ -573,27 +525,27 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
     }
     return true;
   }
+
   void switchAddType() {
-    if(widget.password == null){
+    if (widget.password == null) {
       Navigator.of(super.context).pushNamedAndRemoveUntil("/tab", ModalRoute.withName("/tab"));
-    }else{
+    } else {
       eventBus.fire(AddImportAccount());
       Navigator.pop(context);
     }
   }
 
-
   void updateDevText() {
     if (BoxApp.isDev()) {
       switch (tabIndex) {
         case 0:
-          _textEditingController.text = TEST_MNEMONIC;
+          inputController.text = TEST_MNEMONIC;
           return;
         case 1:
-          _textEditingController.text = TEST_AE_ADDRESS;
+          inputController.text = TEST_AE_ADDRESS;
           return;
       }
-      _textEditingController.text = "";
+      inputController.text = "";
     }
   }
 
@@ -620,9 +572,9 @@ class _ImportAccountAePageState extends State<ImportAccountAePage> {
   String getTitleContent() {
     switch (tabIndex) {
       case 0:
-        return      S.of(context).ImportAccountPage_group1_content;
+        return S.of(context).ImportAccountPage_group1_content;
       case 1:
-        return      S.of(context).ImportAccountPage_group3_content;
+        return S.of(context).ImportAccountPage_group3_content;
     }
     return "";
   }

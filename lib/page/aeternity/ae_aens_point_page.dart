@@ -221,7 +221,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();
 
-    showPasswordDialog(context, (address, privateKey, password) async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       BoxApp.updateName((tx) async {
         showCopyHashDialog(context, tx, (val) async {
           showFlushSucess(context);

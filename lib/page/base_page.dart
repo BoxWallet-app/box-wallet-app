@@ -15,7 +15,7 @@ import '../utils/utils.dart';
 import '../widget/chain_loading_widget.dart';
 import '../widget/pay_password_widget.dart';
 
-typedef ShowPasswordDialogListener = Future Function(String address, String privateKey, String password);
+typedef ShowPasswordDialogListener = Future Function(String address, String privateKey, String mnemonic, String password);
 typedef ShowCopyHashDialogListener = Future Function(bool val);
 typedef ShowCommonDialogListener = Future Function(bool val);
 typedef ShowSafeDialogListener = Future Function(bool val);
@@ -284,6 +284,10 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
 
   //显示输入密码框
   void showPasswordDialog(BuildContext context, ShowPasswordDialogListener passwordDialogListener) {
+    showPasswordAddressDialog(context, false, passwordDialogListener);
+  }
+
+  void showPasswordAddressDialog(BuildContext context, isAddressPassword, ShowPasswordDialogListener passwordDialogListener) {
     showGeneralDialog(
         useRootNavigator: false,
         context: context,
@@ -298,21 +302,31 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               opacity: anim1.value,
               child: PayPasswordWidget(
                 title: S.of(context).password_widget_input_password,
+                isAddressPassword: isAddressPassword,
                 dismissCallBackFuture: (String password) {
                   return;
                 },
                 passwordCallBackFuture: (String password) async {
+                  var mnemonic = await BoxApp.getMnemonic();
                   var signingKey = await BoxApp.getSigningKey();
                   var address = await BoxApp.getAddress();
                   final key = Utils.generateMd5Int(password + address);
-                  var aesDecode = Utils.aesDecode(signingKey, key);
-
-                  if (aesDecode == "") {
-                    showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
-                    return;
+                  signingKey = Utils.aesDecode(signingKey, key);
+                  mnemonic = Utils.aesDecode(mnemonic, key);
+                  var account = await WalletCoinsManager.instance.getCurrentAccount();
+                  if (account?.accountType == AccountType.ADDRESS) {
+                    var isValidation = await WalletCoinsManager.instance.validationAddressPassword(password);
+                    if (!isValidation) {
+                      showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
+                      return;
+                    }
+                  }else{
+                    if (signingKey == "") {
+                      showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
+                      return;
+                    }
                   }
-                  passwordDialogListener(address, aesDecode!, password);
-
+                  passwordDialogListener(address, signingKey!, mnemonic!, password);
                   return;
                 },
               ),

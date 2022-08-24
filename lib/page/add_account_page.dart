@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -8,6 +9,7 @@ import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/page/general/import/import_account_eth_page.dart';
 import 'package:box/page/general/select_mnemonic_page.dart';
 import 'package:box/utils/utils.dart';
@@ -29,18 +31,18 @@ import 'general/create/create_mnemonic_copy_page.dart';
 
 typedef AddAccountCallBackFuture = Future? Function();
 
-class AddAccountPage extends StatefulWidget {
+class AddAccountPage extends BaseWidget {
   final Coin? coin;
   final String? password;
   final AddAccountCallBackFuture? accountCallBackFuture;
 
-  const AddAccountPage({Key? key, this.coin, this.password, this.accountCallBackFuture}) : super(key: key);
+   AddAccountPage({Key? key, this.coin, this.password, this.accountCallBackFuture});
 
   @override
   _SelectChainCreatePathState createState() => _SelectChainCreatePathState();
 }
 
-class _SelectChainCreatePathState extends State<AddAccountPage> {
+class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
   var loadingType = LoadingType.finish;
   List<ChainsModel>? chains;
   PriceModel? priceModel;
@@ -179,20 +181,30 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                               borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               onTap: () {
                                 EasyLoading.show();
-                                BoxApp.getGenerateSecretKey((signingKey, address, mnemonic) {
-                                  mnemonicTemp = mnemonic;
-                                  EasyLoading.dismiss();
-
-                                  if (Platform.isIOS) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.add)));
-                                  } else {
-                                    Navigator.push(context, SlideRoute(CreateMnemonicCopyPage(mnemonic: mnemonic, type: CreateMnemonicCopyPage.add)));
+                                var params = {
+                                  "name": "aeGenerateAccount",
+                                };
+                                var channelJson = json.encode(params);
+                                BoxApp.sdkChannelCall((result) {
+                                  EasyLoading.dismiss(animation: true);
+                                  final jsonResponse = json.decode(result);
+                                  if (jsonResponse["name"] != params['name']) {
+                                    return;
                                   }
-
-
-
+                                  logger.info(jsonResponse["result"]["mnemonic"]);
+                                  logger.info(jsonResponse["result"]["publicKey"]);
+                                  logger.info(jsonResponse["result"]["secretKey"]);
+                                  mnemonicTemp = jsonResponse["result"]["mnemonic"];
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CreateMnemonicCopyPage(
+                                            mnemonic: jsonResponse["result"]["mnemonic"],
+                                            type: CreateMnemonicCopyPage.add,
+                                          )));
                                   return;
-                                });
+                                }, channelJson);
+
                               },
                               child: Container(
                                 child: Row(
@@ -376,9 +388,7 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
                                                       width: 45.0,
                                                       height: 45.0,
                                                       decoration: BoxDecoration(
-                                                        border: Border(bottom: BorderSide(color: Color(0xFFfafbfc), width: 1.0), top: BorderSide(color: Color(0xFFfafbfc), width: 1.0), left: BorderSide(color: Color(0xFFfafbfc), width: 1.0), right: BorderSide(color: Color(0xFFfafbfc), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
-                                                        borderRadius: BorderRadius.circular(36.0),
                                                         image: DecorationImage(
                                                           image: AssetImage("images/account_import.png"),
                                                         ),
@@ -548,81 +558,39 @@ class _SelectChainCreatePathState extends State<AddAccountPage> {
     }
 
     EasyLoading.show();
-    BoxApp.getValidationMnemonic((isSucess) {
-      if (!isSucess) {
-        EasyLoading.dismiss(animation: true);
+    var params = {
+      "name": "aeRestoreAccountMnemonic",
+      "params": {"mnemonic": mnemonicTemp}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) async {
+      EasyLoading.dismiss(animation: true);
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
         return;
       }
-      if (widget.coin!.name == "AE") {
-        BoxApp.getSecretKey((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
+      if (jsonResponse["code"] != 200) {
+        showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_hint_mnemonic);
+        return;
+      }
 
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
+      logger.info(jsonResponse["result"]["mnemonic"]);
+      logger.info(jsonResponse["result"]["publicKey"]);
+      logger.info(jsonResponse["result"]["secretKey"]);
+      var address = jsonResponse["result"]["publicKey"];
+      var secretKey = jsonResponse["result"]["secretKey"];
+      if (!await checkAccount(widget.coin!.name,address)) return;
 
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC,false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
-      if (widget.coin!.name == "CFX") {
-        BoxApp.getSecretKeyCFX((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
-      if (widget.coin!.name == "BNB") {
-        BoxApp.getSecretKeyETH((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
-      if (widget.coin!.name == "OKT") {
-        BoxApp.getSecretKeyETH((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
-      if (widget.coin!.name == "HT") {
-        BoxApp.getSecretKeyETH((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
-      if (widget.coin!.name == "ETH") {
-        BoxApp.getSecretKeyETH((address, signingKey) async {
-          if (!await checkAccount(widget.coin!.name,address)) return;
-          final key = Utils.generateMd5Int(widget.password! + address);
-          var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-          var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
-          await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
-          await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-          checkSuccess();
-        }, mnemonicTemp!);
-      }
+      final key = Utils.generateMd5Int(widget.password! + address);
+      var signingKeyAesEncode = Utils.aesEncode(secretKey, key);
+      var mnemonicAesEncode = Utils.aesEncode(mnemonicTemp!, key);
+
+      await WalletCoinsManager.instance.addChain(widget.coin!.name, widget.coin!.fullName);
+      await WalletCoinsManager.instance.addAccount(widget.coin!.name, widget.coin!.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC,false);
+      checkSuccess();
+
       return;
-    }, mnemonicTemp!);
+    }, channelJson);
   }
 
   Future<bool> checkAccount(String? name,String address) async {

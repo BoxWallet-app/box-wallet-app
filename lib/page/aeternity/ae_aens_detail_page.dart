@@ -305,7 +305,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Future<void> netUpdateV2(BuildContext context) async {
-    showPasswordDialog(context, (address, privateKey, password) async {
+    showPasswordDialog(context, (address, privateKey,mnemonic, password) async {
       BoxApp.updateName((tx) async {
         showCopyHashDialog(context, tx, (val) async {
           showFlushSucess(context);
@@ -319,7 +319,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Future<void> netPreclaimV2(BuildContext context) async {
-    showPasswordDialog(context, (address, privateKey, password) async {
+    showPasswordDialog(context, (address, privateKey,mnemonicn, password) async {
       BoxApp.bidName((tx) async {
         showCopyHashDialog(context, tx, (val) async {
           showFlushSucess(context);

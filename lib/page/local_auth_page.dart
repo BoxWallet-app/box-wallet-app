@@ -141,7 +141,7 @@ class _AuthPageState extends BaseWidgetState<AuthPage> {
                                 activeColor: Color(0xFFFC2365),
                                 onChanged: (value) {
                                   if (value) {
-                                    showPasswordDialog(context, (address, privateKey, password) async {
+                                    showPasswordDialog(context, (address, privateKey,mnemonic,  password) async {
                                       BoxApp.setPassword(Utils.aesEncode(password, Utils.generateMd5Int(AUTH_KEY)));
                                       setState(() {
                                         isOpenAuth = value;

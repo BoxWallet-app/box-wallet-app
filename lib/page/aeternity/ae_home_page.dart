@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -70,8 +71,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       netContractBalance();
       getAddress();
       netTopHeightData();
-      netSwapDao();
       netNameReverseData();
+      setState(() {
+
+      });
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       priceModel = null;
@@ -87,7 +90,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       netContractBalance();
       getAddress();
       netTopHeightData();
-      netSwapDao();
       netNameReverseData();
     });
     netBaseData();
@@ -95,7 +97,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     netContractBalance();
     getAddress();
     netTopHeightData();
-    netSwapDao();
     netNameReverseData();
   }
 
@@ -115,18 +116,17 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   }
 
   Future<void> netTopHeightData() async {
-    int aeHeight =await CacheManager.instance.getAEHeight();
-    if(aeHeight > 0){
+    int aeHeight = await CacheManager.instance.getAEHeight();
+    if (aeHeight > 0) {
       AeHomePage.height = aeHeight;
       netWalletRecord();
     }
-
 
     BlockTopDao.fetch().then((BlockTopModel model) {
       if (model.code == 200) {
         blockTopModel = model;
         AeHomePage.height = blockTopModel!.data!.height;
-        CacheManager.instance.setAEHeight( AeHomePage.height!);
+        CacheManager.instance.setAEHeight(AeHomePage.height!);
 //        setState(() {});
         netWalletRecord();
       } else {}
@@ -137,15 +137,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   }
 
   Future<void> netWalletRecord() async {
-
-    Account? account =await WalletCoinsManager.instance.getCurrentAccount() ;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     var aeRecord = await CacheManager.instance.getAERecord(account!.address!, account.coin!);
-    if(aeRecord!=null){
+    if (aeRecord != null) {
       walletRecordModel = aeRecord;
-      if(!mounted)return;
-      setState(() {
-
-      });
+      if (!mounted) return;
+      setState(() {});
     }
     WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
       if (model.code == 200) {
@@ -178,40 +175,66 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       AeHomePage.token = cacheBalance;
       setState(() {});
     }
-
-    BoxApp.getBalanceAE((balance,decimal) async {
-      if(!mounted)return;
-      AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+    //
+    var params = {
+      "name": "aeBalance",
+      "params": {"address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      AeHomePage.token = Utils.formatBalanceLength(double.parse(balance));
       CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
-    }, account.address!);
-
-    // AccountInfoDao.fetch().then((AccountInfoModel model) {
-    //   if (model.code == 200) {
-    //     AeHomePage.token = model.data.balance;
-    //     CacheManager.instance.setBalance(account.address, account.coin, AeHomePage.token);
-    //     setState(() {});
-    //   } else {}
-    // }).catchError((e) {});
+    }, channelJson);
   }
 
   Future<void> netContractBalance() async {
     if (!mounted) return;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
-    var cacheBalance = await CacheManager.instance.getTokenBalance(account!.address!, BoxApp.ABC_CONTRACT_AEX9,account.coin!);
+    var cacheBalance = await CacheManager.instance.getTokenBalance(account!.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!);
     if (cacheBalance != "") {
       AeHomePage.tokenABC = cacheBalance;
       setState(() {});
     }
-    BoxApp.getErcBalanceAE((balance,decimal,address,from,coin) async {
-      if(!mounted)return;
-      if(from != account.address )return;
-      AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setTokenBalance(account.address!,  BoxApp.ABC_CONTRACT_AEX9,account.coin!, AeHomePage.tokenABC!);
+
+    var params = {
+      "name": "aeAex9TokenBalance",
+      "params": {"ctAddress": BoxApp.ABC_CONTRACT_AEX9, "address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      var address = jsonResponse["result"]["address"];
+      var ctAddress = jsonResponse["result"]["ctAddress"];
+      if (!mounted) return;
+      if (address != account.address) return;
+      if (ctAddress != BoxApp.ABC_CONTRACT_AEX9) return;
+      AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(balance));
+      CacheManager.instance.setTokenBalance(account.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!, AeHomePage.tokenABC!);
       setState(() {});
       return;
-    }, account.address!,BoxApp.ABC_CONTRACT_AEX9);
+    }, channelJson);
+
+    // BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
+    //   if (!mounted) return;
+    //   if (from != account.address) return;
+    //   AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+    //   CacheManager.instance.setTokenBalance(account.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!, AeHomePage.tokenABC!);
+    //   setState(() {});
+    //   return;
+    // }, account.address!, BoxApp.ABC_CONTRACT_AEX9);
 
 //     ContractBalanceDao.fetch(BoxApp.ABC_CONTRACT_AEX9).then((ContractBalanceModel model) {
 //       if (model.code == 200) {
@@ -268,19 +291,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     }
   }
 
-  void netSwapDao() {
-    SwapDao.fetch(BoxApp.ABC_CONTRACT_AEX9.replaceAll("ct_", "ak_")).then((SwapModel model) {
-      if (model.data!.isNotEmpty) {
-        model.data!.sort((left, right) => left.getPremium().compareTo(right.getPremium()));
-      }
-      premium = (double.parse(model.data![0].ae!) / (double.parse(model.data![0].count!)));
-      setState(() {});
-    }).catchError((e) {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    super.build(context);  //需要调用super
+    super.build(context); //需要调用super
     return Container(
         child: EasyRefresh(
       header: BoxHeader(),
@@ -404,7 +417,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           getAePrice(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                         ),
                                                       ),
 
@@ -437,14 +450,11 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                                ),
                                                 Expanded(child: Container()),
                                                 Text(
-                                                  AeHomePage.tokenABC == "loading..."
-                                                      ? "--.--"
-
-                                                          : AeHomePage.tokenABC! + " ABC",
+                                                  AeHomePage.tokenABC == "loading..." ? "--.--" : AeHomePage.tokenABC! + " ABC",
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -467,7 +477,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
                                   ),
                                 ),
                                 Positioned(
@@ -510,7 +520,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                               child: Text(
                                                 namesModel == null ? "" : namesModel![0].name!,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                               ),
                                             ),
                                           ],
@@ -571,7 +581,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -615,249 +625,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                 ),
                               ),
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 90,
-                                    alignment: Alignment.centerLeft,
-                                    margin: const EdgeInsets.only(top: 0),
-                                    //边框设置
-                                    decoration: new BoxDecoration(
-                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-                                      color: Color(0xE6FFFFFF),
-                                      //设置四周圆角 角度
-                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                    ),
-                                    child: Material(
-                                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                                      color: Colors.white,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                                        onTap: () {
-                                          if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
-                                          } else {
-                                            Navigator.push(context, SlideRoute(AeTokenSendOnePage()));
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 90,
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: const EdgeInsets.only(top: 10),
-                                                      child: Image(
-                                                        width: 56,
-                                                        height: 56,
-                                                        image: AssetImage("images/home_send_token.png"),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.only(left: 5),
-                                                        child: Text(
-                                                          S.of(context).home_page_function_send,
-                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-//                                            Positioned(
-//                                              right: 23,
-//                                              child: Container(
-//                                                width: 25,
-//                                                height: 25,
-//                                                padding: const EdgeInsets.only(left: 0),
-//                                                //边框设置
-//                                                decoration: new BoxDecoration(
-//                                                  color: Color(0xFFfafbfc),
-//                                                  //设置四周圆角 角度
-//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                                                ),
-//                                                child: Icon(
-//                                                  Icons.arrow_forward_ios,
-//                                                  size: 15,
-//                                                  color: Color(0xFFCCCCCC),
-//                                                ),
-//                                              ),
-//                                            ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 90,
-                                    alignment: Alignment.centerLeft,
-                                    margin: const EdgeInsets.only(top: 0),
-                                    //边框设置
-                                    decoration: new BoxDecoration(
-                                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-                                      color: Color(0xE6FFFFFF),
-                                      //设置四周圆角 角度
-                                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                    ),
-                                    child: Material(
-                                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                                      color: Colors.white,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                                        onTap: () {
-                                          if (Platform.isIOS) {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
-                                          } else {
-                                            Navigator.push(context, SlideRoute(TokenReceivePage()));
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 90,
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: const EdgeInsets.only(top: 10),
-                                                      child: Image(
-                                                        width: 56,
-                                                        height: 56,
-                                                        image: AssetImage("images/home_receive_token.png"),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        padding: const EdgeInsets.only(left: 5),
-                                                        child: Text(
-                                                          S.of(context).home_page_function_receive,
-                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-//                                            Positioned(
-//                                              right: 23,
-//                                              child: Container(
-//                                                width: 25,
-//                                                height: 25,
-//                                                padding: const EdgeInsets.only(left: 0),
-//                                                //边框设置
-//                                                decoration: new BoxDecoration(
-//                                                  color: Color(0xFFfafbfc),
-//                                                  //设置四周圆角 角度
-//                                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                                                ),
-//                                                child: Icon(
-//                                                  Icons.arrow_forward_ios,
-//                                                  size: 15,
-//                                                  color: Color(0xFFCCCCCC),
-//                                                ),
-//                                              ),
-//                                            ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: 90,
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(top: 12),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-                                color: Color(0xE6FFFFFF),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  onTap: () {
-                                    if (Platform.isIOS) {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
-                                    } else {
-                                      Navigator.push(context, SlideRoute(AeTokenListPage()));
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 90,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          padding: const EdgeInsets.only(left: 5),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin: const EdgeInsets.only(top: 10),
-                                                child: Image(
-                                                  width: 56,
-                                                  height: 56,
-                                                  image: AssetImage("images/home_token.png"),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(left: 5),
-                                                  child: Text(
-                                                    S.of(context).home_token,
-                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 23,
-                                          child: Container(
-                                            width: 25,
-                                            height: 25,
-                                            padding: const EdgeInsets.only(left: 0),
-                                            //边框设置
-                                            decoration: new BoxDecoration(
-                                              color: Color(0xFFfafbfc),
-                                              //设置四周圆角 角度
-                                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                            ),
-                                            child: Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 15,
-                                              color: Color(0xFFCCCCCC),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            getRecordContainer(context),
+
                           ],
                         ),
                       ),
@@ -1341,7 +1109,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     netContractBalance();
     getAddress();
     netTopHeightData();
-    netSwapDao();
     netNameReverseData();
     eventBus.fire(DefiEvent());
   }
