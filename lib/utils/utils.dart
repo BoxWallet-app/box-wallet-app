@@ -79,6 +79,14 @@ class Utils {
     return address.substring(0, 3) + "..." + address.substring(address.length - 4, address.length);
   }
 
+  static formatHash(String? hash) {
+    if (hash == "" || hash!.length <= 4) {
+      return "";
+    }
+//    print(address);
+    return hash.substring(0, 6) + "..." + hash.substring(hash.length - 4, hash.length);
+  }
+
   static formatAccountAddress(String? address) {
     if (address == "" || address!.length <= 4) {
       return "";

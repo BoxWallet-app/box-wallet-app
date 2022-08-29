@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_tx_detail_page.dart';
+import 'package:box/utils/amount_decimal.dart';
+import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -23,82 +27,57 @@ class AeRecordsPage extends StatefulWidget {
 }
 
 class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveClientMixin {
-  EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  WalletTransferRecordModel? walletRecordModel;
+  late var tokenInfos;
+  late List records;
   int page = 1;
   var address = '';
 
   @override
-  Future<void> initState() async {
+  initState() {
     super.initState();
-
-    getAddress();
+    netData();
   }
 
   Future<void> netData() async {
-    WalletTransferRecordModel model = await WalletRecordDao.fetch(page);
+    Response responseTokenInfo = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-token-info.json");
+    tokenInfos = jsonDecode(responseTokenInfo.toString());
+
+    logger.info(tokenInfos);
+    Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF&limit=20&page=1");
+
+    var responseDecode = jsonDecode(responseTxs.toString());
+    List txsData = responseDecode['data'];
+
+    Response responseAex9 = await Dio().get("https://mainnet.aeternity.io/mdw/v2/aex9/transfers/to/ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF");
+    var responseAex9Decode = jsonDecode(responseAex9.toString());
+    List aex9Data = responseAex9Decode['data'];
+    for (var i = 0; i < txsData.length; i++) {
+      var txHash = txsData[i]["hash"];
+      for (var j = 0; j < aex9Data.length; j++) {
+        var aex9Hash = aex9Data[j]["tx_hash"];
+        if (txHash == aex9Hash) {
+          aex9Data.removeAt(j);
+          j--;
+        }
+      }
+    }
+    txsData.addAll(aex9Data);
+
+    txsData.sort((left, right) => right["micro_time"].compareTo(left["micro_time"]));
+
+    records = txsData;
+
     if (!mounted) {
       return;
     }
     _loadingType = LoadingType.finish;
-    if (page == 1) {
-      walletRecordModel = model;
-    } else {
-      walletRecordModel!.data!.addAll(model.data!);
-    }
     setState(() {});
-    if (walletRecordModel!.data!.length == 0) {
-      _loadingType = LoadingType.no_data;
-    }
-    page++;
-
-    if (model.data!.length < 20) {
-      _controller.finishLoad(noMore: true);
-    }
-
-//    WalletRecordDao.fetch(page).then((WalletTransferRecordModel model) {
-//
-//
-//      if (model.code == 200) {
-//
-//      }
-//
-
-//      _controller.finishRefresh();
-//      _controller.finishLoad();
-//    }).catchError((e) {
-//      if (page == 1 &&
-//          (walletRecordModel == null || walletRecordModel.data == null)) {
-//        setState(() {
-//          _loadingType = LoadingType.error;
-//        });
-//      } else {
-//        Fluttertoast.showToast(
-//            msg: "error",
-//            toastLength: Toast.LENGTH_SHORT,
-//            gravity: ToastGravity.CENTER,
-//            timeInSecForIosWeb: 1,
-//            backgroundColor: Colors.black,
-//            textColor: Colors.white,
-//            fontSize: 16.0);
-//      }
-//      print("error:" + e.toString());
-//    });
   }
 
   @override
   void dispose() {
     super.dispose();
-  }
-
-  getAddress() {
-    BoxApp.getAddress().then((String address) {
-      netData();
-      setState(() {
-        this.address = address;
-      });
-    });
   }
 
   @override
@@ -111,7 +90,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color:Colors.black,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -120,7 +99,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
           S.of(context).home_page_transaction,
           style: TextStyle(
             fontSize: 18,
-            color:Colors.black,
+            color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
@@ -130,13 +109,9 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         child: EasyRefresh(
           header: BoxHeader(),
           onRefresh: _onRefresh,
-          onLoad: netData,
-          // header: MaterialHeader(
-          // valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
-//          controller: _controller,
           child: ListView.builder(
-            itemBuilder: buildColumn,
-            itemCount: walletRecordModel == null ? 0 : walletRecordModel!.data!.length,
+            itemBuilder: getItem,
+            itemCount: _loadingType == LoadingType.finish ? records.length : 0,
           ),
         ),
         type: _loadingType,
@@ -150,16 +125,70 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     );
   }
 
-  Widget _renderRow(BuildContext context, int index) {
-//    if (index < list.length) {
-    return buildColumn(context, index);
-  }
-
-  Widget buildColumn(BuildContext context, int position) {
-    return getItem(context, position);
-  }
-
   Widget getItem(BuildContext context, int index) {
+    var record = records[index];
+    var hash = record['hash'];
+    var microTime = record['micro_time'];
+    var time = Utils.formatTime(microTime);
+    //AEX9转账
+    if (hash == null) {
+      var contractId = record['contract_id'];
+      var txHash = record['tx_hash'];
+      var sender = record['sender'].toString();
+      var recipient = record['recipient'].toString();
+      var amount = record['amount'].toString();
+      var contractName = "";
+
+      var tokenInfo = tokenInfos[contractId];
+
+      if (tokenInfo != null) {
+        contractName = tokenInfo["name"];
+        amount = AmountDecimal.parseUnits(amount, tokenInfo["decimals"]);
+      } else {
+        contractName = "";
+        amount = "";
+      }
+
+      logger.info("AEX9 Transfer");
+      return spendRecord(context, txHash, "SpendTx", sender, recipient, amount, contractName, time);
+    } else {
+      var type = record['tx']['type'];
+
+      var fee = record['tx']['fee'].toString();
+      fee = AmountDecimal.parseUnits(fee, 18);
+      if (type == "ContractCallTx") {
+        var contractId = record['tx']['contract_id'].toString();
+        var function = record['tx']['function'].toString();
+
+        if (contractId == "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3") {
+          logger.info("DEX");
+        } else {
+          var tokenInfo = tokenInfos[contractId];
+          if (tokenInfo != null && function == "transfer") {
+            logger.info("AEX9 send");
+            var sender = record['tx']['caller_id'];
+            var recipient = record['tx']['arguments'][0]["value"];
+            var amount = record['tx']['arguments'][1]["value"].toString();
+            var contractName = tokenInfo["name"];
+            amount = AmountDecimal.parseUnits(amount, tokenInfo["decimals"]);
+            return spendRecord(context, hash, "SpendTx", sender, recipient, amount, contractName, time);
+          } else {
+            var sender = record['tx']['caller_id'].toString();
+            var recipient = contractId;
+            var amount = (record['tx']['amount'] + record['tx']['fee']).toString();
+            amount = AmountDecimal.parseUnits(amount, 18);
+            return spendRecord(context, hash, type, sender, recipient, amount, "AE", time);
+          }
+        }
+      } else if (type == "NameClaimTx") {
+      } else {
+        logger.info(type);
+      }
+      return Container();
+    }
+  }
+
+  Container spendRecord(BuildContext context, String hash, String type, String sender, String recipient, String amount, String contractName, String time) {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
@@ -167,62 +196,67 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {
-            if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-            } else {
-              Navigator.push(context, SlideRoute( AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-            }
-
-          },
+          onTap: () {},
           child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
+            padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width - 40 - 36,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  getTxType(index),
-                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: getFeeWidget(index),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 8),
-                        child: Text(
-                          walletRecordModel!.data![index].hash!,
-                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        ),
-                        width: MediaQuery.of(context).size.width - 40 - 36,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 6),
-                        child: Text(
-                          DateTime.fromMicrosecondsSinceEpoch(walletRecordModel!.data![index].time! * 1000).toLocal().toString(),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        ),
-                      ),
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  height: 30,
+                  width: 30,
+                  padding: EdgeInsets.all(6),
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                  ),
+                  child: Image(
+                    width: 25,
+                    height: 25,
+                    color: recipient == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
+                    image: recipient == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                   ),
                 ),
                 Expanded(
-                  child: Text(""),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            getTxType(type),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            time,
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      if (amount != "")
+                        Container(
+                          child: Text(
+                            (recipient == AeHomePage.address ? "+" + amount : "-" + amount) + " " + contractName,
+                            style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -232,13 +266,88 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     );
   }
 
-  getTxType(int index) {
+  Container nameRecord(BuildContext context, String hash, String type, String name, String amount, String contractName, String time) {
+    return Container(
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          onTap: () {},
+          child: Container(
+            padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 30,
+                  width: 30,
+                  padding: EdgeInsets.all(6),
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                  ),
+                  child: Image(
+                    width: 25,
+                    height: 25,
+                    color: Colors.green,
+                    image: AssetImage("images/token_receive.png"),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            getTxType(type),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            time,
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      if (amount != "")
+                        Container(
+                          child: Text(
+                            "-" + amount + " " + contractName,
+                            style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  getTxType(String type) {
     if (BoxApp.language == "cn") {
-      switch (walletRecordModel!.data![index].tx!['type']) {
+      switch (type) {
         case "SpendTx":
-          if ("ak_dMyzpooJ4oGnBVX35SCvHspJrq55HAAupCwPQTDZmRDT5SSSW" == walletRecordModel!.data![index].tx!['recipient_id']) {
-            return "WeTrue调用";
-          }
           return "转账";
         case "OracleRegisterTx":
           return "预言机注册";
@@ -277,39 +386,9 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         case "ChannelSnapshotSoloTx":
           return "状态通道Settle";
       }
-      return walletRecordModel!.data![index].tx!['type'];
+      return type;
     }
-    return walletRecordModel!.data![index].tx!['type'];
-  }
-
-  Text getFeeWidget(int index) {
-    if (walletRecordModel!.data![index].tx!['type'].toString() == "SpendTx") {
-      // ignore: unrelated_type_equality_checks
-
-      if (walletRecordModel!.data![index].tx!['recipient_id'].toString() == AeHomePage.address) {
-        return Text(
-          "+" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-        );
-      } else {
-        return Text(
-          "-" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble() + walletRecordModel!.data![index].tx!['fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-        );
-      }
-    } else {
-      if (walletRecordModel!.data![index].tx!['type'].toString() == "NameClaimTx") {
-        return Text(
-          "-" + double.parse(((walletRecordModel!.data![index].tx!['fee'].toDouble() + walletRecordModel!.data![index].tx!['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-        );
-      }
-
-      return Text(
-        "-" + double.parse((walletRecordModel!.data![index].tx!['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-      );
-    }
+    return type;
   }
 
   Future<void> _onRefresh() async {

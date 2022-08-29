@@ -39,30 +39,19 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    switch (widget.type) {
+    switch (widget.type!) {
       case LoadingType.loading:
         return _loadingView;
-        break;
       case LoadingType.error:
         return _error(widget.onPressedError);
-        break;
       case LoadingType.finish:
         return widget.child!;
       case LoadingType.no_data:
         return _noData;
-//        return _error(widget.onPressedError);;
     }
-    return _loadingView;
-
   }
 
   Widget get _loadingView {
-//    return Center(
-//      child: CircularProgressIndicator(
-//        valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365)),
-//      ),
-//    );
-
     return Center(
       child: Container(
         width: 60,
@@ -71,8 +60,6 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
           'images/loading.json',
           controller: _controller,
           onLoaded: (composition) {
-            // Configure the AnimationController with the duration of the
-            // Lottie file and start the animation.
             _controller!
               ..duration = Duration(milliseconds: 1000)
               ..repeat();

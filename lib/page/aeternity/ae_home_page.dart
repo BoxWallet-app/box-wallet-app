@@ -27,6 +27,9 @@ import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
+import 'package:box/widget/marquee_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -66,15 +69,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     super.initState();
 
     eventBus.on<LanguageEvent>().listen((event) {
-      netBaseData();
+      getAddress();
       netAccountInfo();
       netContractBalance();
-      getAddress();
-      netTopHeightData();
-      netNameReverseData();
-      setState(() {
-
-      });
+      setState(() {});
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       priceModel = null;
@@ -85,19 +83,13 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       AeHomePage.tokenABC = "loading...";
       if (!mounted) return;
       setState(() {});
-      netBaseData();
+      getAddress();
       netAccountInfo();
       netContractBalance();
-      getAddress();
-      netTopHeightData();
-      netNameReverseData();
     });
-    netBaseData();
+    getAddress();
     netAccountInfo();
     netContractBalance();
-    getAddress();
-    netTopHeightData();
-    netNameReverseData();
   }
 
   void netNameReverseData() {
@@ -245,12 +237,33 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 // //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
 //     });
   }
-
-  getAddress() {
+  List<Widget> icons = [];
+  getAddress() async {
     WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       AeHomePage.address = account!.address;
       if (!mounted) return;
       setState(() {});
+    });
+
+    Response homeFunctionResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-home-function.json");
+    var homeFunctionDecode = jsonDecode(homeFunctionResponse.toString());
+    logger.info(homeFunctionDecode);
+
+    var homeFunction = homeFunctionDecode["data"];
+
+    icons.clear();
+    for (var i = 0; i < homeFunction.length; i++) {
+      var groupName = createGroupName(homeFunction[i]["name"]);
+      var child = createChild(homeFunction[i]["info"]);
+      icons.add(groupName);
+      icons.add(child);
+      // for (var j = 0; j < homeFunction[i]["info"].length; j++) {
+      //
+      //   icons.add(child);
+      // }
+    }
+    setState(() {
+
     });
   }
 
@@ -514,13 +527,14 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                               S.of(context).home_page_my_count + " (AE）",
                                               style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                             ),
-                                            Expanded(child: Container()),
-                                            Container(
-                                              margin: const EdgeInsets.only(left: 2, right: 20),
-                                              child: Text(
-                                                namesModel == null ? "" : namesModel![0].name!,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                            Expanded(
+                                              child: Container(
+                                                margin: const EdgeInsets.only(left: 2, right: 20),
+                                                child: Text(
+                                                  namesModel == null ? "" : namesModel![0].name!,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -530,48 +544,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                         margin: const EdgeInsets.only(top: 20, left: 15),
                                         child: Row(
                                           children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-//                                          Container(
-//                                            width: 36.0,
-//                                            height: 36.0,
-//                                            decoration: BoxDecoration(
-//                                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-////                                                      shape: BoxShape.rectangle,
-//                                              borderRadius: BorderRadius.circular(36.0),
-//                                              image: DecorationImage(
-//                                                image: AssetImage("images/apple-touch-icon.png"),
-////                                                        image: AssetImage("images/apple-touch-icon.png"),
-//                                              ),
-//                                            ),
-//                                          ),
-//                                          Container(
-//                                            padding: const EdgeInsets.only(left: 8, right: 18),
-//                                            child: Text(
-//                                              "AE",
-//                                              style: new TextStyle(
-//                                                fontSize: 20,
-//                                                color: Colors.white,
-////                                            fontWeight: FontWeight.w600,
-//                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-//                                              ),
-//                                            ),
-//                                          ),
                                             Expanded(child: Container()),
-
                                             Row(
                                               children: [
-//                                              priceModel == null
-//                                                  ? Container()
-//                                                  : Container(
-//                                                margin: const EdgeInsets.only(bottom: 5, left: 2, top: 2),
-//                                                child: Text(
-////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
-//                                                  getAePrice(),
-//                                                  overflow: TextOverflow.ellipsis,
-//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                                ),
-//                                              ),
-
                                                 Text(
                                                   AeHomePage.token == "loading..."
                                                       ? "--.--"
@@ -592,40 +567,14 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                           ],
                                         ),
                                       ),
-
-//                                    Container(
-//                                      alignment: Alignment.topLeft,
-//                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
-//                                      child: Text(
-//                                        HomePageV2.address,
-//                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
-//                                      ),
-//                                    ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            Container(
-                              height: 48,
-                              margin: EdgeInsets.only(left: 5, right: 0, top: 0, bottom: 0),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                S.of(context).home_send_receive,
-                                style: TextStyle(
-                                  color: Color(0xFF000000),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  fontFamily: BoxApp.language == "cn"
-                                      ? "Ubuntu"
-                                      : BoxApp.language == "cn"
-                                          ? "Ubuntu"
-                                          : "Ubuntu",
-                                ),
-                              ),
-                            ),
-
+                            Column(
+                              children: icons,
+                            )
                           ],
                         ),
                       ),
@@ -642,6 +591,100 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       ),
     ));
   }
+
+  Container createChild(homeFunctionInfo) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.all(12),
+      //边框设置
+      decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+        color: Color(0xE6FFFFFF),
+        //设置四周圆角 角度
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+
+      child: Container(
+        child: GridView.builder(
+          itemBuilder: (BuildContext context, int position){
+           return  Material(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              child: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                onTap: () {},
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  width: (MediaQuery.of(context).size.width - 32) / 4,
+                  // height: (MediaQuery.of(context).size.width - 32) / 4+37,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width: 36,
+                        height: 36,
+                        margin: const EdgeInsets.only(top: 19),
+                        child: CachedNetworkImage(
+                          imageUrl:  homeFunctionInfo[position]["icon"],
+                          fadeOutDuration: const Duration(seconds: 0),
+                          fadeInDuration: const Duration(seconds: 0),
+                          fit: BoxFit.cover,
+                       ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 7),
+                        child: Text(
+                          homeFunctionInfo[position]["name"],
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.fade,
+                          style: new TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black87),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: homeFunctionInfo.length,
+          padding: const EdgeInsets.all(0),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 10 / 15,
+            crossAxisSpacing: 24,
+            mainAxisSpacing: 8,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container createGroupName(String name) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 0, top: 12, bottom: 0),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        name,
+        style: TextStyle(
+          color: Color(0xFF000000),
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          fontFamily: BoxApp.language == "cn"
+              ? "Ubuntu"
+              : BoxApp.language == "cn"
+                  ? "Ubuntu"
+                  : "Ubuntu",
+        ),
+      ),
+    );
+  }
+
 
   Container getRecordContainer(BuildContext context) {
 //    if (walletRecordModel == null) {
@@ -1104,13 +1147,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   }
 
   Future<void> _onRefresh() async {
-    netBaseData();
     netAccountInfo();
     netContractBalance();
     getAddress();
-    netTopHeightData();
-    netNameReverseData();
-    eventBus.fire(DefiEvent());
   }
 
   @override
