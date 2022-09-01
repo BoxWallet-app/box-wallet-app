@@ -401,7 +401,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                     width: 25,
                                     height: 25,
                                     color: tokenListModel!.data!.list![index - 1].to == CfxHomePage.address ? Color(0xFFF22B79) : Colors.green,
-                                    image: tokenListModel!.data!.list![index - 1].to == CfxHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
+                                    image: tokenListModel!.data!.list![index - 1].to == CfxHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                                   ),
                                 ),
                                 Column(

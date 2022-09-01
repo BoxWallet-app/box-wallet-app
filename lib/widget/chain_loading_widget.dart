@@ -30,6 +30,10 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
   void initState() {
     _controller = AnimationController(vsync: this);
     super.initState();
+
+
+
+
     BoxApp.getStatus((status) {
 
       if (status == "sucess" || status == "error") {

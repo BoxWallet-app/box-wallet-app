@@ -10,7 +10,7 @@ class NameOwnerDao {
   static Future<NameOwnerModel> fetch(String name) async {
     String nodeUrl = await BoxApp.getNodeUrl();
     if ( nodeUrl == "") {
-      nodeUrl = "https://node.aeasy.io";
+      nodeUrl = "https://mainnet.aeternity.io";
     }
     Response response = await Dio().get(nodeUrl+Host.NAME_OWNER + name);
     if (response.statusCode == 200) {

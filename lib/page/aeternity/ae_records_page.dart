@@ -17,6 +17,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 import '../../main.dart';
+import '../../manager/wallet_coins_manager.dart';
+import '../../model/aeternity/wallet_coins_model.dart';
 import 'ae_home_page.dart';
 
 class AeRecordsPage extends StatefulWidget {
@@ -40,11 +42,16 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
   }
 
   Future<void> netData() async {
+    WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
+      AeHomePage.address = account!.address;
+      if (!mounted) return;
+      setState(() {});
+    });
     Response responseTokenInfo = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-token-info.json");
     tokenInfos = jsonDecode(responseTokenInfo.toString());
 
     logger.info(tokenInfos);
-    Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF&limit=20&page=1");
+    Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF&limit=30&page=1");
 
     var responseDecode = jsonDecode(responseTxs.toString());
     List txsData = responseDecode['data'];
@@ -150,19 +157,110 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
       }
 
       logger.info("AEX9 Transfer");
-      return spendRecord(context, txHash, "SpendTx", sender, recipient, amount, contractName, time);
+      return spendRecord(context, txHash, "AEX9 SpendTx", sender, recipient, amount, contractName, time);
     } else {
       var type = record['tx']['type'];
-
       var fee = record['tx']['fee'].toString();
       fee = AmountDecimal.parseUnits(fee, 18);
-      if (type == "ContractCallTx") {
+      if (type == "SpendTx") {
+        logger.info("SpendTx");
+        var sender = record["tx"]['sender_id'].toString();
+        var recipient = record["tx"]['recipient_id'].toString();
+        var amount = AmountDecimal.parseUnits(record["tx"]['amount'].toString(), 18);
+        print(sender);
+        print(recipient);
+        return spendRecord(context, hash, type, sender, recipient, amount, "AE", time);
+      } else if (type == "ContractCallTx") {
         var contractId = record['tx']['contract_id'].toString();
         var function = record['tx']['function'].toString();
 
         if (contractId == "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3") {
-          logger.info("DEX");
+          if (function == "swap_exact_tokens_for_ae") {
+            logger.info("DEX swap_exact_tokens_for_ae");
+            var tokenAmountA = record['tx']['arguments'][0]["value"].toString();
+            var tokenAmountB = record['tx']['arguments'][1]["value"].toString();
+            var tokenA = record['tx']['arguments'][2]["value"][0]["value"].toString();
+            var tokenB = record['tx']['arguments'][2]["value"][1]["value"].toString();
+
+            var tokenAInfo = tokenInfos[tokenA];
+            if (tokenAInfo != null) {
+              tokenA = tokenAInfo["name"];
+              tokenAmountA = AmountDecimal.parseUnits(tokenAmountA, tokenAInfo["decimals"]);
+            } else {
+              tokenA = "";
+              tokenAmountA = "";
+            }
+
+            var tokenBInfo = tokenInfos[tokenB];
+            if (tokenBInfo != null) {
+              tokenB = tokenBInfo["name"];
+              tokenAmountB = AmountDecimal.parseUnits(tokenAmountB, tokenBInfo["decimals"]);
+            } else {
+              tokenB = "";
+              tokenAmountB = "";
+            }
+
+
+            return dexSwap(context, hash, "Swap", tokenA, tokenB, tokenAmountA, tokenAmountB, time);
+          }
+          if (function == "swap_exact_ae_for_tokens") {
+            logger.info("DEX swap_exact_ae_for_tokens");
+            var tokenAmountA = AmountDecimal.parseUnits(record['tx']['amount'].toString(), 18);
+            var tokenAmountB = record['tx']['arguments'][0]["value"].toString();
+            var tokenA = "AE";
+            var tokenB = record['tx']['arguments'][1]["value"][1]["value"].toString();
+
+            var tokenBInfo = tokenInfos[tokenB];
+            if (tokenBInfo != null) {
+              tokenB = tokenBInfo["name"];
+              tokenAmountB = AmountDecimal.parseUnits(tokenAmountB, tokenBInfo["decimals"]);
+            } else {
+              tokenB = "";
+              tokenAmountB = "";
+            }
+
+            return dexSwap(context, hash, "Swap", tokenA, tokenB, tokenAmountA, tokenAmountB, time);
+          }
+          if (function == "swap_exact_tokens_for_tokens") {
+            logger.info("DEX swap_exact_tokens_for_tokens");
+            var tokenAmountA = record['tx']['arguments'][0]["value"].toString();
+            var tokenAmountB = record['tx']['arguments'][1]["value"].toString();
+            var tokenA = record['tx']['arguments'][2]["value"][0]["value"].toString();
+            var tokenB = record['tx']['arguments'][2]["value"][1]["value"].toString();
+
+            var tokenAInfo = tokenInfos[tokenA];
+            if (tokenAInfo != null) {
+              tokenA = tokenAInfo["name"];
+              tokenAmountA = AmountDecimal.parseUnits(tokenAmountA, tokenAInfo["decimals"]);
+            } else {
+              tokenA = "";
+              tokenAmountA = "";
+            }
+
+            var tokenBInfo = tokenInfos[tokenB];
+            if (tokenBInfo != null) {
+              tokenB = tokenBInfo["name"];
+              tokenAmountB = AmountDecimal.parseUnits(tokenAmountB, tokenBInfo["decimals"]);
+            } else {
+              tokenB = "";
+              tokenAmountB = "";
+            }
+            return dexSwap(context, hash, "Swap", tokenA, tokenB, tokenAmountA, tokenAmountB, time);
+          }
+          if (function == "add_liquidity") {
+            logger.info("DEX add_liquidity");
+          }
+          if (function == "add_liquidity_ae") {
+            logger.info("DEX add_liquidity_ae");
+          }
+          if (function == "remove_liquidity") {
+            logger.info("DEX remove_liquidity");
+          }
+          if (function == "remove_liquidity_ae") {
+            logger.info("DEX remove_liquidity_ae");
+          }
         } else {
+          logger.info("ContractCallTx");
           var tokenInfo = tokenInfos[contractId];
           if (tokenInfo != null && function == "transfer") {
             logger.info("AEX9 send");
@@ -171,7 +269,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
             var amount = record['tx']['arguments'][1]["value"].toString();
             var contractName = tokenInfo["name"];
             amount = AmountDecimal.parseUnits(amount, tokenInfo["decimals"]);
-            return spendRecord(context, hash, "SpendTx", sender, recipient, amount, contractName, time);
+            return spendRecord(context, hash, "AEX9 SpendTx", sender, recipient, amount, contractName, time);
           } else {
             var sender = record['tx']['caller_id'].toString();
             var recipient = contractId;
@@ -181,10 +279,15 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
           }
         }
       } else if (type == "NameClaimTx") {
-      } else {
-        logger.info(type);
+        logger.info("NameClaimTx");
+        var name = record['tx']['name'].toString();
+        var nameFee = AmountDecimal.parseUnits(record['tx']['name_fee'].toString(), 18);
+        return nameRecord(context, hash, type, name, nameFee, "AE", time);
+      } else if (type == "NameUpdateTx") {
+        var name = record['tx']['name'].toString();
+        return nameRecord(context, hash, type, name, fee, "AE", time);
       }
-      return Container();
+      return spendRecord(context, hash, type, AeHomePage.address!, "", fee, "AE", time);
     }
   }
 
@@ -215,7 +318,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                     width: 25,
                     height: 25,
                     color: recipient == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
-                    image: recipient == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
+                    image: recipient == AeHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                   ),
                 ),
                 Expanded(
@@ -252,9 +355,92 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             (recipient == AeHomePage.address ? "+" + amount : "-" + amount) + " " + contractName,
-                            style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: recipient == AeHomePage.address ? Color(0xFFF22B79) : Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           ),
                         ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container dexSwap(BuildContext context, String hash, String type, String tokenA, String tokenB, String tokenAmountA, String tokenAmountB, String time) {
+    return Container(
+      margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          onTap: () {},
+          child: Container(
+            padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    // border: new Border.all(width: 0.5, color: Color(0xFFeeeeee)),
+                  ),
+                  child: Image(
+                    width: 25,
+                    height: 25,
+                    color: Colors.blueAccent,
+                    image: AssetImage("images/token_swap.png"),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            getTxType(type),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            time,
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          "-" + tokenAmountA + " " + tokenA,
+                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          "+" + tokenAmountB + " " + tokenB,
+                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -293,7 +479,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                     width: 25,
                     height: 25,
                     color: Colors.green,
-                    image: AssetImage("images/token_receive.png"),
+                    image: AssetImage("images/token_send.png"),
                   ),
                 ),
                 Expanded(
@@ -309,6 +495,16 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                             style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           ),
                         ),
+                        if (name != "")
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.black45, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            ),
+                          ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
@@ -330,7 +526,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             "-" + amount + " " + contractName,
-                            style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           ),
                         ),
                     ],
@@ -349,6 +545,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
       switch (type) {
         case "SpendTx":
           return "转账";
+        case "Swap":
+          return "兑换";
+        case "AEX9 SpendTx":
+          return "积分转账";
         case "OracleRegisterTx":
           return "预言机注册";
         case "OracleExtendTx":

@@ -237,7 +237,9 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 // //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
 //     });
   }
+
   List<Widget> icons = [];
+
   getAddress() async {
     WalletCoinsManager.instance.getCurrentAccount().then((Account? account) {
       AeHomePage.address = account!.address;
@@ -253,18 +255,12 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
     icons.clear();
     for (var i = 0; i < homeFunction.length; i++) {
-      var groupName = createGroupName(homeFunction[i]["name"]);
+      var groupName = createGroupName(BoxApp.language == "cn" ? homeFunction[i]["cn_name"] : homeFunction[i]["en_name"]);
       var child = createChild(homeFunction[i]["info"]);
       icons.add(groupName);
       icons.add(child);
-      // for (var j = 0; j < homeFunction[i]["info"].length; j++) {
-      //
-      //   icons.add(child);
-      // }
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void netBaseData() {
@@ -556,6 +552,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
+                                                  // style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: "Inter"),
                                                   style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                                 ),
                                               ],
@@ -596,7 +593,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.only(top: 5),
       //边框设置
       decoration: new BoxDecoration(
         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
@@ -607,13 +604,25 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
       child: Container(
         child: GridView.builder(
-          itemBuilder: (BuildContext context, int position){
-           return  Material(
+          itemBuilder: (BuildContext context, int position) {
+            return Material(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               color: Colors.white,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                onTap: () {},
+                onTap: () {
+                  var event = homeFunctionInfo[position]['event'];
+                  logger.info(event);
+                  if (event == "Spend") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenSendOnePage()));
+                    return;
+                  }
+                  if (event == "Receive") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                    return;
+                  }
+                  // if (homeFunctionInfo["function" == "spend"]) {}
+                },
                 child: Container(
                   alignment: Alignment.topCenter,
                   width: (MediaQuery.of(context).size.width - 32) / 4,
@@ -622,22 +631,21 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       Container(
                         width: 36,
                         height: 36,
-                        margin: const EdgeInsets.only(top: 19),
+                        margin: const EdgeInsets.only(top: 15),
                         child: CachedNetworkImage(
-                          imageUrl:  homeFunctionInfo[position]["icon"],
+                          imageUrl: homeFunctionInfo[position]["icon"],
                           fadeOutDuration: const Duration(seconds: 0),
                           fadeInDuration: const Duration(seconds: 0),
                           fit: BoxFit.cover,
-                       ),
+                        ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 7),
+                        margin: const EdgeInsets.only(top: 2),
                         child: Text(
-                          homeFunctionInfo[position]["name"],
+                          BoxApp.language == "cn" ? homeFunctionInfo[position]["cn_name"] : homeFunctionInfo[position]["en_name"],
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.fade,
@@ -656,9 +664,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           padding: const EdgeInsets.all(0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
-            childAspectRatio: 10 / 15,
-            crossAxisSpacing: 24,
-            mainAxisSpacing: 8,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
           ),
         ),
       ),
@@ -684,7 +691,6 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
 
   Container getRecordContainer(BuildContext context) {
 //    if (walletRecordModel == null) {

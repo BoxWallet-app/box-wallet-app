@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
@@ -54,12 +55,14 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
   String? tokenImage;
   String? tokenContract;
 
+  bool isSpend = false;
+
   @override
   void initState() {
     super.initState();
     this.tokenName = "AE";
     this.tokenCount = AeHomePage.token;
-    this.tokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png";
+    this.tokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png";
 
     if (widget.tokenName != null) {
       this.tokenName = widget.tokenName;
@@ -359,11 +362,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                                                     width: 36.0,
                                                     height: 36.0,
                                                     decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                          top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                          left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0),
-                                                          right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
                                                       borderRadius: BorderRadius.circular(36.0),
                                                     ),
@@ -490,22 +489,45 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 30),
                     child: Container(
                       height: 50,
+                      margin: const EdgeInsets.only(top: 10, bottom: 30),
                       width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
-                        onPressed: () {
-                          netSend(context);
-                        },
-                        child: Text(
-                          S.of(context).token_send_two_page_conform,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
-                        ),
+                      clipBehavior: Clip.hardEdge,
+                      // padding: const EdgeInsets.only(bottom: 6, top: 6),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
                         color: Color(0xFFFC2365),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                      child: Material(
+                        color: Color(0xFFFC2365),
+                        child: InkWell(
+                          onTap: () async {
+                            netSend(context);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (isSpend)
+                                const SizedBox(
+                                  width: 15,
+                                  height: 15,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xffffffff),
+                                      strokeWidth: 4,
+                                    ),
+                                  ),
+                                ),
+                              if (!isSpend)
+                                Text(
+                                  S.of(context).token_send_two_page_conform,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 16, color: Color(0xffffffff)),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -539,6 +561,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
   }
 
   Future<void> netSend(BuildContext context) async {
+    if (isSpend) return;
     var note = "";
     if (_textEditingControllerNode.text == "") {
       note = "Box Wallet";
@@ -550,18 +573,47 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
       return;
     }
     focusNode.unfocus();
-    showPasswordDialog(context, (address, privateKey,mnemonic,  password) async {
-      showChainLoading();
+    var amount = _textEditingController.text;
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       if (tokenContract == null || tokenContract == "") {
-        BoxApp.spend((tx) {
-          showCopyHashDialog(context, tx, (val) async {
-            showFlushSucess(context);
-          });
+        var params = {
+          "name": "aeSpend",
+          "params": {"secretKey": privateKey, "receiveAddress": widget.address, "amount": amount, "payload": Utils.encodeBase64(note)}
+        };
+        var channelJson = json.encode(params);
+        isSpend = true;
+        setState(() {});
+        BoxApp.sdkChannelCall((result) {
+          if (!mounted) return;
+          isSpend = false;
+          final jsonResponse = json.decode(result);
+          if (jsonResponse["name"] != params['name']) {
+            return;
+          }
+          var code = jsonResponse["code"];
+          var message = jsonResponse["message"];
+          var hash = jsonResponse["result"]["hash"];
+          if (code == 200) {
+            showCopyHashDialog(context, hash, (val) async {
+              showFlushSucess(context);
+            });
+          } else {
+            showConfirmDialog(S.of(context).dialog_hint, message);
+          }
+
+          setState(() {});
           return;
-        }, (error) {
-          showConfirmDialog(S.of(context).dialog_hint, error);
-          return;
-        }, privateKey, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
+        }, channelJson);
+
+        // BoxApp.spend((tx) {
+        //   showCopyHashDialog(context, tx, (val) async {
+        //     showFlushSucess(context);
+        //   });
+        //   return;
+        // }, (error) {
+        //   showConfirmDialog(S.of(context).dialog_hint, error);
+        //   return;
+        // }, privateKey, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
       } else {
         BoxApp.contractTransfer((tx) async {
           showCopyHashDialog(context, tx, (val) async {

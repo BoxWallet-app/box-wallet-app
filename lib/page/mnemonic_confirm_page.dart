@@ -37,7 +37,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-    WidgetsBinding.instance!.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_){
       updateData();
     });
   }

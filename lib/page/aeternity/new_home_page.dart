@@ -431,6 +431,21 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
               borderRadius: BorderRadius.all(Radius.circular(50)),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+                // var signingKey = "A6gH0/HB2O5mDLazE38sLMoFMJyY24hTe8GwC83hfWHot9AHajg6aKqnfAq/MjBjPAemVhv3Q/jzut4PvGV6WwsC5QKxVT39VXnmcyicJWLFzTv2GZSBkmKCgkLepYc5EuVi9T7xgqupCO+t4in9dSy22K+VW02HNyIqaXpIvuZc3W4RLCVw1EiaAbx7Oe4F";
+                // var address = "ak_2nu7x8cpJ88ownrxdpdVLAhHeSpG7ffbdQ8rsedvVHU9MZytzB";
+                // final key = Utils.generateMd5Int("510808" + address);
+                // var aesDecode = Utils.aesDecodeOld(signingKey, key);
+                // print(aesDecode);
+
+              //   {
+              //     "name": "aeRestoreAccountSecretKey",
+              //   "params": {
+              //   "secretKey": "176e0383e672c6b76edead1899e9cf35471036fd150b4c9fd0e8c8d6e6402ceeebea1e1f3988302f8302c16ad98c2078e91f0ebb58a85de5753e2a2565f853c8"
+              //   }
+              // }
+
+
+
               },
               child: Container(
                 padding: EdgeInsets.all(14),

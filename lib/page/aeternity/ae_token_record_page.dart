@@ -395,7 +395,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                     width: 25,
                     height: 25,
                                     color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
-                                    image: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
+                                    image: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                                   ),
                                 ),
                                 Column(

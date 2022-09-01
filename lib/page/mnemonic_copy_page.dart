@@ -44,7 +44,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
 //    for (String item in mnemonicList) {
 //      mnemonicWord[item] = false;
 //    }
-    WidgetsBinding.instance!.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_){
       updateData();
     });
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
@@ -70,19 +71,36 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
   Future<void> getBalance() async {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
-        if (from != account!.address) return;
-        balance = AmountDecimal.parseUnits(balance, decimal);
-
-        for (int j = 0; j < tokenListModel!.data!.length; j++) {
-          if (tokenListModel!.data![j].ctAddress == address) {
-            tokenListModel!.data![j].countStr = Utils.formatBalanceLength(double.parse(balance));
-            CacheManager.instance.setTokenBalance(account.address!, tokenListModel!.data![j].ctAddress, account.coin!, tokenListModel!.data![j].countStr!);
-          }
-        }
+      var params = {
+        "name": "aeAex9TokenBalance",
+        "params": {"ctAddress":  tokenListModel!.data![i].ctAddress!, "address": account!.address}
+      };
+      var channelJson = json.encode(params);
+      BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var balance = jsonResponse["result"]["balance"];
+        var address = jsonResponse["result"]["address"];
+        var ctAddress = jsonResponse["result"]["ctAddress"];
+
+        if (!mounted) return;
+        for (int j = 0; j < tokenListModel!.data!.length; j++) {
+          if( tokenListModel!.data![j].ctAddress == ctAddress){
+            tokenListModel!.data![j].countStr = AmountDecimal.parseDecimal(balance);
+            CacheManager.instance.setTokenBalance(address, ctAddress, account.coin!, AmountDecimal.parseDecimal(balance));
+          }
+
+        }
+        // if (address != account.address) return;
+        // if (ctAddress != BoxApp.ABC_CONTRACT_AEX9) return;
+        // AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(balance));
+        // CacheManager.instance.setTokenBalance(account.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!, AeHomePage.tokenABC!);
         setState(() {});
-      }, account!.address!, tokenListModel!.data![i].ctAddress!);
+        return;
+      }, channelJson);
     }
   }
 
@@ -225,7 +243,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
-                widget.aeSelectTokenListCallBackFuture!("AE", widget.aeCount, "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png", "");
+                widget.aeSelectTokenListCallBackFuture!("AE", widget.aeCount, "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png", "");
               }
               Navigator.pop(context);
             },
@@ -252,7 +270,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/ae-ae.png",
+                                    "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png",
                                     frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                       if (wasSynchronouslyLoaded) return child;
 

@@ -492,7 +492,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                     width: 25,
                                     height: 25,
                                     color: tokenListModel!.data![index - 1].from == EthHomePage.address ? Colors.green : Color(0xFFF22B79),
-                                    image: tokenListModel!.data![index - 1].from == EthHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
+                                    image: tokenListModel!.data![index - 1].from == EthHomePage.address ? AssetImage("images/token_send.png") : AssetImage("images/token_receive.png"),
                                   ),
                                 ),
                                 Column(
