@@ -39,6 +39,7 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import '../../manager/data_center_manager.dart';
 import '../general/wallet_select_page_new.dart';
 import '../mnemonic_copy_page.dart';
 import 'ae_records_page.dart';
@@ -81,6 +82,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     netHost();
     netVersion();
     getAddress();
+    DataCenterManager.instance.start();
   }
 
   getAddress() {

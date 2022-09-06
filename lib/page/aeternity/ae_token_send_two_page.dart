@@ -591,38 +591,50 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
             return;
           }
           var code = jsonResponse["code"];
-          var message = jsonResponse["message"];
-          var hash = jsonResponse["result"]["hash"];
+
           if (code == 200) {
+            var hash = jsonResponse["result"]["hash"];
             showCopyHashDialog(context, hash, (val) async {
               showFlushSucess(context);
             });
           } else {
+            var message = jsonResponse["message"];
             showConfirmDialog(S.of(context).dialog_hint, message);
           }
 
           setState(() {});
           return;
         }, channelJson);
-
-        // BoxApp.spend((tx) {
-        //   showCopyHashDialog(context, tx, (val) async {
-        //     showFlushSucess(context);
-        //   });
-        //   return;
-        // }, (error) {
-        //   showConfirmDialog(S.of(context).dialog_hint, error);
-        //   return;
-        // }, privateKey, address, widget.address, _textEditingController.text, Utils.encodeBase64(note));
       } else {
-        BoxApp.contractTransfer((tx) async {
-          showCopyHashDialog(context, tx, (val) async {
-            showFlushSucess(context);
-          });
-        }, (error) {
-          showConfirmDialog(S.of(context).dialog_hint, error);
+        var params = {
+          "name": "aeAex9TokenTransfer",
+          "params": {"secretKey": privateKey, "toAddress": widget.address, "amount": amount, "ctAddress": tokenContract}
+        };
+        var channelJson = json.encode(params);
+        isSpend = true;
+        setState(() {});
+        BoxApp.sdkChannelCall((result) {
+          if (!mounted) return;
+          isSpend = false;
+          final jsonResponse = json.decode(result);
+          if (jsonResponse["name"] != params['name']) {
+            return;
+          }
+          var code = jsonResponse["code"];
+
+          if (code == 200) {
+            var hash = jsonResponse["result"]["hash"];
+            showCopyHashDialog(context, hash, (val) async {
+              showFlushSucess(context);
+            });
+          } else {
+            var message = jsonResponse["message"];
+            showConfirmDialog(S.of(context).dialog_hint, message);
+          }
+
+          setState(() {});
           return;
-        }, privateKey, address, tokenContract!, widget.address, _textEditingController.text, "full");
+        }, channelJson);
       }
     });
   }
