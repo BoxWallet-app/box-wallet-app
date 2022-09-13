@@ -22,17 +22,21 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AeAensDetailPage extends BaseWidget {
-  final String? name;
+  final int currentHeight;
+  final Map aensDetail;
 
-  AeAensDetailPage({Key? key, this.name});
+  AeAensDetailPage({
+    Key? key,
+    required this.aensDetail,
+    required this.currentHeight,
+  });
 
   @override
   _AeAensDetailPageState createState() => _AeAensDetailPageState();
 }
 
 class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
-  AensInfoModel _aensInfoModel = AensInfoModel();
-  LoadingType _loadingType = LoadingType.loading;
+  LoadingType _loadingType = LoadingType.finish;
   late Flushbar flush;
 
   String address = '';
@@ -47,10 +51,11 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     eventBus.on<NameEvent>().listen((event) {
       netAensPoint();
     });
+    netAensPoint();
   }
 
   void netAensPoint() {
-    NameOwnerDao.fetch(widget.name!).then((NameOwnerModel model) {
+    NameOwnerDao.fetch(widget.aensDetail['name']).then((NameOwnerModel model) {
       if (model.owner!.isNotEmpty) {
         model.pointers!.forEach((element) {
           if (element.key == "account_pubkey") {
@@ -66,17 +71,17 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     return;
   }
 
-  void netAensInfo() {
-    AensInfoDao.fetch(widget.name).then((AensInfoModel model) {
-      _aensInfoModel = model;
-      _loadingType = LoadingType.finish;
-      netAensPoint();
-      setState(() {});
-    }).catchError((e) {
-      _loadingType = LoadingType.error;
-      setState(() {});
-    });
-  }
+  // void netAensInfo() {
+  //   AensInfoDao.fetch( widget.aensDetail['name']).then((AensInfoModel model) {
+  //     _aensInfoModel = model;
+  //     _loadingType = LoadingType.finish;
+  //     netAensPoint();
+  //     setState(() {});
+  //   }).catchError((e) {
+  //     _loadingType = LoadingType.error;
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +101,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            _aensInfoModel.data == null ? "" : _aensInfoModel.data!.name!,
+            widget.aensDetail['name'],
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
@@ -114,7 +119,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => AeAensTransferPage(
-                                  name: widget.name,
+                                  name: widget.aensDetail['name'],
                                 )));
                   },
                   child: Container(
@@ -140,7 +145,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => AeAensPointPage(
-                                  name: widget.name,
+                                  name: widget.aensDetail['name'],
                                 )));
                   },
                   child: Container(
@@ -160,20 +165,20 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       body: LoadingWidget(
         type: _loadingType,
         onPressedError: () {
-          netAensInfo();
+          // netAensInfo();
         },
         child: Column(
           children: <Widget>[
-            buildItem(S.of(context).aens_detail_page_name, _aensInfoModel.data == null ? "" : _aensInfoModel.data!.name!),
-            buildItem("TxHash", _aensInfoModel.data == null ? "" : _aensInfoModel.data!.thHash!),
-            buildItem(S.of(context).aens_detail_page_balance + "(ae)", _aensInfoModel.data == null ? "" : Utils.formatPrice(_aensInfoModel.data!.currentPrice!)),
-            buildItem(S.of(context).aens_detail_page_height, _aensInfoModel.data == null ? "" : _aensInfoModel.data!.currentHeight.toString()),
+            buildItem(S.of(context).aens_detail_page_name, widget.aensDetail['name']),
+            buildItem("TxHash", widget.aensDetail['hash']),
+            buildItem(S.of(context).aens_detail_page_balance + "(ae)", widget.aensDetail['price']),
+            buildItem(S.of(context).aens_detail_page_height, widget.aensDetail['endHeight'].toString()),
             buildItem(getTypeKey(), getTypeValue()),
-            buildItem(S.of(context).aens_detail_page_owner, _aensInfoModel.data == null ? "" : _aensInfoModel.data!.owner!),
+            buildItem(S.of(context).aens_detail_page_owner, widget.aensDetail['owner']),
             buildItem(S.of(context).name_point, accountPubkey!),
             buildBtnAdd(context),
             buildBtnUpdate(context),
-//            buildBtnPoint(context),
+            buildBtnPoint(context),
           ],
         ),
       ),
@@ -184,37 +189,29 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     BoxApp.getAddress().then((String address) {
       setState(() {
         this.address = address;
-        netAensInfo();
+        // netAensInfo();
       });
     });
   }
 
   String getTypeValue() {
-    if (_aensInfoModel.data == null) {
-      return "-";
+    if (widget.currentHeight > widget.aensDetail['endHeight']) {
+      return Utils.formatHeight(context, widget.currentHeight, widget.aensDetail['overHeight']);
     }
 
-    if (_aensInfoModel.data!.currentHeight! > _aensInfoModel.data!.endHeight!) {
-      return Utils.formatHeight(context, _aensInfoModel.data!.currentHeight!, _aensInfoModel.data!.overHeight!);
-    }
-
-    if (_aensInfoModel.data!.currentHeight! < _aensInfoModel.data!.endHeight!) {
-      return Utils.formatHeight(context, _aensInfoModel.data!.currentHeight!, _aensInfoModel.data!.endHeight!);
+    if (widget.currentHeight < widget.aensDetail['endHeight']) {
+      return Utils.formatHeight(context, widget.currentHeight, widget.aensDetail['overHeight']);
     }
 
     return "-";
   }
 
   String getTypeKey() {
-    if (_aensInfoModel.data == null) {
+    if (widget.currentHeight > widget.aensDetail['endHeight']) {
       return S.of(context).aens_list_page_item_time_end;
     }
 
-    if (_aensInfoModel.data!.currentHeight! > _aensInfoModel.data!.endHeight!) {
-      return S.of(context).aens_list_page_item_time_end;
-    }
-
-    if (_aensInfoModel.data!.currentHeight! < _aensInfoModel.data!.endHeight!) {
+    if (widget.currentHeight < widget.aensDetail['endHeight']) {
       return S.of(context).aens_list_page_item_time_over;
     }
 
@@ -222,15 +219,11 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Container buildBtnUpdate(BuildContext context) {
-    if (_aensInfoModel.data == null) {
+    if (widget.aensDetail['owner'] != address) {
       return Container();
     }
 
-    if (_aensInfoModel.data!.owner != address) {
-      return Container();
-    }
-
-    if (_aensInfoModel.data!.currentHeight! < _aensInfoModel.data!.endHeight!) {
+    if (widget.currentHeight < widget.aensDetail['endHeight']) {
       return Container();
     }
     return Container(
@@ -256,30 +249,22 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   bool isPoint() {
-    if (_aensInfoModel.data == null) {
+    if (widget.aensDetail['owner'] != address) {
       return false;
     }
 
-    if (_aensInfoModel.data!.owner != address) {
-      return false;
-    }
-
-    if (_aensInfoModel.data!.currentHeight! < _aensInfoModel.data!.endHeight!) {
+    if (widget.currentHeight < widget.aensDetail['endHeight']) {
       return false;
     }
     return true;
   }
 
   Container buildBtnPoint(BuildContext context) {
-    if (_aensInfoModel.data == null) {
+    if (widget.aensDetail['owner'] != address) {
       return Container();
     }
 
-    if (_aensInfoModel.data!.owner != address) {
-      return Container();
-    }
-
-    if (_aensInfoModel.data!.currentHeight! < _aensInfoModel.data!.endHeight!) {
+    if (widget.currentHeight < widget.aensDetail['endHeight']) {
       return Container();
     }
     return Container(
@@ -305,7 +290,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Future<void> netUpdateV2(BuildContext context) async {
-    showPasswordDialog(context, (address, privateKey,mnemonic, password) async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       BoxApp.updateName((tx) async {
         showCopyHashDialog(context, tx, (val) async {
           showFlushSucess(context);
@@ -313,13 +298,13 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       }, (error) {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
-      }, privateKey, address, _aensInfoModel.data!.name!, accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
+      }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
       showChainLoading();
     });
   }
 
   Future<void> netPreclaimV2(BuildContext context) async {
-    showPasswordDialog(context, (address, privateKey,mnemonicn, password) async {
+    showPasswordDialog(context, (address, privateKey, mnemonicn, password) async {
       BoxApp.bidName((tx) async {
         showCopyHashDialog(context, tx, (val) async {
           showFlushSucess(context);
@@ -327,7 +312,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       }, (error) {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
-      }, privateKey, address, _aensInfoModel.data!.name!, accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
+      }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
       showChainLoading();
     });
     // showGeneralDialog(
@@ -409,11 +394,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Container buildBtnAdd(BuildContext context) {
-    if (_aensInfoModel.data == null) {
-      return Container();
-    }
-
-    if (_aensInfoModel.data!.currentHeight! > _aensInfoModel.data!.endHeight!) {
+    if (widget.currentHeight > widget.aensDetail['endHeight']) {
       return Container();
     }
     return Container(
@@ -426,7 +407,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             netPreclaimV2(context);
           },
           child: Text(
-            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(_aensInfoModel.data!.currentPrice!) + double.parse(_aensInfoModel.data!.currentPrice!) * 0.1).toStringAsFixed(2) + " AE",
+            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.1).toStringAsFixed(2) + " AE",
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
           ),

@@ -94,10 +94,6 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
           }
 
         }
-        // if (address != account.address) return;
-        // if (ctAddress != BoxApp.ABC_CONTRACT_AEX9) return;
-        // AeHomePage.tokenABC = Utils.formatBalanceLength(double.parse(balance));
-        // CacheManager.instance.setTokenBalance(account.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!, AeHomePage.tokenABC!);
         setState(() {});
         return;
       }, channelJson);

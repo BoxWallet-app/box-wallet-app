@@ -36,16 +36,18 @@ class Data {
   String? ctAddress;
   String? image;
   String? name;
+  String? nameFull;
   String? type;
   String? rate = "0";
 
-  Data({this.count, this.ctAddress, this.image, this.name, this.type});
+  Data({this.count, this.ctAddress, this.image, this.name, this.nameFull, this.type});
 
   Data.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     ctAddress = json['ct_address'];
     image = json['image'];
     name = json['name'];
+    nameFull = json['name_full'];
     type = json['type'];
     rate = json['reta'];
   }
@@ -56,6 +58,7 @@ class Data {
     data['ct_address'] = this.ctAddress;
     data['image'] = this.image;
     data['name'] = this.name;
+    data['name_full'] = this.nameFull;
     data['type'] = this.type;
     data['reta'] = this.rate;
     return data;

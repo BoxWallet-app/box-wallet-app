@@ -35,7 +35,7 @@ class DataCenterManager {
   Future<List> netRecordData() async {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     AeHomePage.address = account!.address;
-    Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=${AeHomePage.address}&limit=10&page=1");
+    Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=${AeHomePage.address}&limit=30&page=1");
     var responseDecode = jsonDecode(responseTxs.toString());
     List txsData = responseDecode['data'];
     Response responseAex9 = await Dio().get("https://mainnet.aeternity.io/mdw/v2/aex9/transfers/to/${AeHomePage.address}");
@@ -43,9 +43,11 @@ class DataCenterManager {
     List aex9Data = responseAex9Decode['data'];
     for (var i = 0; i < txsData.length; i++) {
       var txHash = txsData[i]["hash"];
+
       for (var j = 0; j < aex9Data.length; j++) {
         var aex9Hash = aex9Data[j]["tx_hash"];
-        if (txHash == aex9Hash) {
+        var aex9ContractId = aex9Data[j]["contract_id"];
+        if (txHash == aex9Hash || aex9ContractId == 'ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3') {
           aex9Data.removeAt(j);
           j--;
         }
@@ -54,7 +56,7 @@ class DataCenterManager {
     txsData.addAll(aex9Data);
     txsData.sort((left, right) => right["micro_time"].compareTo(left["micro_time"]));
     DataCenterManager.txsData = txsData;
-    logger.info("netRecord data");
+
     return txsData;
   }
 

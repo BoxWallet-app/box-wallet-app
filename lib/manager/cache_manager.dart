@@ -35,6 +35,18 @@ class CacheManager {
     return data;
   }
 
+  Future<bool> setAeHomeFunction(String value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setString('ae_home_function', value);
+  }
+
+  Future<String> getAeHomeFunction() async {
+    var prefs = await SharedPreferences.getInstance();
+    var data = prefs.getString('ae_home_function');
+    if (data == null || data == "") return "";
+    return data;
+  }
+
   Future<bool> setEthRecord(String address, String coin, EthTransferModel? ethTransferModel) async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.setString('eth_record_' + address + "_" + coin, jsonEncode(ethTransferModel));

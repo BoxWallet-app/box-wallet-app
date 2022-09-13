@@ -60,6 +60,9 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   List<Widget> ethWidget = [];
   var _currentIndex = 0;
 
+  bool isNodeError = false;
+  bool isNodeLoading = true;
+
   _NewHomePageState();
 
   @override
@@ -82,6 +85,14 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     netHost();
     netVersion();
     getAddress();
+    netNodeHeight();
+
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      Timer.periodic(Duration(milliseconds: 10000), (timer) {
+        netNodeHeight();
+      });
+    });
+
     DataCenterManager.instance.start();
   }
 
@@ -91,6 +102,32 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
       if (!mounted) return;
       setState(() {});
     });
+  }
+
+  void netNodeHeight() {
+    var params = {
+      "name": "aeGetCurrentHeight",
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      isNodeLoading = false;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var code = jsonResponse["code"];
+
+      if (code == 200) {
+        isNodeError = false;
+      } else {
+        isNodeError = true;
+        // showConfirmDialog(S.of(context).dialog_hint, "error");
+      }
+
+      setState(() {});
+      return;
+    }, channelJson);
   }
 
   _launchURL(String url) async {
@@ -238,34 +275,114 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
 
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: Container(
-            child: Column(
-              children: [
-                Container(
-                  color: Color(0xFFfafbfc),
-                  height: MediaQueryData.fromWindow(window).padding.top,
-                ),
-                Container(
-                  color: Color(0xFFfafbfc),
+          body: Stack(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      color: Color(0xFFfafbfc),
+                      height: MediaQueryData.fromWindow(window).padding.top,
+                    ),
+                    Container(
+                      color: Color(0xFFfafbfc),
 //              color: Colors.blue,
-                  width: MediaQuery.of(context).size.width,
-                  height: 52,
-                  child: Stack(
-                    children: [
-                      buildTitleAccount(),
-                      buildTitleRecord(),
-                      buildTitleSettings(),
-                    ],
-                  ),
+                      width: MediaQuery.of(context).size.width,
+                      height: 52,
+                      child: Stack(
+                        children: [
+                          buildTitleAccount(),
+                          buildTitleRecord(),
+                          buildTitleSettings(),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: getBody(),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: getBody(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              if (isNodeLoading || isNodeError)
+                Positioned(
+                    bottom: MediaQueryData.fromWindow(window).padding.bottom + 10,
+                    right: 0,
+                    child: Container(
+                      child: Container(
+                        child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          // padding: const EdgeInsets.only(bottom: 6, top: 6),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                            color: Color.fromARGB(255, 223, 223, 223),
+                          ),
+                          child: Material(
+                            color: isNodeError ? Color(0xFFFC2365) : Color(0xFFFC2365),
+                            child: InkWell(
+                              onTap: () async {
+                                isNodeLoading = true;
+                                setState(() {});
+                                netNodeHeight();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    isNodeLoading
+                                        ? Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 15,
+                                                height: 15,
+                                                child: Center(
+                                                  child: CircularProgressIndicator(
+                                                    color: Color(0xffffffff),
+                                                    strokeWidth: 2,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(left: 7),
+                                                child: Text(
+                                                  "Connect node...",
+                                                  maxLines: 1,
+                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(255, 255, 255, 255)),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : isNodeError
+                                            ? Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.error_outline_outlined,
+                                                    color: Color.fromARGB(255, 255, 255, 255),
+                                                    size: 15,
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 7),
+                                                    child: Text(
+                                                      "Network Error",
+                                                      maxLines: 1,
+                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(255, 255, 255, 255)),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Container(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ))
+            ],
           ),
 
           drawer: ClipRRect(
@@ -421,7 +538,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
 
   Positioned buildTitleRecord() {
     return Positioned(
-      right: 18+52,
+      right: 18 + 52,
       child: Builder(builder: (context) {
         return Container(
           height: 52,
@@ -439,15 +556,12 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                 // var aesDecode = Utils.aesDecodeOld(signingKey, key);
                 // print(aesDecode);
 
-              //   {
-              //     "name": "aeRestoreAccountSecretKey",
-              //   "params": {
-              //   "secretKey": "176e0383e672c6b76edead1899e9cf35471036fd150b4c9fd0e8c8d6e6402ceeebea1e1f3988302f8302c16ad98c2078e91f0ebb58a85de5753e2a2565f853c8"
-              //   }
-              // }
-
-
-
+                //   {
+                //     "name": "aeRestoreAccountSecretKey",
+                //   "params": {
+                //   "secretKey": "176e0383e672c6b76edead1899e9cf35471036fd150b4c9fd0e8c8d6e6402ceeebea1e1f3988302f8302c16ad98c2078e91f0ebb58a85de5753e2a2565f853c8"
+                //   }
+                // }
               },
               child: Container(
                 padding: EdgeInsets.all(14),

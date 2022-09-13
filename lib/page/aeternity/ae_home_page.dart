@@ -23,6 +23,7 @@ import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
+import 'package:box/page/aeternity/ae_select_token_list_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -38,6 +39,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import 'ae_aens_page.dart';
 import 'ae_token_list_page.dart';
 import 'ae_token_receive_page.dart';
 import 'ae_token_send_one_page.dart';
@@ -246,9 +248,26 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       if (!mounted) return;
       setState(() {});
     });
+    var aeHomeFunction = await CacheManager.instance.getAeHomeFunction();
+    if (aeHomeFunction != "") {
+      var homeFunctionDecode = jsonDecode(aeHomeFunction.toString());
+      var homeFunction = homeFunctionDecode["data"];
 
+      icons.clear();
+      for (var i = 0; i < homeFunction.length; i++) {
+        var groupName = createGroupName(BoxApp.language == "cn" ? homeFunction[i]["cn_name"] : homeFunction[i]["en_name"]);
+        var child = createChild(homeFunction[i]["info"]);
+
+        icons.add(groupName);
+        icons.add(child);
+      }
+      setState(() {});
+    }
     Response homeFunctionResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-home-function.json");
+
     var homeFunctionDecode = jsonDecode(homeFunctionResponse.toString());
+
+    CacheManager.instance.setAeHomeFunction(homeFunctionResponse.toString());
     logger.info(homeFunctionDecode);
 
     var homeFunction = homeFunctionDecode["data"];
@@ -257,6 +276,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     for (var i = 0; i < homeFunction.length; i++) {
       var groupName = createGroupName(BoxApp.language == "cn" ? homeFunction[i]["cn_name"] : homeFunction[i]["en_name"]);
       var child = createChild(homeFunction[i]["info"]);
+
       icons.add(groupName);
       icons.add(child);
     }
@@ -619,6 +639,18 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                   }
                   if (event == "Receive") {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                    return;
+                  }
+                  if (event == "Aens") {
+                    Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeAensPage()));
+                    return;
+                  }
+                  if (event == "Tokens") {
+                    Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
+                    return;
+                  }
+                  if (event == "Record") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
                     return;
                   }
                   // if (homeFunctionInfo["function" == "spend"]) {}

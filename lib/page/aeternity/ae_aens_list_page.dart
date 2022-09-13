@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -7,6 +8,7 @@ import 'package:box/page/aeternity/ae_aens_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -14,6 +16,9 @@ import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
+import '../../manager/wallet_coins_manager.dart';
+import '../../model/aeternity/wallet_coins_model.dart';
+import 'ae_home_page.dart';
 
 class AeAensListPage extends StatefulWidget {
   final AensPageType? aensPageType;
@@ -27,54 +32,90 @@ class AeAensListPage extends StatefulWidget {
 class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController _controller = EasyRefreshController();
   LoadingType _loadingType = LoadingType.loading;
-  AensPageModel? _aensPageModel;
-  int page = 1;
+  late Response aensResponse;
+  late Map aensModel;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 0), () async {
-      try {
-        if (!mounted) return;
-        _controller.callRefresh();
-        _controller.callLoad();
-        _onLoad();
-      } catch (e) {}
-    });
+    netData();
   }
 
   Future<void> netData() async {
-    AensPageDao.fetch(widget.aensPageType, page).then((AensPageModel model) {
-      if (!mounted) {
+    try {
+      _loadingType = LoadingType.loading;
+      setState(() {});
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      AeHomePage.address = account!.address;
+      if (widget.aensPageType == AensPageType.auction) {
+        aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-activity.json");
+      }
+      if (widget.aensPageType == AensPageType.price) {
+        aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-price.json");
+      }
+      if (widget.aensPageType == AensPageType.over) {
+        aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-over.json");
+      }
+      if (widget.aensPageType == AensPageType.my_auction) {
+        aensResponse = await Dio().get("http://127.0.0.1:53160/aens/my/activity?address=" + AeHomePage.address!);
+      }
+      if (widget.aensPageType == AensPageType.my_over) {
+        aensResponse = await Dio().get("http://127.0.0.1:53160/aens/my/over?address=" + AeHomePage.address!);
+      }
+
+      print(aensResponse.toString());
+
+      if (aensResponse.statusCode != 200) {
+        _loadingType = LoadingType.error;
+        setState(() {});
+        return;
+      }
+      aensModel = jsonDecode(aensResponse.toString());
+      print(aensModel);
+      if (aensModel['data']['aens'].length == 0) {
+        _loadingType = LoadingType.no_data;
+        setState(() {});
         return;
       }
       _loadingType = LoadingType.finish;
-      if (model.code == 200) {
-        if (page == 1) {
-          _aensPageModel = model;
-        } else {
-          _aensPageModel!.data!.addAll(model.data!);
-        }
-      }
-      if (_aensPageModel!.data!.length == 0) {
-        _loadingType = LoadingType.no_data;
-      }
-      page++;
-      _controller.finishRefresh();
-      _controller.finishLoad();
-      if (model.data!.length < 20) {
-        _controller.finishLoad(noMore: true);
-      }
       setState(() {});
-    }).catchError((e) {
-      if (page == 1 && (_aensPageModel == null || _aensPageModel!.data == null)) {
-        setState(() {
-          _loadingType = LoadingType.error;
-        });
-      } else {
-        Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      }
-    });
+    } catch (e) {
+      _loadingType = LoadingType.error;
+      setState(() {});
+      return;
+    }
+
+    // AensPageDao.fetch(widget.aensPageType, page).then((AensPageModel model) {
+    //   if (!mounted) {
+    //     return;
+    //   }
+    //   _loadingType = LoadingType.finish;
+    //   if (model.code == 200) {
+    //     if (page == 1) {
+    //       _aensPageModel = model;
+    //     } else {
+    //       _aensPageModel!.data!.addAll(model.data!);
+    //     }
+    //   }
+    //   if (_aensPageModel!.data!.length == 0) {
+    //     _loadingType = LoadingType.no_data;
+    //   }
+    //   page++;
+    //   _controller.finishRefresh();
+    //   _controller.finishLoad();
+    //   if (model.data!.length < 20) {
+    //     _controller.finishLoad(noMore: true);
+    //   }
+    //   setState(() {});
+    // }).catchError((e) {
+    //   if (page == 1 && (_aensPageModel == null || _aensPageModel!.data == null)) {
+    //     setState(() {
+    //       _loadingType = LoadingType.error;
+    //     });
+    //   } else {
+    //     Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    //   }
+    // });
   }
 
   @override
@@ -88,13 +129,11 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
       body: LoadingWidget(
         child: EasyRefresh(
           onRefresh: _onRefresh,
-          onLoad: _onLoad,
           header: BoxHeader(),
-          footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,
           child: ListView.builder(
             itemBuilder: _renderRow,
-            itemCount: _aensPageModel == null ? 0 : _aensPageModel!.data!.length,
+            itemCount: _loadingType == LoadingType.finish ? aensModel['data']['aens'].length : 0,
           ),
         ),
         type: _loadingType,
@@ -102,7 +141,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
           setState(() {
             _loadingType = LoadingType.loading;
           });
-          _onRefresh();
+          netData();
         },
       ),
     );
@@ -114,6 +153,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
   }
 
   Column buildColumn(BuildContext context, int position) {
+    print(aensModel['data']['aens'][position]['name']);
     return Column(
       children: <Widget>[
         Material(
@@ -122,11 +162,14 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
+              print(aensModel['data']['currentHeight']);
+              print(aensModel['data']['aens'][position]);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AeAensDetailPage(
-                            name: _aensPageModel!.data![position].name,
+                            currentHeight: aensModel['data']['currentHeight'],
+                            aensDetail: aensModel['data']['aens'][position],
                           )));
             },
             child: Container(
@@ -144,7 +187,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                _aensPageModel!.data![position].name!,
+                                aensModel['data']['aens'][position]['name'],
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -173,7 +216,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                             Container(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
-                                Utils.formatPrice(_aensPageModel!.data![position].currentPrice!) + " AE",
+                                aensModel['data']['aens'][position]['price'] + " AE",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
@@ -182,7 +225,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                               ),
                             ),
                             Text(
-                              S.of(context).aens_list_page_item_address + ": " + Utils.formatAddress(_aensPageModel!.data![position].owner),
+                              S.of(context).aens_list_page_item_address + ": " + Utils.formatAddress(aensModel['data']['aens'][position]['owner']),
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 14,
@@ -209,25 +252,19 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
       case AensPageType.auction:
       case AensPageType.price:
       case AensPageType.my_auction:
-        return S.of(context).aens_list_page_item_time_end + ': ' + Utils.formatHeight(context, _aensPageModel!.data![position].currentHeight!, _aensPageModel!.data![position].endHeight!);
+        return S.of(context).aens_list_page_item_time_end + ': ' + Utils.formatHeight(context, aensModel['data']['currentHeight'], aensModel['data']['aens'][position]['endHeight']);
       case AensPageType.over:
       case AensPageType.my_over:
-        return S.of(context).aens_list_page_item_time_over + ' :' + Utils.formatHeight(context, _aensPageModel!.data![position].currentHeight!, _aensPageModel!.data![position].overHeight!);
+        return S.of(context).aens_list_page_item_time_over + ' :' + Utils.formatHeight(context, aensModel['data']['currentHeight'], aensModel['data']['aens'][position]['overHeight']);
     }
   }
 
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(seconds: 0), () {
-      page = 1;
       netData();
     });
   }
 
-  Future<void> _onLoad() async {
-    netData();
-  }
-
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

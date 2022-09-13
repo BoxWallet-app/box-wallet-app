@@ -17,6 +17,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
@@ -43,43 +44,6 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     netRecordData();
   }
 
-  // Future<void> netRecordData() async {
-  //   Account? account = await WalletCoinsManager.instance.getCurrentAccount();
-  //   AeHomePage.address = account!.address;
-  //   Response responseTokenInfo = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-token-info.json");
-  //   tokenInfos = jsonDecode(responseTokenInfo.toString());
-  //
-  //   logger.info(tokenInfos);
-  //   Response responseTxs = await Dio().get("https://mainnet.aeternity.io/mdw///txs/backward?account=${AeHomePage.address}&limit=30&page=1");
-  //
-  //   var responseDecode = jsonDecode(responseTxs.toString());
-  //   List txsData = responseDecode['data'];
-  //
-  //   Response responseAex9 = await Dio().get("https://mainnet.aeternity.io/mdw/v2/aex9/transfers/to/${AeHomePage.address}");
-  //   var responseAex9Decode = jsonDecode(responseAex9.toString());
-  //   List aex9Data = responseAex9Decode['data'];
-  //   for (var i = 0; i < txsData.length; i++) {
-  //     var txHash = txsData[i]["hash"];
-  //     for (var j = 0; j < aex9Data.length; j++) {
-  //       var aex9Hash = aex9Data[j]["tx_hash"];
-  //       if (txHash == aex9Hash) {
-  //         aex9Data.removeAt(j);
-  //         j--;
-  //       }
-  //     }
-  //   }
-  //   txsData.addAll(aex9Data);
-  //
-  //   txsData.sort((left, right) => right["micro_time"].compareTo(left["micro_time"]));
-  //
-  //   records = txsData;
-  //
-  //   if (!mounted) {
-  //     return;
-  //   }
-  //   _loadingType = LoadingType.finish;
-  //   setState(() {});
-  // }
   Future<void> netRecordData() async {
     _loadingType = LoadingType.loading;
     tokenInfos = DataCenterManager.tokenInfos;
@@ -176,9 +140,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
       }
 
       logger.info("AEX9 Transfer");
-      logger.info(txHash);
-      logger.info(tokenInfos);
-      logger.info(tokenInfo);
+
       return spendRecord(context, txHash, "AEX9 SpendTx", sender, recipient, amount, contractName, time);
     } else {
       var type = record['tx']['type'];
@@ -390,7 +352,6 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
   }
 
   Container spendRecord(BuildContext context, String hash, String type, String sender, String recipient, String amount, String contractName, String time) {
-    print(contractName);
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
@@ -398,7 +359,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
+          onTap: () {
+            if (BoxApp.language == "cn") {
+              _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
+            } else {
+              _launchURL("https://explorer.aeternity.io/transactions/" + hash);
+            }
+          },
           child: Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
@@ -476,7 +443,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
+          onTap: () {
+            if (BoxApp.language == "cn") {
+              _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
+            } else {
+              _launchURL("https://explorer.aeternity.io/transactions/" + hash);
+            }
+          },
           child: Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
@@ -559,7 +532,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
+          onTap: () {
+            if (BoxApp.language == "cn") {
+              _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
+            } else {
+              _launchURL("https://explorer.aeternity.io/transactions/" + hash);
+            }
+          },
           child: Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
@@ -642,7 +621,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
+          onTap: () {
+            if (BoxApp.language == "cn") {
+              _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
+            } else {
+              _launchURL("https://explorer.aeternity.io/transactions/" + hash);
+            }
+          },
           child: Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
@@ -725,7 +710,13 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
+          onTap: () {
+            if (BoxApp.language == "cn") {
+              _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
+            } else {
+              _launchURL("https://explorer.aeternity.io/transactions/" + hash);
+            }
+          },
           child: Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
             child: Row(
@@ -867,6 +858,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
 
   Future<void> _onLoad() async {
     await netRecordData();
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override

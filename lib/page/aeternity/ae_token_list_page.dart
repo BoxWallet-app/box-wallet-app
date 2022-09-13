@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
+import '../../manager/wallet_coins_manager.dart';
 import 'ae_home_page.dart';
 
 class AeTokenListPage extends BaseWidget {
@@ -31,31 +33,22 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
   TokenListModel? tokenListModel;
 
   Future<void> _onRefresh() async {
-    Account account = await getCurrentAccount();
-
-    var aeTokenList = await CacheManager.instance.getAETokenList(account.address!, account.coin!);
-
-    if (aeTokenList != null) {
-      tokenListModel = aeTokenList;
-      loadingType = LoadingType.finish;
-      setState(() {});
+    TokenListDao.fetch(AeHomePage.address, "easy").then((TokenListModel model) async {
+      if (model.code == 200) {
+        tokenListModel = model;
+        loadingType = LoadingType.finish;
+        setState(() {});
+      } else {
+        tokenListModel = null;
+        loadingType = LoadingType.error;
+        setState(() {});
+      }
       await getCacheBalance();
       await getBalance();
-    }
-
-    var model = await TokenListDao.fetch(AeHomePage.address, "easy");
-    if (model.code == 200) {
-      tokenListModel = model;
-      loadingType = LoadingType.finish;
-      setState(() {});
-      CacheManager.instance.setAETokenList(account.address!, account.coin!, tokenListModel);
-      await getCacheBalance();
-      await getBalance();
-    } else {
-      tokenListModel = null;
+    }).catchError((e) {
       loadingType = LoadingType.error;
       setState(() {});
-    }
+    });
   }
 
   getCacheBalance() async {
@@ -70,27 +63,33 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
   }
 
   Future<void> getBalance() async {
-    Account account = await getCurrentAccount();
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
-      BoxApp.getErcBalanceAE((balance, decimal, address, from, coin) async {
+      var params = {
+        "name": "aeAex9TokenBalance",
+        "params": {"ctAddress": tokenListModel!.data![i].ctAddress!, "address": account!.address}
+      };
+      var channelJson = json.encode(params);
+      BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
-        if (from != account.address) return;
-
-        if (balance == "undefined") {
-          balance = "0";
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
         }
+        var balance = jsonResponse["result"]["balance"];
+        var address = jsonResponse["result"]["address"];
+        var ctAddress = jsonResponse["result"]["ctAddress"];
 
-        String amountBalance = AmountDecimal.parseUnits(balance, decimal);
-
+        if (!mounted) return;
         for (int j = 0; j < tokenListModel!.data!.length; j++) {
-          if (tokenListModel!.data![j].ctAddress == address) {
-            tokenListModel!.data![j].countStr = Utils.formatBalanceLength(double.parse(amountBalance));
-            CacheManager.instance.setTokenBalance(account.address!, tokenListModel!.data![j].ctAddress, account.coin!, tokenListModel!.data![j].countStr!);
+          if (tokenListModel!.data![j].ctAddress == ctAddress) {
+            tokenListModel!.data![j].countStr = AmountDecimal.parseDecimal(balance);
+            CacheManager.instance.setTokenBalance(address, ctAddress, account.coin!, AmountDecimal.parseDecimal(balance));
           }
         }
-        if (!mounted) return;
         setState(() {});
-      }, account.address!, tokenListModel!.data![i].ctAddress!);
+        return;
+      }, channelJson);
     }
   }
 
@@ -101,7 +100,6 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
       _onRefresh();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -347,17 +345,36 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                tokenListModel!.data![index].name!,
-                                style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xff333333),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 15, right: 15),
+                                  child: Text(
+                                    tokenListModel!.data![index].name!,
+                                    style: new TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4),
+                                  padding: const EdgeInsets.only(left: 15, right: 15),
+                                  child: Text(
+                                    tokenListModel!.data![index].nameFull!,
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff666666),
+//                                            fontWeight: FontWeight.w600,
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Expanded(child: Container()),
                             tokenListModel!.data![index].countStr == null

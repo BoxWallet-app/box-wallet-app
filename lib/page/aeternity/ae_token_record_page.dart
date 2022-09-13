@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
@@ -19,80 +20,79 @@ import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
+import '../../manager/data_center_manager.dart';
+import '../../manager/wallet_coins_manager.dart';
+import '../../model/aeternity/wallet_coins_model.dart';
 import 'ae_home_page.dart';
 
 class AeTokenRecordPage extends BaseWidget {
   final String? ctId;
   final String? coinName;
   final String? coinImage;
-  final String? coinCount;
+  String? coinCount;
 
-  AeTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage}) ;
+  AeTokenRecordPage({Key? key, this.ctId, this.coinName, this.coinCount, this.coinImage});
 
   @override
   _TokenRecordState createState() => _TokenRecordState();
 }
 
 class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
-  var loadingType = LoadingType.loading;
+  var loadingType = LoadingType.finish;
   TokenRecordModel? tokenListModel;
   int page = 1;
   String? count;
   EasyRefreshController _controller = EasyRefreshController();
 
-  Future<void> _onRefresh() async {
-    page = 1;
-    netTokenRecord();
-    netContractBalance();
-  }
-
-  Future<void> netTokenRecord() async {
-    TokenRecordModel model = await TokenRecordDao.fetch(widget.ctId, page.toString());
-    if (model.code == 200) {
-      if (page == 1) {
-        tokenListModel = model;
-        loadingType = LoadingType.finish;
-      } else {
-        tokenListModel!.data!.addAll(model.data!);
-        loadingType = LoadingType.finish;
-      }
-      _controller.finishRefresh();
-      _controller.finishLoad();
-      if (tokenListModel!.data!.length < 20) {
-        _controller.finishLoad(noMore: true);
-        _controller.finishLoad(success: true, noMore: true);
-      }
-
-      setState(() {});
-    } else {
-      tokenListModel = null;
-      loadingType = LoadingType.error;
-      setState(() {});
+  late Map tokenInfos;
+  bool isTokenInfosLoading = true;
+  Future<void> getTokenInfo() async {
+    tokenInfos = DataCenterManager.tokenInfos;
+    if (tokenInfos.isEmpty) {
+      tokenInfos = await DataCenterManager.instance.netTokenInfos();
     }
+
+    isTokenInfosLoading = false;
+    setState(() {});
   }
 
-  Future<void> _onLoad() async {
-    page++;
-    await netTokenRecord();
+  Future<void> _onRefresh() async {
+    await getTokenInfo();
+    await netContractBalance();
   }
 
-  void netContractBalance() {
-    ContractBalanceDao.fetch(widget.ctId).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        count = model.data!.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {
-    });
+  Future<void> netContractBalance() async {
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var params = {
+      "name": "aeAex9TokenBalance",
+      "params": {"ctAddress": widget.ctId, "address": account!.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      var address = jsonResponse["result"]["address"];
+      var ctAddress = jsonResponse["result"]["ctAddress"].toString();
+
+      if (!mounted) return;
+      if (ctAddress != widget.ctId!) return;
+
+      count = balance;
+      // loadingType = LoadingType.finish;
+      setState(() {});
+
+      return;
+    }, channelJson);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 600), () {
-      _onRefresh();
-    });
+    _onRefresh();
   }
 
   @override
@@ -130,7 +130,6 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
         },
         child: EasyRefresh(
           header: BoxHeader(),
-          onLoad: _onLoad,
           onRefresh: _onRefresh,
           footer: MaterialFooter(valueColor: AlwaysStoppedAnimation(Color(0xFFFC2365))),
           controller: _controller,
@@ -150,169 +149,326 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
   }
 
   Widget itemHeaderView(BuildContext context, int index) {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15),
-      padding: EdgeInsets.only(bottom: 18),
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        color: Colors.white,
-        child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          onTap: () {},
-          child: Column(
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      height: 80,
-                      width: MediaQuery.of(context).size.width-36,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.only(top: 0, left: 15),
-                            child: Row(
-                              children: <Widget>[
-//                            buildTypewriterAnimatedTextKit(),
-
-                                Container(
-                                  width: 36.0,
-                                  height: 36.0,
-                                  decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-//                                                      shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      widget.coinImage!,
-                                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                        if (wasSynchronouslyLoaded) return child;
-
-                                        return AnimatedOpacity(
-                                          child: child,
-                                          opacity: frame == null ? 0 : 1,
-                                          duration: const Duration(seconds: 2),
-                                          curve: Curves.easeOut,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 15, right: 15),
-                                  child: Text(
-                                    widget.coinName!,
-                                    style: new TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xff333333),
-//                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                    ),
-                                  ),
-                                ),
-                                Expanded(child: Container()),
-                                count == null
-                                    ? Container(
-                                        width: 50,
-                                        height: 50,
-                                        child: Lottie.asset(
-//              'images/lf30_editor_nwcefvon.json',
-                                          'images/loading.json',
-//              'images/animation_khzuiqgg.json',
-                                        ),
-                                      )
-                                    : Text(
-                                        double.parse(count!).toStringAsFixed(2),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                      ),
-                                Container(
-                                  width: 20,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 15, right: 15),
+          child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            color: Colors.white,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              onTap: () {},
+              child: Column(
                 children: [
                   Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width / 2 - 25-18,
-                    margin: const EdgeInsets.only(top: 0),
-                    child: FlatButton(
-                      onPressed: () {
-                        if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>AeTokenSendOnePage(
-                            tokenName: widget.coinName,
-                            tokenCount: count,
-                            tokenImage: widget.coinImage,
-                            tokenContract: widget.ctId,
-                          )));
-                        } else {
-                          Navigator.push(context, SlideRoute( AeTokenSendOnePage(
-                            tokenName: widget.coinName,
-                            tokenCount:count,
-                            tokenImage: widget.coinImage,
-                            tokenContract: widget.ctId,)));
-                        }
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 80,
+                          width: MediaQuery.of(context).size.width - 36,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(top: 0, left: 15),
+                                child: Row(
+                                  children: <Widget>[
+//                            buildTypewriterAnimatedTextKit(),
 
-                      },
-                      child: Text(
-                        S.of(context).home_page_function_send,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
-                      ),
-                      color: Color(0xFFF22B79).withAlpha(16),
-                      textColor: Colors.black,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                    Container(
+                                      width: 36.0,
+                                      height: 36.0,
+                                      decoration: BoxDecoration(
+                                        border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+//                                                      shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          widget.coinImage!,
+                                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                            if (wasSynchronouslyLoaded) return child;
+
+                                            return AnimatedOpacity(
+                                              child: child,
+                                              opacity: frame == null ? 0 : 1,
+                                              duration: const Duration(seconds: 2),
+                                              curve: Curves.easeOut,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 15, right: 15),
+                                      child: Text(
+                                        widget.coinName!,
+                                        style: new TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff333333),
+//                                            fontWeight: FontWeight.w600,
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    count == null
+                                        ? Container(
+                                            width: 50,
+                                            height: 50,
+                                            child: Lottie.asset(
+//              'images/lf30_editor_nwcefvon.json',
+                                              'images/loading.json',
+//              'images/animation_khzuiqgg.json',
+                                            ),
+                                          )
+                                        : Text(
+                                            double.parse(count!).toStringAsFixed(2),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          ),
+                                    Container(
+                                      width: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(
-                    width: 15,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width / 2 - 25 - 18,
+                        margin: const EdgeInsets.only(top: 0),
+                        child: FlatButton(
+                          onPressed: () {
+                            if (Platform.isIOS) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AeTokenSendOnePage(
+                                            tokenName: widget.coinName,
+                                            tokenCount: count,
+                                            tokenImage: widget.coinImage,
+                                            tokenContract: widget.ctId,
+                                          )));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  SlideRoute(AeTokenSendOnePage(
+                                    tokenName: widget.coinName,
+                                    tokenCount: count,
+                                    tokenImage: widget.coinImage,
+                                    tokenContract: widget.ctId,
+                                  )));
+                            }
+                          },
+                          child: Text(
+                            S.of(context).home_page_function_send,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                          ),
+                          color: Color(0xFFF22B79).withAlpha(16),
+                          textColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ),
+                      Container(
+                        width: 15,
+                      ),
+                      Container(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width / 2 - 25 - 18,
+                        margin: const EdgeInsets.only(top: 0),
+                        child: FlatButton(
+                          onPressed: () {
+//                  goDefi(context);
+                            if (Platform.isIOS) {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
+                            } else {
+                              Navigator.push(context, SlideRoute(TokenReceivePage()));
+                            }
+                          },
+                          child: Text(
+                            S.of(context).home_page_function_receive,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                          ),
+                          color: Color(0xFFF22B79).withAlpha(16),
+                          textColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ),
+                    ],
                   ),
                   Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width / 2 - 25-18,
-                    margin: const EdgeInsets.only(top: 0),
-                    child: FlatButton(
-                      onPressed: () {
-//                  goDefi(context);
-                        if (Platform.isIOS) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TokenReceivePage()));
-                        } else {
-                          Navigator.push(context, SlideRoute( TokenReceivePage()));
-                        }
-
-                      },
-                      child: Text(
-                        S.of(context).home_page_function_receive,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
-                      ),
-                      color: Color(0xFFF22B79).withAlpha(16),
-                      textColor: Colors.black,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    width: MediaQuery.of(context).size.width,
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 18, right: 0, top: 12, bottom: 0),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Token Info",
+            style: TextStyle(
+              color: Color(0xFF000000),
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              fontFamily: BoxApp.language == "cn"
+                  ? "Ubuntu"
+                  : BoxApp.language == "cn"
+                      ? "Ubuntu"
+                      : "Ubuntu",
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 15, right: 15, top: 12),
+          padding: EdgeInsets.only(bottom: 18),
+          child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            color: Colors.white,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              onTap: () {},
+              child: Column(
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(25),
+                          width: MediaQuery.of(context).size.width - 36,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(top: 0, left: 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text(
+                                        "ContractId",
+                                        style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff333333),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: const EdgeInsets.only(top: 0, left: 20),
+                                        child: Text(
+                                          widget.ctId.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.right,
+                                          maxLines: 2,
+                                          style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25, left: 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text(
+                                        "Name",
+                                        style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff333333),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    if (!isTokenInfosLoading)
+                                      Text(
+                                        tokenInfos[widget.ctId.toString()]['name'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25, left: 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text(
+                                        "Symbol",
+                                        style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff333333),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    if (!isTokenInfosLoading)
+                                      Text(
+                                        tokenInfos[widget.ctId.toString()]['symbol'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 25, left: 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text(
+                                        "Decimals",
+                                        style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff333333),
+                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    if (!isTokenInfosLoading)
+                                      Text(
+                                        tokenInfos[widget.ctId.toString()]['decimals'].toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 20,
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -393,7 +549,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                   ),
                                   child: Image(
                                     width: 25,
-                    height: 25,
+                                    height: 25,
                                     color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Color(0xFFF22B79) : Colors.green,
                                     image: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? AssetImage("images/token_receive.png") : AssetImage("images/token_send.png"),
                                   ),
