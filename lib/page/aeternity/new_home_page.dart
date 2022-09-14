@@ -88,7 +88,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     netNodeHeight();
 
     Future.delayed(const Duration(milliseconds: 3000), () {
-      Timer.periodic(Duration(milliseconds: 10000), (timer) {
+      Timer.periodic(Duration(milliseconds: 600000), (timer) {
         netNodeHeight();
       });
     });

@@ -313,7 +313,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                                                 maxLines: 1,
                                                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
                                               ),
-                                              color: Color(0xFFE61665).withAlpha(16),
+                                              color: Color(0xFFFC2365).withAlpha(16),
                                               textColor: Colors.black,
                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),

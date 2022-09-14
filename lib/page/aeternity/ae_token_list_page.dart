@@ -138,110 +138,7 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
               size: 22,
             ),
             onPressed: () {
-              showGeneralDialog(
-                  useRootNavigator: false,
-                  context: context,
-                  barrierDismissible: true,
-                  barrierLabel: "",
-                  transitionDuration: Duration(milliseconds: 0),
-                  transitionBuilder: (context, anim1, anim2, child) {
-                    return Transform(
-                        transform: Matrix4.translationValues(0.0, 0, 0.0),
-                        child: Opacity(
-                            opacity: anim1.value,
-                            // ignore: missing_return
-                            child: Material(
-                              type: MaterialType.transparency, //透明类型
-                              child: Center(
-                                child: Container(
-                                  height: 470,
-                                  width: MediaQuery.of(context).size.width - 40,
-                                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xffffffff),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8.0),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        width: MediaQuery.of(context).size.width - 40,
-                                        alignment: Alignment.topLeft,
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                                            onTap: () {
-                                              Navigator.pop(context); //关闭对话框
-                                            },
-                                            child: Container(width: 50, height: 50, child: Icon(Icons.clear, color: Colors.black.withAlpha(80))),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 20, right: 20),
-                                        child: Text(
-                                          S.of(context).tokens_dialog_title,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 270,
-                                        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                                        child: SingleChildScrollView(
-                                          child: Container(
-                                            child: Text(
-                                              S.of(context).tokens_dialog_content,
-                                              style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 30, bottom: 20),
-                                        child: ArgonButton(
-                                          height: 40,
-                                          roundLoadingShape: true,
-                                          width: 120,
-                                          onTap: (startLoading, stopLoading, btnState) async {
-                                            Navigator.pop(context); //关闭对话框
-                                          },
-                                          child: Text(
-                                            S.of(context).dialog_statement_btn,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                            ),
-                                          ),
-                                          loader: Container(
-                                            padding: EdgeInsets.all(10),
-                                            child: SpinKitRing(
-                                              lineWidth: 4,
-                                              color: Colors.white,
-                                              // size: loaderWidth ,
-                                            ),
-                                          ),
-                                          borderRadius: 30.0,
-                                          color: Color(0xFFFC2365),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )));
-                  },
-                  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                    return Container();
-                  });
+              showHintSafeDialog(S.of(context).tokens_dialog_title, S.of(context).tokens_dialog_content, (val) async {});
             },
           ),
         ],
@@ -264,18 +161,6 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
       ),
     );
   }
-
-//   void netContractBalance(int index) {
-//     ContractBalanceDao.fetch(tokenListModel.data[index].ctAddress).then((ContractBalanceModel model) {
-//       if (model.code == 200) {
-//         tokenListModel.data[index].countStr = model.data.balance;
-//         tokenListModel.data[index].rate = model.data.rate;
-//         setState(() {});
-//       } else {}
-//     }).catchError((e) {
-// //      Fluttertoast.showToast(msg: "网络错误" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-//     });
-//   }
 
   Widget itemListView(BuildContext context, int index) {
     return Container(

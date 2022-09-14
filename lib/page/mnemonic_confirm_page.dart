@@ -30,14 +30,14 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
     // TODO: implement initState
     super.initState();
     List mnemonicList = widget.mnemonic!.split(" ");
-    if(!BoxApp.isDev()){
+    if (!BoxApp.isDev()) {
       mnemonicList.shuffle();
     }
 
     for (var i = 0; i < mnemonicList.length; i++) {
       mnemonicWord[mnemonicList[i] + "_" + i.toString()] = false;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       updateData();
     });
   }
@@ -49,7 +49,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          title:Text(
+          title: Text(
             S.of(context).mnemonic_confirm_title,
             style: TextStyle(
               color: Color(0xFF000000),
@@ -69,21 +69,18 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
         body: Container(
           child: Column(
             children: <Widget>[
-
-
               Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   S.of(context).mnemonic_confirm_content,
-                  style:TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     color: Colors.black.withAlpha(180),
                     fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                   ),
                 ),
               ),
-
               Center(
                 child: Container(
                   height: 210,
@@ -118,12 +115,11 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                     onPressed: () {
                       if (childrenWordTrue.toString() == widget.mnemonic!.split(" ").toString()) {
                         showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                            return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) {
+                            return new AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               title: Text(S.of(context).dialog_save_sucess),
                               content: Text(
                                 S.of(context).dialog_save_sucess_hint,
@@ -153,12 +149,11 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                       }
 
                       showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                          return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext dialogContext) {
+                          return new AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                             title: Text(S.of(context).dialog_save_error),
                             content: Text(S.of(context).dialog_save_error_hint),
                             actions: <Widget>[
@@ -209,7 +204,7 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
 
   Widget getItemContainer(String item, bool isSelect) {
     return Container(
-      width: MediaQuery.of(context).size.width/3-26,
+      width: MediaQuery.of(context).size.width / 3 - 26,
       child: Material(
         color: Color(0x00000000),
         child: Ink(
@@ -231,7 +226,10 @@ class _AccountRegisterPageState extends State<MnemonicConfirmPage> {
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                 child: Text(
                   item.split("_")[0],
-                  style: TextStyle(color: Color(0xFF000000),fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  ),
                 ),
               ),
             ),

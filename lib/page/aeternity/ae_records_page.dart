@@ -59,7 +59,12 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     if (!mounted) {
       return;
     }
-    _loadingType = LoadingType.finish;
+    if (records.isEmpty) {
+      _loadingType = LoadingType.no_data;
+    } else {
+      _loadingType = LoadingType.finish;
+    }
+
     setState(() {});
   }
 

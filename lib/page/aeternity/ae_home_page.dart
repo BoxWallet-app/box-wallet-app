@@ -40,6 +40,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 import 'ae_aens_page.dart';
+import 'ae_swap_page.dart';
 import 'ae_token_list_page.dart';
 import 'ae_token_receive_page.dart';
 import 'ae_token_send_one_page.dart';
@@ -613,7 +614,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 5, bottom: 10),
       //边框设置
       decoration: new BoxDecoration(
         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
@@ -642,15 +643,19 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     return;
                   }
                   if (event == "Aens") {
-                    Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeAensPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensPage()));
                     return;
                   }
                   if (event == "Tokens") {
-                    Navigator.push(navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeTokenListPage()));
                     return;
                   }
                   if (event == "Record") {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
+                    return;
+                  }
+                  if (event == "Swap") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapPage()));
                     return;
                   }
                   // if (homeFunctionInfo["function" == "spend"]) {}
@@ -675,7 +680,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 2),
+                        margin: const EdgeInsets.only(top: 8),
                         child: Text(
                           BoxApp.language == "cn" ? homeFunctionInfo[position]["cn_name"] : homeFunctionInfo[position]["en_name"],
                           textAlign: TextAlign.center,
