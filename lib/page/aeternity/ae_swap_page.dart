@@ -1,13 +1,25 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/utils/amount_decimal.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../../manager/cache_manager.dart';
+import '../../manager/wallet_coins_manager.dart';
+import '../../model/aeternity/wallet_coins_model.dart';
+import '../../utils/utils.dart';
+import 'ae_home_page.dart';
+import 'ae_select_token_list_page.dart';
 
 class AeSwapPage extends StatefulWidget {
   @override
@@ -18,9 +30,242 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   EasyRefreshController controller = EasyRefreshController();
   TextEditingController sellTextControllerNode = TextEditingController();
   final FocusNode sellFocusNode = FocusNode();
+
+  TextEditingController buyTextControllerNode = TextEditingController();
+  final FocusNode buyFocusNode = FocusNode();
+
+  String sellTokenAddress = "";
+  String sellTokenAmount = "";
+  String sellTokenName = "AE";
+  String sellTokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png";
+
+  String buyTokenAddress = "ct_7UfopTwsRuLGFEcsScbYgQ6YnySXuyMxQWhw6fjycnzS5Nyzq";
+  String buyTokenAmount = "";
+  String buyTokenName = "ABC";
+  String buyTokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-abc.png";
+
+  String tokenRate = "";
+
+  late Timer timer;
   @override
   void initState() {
     super.initState();
+    updateSellAmount();
+    netBuyContractBalance();
+    netSwapRoutes();
+    timer = Timer.periodic(Duration(milliseconds: 10000), (timer) {
+      netSwapRoutes();
+    });
+    sellTextControllerNode.addListener(() {
+      if (!sellFocusNode.hasFocus) {
+        return;
+      }
+      var sellAmount = sellTextControllerNode.text;
+      if (sellAmount.isEmpty) {
+        buyTextControllerNode.text = "";
+        return;
+      }
+      if (tokenRate.isEmpty) {
+        return;
+      }
+      var buyAmount = double.parse(sellAmount) * double.parse(tokenRate);
+
+      buyTextControllerNode.text = AmountDecimal.parseDecimal(buyAmount.toString());
+    });
+    buyTextControllerNode.addListener(() {
+      if (!buyFocusNode.hasFocus) {
+        return;
+      }
+      var buyAmount = buyTextControllerNode.text;
+      if (buyAmount.isEmpty) {
+        sellTextControllerNode.text = "";
+        return;
+      }
+      if (tokenRate.isEmpty) {
+        return;
+      }
+      var sellAmount = double.parse(buyAmount) / double.parse(tokenRate);
+      sellTextControllerNode.text = AmountDecimal.parseDecimal(sellAmount.toString());
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
+
+  Future<void> netSwapRoutes() async {
+    // tokenRate = "";
+    // setState(() {});
+    var tokenA = sellTokenAddress;
+    var tokenB = buyTokenAddress;
+    if (tokenA.isEmpty) {
+      tokenA = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+    }
+    if (tokenB.isEmpty) {
+      tokenB = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+    }
+
+    Response swapRoutesResponse = await Dio().get("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB", options: Options(responseType: ResponseType.json));
+    var swapRoutes = swapRoutesResponse.data as List<dynamic>;
+    for (var swapRoutesItem in swapRoutes) {
+      for (var swapRoutesItemItem in swapRoutesItem) {
+        if ((swapRoutesItemItem["token0"] == tokenA && swapRoutesItemItem["token1"] == tokenB) || (swapRoutesItemItem["token0"] == tokenB && swapRoutesItemItem["token1"] == tokenA)) {
+          //售卖的token
+          var tokenATotal = "";
+          var tokenBTotal = "";
+          if (swapRoutesItemItem["token0"] == tokenA) {
+            tokenATotal = swapRoutesItemItem["liquidityInfo"]["reserve0"];
+            tokenBTotal = swapRoutesItemItem["liquidityInfo"]["reserve1"];
+          } else {
+            tokenATotal = swapRoutesItemItem["liquidityInfo"]["reserve1"];
+            tokenBTotal = swapRoutesItemItem["liquidityInfo"]["reserve0"];
+          }
+          var tokenAParseUnits = AmountDecimal.parseUnits(tokenATotal, 0);
+          var tokenBParseUnits = AmountDecimal.parseUnits(tokenBTotal, 0);
+          print(tokenAParseUnits);
+          print(tokenBParseUnits);
+          tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
+          print(tokenRate);
+          setState(() {});
+        }
+      }
+    }
+  }
+
+  updateSellAmount() {
+    if (sellTokenAddress.isEmpty) {
+      netSellAeBalance();
+    } else {
+      netSellContractBalance();
+    }
+  }
+
+  updateBuyAmount() {
+    if (buyTokenAddress.isEmpty) {
+      netBuyAeBalance();
+    } else {
+      netBuyContractBalance();
+    }
+  }
+
+  Future<void> netSellAeBalance() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+
+    var params = {
+      "name": "aeBalance",
+      "params": {"address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      sellTokenAmount = Utils.formatBalanceLength(double.parse(balance));
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
+  Future<void> netSellContractBalance() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getTokenBalance(account!.address!, BoxApp.ABC_CONTRACT_AEX9, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.tokenABC = cacheBalance;
+      setState(() {});
+    }
+
+    var params = {
+      "name": "aeAex9TokenBalance",
+      "params": {"ctAddress": sellTokenAddress, "address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      var address = jsonResponse["result"]["address"];
+      var ctAddress = jsonResponse["result"]["ctAddress"];
+      if (!mounted) return;
+      if (address != account.address) return;
+      if (ctAddress == buyTokenAddress) {
+        buyTokenAmount = AmountDecimal.parseDecimal(balance);
+      }
+      if (ctAddress == sellTokenAddress) {
+        sellTokenAmount = AmountDecimal.parseDecimal(balance);
+      }
+
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
+  Future<void> netBuyAeBalance() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var params = {
+      "name": "aeBalance",
+      "params": {"address": account!.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      buyTokenAmount = Utils.formatBalanceLength(double.parse(balance));
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
+  Future<void> netBuyContractBalance() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var params = {
+      "name": "aeAex9TokenBalance",
+      "params": {"ctAddress": buyTokenAddress, "address": account!.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      var address = jsonResponse["result"]["address"];
+      var ctAddress = jsonResponse["result"]["ctAddress"];
+      if (!mounted) return;
+      if (address != account.address) return;
+      if (ctAddress == buyTokenAddress) {
+        buyTokenAmount = AmountDecimal.parseDecimal(balance);
+      }
+      if (ctAddress == sellTokenAddress) {
+        sellTokenAmount = AmountDecimal.parseDecimal(balance);
+      }
+
+      setState(() {});
+      return;
+    }, channelJson);
   }
 
   @override
@@ -78,18 +323,29 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             ),
                           ),
                           Expanded(child: Container()),
-                          Container(
-                            child: Text(
-                              "Balance:0.00 ",
-                              style: new TextStyle(
-                                fontSize: 14,
-                                color: Color(0xff333333),
-                                //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          if (this.sellTokenAmount.isEmpty)
+                            Container(
+                              height: 20,
+                              child: Lottie.asset(
+                                'images/loading.json',
                               ),
                             ),
-                          ),
+                          if (this.sellTokenAmount.isNotEmpty)
+                            Container(
+                              height: 20,
+                              child: Text(
+                                "Balance: " + sellTokenAmount,
+                                style: new TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff333333),
+                                  //                                            fontWeight: FontWeight.w600,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                            ),
                           Container(
+                            height: 20,
+                            padding: EdgeInsets.only(left: 5, right: 5),
                             child: Text(
                               "[MAX]",
                               style: new TextStyle(
@@ -103,122 +359,153 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                         ],
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 36.0,
-                            height: 36.0,
-                            decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png",
-                                errorBuilder: (
-                                  BuildContext context,
-                                  Object error,
-                                  StackTrace? stackTrace,
-                                ) {
-                                  return Container(
-                                    color: Colors.grey.shade200,
-                                  );
-                                },
-                                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                  if (wasSynchronouslyLoaded) return child;
-                                  return AnimatedOpacity(
-                                    child: child,
-                                    opacity: frame == null ? 0 : 1,
-                                    duration: const Duration(seconds: 2),
-                                    curve: Curves.easeOut,
-                                  );
-                                },
+                    InkWell(
+                      onTap: () {
+                        sellFocusNode.unfocus();
+                        buyFocusNode.unfocus();
+                        showMaterialModalBottomSheet(
+                            context: context,
+                            expand: true,
+                            enableDrag: false,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => AeSelectTokenListPage(
+                                  aeCount: AeHomePage.token,
+                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                    this.sellTokenName = tokenName!;
+                                    this.sellTokenImage = tokenImage!;
+                                    this.sellTokenAddress = tokenContract!;
+                                    this.sellTokenAmount = "";
+                                    this.sellTextControllerNode.text = "";
+                                    this.buyTextControllerNode.text = "";
+                                    setState(() {});
+                                    updateSellAmount();
+                                    tokenRate = "";
+                                    setState(() {});
+                                    netSwapRoutes();
+                                    return;
+                                  },
+                                )
+//
+                            );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 36.0,
+                              height: 36.0,
+                              decoration: BoxDecoration(
+                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                borderRadius: BorderRadius.circular(30.0),
                               ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(left: 10, right: 8),
-                                child: Text(
-                                  "AE",
-                                  style: new TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  ),
+                              child: ClipOval(
+                                child: Image.network(
+                                  sellTokenImage,
+                                  errorBuilder: (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                  ) {
+                                    return Container(
+                                      color: Colors.grey.shade200,
+                                    );
+                                  },
+                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                    if (wasSynchronouslyLoaded) return child;
+                                    return AnimatedOpacity(
+                                      child: child,
+                                      opacity: frame == null ? 0 : 1,
+                                      duration: const Duration(seconds: 2),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
                                 ),
                               ),
-                            ],
-                          ),
-                          Image(
-                            width: 20,
-                            height: 20,
-                            color: Color(0xFF999999),
-                            image: AssetImage("images/ic_swap_down.png"),
-                          ),
-                          Expanded(child: Container()),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Container(
-                              // height: 70,
-                              //                      padding: EdgeInsets.only(left: 10, right: 10),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color.fromARGB(0, 237, 243, 247),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: TextField(
-                                controller: sellTextControllerNode,
-                                focusNode: sellFocusNode,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-                                ],
-
-                                textAlign: TextAlign.right,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  textBaseline: TextBaseline.alphabetic,
-                                  fontSize: 26,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  color: Colors.black,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: "0.00",
-                                  // contentPadding: EdgeInsets.only(left: 10.0),
-                                  contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                                  enabledBorder: new OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFFFFFFF),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 10, right: 8),
+                                  child: Text(
+                                    sellTokenName,
+                                    style: new TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xff333333),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     ),
                                   ),
-                                  focusedBorder: new OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Color.fromARGB(0, 252, 35, 100)),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  hintStyle: TextStyle(
-                                    fontSize: 26,
-                                    color: Color(0xFF666666).withAlpha(85),
-                                  ),
                                 ),
-                                cursorColor: Color(0xFFFC2365),
-                                cursorWidth: 2,
-                                //                                cursorRadius: Radius.elliptical(20, 8),
+                              ],
+                            ),
+                            Image(
+                              width: 20,
+                              height: 20,
+                              color: Color(0xFF999999),
+                              image: AssetImage("images/ic_swap_down.png"),
+                            ),
+                            Expanded(child: Container()),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Container(
+                                // height: 70,
+                                //                      padding: EdgeInsets.only(left: 10, right: 10),
+                                //边框设置
+                                decoration: new BoxDecoration(
+                                  color: Color.fromARGB(0, 237, 243, 247),
+                                  //设置四周圆角 角度
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: sellTextControllerNode,
+                                  focusNode: sellFocusNode,
+
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                  ],
+
+                                  textAlign: TextAlign.right,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    textBaseline: TextBaseline.alphabetic,
+                                    fontSize: 26,
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: "0.00",
+                                    // contentPadding: EdgeInsets.only(left: 10.0),
+                                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(0, 255, 255, 255),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        // borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                    hintStyle: TextStyle(
+                                      fontSize: 26,
+                                      color: Color(0xFF666666).withAlpha(85),
+                                    ),
+                                  ),
+                                  cursorColor: Color(0xFFFC2365),
+                                  cursorWidth: 2,
+                                  //                                cursorRadius: Radius.elliptical(20, 8),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -233,21 +520,53 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                               color: Color(0xFFF3F3F3),
                             ),
                           ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            padding: EdgeInsets.all(2),
-                            decoration: new BoxDecoration(
-                              border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-                              color: Color(0xFFF22B79).withAlpha(16),
-                              //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            ),
-                            child: Image(
+                          InkWell(
+                            onTap: () {
+                              var tempTokenAddress = this.sellTokenAddress;
+                              var tempTokenAmount = this.sellTokenAmount;
+                              var tempTokenImage = this.sellTokenImage;
+                              var tempTokenName = this.sellTokenName;
+                              var tempInputAmount = this.sellTextControllerNode.text;
+
+                              this.sellTokenAddress = this.buyTokenAddress;
+                              this.sellTokenAmount = this.buyTokenAmount;
+                              this.sellTokenImage = this.buyTokenImage;
+                              this.sellTokenName = this.buyTokenName;
+                              this.sellTextControllerNode.text = this.buyTextControllerNode.text;
+
+                              this.buyTokenAddress = tempTokenAddress;
+                              this.buyTokenAmount = tempTokenAmount;
+                              this.buyTokenImage = tempTokenImage;
+                              this.buyTokenName = tempTokenName;
+                              this.buyTextControllerNode.text = tempInputAmount;
+
+                              // this.buyTokenAmount = "";
+                              // this.sellTokenAmount = "";
+
+                              updateBuyAmount();
+                              updateSellAmount();
+                              tokenRate = "";
+                              setState(() {});
+                              netSwapRoutes();
+
+                              setState(() {});
+                            },
+                            child: Container(
                               width: 30,
                               height: 30,
-                              color: Color(0xFFF22B79),
-                              image: AssetImage("images/ic_swap_vert.png"),
+                              padding: EdgeInsets.all(2),
+                              decoration: new BoxDecoration(
+                                border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                                color: Color(0xFFF22B79).withAlpha(16),
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              ),
+                              child: Image(
+                                width: 30,
+                                height: 30,
+                                color: Color(0xFFF22B79),
+                                image: AssetImage("images/ic_swap_vert.png"),
+                              ),
                             ),
                           ),
                           Expanded(
@@ -275,136 +594,178 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             ),
                           ),
                           Expanded(child: Container()),
-                          Container(
-                            child: Text(
-                              "Balance: 0.0 ",
-                              style: new TextStyle(
-                                fontSize: 14,
-                                color: Color(0xff333333),
-                                //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          if (this.buyTokenAmount.isEmpty)
+                            Container(
+                              height: 20,
+                              child: Lottie.asset(
+                                'images/loading.json',
                               ),
                             ),
-                          ),
+                          if (this.buyTokenAmount.isNotEmpty)
+                            Container(
+                              height: 20,
+                              child: Text(
+                                "Balance: " + buyTokenAmount,
+                                style: new TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff333333),
+                                  //                                            fontWeight: FontWeight.w600,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 36.0,
-                            height: 36.0,
-                            decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-abc.png",
-                                errorBuilder: (
-                                  BuildContext context,
-                                  Object error,
-                                  StackTrace? stackTrace,
-                                ) {
-                                  return Container(
-                                    color: Colors.grey.shade200,
-                                  );
-                                },
-                                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                  if (wasSynchronouslyLoaded) return child;
-                                  return AnimatedOpacity(
-                                    child: child,
-                                    opacity: frame == null ? 0 : 1,
-                                    duration: const Duration(seconds: 2),
-                                    curve: Curves.easeOut,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(left: 10, right: 5),
-                                child: Text(
-                                  "ABC",
-                                  style: new TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Image(
-                            width: 20,
-                            height: 20,
-                            color: Color(0xFF999999),
-                            image: AssetImage("images/ic_swap_down.png"),
-                          ),
-                          Expanded(child: Container()),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Container(
-                              // height: 70,
-                              //                      padding: EdgeInsets.only(left: 10, right: 10),
-                              //边框设置
-                              decoration: new BoxDecoration(
-                                color: Color.fromARGB(0, 237, 243, 247),
-                                //设置四周圆角 角度
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: TextField(
-                                controller: sellTextControllerNode,
-                                focusNode: sellFocusNode,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-                                ],
+                    InkWell(
+                      onTap: () {
+                        sellFocusNode.unfocus();
+                        buyFocusNode.unfocus();
+                        showMaterialModalBottomSheet(
+                            context: context,
+                            expand: true,
+                            enableDrag: false,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => AeSelectTokenListPage(
+                                  aeCount: AeHomePage.token,
+                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                    this.buyTokenName = tokenName!;
+                                    this.buyTokenImage = tokenImage!;
+                                    this.buyTokenAddress = tokenContract!;
 
-                                textAlign: TextAlign.right,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  textBaseline: TextBaseline.alphabetic,
-                                  fontSize: 26,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                  color: Colors.black,
+                                    this.buyTokenAmount = "";
+                                    this.sellTextControllerNode.text = "";
+                                    this.buyTextControllerNode.text = "";
+                                    setState(() {});
+                                    updateBuyAmount();
+                                    tokenRate = "";
+                                    setState(() {});
+                                    netSwapRoutes();
+
+                                    return;
+                                  },
+                                )
+//
+                            );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 36.0,
+                              height: 36.0,
+                              decoration: BoxDecoration(
+                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: ClipOval(
+                                child: Image.network(
+                                  buyTokenImage,
+                                  errorBuilder: (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                  ) {
+                                    return Container(
+                                      color: Colors.grey.shade200,
+                                    );
+                                  },
+                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                    if (wasSynchronouslyLoaded) return child;
+                                    return AnimatedOpacity(
+                                      child: child,
+                                      opacity: frame == null ? 0 : 1,
+                                      duration: const Duration(seconds: 2),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: "0.00",
-                                  // contentPadding: EdgeInsets.only(left: 10.0),
-                                  contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                                  enabledBorder: new OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFFFFFFF),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 10, right: 5),
+                                  child: Text(
+                                    buyTokenName,
+                                    style: new TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xff333333),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     ),
                                   ),
-                                  focusedBorder: new OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Color.fromARGB(0, 252, 35, 100)),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  hintStyle: TextStyle(
-                                    fontSize: 26,
-                                    color: Color(0xFF666666).withAlpha(85),
-                                  ),
                                 ),
-                                cursorColor: Color(0xFFFC2365),
-                                cursorWidth: 2,
-                                //                                cursorRadius: Radius.elliptical(20, 8),
+                              ],
+                            ),
+                            Image(
+                              width: 20,
+                              height: 20,
+                              color: Color(0xFF999999),
+                              image: AssetImage("images/ic_swap_down.png"),
+                            ),
+                            Expanded(child: Container()),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Container(
+                                // height: 70,
+                                //                      padding: EdgeInsets.only(left: 10, right: 10),
+                                //边框设置
+                                decoration: new BoxDecoration(
+                                  color: Color.fromARGB(0, 237, 243, 247),
+                                  //设置四周圆角 角度
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                child: TextField(
+                                  controller: buyTextControllerNode,
+                                  focusNode: buyFocusNode,
+
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                  ],
+
+                                  textAlign: TextAlign.right,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    textBaseline: TextBaseline.alphabetic,
+                                    fontSize: 26,
+                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: "0.00",
+                                    // contentPadding: EdgeInsets.only(left: 10.0),
+                                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(0, 255, 255, 255),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        // borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                    hintStyle: TextStyle(
+                                      fontSize: 26,
+                                      color: Color(0xFF666666).withAlpha(85),
+                                    ),
+                                  ),
+                                  cursorColor: Color(0xFFFC2365),
+                                  cursorWidth: 2,
+                                  //                                cursorRadius: Radius.elliptical(20, 8),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -421,7 +782,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                         ],
                       ),
                     ),
-                    if (false)
+                    if (tokenRate.isEmpty)
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
                         child: Row(
@@ -451,31 +812,32 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           ],
                         ),
                       ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 18, right: 18),
-                              height: 50,
-                              child: TextButton(
-                                style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
-                                onPressed: () {},
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 10, right: 10),
-                                  child: Text(
-                                    "Confirm",
-                                    maxLines: 1,
-                                    style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                    if (tokenRate.isNotEmpty)
+                      Container(
+                        margin: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 18, right: 18),
+                                height: 50,
+                                child: TextButton(
+                                  style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                                  onPressed: () {},
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10, right: 10),
+                                    child: Text(
+                                      "Confirm",
+                                      maxLines: 1,
+                                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
                     if (true)
                       Container(
                         margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
@@ -539,11 +901,19 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                     ),
                                   ),
                                   Expanded(child: Container()),
-                                  Text(
-                                    "1AE≈1.108231ABC",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                  ),
+                                  if (this.tokenRate.isEmpty)
+                                    Container(
+                                      height: 20,
+                                      child: Lottie.asset(
+                                        'images/loading.json',
+                                      ),
+                                    ),
+                                  if (this.tokenRate.isNotEmpty)
+                                    Text(
+                                      "1$sellTokenName ≈ $tokenRate$buyTokenName",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    ),
                                 ],
                               ),
                             ),
