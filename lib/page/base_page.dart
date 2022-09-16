@@ -5,6 +5,7 @@ import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../generated/l10n.dart';
@@ -320,7 +321,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                       showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
                       return;
                     }
-                  }else{
+                  } else {
                     if (signingKey == "") {
                       showConfirmDialog(S.of(context).dialog_hint_check_error_content, S.of(context).dialog_hint_check_error);
                       return;
@@ -340,7 +341,12 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
   }
 
   //显示链上操作框
-  void showChainLoading() {
+  void showToast(msg) {
+    Fluttertoast.showToast(msg: msg, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+  }
+
+  //显示链上操作框
+  void showChainLoading(String content) {
     showGeneralDialog(
         useRootNavigator: false,
         context: context,
@@ -348,7 +354,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
-          return ChainLoadingWidget();
+          return ChainLoadingWidget(content);
         },
         pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
           return Container();

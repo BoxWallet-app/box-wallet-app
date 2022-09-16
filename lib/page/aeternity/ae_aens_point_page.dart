@@ -230,7 +230,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
       }, privateKey, address, widget.name!, _textEditingController.text);
-      showChainLoading();
+      showChainLoading("");
     });
   }
 

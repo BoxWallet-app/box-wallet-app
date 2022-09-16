@@ -85,7 +85,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
         transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget();
+          return ChainLoadingWidget("");
         });
   }
 

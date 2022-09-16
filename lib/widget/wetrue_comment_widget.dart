@@ -40,7 +40,7 @@ class WeTrueCommentWidget extends StatefulWidget {
 }
 
 class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
-  int page =0;
+  int page = 0;
   WeTrueConfigModel? weTrueConfigModel;
   WetrueCommentModel? wetrueCommentModel;
   EasyRefreshController controller = EasyRefreshController();
@@ -244,14 +244,9 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
       return;
     }
 
-    String content = Utils.encodeBase64('{"WeTrue":"' +
-        weTrueConfigModel!.data!.weTrue! +
-        '","type":"comment","source":"Box æpp","toHash":"' +
-        widget.hash! +
-        '","content":"' +
-        conetnt.replaceAll("\n", "\\n") +
-        '"}');
-    showGeneralDialog(useRootNavigator:false,
+    String content = Utils.encodeBase64('{"WeTrue":"' + weTrueConfigModel!.data!.weTrue! + '","type":"comment","source":"Box æpp","toHash":"' + widget.hash! + '","content":"' + conetnt.replaceAll("\n", "\\n") + '"}');
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
@@ -298,9 +293,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext dialogContext) {
-                        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+                        return new AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                           title: Text("发布成功"),
                           content: Text("区块同步中，稍后将展示"),
                           actions: <Widget>[
@@ -321,8 +315,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     // ignore: missing_return
                   }, (error) {
                     showErrorDialog(context, error);
-                  }, aesDecode, address, weTrueConfigModel!.data!.receivingAccount!, Decimal.parse((double.parse(weTrueConfigModel!.data!.commentAmount!) / 1000000000000000000).toString()).toString(),
-                      content);
+                  }, aesDecode, address, weTrueConfigModel!.data!.receivingAccount!, Decimal.parse((double.parse(weTrueConfigModel!.data!.commentAmount!) / 1000000000000000000).toString()).toString(), content);
                   showChainLoading();
                 },
               ),
@@ -332,7 +325,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
   }
 
   void showChainLoading() {
-    showGeneralDialog(useRootNavigator:false,
+    showGeneralDialog(
+        useRootNavigator: false,
         context: context,
         // ignore: missing_return
         pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
@@ -342,7 +336,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
         transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
           final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget();
+          return ChainLoadingWidget("");
         });
   }
 
@@ -518,9 +512,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.of(buildContext).dialog_hint_check_error),
           content: Text(content!),
           actions: <Widget>[
@@ -543,9 +536,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
       context: buildContext,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           title: Text(S.current.dialog_hint_hash),
           content: Text(tx),
           actions: <Widget>[

@@ -230,7 +230,7 @@ class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
       }, privateKey, address, widget.name!, _textEditingController.text);
-      showChainLoading();
+      showChainLoading("");
     });
   }
 

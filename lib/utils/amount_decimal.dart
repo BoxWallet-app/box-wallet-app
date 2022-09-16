@@ -14,7 +14,7 @@ class AmountDecimal {
       for (var i = 0; i < decimal; i++) {
         decimalStr = decimalStr + "0";
       }
-      var amountData = (double.parse(amount!) / double.parse(decimalStr)).toString();
+      var amountData = (double.parse(amount!) / double.parse(decimalStr)).toStringAsFixed(6);
       var amountDataList = amountData.split(".");
       if (amountDataList.length > 1) {
         if (amountDataList[1].length > 6) {

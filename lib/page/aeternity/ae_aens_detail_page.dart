@@ -299,7 +299,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
       }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
-      showChainLoading();
+      showChainLoading("");
     });
   }
 
@@ -313,7 +313,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         showConfirmDialog(S.of(context).dialog_hint, error);
         return;
       }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
-      showChainLoading();
+      showChainLoading("");
     });
     // showGeneralDialog(
     //     useRootNavigator: false,

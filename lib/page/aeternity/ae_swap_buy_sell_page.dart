@@ -362,7 +362,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
         barrierLabel: "",
         transitionDuration: Duration(milliseconds: 0),
         transitionBuilder: (_, anim1, anim2, child) {
-          return ChainLoadingWidget();
+          return ChainLoadingWidget("");
         });
   }
 

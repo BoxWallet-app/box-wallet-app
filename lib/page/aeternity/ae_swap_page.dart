@@ -5,12 +5,14 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -21,12 +23,12 @@ import '../../utils/utils.dart';
 import 'ae_home_page.dart';
 import 'ae_select_token_list_page.dart';
 
-class AeSwapPage extends StatefulWidget {
+class AeSwapPage extends BaseWidget {
   @override
   _AeSwapPageState createState() => _AeSwapPageState();
 }
 
-class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMixin {
+class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAliveClientMixin {
   EasyRefreshController controller = EasyRefreshController();
   TextEditingController sellTextControllerNode = TextEditingController();
   final FocusNode sellFocusNode = FocusNode();
@@ -45,6 +47,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
   String buyTokenImage = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-abc.png";
 
   String tokenRate = "";
+
+  String buttonText = "Loading...";
+
+  bool isNotPairs = false;
 
   late Timer timer;
   @override
@@ -107,8 +113,17 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       tokenB = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
     }
 
+    print(tokenA);
+    print(tokenB);
     Response swapRoutesResponse = await Dio().get("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB", options: Options(responseType: ResponseType.json));
+
     var swapRoutes = swapRoutesResponse.data as List<dynamic>;
+    if (swapRoutes.isEmpty) {
+      buttonText = "No liquidity pool found";
+      isNotPairs = true;
+      setState(() {});
+      return;
+    }
     for (var swapRoutesItem in swapRoutes) {
       for (var swapRoutesItemItem in swapRoutesItem) {
         if ((swapRoutesItemItem["token0"] == tokenA && swapRoutesItemItem["token1"] == tokenB) || (swapRoutesItemItem["token0"] == tokenB && swapRoutesItemItem["token1"] == tokenA)) {
@@ -122,16 +137,22 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
             tokenATotal = swapRoutesItemItem["liquidityInfo"]["reserve1"];
             tokenBTotal = swapRoutesItemItem["liquidityInfo"]["reserve0"];
           }
-          var tokenAParseUnits = AmountDecimal.parseUnits(tokenATotal, 0);
-          var tokenBParseUnits = AmountDecimal.parseUnits(tokenBTotal, 0);
+          var tokenAParseUnits = AmountDecimal.parseUnits(tokenATotal, 18);
+          var tokenBParseUnits = AmountDecimal.parseUnits(tokenBTotal, 18);
           print(tokenAParseUnits);
           print(tokenBParseUnits);
           tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
-          print(tokenRate);
+          // print(tokenRate);
+          isNotPairs = false;
           setState(() {});
+          return;
         }
       }
     }
+    isNotPairs = true;
+    buttonText = "No liquidity pool found";
+
+    setState(() {});
   }
 
   updateSellAmount() {
@@ -175,6 +196,189 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
       setState(() {});
       return;
     }, channelJson);
+  }
+
+  Future<void> aeDexSwapExactAeForTokens() async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+      if (cacheBalance != "") {
+        AeHomePage.token = cacheBalance;
+        setState(() {});
+      }
+      var amountAe = sellTextControllerNode.text;
+      var amountOutTokenMin = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+
+      var tokenA = sellTokenAddress;
+      var tokenB = buyTokenAddress;
+      if (tokenA.isEmpty) {
+        tokenA = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      if (tokenB.isEmpty) {
+        tokenB = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      var params = {
+        "name": "aeDexSwapExactAeForTokens",
+        "params": {
+          "secretKey": "$privateKey",
+          "ctAddress": "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3",
+          "amountAe": amountAe,
+          "amountOutTokenMin": amountOutTokenMin,
+          "path": ["$tokenA", "$tokenB"],
+          "to": "$address",
+          "deadline": (Utils.currentTimeMillis() + (30 * 1000)).toString()
+        }
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Exchange in progress...");
+      setState(() {});
+      BoxApp.sdkChannelCall((result) {
+        navigatorKey.currentState!.pop();
+
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        showConfirmDialog("Success", "Swap tokens success!");
+        buyTokenAmount = "";
+        sellTokenAmount = "";
+        setState(() {});
+        updateBuyAmount();
+        updateSellAmount();
+        return;
+      }, channelJson);
+    });
+  }
+
+  Future<void> aeDexSwapExactTokensForAe() async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+      if (cacheBalance != "") {
+        AeHomePage.token = cacheBalance;
+        setState(() {});
+      }
+      var sellAmount = sellTextControllerNode.text;
+      var amountOutAeMin = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+
+      var tokenA = sellTokenAddress;
+      var tokenB = buyTokenAddress;
+      if (tokenA.isEmpty) {
+        tokenA = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      if (tokenB.isEmpty) {
+        tokenB = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      var params = {
+        "name": "aeDexSwapExactTokensForAe",
+        "params": {
+          "secretKey": "$privateKey",
+          "ctAddress": "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3",
+          "amountToken": "$sellAmount",
+          "amountOutAeMin": "$amountOutAeMin",
+          "path": ["$tokenA", "$tokenB"],
+          "to": "$address",
+          "deadline": (Utils.currentTimeMillis() + (30 * 1000)).toString()
+        }
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Exchange in progress...");
+      setState(() {});
+      BoxApp.sdkChannelCall((result) {
+        navigatorKey.currentState!.pop();
+
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        showConfirmDialog("Success", "Swap tokens success!");
+        buyTokenAmount = "";
+        sellTokenAmount = "";
+        setState(() {});
+        updateBuyAmount();
+        updateSellAmount();
+        return;
+      }, channelJson);
+    });
+  }
+
+  Future<void> aeDexSwapExactTokensForTokens() async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+      if (cacheBalance != "") {
+        AeHomePage.token = cacheBalance;
+        setState(() {});
+      }
+      var sellAmount = sellTextControllerNode.text;
+      var buyAmount = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+
+      var tokenA = sellTokenAddress;
+      var tokenB = buyTokenAddress;
+      if (tokenA.isEmpty) {
+        tokenA = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      if (tokenB.isEmpty) {
+        tokenB = "ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa";
+      }
+      var params = {
+        "name": "aeDexSwapExactTokensForTokens",
+        "params": {
+          "secretKey": "$privateKey",
+          "ctAddress": "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3",
+          "amountTokenIn": "$sellAmount",
+          "amountOutTokenMin": "$buyAmount",
+          "path": ["$tokenA", "$tokenB"],
+          "to": "$address",
+          "deadline": (Utils.currentTimeMillis() + (30 * 1000)).toString()
+        }
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Exchange in progress...");
+      setState(() {});
+      BoxApp.sdkChannelCall((result) {
+        navigatorKey.currentState!.pop();
+
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        showConfirmDialog("Success", "Swap tokens success!");
+        buyTokenAmount = "";
+        sellTokenAmount = "";
+        setState(() {});
+        updateBuyAmount();
+        updateSellAmount();
+        return;
+      }, channelJson);
+    });
   }
 
   Future<void> netSellContractBalance() async {
@@ -371,6 +575,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             builder: (context) => AeSelectTokenListPage(
                                   aeCount: AeHomePage.token,
                                   aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                    if (tokenContract == this.buyTokenAddress) {
+                                      showToast("You cannot switch the same token");
+                                      return;
+                                    }
                                     this.sellTokenName = tokenName!;
                                     this.sellTokenImage = tokenImage!;
                                     this.sellTokenAddress = tokenContract!;
@@ -444,7 +652,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             Image(
                               width: 20,
                               height: 20,
-                              color: Color(0xFF999999),
+                              color: Color(0xff666666),
                               image: AssetImage("images/ic_swap_down.png"),
                             ),
                             Expanded(child: Container()),
@@ -629,6 +837,10 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             builder: (context) => AeSelectTokenListPage(
                                   aeCount: AeHomePage.token,
                                   aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                    if (tokenContract == this.sellTokenAddress) {
+                                      showToast("You cannot switch the same token");
+                                      return;
+                                    }
                                     this.buyTokenName = tokenName!;
                                     this.buyTokenImage = tokenImage!;
                                     this.buyTokenAddress = tokenContract!;
@@ -704,7 +916,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                             Image(
                               width: 20,
                               height: 20,
-                              color: Color(0xFF999999),
+                              color: Color(0xff666666),
                               image: AssetImage("images/ic_swap_down.png"),
                             ),
                             Expanded(child: Container()),
@@ -801,7 +1013,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 10, right: 10),
                                     child: Text(
-                                      "Loading...",
+                                      buttonText,
                                       maxLines: 1,
                                       style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(112, 242, 43, 123)),
                                     ),
@@ -823,13 +1035,28 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                                 height: 50,
                                 child: TextButton(
                                   style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (sellTokenAddress.isEmpty) {
+                                      aeDexSwapExactAeForTokens();
+                                    }
+                                    if (buyTokenAddress.isEmpty) {
+                                      aeDexSwapExactTokensForAe();
+                                    }
+                                    if (sellTokenAddress.isNotEmpty && buyTokenAddress.isNotEmpty) {
+                                      aeDexSwapExactTokensForTokens();
+                                    }
+                                  },
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 10, right: 10),
-                                    child: Text(
-                                      "Confirm",
-                                      maxLines: 1,
-                                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Confirm",
+                                          maxLines: 1,
+                                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -838,111 +1065,154 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           ],
                         ),
                       ),
-                    if (true)
-                      Container(
-                        margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
-                        child: Column(
-                          children: [
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Text(
-                                      "Slippage",
-                                      style: new TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xff999999),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 12, left: 0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    "Price",
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff666666),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                                     ),
                                   ),
-                                  Expanded(child: Container()),
+                                ),
+                                Expanded(child: Container()),
+                                if (this.tokenRate.isEmpty && !isNotPairs)
                                   Container(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
-                                                minimumSize: MaterialStateProperty.all(Size(50, 32)),
-                                                visualDensity: VisualDensity.compact,
-                                                padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                                backgroundColor: MaterialStateProperty.all(
-                                                  Color(0xFFE61665).withAlpha(16),
-                                                )),
-                                            onPressed: () {},
-                                            child: Container(
-                                              child: Text(
-                                                "5%",
-                                                maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    height: 20,
+                                    child: Lottie.asset(
+                                      'images/loading.json',
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 12, left: 0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Text(
-                                      "Price",
-                                      style: new TextStyle(
-                                        fontSize: 13,
-                                        color: Color(0xff999999),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(child: Container()),
-                                  if (this.tokenRate.isEmpty)
-                                    Container(
-                                      height: 20,
-                                      child: Lottie.asset(
-                                        'images/loading.json',
-                                      ),
-                                    ),
-                                  if (this.tokenRate.isNotEmpty)
-                                    Text(
-                                      "1$sellTokenName ≈ $tokenRate$buyTokenName",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 12, left: 0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Text(
-                                      "Deadline",
-                                      style: new TextStyle(
-                                        fontSize: 13,
-                                        color: Color(0xff999999),
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(child: Container()),
+                                if (this.tokenRate.isNotEmpty)
                                   Text(
-                                    "30 Minutes",
+                                    "1$sellTokenName ≈ $tokenRate$buyTokenName",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                   ),
-                                ],
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    "Slippage",
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff666666),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
+                                ),
+                                Expanded(child: Container()),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "5%",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                      // Container(
+                                      //   child: TextButton(
+                                      //     style: ButtonStyle(
+                                      //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                      //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
+                                      //         visualDensity: VisualDensity.compact,
+                                      //         padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                      //         backgroundColor: MaterialStateProperty.all(
+                                      //           Color(0xFFE61665).withAlpha(16),
+                                      //         )),
+                                      //     onPressed: () {},
+                                      //     child: Container(
+                                      //       child: Text(
+                                      //         "5%",
+                                      //         maxLines: 1,
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    "Deadline",
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff666666),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
+                                ),
+                                Expanded(child: Container()),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "30 minutes",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                      // Container(
+                                      //   child: TextButton(
+                                      //     style: ButtonStyle(
+                                      //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                      //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
+                                      //         visualDensity: VisualDensity.compact,
+                                      //         padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                      //         backgroundColor: MaterialStateProperty.all(
+                                      //           Color(0xFFE61665).withAlpha(16),
+                                      //         )),
+                                      //     onPressed: () {},
+                                      //     child: Container(
+                                      //       child: Text(
+                                      //         "5%",
+                                      //         maxLines: 1,
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Container(
                       height: 38,
                       decoration: new BoxDecoration(
@@ -957,7 +1227,7 @@ class _AeSwapPageState extends State<AeSwapPage> with AutomaticKeepAliveClientMi
                           Text(
                             "Supported by",
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Color(0xff666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                           ),
                           Container(
                             width: 20,
