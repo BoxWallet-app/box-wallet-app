@@ -81,8 +81,8 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
     Host.baseHost = await BoxApp.getBaseHost();
     String nodeUrl = await BoxApp.getNodeUrl();
     if (nodeUrl != "") {
-      // setSDKBaseUrl("https://node.aeasy.io");
-      setSDKBaseUrl("https://mainnet.aeternity.io");
+      setSDKBaseUrl("https://node.aeasy.io");
+      // setSDKBaseUrl("https://mainnet.aeternity.io");
     }
     //获取当前的账号
     var account = await WalletCoinsManager.instance.getCurrentAccount();

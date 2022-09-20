@@ -245,7 +245,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
     ).then((val) {
       if (val!) {
         if (BoxApp.language == "cn") {
-          Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/" + hash));
+          Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/" + hash + "/380"));
         } else {
           Clipboard.setData(ClipboardData(text: "https://explorer.aeternity.io/transactions/" + hash));
         }
@@ -345,19 +345,30 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
     Fluttertoast.showToast(msg: msg, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
   }
 
+  bool isChainShow = false;
   //显示链上操作框
   void showChainLoading(String content) {
-    showGeneralDialog(
-        useRootNavigator: false,
-        context: context,
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          return ChainLoadingWidget(content);
-        },
-        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-          return Container();
-        });
+    if (!isChainShow) {
+      isChainShow = true;
+      showGeneralDialog(
+          useRootNavigator: true,
+          context: context,
+          barrierDismissible: true,
+          barrierLabel: "",
+          transitionDuration: Duration(milliseconds: 0),
+          transitionBuilder: (_, anim1, anim2, child) {
+            return ChainLoadingWidget(content);
+          },
+          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+            return Container();
+          });
+    }
+  }
+
+  void dismissChainLoading() {
+    if (isChainShow) {
+      isChainShow = false;
+      navigatorKey.currentState!.pop();
+    }
   }
 }

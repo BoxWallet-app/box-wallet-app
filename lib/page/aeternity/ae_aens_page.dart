@@ -56,12 +56,7 @@ class _AeAensPageState extends State<AeAensPage> {
                   ),
                 ),
                 onPressed: () {
-
-                  if (Platform.isIOS) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensMyPage()));
-                  } else {
-                    Navigator.push(context, SlideRoute(AeAensMyPage()));
-                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensMyPage()));
                 },
               ),
             ],
@@ -110,11 +105,10 @@ class _AeAensPageState extends State<AeAensPage> {
           floatingActionButton: new FloatingActionButton(
             onPressed: () {
               if (Platform.isIOS) {
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
               } else {
                 Navigator.push(context, SlideRoute(AeAensRegister()));
               }
-
             },
             child: new Icon(Icons.add),
             elevation: 3.0,

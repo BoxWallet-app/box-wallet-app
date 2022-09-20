@@ -31,7 +31,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color:Colors.black,
+              color: Colors.black,
               size: 17,
             ),
             onPressed: () => Navigator.pop(context),
@@ -85,12 +85,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: () {
-            if (Platform.isIOS) {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
-            } else {
-              Navigator.push(context, SlideRoute( AeAensRegister()));
-            }
-
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeAensRegister()));
           },
           child: new Icon(Icons.add),
           elevation: 3.0,

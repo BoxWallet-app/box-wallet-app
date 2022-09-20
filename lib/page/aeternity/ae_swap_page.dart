@@ -7,6 +7,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
+import 'package:box/widget/box_header.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +51,11 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
   String buttonText = "Loading...";
 
-  bool isNotPairs = false;
+  bool isPairsError = false;
+  bool isBalanceError = false;
+
+  var tokenAParseUnits = "";
+  var tokenBParseUnits = "";
 
   late Timer timer;
   @override
@@ -66,33 +71,55 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       if (!sellFocusNode.hasFocus) {
         return;
       }
-      var sellAmount = sellTextControllerNode.text;
-      if (sellAmount.isEmpty) {
-        buyTextControllerNode.text = "";
-        return;
-      }
-      if (tokenRate.isEmpty) {
-        return;
-      }
-      var buyAmount = double.parse(sellAmount) * double.parse(tokenRate);
-
-      buyTextControllerNode.text = AmountDecimal.parseDecimal(buyAmount.toString());
+      sellTextUpdateBuyAmount();
     });
     buyTextControllerNode.addListener(() {
       if (!buyFocusNode.hasFocus) {
         return;
       }
-      var buyAmount = buyTextControllerNode.text;
-      if (buyAmount.isEmpty) {
-        sellTextControllerNode.text = "";
-        return;
-      }
-      if (tokenRate.isEmpty) {
-        return;
-      }
-      var sellAmount = double.parse(buyAmount) / double.parse(tokenRate);
-      sellTextControllerNode.text = AmountDecimal.parseDecimal(sellAmount.toString());
+      buyTextUpdateSellAmount();
     });
+  }
+
+  sellTextUpdateBuyAmount() {
+    var sellAmount = sellTextControllerNode.text;
+    if (sellAmount.isEmpty) {
+      isBalanceError = false;
+      buyTextControllerNode.text = "";
+      setState(() {});
+      return;
+    }
+    if (tokenRate.isEmpty) {
+      return;
+    }
+    var buyAmount = double.parse(sellAmount) * double.parse(tokenRate);
+
+    if (tokenAParseUnits.isNotEmpty) {
+      var maxSellAmount = double.parse(tokenAParseUnits) * 0.05;
+      logger.info(maxSellAmount);
+      if (double.parse(sellAmount) > maxSellAmount) {
+        isBalanceError = true;
+        buttonText = "Lack of liquidity";
+      }
+    } else {
+      isBalanceError = false;
+    }
+    setState(() {});
+
+    buyTextControllerNode.text = AmountDecimal.parseDecimal(buyAmount.toString());
+  }
+
+  buyTextUpdateSellAmount() {
+    var buyAmount = buyTextControllerNode.text;
+    if (buyAmount.isEmpty) {
+      sellTextControllerNode.text = "";
+      return;
+    }
+    if (tokenRate.isEmpty) {
+      return;
+    }
+    var sellAmount = double.parse(buyAmount) / double.parse(tokenRate);
+    sellTextControllerNode.text = AmountDecimal.parseDecimal(sellAmount.toString());
   }
 
   @override
@@ -115,12 +142,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
     print(tokenA);
     print(tokenB);
+    print("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB");
     Response swapRoutesResponse = await Dio().get("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB", options: Options(responseType: ResponseType.json));
 
     var swapRoutes = swapRoutesResponse.data as List<dynamic>;
     if (swapRoutes.isEmpty) {
       buttonText = "No liquidity pool found";
-      isNotPairs = true;
+      isPairsError = true;
       setState(() {});
       return;
     }
@@ -137,37 +165,43 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
             tokenATotal = swapRoutesItemItem["liquidityInfo"]["reserve1"];
             tokenBTotal = swapRoutesItemItem["liquidityInfo"]["reserve0"];
           }
-          var tokenAParseUnits = AmountDecimal.parseUnits(tokenATotal, 18);
-          var tokenBParseUnits = AmountDecimal.parseUnits(tokenBTotal, 18);
+          tokenAParseUnits = AmountDecimal.parseUnits(tokenATotal, 18);
+          tokenBParseUnits = AmountDecimal.parseUnits(tokenBTotal, 18);
           print(tokenAParseUnits);
           print(tokenBParseUnits);
-          tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
-          // print(tokenRate);
-          isNotPairs = false;
+          if (double.parse(tokenAParseUnits) == 0 || double.parse(tokenBParseUnits) == 0) {
+            isPairsError = true;
+            buttonText = "No liquidity pool found";
+            tokenRate = "0";
+          } else {
+            tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
+            isPairsError = false;
+          }
+
           setState(() {});
           return;
         }
       }
     }
-    isNotPairs = true;
+    isPairsError = true;
     buttonText = "No liquidity pool found";
 
     setState(() {});
   }
 
-  updateSellAmount() {
+  updateSellAmount() async {
     if (sellTokenAddress.isEmpty) {
-      netSellAeBalance();
+      await netSellAeBalance();
     } else {
-      netSellContractBalance();
+      await netSellContractBalance();
     }
   }
 
-  updateBuyAmount() {
+  updateBuyAmount() async {
     if (buyTokenAddress.isEmpty) {
-      netBuyAeBalance();
+      await netBuyAeBalance();
     } else {
-      netBuyContractBalance();
+      await netBuyContractBalance();
     }
   }
 
@@ -192,7 +226,12 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         return;
       }
       var balance = jsonResponse["result"]["balance"];
-      sellTokenAmount = Utils.formatBalanceLength(double.parse(balance));
+      sellTokenAmount = AmountDecimal.parseDecimal(balance);
+      if (sellTokenAmount == "0.0") {
+        isBalanceError = true;
+        buttonText = "Balance error";
+      }
+
       setState(() {});
       return;
     }, channelJson);
@@ -234,7 +273,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       showChainLoading("Exchange in progress...");
       setState(() {});
       BoxApp.sdkChannelCall((result) {
-        navigatorKey.currentState!.pop();
+        dismissChainLoading();
 
         if (!mounted) return;
         final jsonResponse = json.decode(result);
@@ -249,6 +288,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           return;
         }
         showConfirmDialog("Success", "Swap tokens success!");
+        sellTextControllerNode.text = "";
+        buyTextControllerNode.text = "";
         buyTokenAmount = "";
         sellTokenAmount = "";
         setState(() {});
@@ -310,6 +351,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           return;
         }
         showConfirmDialog("Success", "Swap tokens success!");
+        sellTextControllerNode.text = "";
+        buyTextControllerNode.text = "";
         buyTokenAmount = "";
         sellTokenAmount = "";
         setState(() {});
@@ -373,6 +416,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         showConfirmDialog("Success", "Swap tokens success!");
         buyTokenAmount = "";
         sellTokenAmount = "";
+
+        sellTextControllerNode.text = "";
+        buyTextControllerNode.text = "";
         setState(() {});
         updateBuyAmount();
         updateSellAmount();
@@ -499,6 +545,15 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         centerTitle: true,
       ),
       body: EasyRefresh(
+        header: BoxHeader(),
+        onRefresh: () async {
+          tokenRate = "";
+          sellTokenAmount = "";
+          buyTokenAmount = "";
+          await netSwapRoutes();
+          await updateBuyAmount();
+          await updateSellAmount();
+        },
         child: Column(
           children: [
             Container(
@@ -547,16 +602,22 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                 ),
                               ),
                             ),
-                          Container(
-                            height: 20,
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Text(
-                              "[MAX]",
-                              style: new TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFFFC2365),
-                                //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          InkWell(
+                            onTap: () {
+                              sellTextControllerNode.text = sellTokenAmount;
+                              sellTextUpdateBuyAmount();
+                            },
+                            child: Container(
+                              height: 20,
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: Text(
+                                "[MAX]",
+                                style: new TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFFFC2365),
+                                  //                                            fontWeight: FontWeight.w600,
+                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                ),
                               ),
                             ),
                           ),
@@ -585,6 +646,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.sellTokenAmount = "";
                                     this.sellTextControllerNode.text = "";
                                     this.buyTextControllerNode.text = "";
+                                    buttonText = "Loading...";
+                                    isPairsError = true;
                                     setState(() {});
                                     updateSellAmount();
                                     tokenRate = "";
@@ -750,6 +813,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
                               // this.buyTokenAmount = "";
                               // this.sellTokenAmount = "";
+                              buttonText = "Loading...";
+                              isPairsError = true;
+                              setState(() {});
 
                               updateBuyAmount();
                               updateSellAmount();
@@ -848,6 +914,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.buyTokenAmount = "";
                                     this.sellTextControllerNode.text = "";
                                     this.buyTextControllerNode.text = "";
+
+                                    buttonText = "Loading...";
+                                    isPairsError = true;
                                     setState(() {});
                                     updateBuyAmount();
                                     tokenRate = "";
@@ -994,7 +1063,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         ],
                       ),
                     ),
-                    if (tokenRate.isEmpty)
+                    if (isPairsError || isBalanceError)
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
                         child: Row(
@@ -1024,7 +1093,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-                    if (tokenRate.isNotEmpty)
+                    if ((!isPairsError && !isBalanceError))
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
                         child: Row(
@@ -1084,7 +1153,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   ),
                                 ),
                                 Expanded(child: Container()),
-                                if (this.tokenRate.isEmpty && !isNotPairs)
+                                if (this.tokenRate.isEmpty)
                                   Container(
                                     height: 20,
                                     child: Lottie.asset(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/aens_info_dao.dart';
@@ -6,8 +7,10 @@ import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_aens_point_page.dart';
 import 'package:box/page/aeternity/ae_aens_transfer_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
@@ -178,7 +181,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             buildItem(S.of(context).name_point, accountPubkey!),
             buildBtnAdd(context),
             buildBtnUpdate(context),
-            buildBtnPoint(context),
           ],
         ),
       ),
@@ -186,12 +188,9 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   getAddress() async {
-    BoxApp.getAddress().then((String address) {
-      setState(() {
-        this.address = address;
-        // netAensInfo();
-      });
-    });
+    String address = await BoxApp.getAddress();
+    this.address = address;
+    setState(() {});
   }
 
   String getTypeValue() {
@@ -200,7 +199,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     }
 
     if (widget.currentHeight < widget.aensDetail['endHeight']) {
-      return Utils.formatHeight(context, widget.currentHeight, widget.aensDetail['overHeight']);
+      return Utils.formatHeight(context, widget.currentHeight, widget.aensDetail['endHeight']);
     }
 
     return "-";
@@ -259,47 +258,31 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     return true;
   }
 
-  Container buildBtnPoint(BuildContext context) {
-    if (widget.aensDetail['owner'] != address) {
-      return Container();
-    }
-
-    if (widget.currentHeight < widget.aensDetail['endHeight']) {
-      return Container();
-    }
-    return Container(
-      margin: const EdgeInsets.only(top: 1, bottom: 30),
-      child: Container(
-        height: 50,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: FlatButton(
-          onPressed: () {
-            netUpdateV2(context);
-          },
-          child: Text(
-            "指向",
-            maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
-          ),
-          color: Color(0xFFFC2365),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        ),
-      ),
-    );
-  }
-
   Future<void> netUpdateV2(BuildContext context) async {
+    var name = widget.aensDetail['name'];
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
-      BoxApp.updateName((tx) async {
-        showCopyHashDialog(context, tx, (val) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var params = {
+        "name": "aeAensUpdate",
+        "params": {"secretKey": "$privateKey", "name": "$name"}
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Update AENS...");
+      BoxApp.sdkChannelCall((result) {
+        dismissChainLoading();
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var hash = jsonResponse["result"]["hash"];
+        showCopyHashDialog(context, hash, (val) async {
           showFlushSucess(context);
         });
-      }, (error) {
-        showConfirmDialog(S.of(context).dialog_hint, error);
+        setState(() {});
         return;
-      }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
-      showChainLoading("");
+      }, channelJson);
     });
   }
 
