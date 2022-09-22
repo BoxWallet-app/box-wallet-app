@@ -11,6 +11,7 @@ import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
+import 'package:box/widget/amount_text_field_formatter.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
@@ -273,6 +274,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                                           focusNode: focusNode,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                            CustomTextFieldFormatter(digit: 6),
                                           ],
 
                                           maxLines: 1,

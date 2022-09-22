@@ -21,9 +21,9 @@ class AmountDecimal {
           return (double.parse(amount) / double.parse(decimalStr)).toStringAsFixed(6);
         }
       } else {
-        return amountData;
+        return parseDecimal(amountData);
       }
-      return amountData;
+      return parseDecimal(amountData);
     } catch (e) {
       return "0";
     }
@@ -38,9 +38,16 @@ class AmountDecimal {
           return double.parse(amount!).toStringAsFixed(6);
         }
       } else {
-        return amountData;
+        return double.parse(amountData).toString();
       }
-      return amountData;
+
+      if (num.parse(amountData) % 1 == 0) {
+        print("int");
+        return double.parse(amountData).toStringAsFixed(0);
+      } else {
+        print("not int");
+        return double.parse(amountData).toString();
+      }
     } catch (e) {
       return "0";
     }

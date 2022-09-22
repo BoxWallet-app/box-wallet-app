@@ -255,10 +255,16 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
   }
 
   //显示广播成功
-  void showFlushSucess(BuildContext context) {
+  void showFlushSucess(BuildContext context, {String title = "", String message = "", bool isDismiss = true}) {
+    if (title.isEmpty) {
+      title = S.of(context).hint_broadcast_sucess;
+    }
+    if (message.isEmpty) {
+      message = S.of(context).hint_broadcast_sucess_hint;
+    }
     Flushbar(
-      title: S.of(context).hint_broadcast_sucess,
-      message: S.of(context).hint_broadcast_sucess_hint,
+      title: title,
+      message: message,
       backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
       backgroundColor: Color(0xFFFC2365),
       blockBackgroundInteraction: true,
@@ -278,7 +284,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
         )
       ],
     )..show(context).then((result) {
-        Navigator.pop(context);
+        if (isDismiss) Navigator.pop(context);
         return result;
       });
   }

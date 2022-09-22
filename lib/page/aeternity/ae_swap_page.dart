@@ -7,6 +7,7 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
+import 'package:box/widget/amount_text_field_formatter.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -49,13 +50,15 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
   String tokenRate = "";
 
-  String buttonText = "Loading...";
+  String buttonText = "加载中...";
 
   bool isPairsError = false;
   bool isBalanceError = false;
 
   var tokenAParseUnits = "";
   var tokenBParseUnits = "";
+
+  var maxSellAmount = 0.0;
 
   late Timer timer;
   @override
@@ -95,11 +98,12 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     var buyAmount = double.parse(sellAmount) * double.parse(tokenRate);
 
     if (tokenAParseUnits.isNotEmpty) {
-      var maxSellAmount = double.parse(tokenAParseUnits) * 0.05;
       logger.info(maxSellAmount);
       if (double.parse(sellAmount) > maxSellAmount) {
         isBalanceError = true;
-        buttonText = "Lack of liquidity";
+        buttonText = "流动性不足";
+      } else {
+        isBalanceError = false;
       }
     } else {
       isBalanceError = false;
@@ -147,7 +151,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
     var swapRoutes = swapRoutesResponse.data as List<dynamic>;
     if (swapRoutes.isEmpty) {
-      buttonText = "No liquidity pool found";
+      buttonText = "没有该交易对";
       isPairsError = true;
       setState(() {});
       return;
@@ -171,9 +175,11 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           print(tokenBParseUnits);
           if (double.parse(tokenAParseUnits) == 0 || double.parse(tokenBParseUnits) == 0) {
             isPairsError = true;
-            buttonText = "No liquidity pool found";
+            buttonText = "没有该交易对";
             tokenRate = "0";
           } else {
+            maxSellAmount = double.parse(tokenAParseUnits) * 0.05;
+
             tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
             isPairsError = false;
           }
@@ -184,7 +190,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       }
     }
     isPairsError = true;
-    buttonText = "No liquidity pool found";
+    buttonText = "没有该交易对";
 
     setState(() {});
   }
@@ -229,7 +235,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       sellTokenAmount = AmountDecimal.parseDecimal(balance);
       if (sellTokenAmount == "0.0") {
         isBalanceError = true;
-        buttonText = "Balance error";
+        buttonText = "余额太少";
       }
 
       setState(() {});
@@ -270,7 +276,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         }
       };
       var channelJson = json.encode(params);
-      showChainLoading("Exchange in progress...");
+      showChainLoading("兑换进行中...");
       setState(() {});
       BoxApp.sdkChannelCall((result) {
         dismissChainLoading();
@@ -287,17 +293,28 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
-        showConfirmDialog("Success", "Swap tokens success!");
-        sellTextControllerNode.text = "";
-        buyTextControllerNode.text = "";
-        buyTokenAmount = "";
-        sellTokenAmount = "";
-        setState(() {});
-        updateBuyAmount();
-        updateSellAmount();
+        var swapReturn = jsonResponse["result"]["result"]["decodedResult"];
+        print(swapReturn);
+        var tokenReturnAmountA = AmountDecimal.parseUnits(swapReturn[0], 18);
+        var tokenReturnAmountB = AmountDecimal.parseUnits(swapReturn[1], 18);
+        print(tokenReturnAmountA);
+        print(tokenReturnAmountB);
+
+        swapSucess(tokenReturnAmountA, tokenReturnAmountB);
         return;
       }, channelJson);
     });
+  }
+
+  void swapSucess(String tokenReturnAmountA, String tokenReturnAmountB) {
+    showFlushSucess(context, title: "兑换成功", message: "成功使用$tokenReturnAmountA$sellTokenName兑换$tokenReturnAmountB$buyTokenName", isDismiss: false);
+    sellTextControllerNode.text = "";
+    buyTextControllerNode.text = "";
+    buyTokenAmount = "";
+    sellTokenAmount = "";
+    setState(() {});
+    updateBuyAmount();
+    updateSellAmount();
   }
 
   Future<void> aeDexSwapExactTokensForAe() async {
@@ -333,10 +350,10 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         }
       };
       var channelJson = json.encode(params);
-      showChainLoading("Exchange in progress...");
+      showChainLoading("兑换进行中...");
       setState(() {});
       BoxApp.sdkChannelCall((result) {
-        navigatorKey.currentState!.pop();
+        dismissChainLoading();
 
         if (!mounted) return;
         final jsonResponse = json.decode(result);
@@ -350,14 +367,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
-        showConfirmDialog("Success", "Swap tokens success!");
-        sellTextControllerNode.text = "";
-        buyTextControllerNode.text = "";
-        buyTokenAmount = "";
-        sellTokenAmount = "";
-        setState(() {});
-        updateBuyAmount();
-        updateSellAmount();
+        var swapReturn = jsonResponse["result"]["result"]["decodedResult"];
+        print(swapReturn);
+        var tokenReturnAmountA = AmountDecimal.parseUnits(swapReturn[0], 18);
+        var tokenReturnAmountB = AmountDecimal.parseUnits(swapReturn[1], 18);
+        print(tokenReturnAmountA);
+        print(tokenReturnAmountB);
+        swapSucess(tokenReturnAmountA, tokenReturnAmountB);
         return;
       }, channelJson);
     });
@@ -396,10 +412,10 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         }
       };
       var channelJson = json.encode(params);
-      showChainLoading("Exchange in progress...");
+      showChainLoading("兑换进行中...");
       setState(() {});
       BoxApp.sdkChannelCall((result) {
-        navigatorKey.currentState!.pop();
+        dismissChainLoading();
 
         if (!mounted) return;
         final jsonResponse = json.decode(result);
@@ -413,15 +429,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
-        showConfirmDialog("Success", "Swap tokens success!");
-        buyTokenAmount = "";
-        sellTokenAmount = "";
-
-        sellTextControllerNode.text = "";
-        buyTextControllerNode.text = "";
-        setState(() {});
-        updateBuyAmount();
-        updateSellAmount();
+        var swapReturn = jsonResponse["result"]["result"]["decodedResult"];
+        print(swapReturn);
+        var tokenReturnAmountA = AmountDecimal.parseUnits(swapReturn[0], 18);
+        var tokenReturnAmountB = AmountDecimal.parseUnits(swapReturn[1], 18);
+        print(tokenReturnAmountA);
+        print(tokenReturnAmountB);
+        swapSucess(tokenReturnAmountA, tokenReturnAmountB);
         return;
       }, channelJson);
     });
@@ -572,7 +586,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         children: [
                           Container(
                             child: Text(
-                              "Sell",
+                              "卖出",
                               style: new TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -593,7 +607,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                             Container(
                               height: 20,
                               child: Text(
-                                "Balance: " + sellTokenAmount,
+                                "价格: " + sellTokenAmount,
                                 style: new TextStyle(
                                   fontSize: 14,
                                   color: Color(0xff333333),
@@ -611,7 +625,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                               height: 20,
                               padding: EdgeInsets.only(left: 5, right: 5),
                               child: Text(
-                                "[MAX]",
+                                "[最大]",
                                 style: new TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFFFC2365),
@@ -637,7 +651,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   aeCount: AeHomePage.token,
                                   aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
                                     if (tokenContract == this.buyTokenAddress) {
-                                      showToast("You cannot switch the same token");
+                                      showToast("你不能兑换相同的积分");
                                       return;
                                     }
                                     this.sellTokenName = tokenName!;
@@ -646,7 +660,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.sellTokenAmount = "";
                                     this.sellTextControllerNode.text = "";
                                     this.buyTextControllerNode.text = "";
-                                    buttonText = "Loading...";
+                                    buttonText = "加载中...";
                                     isPairsError = true;
                                     setState(() {});
                                     updateSellAmount();
@@ -737,6 +751,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                    CustomTextFieldFormatter(digit: 6),
                                   ],
 
                                   textAlign: TextAlign.right,
@@ -813,7 +828,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
                               // this.buyTokenAmount = "";
                               // this.sellTokenAmount = "";
-                              buttonText = "Loading...";
+                              buttonText = "加载中...";
                               isPairsError = true;
                               setState(() {});
 
@@ -858,7 +873,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         children: [
                           Container(
                             child: Text(
-                              "Buy",
+                              "购买",
                               style: new TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -879,7 +894,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                             Container(
                               height: 20,
                               child: Text(
-                                "Balance: " + buyTokenAmount,
+                                "余额: " + buyTokenAmount,
                                 style: new TextStyle(
                                   fontSize: 14,
                                   color: Color(0xff333333),
@@ -904,7 +919,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   aeCount: AeHomePage.token,
                                   aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
                                     if (tokenContract == this.sellTokenAddress) {
-                                      showToast("You cannot switch the same token");
+                                      showToast("你不能兑换相同的积分");
                                       return;
                                     }
                                     this.buyTokenName = tokenName!;
@@ -915,7 +930,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.sellTextControllerNode.text = "";
                                     this.buyTextControllerNode.text = "";
 
-                                    buttonText = "Loading...";
+                                    buttonText = "加载中...";
                                     isPairsError = true;
                                     setState(() {});
                                     updateBuyAmount();
@@ -1007,6 +1022,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                    CustomTextFieldFormatter(digit: 6),
                                   ],
 
                                   textAlign: TextAlign.right,
@@ -1063,6 +1079,21 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         ],
                       ),
                     ),
+                    if (sellTextControllerNode.text.isNotEmpty)
+                      Container(
+                        height: 20,
+                        margin: const EdgeInsets.only(left: 18, right: 18),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "滑点保护后最低将获得: " + AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString()) + buyTokenName,
+                          style: new TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff333333),
+                            //                                            fontWeight: FontWeight.w600,
+                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          ),
+                        ),
+                      ),
                     if (isPairsError || isBalanceError)
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
@@ -1121,7 +1152,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Confirm",
+                                          "开始兑换",
                                           maxLines: 1,
                                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                                         ),
@@ -1144,7 +1175,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                               children: <Widget>[
                                 Container(
                                   child: Text(
-                                    "Price",
+                                    "价格",
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
@@ -1181,7 +1212,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                               children: <Widget>[
                                 Container(
                                   child: Text(
-                                    "Slippage",
+                                    "滑点保护",
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
@@ -1236,7 +1267,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                               children: <Widget>[
                                 Container(
                                   child: Text(
-                                    "Deadline",
+                                    "交易截止期限",
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
@@ -1249,7 +1280,62 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   child: Row(
                                     children: [
                                       Text(
-                                        "30 minutes",
+                                        "30分钟",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      ),
+                                      // Container(
+                                      //   child: TextButton(
+                                      //     style: ButtonStyle(
+                                      //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                      //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
+                                      //         visualDensity: VisualDensity.compact,
+                                      //         padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                      //         backgroundColor: MaterialStateProperty.all(
+                                      //           Color(0xFFE61665).withAlpha(16),
+                                      //         )),
+                                      //     onPressed: () {},
+                                      //     child: Container(
+                                      //       child: Text(
+                                      //         "5%",
+                                      //         maxLines: 1,
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    "单次最大可兑换",
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff666666),
+                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    ),
+                                  ),
+                                ),
+                                Expanded(child: Container()),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        AmountDecimal.parseDecimal(maxSellAmount.toString()) + sellTokenName,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                       ),

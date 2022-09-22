@@ -680,7 +680,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 8),
+                        margin: const EdgeInsets.only(top: 4),
                         child: Text(
                           BoxApp.language == "cn" ? homeFunctionInfo[position]["cn_name"] : homeFunctionInfo[position]["en_name"],
                           textAlign: TextAlign.center,
