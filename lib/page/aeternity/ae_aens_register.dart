@@ -1,26 +1,33 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/aens_info_dao.dart';
+import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/aens_info_model.dart';
+import 'package:box/model/aeternity/name_owner_model.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 
-class AeAensRegister extends StatefulWidget {
+class AeAensRegister extends BaseWidget {
   @override
   _AeAensRegisterState createState() => _AeAensRegisterState();
 }
 
-class _AeAensRegisterState extends State<AeAensRegister> {
+class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
   late Flushbar flush;
   int price = 0;
   TextEditingController _textEditingController = TextEditingController();
@@ -90,7 +97,27 @@ class _AeAensRegisterState extends State<AeAensRegister> {
       if (length == 13) {
         price = 3;
       }
-
+      if (length == 14) {
+        price = 2;
+      }
+      if (length == 15) {
+        price = 1;
+      }
+      if (length == 16) {
+        price = 1;
+      }
+      if (length == 17) {
+        price = 1;
+      }
+      if (length == 18) {
+        price = 1;
+      }
+      if (length == 19) {
+        price = 1;
+      }
+      if (length == 29) {
+        price = 1;
+      }
       if (price == 0) {
         textClaim = S.of(context).aens_register_page_create;
         setState(() {});
@@ -121,7 +148,8 @@ class _AeAensRegisterState extends State<AeAensRegister> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ), systemOverlayStyle: SystemUiOverlayStyle.light,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -208,7 +236,7 @@ class _AeAensRegisterState extends State<AeAensRegister> {
                                         //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9]")), //只允许输入字母
                                       ],
                                       maxLines: 1,
-                                      maxLength: 13,
+                                      maxLength: 20,
                                       style: TextStyle(
                                         fontSize: 19,
                                         color: Colors.black,
@@ -399,223 +427,43 @@ class _AeAensRegisterState extends State<AeAensRegister> {
       return;
     }
     var name = _textEditingController.text + ".chain";
-    AensInfoDao.fetch(name).then((AensInfoModel model) {
-      if (model.code == 200 && model.data!.currentHeight! < model.data!.overHeight!) {
-        Fluttertoast.showToast(msg: S.of(context).msg_name_already, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-      } else if (model.code == 201) {
-        showGeneralDialog(
-            useRootNavigator: false,
-            context: context,
-            // ignore: missing_return
-            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-            //barrierColor: Colors.grey.withOpacity(.4),
-            barrierDismissible: true,
-            barrierLabel: "",
-            transitionDuration: Duration(milliseconds: 0),
-            transitionBuilder: (_, anim1, anim2, child) {
-              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-              return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                    title: S.of(context).password_widget_input_password,
-                    dismissCallBackFuture: (String password) {
-                      return;
-                    },
-                    passwordCallBackFuture: (String password) async {
-                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                      var address = await BoxApp.getAddress();
-                      final key = Utils.generateMd5Int(password + address);
-                      var aesDecode = Utils.aesDecode(signingKey, key);
-
-                      if (aesDecode == "") {
-                        showErrorDialog(context, null);
-                        return;
-                      }
-                      // ignore: missing_return
-                      BoxApp.claimName(
-                          (tx) {
-                            showCopyHashDialog(context, tx);
-
-                            // ignore: missing_return
-                          } as Future<dynamic> Function(String), (error) {
-                        showErrorDialog(context, error);
-
-                        // ignore: missing_return
-                      }, aesDecode, address, name);
-                      showChainLoading();
-                    },
-                  ),
-                ),
-              );
-            });
-      } else {
-        showGeneralDialog(
-            useRootNavigator: false,
-            context: context,
-            // ignore: missing_return
-            pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-            //barrierColor: Colors.grey.withOpacity(.4),
-            barrierDismissible: true,
-            barrierLabel: "",
-            transitionDuration: Duration(milliseconds: 0),
-            transitionBuilder: (_, anim1, anim2, child) {
-              final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-              return Transform(
-                transform: Matrix4.translationValues(0.0, 0, 0.0),
-                child: Opacity(
-                  opacity: anim1.value,
-                  // ignore: missing_return
-                  child: PayPasswordWidget(
-                    title: S.of(context).password_widget_input_password,
-                    dismissCallBackFuture: (String password) {
-                      return;
-                    },
-                    passwordCallBackFuture: (String password) async {
-                      var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                      var address = await BoxApp.getAddress();
-                      final key = Utils.generateMd5Int(password + address);
-                      var aesDecode = Utils.aesDecode(signingKey, key);
-
-                      if (aesDecode == "") {
-                        showErrorDialog(context, null);
-                        return;
-                      }
-                      // ignore: missing_return
-                      BoxApp.claimName(
-                          (tx) {
-                            showFlush(context);
-
-                            // ignore: missing_return
-                          } as Future<dynamic> Function(String), (error) {
-                        showErrorDialog(context, error);
-
-                        // ignore: missing_return
-                      }, aesDecode, address, name);
-                      showChainLoading();
-                    },
-                  ),
-                ),
-              );
-            });
-      }
+    EasyLoading.show();
+    NameOwnerDao.fetch(name).then((NameOwnerModel model) {
+      EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: S.of(context).msg_name_already, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
-  }
-
-  void showChainLoading() {
-    showGeneralDialog(
-        useRootNavigator: false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget("");
-        });
-  }
-
-  void showFlush(BuildContext context) {
-    flush = Flushbar<bool>(
-      title: S.of(context).hint_broadcast_sucess,
-      message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
-      blockBackgroundInteraction: true,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      //                        flushbarStyle: FlushbarStyle.GROUNDED,
-
-      mainButton: FlatButton(
-        onPressed: () {
-          flush.dismiss(true); // result = true
-        },
-        child: Text(
-          S.of(context).dialog_conform,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Color(0x88000000),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-    )..show(context).then((result) {
-        Navigator.pop(context);
+      EasyLoading.dismiss();
+      showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+        if (!mounted) return;
+        Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+        var params = {
+          "name": "aeAensClaim",
+          "params": {"secretKey": "$privateKey", "name": "$name"}
+        };
+        var channelJson = json.encode(params);
+        showChainLoading("Claim AENS...");
+        BoxApp.sdkChannelCall((result) {
+          dismissChainLoading();
+          if (!mounted) return;
+          final jsonResponse = json.decode(result);
+          if (jsonResponse["name"] != params['name']) {
+            return;
+          }
+          var code = jsonResponse["code"];
+          if (code != 200) {
+            var message = jsonResponse["message"];
+            showConfirmDialog(S.of(context).dialog_hint, message);
+            return;
+          }
+          var hash = jsonResponse["result"]["hash"];
+          showCopyHashDialog(context, hash, (val) async {
+            showFlushSucess(context);
+          });
+          setState(() {});
+          return;
+        }, channelJson);
       });
-  }
-
-  void showErrorDialog(BuildContext buildContext, String? content) {
-    if (content == null) {
-      content = S.of(buildContext).dialog_hint_check_error_content;
-    }
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content!),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_conform,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
-
-  void showCopyHashDialog(BuildContext buildContext, String tx) {
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.current.dialog_hint_hash),
-          content: Text(tx),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_copy,
-              ),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(true);
-              },
-            ),
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_dismiss,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext, rootNavigator: true).pop(false);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {
-      if (val!) {
-        Clipboard.setData(ClipboardData(text: tx));
-        showFlush(context);
-      } else {
-        showFlush(context);
-      }
     });
+    return;
   }
 }

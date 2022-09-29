@@ -22,6 +22,7 @@ import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AeAensDetailPage extends BaseWidget {
@@ -73,18 +74,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     }).catchError((e) {});
     return;
   }
-
-  // void netAensInfo() {
-  //   AensInfoDao.fetch( widget.aensDetail['name']).then((AensInfoModel model) {
-  //     _aensInfoModel = model;
-  //     _loadingType = LoadingType.finish;
-  //     netAensPoint();
-  //     setState(() {});
-  //   }).catchError((e) {
-  //     _loadingType = LoadingType.error;
-  //     setState(() {});
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,18 +159,20 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         onPressedError: () {
           // netAensInfo();
         },
-        child: Column(
-          children: <Widget>[
-            buildItem(S.of(context).aens_detail_page_name, widget.aensDetail['name']),
-            buildItem("TxHash", widget.aensDetail['hash']),
-            buildItem(S.of(context).aens_detail_page_balance + "(ae)", widget.aensDetail['price']),
-            buildItem(S.of(context).aens_detail_page_height, widget.aensDetail['endHeight'].toString()),
-            buildItem(getTypeKey(), getTypeValue()),
-            buildItem(S.of(context).aens_detail_page_owner, widget.aensDetail['owner']),
-            buildItem(S.of(context).name_point, accountPubkey!),
-            buildBtnAdd(context),
-            buildBtnUpdate(context),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              buildItem(S.of(context).aens_detail_page_name, widget.aensDetail['name']),
+              buildItem("TxHash", widget.aensDetail['hash']),
+              buildItem(S.of(context).aens_detail_page_balance + "(ae)", widget.aensDetail['price']),
+              buildItem(S.of(context).aens_detail_page_height, widget.aensDetail['endHeight'].toString()),
+              buildItem(getTypeKey(), getTypeValue()),
+              buildItem(S.of(context).aens_detail_page_owner, widget.aensDetail['owner']),
+              buildItem(S.of(context).name_point, accountPubkey!),
+              buildBtnAdd(context),
+              buildBtnUpdate(context),
+            ],
+          ),
         ),
       ),
     );
@@ -276,6 +267,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         if (jsonResponse["name"] != params['name']) {
           return;
         }
+        var code = jsonResponse["code"];
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
         var hash = jsonResponse["result"]["hash"];
         showCopyHashDialog(context, hash, (val) async {
           showFlushSucess(context);
@@ -287,62 +284,49 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   }
 
   Future<void> netPreclaimV2(BuildContext context) async {
-    showPasswordDialog(context, (address, privateKey, mnemonicn, password) async {
-      BoxApp.bidName((tx) async {
-        showCopyHashDialog(context, tx, (val) async {
-          showFlushSucess(context);
-        });
-      }, (error) {
-        showConfirmDialog(S.of(context).dialog_hint, error);
-        return;
-      }, privateKey, address, widget.aensDetail['name'], accountPubkey == "" ? AeHomePage.address! : accountPubkey!);
-      showChainLoading("");
+    var name = widget.aensDetail['name'];
+    if (double.parse(AeHomePage.token) < (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.1)) {
+      Fluttertoast.showToast(msg: "钱包余额不足", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }
+    EasyLoading.show();
+    NameOwnerDao.fetch(name).then((NameOwnerModel model) {
+      EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: S.of(context).msg_name_already, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+    }).catchError((e) {
+      EasyLoading.dismiss();
+      showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+        if (!mounted) return;
+        Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+        var params = {
+          "name": "aeAensClaim",
+          "params": {"secretKey": "$privateKey", "name": "$name"}
+        };
+        var channelJson = json.encode(params);
+        showChainLoading("Claim AENS...");
+        BoxApp.sdkChannelCall((result) {
+          dismissChainLoading();
+          if (!mounted) return;
+          final jsonResponse = json.decode(result);
+          if (jsonResponse["name"] != params['name']) {
+            return;
+          }
+          var code = jsonResponse["code"];
+          if (code != 200) {
+            var message = jsonResponse["message"];
+            showConfirmDialog(S.of(context).dialog_hint, message);
+            return;
+          }
+          var hash = jsonResponse["result"]["hash"];
+          showCopyHashDialog(context, hash, (val) async {
+            showFlushSucess(context);
+          });
+          setState(() {});
+          return;
+        }, channelJson);
+      });
     });
-    // showGeneralDialog(
-    //     useRootNavigator: false,
-    //     context: context,
-    //     // ignore: missing_return
-    //     pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-    //     //barrierColor: Colors.grey.withOpacity(.4),
-    //     barrierDismissible: true,
-    //     barrierLabel: "",
-    //     transitionDuration: Duration(milliseconds: 0),
-    //     transitionBuilder: (_, anim1, anim2, child) {
-    //       final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-    //       return Transform(
-    //         transform: Matrix4.translationValues(0.0, 0, 0.0),
-    //         child: Opacity(
-    //           opacity: anim1.value,
-    //           // ignore: missing_return
-    //           child: PayPasswordWidget(
-    //             title: S.of(context).password_widget_input_password,
-    //             dismissCallBackFuture: (String password) {
-    //               return;
-    //             },
-    //             passwordCallBackFuture: (String password) async {
-    //               var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-    //               var address = await BoxApp.getAddress();
-    //               final key = Utils.generateMd5Int(password + address);
-    //               var aesDecode = Utils.aesDecode(signingKey, key);
-    //
-    //               if (aesDecode == "") {
-    //                 showErrorDialog(context, null);
-    //                 return;
-    //               }
-    //               // ignore: missing_return
-    //               BoxApp.bidName(
-    //                   (tx) {
-    //                     showCopyHashDialog(context, tx);
-    //                   } as Future<dynamic> Function(String), (error) {
-    //                 showErrorDialog(context, error);
-    //                 return;
-    //               }, aesDecode, address, _aensInfoModel.data!.name!, (double.parse(_aensInfoModel.data!.currentPrice!) + double.parse(_aensInfoModel.data!.currentPrice!) * 0.1).toString());
-    //               showChainLoading();
-    //             },
-    //           ),
-    //         ),
-    //       );
-    //     });
+    return;
   }
 
   void showFlush(BuildContext context) {

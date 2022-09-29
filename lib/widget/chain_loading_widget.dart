@@ -49,7 +49,8 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
             bottom: 0,
             left: 0,
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(18),
+              width: MediaQuery.of(context).size.width - 36,
               height: MediaQuery.of(context).size.height / 3,
 //          margin: EdgeInsets.only(top: 200),
               decoration: ShapeDecoration(
@@ -58,6 +59,8 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(18.0),
                     topRight: Radius.circular(18.0),
+                    bottomLeft: Radius.circular(18.0),
+                    bottomRight: Radius.circular(18.0),
                   ),
                 ),
               ),

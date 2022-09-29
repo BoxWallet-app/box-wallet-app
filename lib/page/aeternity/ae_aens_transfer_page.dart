@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -60,7 +63,8 @@ class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ), systemOverlayStyle: SystemUiOverlayStyle.light,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -218,20 +222,51 @@ class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
         ));
   }
 
-
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();
-    showPasswordDialog(context, (address, privateKey,mnemonic,  password) async {
-      BoxApp.transferName((tx) async {
-        showCopyHashDialog(context, tx, (val) async {
+    // showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+    //   BoxApp.transferName((tx) async {
+    //     showCopyHashDialog(context, tx, (val) async {
+    //       showFlushSucess(context);
+    //     });
+    //   }, (error) {
+    //     showConfirmDialog(S.of(context).dialog_hint, error);
+    //     return;
+    //   }, privateKey, address, widget.name!, _textEditingController.text);
+    //   showChainLoading("");
+    // });
+
+    var name = widget.name!;
+    var recipient = _textEditingController.text!;
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var params = {
+        "name": "aeAensTransfer",
+        "params": {"secretKey": "$privateKey", "name": "$name", "recipient": recipient}
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Transfer AENS...");
+      BoxApp.sdkChannelCall((result) {
+        dismissChainLoading();
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        var hash = jsonResponse["result"]["hash"];
+        showCopyHashDialog(context, hash, (val) async {
           showFlushSucess(context);
         });
-      }, (error) {
-        showConfirmDialog(S.of(context).dialog_hint, error);
+        setState(() {});
         return;
-      }, privateKey, address, widget.name!, _textEditingController.text);
-      showChainLoading("");
+      }, channelJson);
     });
   }
-
 }

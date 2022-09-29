@@ -43,7 +43,6 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
 
   Future<void> netData() async {
     try {
-
       setState(() {});
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       AeHomePage.address = account!.address;
@@ -57,10 +56,10 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
         aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-over.json");
       }
       if (widget.aensPageType == AensPageType.my_auction) {
-        aensResponse = await Dio().get("http://127.0.0.1:49347/aens/my/activity?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("http://127.0.0.1:64879/aens/my/activity?address=" + AeHomePage.address!);
       }
       if (widget.aensPageType == AensPageType.my_over) {
-        aensResponse = await Dio().get("http://127.0.0.1:49347/aens/my/over?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("http://127.0.0.1:64879/aens/my/over?address=" + AeHomePage.address!);
       }
 
       print(aensResponse.toString());

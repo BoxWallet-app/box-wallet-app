@@ -52,13 +52,17 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
   String buttonText = "加载中...";
 
-  bool isPairsError = false;
-  bool isBalanceError = false;
+  bool isPairsLoading = true;
+  bool isBalanceLoading = false;
+  bool isAllowanceLoading = true;
 
   var tokenAParseUnits = "";
   var tokenBParseUnits = "";
 
   var maxSellAmount = 0.0;
+
+  //0没有授权,1已授权
+  var typeAllowance = 0;
 
   late Timer timer;
   @override
@@ -67,6 +71,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     updateSellAmount();
     netBuyContractBalance();
     netSwapRoutes();
+    aeAex9TokenAllowance();
     timer = Timer.periodic(Duration(milliseconds: 10000), (timer) {
       netSwapRoutes();
     });
@@ -74,12 +79,14 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       if (!sellFocusNode.hasFocus) {
         return;
       }
+
       sellTextUpdateBuyAmount();
     });
     buyTextControllerNode.addListener(() {
       if (!buyFocusNode.hasFocus) {
         return;
       }
+
       buyTextUpdateSellAmount();
     });
   }
@@ -87,7 +94,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
   sellTextUpdateBuyAmount() {
     var sellAmount = sellTextControllerNode.text;
     if (sellAmount.isEmpty) {
-      isBalanceError = false;
+      isBalanceLoading = false;
       buyTextControllerNode.text = "";
       setState(() {});
       return;
@@ -100,13 +107,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     if (tokenAParseUnits.isNotEmpty) {
       logger.info(maxSellAmount);
       if (double.parse(sellAmount) > maxSellAmount) {
-        isBalanceError = true;
+        isBalanceLoading = true;
         buttonText = "流动性不足";
       } else {
-        isBalanceError = false;
+        isBalanceLoading = false;
       }
     } else {
-      isBalanceError = false;
+      isBalanceLoading = false;
     }
     setState(() {});
 
@@ -152,7 +159,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     var swapRoutes = swapRoutesResponse.data as List<dynamic>;
     if (swapRoutes.isEmpty) {
       buttonText = "没有该交易对";
-      isPairsError = true;
+      isPairsLoading = true;
       setState(() {});
       return;
     }
@@ -174,14 +181,14 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           print(tokenAParseUnits);
           print(tokenBParseUnits);
           if (double.parse(tokenAParseUnits) == 0 || double.parse(tokenBParseUnits) == 0) {
-            isPairsError = true;
+            isPairsLoading = true;
             buttonText = "没有该交易对";
             tokenRate = "0";
           } else {
             maxSellAmount = double.parse(tokenAParseUnits) * 0.05;
 
             tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
-            isPairsError = false;
+            isPairsLoading = false;
           }
 
           setState(() {});
@@ -189,7 +196,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         }
       }
     }
-    isPairsError = true;
+    isPairsLoading = true;
     buttonText = "没有该交易对";
 
     setState(() {});
@@ -234,7 +241,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       var balance = jsonResponse["result"]["balance"];
       sellTokenAmount = AmountDecimal.parseDecimal(balance);
       if (sellTokenAmount == "0.0") {
-        isBalanceError = true;
+        isBalanceLoading = true;
         buttonText = "余额太少";
       }
 
@@ -253,7 +260,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var amountAe = sellTextControllerNode.text;
-      var amountOutTokenMin = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+      var amountOutTokenMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -327,7 +334,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var sellAmount = sellTextControllerNode.text;
-      var amountOutAeMin = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+      var amountOutAeMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -389,7 +396,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var sellAmount = sellTextControllerNode.text;
-      var buyAmount = (double.parse(buyTextControllerNode.text) * 0.95).toString();
+      var buyAmount = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -441,6 +448,38 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     });
   }
 
+  Future<void> aeAex9TokenCreateAllowance() async {
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      if (!mounted) return;
+
+      var params = {
+        "name": "aeAex9TokenCreateAllowance",
+        "params": {"secretKey": "$privateKey", "ctAddress": "$sellTokenAddress", "forAddress": "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3", "amount": "1000000000000000"}
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("正在授权...");
+      setState(() {});
+      BoxApp.sdkChannelCall((result) {
+        dismissChainLoading();
+
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        aeAex9TokenAllowance();
+        return;
+      }, channelJson);
+    });
+  }
+
   Future<void> netSellContractBalance() async {
     if (!mounted) return;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
@@ -474,6 +513,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
       }
 
       setState(() {});
+
       return;
     }, channelJson);
   }
@@ -532,8 +572,50 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     }, channelJson);
   }
 
+  Future<void> aeAex9TokenAllowance() async {
+    if (sellTokenAddress.isEmpty) {
+      isAllowanceLoading = false;
+      typeAllowance = 1;
+      setState(() {});
+      return;
+    }
+    isAllowanceLoading = true;
+    typeAllowance = 0;
+    setState(() {});
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+
+    var params = {
+      "name": "aeAex9TokenAllowance",
+      "params": {"ctAddress": sellTokenAddress, "address": account!.address, "forAddress": "ct_azbNZ1XrPjXfqBqbAh1ffLNTQ1sbnuUDFvJrXjYz7JQA1saQ3"}
+    };
+
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      isAllowanceLoading = false;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var currentAllowance = jsonResponse["result"]["currentAllowance"];
+      if (double.parse(currentAllowance) >= 1000000000) {
+        typeAllowance = 1;
+      } else {
+        typeAllowance = 0;
+      }
+      print(currentAllowance);
+
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
   @override
   Widget build(BuildContext context) {
+    logger.info(isPairsLoading);
+    logger.info(isBalanceLoading);
+    logger.info(isAllowanceLoading);
     return Scaffold(
       backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
@@ -549,7 +631,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "SuperHero DEX",
+          "积分兑换",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -564,7 +646,12 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           tokenRate = "";
           sellTokenAmount = "";
           buyTokenAmount = "";
+          isPairsLoading = true;
+          isBalanceLoading = false;
+          isAllowanceLoading = true;
+          setState(() {});
           await netSwapRoutes();
+          await aeAex9TokenAllowance();
           await updateBuyAmount();
           await updateSellAmount();
         },
@@ -661,8 +748,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.sellTextControllerNode.text = "";
                                     this.buyTextControllerNode.text = "";
                                     buttonText = "加载中...";
-                                    isPairsError = true;
+                                    isPairsLoading = true;
                                     setState(() {});
+                                    aeAex9TokenAllowance();
                                     updateSellAmount();
                                     tokenRate = "";
                                     setState(() {});
@@ -829,9 +917,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                               // this.buyTokenAmount = "";
                               // this.sellTokenAmount = "";
                               buttonText = "加载中...";
-                              isPairsError = true;
+                              isPairsLoading = true;
                               setState(() {});
-
+                              aeAex9TokenAllowance();
                               updateBuyAmount();
                               updateSellAmount();
                               tokenRate = "";
@@ -931,8 +1019,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     this.buyTextControllerNode.text = "";
 
                                     buttonText = "加载中...";
-                                    isPairsError = true;
+                                    isPairsLoading = true;
                                     setState(() {});
+
                                     updateBuyAmount();
                                     tokenRate = "";
                                     setState(() {});
@@ -1079,13 +1168,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         ],
                       ),
                     ),
-                    if (sellTextControllerNode.text.isNotEmpty)
+                    if (sellTextControllerNode.text.isNotEmpty && (!isPairsLoading && !isBalanceLoading && !isAllowanceLoading))
                       Container(
                         height: 20,
                         margin: const EdgeInsets.only(left: 18, right: 18),
                         alignment: Alignment.centerRight,
                         child: Text(
-                          "滑点保护后最低将获得: " + AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString()) + buyTokenName,
+                          getLowAmount(),
                           style: new TextStyle(
                             fontSize: 14,
                             color: Color(0xff333333),
@@ -1094,7 +1183,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ),
                         ),
                       ),
-                    if (isPairsError || isBalanceError)
+                    if (isPairsLoading | isBalanceLoading | isAllowanceLoading)
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
                         child: Row(
@@ -1124,7 +1213,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-                    if ((!isPairsError && !isBalanceError))
+                    if ((!isPairsLoading && !isBalanceLoading && !isAllowanceLoading))
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),
                         child: Row(
@@ -1136,14 +1225,18 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                 child: TextButton(
                                   style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                                   onPressed: () {
-                                    if (sellTokenAddress.isEmpty) {
-                                      aeDexSwapExactAeForTokens();
-                                    }
-                                    if (buyTokenAddress.isEmpty) {
-                                      aeDexSwapExactTokensForAe();
-                                    }
-                                    if (sellTokenAddress.isNotEmpty && buyTokenAddress.isNotEmpty) {
-                                      aeDexSwapExactTokensForTokens();
+                                    if (typeAllowance == 1) {
+                                      if (sellTokenAddress.isEmpty) {
+                                        aeDexSwapExactAeForTokens();
+                                      }
+                                      if (buyTokenAddress.isEmpty) {
+                                        aeDexSwapExactTokensForAe();
+                                      }
+                                      if (sellTokenAddress.isNotEmpty && buyTokenAddress.isNotEmpty) {
+                                        aeDexSwapExactTokensForTokens();
+                                      }
+                                    } else {
+                                      aeAex9TokenCreateAllowance();
                                     }
                                   },
                                   child: Container(
@@ -1152,7 +1245,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "开始兑换",
+                                          typeAllowance == 1 ? "开始兑换" : "授权",
                                           maxLines: 1,
                                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
                                         ),
@@ -1414,6 +1507,14 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         ),
       ),
     );
+  }
+
+  String getLowAmount() {
+    print(buyTextControllerNode.text);
+    if (buyTextControllerNode.text.isEmpty) {
+      return "";
+    }
+    return "滑点保护后最低将获得: " + AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString()) + buyTokenName;
   }
 
   @override
