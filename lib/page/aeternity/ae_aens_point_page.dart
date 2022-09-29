@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/wallet_coins_manager.dart';
+import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -16,7 +19,7 @@ import '../../main.dart';
 class AeAensPointPage extends BaseWidget {
   final String? name;
 
-  AeAensPointPage({Key? key, this.name}) ;
+  AeAensPointPage({Key? key, this.name});
 
   @override
   _AeAensPointPageState createState() => _AeAensPointPageState();
@@ -29,16 +32,11 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _textEditingController.addListener(() {
       if (_textEditingController.text.contains("ak_")) {
         return;
       }
-//      if(_textEditingController.text.contains(".c")){
-//        return;
-//      }
-//      _textEditingController.text = _textEditingController.text+".chain";
     });
   }
 
@@ -60,7 +58,8 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ), systemOverlayStyle: SystemUiOverlayStyle.light,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -118,14 +117,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
                                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-//                                    BoxShadow(
-//                                        color: Colors.black12,
-//                                        offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-//                                        blurRadius: 15.0, //阴影模糊程度
-//                                        spreadRadius: 1.0 //阴影扩散程度
-//                                        )
-                                  ]
+                                  boxShadow: []
                                   //设置四周边框
                                   ),
                               child: Column(
@@ -221,17 +213,37 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();
 
+    var name = widget.name!;
+    var pointAddress = _textEditingController.text;
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
-      BoxApp.updateName((tx) async {
-        showCopyHashDialog(context, tx, (val) async {
+      if (!mounted) return;
+      Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+      var params = {
+        "name": "aeAensUpdate",
+        "params": {"secretKey": "$privateKey", "name": "$name", "address": pointAddress}
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Update AENS...");
+      BoxApp.sdkChannelCall((result) {
+        dismissChainLoading();
+        if (!mounted) return;
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+        if (code != 200) {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+          return;
+        }
+        var hash = jsonResponse["result"]["hash"];
+        showCopyHashDialog(context, hash, (val) async {
           showFlushSucess(context);
         });
-      }, (error) {
-        showConfirmDialog(S.of(context).dialog_hint, error);
+        setState(() {});
         return;
-      }, privateKey, address, widget.name!, _textEditingController.text);
-      showChainLoading("");
+      }, channelJson);
     });
   }
-
 }

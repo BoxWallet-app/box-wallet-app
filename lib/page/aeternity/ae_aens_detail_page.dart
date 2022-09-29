@@ -256,7 +256,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       var params = {
         "name": "aeAensUpdate",
-        "params": {"secretKey": "$privateKey", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "name": "$name", "address": address}
       };
       var channelJson = json.encode(params);
       showChainLoading("Update AENS...");

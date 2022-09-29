@@ -62,7 +62,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                   icon: Text(
                 S.of(context).aens_my_page_title_tab_1,
                 style: TextStyle(
-                  color: Color(0xFF666666),
+                  color: Color(0xFF333333),
                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               )),
@@ -70,7 +70,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                   icon: Text(
                 S.of(context).aens_my_page_title_tab_2,
                 style: TextStyle(
-                  color: Color(0xFF666666),
+                  color: Color(0xFF333333),
                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                 ),
               )),

@@ -56,10 +56,10 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
         aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-over.json");
       }
       if (widget.aensPageType == AensPageType.my_auction) {
-        aensResponse = await Dio().get("http://127.0.0.1:64879/aens/my/activity?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("http://127.0.0.1:56314/aens/my/activity?address=" + AeHomePage.address!);
       }
       if (widget.aensPageType == AensPageType.my_over) {
-        aensResponse = await Dio().get("http://127.0.0.1:64879/aens/my/over?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("http://127.0.0.1:56314/aens/my/over?address=" + AeHomePage.address!);
       }
 
       print(aensResponse.toString());
@@ -83,38 +83,6 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
       setState(() {});
       return;
     }
-
-    // AensPageDao.fetch(widget.aensPageType, page).then((AensPageModel model) {
-    //   if (!mounted) {
-    //     return;
-    //   }
-    //   _loadingType = LoadingType.finish;
-    //   if (model.code == 200) {
-    //     if (page == 1) {
-    //       _aensPageModel = model;
-    //     } else {
-    //       _aensPageModel!.data!.addAll(model.data!);
-    //     }
-    //   }
-    //   if (_aensPageModel!.data!.length == 0) {
-    //     _loadingType = LoadingType.no_data;
-    //   }
-    //   page++;
-    //   _controller.finishRefresh();
-    //   _controller.finishLoad();
-    //   if (model.data!.length < 20) {
-    //     _controller.finishLoad(noMore: true);
-    //   }
-    //   setState(() {});
-    // }).catchError((e) {
-    //   if (page == 1 && (_aensPageModel == null || _aensPageModel!.data == null)) {
-    //     setState(() {
-    //       _loadingType = LoadingType.error;
-    //     });
-    //   } else {
-    //     Fluttertoast.showToast(msg: "error", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    //   }
-    // });
   }
 
   @override

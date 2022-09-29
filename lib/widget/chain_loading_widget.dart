@@ -46,10 +46,10 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
       child: Stack(
         children: [
           Positioned(
-            bottom: 0,
+            bottom: MediaQuery.of(context).padding.bottom,
             left: 0,
             child: Container(
-              margin: EdgeInsets.all(18),
+              margin: EdgeInsets.only(left: 18, right: 18, bottom: MediaQuery.of(context).padding.bottom > 0 ? 0 : 18),
               width: MediaQuery.of(context).size.width - 36,
               height: MediaQuery.of(context).size.height / 3,
 //          margin: EdgeInsets.only(top: 200),
@@ -57,10 +57,10 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                 color: Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(18.0),
-                    topRight: Radius.circular(18.0),
-                    bottomLeft: Radius.circular(18.0),
-                    bottomRight: Radius.circular(18.0),
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
                   ),
                 ),
               ),
@@ -72,18 +72,18 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                       width: 70,
                       height: 70,
                       child: Lottie.asset(
-                        'images/loading.json',
+                        'images/chain_loading.json',
                         controller: _controller,
                         onLoaded: (composition) {
                           _controller!
-                            ..duration = Duration(milliseconds: 1000)
+                            ..duration = Duration(milliseconds: 3000)
                             ..repeat();
                         },
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 5, bottom: 18),
+                    margin: EdgeInsets.only(top: 30, bottom: 18),
                     child: Text(
                       widget.content,
                       style: TextStyle(

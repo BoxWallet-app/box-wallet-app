@@ -76,17 +76,17 @@ class _AeAensPageState extends State<AeAensPage> {
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_1,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_2,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_3,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
                 )),
               ],
             ),

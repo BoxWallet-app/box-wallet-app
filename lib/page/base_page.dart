@@ -274,14 +274,14 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
         color: Colors.white,
       ),
       flushbarPosition: FlushbarPosition.BOTTOM,
-      margin: EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(8),
+      margin: EdgeInsets.all(18),
+      borderRadius: BorderRadius.circular(18),
       boxShadows: [
-        BoxShadow(
-          color: Colors.black.withAlpha(80),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 13.0,
-        )
+        // BoxShadow(
+        //   color: Colors.black.withAlpha(80),
+        //   offset: Offset(0.0, 2.0),
+        //   blurRadius: 30.0,
+        // )
       ],
     )..show(context).then((result) {
         if (isDismiss) Navigator.pop(context);

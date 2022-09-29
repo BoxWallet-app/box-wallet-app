@@ -224,20 +224,8 @@ class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
 
   Future<void> netUpdateV2(BuildContext context) async {
     _focus.unfocus();
-    // showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
-    //   BoxApp.transferName((tx) async {
-    //     showCopyHashDialog(context, tx, (val) async {
-    //       showFlushSucess(context);
-    //     });
-    //   }, (error) {
-    //     showConfirmDialog(S.of(context).dialog_hint, error);
-    //     return;
-    //   }, privateKey, address, widget.name!, _textEditingController.text);
-    //   showChainLoading("");
-    // });
-
     var name = widget.name!;
-    var recipient = _textEditingController.text!;
+    var recipient = _textEditingController.text;
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       if (!mounted) return;
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
