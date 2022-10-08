@@ -24,6 +24,7 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
 import 'package:box/page/aeternity/ae_select_token_list_page.dart';
+import 'package:box/page/aeternity/ae_vegas_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
@@ -45,6 +46,7 @@ import 'ae_token_list_page.dart';
 import 'ae_token_receive_page.dart';
 import 'ae_token_send_one_page.dart';
 import 'ae_tx_detail_page.dart';
+import 'ae_vegas_page_detail.dart';
 
 class AeHomePage extends StatefulWidget {
   static var token = "loading...";
@@ -656,6 +658,11 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                   }
                   if (event == "Swap") {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AeSwapPage()));
+                    return;
+                  }
+                  if (event == "Vegas") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasPage()));
                     return;
                   }
                   // if (homeFunctionInfo["function" == "spend"]) {}

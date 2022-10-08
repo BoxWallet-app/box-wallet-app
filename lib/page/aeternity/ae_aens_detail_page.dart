@@ -259,10 +259,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         "params": {"secretKey": "$privateKey", "name": "$name", "address": address}
       };
       var channelJson = json.encode(params);
-      showChainLoading("Update AENS...");
+      showChainLoading("正在更新AENS...");
       BoxApp.sdkChannelCall((result) {
-        dismissChainLoading();
         if (!mounted) return;
+        dismissChainLoading();
         final jsonResponse = json.decode(result);
         if (jsonResponse["name"] != params['name']) {
           return;
@@ -303,10 +303,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
           "params": {"secretKey": "$privateKey", "name": "$name"}
         };
         var channelJson = json.encode(params);
-        showChainLoading("Claim AENS...");
+        showChainLoading("正在注册...");
         BoxApp.sdkChannelCall((result) {
-          dismissChainLoading();
           if (!mounted) return;
+          dismissChainLoading();
           final jsonResponse = json.decode(result);
           if (jsonResponse["name"] != params['name']) {
             return;
@@ -327,37 +327,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       });
     });
     return;
-  }
-
-  void showFlush(BuildContext context) {
-    flush = Flushbar<bool>(
-      title: S.of(context).hint_broadcast_sucess,
-      message: S.of(context).hint_broadcast_sucess_hint,
-      backgroundGradient: LinearGradient(colors: [Color(0xFFFC2365), Color(0xFFFC2365)]),
-      backgroundColor: Color(0xFFFC2365),
-      blockBackgroundInteraction: true,
-      flushbarPosition: FlushbarPosition.BOTTOM,
-      //                        flushbarStyle: FlushbarStyle.GROUNDED,
-
-      mainButton: FlatButton(
-        onPressed: () {
-          flush.dismiss(true); // result = true
-        },
-        child: Text(
-          S.of(context).dialog_conform,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Color(0x88000000),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-    )..show(context).then((result) {
-        Navigator.pop(context);
-      });
   }
 
   Container buildBtnAdd(BuildContext context) {

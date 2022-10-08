@@ -9,6 +9,7 @@ import 'package:box/model/aeternity/token_record_model.dart';
 import 'package:box/page/aeternity/ae_token_receive_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';
 import 'package:box/page/base_page.dart';
+import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
@@ -81,7 +82,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
       if (!mounted) return;
       if (ctAddress != widget.ctId!) return;
 
-      count = balance;
+      count = AmountDecimal.parseDecimal(balance);
       // loadingType = LoadingType.finish;
       setState(() {});
 
@@ -225,7 +226,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                             ),
                                           )
                                         : Text(
-                                            double.parse(count!).toStringAsFixed(2),
+                                            count!,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
                                           ),

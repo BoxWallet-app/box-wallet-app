@@ -86,24 +86,60 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
     getAddress();
   }
 
-  void netContractBalance() {
-    ContractBalanceDao.fetch(widget.tokenContract).then((ContractBalanceModel model) {
-      if (model.code == 200) {
-        this.tokenCount = model.data!.balance;
-        setState(() {});
-      } else {}
-    }).catchError((e) {});
+  Future<void> netContractBalance() async {
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var params = {
+      "name": "aeAex9TokenBalance",
+      "params": {"ctAddress": widget.tokenContract, "address": account!.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      var address = jsonResponse["result"]["address"];
+      var ctAddress = jsonResponse["result"]["ctAddress"].toString();
+
+      if (!mounted) return;
+      if (ctAddress != widget.tokenContract!) return;
+
+      tokenCount = AmountDecimal.parseDecimal(balance);
+      // loadingType = LoadingType.finish;
+      setState(() {});
+
+      return;
+    }, channelJson);
   }
 
   Future<void> netAccountInfo() async {
-    Account account = await getCurrentAccount();
-    BoxApp.getBalanceAE((balance, decimal) async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+    //
+    var params = {
+      "name": "aeBalance",
+      "params": {"address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
       if (!mounted) return;
-      AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      var balance = jsonResponse["result"]["balance"];
+      AeHomePage.token = Utils.formatBalanceLength(double.parse(balance));
       CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
       setState(() {});
       return;
-    }, account.address!);
+    }, channelJson);
   }
 
   @override
@@ -583,10 +619,10 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
           "params": {"secretKey": privateKey, "receiveAddress": widget.address, "amount": amount, "payload": Utils.encodeBase64(note)}
         };
         var channelJson = json.encode(params);
-        isSpend = true;
-        setState(() {});
+        showChainLoading("转账中...");
         BoxApp.sdkChannelCall((result) {
           if (!mounted) return;
+          dismissChainLoading();
           isSpend = false;
           final jsonResponse = json.decode(result);
           if (jsonResponse["name"] != params['name']) {
@@ -613,10 +649,10 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
           "params": {"secretKey": privateKey, "toAddress": widget.address, "amount": amount, "ctAddress": tokenContract}
         };
         var channelJson = json.encode(params);
-        isSpend = true;
-        setState(() {});
+        showChainLoading("转账中...");
         BoxApp.sdkChannelCall((result) {
           if (!mounted) return;
+          dismissChainLoading();
           isSpend = false;
           final jsonResponse = json.decode(result);
           if (jsonResponse["name"] != params['name']) {

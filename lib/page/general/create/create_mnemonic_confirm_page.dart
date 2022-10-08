@@ -82,113 +82,115 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
           ),
         ),
         body: Container(
-          child: Column(
-            children: AnimationConfiguration.toStaggeredList(
-              duration: const Duration(milliseconds: 375),
-              childAnimationBuilder: (widget) => SlideAnimation(
-                verticalOffset: 50.0,
-                child: FadeInAnimation(
-                  child: widget,
-                ),
-              ),
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                  child: Text(
-                    S.of(context).mnemonic_confirm_content,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black.withAlpha(180),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
-                    ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 375),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: widget,
                   ),
                 ),
-                Center(
-                  child: Container(
-                    height: 210,
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    child: Text(
+                      S.of(context).mnemonic_confirm_content,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black.withAlpha(180),
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 210,
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          spacing: 10, //主轴上子控件的间距
+                          runSpacing: 10, //交叉轴上子控件之间的间距
+                          children: childrenTrue,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 28, right: 28, top: 10, bottom: 10),
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                    decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 10, //主轴上子控件的间距
-                        runSpacing: 10, //交叉轴上子控件之间的间距
-                        children: childrenTrue,
-                      ),
+                    child: Wrap(
+                      spacing: 10, //主轴上子控件的间距
+                      runSpacing: 10, //交叉轴上子控件之间的间距
+                      children: childrenFalse,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 28, right: 28, top: 10, bottom: 10),
-                  width: MediaQuery.of(context).size.width,
-                  child: Wrap(
-                    spacing: 10, //主轴上子控件的间距
-                    runSpacing: 10, //交叉轴上子控件之间的间距
-                    children: childrenFalse,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 30, bottom: 30),
-                  child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextButton(
-                      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
-                      onPressed: () {
-                        if (childrenWordTrue.toString() == widget.mnemonic!.split(" ").toString()) {
-                          if (widget.type == CreateMnemonicCopyPage.login) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SetPasswordPage(
-                                          mnemonic: widget.mnemonic,
-                                          setPasswordPageCallBackFuture: (password) async {
-                                            aeRestoreAccountMnemonic(widget.mnemonic, password);
-                                            return;
-                                          },
-                                        )));
-                          } else {
-                            eventBus.fire(AddNewAccount());
-                            Navigator.pop(context);
+                  Container(
+                    margin: const EdgeInsets.only(top: 30, bottom: 30),
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextButton(
+                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                        onPressed: () {
+                          if (childrenWordTrue.toString() == widget.mnemonic!.split(" ").toString()) {
+                            if (widget.type == CreateMnemonicCopyPage.login) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SetPasswordPage(
+                                            mnemonic: widget.mnemonic,
+                                            setPasswordPageCallBackFuture: (password) async {
+                                              aeRestoreAccountMnemonic(widget.mnemonic, password);
+                                              return;
+                                            },
+                                          )));
+                            } else {
+                              eventBus.fire(AddNewAccount());
+                              Navigator.pop(context);
+                            }
+                            return;
                           }
-                          return;
-                        }
 
-                        showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext dialogContext) {
-                            return new AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                              title: Text(S.of(context).dialog_save_error),
-                              content: Text(S.of(context).dialog_save_error_hint),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: new Text(
-                                    S.of(context).dialog_conform,
+                          showDialog<bool>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext dialogContext) {
+                              return new AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                title: Text(S.of(context).dialog_save_error),
+                                content: Text(S.of(context).dialog_save_error_hint),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: new Text(
+                                      S.of(context).dialog_conform,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true).pop();
+                                    },
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ).then((val) {});
+                                ],
+                              );
+                            },
+                          ).then((val) {});
 
-                        return;
-                      },
-                      child: Text(
-                        S.of(context).dialog_conform,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          return;
+                        },
+                        child: Text(
+                          S.of(context).dialog_conform,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));
