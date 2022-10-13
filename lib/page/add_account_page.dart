@@ -126,7 +126,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         leading: IconButton(
@@ -168,7 +168,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black.withAlpha(180),
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                         ),
@@ -247,7 +247,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                                                       fontSize: 20,
                                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                     ),
                                                   ),
                                                 ),
@@ -404,7 +404,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                                                       fontSize: 20,
                                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                     ),
                                                   ),
                                                 ),
@@ -432,7 +432,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black.withAlpha(180),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -518,7 +518,7 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                                                         fontSize: 20,
                                                         color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                       ),
                                                     ),
                                                   ),

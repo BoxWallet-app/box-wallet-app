@@ -144,7 +144,7 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
                     "· Infinite possibility ·",
                     style: TextStyle(
                       fontSize: 20,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),

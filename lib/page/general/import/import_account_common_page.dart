@@ -67,7 +67,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           // 隐藏阴影
@@ -105,7 +105,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -138,7 +138,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
                                 ),
                                 hintStyle: TextStyle(
                                   fontSize: 19,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   color: Colors.black.withAlpha(80),
                                 ),
                               ),
@@ -193,7 +193,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
                                           S.of(context).token_send_one_page_qr,
                                           style: TextStyle(
                                             color: Color(0xFF666666),
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             fontSize: 17,
                                           ),
                                         ),
@@ -218,7 +218,7 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
                         child: Text(
                           S.of(context).account_login_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,

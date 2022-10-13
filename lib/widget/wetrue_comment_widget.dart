@@ -132,7 +132,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             centerTitle: true,
@@ -219,7 +219,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                         ),
                         child: Text(
                           "有爱评论，说点好听的~",
-                          style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ),
@@ -411,7 +411,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                                   Container(
                                     child: Text(
                                       wetrueCommentModel!.data!.data![index].users!.nickname == "" ? "匿名用户" : wetrueCommentModel!.data!.data![index].users!.nickname!,
-                                      style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(color: Colors.black.withAlpha(156), fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ),
                                   // Container(
@@ -466,7 +466,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
 //                      Container(
 //                        child: Text(
 //                          "大家早上好，ae果然没让人失望，真的很稳！😂",
-//                          style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                          style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
 //                        ),
 //                      ),
                       Wrap(
@@ -476,8 +476,8 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                             width: MediaQuery.of(context).size.width - (18 * 2),
                             child: Text(
                               wetrueCommentModel!.data!.data![index].payload!.replaceAll("<br>", "\r\n"),
-                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1.2, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1.2, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -486,7 +486,7 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                         margin: EdgeInsets.only(bottom: 14, top: 5),
                         child: Text(
                           RelativeDateFormat.format(wetrueCommentModel!.data!.data![index].utcTime!),
-                          style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(100), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],

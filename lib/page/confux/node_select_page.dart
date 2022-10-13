@@ -45,7 +45,7 @@ class _NodeSelectPageState extends State<NodeSelectPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -90,7 +90,7 @@ class _NodeSelectPageState extends State<NodeSelectPage> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -140,7 +140,7 @@ class _NodeSelectPageState extends State<NodeSelectPage> {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 18,
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                         ),
                                       ),

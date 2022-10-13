@@ -117,7 +117,7 @@
 //               S.of(context).CfxDappPage_app_more,
 //               style: TextStyle(
 //                 color: Colors.black,
-//                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //               ),
 //             ),
 //             onPressed: () async {
@@ -250,7 +250,7 @@
 //                                               S.of(context).dialog_privacy_hint,
 //                                               style: TextStyle(
 //                                                 fontSize: 18,
-//                                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                               ),
 //                                             ),
 //                                           ),
@@ -261,7 +261,7 @@
 //                                               child: Container(
 //                                                 child: Text(
 //                                                   S.of(context).cfx_dapp_mag1 + " " + data.name + " " + S.of(context).cfx_dapp_mag2,
-//                                                   style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+//                                                   style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
 //                                                 ),
 //                                               ),
 //                                             ),
@@ -296,7 +296,7 @@
 //                                                 style: TextStyle(
 //                                                   color: Colors.white,
 //                                                   fontSize: 14,
-//                                                   fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                   fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                                 ),
 //                                               ),
 //                                               onPressed: () async {
@@ -345,7 +345,7 @@
 //                                 fontSize: 22,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Color(0xFF333333),
-//                                 fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                               ),
 //                             ),
 //                           ),
@@ -410,7 +410,7 @@
 //
 //                           //词间距
 //                           color: Color(0xFF666666),
-//                           fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                         ),
 //                       ),
 //                     ),
@@ -450,7 +450,7 @@
 //
 //             //词间距
 //             color: Color(0xFF37A1DB),
-//             fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //           ),
 //         ),
 //       ));

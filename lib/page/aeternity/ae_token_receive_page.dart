@@ -86,7 +86,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                 S.of(context).token_receive_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -125,7 +125,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                     child: Text(
                                       address,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ),
                                   Container(
@@ -145,7 +145,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Color(0xFFF22B79),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                       color: Color(0xFFE61665).withAlpha(16),

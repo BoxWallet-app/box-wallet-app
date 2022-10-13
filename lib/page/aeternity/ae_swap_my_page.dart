@@ -69,7 +69,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -79,7 +79,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
             child: new Text(
               S.of(context).swap_buy_sell_order,
               style: TextStyle(
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             onPressed: () {
@@ -228,7 +228,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 8),
-                      child: Text(Utils.formatAddress(swapModels!.data![index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000))),
+                      child: Text(Utils.formatAddress(swapModels!.data![index - 1].account), style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000))),
                     ),
                     Expanded(
                       child: Container(),
@@ -245,7 +245,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -262,7 +262,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
 
                                   //词间距
                                   color: Color(0xFF666666),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -284,7 +284,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -301,7 +301,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
 
                                   //词间距
                                   color: Color(0xFF000000),
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -319,7 +319,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -335,7 +335,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xFFF22B79),
                                   //词间距
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -354,7 +354,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                     child: Text(
                       S.of(context).swap_item_5,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                     ),
                     color: Color(0xFFE61665).withAlpha(16),
                     textColor: Colors.black,
@@ -494,7 +494,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     )
@@ -546,7 +546,7 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   )
                 ],

@@ -122,7 +122,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                         ),
@@ -204,7 +204,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                                                 fontSize: 16,
                                                 color: Color(0xff000000),
 //                                            fontWeight: FontWeight.w600,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               ),
                                             ),
                                           ),
@@ -216,7 +216,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                                                 fontSize: 12,
                                                 color: Color(0xff999999),
 //                                            fontWeight: FontWeight.w600,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               ),
                                             ),
                                           ),
@@ -230,7 +230,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                                           if (ethFeeModel != null)
                                             Text(
                       "≈"+ (double.parse(ethFeeModel!.data!.feeList![index].fee!) * widget.gasLimit! / 1000000000000000000).toStringAsFixed(8)+" "+account!.coin!,
-                                              style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                             ),
                                           if (ethFeeModel == null)
                                             Container(
@@ -246,7 +246,7 @@ class _TokenListPathState extends State<EthSelectFeePage> {
                                               child: Text(
                                                 getFeePrice(index),
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                               ),
                                             ),
                                         ],

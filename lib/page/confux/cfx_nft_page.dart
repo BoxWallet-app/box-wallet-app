@@ -68,7 +68,7 @@ class _CfxNftPageState extends State<CfxNftPage> {
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             centerTitle: true,
@@ -99,7 +99,7 @@ class _CfxNftPageState extends State<CfxNftPage> {
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             centerTitle: true,
@@ -134,7 +134,7 @@ class _CfxNftPageState extends State<CfxNftPage> {
     return Tab(
         icon: Text(
       tab,
-      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
     ));
   }
 }

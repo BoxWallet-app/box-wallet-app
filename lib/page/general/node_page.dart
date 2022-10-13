@@ -123,7 +123,7 @@ class _NodePageState extends State<NodePage> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -183,7 +183,7 @@ class _NodePageState extends State<NodePage> {
                         style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -225,7 +225,7 @@ class _NodePageState extends State<NodePage> {
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -250,7 +250,7 @@ class _NodePageState extends State<NodePage> {
                   style: TextStyle(
                     textBaseline: TextBaseline.alphabetic,
                     fontSize: 18,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
@@ -308,7 +308,7 @@ class _NodePageState extends State<NodePage> {
                                 content: Text(
                                   S.of(context).dialog_node_set_sucess,
                                   style: TextStyle(
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                                 actions: <Widget>[
@@ -336,7 +336,7 @@ class _NodePageState extends State<NodePage> {
                                 content: Text(
                                   S.of(context).dialog_node_set_error,
                                   style: TextStyle(
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                                 actions: <Widget>[
@@ -368,7 +368,7 @@ class _NodePageState extends State<NodePage> {
                               content: Text(
                                 S.of(context).dialog_node_set_error,
                                 style: TextStyle(
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                               actions: <Widget>[
@@ -391,7 +391,7 @@ class _NodePageState extends State<NodePage> {
                     child: Text(
                       S.of(context).setting_page_node_save,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,

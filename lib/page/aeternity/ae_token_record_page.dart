@@ -108,7 +108,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -210,7 +210,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                           fontSize: 20,
                                           color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -228,7 +228,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                         : Text(
                                             count!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                            style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                           ),
                                     Container(
                                       width: 20,
@@ -275,7 +275,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                           child: Text(
                             S.of(context).home_page_function_send,
                             maxLines: 1,
-                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                           ),
                           color: Color(0xFFF22B79).withAlpha(16),
                           textColor: Colors.black,
@@ -301,7 +301,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                           child: Text(
                             S.of(context).home_page_function_receive,
                             maxLines: 1,
-                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                            style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                           ),
                           color: Color(0xFFF22B79).withAlpha(16),
                           textColor: Colors.black,
@@ -367,7 +367,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                         style: new TextStyle(
                                           fontSize: 16,
                                           color: Color(0xff333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -379,7 +379,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.right,
                                           maxLines: 2,
-                                          style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
                                       ),
                                     ),
@@ -396,7 +396,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                         style: new TextStyle(
                                           fontSize: 16,
                                           color: Color(0xff333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -405,7 +405,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['name'],
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -420,7 +420,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                         style: new TextStyle(
                                           fontSize: 16,
                                           color: Color(0xff333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -429,7 +429,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['symbol'],
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -444,7 +444,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                         style: new TextStyle(
                                           fontSize: 16,
                                           color: Color(0xff333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -453,7 +453,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['decimals'].toString(),
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -563,14 +563,14 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
                                         tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Utils.formatAddress(tokenListModel!.data![index - 1].callAddress) : Utils.formatAddress(tokenListModel!.data![index - 1].aex9ReceiveAddress),
-                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(left: 12, top: 8),
                                       child: Text(
                                         Utils.formatTime(tokenListModel!.data![index - 1].createTime),
-                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                   ],
@@ -582,7 +582,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                   children: [
                                     Text(
                                       tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? "+ " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName! : "- " + double.parse(tokenListModel!.data![index - 1].aex9Amount!).toStringAsFixed(2) + " " + widget.coinName!,
-                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].aex9ReceiveAddress == AeHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                     Container(
                                       height: 5,
@@ -591,7 +591,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                     Text(
                                       "- " + tokenListModel!.data![index - 1].fee! + " AE",
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ],
                                 ),

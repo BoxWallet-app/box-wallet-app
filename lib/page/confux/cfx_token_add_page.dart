@@ -118,7 +118,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -167,7 +167,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                         style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
 
@@ -312,7 +312,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                                       fontSize: 20,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -324,7 +324,7 @@ class _TokenAddPathState extends State<CfxTokenAddPage> {
                                       fontSize: 12,
                                       color: Color(0xff999999),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),

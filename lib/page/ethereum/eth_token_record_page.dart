@@ -167,7 +167,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -299,7 +299,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                       fontSize: 20,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -311,7 +311,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                         Utils.formatBalanceLength(double.parse(coinCount!)),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                       if (price != null)
                                         Container(
@@ -319,7 +319,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                           child: Text(
                                           price!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                            style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                           ),
                                         ),
                                     ],
@@ -370,7 +370,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                       child: Text(
                         S.of(context).home_page_function_send,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF37A1DB)),
                       ),
                       color: Color(0xFF37A1DB).withAlpha(16),
                       textColor: Colors.black,
@@ -396,7 +396,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                       child: Text(
                         S.of(context).home_page_function_receive,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF37A1DB)),
                       ),
                       color: Color(0xFF37A1DB).withAlpha(16),
                       textColor: Colors.black,
@@ -503,7 +503,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
                                         tokenListModel!.data![index - 1].from == EthHomePage.address ? Utils.formatAddress(tokenListModel!.data![index - 1].to) : Utils.formatAddress(tokenListModel!.data![index - 1].from),
-                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                     Container(
@@ -513,7 +513,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                             .toLocal()
                                             .toString()
                                             .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data![index - 1].timestamp! * 1000000).toLocal().toString().length - 4),
-                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                   ],
@@ -529,7 +529,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                             ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data![index - 1].tokenValue, this.decimal))) + " " + widget.coinName!
                                             : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data![index - 1].tokenValue, this.decimal))) + " " + widget.coinName!,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: tokenListModel!.data![index - 1].from == EthHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                       Container(
                                         height: 5,
@@ -538,7 +538,7 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
                                       Text(
                                         "-" + tokenListModel!.data![index - 1].fee.toString() + account!.coin!,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ],
                                   ),

@@ -392,7 +392,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     )
@@ -444,7 +444,7 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   )
                 ],

@@ -135,7 +135,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -204,7 +204,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                               child: Container(
                                 child: Text(
                                   getCfxMethod(index),
-                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                 ),
                               ),
                             ),
@@ -218,8 +218,8 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                         margin: EdgeInsets.only(top: 8),
                         child: Text(
                           cfxTransfer!.data![index].hash!,
-                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                          style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                         width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
@@ -227,7 +227,7 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
                           DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.data![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.data![index].timestamp! * 1000000).toLocal().toString().length - 4),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],
@@ -261,19 +261,19 @@ class _EthRecordsPageState extends State<EthRecordsPage> with AutomaticKeepAlive
     if(cfxTransfer!.data![index].status == 0){
       return  Text(
         cfxTransfer!.data![index].errorMessage!,
-        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
 
     if (cfxTransfer!.data![index].to.toString().toLowerCase().contains(address!.toLowerCase())) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.data![index].value, 6)) + " " + this.account!.coin!,
-        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     } else {
       return Text(
         "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.data![index].value, 6)) + " " + this.account!.coin!,
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }

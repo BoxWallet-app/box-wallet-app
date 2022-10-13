@@ -79,7 +79,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -142,7 +142,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -174,7 +174,7 @@ class _CfxNftNewPageState extends State<CfxNftNewPage> {
     return Tab(
         icon: Text(
       tab,
-      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
     ));
   }
 }

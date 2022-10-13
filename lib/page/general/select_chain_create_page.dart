@@ -51,7 +51,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -122,7 +122,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                   child: Text(
                     S.of(context).account_login_page_conform,
                     maxLines: 1,
-                    style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                    style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                   ),
                   color: Color(0xFFFC2365),
                   textColor: Colors.white,
@@ -228,7 +228,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black.withAlpha(180),
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
       );
@@ -306,7 +306,7 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
                                     color: Color(0xff333333),
 
 //                                            fontWeight: FontWeight.w600,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                               ),

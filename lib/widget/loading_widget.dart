@@ -129,7 +129,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
               S.of(context).loading_widget_no_data,
               style: TextStyle(
                 fontSize: 15,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 color: Color(0xFF000000),
               ),
             ),

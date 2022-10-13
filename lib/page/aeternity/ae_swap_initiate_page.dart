@@ -144,7 +144,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -168,7 +168,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                   S.of(context).swap_send_1,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -198,7 +198,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -256,7 +256,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                   S.of(context).token_send_two_page_balance + " : " + ctBalance!,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -270,7 +270,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       S.of(context).swap_send_2,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -282,7 +282,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       S.of(context).swap_send_2_2,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -317,7 +317,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
@@ -355,7 +355,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                                 "AE",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   color: Colors.black,
                                 ),
                               )),
@@ -390,7 +390,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
@@ -439,7 +439,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                     child: Text(
                       S.of(context).swap_send_3,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -460,7 +460,7 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   S.of(context).swap_send_5,
-                  style: TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  style: TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],

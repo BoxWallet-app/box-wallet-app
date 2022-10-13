@@ -316,7 +316,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
 //                      Container(
 //                        child: Text(
 //                          "大家早上好，ae果然没让人失望，真的很稳！😂",
-//                          style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                          style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
 //                        ),
 //                      ),
                       Wrap(
@@ -661,7 +661,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                           fontSize: 15,
                           color: Colors.black,
                           fontFamily:
-                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     )
@@ -717,7 +717,7 @@ class _AeWeTrueListPageState extends State<AeWeTrueListPage>
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   )
                 ],

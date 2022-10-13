@@ -58,7 +58,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               margin: const EdgeInsets.only(left: 30.0),
@@ -76,7 +76,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
               child: Text(
                 cfxTransactionHashModel!.confirmedEpochCount.toString() + " " + S.current.cfx_tx_detail_page_height_confirm,
                 maxLines: 1,
-                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
               ),
             ),
           ],
@@ -163,7 +163,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -211,12 +211,12 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
     if (Utils.cfxFormatTypeAddress(cfxTransactionHashModel!.to) == CfxHomePage.address) {
       return Text(
         "+" + double.parse(((double.parse(cfxTransactionHashModel!.value!)) / 1000000000000000000).toString()).toStringAsFixed(6) + " CFX",
-        style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     } else {
       return Text(
         "-" + double.parse(((double.parse(cfxTransactionHashModel!.value!)) / 1000000000000000000).toString()).toStringAsFixed(6) + " CFX",
-        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }
@@ -231,7 +231,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
     var formatGas = double.parse(decimal3.toString()) * (double.parse(cfxTransactionHashModel!.gasPrice.toString()));
     return Text(
       Decimal.parse(formatGas.toString()).toStringAsFixed(10) + " CFX",
-      style: TextStyle(color: Colors.black, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      style: TextStyle(color: Colors.black, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
     );
 
   }
@@ -263,7 +263,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -278,7 +278,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),
@@ -314,7 +314,7 @@ class _CfxTxDetailPageState extends State<CfxTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),

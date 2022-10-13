@@ -90,7 +90,7 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   )

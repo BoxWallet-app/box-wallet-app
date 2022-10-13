@@ -172,7 +172,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           centerTitle: true,
@@ -334,7 +334,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -366,7 +366,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
     return Tab(
         icon: Text(
       tab,
-      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
     ));
   }
 
@@ -474,7 +474,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                                   fontSize: 20,
                                   color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -487,7 +487,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                                   Text(
                                     cfxCtTokens![index].balance!,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                   ),
                                 if (cfxCtTokens![index].balance == null)
                                   Container(
@@ -505,7 +505,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
                                     child: Text(
                                       cfxCtTokens![index].price!,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ),
                               ],

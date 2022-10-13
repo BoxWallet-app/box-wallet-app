@@ -635,7 +635,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -678,7 +678,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                 fontSize: 14,
                                 color: Color(0xFF666666),
                                 //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -699,7 +699,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   fontSize: 14,
                                   color: Color(0xff333333),
                                   //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -717,7 +717,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   fontSize: 14,
                                   color: Color(0xFFFC2365),
                                   //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -808,7 +808,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       fontSize: 18,
                                       color: Color(0xff333333),
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -847,7 +847,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   style: TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 26,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     color: Colors.black,
                                   ),
                                   decoration: InputDecoration(
@@ -966,7 +966,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                 fontSize: 14,
                                 color: Color(0xFF666666),
                                 //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -987,7 +987,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   fontSize: 14,
                                   color: Color(0xff333333),
                                   //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -1080,7 +1080,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       fontSize: 18,
                                       color: Color(0xff333333),
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -1119,7 +1119,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   style: TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 26,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     color: Colors.black,
                                   ),
                                   decoration: InputDecoration(
@@ -1179,7 +1179,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                             fontSize: 14,
                             color: Color(0xff333333),
                             //                                            fontWeight: FontWeight.w600,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                       ),
@@ -1204,7 +1204,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     child: Text(
                                       buttonText,
                                       maxLines: 1,
-                                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(112, 242, 43, 123)),
+                                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(112, 242, 43, 123)),
                                     ),
                                   ),
                                 ),
@@ -1247,7 +1247,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         Text(
                                           typeAllowance == 1 ? "开始兑换" : "授权",
                                           maxLines: 1,
-                                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                                         ),
                                       ],
                                     ),
@@ -1272,7 +1272,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -1288,7 +1288,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   Text(
                                     "1$sellTokenName ≈ $tokenRate$buyTokenName",
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                   ),
                               ],
                             ),
@@ -1309,7 +1309,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -1320,7 +1320,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       Text(
                                         "5%",
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                       // Container(
                                       //   child: TextButton(
@@ -1337,7 +1337,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       //       child: Text(
                                       //         "5%",
                                       //         maxLines: 1,
-                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                                       //       ),
                                       //     ),
                                       //   ),
@@ -1364,7 +1364,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -1375,7 +1375,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       Text(
                                         "30分钟",
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                       // Container(
                                       //   child: TextButton(
@@ -1392,7 +1392,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       //       child: Text(
                                       //         "5%",
                                       //         maxLines: 1,
-                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                                       //       ),
                                       //     ),
                                       //   ),
@@ -1419,7 +1419,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     style: new TextStyle(
                                       fontSize: 14,
                                       color: Color(0xff666666),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -1430,7 +1430,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       Text(
                                         AmountDecimal.parseDecimal(maxSellAmount.toString()) + sellTokenName,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                       // Container(
                                       //   child: TextButton(
@@ -1447,7 +1447,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                       //       child: Text(
                                       //         "5%",
                                       //         maxLines: 1,
-                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                      //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                                       //       ),
                                       //     ),
                                       //   ),
@@ -1475,7 +1475,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           Text(
                             "Supported by",
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Color(0xff666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: Color(0xff666666), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                           Container(
                             width: 20,
@@ -1493,7 +1493,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                             child: Text(
                               "SuperHero",
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(fontSize: 13, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],

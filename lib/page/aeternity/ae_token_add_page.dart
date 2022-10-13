@@ -31,7 +31,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -65,7 +65,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                   "Tokens名称",
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -95,7 +95,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -148,7 +148,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                   "发行数量",
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -178,7 +178,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -235,7 +235,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                   child: Text(
                     "创 建",
                     maxLines: 1,
-                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                    style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                   ),
                   color: Color(0xFFE61665),
                   textColor: Colors.black,
@@ -256,7 +256,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                     Expanded(
                         child: Text(
                       "合约地址：ct_2M4mVQCDVxu6mvUrEue1xMafLsoA1bgsfC3uT95F3r1xysaCvE",
-                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                     )),
                     Container(
                       height: 30,
@@ -268,7 +268,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                         child: Text(
                           "复制",
                           maxLines: 1,
-                          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                         ),
                         color: Color(0xFFE61665).withAlpha(16),
                         textColor: Colors.black,
@@ -291,7 +291,7 @@ class _AeTokenAddPageState extends State<AeTokenAddPage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   "通过BoxWallet 可以免费创建AEX9协议Tokens。整个过程全部去中心化，不会保存你的私钥信息。Tokens列表为了增加用户体验防止Tokens乱飞所设置的优秀Tokens，优秀Tokens需要进行审核\n上币流程：上币费用为10000AE 及 1000ABC，该费用作为Tokens锁仓费用，Tokens上任何中心化交易所或者退市即可退回质押Tokens\n下架流程：下架Tokens需要回收市场上全部Tokens，Tokens价格按照所采价值进行回收。或者Tokens长时间不进行流动。形成死币\n上币申请资料请准备 合约地址、Tokens名称，Tokenslogo，发送邮件到293122529@qq.com",
-                  style: TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                  style: TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Color(0xFF999999)),
                 ),
               ),
             ],

@@ -41,7 +41,7 @@ class _AeAensPageState extends State<AeAensPage> {
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             centerTitle: true,
@@ -52,7 +52,7 @@ class _AeAensPageState extends State<AeAensPage> {
                   S.of(context).aens_page_title_my,
                   style: TextStyle(
                     color: Colors.black,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
                 onPressed: () {
@@ -76,17 +76,17 @@ class _AeAensPageState extends State<AeAensPage> {
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_1,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF333333)),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_2,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF333333)),
                 )),
                 Tab(
                     icon: Text(
                   S.of(context).aens_page_title_tab_3,
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF333333)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF333333)),
                 )),
               ],
             ),

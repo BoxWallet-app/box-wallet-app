@@ -141,8 +141,8 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               margin: const EdgeInsets.only(left: 18, top: 150, right: 18),
                               child: Text(
                                 S.of(context).defi_title,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 1.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                style: new TextStyle(fontSize: 26, fontWeight: FontWeight.bold, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
                               ),
                             ),
                             buildContainerCount(context),
@@ -160,9 +160,9 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             Container(
                               child: Text(
                                 S.of(context).defi_card_hint_base_content,
-                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                 style:
-                                    TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Color(0xFF999999)),
+                                    TextStyle(fontSize: 14,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Color(0xFF999999)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 22, top: 10, right: 22),
@@ -408,7 +408,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                 Container(
                   child: Text(
                     S.of(context).defi_card_my_get_hint,
-                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                    style: new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF666666)),
                   ),
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 20, top: 18),
@@ -422,7 +422,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                         child: Text(
                           AeTokenDefiPage.model == null ? "loading..." : "≈" + AeTokenDefiPage.model!.data!.token!,
                           style: new TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+                              fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
 //                    style: new TextStyle(fontSize: 26, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Colors.black),
                         ),
                         alignment: Alignment.topLeft,
@@ -455,7 +455,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               child: Text(
                                 S.of(context).defi_head_card_my_token,
                                 style:
-                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
@@ -467,7 +467,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 1.5,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
@@ -488,7 +488,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                               child: Text(
                                 S.of(context).defi_head_card_all_token,
                                 style:
-                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF666666)),
+                                    new TextStyle(fontSize: 14, fontWeight: FontWeight.normal, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF666666)),
                               ),
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 18, top: 10),
@@ -500,7 +500,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                     fontSize: 24,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 1.5,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     color: Color(0xff000000)),
                               ),
                               alignment: Alignment.topLeft,
@@ -666,7 +666,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         child: Text(
           S.of(context).defi_card_get,
           maxLines: 1,
-          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+          style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,
@@ -695,7 +695,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         child: Text(
           S.of(context).defi_card_mine,
           maxLines: 1,
-          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
         ),
         color: Color(0xff3460ee),
         textColor: Colors.black,
@@ -894,7 +894,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
         child: Text(
           S.of(context).defi_card_out,
           maxLines: 1,
-          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
         ),
         color: Color(0xff3460ee).withAlpha(40),
         textColor: Colors.black,

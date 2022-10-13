@@ -350,7 +350,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                                                 child: Text(
                                                   "Connect node...",
                                                   maxLines: 1,
-                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(255, 255, 255, 255)),
+                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
                                                 ),
                                               ),
                                             ],
@@ -368,7 +368,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                                                     child: Text(
                                                       "Network Error",
                                                       maxLines: 1,
-                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color.fromARGB(255, 255, 255, 255)),
+                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
                                                     ),
                                                   ),
                                                 ],
@@ -470,7 +470,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                     Text(
                       getAccountName(),
                       maxLines: 1,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                     ),
                     Container(
                       width: 2,

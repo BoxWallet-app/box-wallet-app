@@ -125,7 +125,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
           style: new TextStyle(
             fontSize: 16,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
       ),
@@ -202,7 +202,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                                         style: new TextStyle(
                                           fontSize: 16,
                                           color: Colors.black,
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     )
@@ -276,7 +276,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.black,
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       ),
                                     ),
                                   )
@@ -333,7 +333,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.black,
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       ),
                                     ),
                                   )
@@ -429,7 +429,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                                 style: new TextStyle(
                                   fontSize: 17,
                                   color: Colors.red,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             )),
@@ -503,7 +503,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                     style: new TextStyle(
                       fontSize: 14,
                       color: Colors.black,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -570,7 +570,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                           style: new TextStyle(
                             fontSize: 16,
                             color: Colors.black,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                       )

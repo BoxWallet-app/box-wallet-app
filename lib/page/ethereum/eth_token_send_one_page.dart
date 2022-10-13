@@ -150,7 +150,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
                                 S.of(context).token_send_one_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -186,7 +186,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -232,7 +232,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
                                                         S.of(context).token_send_one_page_qr,
                                                         style: TextStyle(
                                                           color: Color(0xFF666666),
-                                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                           fontSize: 17,
                                                         ),
                                                       ),
@@ -269,7 +269,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
@@ -300,7 +300,7 @@ class _EthTokenSendOnePageState extends State<EthTokenSendOnePage> {
                         child: Text(
                           S.of(context).token_send_one_page_next,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: getAccountCardBottomBg(),
                         textColor: Colors.white,

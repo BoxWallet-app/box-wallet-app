@@ -184,7 +184,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                               S.of(context).PayPasswordWidget_account_look_msg,
                               style: TextStyle(
                                 fontSize: 18,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -202,7 +202,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                                 child: Text(
                                   S.of(context).password_widget_conform,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                 ),
                                 color: Color(0xFFFC2365),
                                 textColor: Colors.white,
@@ -263,7 +263,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             widget.title,
                             style: TextStyle(
                               fontSize: 18,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                         ),
@@ -286,7 +286,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               color: Colors.black,
                             ),
                             decoration: InputDecoration(
@@ -332,7 +332,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                               child: Text(
                                 S.of(context).password_widget_conform,
                                 maxLines: 1,
-                                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                               ),
                               color: Color(0xFFFC2365),
                               textColor: Colors.white,

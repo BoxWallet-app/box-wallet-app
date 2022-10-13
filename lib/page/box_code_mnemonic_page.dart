@@ -87,7 +87,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                               S.of(context).BoxCodeMnemonicPage_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -126,7 +126,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                                     child: Text(
                                       widget.code!,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ),
                                   Container(
@@ -146,7 +146,7 @@ class _BoxCodeMnemonicPageState extends State<BoxCodeMnemonicPage> {
                                         style: TextStyle(
                                           fontSize: 13,
                                           color: Color(0xFF000000),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                       color: Color(0xFF000000).withAlpha(16),

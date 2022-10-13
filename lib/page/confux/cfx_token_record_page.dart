@@ -106,7 +106,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -221,7 +221,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                       fontSize: 20,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -229,7 +229,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                 Text(
                                   coinCount!,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  style: TextStyle(fontSize: 24, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                 ),
                                 Container(
                                   width: 20,
@@ -276,7 +276,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                       child: Text(
                         S.of(context).home_page_function_send,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF37A1DB)),
                       ),
                       color: Color(0xFF37A1DB).withAlpha(16),
                       textColor: Colors.black,
@@ -302,7 +302,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                       child: Text(
                         S.of(context).home_page_function_receive,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                        style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF37A1DB)),
                       ),
                       color: Color(0xFF37A1DB).withAlpha(16),
                       textColor: Colors.black,
@@ -412,7 +412,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                       padding: const EdgeInsets.only(left: 12),
                                       child: Text(
                                         tokenListModel!.data!.list![index - 1].from == CfxHomePage.address ? Utils.formatAddress(tokenListModel!.data!.list![index - 1].to) : Utils.formatAddress(tokenListModel!.data!.list![index - 1].from),
-                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 15, color: Color(0xff333333), fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                     Container(
@@ -422,7 +422,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                             .toLocal()
                                             .toString()
                                             .substring(0, DateTime.fromMicrosecondsSinceEpoch(tokenListModel!.data!.list![index - 1].timestamp! * 1000000).toLocal().toString().length - 4),
-                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                   ],
@@ -436,7 +436,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                       tokenListModel!.data!.list![index - 1].from == CfxHomePage.address
                                           ? "- " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data!.list![index - 1].amount, this.decimal))) + " " + widget.coinName!
                                           : "+ " + Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(tokenListModel!.data!.list![index - 1].amount, this.decimal))) + " " + widget.coinName!,
-                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data!.list![index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 15, color: tokenListModel!.data!.list![index - 1].from == CfxHomePage.address ? Colors.black : Colors.black, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                     Container(
                                       height: 5,
@@ -445,7 +445,7 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
                                     Text(
                                       S.of(context).cfx_tx_detail_page_jiyuan + ":" + tokenListModel!.data!.list![index - 1].epochNumber.toString() + " ",
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ],
                                 ),

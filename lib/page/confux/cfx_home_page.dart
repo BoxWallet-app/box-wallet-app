@@ -306,7 +306,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           getAePrice(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                         ),
                                                       ),
 
@@ -333,7 +333,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                      fontSize: 20,
 //                                                      color: Colors.white,
 ////                                            fontWeight: FontWeight.w600,
-//                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                                    ),
 //                                                  ),
 //                                                ),
@@ -347,7 +347,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -370,7 +370,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF3F7FB5).withAlpha(180),  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddressCFX(CfxHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF3F7FB5).withAlpha(180),  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
                                   ),
                                 ),
                                 Positioned(
@@ -430,7 +430,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                           children: <Widget>[
                                             Text(
                                               S.of(context).home_page_my_count + " (CFX）",
-                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                             ),
                                             Expanded(child: Container()),
                                             Container(
@@ -438,7 +438,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                               child: Text(
                                                 domain,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                style: TextStyle(fontSize: 13, color: Colors.white70,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                               ),
                                             ),
                                           ],
@@ -470,7 +470,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                                fontSize: 20,
 //                                                color: Colors.white,
 ////                                            fontWeight: FontWeight.w600,
-//                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                              ),
 //                                            ),
 //                                          ),
@@ -486,7 +486,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 ////                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
 //                                                  getAePrice(),
 //                                                  overflow: TextOverflow.ellipsis,
-//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+//                                                  style: TextStyle(fontSize: 12, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
 //                                                ),
 //                                              ),
 
@@ -499,7 +499,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 38, color: Colors.white,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -516,8 +516,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 //                                      margin: const EdgeInsets.only(top: 8, left: 15, right: 15),
 //                                      child: Text(
 //                                        HomePageV2.address,
-//                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.3),
+//                                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+//                                        style: TextStyle(fontSize: 13,  color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.3),
 //                                      ),
 //                                    ),
                                     ],
@@ -609,7 +609,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                         padding: const EdgeInsets.only(left: 5),
                                                         child: Text(
                                                           S.of(context).home_page_function_send,
-                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                                         ),
                                                       ),
                                                     )
@@ -671,7 +671,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                         padding: const EdgeInsets.only(left: 5),
                                                         child: Text(
                                                           S.of(context).home_page_function_receive,
-                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                                         ),
                                                       ),
                                                     )
@@ -731,7 +731,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                                                   padding: const EdgeInsets.only(left: 5),
                                                   child: Text(
                                                     S.of(context).home_token,
-                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                                    style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                                   ),
                                                 ),
                                               )
@@ -836,7 +836,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               S.of(context).home_page_transaction,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                             ),
                           )
                         ],
@@ -871,7 +871,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                   margin: EdgeInsets.only(left: 15, top: 0),
                   child: Text(
                     S.of(context).cfx_home_page_transfer_random,
-                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                   ),
                   height: 23,
                 ),
@@ -907,7 +907,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                               padding: EdgeInsets.only(bottom: 20),
                               child: Text(
                                 S.of(context).home_no_record,
-                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
                               ),
                             ),
                           ],
@@ -970,7 +970,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               "AEX9 Tokens",
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                             ),
                           )
                         ],
@@ -1039,14 +1039,14 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                             child: Container(
                               child: Text(
                                 "USDT",
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                               ),
                             ),
                           ),
                           Container(
                             child: Text(
                               "100000000.00",
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -1092,7 +1092,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 
                 child: Text(
                   cfxEpochNumber(index),
-                  style: TextStyle(color: Color(0xFF37A1DB), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  style: TextStyle(color: Color(0xFF37A1DB), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -1110,7 +1110,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                             child: Container(
                               child: Text(
                                 getCfxMethod(index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                               ),
                             ),
                           ),
@@ -1124,8 +1124,8 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         cfxTransfer!.list![index].hash!,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                        style: TextStyle(color: Colors.black.withAlpha(56),  fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                       ),
                       width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                     ),
@@ -1133,7 +1133,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
                         DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().length - 4),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                       ),
                     ),
                   ],
@@ -1174,7 +1174,7 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
   Text getFeeWidget(int index) {
     // return Text(
     //   "-" + "" + " CFX",
-    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
     // );
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
@@ -1183,12 +1183,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     if (cfxTransfer!.list![index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 4)) + " CFX",
-        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     } else {
       return Text(
         "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 4)) + " CFX",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }

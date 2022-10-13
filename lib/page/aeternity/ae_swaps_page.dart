@@ -35,7 +35,7 @@ class _AeSwapsPageState extends State<AeSwapsPage> {
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           centerTitle: true,

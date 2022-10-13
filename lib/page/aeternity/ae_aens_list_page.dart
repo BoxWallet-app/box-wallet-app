@@ -160,7 +160,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -169,7 +169,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                               setNameTime(position),
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ],
@@ -187,7 +187,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                                 aensModel['data']['aens'][position]['price'] + " AE",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -197,7 +197,7 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 14,
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ],

@@ -68,7 +68,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           // 隐藏阴影
@@ -101,7 +101,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -184,7 +184,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                         child: Text(
                           S.of(context).dialog_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                       ),
                     ),
@@ -266,7 +266,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                   item.split("_")[0],
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),

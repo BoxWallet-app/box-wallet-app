@@ -85,7 +85,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                     style:TextStyle(
                       fontSize: 18,
                       color: Colors.black.withAlpha(180),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -125,7 +125,7 @@ class _MnemonicCopyPagePageState extends State<MnemonicCopyPage> {
                     style:TextStyle(
                       fontSize: 14,
                       color: Colors.red,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),

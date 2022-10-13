@@ -69,7 +69,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
     }
     var text = Text(
       "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " CFX"),
-      style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
     );
     var cfx = buildItem2(S.current.CfxTransferConfirmPage_count, text);
     baseItems.add(cfx);
@@ -219,7 +219,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -322,7 +322,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                           ):Text(
                             amountAll > balance ?  S.of(context).fee_low : S.of(context).dialog_conform,
                             maxLines: 1,
-                            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                           ),
                           color: amountAll > balance && balance!=-1 ? Color(0xFF999999) : Color(0xFFFC2365),
                           textColor: Colors.white,
@@ -369,7 +369,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -384,7 +384,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),
@@ -424,7 +424,7 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),

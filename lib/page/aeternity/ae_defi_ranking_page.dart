@@ -95,7 +95,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                       : Container(
                     child: Text(
                       "Ranking",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 40, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                     ),
                   ),
                   Container(
@@ -103,7 +103,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       "Update Time: " + Utils.getCurrentDate(),
-                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                      style: TextStyle(color: Colors.white, fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                     ),
                   ),
                 ],
@@ -194,7 +194,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                               S
                                   .of(context)
                                   .defi_ranking_content,
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                           Expanded(child: Container()),
@@ -207,7 +207,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                               style: new TextStyle(fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   color: Colors.black),
                             ),
                           ),
@@ -295,14 +295,14 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
             child: Container(
               child: Text(
                 Utils.formatAddress(rankingModel!.data!.ranking![index].address),
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
               ),
             ),
           ),
           Container(
             child: Text(
               rankingModel!.data!.ranking![index].proportion! + "%",
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
             ),
           ),
           Container(
@@ -313,7 +313,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
             alignment: Alignment.centerRight,
             child: Text(
               rankingModel!.data!.ranking![index].count!,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
             ),
           ),
         ],
@@ -344,7 +344,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
 
     return Text(
       (index + 1).toString(),
-      style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+      style: TextStyle(color: Colors.black.withAlpha(140), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
     );
   }
 
@@ -360,7 +360,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
               S
                   .of(context)
                   .defi_raking_1,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
             ),
           ),
           Container(
@@ -372,7 +372,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                 S
                     .of(context)
                     .defi_raking_2,
-                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
               ),
             ),
           ),
@@ -381,7 +381,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
               S
                   .of(context)
                   .defi_raking_3,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
             ),
           ),
           Container(
@@ -394,7 +394,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
               S
                   .of(context)
                   .defi_raking_4,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+              style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
             ),
           ),
         ],

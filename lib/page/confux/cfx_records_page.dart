@@ -129,7 +129,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -198,7 +198,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
                               child: Container(
                                 child: Text(
                                   getCfxMethod(index),
-                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                 ),
                               ),
                             ),
@@ -212,8 +212,8 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
                         margin: EdgeInsets.only(top: 8),
                         child: Text(
                           cfxTransfer!.list![index].hash!,
-                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                         width: MediaQuery.of(context).size.width - 40 - 36,
                       ),
@@ -221,7 +221,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
                         margin: EdgeInsets.only(top: 6),
                         child: Text(
                           DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().substring(0, DateTime.fromMicrosecondsSinceEpoch(cfxTransfer!.list![index].timestamp! * 1000000).toLocal().toString().length - 4),
-                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],
@@ -259,7 +259,7 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
   Text getFeeWidget(int index) {
     // return Text(
     //   "-" + "" + " CFX",
-    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+    //   style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
     // );
     // if (walletRecordModel.data[index].tx['type'].toString() == "SpendTx") {
     //   // ignore: unrelated_type_equality_checks
@@ -268,12 +268,12 @@ class _CfxRecordsPageState extends State<CfxRecordsPage> with AutomaticKeepAlive
     if (cfxTransfer!.list![index].to.toString().toLowerCase().contains(split[1])) {
       return Text(
         "+ " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 6)) + " CFX",
-        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     } else {
       return Text(
         "- " + (Utils.cfxFormatAsFixed(cfxTransfer!.list![index].value, 6)) + " CFX",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }

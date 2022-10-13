@@ -78,7 +78,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
 //                child: new Text(
 //                 "白皮书",
 //                  style: TextStyle(
-//                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                  ),
 //                ),
 //                onPressed: () {
@@ -101,17 +101,17 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
                 Tab(
                     icon: Text(
                   "最新发布",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF666666)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
                 Tab(
                     icon: Text(
                   "热门推荐",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
                 Tab(
                     icon: Text(
                   "最新图片",
-                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
+                  style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontWeight: FontWeight.w600, color: Color(0xFF666666)),
                 )),
               ],
             ),
@@ -227,7 +227,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
                         style: new TextStyle(
                           fontSize: 15,
                           color: Colors.black,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     )
@@ -279,7 +279,7 @@ class _AeWeTrueHomePageState extends State<AeWeTrueHomePage> with AutomaticKeepA
                     style: new TextStyle(
                       fontSize: 13,
                       color: Colors.white,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   )
                 ],

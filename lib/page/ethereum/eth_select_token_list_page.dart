@@ -176,7 +176,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                         ),
@@ -286,7 +286,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                     fontSize: 20,
                                     color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                               ),
@@ -298,7 +298,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                   Text(
                                     widget.aeCount!,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                   ),
                                 ],
                               ),
@@ -390,7 +390,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                   fontSize: 20,
                                   color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -404,7 +404,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                       cfxCtTokens![index].balance!,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                      style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   if (cfxCtTokens![index].balance == null)
                                     Container(
@@ -423,7 +423,7 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
                                         cfxCtTokens![index].price!,
                                         overflow: TextOverflow.ellipsis,
 
-                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                 ],

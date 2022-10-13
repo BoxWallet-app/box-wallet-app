@@ -145,7 +145,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -159,7 +159,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -171,7 +171,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                     Utils.formatAddressCFX(address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -187,7 +187,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -199,7 +199,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                     getReceiveAddress(),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -237,7 +237,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                             S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -262,7 +262,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -295,7 +295,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF37A1DB)),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF37A1DB)),
                                               ),
                                               color: Color(0xFF37A1DB).withAlpha(16),
                                               textColor: Colors.black,
@@ -385,7 +385,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                       ),
                                                     ),
                                                   )
@@ -400,7 +400,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                                                     tokenCount == null ? "" : tokenCount!,
                                                     style: TextStyle(
                                                       color: Color(0xFF333333),
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                       fontSize: 16,
                                                     ),
                                                   ),
@@ -454,7 +454,7 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                             : Text(
                                 double.parse(this.amountAll!) > 0.002 ? S.of(context).token_send_two_page_conform : S.of(context).fee_low,
                                 maxLines: 1,
-                                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                               ),
                         color: ( amountAll==null || double.parse(this.amountAll!) > 0.002 ) ? Color(0xFF37A1DB) : Color(0xFF999999),
                         // color: Color(0xFF37A1DB),

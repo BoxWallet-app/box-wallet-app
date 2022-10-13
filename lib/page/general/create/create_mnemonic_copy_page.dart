@@ -55,7 +55,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           // 隐藏阴影
@@ -88,7 +88,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -113,7 +113,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.red,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -134,7 +134,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                         child: Text(
                           S.of(context).mnemonic_copy_confrom,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                       ),
                     ),
@@ -181,7 +181,7 @@ class _MnemonicCopyPagePageState extends State<CreateMnemonicCopyPage> {
                   item.split("_")[0],
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),

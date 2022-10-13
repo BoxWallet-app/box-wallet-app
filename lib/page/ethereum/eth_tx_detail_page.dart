@@ -58,7 +58,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
                 margin: const EdgeInsets.only(left: 30.0),
@@ -76,7 +76,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
               child: Text(
                 widget.recordData!.status == 1 ? S.current.record_status_success :  S.current.record_status_error,
                 maxLines: 1,
-                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
               ),
             ),
           ],
@@ -100,7 +100,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontSize: 14,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               margin: const EdgeInsets.only(left: 30.0),
@@ -240,7 +240,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -280,12 +280,12 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
     if (widget.recordData!.to!.toLowerCase() == EthHomePage.address!.toLowerCase()) {
       return Text(
         "+" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData!.value!)) / 1000000000000000000).toString())) + " " + EthHomePage.account!.coin!,
-        style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     } else {
       return Text(
         "-" + Utils.formatBalanceLength(double.parse(((double.parse(widget.recordData!.value!)) / 1000000000000000000).toString())) + " " + EthHomePage.account!.coin!,
-        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }
@@ -317,7 +317,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -332,7 +332,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),
@@ -368,7 +368,7 @@ class _EthTxDetailPageState extends State<EthTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),

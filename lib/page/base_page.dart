@@ -50,7 +50,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               child: new Text(
                 S.of(context).dialog_conform,
                 style: TextStyle(
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {
@@ -111,7 +111,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                           title,
                           style: TextStyle(
                             fontSize: 18,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                       ),
@@ -122,7 +122,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                             child: Container(
                               child: Text(
                                 content,
-                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                               ),
                             ),
                           ),
@@ -139,7 +139,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                           onPressed: () {
@@ -171,7 +171,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
           title: Text(
             title,
             style: TextStyle(
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           content: Text(content),
@@ -180,7 +180,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               child: new Text(
                 leftText,
                 style: TextStyle(
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {
@@ -191,7 +191,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               child: new Text(
                 rightText,
                 style: TextStyle(
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {
@@ -221,7 +221,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               child: new Text(
                 S.of(context).dialog_copy,
                 style: TextStyle(
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {
@@ -232,7 +232,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
               child: new Text(
                 S.of(context).dialog_dismiss,
                 style: TextStyle(
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {

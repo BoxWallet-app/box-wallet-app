@@ -220,7 +220,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                   : BoxApp.language == "cn"
                                   ? bannerModel!.cn!.title!
                                   : bannerModel!.en!.title!,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
                             ),
                           ),
                         ),
@@ -308,7 +308,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                           S
                                               .of(context)
                                               .home_page_function_defi,
-                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                         ),
                                       )
                                     ],
@@ -326,7 +326,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                       child: Text(
                                         "GO",
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff3460ee)),
+                                        style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
                                       ),
                                       color: Color(0xff3460ee).withAlpha(16),
                                       textColor: Colors.black,
@@ -389,7 +389,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                               S
                                                   .of(context)
                                                   .swap_title,
-                                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                             ),
                                           )
                                         ],
@@ -409,7 +409,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                       child: Text(
                                         "GO",
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFF22B79)),
+                                        style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                                       ),
                                       color: Color(0xFFE61665).withAlpha(16),
                                       textColor: Colors.black,
@@ -469,7 +469,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                           S
                                               .of(context)
                                               .home_page_function_names,
-                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                                          style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                                         ),
                                       )
                                     ],
@@ -514,7 +514,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                           fontSize: 14,
                                           wordSpacing: 30.0, //词间距
                                           color: Color(0xFF666666),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -533,7 +533,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                           //词间距
                                           color: Color(0xFF000000),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -554,7 +554,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                           fontSize: 14,
                                           wordSpacing: 30.0, //词间距
                                           color: Color(0xFF666666),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -573,7 +573,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                             //词间距
                                             color: Color(0xFF000000),
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ),
                                   ],
@@ -693,7 +693,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                                       .dialog_privacy_hint,
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                   ),
                                                 ),
                                               ),
@@ -706,7 +706,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                                       S
                                                           .of(context)
                                                           .wetrue_risk,
-                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                                                     ),
                                                   ),
                                                 ),
@@ -741,7 +741,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14,
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                     ),
                                                   ),
                                                   onPressed: () async {
@@ -799,7 +799,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF333333),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -817,7 +817,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                               //词间距
                                               color: Color(0xFF666666),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -869,7 +869,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF333333),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -886,7 +886,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                               //字体间距
                                               //词间距
                                               color: Color(0xFF666666),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -936,7 +936,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF333333),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -954,7 +954,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                               //词间距
                                               color: Color(0xFF666666),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -1007,7 +1007,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF333333),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -1025,7 +1025,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
 
                                               //词间距
                                               color: Color(0xFF666666),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),
@@ -1109,7 +1109,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             .dialog_privacy_hint,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -1122,7 +1122,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             S
                                 .of(context)
                                 .dialog_name_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                           ),
                         ),
                       ),
@@ -1157,7 +1157,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                         onPressed: () async {
@@ -1250,7 +1250,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                     .dialog_privacy_hint,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -1263,7 +1263,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                     S
                                         .of(context)
                                         .dialog_name_hint,
-                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                                   ),
                                 ),
                               ),
@@ -1288,7 +1288,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                                 loader: Container(
@@ -1425,7 +1425,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             .dialog_privacy_hint,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -1438,7 +1438,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             S
                                 .of(context)
                                 .dialog_defi_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                           ),
                         ),
                       ),
@@ -1474,7 +1474,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                         onPressed: () async {
@@ -1569,7 +1569,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             .dialog_privacy_hint,
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -1582,7 +1582,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                             S
                                 .of(context)
                                 .dialog_swap_hint,
-                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                           ),
                         ),
                       ),
@@ -1617,7 +1617,7 @@ class _AeAeppsPageState extends State<AeAeppsPage> with AutomaticKeepAliveClient
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           ),
                         ),
                         onPressed: () async {

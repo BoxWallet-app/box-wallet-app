@@ -50,7 +50,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
               textAlign: TextAlign.end,
               style: TextStyle(
                 fontSize: 14,
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             margin: const EdgeInsets.only(left: 30.0),
@@ -198,7 +198,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -242,26 +242,26 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
       if (widget.recordData!.tx!['recipient_id'].toString() == AeHomePage.address) {
         return Text(
           "+" + double.parse(((widget.recordData!.tx!['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
-          style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.red, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       } else {
         return Text(
           "-" + double.parse(((widget.recordData!.tx!['amount'].toDouble() + widget.recordData!.tx!['fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       }
     } else {
       if (widget.recordData!.tx!['type'].toString() == "NameClaimTx") {
         return Text(
           "-" + double.parse(((widget.recordData!.tx!['fee'].toDouble() + widget.recordData!.tx!['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       }
 
       return Text(
         "-" + double.parse((widget.recordData!.tx!['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(6) + " AE",
 
-        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: size, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }
@@ -302,7 +302,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -317,7 +317,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),
@@ -353,7 +353,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),

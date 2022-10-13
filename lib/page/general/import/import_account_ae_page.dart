@@ -60,7 +60,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
             style: TextStyle(
               color: Color(0xFF000000),
               fontSize: 18,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           // 隐藏阴影
@@ -131,7 +131,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -164,7 +164,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                                 ),
                                 hintStyle: TextStyle(
                                   fontSize: 19,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   color: Colors.black.withAlpha(80),
                                 ),
                               ),
@@ -190,7 +190,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                                     },
                                     child: Text(
                                       S.of(context).ImportAccountPage_copy,
-                                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFC2365)),
+                                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFC2365)),
                                     ),
                                     color: Color(0xFFFC2365).withAlpha(16),
                                     textColor: Colors.black,
@@ -216,7 +216,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                         child: Text(
                           S.of(context).account_login_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,

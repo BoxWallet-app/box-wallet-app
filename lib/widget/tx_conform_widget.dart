@@ -145,7 +145,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                             S.of(context).dialog_tx_title,
                             style: TextStyle(
                               fontSize: 18,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             ),
                           ),
                         ),
@@ -175,7 +175,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                         child: Text(
                           S.of(context).password_widget_conform+ " " +(double.parse(widget.tx!["amount"].toString()) / 100000000000000000).toString() + "AE",
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),
                         textColor: Colors.white,
@@ -210,7 +210,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -227,7 +227,7 @@ class _TxConformWidgetWidgetState extends State<TxConformWidget> {
 //                overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 )),
           ),

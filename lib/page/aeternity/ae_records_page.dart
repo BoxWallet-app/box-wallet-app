@@ -93,7 +93,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -402,14 +402,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             getTxType(type),
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
                             time,
-                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                       ],
@@ -426,7 +426,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             (recipient == AeHomePage.address ? "+" + amount : "-" + amount) + " " + contractName,
-                            style: TextStyle(color: recipient == AeHomePage.address ? Color(0xFFF22B79) : Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: recipient == AeHomePage.address ? Color(0xFFF22B79) : Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                     ],
@@ -485,14 +485,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             getTxType(type),
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
                             time,
-                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                       ],
@@ -508,14 +508,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                       Container(
                         child: Text(
                           "-" + tokenAmountA + " " + tokenA,
-                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: Text(
                           "+" + tokenAmountB + " " + tokenB,
-                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],
@@ -574,14 +574,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             getTxType(type),
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
                             time,
-                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                       ],
@@ -597,14 +597,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                       Container(
                         child: Text(
                           "-" + tokenAmountA + " " + tokenA,
-                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: Text(
                           "-" + tokenAmountB + " " + tokenB,
-                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],
@@ -663,14 +663,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             getTxType(type),
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
                             time,
-                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                       ],
@@ -686,14 +686,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                       Container(
                         child: Text(
                           "+ " + tokenAmountA + " " + tokenA,
-                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: Text(
                           "+ " + tokenAmountB + " " + tokenB,
-                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                          style: TextStyle(color: Color(0xFFF22B79), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                         ),
                       ),
                     ],
@@ -753,7 +753,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             getTxType(type),
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                         if (name != "")
@@ -763,14 +763,14 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                               name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.black45, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black45, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
                             time,
-                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.black45, fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                       ],
@@ -787,7 +787,7 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
                         Container(
                           child: Text(
                             "-" + amount + " " + contractName,
-                            style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                            style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                           ),
                         ),
                     ],

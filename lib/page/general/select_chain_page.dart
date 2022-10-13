@@ -109,7 +109,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -128,7 +128,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                       child: Text(
                        S.of(context).select_chain_page_select_chain,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+                        style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
                       ),
                     ),
                     Expanded(
@@ -260,7 +260,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     style: new TextStyle(
                       fontSize: 16,
                       color: Colors.black,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),

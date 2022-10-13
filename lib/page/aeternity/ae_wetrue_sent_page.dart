@@ -79,7 +79,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 24,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -92,7 +92,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                     style: TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 14,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -130,7 +130,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                         hintStyle: TextStyle(
                           fontSize: 19,
                           fontFamily:
-                              BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black.withAlpha(80),
                         ),
                       ),
@@ -159,7 +159,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                         " AE",
                     style: TextStyle(
                       fontSize: 14,
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -189,7 +189,7 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                           style: TextStyle(
                               fontSize: 16,
                               fontFamily:
-                                  BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               color: Color(0xffffffff)),
                         ),
                         color: Color(0xFFFC2365),

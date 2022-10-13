@@ -147,7 +147,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
   //   }
   //   var text = Text(
   //     "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " " + account.coin),
-  //     style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+  //     style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
   //   );
   //   var cfx = buildItem2(S.current.CfxTransferConfirmPage_count, text);
   //   baseItems.add(cfx);
@@ -319,7 +319,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -348,7 +348,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                         S.current.CfxTransferConfirmPage_count,
                                         Text(
                                           "- " + (double.parse(amount.toString()).toStringAsFixed(4) + " " + widget.account!.coin!),
-                                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         )),
                                     // buildItem(S.current.CfxTransferConfirmPage_fee, fee),
 
@@ -407,7 +407,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                                       fontSize: 14,
                                                                       color: Color(0xff000000),
 //                                            fontWeight: FontWeight.w600,
-                                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                                     ),
                                                                   ),
 
@@ -417,7 +417,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                                   child: Text(
                                                                     getType(this.index)+minute,
                                                                     overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(fontSize: 11, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                                    style: TextStyle(fontSize: 11, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                                   ),
                                                                 ),
                                                               ],
@@ -430,7 +430,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                                 if(fee!="")
                                                                   Text(
                                                                     "≈"+fee,
-                                                                    style: TextStyle(fontSize: 14, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                                    style: TextStyle(fontSize: 14, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                                   ),
                                                                 if(fee=="")
                                                                   Container(
@@ -446,7 +446,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                                                                     child: Text(
                                                                       "≈"+feePrice,
                                                                       overflow: TextOverflow.ellipsis,
-                                                                      style: TextStyle(fontSize: 11, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                                      style: TextStyle(fontSize: 11, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                                     ),
                                                                   ),
                                                               ],
@@ -489,7 +489,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                         balance == -1 ? S.of(context).token_send_two_page_balance + " : " + "--.--" : S.of(context).token_send_two_page_balance + " : " + balance.toString(),
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -557,7 +557,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                               : Text(
                                   amountAll > balance ?  S.of(context).fee_low : S.of(context).dialog_conform,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                  style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                 ),
                           color: amountAll > balance && balance != -1 ? Color(0xFF999999) : Color(0xFFFC2365),
                           textColor: Colors.white,
@@ -604,7 +604,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -619,7 +619,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),
@@ -659,7 +659,7 @@ amountAll = double.parse(amountFee) + double.parse(amount);
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),

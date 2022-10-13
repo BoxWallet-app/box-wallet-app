@@ -449,7 +449,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                                    "≈ " + (double.parse("2000") * double.parse(HomePage.token)).toStringAsFixed(2)+" USDT",
                                                           getAePrice(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                          style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                         ),
                                                       ),
 
@@ -476,7 +476,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                                      fontSize: 20,
 //                                                      color: Colors.white,
 ////                                            fontWeight: FontWeight.w600,
-//                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+//                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                                    ),
 //                                                  ),
 //                                                ),
@@ -486,7 +486,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 //                                      "9999999.00000",
                                                   overflow: TextOverflow.ellipsis,
 
-                                                  style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                                 Container(
                                                   width: 20,
@@ -509,7 +509,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     height: 160,
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(left: 20, right: 50),
-                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu")),
+                                    child: Text(Utils.formatHomeCardAddress(AeHomePage.address), style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xffbd2a67).withAlpha(100), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
                                   ),
                                 ),
                                 Positioned(
@@ -544,7 +544,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                           children: <Widget>[
                                             Text(
                                               S.of(context).home_page_my_count + " (AE）",
-                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                              style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                             ),
                                             Expanded(
                                               child: Container(
@@ -552,7 +552,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                 child: Text(
                                                   namesModel == null ? "" : namesModel![0].name!,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                               ),
                                             ),
@@ -576,7 +576,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                                   overflow: TextOverflow.ellipsis,
 
                                                   // style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: "Inter"),
-                                                  style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 38, color: Colors.white, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                               ],
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -661,8 +661,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     return;
                   }
                   if (event == "Vegas") {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage()));
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasPage()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasPage()));
                     return;
                   }
                   // if (homeFunctionInfo["function" == "spend"]) {}
@@ -693,7 +693,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.fade,
-                          style: new TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black87),
+                          style: new TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black87),
                         ),
                       ),
                     ],
@@ -789,7 +789,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               S.of(context).home_page_transaction,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                             ),
                           )
                         ],
@@ -824,7 +824,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                   margin: EdgeInsets.only(left: 15, top: 0),
                   child: Text(
                     S.of(context).home_page_transaction_conform,
-                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                   ),
                   height: 23,
                 ),
@@ -860,7 +860,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                               padding: EdgeInsets.only(bottom: 20),
                               child: Text(
                                 S.of(context).home_no_record,
-                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
                               ),
                             ),
                           ],
@@ -923,7 +923,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                             padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               "AEX9 Tokens",
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                             ),
                           )
                         ],
@@ -996,14 +996,14 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                             child: Container(
                               child: Text(
                                 "USDT",
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                               ),
                             ),
                           ),
                           Container(
                             child: Text(
                               "100000000.00",
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                             ),
                           ),
                         ],
@@ -1049,7 +1049,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
                 child: Text(
                   getConfirmHeight(index),
-                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                 ),
                 alignment: Alignment.center,
                 height: 23,
@@ -1067,7 +1067,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                             child: Container(
                               child: Text(
                                 getTxType(index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                               ),
                             ),
                           ),
@@ -1081,8 +1081,8 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
                         walletRecordModel!.data![index].hash!,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                       ),
                       width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
                     ),
@@ -1090,7 +1090,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                       margin: EdgeInsets.only(top: 6),
                       child: Text(
                         DateTime.fromMicrosecondsSinceEpoch(walletRecordModel!.data![index].time! * 1000).toLocal().toString(),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                       ),
                     ),
                   ],
@@ -1173,25 +1173,25 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       if (walletRecordModel!.data![index].tx!['recipient_id'].toString() == AeHomePage.address) {
         return Text(
           "+" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       } else {
         return Text(
           "-" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble() + walletRecordModel!.data![index].tx!['fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       }
     } else {
       if (walletRecordModel!.data![index].tx!['type'].toString() == "NameClaimTx") {
         return Text(
           "-" + double.parse(((walletRecordModel!.data![index].tx!['fee'].toDouble() + walletRecordModel!.data![index].tx!['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
         );
       }
 
       return Text(
         "-" + double.parse((walletRecordModel!.data![index].tx!['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
       );
     }
   }

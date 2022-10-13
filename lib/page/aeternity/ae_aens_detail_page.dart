@@ -228,7 +228,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
           child: Text(
             S.of(context).aens_detail_page_update,
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
           color: Color(0xff6F53A1),
           textColor: Colors.white,
@@ -345,7 +345,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
           child: Text(
             S.of(context).aens_detail_page_add + " ≈ " + (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.1).toStringAsFixed(2) + " AE",
             maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
           color: Color(0xFFFC2365),
           textColor: Colors.white,
@@ -381,7 +381,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
                         key,
                         style: TextStyle(
                           fontSize: 14,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -396,7 +396,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                     margin: const EdgeInsets.only(left: 30.0),

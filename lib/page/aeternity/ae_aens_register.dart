@@ -186,7 +186,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                             S.of(context).aens_register_page_title,
                             style: TextStyle(
                               color: Colors.white,
-                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               fontSize: 19,
                             ),
                           ),
@@ -219,7 +219,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                                   S.of(context).aens_register_page_name,
                                   style: TextStyle(
                                     color: Color(0xFF666666),
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     fontSize: 19,
                                   ),
                                 ),
@@ -266,7 +266,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                           ),
                                         )),
                                   ],
@@ -287,7 +287,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                   S.of(context).token_send_two_page_balance + " : " + AeHomePage.token,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -303,7 +303,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                     child: Text(
                       textClaim,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,

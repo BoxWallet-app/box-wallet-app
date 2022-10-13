@@ -254,7 +254,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                 S.of(context).token_send_two_page_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -268,7 +268,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                     S.of(context).token_send_two_page_from,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -280,7 +280,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                     Utils.formatAddressCFX(EthHomePage.address),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -296,7 +296,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                     S.of(context).token_send_two_page_to,
                                     style: TextStyle(
                                       color: Colors.white.withAlpha(200),
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 14,
                                     ),
                                   ),
@@ -308,7 +308,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                     getReceiveAddress(),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       fontSize: 16,
                                     ),
                                   ),
@@ -346,7 +346,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                             S.of(context).token_send_two_page_number,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -371,7 +371,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 19,
-                                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             color: Colors.black,
                                           ),
                                           decoration: InputDecoration(
@@ -404,7 +404,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: getAccountCardBottomBg()),
+                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: getAccountCardBottomBg()),
                                               ),
                                               color: getAccountCardBottomBg().withAlpha(16),
                                               textColor: Colors.black,
@@ -493,7 +493,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                         fontSize: 15,
                                                         color: Colors.black,
                                                         fontWeight: FontWeight.w600,
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                       ),
                                                     ),
                                                   )
@@ -518,7 +518,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                       maxLines: 1,
                                                       style: TextStyle(
                                                         color: Color(0xFF333333),
-                                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                         fontSize: 16,
                                                       ),
                                                     ),
@@ -600,7 +600,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                     fontSize: 16,
                                                     color: Color(0xff000000),
 //                                            fontWeight: FontWeight.w600,
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                   ),
                                                 ),
                                               ),
@@ -609,7 +609,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                 child: Text(
                                                   getType(this.index) + minute,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                               ),
                                             ],
@@ -622,7 +622,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                               if (fee != "")
                                                 Text(
                                                   "≈" + fee,
-                                                  style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                  style: TextStyle(fontSize: 16, color: Color(0xFF333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
                                               if (fee == "")
                                                 Container(
@@ -638,7 +638,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                                                   child: Text(
                                                     "≈" + feePrice,
                                                     overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                                    style: TextStyle(fontSize: 12, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                   ),
                                                 ),
                                             ],
@@ -678,7 +678,7 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                         child: Text(
                           S.of(context).token_send_two_page_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: getAccountCardBottomBg(),
                         textColor: Colors.white,

@@ -160,7 +160,7 @@ print(e);
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           centerTitle: true,
@@ -200,7 +200,7 @@ print(e);
                       style: TextStyle(
                         textBaseline: TextBaseline.alphabetic,
                         fontSize: 18,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         color: Colors.black,
                       ),
 
@@ -356,7 +356,7 @@ print(e);
                                       fontSize: 20,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -368,7 +368,7 @@ print(e);
                                       fontSize: 12,
                                       color: Color(0xff999999),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),

@@ -103,7 +103,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                                 S.of(context).name_point_title,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   fontSize: 19,
                                 ),
                               ),
@@ -132,7 +132,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                                             S.of(context).token_send_one_page_address,
                                             style: TextStyle(
                                               color: Color(0xFF000000),
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               fontSize: 19,
                                             ),
                                           ),
@@ -164,7 +164,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                                             ),
                                             hintStyle: TextStyle(
                                               fontSize: 19,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
@@ -195,7 +195,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                         child: Text(
                           S.of(context).name_point_conform,
                           maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
                         color: Color(0xff000000),
                         textColor: Colors.white,

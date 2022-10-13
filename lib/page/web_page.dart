@@ -116,7 +116,7 @@ class _CfxWebPathState extends State<WebPage> {
                                   style: TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 18,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     color: Colors.black,
                                   ),
 
@@ -196,7 +196,7 @@ class _CfxWebPathState extends State<WebPage> {
 
                         //词间距
                         color: Color(0xFF666666),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -223,7 +223,7 @@ class _CfxWebPathState extends State<WebPage> {
                         style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFFE61665),
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                         ),
                       ),
                     ),
@@ -286,7 +286,7 @@ class _CfxWebPathState extends State<WebPage> {
                                                   S.of(context).dialog_privacy_hint,
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                   ),
                                                 ),
                                               ),
@@ -297,7 +297,7 @@ class _CfxWebPathState extends State<WebPage> {
                                                   child: Container(
                                                     child: Text(
                                                       S.of(context).cfx_dapp_mag1 + " " + url + " " + S.of(context).cfx_dapp_mag2,
-                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                                                     ),
                                                   ),
                                                 ),
@@ -330,7 +330,7 @@ class _CfxWebPathState extends State<WebPage> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14,
-                                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                     ),
                                                   ),
                                                   onPressed: () async {
@@ -527,7 +527,7 @@ class _CfxWebPathState extends State<WebPage> {
 
               //词间距
               color: Color(0xFF37A1DB),
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
         ),
@@ -592,7 +592,7 @@ class _CfxWebPathState extends State<WebPage> {
                                 S.of(context).dialog_privacy_hint,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                 ),
                               ),
                             ),
@@ -603,7 +603,7 @@ class _CfxWebPathState extends State<WebPage> {
                                 child: Container(
                                   child: Text(
                                     S.of(context).cfx_dapp_mag1 + " " + name + " " + S.of(context).cfx_dapp_mag2,
-                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                                   ),
                                 ),
                               ),
@@ -636,7 +636,7 @@ class _CfxWebPathState extends State<WebPage> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
-                                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                   ),
                                 ),
                                 onPressed: () async {
@@ -702,7 +702,7 @@ class _CfxWebPathState extends State<WebPage> {
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xff666666),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                               ),
                             ),

@@ -233,7 +233,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -270,7 +270,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                 S.of(context).dialog_dismiss,
                 style: TextStyle(
                   color: Colors.black,
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               ),
               onPressed: () {
@@ -343,7 +343,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     return Tab(
         icon: Text(
       tab,
-      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
+      style: TextStyle(fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", fontSize: 14, color: Color(0xFF666666), fontWeight: FontWeight.w600),
     ));
   }
 
@@ -430,7 +430,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                       fontSize: 20,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -442,7 +442,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                       fontSize: 12,
                                       color: Color(0xff999999),
 //                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
@@ -488,7 +488,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                         cfxCtTokens![index].balance == null ? cfxCtTokens![index].balanceCache! : cfxCtTokens![index].balance!,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     if (cfxCtTokens![index].balance == null && cfxCtTokens![index].balanceCache == null)
                                       Container(
@@ -506,7 +506,7 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
                                         child: Text(
                                           cfxCtTokens![index].price!,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                          style: TextStyle(fontSize: 13, color: Color(0xff999999), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
                                       ),
                                   ],

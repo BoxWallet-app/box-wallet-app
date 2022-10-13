@@ -22,6 +22,8 @@ import 'package:lottie/lottie.dart';
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
 import 'ae_home_page.dart';
+import 'ae_vegas_page_detail.dart';
+import 'ae_vegas_record_page.dart';
 
 class AeVegasPage extends BaseWidget {
   @override
@@ -29,10 +31,15 @@ class AeVegasPage extends BaseWidget {
 }
 
 class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
-  var loadingType = LoadingType.finish;
-  TokenListModel? tokenListModel;
+  var loadingType = LoadingType.loading;
 
-  Future<void> _onRefresh() async {}
+  var veagsMarkets;
+
+  int currentHeight = 0;
+
+  Future<void> _onRefresh() async {
+    netNodeHeight();
+  }
 
   @override
   void initState() {
@@ -40,6 +47,53 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
     Future.delayed(Duration(milliseconds: 0), () {
       _onRefresh();
     });
+  }
+
+  Future<void> aeVegasMarkeStart() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+    //
+    var params = {
+      "name": "aeVegasMarkeStart",
+      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "isSelf": false}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      loadingType = LoadingType.finish;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      veagsMarkets = jsonResponse["result"];
+
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
+  void netNodeHeight() {
+    var params = {
+      "name": "aeGetCurrentHeight",
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      currentHeight = jsonResponse["result"]["height"];
+      aeVegasMarkeStart();
+      setState(() {});
+      return;
+    }, channelJson);
   }
 
   @override
@@ -55,7 +109,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -75,12 +129,12 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
           IconButton(
             splashRadius: 40,
             icon: Icon(
-              Icons.add_circle_outline_outlined,
+              Icons.history,
               color: Color(0xFFFFFFFF),
               size: 22,
             ),
             onPressed: () {
-              showHintSafeDialog(S.of(context).tokens_dialog_title, S.of(context).tokens_dialog_content, (val) async {});
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasRecordPage()));
             },
           ),
         ],
@@ -97,7 +151,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
             //   alignment: Alignment.topLeft,
             //   child: Text(
             //     "Welcome Back to AEVegas!",
-            //     style: new TextStyle(fontSize: 28, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+            //     style: new TextStyle(fontSize: 28, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
             //   ),
             // ),
             Container(
@@ -111,7 +165,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 header: BoxHeader(),
                 onRefresh: _onRefresh,
                 child: ListView.builder(
-                  itemCount: 1,
+                  itemCount: loadingType == LoadingType.finish ? veagsMarkets.length : 0,
                   itemBuilder: (BuildContext context, int index) {
                     return itemListView(context, index);
                   },
@@ -134,6 +188,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: veagsMarkets[index]["value"]["market_id"], owner: veagsMarkets[index]["value"]["owner"])));
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
           },
           child: Column(
@@ -165,8 +220,8 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                           Container(
                             margin: const EdgeInsets.only(left: 5),
                             child: Text(
-                              "SAFE",
-                              style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                              "安全",
+                              style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                             ),
                           ),
                         ],
@@ -180,10 +235,10 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                         child: Text(
-                          "EndTime : 30 Days",
+                          "距离结束 : " + (Utils.formatHeight(context, currentHeight, int.parse(veagsMarkets[index]["value"]["over_height"].toString()))).toString(),
                           style: new TextStyle(
                             fontSize: 14,
-                            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             color: Colors.white,
                           ),
                         ),
@@ -202,20 +257,21 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 10),
+                alignment: Alignment.topLeft,
                 child: Text(
-                  "Qatar World Cup & The first round On November 21 🇸🇳Senegal VS 🇳🇱Holland, Who will win!",
+                  veagsMarkets[index]["value"]["content"],
                   textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 1.5, color: Colors.white),
+                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
                 ),
               ),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                 child: Text(
-                  "Source : https://www.fifa.com/",
+                  "数据源 : " + veagsMarkets[index]["value"]["source_url"],
                   style: new TextStyle(
                     fontSize: 14,
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     color: Colors.white,
                   ),
                 ),
@@ -236,8 +292,8 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         left: 10,
                       ),
                       child: Text(
-                        "Total:0(AE)",
-                        style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xff9D9D9D)),
+                        "总投入: " + AmountDecimal.parseUnits(veagsMarkets[index]["value"]["total_amount"], 18) + " (AE)",
+                        style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                       ),
                     ),
                     Expanded(child: Container()),
@@ -270,11 +326,11 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 2),
-                                  padding: EdgeInsets.only(right: 2),
+                                  margin: EdgeInsets.only(left: 5),
+                                  padding: EdgeInsets.only(right: 5),
                                   child: Text(
-                                    "IN PROGRESS",
-                                    style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                                    "进行中",
+                                    style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                   ),
                                 ),
                               ],
@@ -283,8 +339,8 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                           Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Text(
-                              "0.01AE",
-                              style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                              AmountDecimal.parseUnits(veagsMarkets[index]["value"]["min_amount"], 18) + "AE/次",
+                              style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                             ),
                           ),
                         ],

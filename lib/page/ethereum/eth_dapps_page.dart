@@ -189,7 +189,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                               S.of(context).dialog_privacy_hint,
                                               style: TextStyle(
                                                 fontSize: 18,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               ),
                                             ),
                                           ),
@@ -200,7 +200,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                               child: Container(
                                                 child: Text(
                                                   S.of(context).cfx_dapp_mag1 + " " + data.name! + " " + S.of(context).cfx_dapp_mag2,
-                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", height: 2),
+                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 2),
                                                 ),
                                               ),
                                             ),
@@ -233,7 +233,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,
-                                                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                 ),
                                               ),
                                               onPressed: () async {
@@ -288,7 +288,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xFF333333),
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                           ),
@@ -345,8 +345,8 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                       margin: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 0),
                       child: Text(
                         data.content!,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                        style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                        style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                       ),
                     ),
                     Container(
@@ -385,7 +385,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
 
             //词间距
             color: Color(0xFF37A1DB),
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
       ));
@@ -525,7 +525,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                 : BoxApp.language == "cn"
                                     ? bannerModel!.cn!.title!
                                     : bannerModel!.en!.title!,
-                            style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.white),
+                            style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
                           ),
                         ),
                       ),
@@ -602,7 +602,7 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                           fontSize: 22,
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xFF333333),
-                                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
                                     ),
@@ -659,8 +659,8 @@ class _EthDappsPageState extends State<EthDappsPage> with AutomaticKeepAliveClie
                                 margin: const EdgeInsets.only(top: 5, left: 20, right: 20, bottom: 18),
                                 child: Text(
                                   S.of(context).CfxDappsPage_browser_content,
-                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
-                                  style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu"),
+                                  strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                  style: TextStyle(color: Color(0xFF666666),  fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                 ),
                               ),
                             ],

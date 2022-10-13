@@ -50,7 +50,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -80,7 +80,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -93,7 +93,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black.withAlpha(180),
-                      fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                     ),
                   ),
                 ),
@@ -135,7 +135,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                                                 height: 1.5,
                                                 color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                               ),
                                             ),
                                           ),
@@ -160,7 +160,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                   ),
                 ),
               ),
@@ -199,7 +199,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                                               height: 1.5,
                                               color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
-                                              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             ),
                                           ),
                                         ),

@@ -95,7 +95,7 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                               child: Text(
                                 "中文/English",
                                 maxLines: 1,
-                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                             ),
                           ),
@@ -113,7 +113,7 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Aeternity Box",
-                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                           )),
                       Container(
                         height: 30,
@@ -131,17 +131,17 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                               TypewriterAnimatedText(
                                 S.of(context).login_sg1,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 S.of(context).login_sg2,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 S.of(context).login_sg3,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                             ],
                             onTap: () {
@@ -173,7 +173,7 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                             child: Text(
                               S.of(context).login_btn_create,
                               maxLines: 1,
-                              style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFC2365)),
+                              style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFC2365)),
                             ),
                           ),
                         ),
@@ -204,7 +204,7 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                             child: Text(
                               S.of(context).login_btn_input,
                               maxLines: 1,
-                              style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFFFFFFFF)),
+                              style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                             ),
                           ),
                         ),

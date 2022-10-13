@@ -342,8 +342,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: Container(
             // child: BottomNavigationBar(
-            //   selectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
-            //   unselectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+            //   selectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
+            //   unselectedLabelStyle:   TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
             //   selectedItemColor:Color(0xFF000000),
             //     selectedFontSize:12,
             //   backgroundColor: Color(0xFFffffff),
@@ -396,8 +396,8 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
             //   },
             // ),
             child: BottomNavigationBar(
-              selectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
-              unselectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xFF000000)),
+              selectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
+              unselectedLabelStyle:   TextStyle(fontSize: 11, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
               selectedItemColor:Color(0xFF000000),
                 selectedFontSize:10,
               unselectedFontSize:10,
@@ -962,7 +962,7 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
                   Text(
                     getAccountName(),
                     maxLines: 1,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Colors.black),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                   ),
                   Container(
                     width: 2,

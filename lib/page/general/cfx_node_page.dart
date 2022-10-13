@@ -76,7 +76,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -86,7 +86,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
             child: new Text(
               S.of(context).setting_page_node_reset,
               style: TextStyle(
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
               ),
             ),
             onPressed: () {
@@ -120,7 +120,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black.withAlpha(180),
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),
@@ -180,7 +180,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                         style: TextStyle(
                           textBaseline: TextBaseline.alphabetic,
                           fontSize: 18,
-                          fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -233,7 +233,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                             content: Text(
                               S.of(context).dialog_node_set_sucess,
                               style: TextStyle(
-                                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                               ),
                             ),
                             actions: <Widget>[
@@ -254,7 +254,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                     child: Text(
                       S.of(context).setting_page_node_save,
                       maxLines: 1,
-                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu", color: Color(0xffffffff)),
+                      style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
                     color: Color(0xFFFC2365),
                     textColor: Colors.white,
@@ -288,7 +288,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
                   ),

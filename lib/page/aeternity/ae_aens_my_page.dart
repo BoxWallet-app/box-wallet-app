@@ -41,7 +41,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
-              fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
             ),
           ),
           centerTitle: true,
@@ -63,7 +63,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                 S.of(context).aens_my_page_title_tab_1,
                 style: TextStyle(
                   color: Color(0xFF333333),
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               )),
               Tab(
@@ -71,7 +71,7 @@ class _AeAensMyPageState extends State<AeAensMyPage> {
                 S.of(context).aens_my_page_title_tab_2,
                 style: TextStyle(
                   color: Color(0xFF333333),
-                  fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                 ),
               )),
             ],

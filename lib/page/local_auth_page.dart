@@ -91,7 +91,7 @@ class _AuthPageState extends BaseWidgetState<AuthPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
         centerTitle: true,
@@ -126,7 +126,7 @@ class _AuthPageState extends BaseWidgetState<AuthPage> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
                                       ),
                                     ),
