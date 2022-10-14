@@ -247,6 +247,12 @@ class Utils {
     return formatted.substring(0, formatted.length - 7);
   }
 
+
+
+  static String formatHeightTime(BuildContext context, int startHeight, int endHeight) {
+    var height = endHeight - startHeight;
+    return formatTime((new DateTime.now().millisecondsSinceEpoch ).truncate() + (height*1000*60*3)).toString();
+  }
   static String formatHeight(BuildContext context, int startHeight, int endHeight) {
     var height = endHeight - startHeight;
     if (height <= 0) {

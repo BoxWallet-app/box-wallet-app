@@ -34,9 +34,12 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
 
   var veagsMarkets;
 
+  Map<String, dynamic> vegasDetails = {};
+
   int currentHeight = 0;
 
   Future<void> _onRefresh() async {
+    vegasDetails.clear();
     netNodeHeight();
   }
 
@@ -46,34 +49,6 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     Future.delayed(Duration(milliseconds: 0), () {
       _onRefresh();
     });
-  }
-
-  Future<void> aeVegasMarkeStart() async {
-    if (!mounted) return;
-    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
-    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
-    if (cacheBalance != "") {
-      AeHomePage.token = cacheBalance;
-      setState(() {});
-    }
-    //
-    var params = {
-      "name": "aeVegasMarkeRecords",
-      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address}
-    };
-    var channelJson = json.encode(params);
-    BoxApp.sdkChannelCall((result) {
-      if (!mounted) return;
-      loadingType = LoadingType.finish;
-      final jsonResponse = json.decode(result);
-      if (jsonResponse["name"] != params['name']) {
-        return;
-      }
-      veagsMarkets = jsonResponse["result"];
-
-      setState(() {});
-      return;
-    }, channelJson);
   }
 
   void netNodeHeight() {
@@ -89,7 +64,67 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
         return;
       }
       currentHeight = jsonResponse["result"]["height"];
-      aeVegasMarkeStart();
+      aeVegasMarketRecords();
+      setState(() {});
+      return;
+    }, channelJson);
+  }
+
+  Future<void> aeVegasMarketRecords() async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+    //
+    var params = {
+      "name": "aeVegasMarketRecords",
+      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      loadingType = LoadingType.finish;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      veagsMarkets = jsonResponse["result"];
+
+      setState(() {});
+
+      for (int i = 0; i < veagsMarkets.length; i++) {
+        aeVegasMarketDetail(veagsMarkets[i]['owner'], veagsMarkets[i]['market_id']);
+      }
+
+      return;
+    }, channelJson);
+  }
+
+  Future<void> aeVegasMarketDetail(owner, marketId) async {
+    if (!mounted) return;
+    Account? account = await WalletCoinsManager.instance.getCurrentAccount();
+    var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
+    if (cacheBalance != "") {
+      AeHomePage.token = cacheBalance;
+      setState(() {});
+    }
+    //
+    var params = {
+      "name": "aeVegasMarketDetail",
+      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address, "owner": owner, "marketId": marketId}
+    };
+    var channelJson = json.encode(params);
+    BoxApp.sdkChannelCall((result) {
+      if (!mounted) return;
+      loadingType = LoadingType.finish;
+      final jsonResponse = json.decode(result);
+      if (jsonResponse["name"] != params['name']) {
+        return;
+      }
+      vegasDetails[jsonResponse["result"]["market"]["market_id"]] = jsonResponse["result"];
       setState(() {});
       return;
     }, channelJson);
@@ -159,7 +194,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: veagsMarkets[index]["value"]["market_id"], owner: veagsMarkets[index]["value"]["owner"])));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: veagsMarkets[index]["market_id"], owner: veagsMarkets[index]["owner"])));
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
           },
           child: Column(
@@ -169,15 +204,14 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Expanded(
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                        padding: const EdgeInsets.only(left: 12, right: 10, top: 5, bottom: 5),
                         child: Text(
-                          "发生时间 : "+  veagsMarkets[index]["put_time"],
+                          "竞猜时间 : " + Utils.formatTime(int.parse(veagsMarkets[index]["put_time"].toString())),
                           style: new TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                             color: Colors.white,
                           ),
@@ -197,72 +231,78 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                 child: Text(
                   veagsMarkets[index]["content"],
                   textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
+                  style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 16),
-                height: 40,
-
+                margin: EdgeInsets.only( left: 12, right: 12, bottom: 10),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "我的答案:"+veagsMarkets[index]["put_result"],
+                  textAlign: TextAlign.left,
+                  style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10, left: 12, top: 10, bottom: 16),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
-                        left: 10,
-                      ),
                       child: Text(
-                        "投入: "+veagsMarkets[index]["amount"],
-                        style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
+                        "投入: " + AmountDecimal.parseUnits(veagsMarkets[index]["amount"], 18) + "AE",
+                        style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                       ),
-
                     ),
                     Expanded(child: Container()),
                     Container(
                       margin: EdgeInsets.only(right: 10),
-                      decoration: new BoxDecoration(
-                        border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
-                        //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
                       child: Row(
                         children: [
-                          Container(
-                            margin: EdgeInsets.all(2),
-                            decoration: new BoxDecoration(
-                              // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
-                              //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: Color(0xff315bf7),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  padding: EdgeInsets.all(2),
-                                  child: Image(
-                                    image: AssetImage("images/vegas_type_dice.png"),
-                                    color: Colors.white,
+                          if (vegasDetails[veagsMarkets[index]["market_id"]] == null)
+                            Container(
+                              margin: EdgeInsets.only(right: 20),
+                              child: const SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xffffffff),
+                                    strokeWidth: 2,
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  padding: EdgeInsets.only(right: 5),
-                                  child: Text(
-                                    "进行中",
-                                    style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                              ),
+                            ),
+                          if (vegasDetails[veagsMarkets[index]["market_id"]] != null)
+                            Container(
+                              margin: EdgeInsets.all(2),
+                              padding: EdgeInsets.only(left: 10, right: 10, top: 2, bottom: 2),
+                              decoration: new BoxDecoration(
+                                // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                color: getResultColor(index),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    padding: EdgeInsets.all(2),
+                                    child: Image(
+                                      image: getResultIcon(index),
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    margin: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      getResultContent(index),
+                                      style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 5, right: 5),
-                            child: Text(
-                              "AE/次",
-                              style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -283,5 +323,83 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
         ),
       ),
     );
+  }
+
+  String getResultContent(int index) {
+    //已经结束
+    if (currentHeight > int.parse(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["over_height"])) {
+      //已经结束但是进度还是0 就表示等待结果中
+      if ("0" == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["progress"]) {
+        return "状态:等待结果";
+      }
+      // //已经有结果了,确认是否中奖
+      //   //选择的第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"]);
+      //   //结果是第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]);
+      //已中奖
+      if(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"] == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]){
+        //已领取
+        if(vegasDetails[veagsMarkets[index]["market_id"]]["is_user_markets_receive_record"] ){
+          return "状态:已领取";
+        }
+        return "状态:等待领取";
+      }
+      //未中奖
+      return "状态:未中奖";
+    }
+    return "状态:进行中";
+  }
+
+  AssetImage getResultIcon(index) {
+    //已经结束
+    if (currentHeight > int.parse(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["over_height"])) {
+      //已经结束但是进度还是0 就表示等待结果中
+      if ("0" == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["progress"]) {
+        return AssetImage("images/vegas_type_progress.png");
+      }
+      // //已经有结果了,确认是否中奖
+      //   //选择的第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"]);
+      //   //结果是第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]);
+      //已中奖
+      if(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"] == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]){
+        //已领取
+        if(vegasDetails[veagsMarkets[index]["market_id"]]["is_user_markets_receive_record"] ){
+          return AssetImage("images/vegas_type_success_ok.png");
+        }
+        return AssetImage("images/vegas_type_success_no.png");
+      }
+      //未中奖
+      return AssetImage("images/vegas_type_failure.png");
+    }
+    return AssetImage("images/vegas_type_dice.png");
+  }
+
+  Color getResultColor(index) {
+    //已经结束
+    if (currentHeight > int.parse(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["over_height"])) {
+      //已经结束但是进度还是0 就表示等待结果中
+      if ("0" == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["progress"]) {
+        return Color(0xff6200C3);
+      }
+      // //已经有结果了,确认是否中奖
+      //   //选择的第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"]);
+      //   //结果是第几个
+      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]);
+      //已中奖
+      if(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"] == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]){
+        //已领取
+        if(vegasDetails[veagsMarkets[index]["market_id"]]["is_user_markets_receive_record"] ){
+          return Color(0xff58A000);
+        }
+        return Color(0xff315BF7);
+      }
+      //未中奖
+      return Color(0xffA0A4B3);
+    }
+    return Color(0xff315bf7);
   }
 }

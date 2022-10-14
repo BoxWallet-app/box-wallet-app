@@ -49,7 +49,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
     });
   }
 
-  Future<void> aeVegasMarkeStart() async {
+  Future<void> aeVegasMarketStart() async {
     if (!mounted) return;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     var cacheBalance = await CacheManager.instance.getBalance(account!.address!, account.coin!);
@@ -59,7 +59,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
     }
     //
     var params = {
-      "name": "aeVegasMarkeStart",
+      "name": "aeVegasMarketStart",
       "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "isSelf": false}
     };
     var channelJson = json.encode(params);
@@ -90,7 +90,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
         return;
       }
       currentHeight = jsonResponse["result"]["height"];
-      aeVegasMarkeStart();
+      aeVegasMarketStart();
       setState(() {});
       return;
     }, channelJson);
@@ -204,6 +204,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                     Container(
                       //边框设置
                       padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                      // padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
                       decoration: new BoxDecoration(
                         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                         color: Color(0xff315bf7),
@@ -213,15 +214,15 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.temple_hindu_outlined,
+                            Icons.safety_check,
                             color: Colors.white,
-                            size: 15,
+                            size: 14,
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 5),
+                            margin: const EdgeInsets.only(left: 2),
                             child: Text(
-                              "安全",
-                              style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                              "Safe",
+                              style: new TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                             ),
                           ),
                         ],
@@ -235,7 +236,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                         child: Text(
-                          "距离结束 : " + (Utils.formatHeight(context, currentHeight, int.parse(veagsMarkets[index]["value"]["over_height"].toString()))).toString(),
+                          "End Time:" + (Utils.formatHeight(context, currentHeight, int.parse(veagsMarkets[index]["value"]["over_height"].toString()))).toString(),
                           style: new TextStyle(
                             fontSize: 14,
                             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -261,14 +262,14 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 child: Text(
                   veagsMarkets[index]["value"]["content"],
                   textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
+                  style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
                 ),
               ),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                 child: Text(
-                  "数据源 : " + veagsMarkets[index]["value"]["source_url"],
+                  "Source:" + veagsMarkets[index]["value"]["source_url"],
                   style: new TextStyle(
                     fontSize: 14,
                     fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -292,26 +293,27 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         left: 10,
                       ),
                       child: Text(
-                        "总投入: " + AmountDecimal.parseUnits(veagsMarkets[index]["value"]["total_amount"], 18) + " (AE)",
-                        style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
+                        "Total:" + AmountDecimal.parseUnits(veagsMarkets[index]["value"]["total_amount"], 18) + "(AE)",
+                        style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                       ),
                     ),
                     Expanded(child: Container()),
                     Container(
                       margin: EdgeInsets.only(right: 10),
                       decoration: new BoxDecoration(
-                        border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
+                        border: new Border.all(color: Color.fromARGB(152, 255, 255, 255), width: 1),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderRadius: BorderRadius.all(Radius.circular(7)),
                       ),
                       child: Row(
                         children: [
                           Container(
-                            margin: EdgeInsets.all(2),
+                            margin: EdgeInsets.all(1),
+                            padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
                             decoration: new BoxDecoration(
                               // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
                               //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
                               color: Color(0xff315bf7),
                             ),
                             child: Row(
@@ -329,7 +331,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                                   margin: EdgeInsets.only(left: 5),
                                   padding: EdgeInsets.only(right: 5),
                                   child: Text(
-                                    "进行中",
+                                    "IN PROGRESS",
                                     style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                   ),
                                 ),
@@ -337,10 +339,10 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 5, right: 5),
+                            margin: EdgeInsets.only(left: 5,right: 5),
                             child: Text(
-                              AmountDecimal.parseUnits(veagsMarkets[index]["value"]["min_amount"], 18) + "AE/次",
-                              style: new TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                              AmountDecimal.parseUnits(veagsMarkets[index]["value"]["min_amount"], 18) + "/AE",
+                              style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                             ),
                           ),
                         ],
