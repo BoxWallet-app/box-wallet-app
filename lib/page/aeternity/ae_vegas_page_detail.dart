@@ -366,7 +366,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+                      margin: const EdgeInsets.only(bottom: 12, left: 19, right: 18),
                       child: Column(
                         children: [
                           Container(
@@ -585,7 +585,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+                      margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
                       padding: EdgeInsets.only(top: 14, left: 14, right: 14, bottom: 20),
                       child: Container(
                         child: Column(
@@ -625,7 +625,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+                      margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
                       padding: EdgeInsets.all(14),
                       child: Container(
                         child: Column(

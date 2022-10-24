@@ -187,7 +187,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
   Widget itemListView(BuildContext context, int index) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+      margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: Color(0xff1B1B23),

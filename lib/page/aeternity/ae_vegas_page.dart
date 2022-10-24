@@ -155,7 +155,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
             //   ),
             // ),
             Container(
-              margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
+              margin: const EdgeInsets.only(left: 18, right: 18, bottom: 12, top: 12),
               child: Image(
                 image: AssetImage("images/vegas_header_market.png"),
               ),
@@ -181,7 +181,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
   Widget itemListView(BuildContext context, int index) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+      margin: const EdgeInsets.only(bottom: 12, left: 18, right: 19),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: Color(0xff1B1B23),
