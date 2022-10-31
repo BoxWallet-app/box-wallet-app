@@ -23,6 +23,7 @@ import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
 import 'ae_home_page.dart';
 import 'ae_vegas_page_detail.dart';
+import 'aens_market_detail_page.dart';
 
 class AensMarketOrdersPage extends BaseWidget {
   @override
@@ -31,11 +32,11 @@ class AensMarketOrdersPage extends BaseWidget {
 
 class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
   var loadingType = LoadingType.loading;
-  var aensOrders;
+  List aensOrders = [];
   var currentHeight;
 
   Future<void> _onRefresh() async {
-    aeAensMarketGetNamesOrder();
+    netNodeHeight();
   }
 
   @override
@@ -165,15 +166,15 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
           borderRadius: BorderRadius.all(Radius.circular(12)),
 
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AensMarketDetailPage(currentHeight:currentHeight,aensDetail: aensOrders[index])));
           },
           child: Container(
 
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.only(left: 18,right: 18),
             child: Column(
               children: [
                 Container(
-                  height: 60,
+                  margin: const EdgeInsets.only(top: 18),
                   alignment: Alignment.center,
                   child: Row(
                     children: [
@@ -184,15 +185,14 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                           child: Text(
                             "AENS",
                             textAlign: TextAlign.center,
-                            style: new TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
                           ),
                         ),
                       ),
                       Expanded(child: Container()),
                       Container(
-                        height: 38,
                         margin: EdgeInsets.only(left: 50),
-                        padding: EdgeInsets.only(left: 15,right: 15),
+                        padding: EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 5),
                         decoration: new BoxDecoration(
                           color: Color(0xFFF22B79),
                           // color: Colors.white,
@@ -201,19 +201,20 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         ),
                         alignment: Alignment.centerRight,
                         child: AutoSizeText(
-                          "j.chain",
+                          aensOrders[index]["value"]["name"],
                           maxLines: 1,
                           minFontSize: 12,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
-                          style: new TextStyle (fontSize:16,fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
+                          style: new TextStyle (fontSize:14,fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  height: 60,
+                  padding: const EdgeInsets.only(top: 18),
+
                   alignment: Alignment.center,
                   child: Row(
                     children: [
@@ -222,9 +223,9 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "价格",
+                            "最新价格(AE)",
                             textAlign: TextAlign.center,
-                            style: new TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
                           ),
                         ),
                       ),
@@ -239,18 +240,130 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         ),
                         alignment: Alignment.centerRight,
                         child: AutoSizeText(
-                          "0.02 AE",
+                         AmountDecimal.parseUnits(aensOrders[index]["value"]["current_amount"],18),
                           maxLines: 1,
                           minFontSize: 12,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
-                          style: new TextStyle (fontSize:18, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.black),
+                          style: new TextStyle (fontSize:14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.black),
                         ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  margin: const EdgeInsets.only(top: 18),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      Container(
 
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "发起人",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        margin: EdgeInsets.only(left: 50),
+                        padding: EdgeInsets.only(left: 10,right: 10),
+                        decoration: new BoxDecoration(
+                          // color: Colors.white,
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(102.0)),
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: AutoSizeText(
+                          Utils.formatAddress(aensOrders[index]["value"]["old_owner"]),
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: new TextStyle (fontSize:14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 18),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      Container(
+
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "最后加价人",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        margin: EdgeInsets.only(left: 50),
+                        padding: EdgeInsets.only(left: 10,right: 10),
+                        decoration: new BoxDecoration(
+                          // color: Colors.white,
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(102.0)),
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: AutoSizeText(
+                          Utils.formatAddress(  Utils.formatAddress(aensOrders[index]["value"]["new_owner"]),),
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: new TextStyle (fontSize:14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),   Container(
+                  margin: const EdgeInsets.only(top: 18,bottom: 18),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      Container(
+
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "结束时间",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color:  Colors.black),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        margin: EdgeInsets.only(left: 50),
+                        padding: EdgeInsets.only(left: 10,right: 10),
+                        decoration: new BoxDecoration(
+                          // color: Colors.white,
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(102.0)),
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: AutoSizeText(
+                          Utils.formatHeight(context, currentHeight,int.parse(aensOrders[index]["value"]["over_height"])),
+                          maxLines: 1,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: new TextStyle (fontSize:14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
