@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
 import 'package:box/model/aeternity/token_list_model.dart';
@@ -47,6 +48,12 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
   @override
   void initState() {
     super.initState();
+    eventBus.on<AensUpdateEvent>().listen((event) {
+      if (!mounted) return;
+       loadingType = LoadingType.loading;
+      setState(() {});
+      _onRefresh();
+    });
     _onRefresh();
   }
 
@@ -205,7 +212,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(12)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AensMarketDetailPage(currentHeight: currentHeight, aensDetail: aensOrders[index])));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AensMarketDetailPage(currentHeight: currentHeight, name: aensOrders[index]["value"]["name"])));
           },
           child: Container(
             padding: const EdgeInsets.only(left: 18, right: 18),
@@ -226,24 +233,26 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                           ),
                         ),
                       ),
-                      Expanded(child: Container()),
-                      Container(
-                        margin: EdgeInsets.only(left: 50),
-                        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                        decoration: new BoxDecoration(
-                          color: Color(0xFFF22B79),
-                          // color: Colors.white,
-                          //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(102.0)),
-                        ),
-                        alignment: Alignment.centerRight,
-                        child: AutoSizeText(
-                          aensOrders[index]["value"]["name"],
-                          maxLines: 1,
-                          minFontSize: 12,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.white),
+                      // Expanded(child: Container(),),
+                      Expanded(
+                        child: Container(
+
+                          margin: EdgeInsets.only(left: 50),
+                          padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                          decoration: new BoxDecoration(
+                            // color: Color(0xFFF22B79),
+                            // color: Colors.white,
+                            //设置四周圆角 角度
+                            borderRadius: BorderRadius.all(Radius.circular(102.0)),
+                          ),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+
+                            aensOrders[index]["value"]["name"]+"name",
+
+                            softWrap: true,
+                            style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
+                          ),
                         ),
                       ),
                     ],

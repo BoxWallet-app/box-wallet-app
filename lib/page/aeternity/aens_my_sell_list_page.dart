@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:box/dao/aeternity/aens_page_dao.dart';
+import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/aens_page_model.dart';
 import 'package:box/page/aeternity/ae_aens_detail_page.dart';
@@ -19,6 +20,7 @@ import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
 import '../../model/aeternity/wallet_coins_model.dart';
 import 'ae_home_page.dart';
+import 'aens_sell_put_page.dart';
 
 class MySellAeAensListPage extends StatefulWidget {
 
@@ -37,6 +39,7 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
   @override
   void initState() {
     super.initState();
+
     netData();
   }
 
@@ -140,7 +143,6 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
   }
 
   Column buildColumn(BuildContext context, int position) {
-    print(aensModel['data']['aens'][position]['name']);
     return Column(
       children: <Widget>[
         Material(
@@ -149,14 +151,14 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
           child: InkWell(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
             onTap: () {
+              Navigator.of(context).pop();
               print(aensModel['data']['currentHeight']);
               print(aensModel['data']['aens'][position]);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AeAensDetailPage(
-                            currentHeight: aensModel['data']['currentHeight'],
-                            aensDetail: aensModel['data']['aens'][position],
+                      builder: (context) => AensSellPutPage(
+                            name: aensModel['data']['aens'][position]['name'],
                           )));
             },
             child: Container(
