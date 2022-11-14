@@ -613,9 +613,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
   @override
   Widget build(BuildContext context) {
-    logger.info(isPairsLoading);
-    logger.info(isBalanceLoading);
-    logger.info(isAllowanceLoading);
+    // logger.info(isPairsLoading);
+    // logger.info(isBalanceLoading);
+    // logger.info(isAllowanceLoading);
     return Scaffold(
       backgroundColor: Color(0xFFfafbfc),
       appBar: AppBar(
@@ -661,237 +661,251 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
               margin: const EdgeInsets.only(top: 0, left: 18, right: 18),
               child: Container(
                 decoration: new BoxDecoration(
-                  color: Color.fromARGB(230, 255, 255, 255),
+                  // color: Color.fromARGB(230, 255, 255, 255),
                   //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  // borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.only(top: 20, left: 18, right: 18),
-                      child: Row(
+                      padding: const EdgeInsets.only(top: 12, bottom:12,left: 18, right: 18),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
+                      child: Column(
                         children: [
                           Container(
-                            child: Text(
-                              "卖出",
-                              style: new TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666),
-                                //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                              ),
+
+
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "卖出",
+                                    style: new TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF666666),
+                                      //                                            fontWeight: FontWeight.w600,
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                    ),
+                                  ),
+                                ),
+                                Expanded(child: Container()),
+                                if (this.sellTokenAmount.isEmpty)
+                                  Container(
+                                    height: 20,
+                                    child: Lottie.asset(
+                                      'images/loading.json',
+                                    ),
+                                  ),
+                                if (this.sellTokenAmount.isNotEmpty)
+                                  Container(
+                                    height: 20,
+                                    child: Text(
+                                      "价格: " + sellTokenAmount,
+                                      style: new TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xff333333),
+                                        //                                            fontWeight: FontWeight.w600,
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                      ),
+                                    ),
+                                  ),
+                                InkWell(
+                                  onTap: () {
+                                    sellTextControllerNode.text = sellTokenAmount;
+                                    sellTextUpdateBuyAmount();
+                                  },
+                                  child: Container(
+                                    height: 20,
+                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    child: Text(
+                                      "[最大]",
+                                      style: new TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFFFC2365),
+                                        //                                            fontWeight: FontWeight.w600,
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(child: Container()),
-                          if (this.sellTokenAmount.isEmpty)
-                            Container(
-                              height: 20,
-                              child: Lottie.asset(
-                                'images/loading.json',
-                              ),
-                            ),
-                          if (this.sellTokenAmount.isNotEmpty)
-                            Container(
-                              height: 20,
-                              child: Text(
-                                "价格: " + sellTokenAmount,
-                                style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff333333),
-                                  //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                ),
-                              ),
-                            ),
                           InkWell(
                             onTap: () {
-                              sellTextControllerNode.text = sellTokenAmount;
-                              sellTextUpdateBuyAmount();
+                              sellFocusNode.unfocus();
+                              buyFocusNode.unfocus();
+                              showMaterialModalBottomSheet(
+                                  context: context,
+                                  expand: true,
+                                  enableDrag: false,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => AeSelectTokenListPage(
+                                    aeCount: AeHomePage.token,
+                                    aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                      if (tokenContract == this.buyTokenAddress) {
+                                        showToast("你不能兑换相同的积分");
+                                        return;
+                                      }
+                                      this.sellTokenName = tokenName!;
+                                      this.sellTokenImage = tokenImage!;
+                                      this.sellTokenAddress = tokenContract!;
+                                      this.sellTokenAmount = "";
+                                      this.sellTextControllerNode.text = "";
+                                      this.buyTextControllerNode.text = "";
+                                      buttonText = "加载中...";
+                                      isPairsLoading = true;
+                                      setState(() {});
+                                      aeAex9TokenAllowance();
+                                      updateSellAmount();
+                                      tokenRate = "";
+                                      setState(() {});
+                                      netSwapRoutes();
+                                      return;
+                                    },
+                                  )
+//
+                              );
                             },
                             child: Container(
-                              height: 20,
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: Text(
-                                "[最大]",
-                                style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFFFC2365),
-                                  //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                ),
+                              margin: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 36.0,
+                                    height: 36.0,
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        sellTokenImage,
+                                        errorBuilder: (
+                                            BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace,
+                                            ) {
+                                          return Container(
+                                            color: Colors.grey.shade200,
+                                          );
+                                        },
+                                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) return child;
+                                          return AnimatedOpacity(
+                                            child: child,
+                                            opacity: frame == null ? 0 : 1,
+                                            duration: const Duration(seconds: 2),
+                                            curve: Curves.easeOut,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 10, right: 8),
+                                        child: Text(
+                                          sellTokenName,
+                                          style: new TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xff333333),
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image(
+                                    width: 20,
+                                    height: 20,
+                                    color: Color(0xff666666),
+                                    image: AssetImage("images/ic_swap_down.png"),
+                                  ),
+                                  Expanded(child: Container()),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Container(
+                                      // height: 70,
+                                      //                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      //边框设置
+                                      decoration: new BoxDecoration(
+                                        color: Color.fromARGB(0, 237, 243, 247),
+                                        //设置四周圆角 角度
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: TextField(
+                                        controller: sellTextControllerNode,
+                                        focusNode: sellFocusNode,
+
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                          CustomTextFieldFormatter(digit: 6),
+                                        ],
+
+                                        textAlign: TextAlign.right,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          textBaseline: TextBaseline.alphabetic,
+                                          fontSize: 26,
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                          color: Colors.black,
+                                        ),
+                                        decoration: InputDecoration(
+                                          hintText: "0.00",
+                                          // contentPadding: EdgeInsets.only(left: 10.0),
+                                          contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                          enabledBorder: new OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Color.fromARGB(0, 255, 255, 255),
+                                            ),
+                                          ),
+                                          focusedBorder: new OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            // borderRadius: BorderRadius.circular(10.0),
+                                          ),
+                                          hintStyle: TextStyle(
+                                            fontSize: 26,
+                                            color: Color(0xFF666666).withAlpha(85),
+                                          ),
+                                        ),
+                                        cursorColor: Color(0xFFFC2365),
+                                        cursorWidth: 2,
+                                        //                                cursorRadius: Radius.elliptical(20, 8),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        sellFocusNode.unfocus();
-                        buyFocusNode.unfocus();
-                        showMaterialModalBottomSheet(
-                            context: context,
-                            expand: true,
-                            enableDrag: false,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => AeSelectTokenListPage(
-                                  aeCount: AeHomePage.token,
-                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
-                                    if (tokenContract == this.buyTokenAddress) {
-                                      showToast("你不能兑换相同的积分");
-                                      return;
-                                    }
-                                    this.sellTokenName = tokenName!;
-                                    this.sellTokenImage = tokenImage!;
-                                    this.sellTokenAddress = tokenContract!;
-                                    this.sellTokenAmount = "";
-                                    this.sellTextControllerNode.text = "";
-                                    this.buyTextControllerNode.text = "";
-                                    buttonText = "加载中...";
-                                    isPairsLoading = true;
-                                    setState(() {});
-                                    aeAex9TokenAllowance();
-                                    updateSellAmount();
-                                    tokenRate = "";
-                                    setState(() {});
-                                    netSwapRoutes();
-                                    return;
-                                  },
-                                )
-//
-                            );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: 36.0,
-                              height: 36.0,
-                              decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: ClipOval(
-                                child: Image.network(
-                                  sellTokenImage,
-                                  errorBuilder: (
-                                    BuildContext context,
-                                    Object error,
-                                    StackTrace? stackTrace,
-                                  ) {
-                                    return Container(
-                                      color: Colors.grey.shade200,
-                                    );
-                                  },
-                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                    if (wasSynchronouslyLoaded) return child;
-                                    return AnimatedOpacity(
-                                      child: child,
-                                      opacity: frame == null ? 0 : 1,
-                                      duration: const Duration(seconds: 2),
-                                      curve: Curves.easeOut,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(left: 10, right: 8),
-                                  child: Text(
-                                    sellTokenName,
-                                    style: new TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xff333333),
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Image(
-                              width: 20,
-                              height: 20,
-                              color: Color(0xff666666),
-                              image: AssetImage("images/ic_swap_down.png"),
-                            ),
-                            Expanded(child: Container()),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Container(
-                                // height: 70,
-                                //                      padding: EdgeInsets.only(left: 10, right: 10),
-                                //边框设置
-                                decoration: new BoxDecoration(
-                                  color: Color.fromARGB(0, 237, 243, 247),
-                                  //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                ),
-                                width: MediaQuery.of(context).size.width,
-                                child: TextField(
-                                  controller: sellTextControllerNode,
-                                  focusNode: sellFocusNode,
 
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-                                    CustomTextFieldFormatter(digit: 6),
-                                  ],
-
-                                  textAlign: TextAlign.right,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    textBaseline: TextBaseline.alphabetic,
-                                    fontSize: 26,
-                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                    color: Colors.black,
-                                  ),
-                                  decoration: InputDecoration(
-                                    hintText: "0.00",
-                                    // contentPadding: EdgeInsets.only(left: 10.0),
-                                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                                    enabledBorder: new OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Color.fromARGB(0, 255, 255, 255),
-                                      ),
-                                    ),
-                                    focusedBorder: new OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        // borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                    hintStyle: TextStyle(
-                                      fontSize: 26,
-                                      color: Color(0xFF666666).withAlpha(85),
-                                    ),
-                                  ),
-                                  cursorColor: Color(0xFFFC2365),
-                                  cursorWidth: 2,
-                                  //                                cursorRadius: Radius.elliptical(20, 8),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.only(left: 18, right: 18),
+                      margin: const EdgeInsets.only(left: 18,top: 5,bottom: 5, right: 18),
                       height: 35,
                       child: Row(
                         children: [
                           Expanded(
                             child: Container(
                               height: 1,
-                              color: Color(0xFFF3F3F3),
+                              // color: Color(0xFFF3F3F3),
                             ),
                           ),
                           InkWell(
@@ -949,220 +963,234 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           Expanded(
                             child: Container(
                               height: 1,
-                              color: Color(0xFFF3F3F3),
+                              // color: Color(0xFFF3F3F3),
                             ),
                           )
                         ],
                       ),
                     ),
+
+
                     Container(
-                      margin: const EdgeInsets.only(top: 6, left: 18, right: 18),
-                      child: Row(
+                      padding: const EdgeInsets.only(top: 12, bottom:12,left: 18, right: 18),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        //设置四周圆角 角度
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
+                      child: Column(
                         children: [
                           Container(
-                            child: Text(
-                              "购买",
-                              style: new TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666),
-                                //                                            fontWeight: FontWeight.w600,
-                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                              ),
-                            ),
-                          ),
-                          Expanded(child: Container()),
-                          if (this.buyTokenAmount.isEmpty)
-                            Container(
-                              height: 20,
-                              child: Lottie.asset(
-                                'images/loading.json',
-                              ),
-                            ),
-                          if (this.buyTokenAmount.isNotEmpty)
-                            Container(
-                              height: 20,
-                              child: Text(
-                                "余额: " + buyTokenAmount,
-                                style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff333333),
-                                  //                                            fontWeight: FontWeight.w600,
-                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        sellFocusNode.unfocus();
-                        buyFocusNode.unfocus();
-                        showMaterialModalBottomSheet(
-                            context: context,
-                            expand: true,
-                            enableDrag: false,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => AeSelectTokenListPage(
-                                  aeCount: AeHomePage.token,
-                                  aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
-                                    if (tokenContract == this.sellTokenAddress) {
-                                      showToast("你不能兑换相同的积分");
-                                      return;
-                                    }
-                                    this.buyTokenName = tokenName!;
-                                    this.buyTokenImage = tokenImage!;
-                                    this.buyTokenAddress = tokenContract!;
-
-                                    this.buyTokenAmount = "";
-                                    this.sellTextControllerNode.text = "";
-                                    this.buyTextControllerNode.text = "";
-
-                                    buttonText = "加载中...";
-                                    isPairsLoading = true;
-                                    setState(() {});
-
-                                    updateBuyAmount();
-                                    tokenRate = "";
-                                    setState(() {});
-                                    netSwapRoutes();
-
-                                    return;
-                                  },
-                                )
-//
-                            );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: 36.0,
-                              height: 36.0,
-                              decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: ClipOval(
-                                child: Image.network(
-                                  buyTokenImage,
-                                  errorBuilder: (
-                                    BuildContext context,
-                                    Object error,
-                                    StackTrace? stackTrace,
-                                  ) {
-                                    return Container(
-                                      color: Colors.grey.shade200,
-                                    );
-                                  },
-                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                    if (wasSynchronouslyLoaded) return child;
-                                    return AnimatedOpacity(
-                                      child: child,
-                                      opacity: frame == null ? 0 : 1,
-                                      duration: const Duration(seconds: 2),
-                                      curve: Curves.easeOut,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.only(left: 10, right: 5),
                                   child: Text(
-                                    buyTokenName,
+                                    "购买",
                                     style: new TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xff333333),
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Color(0xFF666666),
+                                      //                                            fontWeight: FontWeight.w600,
                                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Image(
-                              width: 20,
-                              height: 20,
-                              color: Color(0xff666666),
-                              image: AssetImage("images/ic_swap_down.png"),
-                            ),
-                            Expanded(child: Container()),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Container(
-                                // height: 70,
-                                //                      padding: EdgeInsets.only(left: 10, right: 10),
-                                //边框设置
-                                decoration: new BoxDecoration(
-                                  color: Color.fromARGB(0, 237, 243, 247),
-                                  //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                ),
-                                width: MediaQuery.of(context).size.width,
-                                child: TextField(
-                                  controller: buyTextControllerNode,
-                                  focusNode: buyFocusNode,
-
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-                                    CustomTextFieldFormatter(digit: 6),
-                                  ],
-
-                                  textAlign: TextAlign.right,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    textBaseline: TextBaseline.alphabetic,
-                                    fontSize: 26,
-                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                    color: Colors.black,
+                                Expanded(child: Container()),
+                                if (this.buyTokenAmount.isEmpty)
+                                  Container(
+                                    height: 20,
+                                    child: Lottie.asset(
+                                      'images/loading.json',
+                                    ),
                                   ),
-                                  decoration: InputDecoration(
-                                    hintText: "0.00",
-                                    // contentPadding: EdgeInsets.only(left: 10.0),
-                                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                                    enabledBorder: new OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Color.fromARGB(0, 255, 255, 255),
+                                if (this.buyTokenAmount.isNotEmpty)
+                                  Container(
+                                    height: 20,
+                                    child: Text(
+                                      "余额: " + buyTokenAmount,
+                                      style: new TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xff333333),
+                                        //                                            fontWeight: FontWeight.w600,
+                                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                       ),
                                     ),
-                                    focusedBorder: new OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              sellFocusNode.unfocus();
+                              buyFocusNode.unfocus();
+                              showMaterialModalBottomSheet(
+                                  context: context,
+                                  expand: true,
+                                  enableDrag: false,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => AeSelectTokenListPage(
+                                    aeCount: AeHomePage.token,
+                                    aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                      if (tokenContract == this.sellTokenAddress) {
+                                        showToast("你不能兑换相同的积分");
+                                        return;
+                                      }
+                                      this.buyTokenName = tokenName!;
+                                      this.buyTokenImage = tokenImage!;
+                                      this.buyTokenAddress = tokenContract!;
+
+                                      this.buyTokenAmount = "";
+                                      this.sellTextControllerNode.text = "";
+                                      this.buyTextControllerNode.text = "";
+
+                                      buttonText = "加载中...";
+                                      isPairsLoading = true;
+                                      setState(() {});
+
+                                      updateBuyAmount();
+                                      tokenRate = "";
+                                      setState(() {});
+                                      netSwapRoutes();
+
+                                      return;
+                                    },
+                                  )
+//
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 36.0,
+                                    height: 36.0,
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
+                                      borderRadius: BorderRadius.circular(30.0),
                                     ),
-                                    border: OutlineInputBorder(
-                                        // borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                    hintStyle: TextStyle(
-                                      fontSize: 26,
-                                      color: Color(0xFF666666).withAlpha(85),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        buyTokenImage,
+                                        errorBuilder: (
+                                            BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace,
+                                            ) {
+                                          return Container(
+                                            color: Colors.grey.shade200,
+                                          );
+                                        },
+                                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) return child;
+                                          return AnimatedOpacity(
+                                            child: child,
+                                            opacity: frame == null ? 0 : 1,
+                                            duration: const Duration(seconds: 2),
+                                            curve: Curves.easeOut,
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                  cursorColor: Color(0xFFFC2365),
-                                  cursorWidth: 2,
-                                  //                                cursorRadius: Radius.elliptical(20, 8),
-                                ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 10, right: 5),
+                                        child: Text(
+                                          buyTokenName,
+                                          style: new TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xff333333),
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Image(
+                                    width: 20,
+                                    height: 20,
+                                    color: Color(0xff666666),
+                                    image: AssetImage("images/ic_swap_down.png"),
+                                  ),
+                                  Expanded(child: Container()),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Container(
+                                      // height: 70,
+                                      //                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      //边框设置
+                                      decoration: new BoxDecoration(
+                                        color: Color.fromARGB(0, 237, 243, 247),
+                                        //设置四周圆角 角度
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: TextField(
+                                        controller: buyTextControllerNode,
+                                        focusNode: buyFocusNode,
+
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                          CustomTextFieldFormatter(digit: 6),
+                                        ],
+
+                                        textAlign: TextAlign.right,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          textBaseline: TextBaseline.alphabetic,
+                                          fontSize: 26,
+                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                          color: Colors.black,
+                                        ),
+                                        decoration: InputDecoration(
+                                          hintText: "0.00",
+                                          // contentPadding: EdgeInsets.only(left: 10.0),
+                                          contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                          enabledBorder: new OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Color.fromARGB(0, 255, 255, 255),
+                                            ),
+                                          ),
+                                          focusedBorder: new OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            // borderRadius: BorderRadius.circular(10.0),
+                                          ),
+                                          hintStyle: TextStyle(
+                                            fontSize: 26,
+                                            color: Color(0xFF666666).withAlpha(85),
+                                          ),
+                                        ),
+                                        cursorColor: Color(0xFFFC2365),
+                                        cursorWidth: 2,
+                                        //                                cursorRadius: Radius.elliptical(20, 8),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
+
                     Container(
-                      height: 35,
+                      height: 15,
                       margin: const EdgeInsets.only(left: 18, right: 18),
                       child: Row(
                         children: [
                           Expanded(
                             child: Container(
                               height: 1,
-                              color: Color(0xFFF3F3F3),
+                              // color: Color(0xFFF3F3F3),
                             ),
                           )
                         ],
@@ -1464,7 +1492,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                     Container(
                       height: 38,
                       decoration: new BoxDecoration(
-                        color: Color.fromARGB(255, 246, 247, 249),
+                        // color: Color.fromARGB(255, 246, 247, 249),
                         //设置四周圆角 角度
                         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
                       ),

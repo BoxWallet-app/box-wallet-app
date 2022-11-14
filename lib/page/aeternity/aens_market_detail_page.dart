@@ -47,6 +47,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
   LoadingType _loadingType = LoadingType.loading;
   late Flushbar flush;
   bool isOrderLoading = true;
+  bool isOrderNextAmountLoading = true;
   String address = '';
   int errorCount = 0;
   String? accountPubkey = "";
@@ -83,7 +84,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "AENS详情",
+          "Aens详情",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -170,31 +171,52 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       }
     }
 
-    return Container(
-      margin: const EdgeInsets.only(top: 40, bottom: 30),
+   return Container(
+      margin: const EdgeInsets.only(left: 36, right: 36, top: 48),
       child: Container(
         height: 50,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.8,
-        child: FlatButton(
-          onPressed: () {
-            aeAensMarketRaiseName(context);
-          },
-          child: Text(
-            S
-                .of(context)
-                .aens_detail_page_add + " ≈ " + nextRaisePrice + " AE",
-            maxLines: 1,
-            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
-          ),
+        clipBehavior: Clip.hardEdge,
+        // padding: const EdgeInsets.only(bottom: 6, top: 6),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
           color: Color(0xFFFC2365),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        ),
+        child: Material(
+          color: Color(0xFFFC2365),
+          child: InkWell(
+            onTap: () async {
+              if (isOrderNextAmountLoading)return;
+              aeAensMarketRaiseName(context);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isOrderNextAmountLoading)
+                  const SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xffffffff),
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                if (!isOrderNextAmountLoading)
+                   Text(
+                    S
+                        .of(context)
+                        .aens_detail_page_add + " ≈ " + nextRaisePrice + " AE",
+                    maxLines: 1,
+                    style: TextStyle(fontSize: 16, color: Color(0xffffffff)),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
+
   }
 
   getAddress() async {
@@ -209,11 +231,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
   Future<void> aeAensMarketGetNameNextRaisePrice() async {
     if (!mounted) return;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
-
     address = account!.address!;
     var params = {
       "name": "aeAensMarketGetNameNextRaisePrice",
-      "params": {"ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "address": account.address, "leftAmount": aensDetail["left_amount"]}
+      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "address": account.address, "leftAmount": aensDetail["left_amount"]}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -222,6 +243,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (jsonResponse["name"] != params['name']) {
         return;
       }
+      isOrderNextAmountLoading = false;
       nextRaisePrice = jsonResponse["result"].toString();
 
       setState(() {});
@@ -237,7 +259,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketDealName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
       };
       var channelJson = json.encode(params);
       showChainLoading("合约调用中...");
@@ -273,7 +295,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRaiseName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": "$name", "amount": nextRaisePrice}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name", "amount": nextRaisePrice}
       };
       var channelJson = json.encode(params);
       showChainLoading("合约调用中...");
@@ -292,7 +314,8 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
               .dialog_hint, message);
           return;
         }
-
+        eventBus.fire(AensUpdateEvent());
+        showFlushSucess(context,title:"加价成功",message: "域名"+name+"加价成功");
         setState(() {});
         return;
       }, channelJson);
@@ -309,7 +332,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     if (!mounted) return;
     var params = {
       "name": "aeAensMarketGetNameOrder",
-      "params": {"address": address, "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": "$name"}
+      "params": {"address": address, "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) async {
@@ -345,7 +368,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRevokedName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
       };
       var channelJson = json.encode(params);
       showChainLoading("取回中...");
@@ -381,7 +404,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
   }
 
   Container buildBtnAdd(BuildContext context) {
-    if (widget.currentHeight > aensDetail['endHeight']) {
+    if (widget.currentHeight > aensDetail['endHeight'] || isOrderNextAmountLoading) {
       return Container();
     }
     return Container(

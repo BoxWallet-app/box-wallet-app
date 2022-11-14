@@ -62,7 +62,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     var params = {
       "name": "aeAensMarketIsTradableAddress",
-      "params": {"ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "address": account!.address}
+      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "address": account!.address}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -79,6 +79,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
         isAeAensMarketIsTradableAddress = false;
         showConfirmDialog("没有权限","为了良好的用户体验,发起功能需要审核才可使用,审核请在AE官方论坛发布帖子@baixin,或者在官方群@管理员");
         return;
+
       } else {
         isAeAensMarketIsTradableAddress = true;
       }
@@ -112,7 +113,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     var params = {
       "name": "aeAensMarketGetNamesOrder",
       "params": {
-        "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz",
+        "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue",
         "address": account!.address,
       }
     };
@@ -145,7 +146,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "AENS市场",
+          "Aens Swap",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -248,7 +249,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                           alignment: Alignment.centerRight,
                           child: Text(
 
-                            aensOrders[index]["value"]["name"]+"name",
+                            aensOrders[index]["value"]["name"],
 
                             softWrap: true,
                             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),

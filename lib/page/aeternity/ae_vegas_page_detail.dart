@@ -67,7 +67,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     //
     var params = {
       "name": "aeVegasMarketDetail",
-      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address, "owner": widget.owner, "marketId": widget.marketId}
+      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address, "owner": widget.owner, "marketId": widget.marketId}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -227,7 +227,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       var params = {
         "name": "aeVegasSubmitAnswer",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"], "selectIndex": index, "amount": vegasMarket["min_amount"]}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"], "selectIndex": index, "amount": vegasMarket["min_amount"]}
       };
       var channelJson = json.encode(params);
       showChainLoading("提交中...");
@@ -260,7 +260,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       var params = {
         "name": "aeVegasReceiveReward",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
       };
       var channelJson = json.encode(params);
       showChainLoading("领取中...");

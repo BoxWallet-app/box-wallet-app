@@ -43,8 +43,11 @@ class AensSellPutPage extends BaseWidget {
 }
 
 class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
-  TextEditingController _textEditingControllerNode = TextEditingController();
-  final FocusNode focusNodeNode = FocusNode();
+  TextEditingController _amountControllerNode = TextEditingController();
+  final FocusNode amountFocusNodeNode = FocusNode();
+
+  TextEditingController _dayControllerNode = TextEditingController();
+  final FocusNode heightFocusNodeNode = FocusNode();
   var loadingType = LoadingType.loading;
   double nameMaxPrice = 0.0;
 
@@ -52,7 +55,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _textEditingControllerNode.addListener(() {
+    _amountControllerNode.addListener(() {
       setState(() {});
     });
     aeAensMarketGetNameMaxPrice();
@@ -61,7 +64,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   Future<void> aeAensMarketGetNameMaxPrice() async {
     var params = {
       "name": "aeAensMarketGetNameMaxPrice",
-      "params": {"ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": widget.name}
+      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": widget.name}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -78,13 +81,25 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   }
 
   Future<void> aeAensMarketPutName() async {
+    var amount = _amountControllerNode.text.toString();
+    if (amount == "") {
+      Fluttertoast.showToast(msg: "请输入挂单金额", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }
+    var day = _dayControllerNode.text.toString();
+    if (day == "") {
+      Fluttertoast.showToast(msg: "请输入挂单时长", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      return;
+    }
+    var height = double.parse(day) * 480;
+
+
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketPutName",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_b7BWkFT9FJPLYCCR7d8sNekCAfLrEJqQb93nXwpKSuMNgKFoz", "name": widget.name, "amount": _textEditingControllerNode.text, "height": "10"}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": widget.name, "amount": _amountControllerNode.text, "height": height.toString()}
       };
-
       var channelJson = json.encode(params);
       showChainLoading("正在添加...");
       setState(() {});
@@ -212,7 +227,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                     Container(
                       margin: EdgeInsets.only(left: 15, right: 15, top: 12),
                       child: Container(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.only(left: 18, right: 18, top: 8, bottom: 8),
                         decoration: new BoxDecoration(
                           color: Colors.white,
                           //设置四周圆角 角度
@@ -251,49 +266,178 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                       ),
                                       width: MediaQuery.of(context).size.width,
-                                      child: TextField(
-                                        controller: _textEditingControllerNode,
-                                        focusNode: focusNodeNode,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _amountControllerNode,
+                                              focusNode: amountFocusNodeNode,
 //              inputFormatters: [
 //                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
 //              ],
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-                                          CustomTextFieldFormatter(digit: 6),
-                                        ],
-                                        textAlign: TextAlign.right,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          textBaseline: TextBaseline.alphabetic,
-                                          fontSize: 18,
-                                          fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                          color: Colors.black,
-                                        ),
-                                        decoration: InputDecoration(
-                                          hintText: "0.00",
-                                          // contentPadding: EdgeInsets.only(left: 10.0),
-                                          contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                                          enabledBorder: new OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+                                                CustomTextFieldFormatter(digit: 6),
+                                              ],
+                                              textAlign: TextAlign.right,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                textBaseline: TextBaseline.alphabetic,
+                                                fontSize: 18,
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                                color: Colors.black,
+                                              ),
+                                              decoration: InputDecoration(
+                                                hintText: "0.00",
+                                                // contentPadding: EdgeInsets.only(left: 10.0),
+                                                contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(
+                                                    color: Color(0x00000000),
+                                                  ),
+                                                ),
+                                                focusedBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(color: Color(0x00000000)),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color(0x00000000).withAlpha(85),
+                                                ),
+                                              ),
+                                              cursorColor: Color(0xFFFC2365),
+                                              cursorWidth: 2,
+//                                cursorRadius: Radius.elliptical(20, 8),
                                             ),
                                           ),
-                                          focusedBorder: new OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(color: Color(0x00000000)),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              "AE",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                              ),
+                                            ),
                                           ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                          ),
-                                          hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0x00000000).withAlpha(85),
-                                          ),
-                                        ),
-                                        cursorColor: Color(0xFFFC2365),
-                                        cursorWidth: 2,
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 15, top: 12),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 18, right: 18, top: 8, bottom: 8),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Row(
+                          children: [
+                            /*1*/
+                            Column(
+                              children: [
+                                /*2*/
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "挂单天数",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            /*3*/
+                            Expanded(
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      // height: 70,
+//                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      //边框设置
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        //设置四周圆角 角度
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _dayControllerNode,
+                                              focusNode: heightFocusNodeNode,
+//              inputFormatters: [
+//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
+//              ],
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter.allow(RegExp("[0-9]")), //只允许输入字母
+                                                CustomTextFieldFormatter(digit: 6),
+                                              ],
+                                              textAlign: TextAlign.right,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                textBaseline: TextBaseline.alphabetic,
+                                                fontSize: 18,
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                                color: Colors.black,
+                                              ),
+                                              decoration: InputDecoration(
+                                                hintText: "0",
+                                                // contentPadding: EdgeInsets.only(left: 10.0),
+                                                contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
+                                                enabledBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(
+                                                    color: Color(0x00000000),
+                                                  ),
+                                                ),
+                                                focusedBorder: new OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide(color: Color(0x00000000)),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color(0x00000000).withAlpha(85),
+                                                ),
+                                              ),
+                                              cursorColor: Color(0xFFFC2365),
+                                              cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              "天 ",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -337,7 +481,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   String getConfirmText() {
     var amount;
     try {
-      amount = double.parse(_textEditingControllerNode.text);
+      amount = double.parse(_amountControllerNode.text);
     } catch (e) {
       amount = 0.0;
     }

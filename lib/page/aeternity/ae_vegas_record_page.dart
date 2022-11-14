@@ -81,7 +81,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     //
     var params = {
       "name": "aeVegasMarketRecords",
-      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address}
+      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -93,11 +93,16 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
       }
       veagsMarkets = jsonResponse["result"];
 
+      // if(veagsMarkets.length == 0){
+      //   loadingType = LoadingType.no_data;
+      // }
       setState(() {});
 
       for (int i = 0; i < veagsMarkets.length; i++) {
         aeVegasMarketDetail(veagsMarkets[i]['owner'], veagsMarkets[i]['market_id']);
       }
+
+
 
       return;
     }, channelJson);
@@ -114,7 +119,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     //
     var params = {
       "name": "aeVegasMarketDetail",
-      "params": {"ctAddress": "ct_xt1mtLzwBVMKxMMhgeCD7UCXqYF253LPvsCBrxrZPFnKguAZQ", "address": account.address, "owner": owner, "marketId": marketId}
+      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address, "owner": owner, "marketId": marketId}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
