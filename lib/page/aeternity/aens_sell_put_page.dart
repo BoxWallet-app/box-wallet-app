@@ -64,7 +64,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   Future<void> aeAensMarketGetNameMaxPrice() async {
     var params = {
       "name": "aeAensMarketGetNameMaxPrice",
-      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": widget.name}
+      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -81,14 +81,15 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   }
 
   Future<void> aeAensMarketPutName() async {
+    FocusScope.of(context).requestFocus(FocusNode());
     var amount = _amountControllerNode.text.toString();
     if (amount == "") {
-      Fluttertoast.showToast(msg: "请输入挂单金额", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg:  S.of(context).ae_aens_put_amount_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
     var day = _dayControllerNode.text.toString();
     if (day == "") {
-      Fluttertoast.showToast(msg: "请输入挂单时长", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg: S.of(context).ae_aens_put_time_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
     var height = double.parse(day) * 480;
@@ -98,10 +99,11 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketPutName",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": widget.name, "amount": _amountControllerNode.text, "height": height.toString()}
+        // "params": {"secretKey": privateKey, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name, "amount": _amountControllerNode.text, "height": "3"}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name, "amount": _amountControllerNode.text, "height": height.toString()}
       };
       var channelJson = json.encode(params);
-      showChainLoading("正在添加...");
+      showChainLoading(S.of(context).show_loading_contract_add);
       setState(() {});
       BoxApp.sdkChannelCall((result) async {
         try {
@@ -122,7 +124,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
           showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
-        showFlushSucess(context, title: "添加成功", message: "成功添加域名" + widget.name);
+        showFlushSucess(context, title: S.of(context).ae_aens_put_add_success, message:  S.of(context).ae_aens_put_add_success_2 + widget.name);
         eventBus.fire(AensUpdateEvent());
         return;
       }, channelJson);
@@ -147,7 +149,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "挂单域名",
+          S.of(context).ae_aens_put_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -194,7 +196,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                     Container(
                                       alignment: Alignment.topLeft,
                                       child: Text(
-                                        "挂单域名",
+                                        S.of(context).ae_aens_item_1,
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -242,7 +244,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "挂单价格",
+                                    S.of(context).ae_aens_item_2,
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -354,7 +356,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "挂单天数",
+                                    S.of(context).ae_aens_item_3,
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -430,7 +432,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                             margin: EdgeInsets.only(left: 10),
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              "天 ",
+                                              S.of(context).ae_aens_item_3_1,
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -462,7 +464,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                             maxLines: 1,
                             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                           ),
-                          color: Color(0xff6F53A1),
+                          color: Color(0xFFFC2365),
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
@@ -478,6 +480,8 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     );
   }
 
+
+
   String getConfirmText() {
     var amount;
     try {
@@ -487,9 +491,9 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     }
 
     if (amount > nameMaxPrice) {
-      return "确认挂单(" + (amount / 100).toString() + "手续费)";
+      return S.of(context).ae_aens_btn+"(" + (amount / 100).toString() + S.of(context).ae_aens_btn+")";
     }
 
-    return "确认挂单";
+    return S.of(context).ae_aens_btn;
   }
 }

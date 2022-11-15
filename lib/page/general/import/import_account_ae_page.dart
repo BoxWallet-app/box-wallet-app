@@ -184,8 +184,8 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
                                   child: FlatButton(
                                     onPressed: () async {
-                                      ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain) as FutureOr<ClipboardData>);
-                                      inputController.text = data.text!;
+                                      ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+                                      inputController.text = data!.text!;
                                       inputController.value = TextEditingValue(text: data.text!, selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: data.text!.length)));
                                     },
                                     child: Text(

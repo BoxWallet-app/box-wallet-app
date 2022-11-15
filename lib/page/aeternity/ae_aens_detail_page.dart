@@ -259,7 +259,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
         "params": {"secretKey": "$privateKey", "name": "$name", "address": address}
       };
       var channelJson = json.encode(params);
-      showChainLoading("正在更新AENS...");
+      showChainLoading(S.of(context).show_loading_update_aens);
       BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
         dismissChainLoading();
@@ -303,7 +303,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
           "params": {"secretKey": "$privateKey", "name": "$name"}
         };
         var channelJson = json.encode(params);
-        showChainLoading("正在注册...");
+        showChainLoading(S.of(context).show_loading_update_register);
         BoxApp.sdkChannelCall((result) {
           if (!mounted) return;
           dismissChainLoading();

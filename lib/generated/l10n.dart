@@ -4089,6 +4089,696 @@ class S {
       args: [],
     );
   }
+
+  /// `Loading...`
+  String get ae_swap_loading {
+    return Intl.message(
+      'Loading...',
+      name: 'ae_swap_loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient Liquidity`
+  String get ae_swap_liquidity_error {
+    return Intl.message(
+      'Insufficient Liquidity',
+      name: 'ae_swap_liquidity_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No such trading pair`
+  String get ae_swap_pair_error {
+    return Intl.message(
+      'No such trading pair',
+      name: 'ae_swap_pair_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance is too low`
+  String get ae_swap_balance_error {
+    return Intl.message(
+      'Balance is too low',
+      name: 'ae_swap_balance_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap in progress...`
+  String get ae_swap_ing {
+    return Intl.message(
+      'Swap in progress...',
+      name: 'ae_swap_ing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap successful`
+  String get ae_swap_success_1 {
+    return Intl.message(
+      'Swap successful',
+      name: 'ae_swap_success_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully used`
+  String get ae_swap_success_2 {
+    return Intl.message(
+      'Successfully used',
+      name: 'ae_swap_success_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap`
+  String get ae_swap_success_3 {
+    return Intl.message(
+      'Swap',
+      name: 'ae_swap_success_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorization...`
+  String get ae_swap_authorization_ing {
+    return Intl.message(
+      'Authorization...',
+      name: 'ae_swap_authorization_ing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap Points`
+  String get ae_swap_title {
+    return Intl.message(
+      'Swap Points',
+      name: 'ae_swap_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sell`
+  String get ae_swap_sell_text {
+    return Intl.message(
+      'Sell',
+      name: 'ae_swap_sell_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price`
+  String get ae_swap_price {
+    return Intl.message(
+      'Price',
+      name: 'ae_swap_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[max]`
+  String get ae_swap_sell_max {
+    return Intl.message(
+      '[max]',
+      name: 'ae_swap_sell_max',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot exchange the same points`
+  String get ae_swap_select_same_error {
+    return Intl.message(
+      'You cannot exchange the same points',
+      name: 'ae_swap_select_same_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buy`
+  String get ae_swap_buy_text {
+    return Intl.message(
+      'Buy',
+      name: 'ae_swap_buy_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Swap`
+  String get ae_swap_start {
+    return Intl.message(
+      'Start Swap',
+      name: 'ae_swap_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorization`
+  String get ae_swap_authorization {
+    return Intl.message(
+      'Authorization',
+      name: 'ae_swap_authorization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slippage Protection`
+  String get ae_swap_text_slippage {
+    return Intl.message(
+      'Slippage Protection',
+      name: 'ae_swap_text_slippage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trade Deadline`
+  String get ae_swap_text_over_time {
+    return Intl.message(
+      'Trade Deadline',
+      name: 'ae_swap_text_over_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minutes`
+  String get ae_swap_text_over_time_value {
+    return Intl.message(
+      'minutes',
+      name: 'ae_swap_text_over_time_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum single`
+  String get ae_swap_text_max_swap {
+    return Intl.message(
+      'Maximum single',
+      name: 'ae_swap_text_max_swap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The minimum will be obtained after slippage protection`
+  String get ae_swap_min_value {
+    return Intl.message(
+      'The minimum will be obtained after slippage protection',
+      name: 'ae_swap_min_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No permission`
+  String get ae_aens_add_error_1 {
+    return Intl.message(
+      'No permission',
+      name: 'ae_aens_add_error_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For a good user experience, the launch function needs to be reviewed before it can be used. For review, please post on the AE official forum @baixin, or in the official group @admin`
+  String get ae_aens_add_error_2 {
+    return Intl.message(
+      'For a good user experience, the launch function needs to be reviewed before it can be used. For review, please post on the AE official forum @baixin, or in the official group @admin',
+      name: 'ae_aens_add_error_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest Price (AE)`
+  String get ae_aens_item_price {
+    return Intl.message(
+      'Latest Price (AE)',
+      name: 'ae_aens_item_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Originator`
+  String get ae_aens_item_owner {
+    return Intl.message(
+      'Originator',
+      name: 'ae_aens_item_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last bidder`
+  String get ae_aens_item_new_owner {
+    return Intl.message(
+      'Last bidder',
+      name: 'ae_aens_item_new_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End Time`
+  String get ae_aens_item_over_time {
+    return Intl.message(
+      'End Time',
+      name: 'ae_aens_item_over_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aens details`
+  String get ae_aens_detail_title {
+    return Intl.message(
+      'Aens details',
+      name: 'ae_aens_detail_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starting Price`
+  String get ae_aens_detail_item_1 {
+    return Intl.message(
+      'Starting Price',
+      name: 'ae_aens_detail_item_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current price`
+  String get ae_aens_detail_item_2 {
+    return Intl.message(
+      'Current price',
+      name: 'ae_aens_detail_item_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Originator`
+  String get ae_aens_detail_item_3 {
+    return Intl.message(
+      'Originator',
+      name: 'ae_aens_detail_item_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last bidder`
+  String get ae_aens_detail_item_4 {
+    return Intl.message(
+      'Last bidder',
+      name: 'ae_aens_detail_item_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End of Distance`
+  String get ae_aens_detail_item_5 {
+    return Intl.message(
+      'End of Distance',
+      name: 'ae_aens_detail_item_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of markups`
+  String get ae_aens_detail_item_6 {
+    return Intl.message(
+      'Number of markups',
+      name: 'ae_aens_detail_item_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of markups`
+  String get ae_aens_detail_item_6_1 {
+    return Intl.message(
+      'Number of markups',
+      name: 'ae_aens_detail_item_6_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel transaction`
+  String get ae_aens_detail_btn_dismiss {
+    return Intl.message(
+      'Cancel transaction',
+      name: 'ae_aens_detail_btn_dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction Completed`
+  String get ae_aens_detail_btn_success {
+    return Intl.message(
+      'Transaction Completed',
+      name: 'ae_aens_detail_btn_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract calling...`
+  String get ae_aens_detail_call_ing {
+    return Intl.message(
+      'Contract calling...',
+      name: 'ae_aens_detail_call_ing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Call succeeded`
+  String get ae_aens_detail_call_success {
+    return Intl.message(
+      'Call succeeded',
+      name: 'ae_aens_detail_call_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain Name`
+  String get ae_aens_detail_call_success_1 {
+    return Intl.message(
+      'Domain Name',
+      name: 'ae_aens_detail_call_success_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete transaction`
+  String get ae_aens_detail_call_success_2 {
+    return Intl.message(
+      'Complete transaction',
+      name: 'ae_aens_detail_call_success_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful price increase`
+  String get ae_aens_detail_call_rise_success {
+    return Intl.message(
+      'Successful price increase',
+      name: 'ae_aens_detail_call_rise_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Domain Name`
+  String get ae_aens_detail_call_rise_success_1 {
+    return Intl.message(
+      'Domain Name',
+      name: 'ae_aens_detail_call_rise_success_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful price increase`
+  String get ae_aens_detail_call_rise_success_2 {
+    return Intl.message(
+      'Successful price increase',
+      name: 'ae_aens_detail_call_rise_success_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retrieve...`
+  String get ae_aens_detail_call_retrieve {
+    return Intl.message(
+      'Retrieve...',
+      name: 'ae_aens_detail_call_retrieve',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Call succeeded`
+  String get ae_aens_detail_call_retrieve_1 {
+    return Intl.message(
+      'Call succeeded',
+      name: 'ae_aens_detail_call_retrieve_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully retrieved the domain name`
+  String get ae_aens_detail_call_retrieve_2 {
+    return Intl.message(
+      'Successfully retrieved the domain name',
+      name: 'ae_aens_detail_call_retrieve_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Aens`
+  String get ae_aens_select_title {
+    return Intl.message(
+      'Select Aens',
+      name: 'ae_aens_select_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selling Aens`
+  String get ae_aens_put_title {
+    return Intl.message(
+      'Selling Aens',
+      name: 'ae_aens_put_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the pending order amount`
+  String get ae_aens_put_amount_error {
+    return Intl.message(
+      'Please enter the pending order amount',
+      name: 'ae_aens_put_amount_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the pending order time`
+  String get ae_aens_put_time_error {
+    return Intl.message(
+      'Please enter the pending order time',
+      name: 'ae_aens_put_time_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add success`
+  String get ae_aens_put_add_success {
+    return Intl.message(
+      'Add success',
+      name: 'ae_aens_put_add_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add domain name successfully`
+  String get ae_aens_put_add_success_2 {
+    return Intl.message(
+      'Add domain name successfully',
+      name: 'ae_aens_put_add_success_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Aens`
+  String get ae_aens_item_1 {
+    return Intl.message(
+      'Order Aens',
+      name: 'ae_aens_item_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Price`
+  String get ae_aens_item_2 {
+    return Intl.message(
+      'Order Price',
+      name: 'ae_aens_item_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order days`
+  String get ae_aens_item_3 {
+    return Intl.message(
+      'Order days',
+      name: 'ae_aens_item_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Days`
+  String get ae_aens_item_3_1 {
+    return Intl.message(
+      'Days',
+      name: 'ae_aens_item_3_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Selling order`
+  String get ae_aens_btn {
+    return Intl.message(
+      'Confirm Selling order',
+      name: 'ae_aens_btn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees`
+  String get ae_aens_btn_fee {
+    return Intl.message(
+      'Fees',
+      name: 'ae_aens_btn_fee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updating...`
+  String get show_loading_update_aens {
+    return Intl.message(
+      'Updating...',
+      name: 'show_loading_update_aens',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registering...`
+  String get show_loading_update_register {
+    return Intl.message(
+      'Registering...',
+      name: 'show_loading_update_register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer...`
+  String get show_loading_update_transfer {
+    return Intl.message(
+      'Transfer...',
+      name: 'show_loading_update_transfer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swapping...`
+  String get show_loading_swap {
+    return Intl.message(
+      'Swapping...',
+      name: 'show_loading_swap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorizing...`
+  String get show_loading_authorization {
+    return Intl.message(
+      'Authorizing...',
+      name: 'show_loading_authorization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transferring...`
+  String get show_loading_spend {
+    return Intl.message(
+      'Transferring...',
+      name: 'show_loading_spend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract calling...`
+  String get show_loading_contract {
+    return Intl.message(
+      'Contract calling...',
+      name: 'show_loading_contract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retrieving...`
+  String get show_loading_contract_get {
+    return Intl.message(
+      'Retrieving...',
+      name: 'show_loading_contract_get',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adding...`
+  String get show_loading_contract_add {
+    return Intl.message(
+      'Adding...',
+      name: 'show_loading_contract_add',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

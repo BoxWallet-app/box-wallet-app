@@ -205,7 +205,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                            
                                             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                             color: Color(0xFF000000).withAlpha(200),
                                           ),
@@ -473,7 +473,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                     maxLines: 1,
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      // 
                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       color: getCoinColor().withAlpha(200),
                     ),
@@ -544,7 +544,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 16),
               child: Text(getCoinFormatAddress(index),
                   strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
+                  style: TextStyle(fontSize: 16,  color: Color(0xffffffff).withAlpha(220), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
             ),
           ),
           Positioned(
@@ -595,7 +595,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Text(getAccountName(index, context)!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
+                            child: Text(getAccountName(index, context)!, style: TextStyle(fontSize: 14,  color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
                           ),
                           Container(
                             height: 20,
@@ -744,7 +744,7 @@ class _WalletSelectPageState extends State<WalletSelectPage> {
                   children: [
                     Text(
                       getAccount(walletCoinsModel!.coins![coinIndex!].accounts![index].accountType),
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(150), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                      style: TextStyle(fontSize: 12, color: Color(0xffffffff).withAlpha(150), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                     ),
                   ],
                 ),

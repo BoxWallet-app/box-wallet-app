@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
@@ -17,9 +18,7 @@ class NodePage extends StatefulWidget {
 class _NodePageState extends State<NodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
-  String? dropdownValue = 'custom';
-  TextEditingController _textEditingControllerCompiler = TextEditingController();
-  final FocusNode focusNodeCompiler = FocusNode();
+
 
   @override
   void initState() {
@@ -29,30 +28,11 @@ class _NodePageState extends State<NodePage> {
     BoxApp.getNodeUrl().then((nodeUrl) {
       BoxApp.getCompilerUrl().then((compilerUrl) {
         if (nodeUrl == "") {
-          _textEditingControllerNode.text = "https://node.aechina.io";
-          dropdownValue = "wetrue";
+          _textEditingControllerNode.text = "https://mainnet.aeternity.io";
         } else {
           _textEditingControllerNode.text = nodeUrl;
-
-          if (nodeUrl == "https://node.aeasy.io") {
-            dropdownValue = "box";
-          }
-          if (nodeUrl == "https://mainnet.aeternity.io") {
-            dropdownValue = "base";
-          }
-          if (nodeUrl == "https://node.aechina.io") {
-            dropdownValue = "wetrue";
-          }
         }
-        if (compilerUrl == "") {
-          _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
-        } else {
-          _textEditingControllerCompiler.text = compilerUrl;
-        }
-
-        setState(() {
-
-        });
+        setState(() {});
       });
     });
 
@@ -93,8 +73,7 @@ class _NodePageState extends State<NodePage> {
               ),
             ),
             onPressed: () {
-              _textEditingControllerNode.text = "https://node.aechina.io";
-              _textEditingControllerCompiler.text = "https://compiler.aeasy.io";
+              _textEditingControllerNode.text = "https://mainnet.aeternity.io";
             },
           ),
         ],
@@ -103,7 +82,6 @@ class _NodePageState extends State<NodePage> {
         behavior: HitTestBehavior.translucent,
         onTap: () {
           focusNodeNode.unfocus();
-          focusNodeCompiler.unfocus();
         },
         child: Container(
           // height: MediaQuery.of(context).size.height - MediaQueryData.fromWindow(window).padding.top,
@@ -125,36 +103,6 @@ class _NodePageState extends State<NodePage> {
                         color: Colors.black.withAlpha(180),
                         fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 18,
-                    child: DropdownButton<String>(
-                      underline: Container(),
-                      value: dropdownValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                        if (dropdownValue == "box") {
-                          _textEditingControllerNode.text = "https://node.aeasy.io";
-                        }
-                        if (dropdownValue == "base") {
-                          _textEditingControllerNode.text = "https://mainnet.aeternity.io";
-                        }
-                        if (dropdownValue == "wetrue") {
-                          _textEditingControllerNode.text = "https://node.aechina.io";
-                        }
-                        if (dropdownValue == "custom") {
-                          _textEditingControllerNode.text = "";
-                        }
-                      },
-                      items: <String>['box', 'base', 'wetrue', 'custom'].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
                     ),
                   ),
                 ],
@@ -218,69 +166,6 @@ class _NodePageState extends State<NodePage> {
 
 
               Container(
-                margin: EdgeInsets.only(left: 18, top: 10),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  S.of(context).setting_page_compiler_url,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black.withAlpha(180),
-                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                  ),
-                ),
-              ),
-
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15,top: 12),
-                decoration: new BoxDecoration(
-                  color: Color(0xFFedf3f7),
-                  //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                child: TextField(
-//                                          autofocus: true,
-
-                  controller: _textEditingControllerCompiler,
-                  focusNode: focusNodeCompiler,
-//              inputFormatters: [
-//                  FilteringTextInputFormatter.allow(RegExp("[0-9.]")), //只允许输入字母
-//              ],
-
-                  maxLines: 1,
-                  style: TextStyle(
-                    textBaseline: TextBaseline.alphabetic,
-                    fontSize: 18,
-                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    // contentPadding: EdgeInsets.only(left: 10.0),
-                    contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
-                    enabledBorder: new OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Color(0xFFFFFFFF),
-                      ),
-                    ),
-                    focusedBorder: new OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Color(0xFFFC2365)),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    hintStyle: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF666666).withAlpha(85),
-                    ),
-                  ),
-                  cursorColor: Color(0xFFFC2365),
-                  cursorWidth: 2,
-//                                cursorRadius: Radius.elliptical(20, 8),
-                ),
-              ),
-
-              Container(
                 margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
                 child: Container(
                   height: 50,
@@ -288,15 +173,11 @@ class _NodePageState extends State<NodePage> {
                   child: FlatButton(
                     onPressed: () {
                       EasyLoading.show();
-                      NodeTestDao.fetch(_textEditingControllerNode.text, _textEditingControllerCompiler.text).then((isSucess) {
+                      NodeTestDao.fetch(_textEditingControllerNode.text).then((isSucess) {
                         EasyLoading.dismiss();
                         if (isSucess) {
                           BoxApp.setNodeUrl(_textEditingControllerNode.text);
-                          BoxApp.setCompilerUrl(_textEditingControllerCompiler.text);
-                          BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
-
-                          BoxApp.setNodeCompilerUrl(_textEditingControllerNode.text, _textEditingControllerCompiler.text);
-
+                          setSDKBaseUrl(_textEditingControllerNode.text);
                           showDialog<bool>(
                             context: context,
                             barrierDismissible: false,
@@ -406,6 +287,19 @@ class _NodePageState extends State<NodePage> {
       ),
     );
   }
+
+  //设置SDK Url
+  void setSDKBaseUrl(String nodeUrl) {
+    var jsonData = {
+      "name": "aeSetNodeUrl",
+      "params": {"url": nodeUrl}
+    };
+    var channelJson = json.encode(jsonData);
+    BoxApp.sdkChannelCall((result) {
+      return;
+    }, channelJson);
+  }
+
 
   Material buildItem(String key, bool isSelect, GestureTapCallback tab) {
     return Material(

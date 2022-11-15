@@ -8,18 +8,13 @@ import 'package:dio/dio.dart';
 import '../../main.dart';
 
 class NodeTestDao {
-  static Future<bool> fetch(String nodeUrl, String compilerUrl) async {
+  static Future<bool> fetch(String nodeUrl) async {
 
 
 
     try{
       Response responseNode = await Dio().get(nodeUrl + "/v2/blocks/top");
       if (responseNode.statusCode != 200) {
-        return false;
-      }
-      Response responseCompiler = await Dio().get(compilerUrl + "/version");
-
-      if (responseCompiler.statusCode != 200) {
         return false;
       }
       return true;

@@ -441,7 +441,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
           "params": {"secretKey": "$privateKey", "name": "$name"}
         };
         var channelJson = json.encode(params);
-        showChainLoading("Claim AENS...");
+        showChainLoading(S.of(context).show_loading_update_register);
         BoxApp.sdkChannelCall((result) {
           dismissChainLoading();
           if (!mounted) return;

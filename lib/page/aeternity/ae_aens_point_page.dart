@@ -223,7 +223,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
         "params": {"secretKey": "$privateKey", "name": "$name", "address": pointAddress}
       };
       var channelJson = json.encode(params);
-      showChainLoading("Update AENS...");
+      showChainLoading(S.of(context).show_loading_update_aens);
       BoxApp.sdkChannelCall((result) {
         dismissChainLoading();
         if (!mounted) return;

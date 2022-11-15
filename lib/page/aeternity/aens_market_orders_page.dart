@@ -62,7 +62,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     var params = {
       "name": "aeAensMarketIsTradableAddress",
-      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "address": account!.address}
+      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "address": account!.address}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -77,7 +77,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
       var name = jsonResponse["result"]["name"];
       if (name == "") {
         isAeAensMarketIsTradableAddress = false;
-        showConfirmDialog("没有权限","为了良好的用户体验,发起功能需要审核才可使用,审核请在AE官方论坛发布帖子@baixin,或者在官方群@管理员");
+        showConfirmDialog(S.of(context).ae_aens_add_error_1,S.of(context).ae_aens_add_error_2);
         return;
 
       } else {
@@ -113,7 +113,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     var params = {
       "name": "aeAensMarketGetNamesOrder",
       "params": {
-        "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue",
+        "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE",
         "address": account!.address,
       }
     };
@@ -146,7 +146,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "Aens Swap",
+          "Aens Market",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -268,7 +268,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "最新价格(AE)",
+                            S.of(context).ae_aens_item_price,
                             textAlign: TextAlign.center,
                             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                           ),
@@ -305,7 +305,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "发起人",
+                            S.of(context).ae_aens_item_owner,
                             textAlign: TextAlign.center,
                             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                           ),
@@ -342,7 +342,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "最后加价人",
+                            S.of(context).ae_aens_item_new_owner,
                             textAlign: TextAlign.center,
                             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                           ),
@@ -381,7 +381,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
                         child: Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "结束时间",
+                            S.of(context).ae_aens_item_over_time,
                             textAlign: TextAlign.center,
                             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
                           ),

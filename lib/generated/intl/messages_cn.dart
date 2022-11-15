@@ -151,6 +151,61 @@ class MessageLookup extends MessageLookupByLibrary {
             "助记词用于登录钱包,按照顺序将12个单词进行填写,单词之间使用空格填充"),
         "account_login_page_input_mnemonic":
             MessageLookupByLibrary.simpleMessage("输入助记词"),
+        "ae_aens_add_error_1": MessageLookupByLibrary.simpleMessage("没有权限"),
+        "ae_aens_add_error_2": MessageLookupByLibrary.simpleMessage(
+            "为了良好的用户体验,发起功能需要审核才可使用,审核请在AE官方论坛发布帖子@baixin,或者在官方群@管理员"),
+        "ae_aens_btn": MessageLookupByLibrary.simpleMessage("确认挂单"),
+        "ae_aens_btn_fee": MessageLookupByLibrary.simpleMessage("手续费"),
+        "ae_aens_detail_btn_dismiss":
+            MessageLookupByLibrary.simpleMessage("取消交易"),
+        "ae_aens_detail_btn_success":
+            MessageLookupByLibrary.simpleMessage("完成交易"),
+        "ae_aens_detail_call_ing":
+            MessageLookupByLibrary.simpleMessage("合约调用中..."),
+        "ae_aens_detail_call_retrieve":
+            MessageLookupByLibrary.simpleMessage("取回中..."),
+        "ae_aens_detail_call_retrieve_1":
+            MessageLookupByLibrary.simpleMessage("调用成功"),
+        "ae_aens_detail_call_retrieve_2":
+            MessageLookupByLibrary.simpleMessage("成功取回域名"),
+        "ae_aens_detail_call_rise_success":
+            MessageLookupByLibrary.simpleMessage("加价成功"),
+        "ae_aens_detail_call_rise_success_1":
+            MessageLookupByLibrary.simpleMessage("域名"),
+        "ae_aens_detail_call_rise_success_2":
+            MessageLookupByLibrary.simpleMessage("加价成功"),
+        "ae_aens_detail_call_success":
+            MessageLookupByLibrary.simpleMessage("调用成功"),
+        "ae_aens_detail_call_success_1":
+            MessageLookupByLibrary.simpleMessage("域名"),
+        "ae_aens_detail_call_success_2":
+            MessageLookupByLibrary.simpleMessage("完成交易"),
+        "ae_aens_detail_item_1": MessageLookupByLibrary.simpleMessage("起始价"),
+        "ae_aens_detail_item_2": MessageLookupByLibrary.simpleMessage("当前价"),
+        "ae_aens_detail_item_3": MessageLookupByLibrary.simpleMessage("发起人"),
+        "ae_aens_detail_item_4": MessageLookupByLibrary.simpleMessage("最后加价人"),
+        "ae_aens_detail_item_5": MessageLookupByLibrary.simpleMessage("距离结束"),
+        "ae_aens_detail_item_6": MessageLookupByLibrary.simpleMessage("加价次数"),
+        "ae_aens_detail_item_6_1": MessageLookupByLibrary.simpleMessage("加价次数"),
+        "ae_aens_detail_title": MessageLookupByLibrary.simpleMessage("Aens详情"),
+        "ae_aens_item_1": MessageLookupByLibrary.simpleMessage("挂单域名"),
+        "ae_aens_item_2": MessageLookupByLibrary.simpleMessage("挂单价格"),
+        "ae_aens_item_3": MessageLookupByLibrary.simpleMessage("挂单天数"),
+        "ae_aens_item_3_1": MessageLookupByLibrary.simpleMessage("天 "),
+        "ae_aens_item_new_owner": MessageLookupByLibrary.simpleMessage("最后加价人"),
+        "ae_aens_item_over_time": MessageLookupByLibrary.simpleMessage("结束时间"),
+        "ae_aens_item_owner": MessageLookupByLibrary.simpleMessage("发起人"),
+        "ae_aens_item_price": MessageLookupByLibrary.simpleMessage("最新价格(AE)"),
+        "ae_aens_put_add_success": MessageLookupByLibrary.simpleMessage("添加成功"),
+        "ae_aens_put_add_success_2":
+            MessageLookupByLibrary.simpleMessage("成功添加域名"),
+        "ae_aens_put_amount_error":
+            MessageLookupByLibrary.simpleMessage("请输入挂单金额"),
+        "ae_aens_put_time_error":
+            MessageLookupByLibrary.simpleMessage("请输入挂单时长"),
+        "ae_aens_put_title": MessageLookupByLibrary.simpleMessage("挂单域名"),
+        "ae_aens_select_title":
+            MessageLookupByLibrary.simpleMessage("选择挂售Aens"),
         "ae_select_token_page_title":
             MessageLookupByLibrary.simpleMessage("选择积分"),
         "ae_status_aensBid": MessageLookupByLibrary.simpleMessage("正在绑定域名"),
@@ -170,6 +225,34 @@ class MessageLookup extends MessageLookupByLibrary {
         "ae_status_create_allowance":
             MessageLookupByLibrary.simpleMessage("设置授权数量"),
         "ae_status_decode": MessageLookupByLibrary.simpleMessage("正在解析结果"),
+        "ae_swap_authorization": MessageLookupByLibrary.simpleMessage("授权"),
+        "ae_swap_authorization_ing":
+            MessageLookupByLibrary.simpleMessage("正在授权..."),
+        "ae_swap_balance_error": MessageLookupByLibrary.simpleMessage("余额太少"),
+        "ae_swap_buy_text": MessageLookupByLibrary.simpleMessage("购买"),
+        "ae_swap_ing": MessageLookupByLibrary.simpleMessage("兑换进行中..."),
+        "ae_swap_liquidity_error":
+            MessageLookupByLibrary.simpleMessage("流动性不足"),
+        "ae_swap_loading": MessageLookupByLibrary.simpleMessage("加载中..."),
+        "ae_swap_min_value": MessageLookupByLibrary.simpleMessage("滑点保护后最低将获得"),
+        "ae_swap_pair_error": MessageLookupByLibrary.simpleMessage("没有该交易对"),
+        "ae_swap_price": MessageLookupByLibrary.simpleMessage("价格"),
+        "ae_swap_select_same_error":
+            MessageLookupByLibrary.simpleMessage("你不能兑换相同的积分"),
+        "ae_swap_sell_max": MessageLookupByLibrary.simpleMessage("[最大]"),
+        "ae_swap_sell_text": MessageLookupByLibrary.simpleMessage("卖出"),
+        "ae_swap_start": MessageLookupByLibrary.simpleMessage("开始兑换"),
+        "ae_swap_success_1": MessageLookupByLibrary.simpleMessage("兑换成功"),
+        "ae_swap_success_2": MessageLookupByLibrary.simpleMessage("成功使用"),
+        "ae_swap_success_3": MessageLookupByLibrary.simpleMessage("兑换"),
+        "ae_swap_text_max_swap":
+            MessageLookupByLibrary.simpleMessage("单次最大可兑换"),
+        "ae_swap_text_over_time":
+            MessageLookupByLibrary.simpleMessage("交易截止期限"),
+        "ae_swap_text_over_time_value":
+            MessageLookupByLibrary.simpleMessage("分钟"),
+        "ae_swap_text_slippage": MessageLookupByLibrary.simpleMessage("滑点保护"),
+        "ae_swap_title": MessageLookupByLibrary.simpleMessage("积分兑换"),
         "ae_tx_detail_page_count": MessageLookupByLibrary.simpleMessage("数量"),
         "ae_tx_detail_page_fee": MessageLookupByLibrary.simpleMessage("费用"),
         "ae_tx_detail_page_from": MessageLookupByLibrary.simpleMessage("发送者"),
@@ -530,6 +613,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_page_node_url": MessageLookupByLibrary.simpleMessage("节点地址"),
         "setting_page_title": MessageLookupByLibrary.simpleMessage("设置"),
         "settings_contact": MessageLookupByLibrary.simpleMessage("联系我们"),
+        "show_loading_authorization":
+            MessageLookupByLibrary.simpleMessage("正在授权..."),
+        "show_loading_contract":
+            MessageLookupByLibrary.simpleMessage("合约调用中..."),
+        "show_loading_contract_add":
+            MessageLookupByLibrary.simpleMessage("添加中..."),
+        "show_loading_contract_get":
+            MessageLookupByLibrary.simpleMessage("取回中..."),
+        "show_loading_spend": MessageLookupByLibrary.simpleMessage("转账中..."),
+        "show_loading_swap": MessageLookupByLibrary.simpleMessage("正在兑换..."),
+        "show_loading_update_aens":
+            MessageLookupByLibrary.simpleMessage("正在更新..."),
+        "show_loading_update_register":
+            MessageLookupByLibrary.simpleMessage("正在注册..."),
+        "show_loading_update_transfer":
+            MessageLookupByLibrary.simpleMessage("正在转移..."),
         "swap_buy_sell_order": MessageLookupByLibrary.simpleMessage("订单"),
         "swap_buy_sell_order_item_1":
             MessageLookupByLibrary.simpleMessage("卖方"),

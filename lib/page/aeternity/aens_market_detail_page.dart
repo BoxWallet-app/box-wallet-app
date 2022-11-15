@@ -27,6 +27,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AensMarketDetailPage extends BaseWidget {
@@ -61,10 +62,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     super.initState();
     getAddress();
     aeAensMarketGetNameOrder();
-
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +82,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Aens详情",
+          S.of(context).ae_aens_detail_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -97,40 +95,32 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
         onPressedError: () {
           // netAensInfo();
         },
-        child: isOrderLoading ?Container(): SingleChildScrollView(
-          child: Column(
-            children: [
-              buildItem("AENS", aensDetail["name"]), buildItem("起始价", AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"),
-              buildItem("当前价", AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"),
-              buildItem("发起人", Utils.formatAddress(aensDetail["old_owner"])),
-              buildItem("最后加价人", Utils.formatAddress(aensDetail["new_owner"])),
-              buildItem("距离结束", Utils.formatHeight(context, widget.currentHeight,
-                  int.parse(aensDetail["over_height"]))),
-              buildItem("加价次数", aensDetail["premium_count"] + "次"), getTypeButton(context)],
-          ),
-        ),
+        child: isOrderLoading
+            ? Container()
+            : EasyRefresh(
+              child: SingleChildScrollView(
+                  child: Column(
+                    children: [buildItem("AENS", aensDetail["name"]), buildItem(S.of(context).ae_aens_detail_item_1, AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_2, AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_3, Utils.formatAddress(aensDetail["old_owner"])), buildItem(S.of(context).ae_aens_detail_item_4, Utils.formatAddress(aensDetail["new_owner"])), buildItem(S.of(context).ae_aens_detail_item_5, Utils.formatHeight(context, widget.currentHeight, int.parse(aensDetail["over_height"]))), buildItem(S.of(context).ae_aens_detail_item_6, aensDetail["premium_count"] + "次"), getTypeButton(context)],
+                  ),
+                ),
+            ),
       ),
     );
   }
 
   Container getTypeButton(BuildContext context) {
-
-
-    if (aensDetail["new_owner"] == address &&  int.parse(aensDetail["premium_count"]) == 0) {
+    if (aensDetail["new_owner"] == address && int.parse(aensDetail["premium_count"]) == 0) {
       return Container(
         margin: const EdgeInsets.only(top: 40, bottom: 30),
         child: Container(
           height: 50,
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.8,
           child: FlatButton(
             onPressed: () {
               aeAensMarketRevokedName(context);
             },
             child: Text(
-              "取消交易",
+              S.of(context).ae_aens_detail_btn_dismiss,
               maxLines: 1,
               style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
             ),
@@ -142,36 +132,31 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       );
     }
     //已结束
-    if (widget.currentHeight > int.parse(aensDetail["over_height"])) {
+    if (widget.currentHeight >= int.parse(aensDetail["over_height"])) {
       //可取
-      if (aensDetail["new_owner"] == address || aensDetail["old_owner"] == address) {
-        return Container(
-          margin: const EdgeInsets.only(top: 40, bottom: 30),
-          child: Container(
-            height: 50,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.8,
-            child: FlatButton(
-              onPressed: () {
-                aeAensMarketDealName(context);
-              },
-              child: Text(
-                "完成交易",
-                maxLines: 1,
-                style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
-              ),
-              color: Color(0xFFFC2365),
-              textColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      return Container(
+        margin: const EdgeInsets.only(top: 40, bottom: 30),
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: FlatButton(
+            onPressed: () {
+              aeAensMarketDealName(context);
+            },
+            child: Text(
+              S.of(context).ae_aens_detail_btn_success,
+              maxLines: 1,
+              style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
             ),
+            color: Color(0xFFFC2365),
+            textColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
-        );
-      }
+        ),
+      );
     }
 
-   return Container(
+    return Container(
       margin: const EdgeInsets.only(left: 36, right: 36, top: 48),
       child: Container(
         height: 50,
@@ -185,7 +170,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           color: Color(0xFFFC2365),
           child: InkWell(
             onTap: () async {
-              if (isOrderNextAmountLoading)return;
+              if (isOrderNextAmountLoading) return;
               aeAensMarketRaiseName(context);
             },
             child: Row(
@@ -203,10 +188,8 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
                     ),
                   ),
                 if (!isOrderNextAmountLoading)
-                   Text(
-                    S
-                        .of(context)
-                        .aens_detail_page_add + " ≈ " + nextRaisePrice + " AE",
+                  Text(
+                    S.of(context).aens_detail_page_add + " ≈ " + nextRaisePrice + " AE",
                     maxLines: 1,
                     style: TextStyle(fontSize: 16, color: Color(0xffffffff)),
                   ),
@@ -216,7 +199,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
         ),
       ),
     );
-
   }
 
   getAddress() async {
@@ -226,15 +208,13 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     setState(() {});
   }
 
-
-
   Future<void> aeAensMarketGetNameNextRaisePrice() async {
     if (!mounted) return;
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     address = account!.address!;
     var params = {
       "name": "aeAensMarketGetNameNextRaisePrice",
-      "params": {"ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "address": account.address, "leftAmount": aensDetail["left_amount"]}
+      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "address": account.address, "leftAmount": aensDetail["left_amount"]}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -251,7 +231,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     }, channelJson);
   }
 
-
   Future<void> aeAensMarketDealName(BuildContext context) async {
     var name = aensDetail['name'];
 
@@ -259,28 +238,33 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketDealName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
       };
       var channelJson = json.encode(params);
-      showChainLoading("合约调用中...");
-      BoxApp.sdkChannelCall((result) {
+      showChainLoading(S.of(context).show_loading_contract);
+      BoxApp.sdkChannelCall((result) async {
         if (!mounted) return;
+        try {
+          await Dio().get("http://47.52.111.71:8000/aens/update?name=" + name);
+        } catch (e) {
+          print(e.toString());
+        }
         dismissChainLoading();
         final jsonResponse = json.decode(result);
         if (jsonResponse["name"] != params['name']) {
           return;
         }
+
         var code = jsonResponse["code"];
         if (code != 200) {
           var message = jsonResponse["message"];
-          showConfirmDialog(S
-              .of(context)
-              .dialog_hint, message);
+          showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
+
         var hash = jsonResponse["result"]["hash"];
         eventBus.fire(AensUpdateEvent());
-        showFlushSucess(context,title:"调用成功",message: "域名"+name+"完成交易");
+        showFlushSucess(context, title: S.of(context).ae_aens_detail_call_success, message: S.of(context).ae_aens_detail_call_success_1 + name + S.of(context).ae_aens_detail_call_success_2);
         setState(() {});
         return;
       }, channelJson);
@@ -295,10 +279,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRaiseName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name", "amount": nextRaisePrice}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name", "amount": nextRaisePrice}
       };
       var channelJson = json.encode(params);
-      showChainLoading("合约调用中...");
+      showChainLoading(S.of(context).show_loading_contract);
       BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
         dismissChainLoading();
@@ -309,20 +293,17 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
         var code = jsonResponse["code"];
         if (code != 200) {
           var message = jsonResponse["message"];
-          showConfirmDialog(S
-              .of(context)
-              .dialog_hint, message);
+          showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
         eventBus.fire(AensUpdateEvent());
-        showFlushSucess(context,title:"加价成功",message: "域名"+name+"加价成功");
+        showFlushSucess(context, title: S.of(context).ae_aens_detail_call_rise_success, message: S.of(context).ae_aens_detail_call_rise_success_1 + name + S.of(context).ae_aens_detail_call_rise_success_2);
         setState(() {});
         return;
       }, channelJson);
     });
     return;
   }
-
 
   Future<void> aeAensMarketGetNameOrder() async {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
@@ -332,7 +313,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     if (!mounted) return;
     var params = {
       "name": "aeAensMarketGetNameOrder",
-      "params": {"address": address, "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
+      "params": {"address": address, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) async {
@@ -347,13 +328,11 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       var code = jsonResponse["code"];
       if (code != 200) {
         var message = jsonResponse["message"];
-        showConfirmDialog(S
-            .of(context)
-            .dialog_hint, message);
+        showConfirmDialog(S.of(context).dialog_hint, message);
         return;
       }
       isOrderLoading = false;
-      aensDetail =  jsonResponse["result"];
+      aensDetail = jsonResponse["result"];
 
       setState(() {});
       return;
@@ -368,15 +347,15 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRevokedName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_2WuCtC97tmkBcFG83YhbNf1E8PeBnhrJJ21NCqFgbDA8UB9Bue", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
       };
       var channelJson = json.encode(params);
-      showChainLoading("取回中...");
+      showChainLoading(S.of(context).show_loading_contract_get);
       BoxApp.sdkChannelCall((result) async {
         if (!mounted) return;
-        try{
+        try {
           await Dio().get("http://47.52.111.71:8000/aens/update?name=" + name);
-        }catch(e){
+        } catch (e) {
           print(e.toString());
         }
 
@@ -388,14 +367,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
         var code = jsonResponse["code"];
         if (code != 200) {
           var message = jsonResponse["message"];
-          showConfirmDialog(S
-              .of(context)
-              .dialog_hint, message);
+          showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
         var hash = jsonResponse["result"]["hash"];
         eventBus.fire(AensUpdateEvent());
-        showFlushSucess(context,title:"调用成功",message: "成功取回域名"+name);
+        showFlushSucess(context, title: S.of(context).ae_aens_detail_call_retrieve_1, message: S.of(context).ae_aens_detail_call_retrieve_2 + name);
         setState(() {});
         return;
       }, channelJson);
@@ -411,17 +388,13 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       margin: const EdgeInsets.only(top: 40, bottom: 30),
       child: Container(
         height: 50,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: FlatButton(
           onPressed: () {
             aeAensMarketDealName(context);
           },
           child: Text(
-            S.of(context)
-                .aens_detail_page_add + " ≈ " + (double.parse(aensDetail['price']) + double.parse(aensDetail['price']) * 0.1).toStringAsFixed(2) + " AE",
+            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(aensDetail['price']) + double.parse(aensDetail['price']) * 0.1).toStringAsFixed(2) + " AE",
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
@@ -443,15 +416,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           onTap: () {
             Clipboard.setData(ClipboardData(text: value));
-            Fluttertoast.showToast(msg: S
-                .of(context)
-                .token_receive_page_copy_sucess,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.black,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
           },
           child: Container(
             padding: const EdgeInsets.all(18),

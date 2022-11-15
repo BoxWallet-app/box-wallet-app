@@ -234,7 +234,7 @@ class _AeAensTransferPageState extends BaseWidgetState<AeAensTransferPage> {
         "params": {"secretKey": "$privateKey", "name": "$name", "recipient": recipient}
       };
       var channelJson = json.encode(params);
-      showChainLoading("Transfer AENS...");
+      showChainLoading(S.of(context).show_loading_update_transfer);
       BoxApp.sdkChannelCall((result) {
         dismissChainLoading();
         if (!mounted) return;

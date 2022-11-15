@@ -33,7 +33,7 @@ class AeVegasPage extends BaseWidget {
 class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
   var loadingType = LoadingType.loading;
 
-  var veagsMarkets;
+  var vegasMarkets;
 
   int currentHeight = 0;
 
@@ -70,7 +70,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
       if (jsonResponse["name"] != params['name']) {
         return;
       }
-      veagsMarkets = jsonResponse["result"];
+      vegasMarkets = jsonResponse["result"];
 
       setState(() {});
       return;
@@ -165,7 +165,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 header: BoxHeader(),
                 onRefresh: _onRefresh,
                 child: ListView.builder(
-                  itemCount: loadingType == LoadingType.finish ? veagsMarkets.length : 0,
+                  itemCount: loadingType == LoadingType.finish ? vegasMarkets.length : 0,
                   itemBuilder: (BuildContext context, int index) {
                     return itemListView(context, index);
                   },
@@ -188,7 +188,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: veagsMarkets[index]["value"]["market_id"], owner: veagsMarkets[index]["value"]["owner"])));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: vegasMarkets[index]["value"]["market_id"], owner: vegasMarkets[index]["value"]["owner"])));
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
           },
           child: Column(
@@ -221,7 +221,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                           Container(
                             margin: const EdgeInsets.only(left: 2),
                             child: Text(
-                              "Safe",
+                              "",
                               style: new TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                             ),
                           ),
@@ -236,7 +236,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                         child: Text(
-                          "End Time:" + (Utils.formatHeight(context, currentHeight, int.parse(veagsMarkets[index]["value"]["over_height"].toString()))).toString(),
+                          "End Time:" + (Utils.formatHeight(context, currentHeight, int.parse(vegasMarkets[index]["value"]["over_height"].toString()))).toString(),
                           style: new TextStyle(
                             fontSize: 14,
                             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -260,7 +260,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 margin: EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 10),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  veagsMarkets[index]["value"]["content"],
+                  vegasMarkets[index]["value"]["content"],
                   textAlign: TextAlign.left,
                   style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
                 ),
@@ -269,7 +269,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                 child: Text(
-                  "Source:" + veagsMarkets[index]["value"]["source_url"],
+                  "Source:" + vegasMarkets[index]["value"]["source_url"],
                   style: new TextStyle(
                     fontSize: 14,
                     fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -293,7 +293,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         left: 10,
                       ),
                       child: Text(
-                        "Total:" + AmountDecimal.parseUnits(veagsMarkets[index]["value"]["total_amount"], 18) + "(AE)",
+                        "Total:" + AmountDecimal.parseUnits(vegasMarkets[index]["value"]["total_amount"], 18) + "(AE)",
                         style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                       ),
                     ),
@@ -341,7 +341,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                           Container(
                             margin: EdgeInsets.only(left: 5,right: 5),
                             child: Text(
-                              AmountDecimal.parseUnits(veagsMarkets[index]["value"]["min_amount"], 18) + "/AE",
+                              AmountDecimal.parseUnits(vegasMarkets[index]["value"]["min_amount"], 18) + "/AE",
                               style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                             ),
                           ),

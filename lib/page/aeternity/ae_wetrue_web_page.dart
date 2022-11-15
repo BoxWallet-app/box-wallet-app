@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
+import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
@@ -16,14 +17,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../main.dart';
 
-class AeWetrueWebPage extends StatefulWidget {
-  const AeWetrueWebPage({Key? key}) : super(key: key);
+class AeWetrueWebPage extends BaseWidget {
+  AeWetrueWebPage({Key? key}) ;
 
   @override
   _AeWetrueWebPageState createState() => _AeWetrueWebPageState();
 }
 
-class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
+class _AeWetrueWebPageState extends BaseWidgetState<AeWetrueWebPage> {
   late WebViewController _webViewController;
   TextEditingController _textEditingController = TextEditingController();
   FocusNode _commentFocus = FocusNode();
@@ -106,7 +107,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                     size: 20,
                   ),
                   onPressed: () {
-                    _webViewController.loadUrl("http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!);
+                    _webViewController.loadUrl("https://wetrue.cc/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!);
                   },
                 ),
               ),
@@ -132,7 +133,7 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom),
               child: WebView(
-                initialUrl: "http://wetrue.io/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!,
+                initialUrl: "https://wetrue.cc/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (url) {
                   isPageFinish = true;
@@ -164,7 +165,12 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                 javascriptChannels: [
                   JavascriptChannel(
                       name: 'WETRUE_COMM_JS',
+                      
                       onMessageReceived: (JavascriptMessage message) {
+                        if(!isPageFinish)
+                          {
+                            return;
+                          }
                         final responseJson = jsonDecode(message.message);
                         Map<String, dynamic> data = responseJson;
 
@@ -236,58 +242,111 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
                           },
                         ).then((val) async {
                           if (val!)
-                            showGeneralDialog(
-                                useRootNavigator: false,
-                                context: context,
-                                // ignore: missing_return
-                                pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-                                //barrierColor: Colors.grey.withOpacity(.4),
-                                barrierDismissible: true,
-                                barrierLabel: "",
-                                transitionDuration: Duration(milliseconds: 0),
-                                transitionBuilder: (_, anim1, anim2, child) {
-                                  final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-                                  return Transform(
-                                    transform: Matrix4.translationValues(0.0, 0, 0.0),
-                                    child: Opacity(
-                                      opacity: anim1.value,
-                                      // ignore: missing_return
-                                      child: PayPasswordWidget(
-                                        title: S.of(context).password_widget_input_password,
-                                        dismissCallBackFuture: (String password) {
-                                          return;
-                                        },
-                                        passwordCallBackFuture: (String password) async {
-                                          var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
-                                          var address = await BoxApp.getAddress();
-                                          final key = Utils.generateMd5Int(password + address);
-                                          var aesDecode = Utils.aesDecode(signingKey, key);
-                                          if (aesDecode == "") {
-                                            showErrorDialog(context, null);
-                                            return;
-                                          }
-                                          showChainLoading();
-                                          BoxApp.spend((tx) {
-                                            // showCopyHashDialog(context, tx);
-                                            Map<String, dynamic> data = Map();
-                                            data["code"] = 200;
-                                            data["hash"] = tx;
-                                            data["msg"] = "";
-                                            _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
-                                            return;
-                                          }, (error) {
-                                            data["code"] = -1;
-                                            data["hash"] = "";
-                                            data["msg"] = "error";
-                                            _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
-                                            showErrorDialog(context, error);
-                                            return;
-                                          }, aesDecode, address, data["receivingAccount"], AmountDecimal.parseUnits(amount, 18).toString(), Utils.encodeBase64(jsonEncode(data["payload"])));
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                });
+
+
+
+
+                            showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+                                var params = {
+                                  "name": "aeSpend",
+                                  "params": {"secretKey": privateKey, "receiveAddress": receivingAccount, "amount": AmountDecimal.parseUnits(amount, 18).toString(), "payload":Utils.encodeBase64(jsonEncode(data["payload"]))}
+                                };
+                                var channelJson = json.encode(params);
+                                showChainLoading(S.of(context).show_loading_spend);
+                                BoxApp.sdkChannelCall((result) {
+                                  if (!mounted) return;
+                                  dismissChainLoading();
+                                  final jsonResponse = json.decode(result);
+                                  if (jsonResponse["name"] != params['name']) {
+                                    return;
+                                  }
+                                  var code = jsonResponse["code"];
+
+                                  if (code == 200) {
+                                    var hash = jsonResponse["result"]["hash"];
+                                    Map<String, dynamic> data = Map();
+                                    data["code"] = 200;
+                                    data["hash"] = hash;
+                                    data["msg"] = "";
+                                    print( jsonEncode(data));
+                                    _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
+                                  } else {
+                                    Map<String, dynamic> data = Map();
+                                    data["code"] = -1;
+                                    data["hash"] = "";
+                                    data["msg"] = "error";
+                                    print( jsonEncode(data));
+                                    _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
+
+                                    var message = jsonResponse["message"];
+                                    showConfirmDialog(S.of(context).dialog_hint, message);
+                                  }
+
+
+                                  setState(() {});
+                                  return;
+                                }, channelJson);
+
+
+                            });
+
+
+
+
+
+
+                            // showGeneralDialog(
+                            //     useRootNavigator: false,
+                            //     context: context,
+                            //     // ignore: missing_return
+                            //     pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
+                            //     //barrierColor: Colors.grey.withOpacity(.4),
+                            //     barrierDismissible: true,
+                            //     barrierLabel: "",
+                            //     transitionDuration: Duration(milliseconds: 0),
+                            //     transitionBuilder: (_, anim1, anim2, child) {
+                            //       final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
+                            //       return Transform(
+                            //         transform: Matrix4.translationValues(0.0, 0, 0.0),
+                            //         child: Opacity(
+                            //           opacity: anim1.value,
+                            //           // ignore: missing_return
+                            //           child: PayPasswordWidget(
+                            //             title: S.of(context).password_widget_input_password,
+                            //             dismissCallBackFuture: (String password) {
+                            //               return;
+                            //             },
+                            //             passwordCallBackFuture: (String password) async {
+                            //               var signingKey = await (BoxApp.getSigningKey() as FutureOr<String>);
+                            //               var address = await BoxApp.getAddress();
+                            //               final key = Utils.generateMd5Int(password + address);
+                            //               var aesDecode = Utils.aesDecode(signingKey, key);
+                            //               if (aesDecode == "") {
+                            //                 showErrorDialog(context, null);
+                            //                 return;
+                            //               }
+                            //               showChainLoading();
+                            //               BoxApp.spend((tx) {
+                            //                 // showCopyHashDialog(context, tx);
+                            //                 Map<String, dynamic> data = Map();
+                            //                 data["code"] = 200;
+                            //                 data["hash"] = tx;
+                            //                 data["msg"] = "";
+                            //                 _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
+                            //                 return;
+                            //               }, (error) {
+                            //                 data["code"] = -1;
+                            //                 data["hash"] = "";
+                            //                 data["msg"] = "error";
+                            //                 _webViewController.evaluateJavascript("receiveWeTrueMessage(" + jsonEncode(data) + ");");
+                            //                 showErrorDialog(context, error);
+                            //                 return;
+                            //               }, aesDecode, address, data["receivingAccount"], AmountDecimal.parseUnits(amount, 18).toString(), Utils.encodeBase64(jsonEncode(data["payload"])));
+                            //             },
+                            //           ),
+                            //         ),
+                            //       );
+                            //     });
 
                           return;
                         });
@@ -299,84 +358,5 @@ class _AeWetrueWebPageState extends State<AeWetrueWebPage> {
         ],
       ),
     );
-  }
-
-  void showCopyHashDialog(BuildContext buildContext, String tx) {
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.current.dialog_hint_hash),
-          content: Text(tx),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_copy,
-              ),
-              onPressed: () {
-                Navigator.of(buildContext, rootNavigator: true).pop(true);
-              },
-            ),
-            TextButton(
-              child: new Text(
-                S.of(context).dialog_dismiss,
-              ),
-              onPressed: () {
-                Navigator.of(buildContext, rootNavigator: true).pop(false);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {
-      if (val!) {
-        Clipboard.setData(ClipboardData(text: "https://www.aeknow.org/block/transaction/" + tx));
-      } else {}
-    });
-  }
-
-  void showErrorDialog(BuildContext buildContext, String? content) {
-    if (content == null) {
-      content = S.of(buildContext).dialog_hint_check_error_content;
-    }
-    showDialog<bool>(
-      context: buildContext,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-          title: Text(S.of(buildContext).dialog_hint_check_error),
-          content: Text(content!),
-          actions: <Widget>[
-            TextButton(
-              child: new Text(
-                S.of(buildContext).dialog_conform,
-              ),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    ).then((val) {});
-  }
-
-  void showChainLoading() {
-    showGeneralDialog(
-        useRootNavigator: false,
-        context: context,
-        // ignore: missing_return
-        pageBuilder: (context, anim1, anim2) {} as Widget Function(BuildContext, Animation<double>, Animation<double>),
-        //barrierColor: Colors.grey.withOpacity(.4),
-        barrierDismissible: true,
-        barrierLabel: "",
-        transitionDuration: Duration(milliseconds: 0),
-        transitionBuilder: (_, anim1, anim2, child) {
-          final curvedValue = Curves.easeInOutBack.transform(anim1.value) - 1.0;
-          return ChainLoadingWidget("");
-        });
   }
 }

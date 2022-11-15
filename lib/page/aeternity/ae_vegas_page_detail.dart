@@ -114,7 +114,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                 // )
                 InkWell(
                   onTap: (){
-                    showCommonDialog(context, "确认", "是否选择"+vegasMarket["answers"][i]["content"] , S.of(context).dialog_conform, S.of(context).dialog_cancel, (val) async{
+                    showCommonDialog(context, "Confirm", "Whether to select "+vegasMarket["answers"][i]["content"] , S.of(context).dialog_conform, S.of(context).dialog_cancel, (val) async{
                       if(val) aeVegasSubmitAnswer(i);
                     });
                   },
@@ -156,7 +156,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
         oracleUser.add(Container(
           padding: EdgeInsets.only(bottom: 7, top: 7),
           child: Text(
-            "提供者:",
+            "Provider:",
             style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
           ),
         ));
@@ -194,7 +194,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
   String getItemContent(int index) {
     if (vegasResult["is_user_markets_record"]) {
       if (int.parse(vegasResult["get_user_markets_record_result"].toString()) == index) {
-        return vegasMarket["answers"][index]["content"] + " " + (double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]) * 100).toStringAsFixed(2) + "%" + " (我的)";
+        return vegasMarket["answers"][index]["content"] + " " + (double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]) * 100).toStringAsFixed(2) + "%" + " (My)";
       }
       return vegasMarket["answers"][index]["content"] + " " + (double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]) * 100).toStringAsFixed(2) + "%";
     }
@@ -230,7 +230,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
         "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"], "selectIndex": index, "amount": vegasMarket["min_amount"]}
       };
       var channelJson = json.encode(params);
-      showChainLoading("提交中...");
+      showChainLoading("Submit...");
       BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
         dismissChainLoading();
@@ -263,7 +263,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
         "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
       };
       var channelJson = json.encode(params);
-      showChainLoading("领取中...");
+      showChainLoading("Receive...");
       BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
         dismissChainLoading();
@@ -316,7 +316,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "主题详情",
+          "Content Detail",
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
@@ -396,7 +396,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 2),
                                         child: Text(
-                                          "安全",
+                                          "Safe",
                                           style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                                         ),
                                       ),
@@ -406,12 +406,13 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Container(
                                   width: 12,
                                 ),
+
                                 Expanded(
                                   child: Container(
                                     alignment: Alignment.centerRight,
                                     padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                                     child: Text(
-                                      (Utils.formatHeight(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString() == "-" ? "结束时间:" + (Utils.formatHeightTime(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString() : "距离结束:" + (Utils.formatHeight(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString(),
+                                      (Utils.formatHeight(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString() == "-" ? "End Time:" + (Utils.formatHeightTime(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString() : "End Over:" + (Utils.formatHeight(context, currentHeight, int.parse(vegasMarket["over_height"].toString()))).toString(),
                                       style: new TextStyle(
                                         fontSize: 14,
                                         fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -444,7 +445,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                             child: Text(
-                              "数据源 :  " + vegasMarket["source_url"],
+                              "Source :  " + vegasMarket["source_url"],
                               style: new TextStyle(
                                 fontSize: 14,
                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -468,7 +469,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                     left: 10,
                                   ),
                                   child: Text(
-                                    "总投入:" + AmountDecimal.parseUnits(vegasMarket["total_amount"], 18) + "(AE)",
+                                    "Total: " + AmountDecimal.parseUnits(vegasMarket["total_amount"], 18) + " (AE)",
                                     style: new TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                                   ),
                                 ),
@@ -604,7 +605,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 7),
                                   child: Text(
-                                    "选择一个结果",
+                                    "Select a result",
                                     style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                                   ),
                                 ),
@@ -644,7 +645,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 7),
                                   child: Text(
-                                    "结果详情",
+                                    "Result Detail",
                                     style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                                   ),
                                 ),
@@ -654,7 +655,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(top: 12),
                               child: Text(
-                                "最终的结果是:" + formatMarketResult(),
+                                "The end result is this: " + formatMarketResult(),
                                 style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                             ),
@@ -730,26 +731,26 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
 
   String getReceiveBtnContent() {
     if (vegasMarket["result"] == "-1") {
-      return "没有结束";
+      return "There is no over";
     }
     if (vegasResult["is_user_markets_receive_record"]) {
-      return "已领取";
+      return "Successful receive";
     }
     if (vegasResult["get_user_markets_record_result"] != vegasMarket["result"]) {
-      return "未中奖";
+      return "Not Winner";
     }
 
     var totalAmount = double.parse(vegasMarket["total_amount"]);
     var winAmount = double.parse(vegasMarket["answers"][int.parse(vegasMarket["result"])]["count"]);
 
     var receiveAmount = AmountDecimal.parseUnits((totalAmount / winAmount).toString(), 18);
-    return "领取≈(" + receiveAmount + "AE)";
+    return "Receive ≈(" + receiveAmount + "AE)";
   }
 
   formatMarketResult() {
     if (vegasMarket["result"] == "-1") {
       if (vegasResult["get_oracle_market_record"].length > 0) {
-        return "需要更多数据";
+        return "It need more data";
       }
       return getReceiveBtnContent();
     } else {
@@ -769,25 +770,20 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     if (currentHeight > int.parse(vegasMarket["over_height"])) {
       //已经结束但是进度还是0 就表示等待结果中
       if ("0" == vegasMarket["progress"]) {
-        return "状态:等待结果";
+        return "Status: Waiting for results";
       }
-      // //已经有结果了,确认是否中奖
-      //   //选择的第几个
-      //   print(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"]);
-      //   //结果是第几个
-      //   print(veagsMarket["result"]);
       //已中奖
       if (vegasResult["get_user_markets_record_result"] == vegasMarket["result"]) {
         //已领取
         if (vegasResult["is_user_markets_receive_record"]) {
-          return "状态:已领取";
+          return "Status: Obtained";
         }
-        return "状态:等待领取";
+        return "Status: Waiting for receive";
       }
       //未中奖
-      return "状态:未中奖";
+      return "Status: Not winning";
     }
-    return "状态:进行中";
+    return "Status: In progress";
   }
 
   AssetImage getResultIcon() {

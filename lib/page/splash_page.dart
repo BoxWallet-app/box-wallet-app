@@ -91,6 +91,29 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
     sp.setBool('is_language', true);
     //获取用户是否登录了
     if (address.length > 10 && account != null) {
+      WalletCoinsManager.instance.getCoins().then((walletCoinsModel) {
+        WalletCoinsManager.instance.getCurrentCoin().then((value) {
+          if (value![0] != "AE") {
+            for (var i = 0; i < walletCoinsModel.coins!.length; i++) {
+              for (var j = 0; j < walletCoinsModel.coins![i].accounts!.length; j++) {
+                walletCoinsModel.coins![i].accounts![j].isSelect = false;
+              }
+            }
+            var address = "";
+            for (var i = 0; i < walletCoinsModel.coins!.length; i++) {
+              if (walletCoinsModel.coins![i].name == "AE") {
+                walletCoinsModel.coins![i].accounts![0].isSelect = true;
+                address = walletCoinsModel.coins![i].accounts![0].address!;
+              }
+            }
+            WalletCoinsManager.instance.changeAccount(walletCoinsModel, address).then((value) {});
+          }
+          print(value);
+          setState(() {});
+        });
+        setState(() {});
+      });
+
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => NewHomePage()), (route) => true);
     } else {
       Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context) => new LoginPageNew()), (route) => true);

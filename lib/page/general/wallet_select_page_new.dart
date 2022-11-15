@@ -428,7 +428,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
               height: 100,
               alignment: Alignment.bottomLeft,
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 16),
-              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(220), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
+              child: Text(getCoinFormatAddress(index), strutStyle: StrutStyle(forceStrutHeight: true, height: 0.5, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"), style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, color: Color(0xffffffff).withAlpha(220), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
             ),
           ),
           Positioned(
@@ -479,7 +479,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Text(getAccountName(index, context)!, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
+                            child: Text(getAccountName(index, context)!, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, color: Color(0xffffffff).withAlpha(200), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto")),
                           ),
                           Container(
                             height: 20,
@@ -621,7 +621,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
                   children: [
                     Text(
                       getAccount(walletCoinsModel!.coins![coinIndex!].accounts![index].accountType),
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xffffffff).withAlpha(150), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                      style: TextStyle(fontSize: 12, color: Color(0xffffffff).withAlpha(150), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                     ),
                   ],
                 ),

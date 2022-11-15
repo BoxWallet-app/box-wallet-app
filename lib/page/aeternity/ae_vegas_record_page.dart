@@ -335,7 +335,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     if (currentHeight > int.parse(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["over_height"])) {
       //已经结束但是进度还是0 就表示等待结果中
       if ("0" == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["progress"]) {
-        return "状态:等待结果";
+        return "Status: Waiting for results";
       }
       // //已经有结果了,确认是否中奖
       //   //选择的第几个
@@ -346,14 +346,14 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
       if(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"] == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]){
         //已领取
         if(vegasDetails[veagsMarkets[index]["market_id"]]["is_user_markets_receive_record"] ){
-          return "状态:已领取";
+          return "Status: Obtained";
         }
-        return "状态:等待领取";
+        return "Status: Waiting for receive";
       }
       //未中奖
-      return "状态:未中奖";
+      return "Status: Not winning";
     }
-    return "状态:进行中";
+    return "Status: In progress";
   }
 
   AssetImage getResultIcon(index) {

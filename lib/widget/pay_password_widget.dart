@@ -125,6 +125,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
       print("true");
       this.isAuth = true;
     }
+    print(account.accountType);
     return account.accountType;
   }
 
@@ -134,10 +135,11 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
         future: _loadFuture(),
         builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
           print(snapshot);
+          print(isAuthError);
           if (snapshot.data == null) {
             return Container();
           }
-          if (isAuth && !isAuthError) {
+          if (isAuth && !isAuthError && snapshot.data != AccountType.ADDRESS) {
             return Container();
           }
           if (snapshot.data == AccountType.ADDRESS && widget.isAddressPassword == false) {

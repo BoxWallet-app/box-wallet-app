@@ -171,6 +171,77 @@ class MessageLookup extends MessageLookupByLibrary {
             "The seed phrase (or mnemonic phrase) is used for logging in to your wallet. Fill in 12 words in order, and type space between words."),
         "account_login_page_input_mnemonic":
             MessageLookupByLibrary.simpleMessage("Enter the seed phrase"),
+        "ae_aens_add_error_1":
+            MessageLookupByLibrary.simpleMessage("No permission"),
+        "ae_aens_add_error_2": MessageLookupByLibrary.simpleMessage(
+            "For a good user experience, the launch function needs to be reviewed before it can be used. For review, please post on the AE official forum @baixin, or in the official group @admin"),
+        "ae_aens_btn":
+            MessageLookupByLibrary.simpleMessage("Confirm Selling order"),
+        "ae_aens_btn_fee": MessageLookupByLibrary.simpleMessage("Fees"),
+        "ae_aens_detail_btn_dismiss":
+            MessageLookupByLibrary.simpleMessage("Cancel transaction"),
+        "ae_aens_detail_btn_success":
+            MessageLookupByLibrary.simpleMessage("Transaction Completed"),
+        "ae_aens_detail_call_ing":
+            MessageLookupByLibrary.simpleMessage("Contract calling..."),
+        "ae_aens_detail_call_retrieve":
+            MessageLookupByLibrary.simpleMessage("Retrieve..."),
+        "ae_aens_detail_call_retrieve_1":
+            MessageLookupByLibrary.simpleMessage("Call succeeded"),
+        "ae_aens_detail_call_retrieve_2": MessageLookupByLibrary.simpleMessage(
+            "Successfully retrieved the domain name"),
+        "ae_aens_detail_call_rise_success":
+            MessageLookupByLibrary.simpleMessage("Successful price increase"),
+        "ae_aens_detail_call_rise_success_1":
+            MessageLookupByLibrary.simpleMessage("Domain Name"),
+        "ae_aens_detail_call_rise_success_2":
+            MessageLookupByLibrary.simpleMessage("Successful price increase"),
+        "ae_aens_detail_call_success":
+            MessageLookupByLibrary.simpleMessage("Call succeeded"),
+        "ae_aens_detail_call_success_1":
+            MessageLookupByLibrary.simpleMessage("Domain Name"),
+        "ae_aens_detail_call_success_2":
+            MessageLookupByLibrary.simpleMessage("Complete transaction"),
+        "ae_aens_detail_item_1":
+            MessageLookupByLibrary.simpleMessage("Starting Price"),
+        "ae_aens_detail_item_2":
+            MessageLookupByLibrary.simpleMessage("Current price"),
+        "ae_aens_detail_item_3":
+            MessageLookupByLibrary.simpleMessage("Originator"),
+        "ae_aens_detail_item_4":
+            MessageLookupByLibrary.simpleMessage("Last bidder"),
+        "ae_aens_detail_item_5":
+            MessageLookupByLibrary.simpleMessage("End of Distance"),
+        "ae_aens_detail_item_6":
+            MessageLookupByLibrary.simpleMessage("Number of markups"),
+        "ae_aens_detail_item_6_1":
+            MessageLookupByLibrary.simpleMessage("Number of markups"),
+        "ae_aens_detail_title":
+            MessageLookupByLibrary.simpleMessage("Aens details"),
+        "ae_aens_item_1": MessageLookupByLibrary.simpleMessage("Order Aens"),
+        "ae_aens_item_2": MessageLookupByLibrary.simpleMessage("Order Price"),
+        "ae_aens_item_3": MessageLookupByLibrary.simpleMessage("Order days"),
+        "ae_aens_item_3_1": MessageLookupByLibrary.simpleMessage("Days"),
+        "ae_aens_item_new_owner":
+            MessageLookupByLibrary.simpleMessage("Last bidder"),
+        "ae_aens_item_over_time":
+            MessageLookupByLibrary.simpleMessage("End Time"),
+        "ae_aens_item_owner":
+            MessageLookupByLibrary.simpleMessage("Originator"),
+        "ae_aens_item_price":
+            MessageLookupByLibrary.simpleMessage("Latest Price (AE)"),
+        "ae_aens_put_add_success":
+            MessageLookupByLibrary.simpleMessage("Add success"),
+        "ae_aens_put_add_success_2": MessageLookupByLibrary.simpleMessage(
+            "Add domain name successfully"),
+        "ae_aens_put_amount_error": MessageLookupByLibrary.simpleMessage(
+            "Please enter the pending order amount"),
+        "ae_aens_put_time_error": MessageLookupByLibrary.simpleMessage(
+            "Please enter the pending order time"),
+        "ae_aens_put_title":
+            MessageLookupByLibrary.simpleMessage("Selling Aens"),
+        "ae_aens_select_title":
+            MessageLookupByLibrary.simpleMessage("Select Aens"),
         "ae_select_token_page_title":
             MessageLookupByLibrary.simpleMessage("Select Points"),
         "ae_status_aensBid":
@@ -197,6 +268,42 @@ class MessageLookup extends MessageLookupByLibrary {
             "Set the number of authorizations"),
         "ae_status_decode":
             MessageLookupByLibrary.simpleMessage("Analyzing results"),
+        "ae_swap_authorization":
+            MessageLookupByLibrary.simpleMessage("Authorization"),
+        "ae_swap_authorization_ing":
+            MessageLookupByLibrary.simpleMessage("Authorization..."),
+        "ae_swap_balance_error":
+            MessageLookupByLibrary.simpleMessage("Balance is too low"),
+        "ae_swap_buy_text": MessageLookupByLibrary.simpleMessage("Buy"),
+        "ae_swap_ing":
+            MessageLookupByLibrary.simpleMessage("Swap in progress..."),
+        "ae_swap_liquidity_error":
+            MessageLookupByLibrary.simpleMessage("Insufficient Liquidity"),
+        "ae_swap_loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "ae_swap_min_value": MessageLookupByLibrary.simpleMessage(
+            "The minimum will be obtained after slippage protection"),
+        "ae_swap_pair_error":
+            MessageLookupByLibrary.simpleMessage("No such trading pair"),
+        "ae_swap_price": MessageLookupByLibrary.simpleMessage("Price"),
+        "ae_swap_select_same_error": MessageLookupByLibrary.simpleMessage(
+            "You cannot exchange the same points"),
+        "ae_swap_sell_max": MessageLookupByLibrary.simpleMessage("[max]"),
+        "ae_swap_sell_text": MessageLookupByLibrary.simpleMessage("Sell"),
+        "ae_swap_start": MessageLookupByLibrary.simpleMessage("Start Swap"),
+        "ae_swap_success_1":
+            MessageLookupByLibrary.simpleMessage("Swap successful"),
+        "ae_swap_success_2":
+            MessageLookupByLibrary.simpleMessage("Successfully used"),
+        "ae_swap_success_3": MessageLookupByLibrary.simpleMessage("Swap"),
+        "ae_swap_text_max_swap":
+            MessageLookupByLibrary.simpleMessage("Maximum single"),
+        "ae_swap_text_over_time":
+            MessageLookupByLibrary.simpleMessage("Trade Deadline"),
+        "ae_swap_text_over_time_value":
+            MessageLookupByLibrary.simpleMessage("minutes"),
+        "ae_swap_text_slippage":
+            MessageLookupByLibrary.simpleMessage("Slippage Protection"),
+        "ae_swap_title": MessageLookupByLibrary.simpleMessage("Swap Points"),
         "ae_tx_detail_page_count":
             MessageLookupByLibrary.simpleMessage("Amount"),
         "ae_tx_detail_page_fee": MessageLookupByLibrary.simpleMessage("Fee"),
@@ -655,6 +762,24 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Node Address"),
         "setting_page_title": MessageLookupByLibrary.simpleMessage("Settings"),
         "settings_contact": MessageLookupByLibrary.simpleMessage("Contact us"),
+        "show_loading_authorization":
+            MessageLookupByLibrary.simpleMessage("Authorizing..."),
+        "show_loading_contract":
+            MessageLookupByLibrary.simpleMessage("Contract calling..."),
+        "show_loading_contract_add":
+            MessageLookupByLibrary.simpleMessage("Adding..."),
+        "show_loading_contract_get":
+            MessageLookupByLibrary.simpleMessage("Retrieving..."),
+        "show_loading_spend":
+            MessageLookupByLibrary.simpleMessage("Transferring..."),
+        "show_loading_swap":
+            MessageLookupByLibrary.simpleMessage("Swapping..."),
+        "show_loading_update_aens":
+            MessageLookupByLibrary.simpleMessage("Updating..."),
+        "show_loading_update_register":
+            MessageLookupByLibrary.simpleMessage("Registering..."),
+        "show_loading_update_transfer":
+            MessageLookupByLibrary.simpleMessage("Transfer..."),
         "swap_buy_sell_order": MessageLookupByLibrary.simpleMessage("Order"),
         "swap_buy_sell_order_item_1":
             MessageLookupByLibrary.simpleMessage("Seller"),

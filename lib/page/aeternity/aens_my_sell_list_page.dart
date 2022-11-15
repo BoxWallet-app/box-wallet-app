@@ -88,12 +88,13 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
         elevation: 0,
         // 隐藏阴影
         title: Text(
-          "选择挂售的AENS",
+          S.of(context).ae_aens_select_title,
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
+
         ),
         centerTitle: true,
         leading: IconButton(

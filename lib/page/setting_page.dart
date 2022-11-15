@@ -228,9 +228,9 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                 ),
                 buildItem(context, S.of(context).setting_page_node_set, "images/setting_node.png", () {
                   if (Platform.isIOS) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NodeSelectPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
                   } else {
-                    Navigator.push(context, SlideRoute(NodeSelectPage()));
+                    Navigator.push(context, SlideRoute(NodePage()));
                   }
                 }, isLine: false),
                 Container(

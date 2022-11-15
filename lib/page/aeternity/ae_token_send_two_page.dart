@@ -429,7 +429,6 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                                                       style: new TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.black,
-                                                        fontWeight: FontWeight.w600,
                                                         fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                       ),
                                                     ),
@@ -619,7 +618,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
           "params": {"secretKey": privateKey, "receiveAddress": widget.address, "amount": amount, "payload": Utils.encodeBase64(note)}
         };
         var channelJson = json.encode(params);
-        showChainLoading("转账中...");
+        showChainLoading(S.of(context).show_loading_update_transfer);
         BoxApp.sdkChannelCall((result) {
           if (!mounted) return;
           dismissChainLoading();
@@ -649,7 +648,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
           "params": {"secretKey": privateKey, "toAddress": widget.address, "amount": amount, "ctAddress": tokenContract}
         };
         var channelJson = json.encode(params);
-        showChainLoading("转账中...");
+        showChainLoading(S.of(context).show_loading_spend);
         BoxApp.sdkChannelCall((result) {
           if (!mounted) return;
           dismissChainLoading();

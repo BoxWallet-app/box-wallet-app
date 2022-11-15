@@ -47,6 +47,8 @@ import 'ae_token_receive_page.dart';
 import 'ae_token_send_one_page.dart';
 import 'ae_tx_detail_page.dart';
 import 'ae_vegas_page_detail.dart';
+import 'ae_wetrue_page.dart';
+import 'ae_wetrue_web_page.dart';
 import 'aens_market_orders_page.dart';
 
 class AeHomePage extends StatefulWidget {
@@ -667,6 +669,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                   }
                   if (event == "AensMarket") {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AensMarketOrdersPage()));
+                    return;
+                  }
+                  if (event == "WeTrue") {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AeWetrueWebPage()));
                     return;
                   }
                   // if (homeFunctionInfo["function" == "spend"]) {}
