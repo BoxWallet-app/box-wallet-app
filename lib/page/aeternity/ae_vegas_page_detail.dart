@@ -67,7 +67,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     //
     var params = {
       "name": "aeVegasMarketDetail",
-      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address, "owner": widget.owner, "marketId": widget.marketId}
+      "params": {"ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "address": account.address, "owner": widget.owner, "marketId": widget.marketId}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -94,54 +94,53 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                     style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                   ),
                 ),
-                // Container(
-                //   height: 40,
-                //   margin: EdgeInsets.only(left: 10),
-                //   width: (MediaQuery.of(context).size.width - 32) * 0.85,
-                //   child: FlatButton(
-                //     onPressed: () {
-                //       aeVegasSubmitAnswer(i);
-                //     },
-                //     child: Text(
-                //       getItemContent(i),
-                //       maxLines: 1,
-                //       style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
-                //     ),
-                //     color: getItemColor(i),
-                //     textColor: Colors.black,
-                //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                //   ),
-                // )
-                InkWell(
-                  onTap: (){
-                    showCommonDialog(context, "Confirm", "Whether to select "+vegasMarket["answers"][i]["content"] , S.of(context).dialog_conform, S.of(context).dialog_cancel, (val) async{
-                      if(val) aeVegasSubmitAnswer(i);
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    margin: EdgeInsets.only(left: 10),
-                    width: (MediaQuery.of(context).size.width - 32) * 0.85,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      child: Stack(
-                        children: [
-                          new LinearProgressIndicator(
-                            backgroundColor: Color(0xff315bf7).withAlpha(60),
-                            value: getItemPercentage(i),
-                            minHeight: 40,
-                            valueColor: new AlwaysStoppedAnimation<Color>(getItemColor(i)),
-                          ),
-                          Align(
-                            child: Text(
-                              getItemContent(i),
-                              maxLines: 1,
-                              style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.only(left: 10),
+                  width: (MediaQuery.of(context).size.width - 32) * 0.85,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: Stack(
+                      children: [
+                        new LinearProgressIndicator(
+                          backgroundColor: Color(0xff315bf7).withAlpha(60),
+                          value: getItemPercentage(i),
+                          minHeight: 40,
+                          valueColor: new AlwaysStoppedAnimation<Color>(getItemColor(i)),
+                        ),
+                        if (vegasMarket["progress"] == "0" && !vegasResult["is_user_markets_record"])
+                          Container(
+                          height: 40,
+                          width: (MediaQuery.of(context).size.width - 32) * 0.85,
+                          child: Material(
+                            color: Color(0xff315bf7),
+                            child: InkWell(
+                              onTap: () {
+                                if (vegasMarket["progress"] != "0") {
+                                  print(vegasMarket["progress"]);
+                                  print("123");
+                                  return;
+                                }
+                                if (vegasResult["is_user_markets_record"]) {
+                                  print("456");
+                                  return;
+                                }
+                                showCommonDialog(context, "Confirm", "Whether to select " + vegasMarket["answers"][i]["content"], S.of(context).dialog_conform, S.of(context).dialog_cancel, (val) async {
+                                  if (val) aeVegasSubmitAnswer(i);
+                                });
+                              },
                             ),
-                            alignment: Alignment.center,
                           ),
-                        ],
-                      ),
+                        ),
+                        Align(
+                          child: Text(
+                            getItemContent(i),
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                          ),
+                          alignment: Alignment.center,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -200,17 +199,16 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     }
     return vegasMarket["answers"][index]["content"];
   }
-  double getItemPercentage(int index) {
 
+  double getItemPercentage(int index) {
     if (vegasResult["is_user_markets_record"]) {
       if (int.parse(vegasResult["get_user_markets_record_result"].toString()) == index) {
         return double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]);
       }
-       return double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]);
+      return double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]);
     }
     return 1;
   }
-
 
   Color getItemColor(int index) {
     if (vegasResult["is_user_markets_record"]) {
@@ -227,10 +225,42 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       var params = {
         "name": "aeVegasSubmitAnswer",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"], "selectIndex": index, "amount": vegasMarket["min_amount"]}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"], "selectIndex": index, "amount": vegasMarket["min_amount"]}
       };
       var channelJson = json.encode(params);
       showChainLoading("Submit...");
+      BoxApp.sdkChannelCall((result) {
+        if (!mounted) return;
+        dismissChainLoading();
+        final jsonResponse = json.decode(result);
+        if (jsonResponse["name"] != params['name']) {
+          return;
+        }
+        var code = jsonResponse["code"];
+
+        if (code == 200) {
+          loadingType = LoadingType.loading;
+          setState(() {});
+          _onRefresh();
+        } else {
+          var message = jsonResponse["message"];
+          showConfirmDialog(S.of(context).dialog_hint, message);
+        }
+
+        setState(() {});
+        return;
+      }, channelJson);
+    });
+  }
+  Future<void> aeVegasStopMarket() async {
+    if (!mounted) return;
+    showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+      var params = {
+        "name": "aeVegasStopMarket",
+        "params": {"secretKey": privateKey, "ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
+      };
+      var channelJson = json.encode(params);
+      showChainLoading("Stoping...");
       BoxApp.sdkChannelCall((result) {
         if (!mounted) return;
         dismissChainLoading();
@@ -260,7 +290,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       var params = {
         "name": "aeVegasReceiveReward",
-        "params": {"secretKey": privateKey, "ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "owner": vegasMarket["owner"], "marketId": vegasMarket["market_id"]}
       };
       var channelJson = json.encode(params);
       showChainLoading("Receive...");
@@ -336,16 +366,19 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
           },
         ),
 
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.ios_share_outlined,
-        //       color: Color(0xFFFFFFFF),
-        //       size: 20,
-        //     ),
-        //     onPressed: () {},
-        //   ),
-        // ],
+        actions: <Widget>[
+          if(loadingType != LoadingType.loading && vegasMarket["owner"] == AeHomePage.address)
+          IconButton(
+            icon: Icon(
+              Icons.stop_screen_share_sharp,
+              color: Color(0xFFFFFFFF),
+              size: 20,
+            ),
+            onPressed: () {
+              aeVegasStopMarket();
+            },
+          ),
+        ],
       ),
       body: LoadingWidget(
         type: loadingType,
@@ -406,7 +439,6 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Container(
                                   width: 12,
                                 ),
-
                                 Expanded(
                                   child: Container(
                                     alignment: Alignment.centerRight,
@@ -455,7 +487,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                           ),
                           Container(
                             margin: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 16),
-                            height: 40,
+                            padding: EdgeInsets.only(top: 3, bottom: 3),
                             decoration: new BoxDecoration(
                               border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                               color: Color(0xFF000000),
@@ -476,12 +508,12 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Expanded(child: Container()),
                                 if (isMarketOver())
                                   Container(
-                                    margin: EdgeInsets.only(right: 10),
+                                    margin: EdgeInsets.only(right: 5),
                                     child: Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.all(2),
-                                          padding: EdgeInsets.only(left: 10, right: 10, top: 2, bottom: 2),
+                                          // margin: EdgeInsets.all(2),
+                                          padding: EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
                                           decoration: new BoxDecoration(
                                             // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
                                             //设置四周圆角 角度
@@ -770,20 +802,20 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
     if (currentHeight > int.parse(vegasMarket["over_height"])) {
       //已经结束但是进度还是0 就表示等待结果中
       if ("0" == vegasMarket["progress"]) {
-        return "Status: Waiting for results";
+        return "Status: Wait Result";
       }
       //已中奖
       if (vegasResult["get_user_markets_record_result"] == vegasMarket["result"]) {
         //已领取
         if (vegasResult["is_user_markets_receive_record"]) {
-          return "Status: Obtained";
+          return "Status: Winner";
         }
-        return "Status: Waiting for receive";
+        return "Status: Wait Receive";
       }
       //未中奖
-      return "Status: Not winning";
+      return "Status: Not Winning";
     }
-    return "Status: In progress";
+    return "Status: In Progress";
   }
 
   AssetImage getResultIcon() {

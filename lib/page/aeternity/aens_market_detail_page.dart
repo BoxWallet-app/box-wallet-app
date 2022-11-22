@@ -100,7 +100,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
             : EasyRefresh(
               child: SingleChildScrollView(
                   child: Column(
-                    children: [buildItem("AENS", aensDetail["name"]), buildItem(S.of(context).ae_aens_detail_item_1, AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_2, AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_3, Utils.formatAddress(aensDetail["old_owner"])), buildItem(S.of(context).ae_aens_detail_item_4, Utils.formatAddress(aensDetail["new_owner"])), buildItem(S.of(context).ae_aens_detail_item_5, Utils.formatHeight(context, widget.currentHeight, int.parse(aensDetail["over_height"]))), buildItem(S.of(context).ae_aens_detail_item_6, aensDetail["premium_count"] + "次"), getTypeButton(context)],
+                    children: [buildItem("AENS", aensDetail["name"]), buildItem(S.of(context).ae_aens_detail_item_1, AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_2, AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_3, Utils.formatAddress(aensDetail["old_owner"])), buildItem(S.of(context).ae_aens_detail_item_4, Utils.formatAddress(aensDetail["new_owner"])), buildItem(S.of(context).ae_aens_detail_item_5, Utils.formatHeight(context, widget.currentHeight, int.parse(aensDetail["over_height"]))), buildItem(S.of(context).ae_aens_detail_item_6, aensDetail["premium_count"] + S.of(context).ae_aens_detail_item_6_1), getTypeButton(context)],
                   ),
                 ),
             ),

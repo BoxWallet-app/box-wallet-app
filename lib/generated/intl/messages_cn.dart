@@ -186,7 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ae_aens_detail_item_4": MessageLookupByLibrary.simpleMessage("最后加价人"),
         "ae_aens_detail_item_5": MessageLookupByLibrary.simpleMessage("距离结束"),
         "ae_aens_detail_item_6": MessageLookupByLibrary.simpleMessage("加价次数"),
-        "ae_aens_detail_item_6_1": MessageLookupByLibrary.simpleMessage("加价次数"),
+        "ae_aens_detail_item_6_1": MessageLookupByLibrary.simpleMessage("次"),
         "ae_aens_detail_title": MessageLookupByLibrary.simpleMessage("Aens详情"),
         "ae_aens_item_1": MessageLookupByLibrary.simpleMessage("挂单域名"),
         "ae_aens_item_2": MessageLookupByLibrary.simpleMessage("挂单价格"),
@@ -564,6 +564,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name_transfer_conform": MessageLookupByLibrary.simpleMessage("转 移"),
         "name_transfer_title":
             MessageLookupByLibrary.simpleMessage("将域名转移到你的新地址"),
+        "node_connect": MessageLookupByLibrary.simpleMessage("连接节点中..."),
+        "node_connect_error": MessageLookupByLibrary.simpleMessage("节点错误"),
         "password_widget_conform": MessageLookupByLibrary.simpleMessage("确 认"),
         "password_widget_input_password":
             MessageLookupByLibrary.simpleMessage("输入安全密码"),

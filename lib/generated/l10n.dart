@@ -4440,10 +4440,10 @@ class S {
     );
   }
 
-  /// `Number of markups`
+  /// ``
   String get ae_aens_detail_item_6_1 {
     return Intl.message(
-      'Number of markups',
+      '',
       name: 'ae_aens_detail_item_6_1',
       desc: '',
       args: [],
@@ -4775,6 +4775,26 @@ class S {
     return Intl.message(
       'Adding...',
       name: 'show_loading_contract_add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect node...`
+  String get node_connect {
+    return Intl.message(
+      'Connect node...',
+      name: 'node_connect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Node Error`
+  String get node_connect_error {
+    return Intl.message(
+      'Node Error',
+      name: 'node_connect_error',
       desc: '',
       args: [],
     );

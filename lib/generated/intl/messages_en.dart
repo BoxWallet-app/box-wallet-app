@@ -213,8 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("End of Distance"),
         "ae_aens_detail_item_6":
             MessageLookupByLibrary.simpleMessage("Number of markups"),
-        "ae_aens_detail_item_6_1":
-            MessageLookupByLibrary.simpleMessage("Number of markups"),
+        "ae_aens_detail_item_6_1": MessageLookupByLibrary.simpleMessage(""),
         "ae_aens_detail_title":
             MessageLookupByLibrary.simpleMessage("Aens details"),
         "ae_aens_item_1": MessageLookupByLibrary.simpleMessage("Order Aens"),
@@ -703,6 +702,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Transfer"),
         "name_transfer_title": MessageLookupByLibrary.simpleMessage(
             "Transfer the domain name to your new address"),
+        "node_connect": MessageLookupByLibrary.simpleMessage("Connect node..."),
+        "node_connect_error":
+            MessageLookupByLibrary.simpleMessage("Node Error"),
         "password_widget_conform":
             MessageLookupByLibrary.simpleMessage("Confirm"),
         "password_widget_input_password":

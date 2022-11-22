@@ -40,6 +40,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import '../../manager/data_center_manager.dart';
+import '../general/node_page.dart';
 import '../general/wallet_select_page_new.dart';
 import '../mnemonic_copy_page.dart';
 import 'ae_records_page.dart';
@@ -164,11 +165,12 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   }
 
   void netVersion() {
-    if (BoxApp.isDev()) {
-      return;
-    }
+    // if (BoxApp.isDev()) {
+    //   return;
+    // }
     VersionDao.fetch().then((VersionModel model) {
       if (model.code == 200) {
+        print("============================"+model.toString());
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
           var newVersion = 0;
           if (Platform.isIOS) {
@@ -266,7 +268,9 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
           }
         });
       } else {}
-    }).catchError((e) {});
+    }).catchError((e) {
+      print(e.toString());
+    });
   }
 
   DateTime? lastPopTime;
@@ -326,7 +330,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
               ),
               if (isNodeLoading || isNodeError)
                 Positioned(
-                    bottom: MediaQueryData.fromWindow(window).padding.bottom + 10,
+                    bottom: MediaQueryData.fromWindow(window).padding.bottom + 20,
                     right: 0,
                     child: Container(
                       child: Container(
@@ -344,6 +348,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                                 isNodeLoading = true;
                                 setState(() {});
                                 netNodeHeight();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
                               },
                               child: Container(
                                 padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
@@ -366,7 +371,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                                               Container(
                                                 margin: EdgeInsets.only(left: 7),
                                                 child: Text(
-                                                  "Connect node...",
+                                                  S.of(context).node_connect,
                                                   maxLines: 1,
                                                   style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
                                                 ),
@@ -384,7 +389,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
                                                   Container(
                                                     margin: EdgeInsets.only(left: 7),
                                                     child: Text(
-                                                      "Network Error",
+                                                      S.of(context).node_connect_error,
                                                       maxLines: 1,
                                                       style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
                                                     ),

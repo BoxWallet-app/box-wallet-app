@@ -60,7 +60,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
     //
     var params = {
       "name": "aeVegasMarketStart",
-      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "isSelf": false}
+      "params": {"ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "address": "ak_idkx6m3bgRr7WiKXuB8EBYBoRqVsaSc6qo4dsd23HKgj3qiCF", "isSelf": false}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {

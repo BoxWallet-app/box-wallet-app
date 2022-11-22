@@ -8,7 +8,9 @@ import 'package:dio/dio.dart';
 
 class VersionDao {
   static Future<VersionModel> fetch() async {
-    Response response = await Dio().post(Host.VERSION);
+    print(Host.VERSION);
+    Response response = await Dio().get(Host.VERSION);
+    print(response.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.toString());
       VersionModel model = VersionModel.fromJson(data);

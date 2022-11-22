@@ -107,7 +107,7 @@ class Host {
   static var BANNER = baseHost! + '/api/banner';
 
 //版本号
-  static var VERSION = baseHost! + '/api/version';
+  static var VERSION = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/version.json";
 
 //价格
 // const PRICE = 'https://api.coingecko.com/api/v3/simple/price';

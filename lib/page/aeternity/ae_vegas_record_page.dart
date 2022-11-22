@@ -81,7 +81,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     //
     var params = {
       "name": "aeVegasMarketRecords",
-      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address}
+      "params": {"ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "address": account.address}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -119,7 +119,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     //
     var params = {
       "name": "aeVegasMarketDetail",
-      "params": {"ctAddress": "ct_87pHYB8XbNT7yQGy3G4b7F6FKD4cSPhkuM6MWqCiYaam3FY7z", "address": account.address, "owner": owner, "marketId": marketId}
+      "params": {"ctAddress": "ct_pDFECPmzPmVR6EXZtwSFMwNaY8QNLKiXQfKPTQzs7jifFaPTL", "address": account.address, "owner": owner, "marketId": marketId}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -214,7 +214,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(left: 12, right: 10, top: 5, bottom: 5),
                         child: Text(
-                          "竞猜时间 : " + Utils.formatTime(int.parse(veagsMarkets[index]["put_time"].toString())),
+                          "Put Time : " + Utils.formatTime(int.parse(veagsMarkets[index]["put_time"].toString())),
                           style: new TextStyle(
                             fontSize: 12,
                             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -243,7 +243,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                 margin: EdgeInsets.only( left: 12, right: 12, bottom: 10),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "我的答案:"+veagsMarkets[index]["put_result"],
+                  "My Answer: "+veagsMarkets[index]["put_result"],
                   textAlign: TextAlign.left,
                   style: new TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", height: 1.5, color: Colors.white),
                 ),
@@ -254,7 +254,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                   children: [
                     Container(
                       child: Text(
-                        "投入: " + AmountDecimal.parseUnits(veagsMarkets[index]["amount"], 18) + "AE",
+                        "Input: " + AmountDecimal.parseUnits(veagsMarkets[index]["amount"], 18) + "AE",
                         style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff9D9D9D)),
                       ),
                     ),
@@ -280,7 +280,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                           if (vegasDetails[veagsMarkets[index]["market_id"]] != null)
                             Container(
                               margin: EdgeInsets.all(2),
-                              padding: EdgeInsets.only(left: 10, right: 10, top: 2, bottom: 2),
+                              padding: EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
                               decoration: new BoxDecoration(
                                 // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
                                 //设置四周圆角 角度
@@ -291,7 +291,6 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                                 children: [
                                   Container(
                                     width: 20,
-                                    height: 20,
                                     padding: EdgeInsets.all(2),
                                     child: Image(
                                       image: getResultIcon(index),
@@ -335,7 +334,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
     if (currentHeight > int.parse(vegasDetails[veagsMarkets[index]["market_id"]]["market"]["over_height"])) {
       //已经结束但是进度还是0 就表示等待结果中
       if ("0" == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["progress"]) {
-        return "Status: Waiting for results";
+        return "Status: Wait Result";
       }
       // //已经有结果了,确认是否中奖
       //   //选择的第几个
@@ -346,14 +345,14 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
       if(vegasDetails[veagsMarkets[index]["market_id"]]["get_user_markets_record_result"] == vegasDetails[veagsMarkets[index]["market_id"]]["market"]["result"]){
         //已领取
         if(vegasDetails[veagsMarkets[index]["market_id"]]["is_user_markets_receive_record"] ){
-          return "Status: Obtained";
+          return "Status: Winner";
         }
-        return "Status: Waiting for receive";
+        return "Status: Wait Receive";
       }
       //未中奖
-      return "Status: Not winning";
+      return "Status: Not Winning";
     }
-    return "Status: In progress";
+    return "Status: In Progress";
   }
 
   AssetImage getResultIcon(index) {
