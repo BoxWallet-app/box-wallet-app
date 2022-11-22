@@ -344,13 +344,13 @@ class _CfxWebPathState extends State<WebPage> {
 
                                                     await WebManager.instance.updateUrls(address, urls);
                                                     _onRefresh();
-                                                    Navigator.push(
-                                                        navigatorKey.currentState!.overlay!.context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => DappWebViewPage(
-                                                                  url: url,
-                                                                  title: url,
-                                                                )));
+                                                    // Navigator.push(
+                                                    //     navigatorKey.currentState!.overlay!.context,
+                                                    //     MaterialPageRoute(
+                                                    //         builder: (context) => DappWebViewPage(
+                                                    //               url: url,
+                                                    //               title: url,
+                                                    //             )));
                                                   },
                                                 ),
                                               ),
@@ -650,13 +650,13 @@ class _CfxWebPathState extends State<WebPage> {
 
                                   await WebManager.instance.updateUrls(address, urls);
                                   _onRefresh();
-                                  Navigator.push(
-                                      navigatorKey.currentState!.overlay!.context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DappWebViewPage(
-                                                url: url,
-                                                title: url,
-                                              )));
+                                  // Navigator.push(
+                                  //     navigatorKey.currentState!.overlay!.context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => DappWebViewPage(
+                                  //               url: url,
+                                  //               title: url,
+                                  //             )));
                                 },
                               ),
                             ),

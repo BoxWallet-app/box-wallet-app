@@ -632,13 +632,13 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.spendCFX((tx) {
-                      showCopyHashDialog(context, tx);
-
-                      // ignore: missing_return
-                    }, (error) {
-                      showErrorDialog(context, error);
-                    }, aesDecode, widget.address, _textEditingController.text);
+                    // BoxApp.spendCFX((tx) {
+                    //   showCopyHashDialog(context, tx);
+                    //
+                    //   // ignore: missing_return
+                    // }, (error) {
+                    //   showErrorDialog(context, error);
+                    // }, aesDecode, widget.address, _textEditingController.text);
                     showChainLoading();
                   },
                 ),
@@ -679,13 +679,13 @@ class _CfxTokenSendTwoPageState extends State<CfxTokenSendTwoPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.spendErc20CFX((tx) {
-                      showCopyHashDialog(context, tx);
-                      // ignore: missing_return
-                    }, (error) {
-                      showErrorDialog(context, error);
-                      // ignore: missing_return
-                    }, aesDecode, widget.address, tokenContract!, _textEditingController.text);
+                    // BoxApp.spendErc20CFX((tx) {
+                    //   showCopyHashDialog(context, tx);
+                    //   // ignore: missing_return
+                    // }, (error) {
+                    //   showErrorDialog(context, error);
+                    //   // ignore: missing_return
+                    // }, aesDecode, widget.address, tokenContract!, _textEditingController.text);
                     showChainLoading();
                   },
                 ),

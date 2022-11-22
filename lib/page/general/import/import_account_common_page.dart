@@ -314,55 +314,55 @@ class _ImportAccountCommonPageState extends State<ImportAccountCommonPage> {
     }
     var mnemonic = _textEditingController.text;
     EasyLoading.show();
-    BoxApp.getValidationMnemonic((isSucess) {
-      EasyLoading.dismiss();
-      if (isSucess) {
-        _textEditingController.text = "";
-        if (widget.type == CreateMnemonicCopyPage.login) {
-
-          if (Platform.isIOS) {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));
-          } else {
-            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(mnemonic: mnemonic)));
-          }
-
-
-        } else {
-          if (widget.accountLoginCallBackFuture != null) {
-            widget.accountLoginCallBackFuture!(mnemonic);
-          }
-          Navigator.pop(context);
-        }
-      } else {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext dialogContext) {
-            return new AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              title: Text(S.of(context).dialog_hint),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    Text(S.of(context).dialog_hint_mnemonic),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: new Text(S.of(context).dialog_conform),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((val) {});
-
-      }
-      return;
-    }, mnemonic);
+    // BoxApp.getValidationMnemonic((isSucess) {
+    //   EasyLoading.dismiss();
+    //   if (isSucess) {
+    //     _textEditingController.text = "";
+    //     if (widget.type == CreateMnemonicCopyPage.login) {
+    //
+    //       if (Platform.isIOS) {
+    //          Navigator.push(context, MaterialPageRoute(builder: (context) => SetPasswordPage(mnemonic: mnemonic)));
+    //       } else {
+    //         Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(mnemonic: mnemonic)));
+    //       }
+    //
+    //
+    //     } else {
+    //       if (widget.accountLoginCallBackFuture != null) {
+    //         widget.accountLoginCallBackFuture!(mnemonic);
+    //       }
+    //       Navigator.pop(context);
+    //     }
+    //   } else {
+    //     showDialog<bool>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext dialogContext) {
+    //         return new AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //           title: Text(S.of(context).dialog_hint),
+    //           content: new SingleChildScrollView(
+    //             child: new ListBody(
+    //               children: <Widget>[
+    //                 Text(S.of(context).dialog_hint_mnemonic),
+    //               ],
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: new Text(S.of(context).dialog_conform),
+    //               onPressed: () {
+    //                 Navigator.of(dialogContext).pop(false);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ).then((val) {});
+    //
+    //   }
+    //   return;
+    // }, mnemonic);
   }
 
 }

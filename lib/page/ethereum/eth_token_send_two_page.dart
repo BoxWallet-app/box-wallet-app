@@ -133,18 +133,18 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
 
     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance, coin) async {
-      if (!mounted) return;
-      if (account.coin != coin) return;
-      if (balance == "account error") {
-        this.tokenCount = "0.0000";
-      } else {
-        this.tokenCount = Utils.formatBalanceLength(double.parse(balance));
-      }
-
-      setState(() {});
-      return;
-    }, address, account.coin!, nodeUrl);
+    // BoxApp.getBalanceETH((balance, coin) async {
+    //   if (!mounted) return;
+    //   if (account.coin != coin) return;
+    //   if (balance == "account error") {
+    //     this.tokenCount = "0.0000";
+    //   } else {
+    //     this.tokenCount = Utils.formatBalanceLength(double.parse(balance));
+    //   }
+    //
+    //   setState(() {});
+    //   return;
+    // }, address, account.coin!, nodeUrl);
   }
 
   Future<void> getEthFee() async {
@@ -797,15 +797,15 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     }
                     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                     String nodeUrl = await EthManager.instance.getNodeUrl(account);
-
-                    BoxApp.spendETH((tx) {
-                      print(tx);
-                      showCopyHashDialog(context, tx);
-                      return;
-                      // ignore: missing_return
-                    }, (error) {
-                      showErrorDialog(context, error);
-                    }, aesDecode, widget.address, _textEditingController.text, spendFee!, nodeUrl);
+                    //
+                    // BoxApp.spendETH((tx) {
+                    //   print(tx);
+                    //   showCopyHashDialog(context, tx);
+                    //   return;
+                    //   // ignore: missing_return
+                    // }, (error) {
+                    //   showErrorDialog(context, error);
+                    // }, aesDecode, widget.address, _textEditingController.text, spendFee!, nodeUrl);
                     showChainLoading();
                   },
                 ),
@@ -847,14 +847,14 @@ class _EthTokenSendTwoPageState extends State<EthTokenSendTwoPage> {
                     }
                     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
                     String nodeUrl = await EthManager.instance.getNodeUrl(account);
-                    BoxApp.spendErc20ETH((tx) {
-                      showCopyHashDialog(context, tx);
-                      return;
-                      // ignore: missing_return
-                    }, (error) {
-                      showErrorDialog(context, error);
-                      // ignore: missing_return
-                    }, aesDecode, widget.address, tokenContract!, _textEditingController.text, spendFee!, nodeUrl);
+                    // BoxApp.spendErc20ETH((tx) {
+                    //   showCopyHashDialog(context, tx);
+                    //   return;
+                    //   // ignore: missing_return
+                    // }, (error) {
+                    //   showErrorDialog(context, error);
+                    //   // ignore: missing_return
+                    // }, aesDecode, widget.address, tokenContract!, _textEditingController.text, spendFee!, nodeUrl);
                     showChainLoading();
                   },
                 ),

@@ -1207,7 +1207,6 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                       ),
                       if (sellTextControllerNode.text.isNotEmpty && (!isPairsLoading && !isBalanceLoading && !isAllowanceLoading))
                         Container(
-                          height: 20,
                           margin: const EdgeInsets.only(left: 18, right: 18),
                           alignment: Alignment.centerRight,
                           child: Text(

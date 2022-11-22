@@ -95,14 +95,14 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
       CfxHomePage.token = Utils.cfxFormatAsFixed(model.balance, 5);
 
       CacheManager.instance.setBalance(account.address!, account.coin!, CfxHomePage.token);
-
-      BoxApp.getErcBalanceCFX((balance,decimal) async {
-        if(!mounted)return;
-        balance = AmountDecimal.parseUnits(balance, decimal);
-        CfxHomePage.tokenABC= Utils.formatBalanceLength(double.parse(balance));
-        setState(() {});
-        return;
-      }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
+      //
+      // BoxApp.getErcBalanceCFX((balance,decimal) async {
+      //   if(!mounted)return;
+      //   balance = AmountDecimal.parseUnits(balance, decimal);
+      //   CfxHomePage.tokenABC= Utils.formatBalanceLength(double.parse(balance));
+      //   setState(() {});
+      //   return;
+      // }, address, "cfx:achaa50a7zepwgjnbez8mw9s07n1g80k7awd38jcj7");
       if(!mounted)return;
       setState(() {});
     }).catchError((e) {});
@@ -126,13 +126,13 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
 
   getDomainName(String address) {
     domain = "";
-    BoxApp.getAddressToNameCFX((name) {
-      if ("ERROR" != name) {
-        domain = name;
-      }
-      setState(() {});
-      return;
-    }, address);
+    // BoxApp.getAddressToNameCFX((name) {
+    //   if ("ERROR" != name) {
+    //     domain = name;
+    //   }
+    //   setState(() {});
+    //   return;
+    // }, address);
   }
 
   getAddress() {
@@ -153,12 +153,12 @@ class _CfxHomePageState extends State<CfxHomePage> with AutomaticKeepAliveClient
     } else {
       type = "usd";
     }
-    PriceDao.fetch("conflux-token", type).then((PriceModel model) {
-      priceModel = model;
-      setState(() {});
-    }).catchError((e) {
-//      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-    });
+//     PriceDao.fetch("conflux-token", type).then((PriceModel model) {
+//       priceModel = model;
+//       setState(() {});
+//     }).catchError((e) {
+// //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+//     });
   }
 
   String getAePrice() {

@@ -4210,10 +4210,10 @@ class S {
     );
   }
 
-  /// `[max]`
+  /// `[MAX]`
   String get ae_swap_sell_max {
     return Intl.message(
-      '[max]',
+      '[MAX]',
       name: 'ae_swap_sell_max',
       desc: '',
       args: [],
@@ -4670,10 +4670,10 @@ class S {
     );
   }
 
-  /// `Confirm Selling order`
+  /// `Confirm`
   String get ae_aens_btn {
     return Intl.message(
-      'Confirm Selling order',
+      'Confirm',
       name: 'ae_aens_btn',
       desc: '',
       args: [],

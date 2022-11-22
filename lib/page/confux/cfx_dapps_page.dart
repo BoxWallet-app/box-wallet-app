@@ -245,9 +245,9 @@ class _CfxDappsPageState extends State<CfxDappsPage> with AutomaticKeepAliveClie
                                                 // }
 
                                                 if (Platform.isIOS) {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => DappWebViewPage(title: data.name,url: data.url,)));
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => DappWebViewPage(title: data.name,url: data.url,)));
                                                 } else {
-                                                  Navigator.push(context, SlideRoute(DappWebViewPage(title: data.name,url: data.url,)));
+                                                  // Navigator.push(context, SlideRoute(DappWebViewPage(title: data.name,url: data.url,)));
                                                 }
                                               },
                                             ),

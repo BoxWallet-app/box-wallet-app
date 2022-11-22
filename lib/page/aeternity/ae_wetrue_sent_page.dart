@@ -251,29 +251,29 @@ class _AeWeTrueSendPageState extends State<AeWeTrueSendPage> {
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.spend((tx) {
-                    // EasyLoading.show();
-                    WeTrueTopicDao.fetch(tx).then((bool model) {
-                      EasyLoading.dismiss(animation: true);
-
-                    }).catchError((e) {
-                      EasyLoading.dismiss(animation: true);
-
-                    });
-                    showFlushSucess(context);
-                    setState(() {});
-                    // ignore: missing_return
-                  }, (error) {
-                   showErrorDialog(context, error);
-                  },
-                      aesDecode,
-                      address,
-                      weTrueConfigModel!.data!.receivingAccount!,
-                      Decimal.parse((double.parse(weTrueConfigModel!.data!.topicAmount!) /
-                                  1000000000000000000)
-                              .toString())
-                          .toString(),
-                      content);
+                  // BoxApp.spend((tx) {
+                  //   // EasyLoading.show();
+                  //   WeTrueTopicDao.fetch(tx).then((bool model) {
+                  //     EasyLoading.dismiss(animation: true);
+                  //
+                  //   }).catchError((e) {
+                  //     EasyLoading.dismiss(animation: true);
+                  //
+                  //   });
+                  //   showFlushSucess(context);
+                  //   setState(() {});
+                  //   // ignore: missing_return
+                  // }, (error) {
+                  //  showErrorDialog(context, error);
+                  // },
+                  //     aesDecode,
+                  //     address,
+                  //     weTrueConfigModel!.data!.receivingAccount!,
+                  //     Decimal.parse((double.parse(weTrueConfigModel!.data!.topicAmount!) /
+                  //                 1000000000000000000)
+                  //             .toString())
+                  //         .toString(),
+                  //     content);
                   showChainLoading();
                 },
               ),

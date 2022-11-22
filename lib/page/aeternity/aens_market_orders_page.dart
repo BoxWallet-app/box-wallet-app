@@ -62,7 +62,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     Account? account = await WalletCoinsManager.instance.getCurrentAccount();
     var params = {
       "name": "aeAensMarketIsTradableAddress",
-      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "address": account!.address}
+      "params": {"ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "address": account!.address}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -113,7 +113,7 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
     var params = {
       "name": "aeAensMarketGetNamesOrder",
       "params": {
-        "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE",
+        "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6",
         "address": account!.address,
       }
     };

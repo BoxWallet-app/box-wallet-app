@@ -108,25 +108,25 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
       setState(() {});
     }
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance,coin) async {
-      if (!mounted) return;
-      if (account.coin!=coin) return;
-      if (balance == "account error") {
-        EthHomePage.token = "0.0000";
-      } else {
-        EthHomePage.token = Utils.formatBalanceLength(double.parse(balance));
-        CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
-      }
-      if (!mounted) return;
-      setState(() {});
-      var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
-      if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
-        price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), EthHomePage.token);
-      }
-      if (!mounted) return;
-      setState(() {});
-      return;
-    }, address,account.coin!, nodeUrl);
+    // BoxApp.getBalanceETH((balance,coin) async {
+    //   if (!mounted) return;
+    //   if (account.coin!=coin) return;
+    //   if (balance == "account error") {
+    //     EthHomePage.token = "0.0000";
+    //   } else {
+    //     EthHomePage.token = Utils.formatBalanceLength(double.parse(balance));
+    //     CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
+    //   }
+    //   if (!mounted) return;
+    //   setState(() {});
+    //   var ethActivityCoinModel = await EthActivityCoinDao.fetch(EthManager.instance.getChainID(account));
+    //   if (ethActivityCoinModel.data != null && ethActivityCoinModel.data!.length > 0) {
+    //     price = await EthManager.instance.getRateFormat(ethActivityCoinModel.data![0].priceUsd.toString(), EthHomePage.token);
+    //   }
+    //   if (!mounted) return;
+    //   setState(() {});
+    //   return;
+    // }, address,account.coin!, nodeUrl);
   }
 
   Future<void> netCfxTransfer() async {
@@ -149,13 +149,13 @@ class _EthHomePageState extends State<EthHomePage> with AutomaticKeepAliveClient
 
   getDomainName(String address) {
     domain = "";
-    BoxApp.getAddressToNameCFX((name) {
-      if ("ERROR" != name) {
-        domain = name;
-      }
-      setState(() {});
-      return;
-    }, address);
+    // BoxApp.getAddressToNameCFX((name) {
+    //   if ("ERROR" != name) {
+    //     domain = name;
+    //   }
+    //   setState(() {});
+    //   return;
+    // }, address);
   }
 
   getAddress() {

@@ -119,23 +119,23 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
           if (payload.contains("ba_")) {
             payload = payload.substring(3);
           }
-          BoxApp.aeDecodePayload((data) {
-
-            var item = buildItem(S.current.ae_tx_detail_page_payload, data);
-            baseItems.add(item);
-            baseItems.add(Container(height:  MediaQueryData.fromWindow(window).padding.bottom+30,width: 1,));
-
-            baseItems.add(
-              Container(
-                color: Color(0xFFfafafa),
-                height: 50.0,
-              ),
-            );
-            setState(() {
-
-            });
-            return;
-          }, payload);
+          // BoxApp.aeDecodePayload((data) {
+          //
+          //   var item = buildItem(S.current.ae_tx_detail_page_payload, data);
+          //   baseItems.add(item);
+          //   baseItems.add(Container(height:  MediaQueryData.fromWindow(window).padding.bottom+30,width: 1,));
+          //
+          //   baseItems.add(
+          //     Container(
+          //       color: Color(0xFFfafafa),
+          //       height: 50.0,
+          //     ),
+          //   );
+          //   setState(() {
+          //
+          //   });
+          //   return;
+          // }, payload);
         } catch (e) {
         }
       }else{

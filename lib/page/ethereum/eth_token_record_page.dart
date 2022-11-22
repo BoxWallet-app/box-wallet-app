@@ -67,18 +67,18 @@ class _TokenRecordState extends State<EthTokenRecordPage> {
     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceETH((balance, decimal,address,from,coin) async {
-      if(from != account.address )return;
-      if(address != widget.ctId )return;
-      balance = AmountDecimal.parseUnits(balance, decimal);
-      this.decimal = decimal;
-      coinCount = Utils.formatBalanceLength(double.parse(balance));
-      updatePrice();
-
-
-      setState(() {});
-      return;
-    }, address, widget.ctId!,account.coin!, nodeUrl);
+    // BoxApp.getErcBalanceETH((balance, decimal,address,from,coin) async {
+    //   if(from != account.address )return;
+    //   if(address != widget.ctId )return;
+    //   balance = AmountDecimal.parseUnits(balance, decimal);
+    //   this.decimal = decimal;
+    //   coinCount = Utils.formatBalanceLength(double.parse(balance));
+    //   updatePrice();
+    //
+    //
+    //   setState(() {});
+    //   return;
+    // }, address, widget.ctId!,account.coin!, nodeUrl);
   }
 
   Future<void> updatePrice() async {

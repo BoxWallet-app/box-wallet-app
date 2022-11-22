@@ -35,7 +35,7 @@ class CacheManager {
     return data;
   }
 
-  Future<bool> setAeHomeFunction(String value) async {
+  Future<bool> setAeHomeFunction(String key,String value) async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.setString('ae_home_function', value);
   }
@@ -43,7 +43,8 @@ class CacheManager {
   Future<String> getAeHomeFunction() async {
     var prefs = await SharedPreferences.getInstance();
     var data = prefs.getString('ae_home_function');
-    if (data == null || data == "") return "";
+    if (data == null || data == "") return "{\"data\":[{\"en_name\":\"Base Function\",\"cn_name\":\"基础功能\",\"info\":[{\"en_name\":\"Spend\",\"cn_name\":\"转账\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/spend.png\",\"event\":\"Spend\"},{\"en_name\":\"Receive\",\"cn_name\":\"收款\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/receive.png\",\"event\":\"Receive\"},{\"en_name\":\"AENS\",\"cn_name\":\"域名\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/aens.png\",\"event\":\"Aens\"},{\"en_name\":\"Tokens\",\"cn_name\":\"积分\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/token.png\",\"event\":\"Tokens\"},{\"en_name\":\"Record\",\"cn_name\":\"交易记录\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs"
+        ".com/icon/record.png\",\"event\":\"Record\"}]},{\"en_name\":\"Other Product\",\"cn_name\":\"更多产品\",\"info\":[{\"en_name\":\"AeKnow\",\"cn_name\":\"浏览器\",\"icon\":\"https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/icon/aeknow.png\",\"event\":\"AeKnow\"}]}]}";
     return data;
   }
 

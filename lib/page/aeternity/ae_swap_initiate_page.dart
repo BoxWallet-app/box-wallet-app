@@ -515,42 +515,42 @@ class _AeSwapInitiatePageState extends State<AeSwapInitiatePage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.contractSwapSell((tx) {
-                      focusNodeNode.unfocus();
-                      focusNodeCompiler.unfocus();
-
-                      showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                          return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                            title: Text(S.of(context).dialog_hint),
-                            content: Text(   S.of(context).dialog_send_sucess,),
-                            actions: <Widget>[
-                              TextButton(
-                                child: new Text(
-                                  S.of(context).dialog_conform,
-                                ),
-                                onPressed: () {
-                                  focusNodeNode.unfocus();
-                                  focusNodeCompiler.unfocus();
-                                  eventBus.fire(SwapEvent());
-
-                                  Navigator.of(context, rootNavigator: true).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ).then((val) {
-                        Navigator.pop(context);
-                      });
-                    } as Future<dynamic> Function(String), (error) {
-                      showErrorDialog(context, error);
-                      return;
-                    }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue!.ctAddress!, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data!.allowance!);
+                    // BoxApp.contractSwapSell((tx) {
+                    //   focusNodeNode.unfocus();
+                    //   focusNodeCompiler.unfocus();
+                    //
+                    //   showDialog<bool>(
+                    //   context: context,
+                    //   barrierDismissible: false,
+                    //   builder: (BuildContext dialogContext) {
+                    //       return new AlertDialog(shape: RoundedRectangleBorder(
+                    //                         borderRadius: BorderRadius.all(Radius.circular(10))
+                    //                     ),
+                    //         title: Text(S.of(context).dialog_hint),
+                    //         content: Text(   S.of(context).dialog_send_sucess,),
+                    //         actions: <Widget>[
+                    //           TextButton(
+                    //             child: new Text(
+                    //               S.of(context).dialog_conform,
+                    //             ),
+                    //             onPressed: () {
+                    //               focusNodeNode.unfocus();
+                    //               focusNodeCompiler.unfocus();
+                    //               eventBus.fire(SwapEvent());
+                    //
+                    //               Navigator.of(context, rootNavigator: true).pop();
+                    //             },
+                    //           ),
+                    //         ],
+                    //       );
+                    //     },
+                    //   ).then((val) {
+                    //     Navigator.pop(context);
+                    //   });
+                    // } as Future<dynamic> Function(String), (error) {
+                    //   showErrorDialog(context, error);
+                    //   return;
+                    // }, aesDecode, address, BoxApp.SWAP_CONTRACT, dropdownValue!.ctAddress!, _textEditingControllerNode.text, _textEditingControllerCompiler.text,model.data!.allowance!);
                     showChainLoading();
                   },
                 ),

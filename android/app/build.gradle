@@ -31,8 +31,11 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 30
-
+    compileSdkVersion 33
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -46,9 +49,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.aepp.box"
         minSdkVersion 24
-        targetSdkVersion 30
-        versionCode  keystoreProperties['flutter.versionCode'].toInteger()
-        versionName keystoreProperties['flutter.versionName']
+        targetSdkVersion 33
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
 
         ndk {
             abiFilters 'arm64-v8a','armeabi-v7a'
@@ -74,17 +77,24 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    //应用名称
-    android.applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "${packageName(defaultConfig.applicationId)}_release_v${variant.versionName}_${releaseTime()}.apk"
+            def version = variant.versionName // 版本号
+            def buildType = variant.name // 包类型，debug 还是 release
+            def createTime = new Date().format('yyyyMMddHHmmss') // 打包时间 2021_09_25_16_45_52
+            if (buildType == "debug") {
+                outputFileName = "box_wallet_${buildType}_${version}_${createTime}.apk"
+            }
+            if (buildType == "release") {
+                outputFileName = "box_wallet_${buildType}_${version}_${createTime}.apk"
+            }
         }
     }
 }

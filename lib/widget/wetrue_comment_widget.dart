@@ -277,45 +277,6 @@ class _WeTrueCommentWidgetState extends State<WeTrueCommentWidget> {
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.spend((tx) {
-                    // EasyLoading.show();
-                    WeTrueTopicDao.fetch(tx).then((bool model) {
-                      EasyLoading.dismiss(animation: true);
-
-                      setState(() {});
-                    }).catchError((e) {
-                      EasyLoading.dismiss(animation: true);
-
-                      setState(() {});
-                    });
-
-                    showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                        return new AlertDialog(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                          title: Text("发布成功"),
-                          content: Text("区块同步中，稍后将展示"),
-                          actions: <Widget>[
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_conform,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ).then((val) {});
-
-                    setState(() {});
-                    // ignore: missing_return
-                  }, (error) {
-                    showErrorDialog(context, error);
-                  }, aesDecode, address, weTrueConfigModel!.data!.receivingAccount!, Decimal.parse((double.parse(weTrueConfigModel!.data!.commentAmount!) / 1000000000000000000).toString()).toString(), content);
                   showChainLoading();
                 },
               ),

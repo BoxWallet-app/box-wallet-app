@@ -175,8 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No permission"),
         "ae_aens_add_error_2": MessageLookupByLibrary.simpleMessage(
             "For a good user experience, the launch function needs to be reviewed before it can be used. For review, please post on the AE official forum @baixin, or in the official group @admin"),
-        "ae_aens_btn":
-            MessageLookupByLibrary.simpleMessage("Confirm Selling order"),
+        "ae_aens_btn": MessageLookupByLibrary.simpleMessage("Confirm"),
         "ae_aens_btn_fee": MessageLookupByLibrary.simpleMessage("Fees"),
         "ae_aens_detail_btn_dismiss":
             MessageLookupByLibrary.simpleMessage("Cancel transaction"),
@@ -287,7 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ae_swap_price": MessageLookupByLibrary.simpleMessage("Price"),
         "ae_swap_select_same_error": MessageLookupByLibrary.simpleMessage(
             "You cannot exchange the same points"),
-        "ae_swap_sell_max": MessageLookupByLibrary.simpleMessage("[max]"),
+        "ae_swap_sell_max": MessageLookupByLibrary.simpleMessage("[MAX]"),
         "ae_swap_sell_text": MessageLookupByLibrary.simpleMessage("Sell"),
         "ae_swap_start": MessageLookupByLibrary.simpleMessage("Start Swap"),
         "ae_swap_success_1":

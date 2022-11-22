@@ -137,84 +137,84 @@ class _SelectChainCreatePathState extends State<SelectChainCreatePage> {
   }
 
   Future createChain() async {
-    for (var i = 0; i < chains.length; i++) {
-      if (chains[i].isSelect!) {
-        if (chains[i].name == "AE") {
-          BoxApp.getSecretKey((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-        if (chains[i].name == "CFX") {
-          BoxApp.getSecretKeyCFX((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-
-        if (chains[i].name == "OKT") {
-          BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-        if (chains[i].name == "BNB") {
-          BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-        if (chains[i].name == "HT") {
-          BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-        if (chains[i].name == "ETH") {
-          BoxApp.getSecretKeyETH((address, signingKey) async {
-            final key = Utils.generateMd5Int(widget.password! + address);
-            var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-            var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
-            await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
-            await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
-            chains[i].isSelect = false;
-            createChain();
-          }, widget.mnemonic!);
-          return;
-        }
-      }
-    }
-    checkSuccess();
+    // for (var i = 0; i < chains.length; i++) {
+    //   if (chains[i].isSelect!) {
+    //     if (chains[i].name == "AE") {
+    //       BoxApp.getSecretKey((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //     if (chains[i].name == "CFX") {
+    //       BoxApp.getSecretKeyCFX((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //
+    //     if (chains[i].name == "OKT") {
+    //       BoxApp.getSecretKeyETH((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //     if (chains[i].name == "BNB") {
+    //       BoxApp.getSecretKeyETH((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //     if (chains[i].name == "HT") {
+    //       BoxApp.getSecretKeyETH((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //     if (chains[i].name == "ETH") {
+    //       BoxApp.getSecretKeyETH((address, signingKey) async {
+    //         final key = Utils.generateMd5Int(widget.password! + address);
+    //         var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //         var mnemonicAesEncode = Utils.aesEncode(widget.mnemonic!, key);
+    //         await WalletCoinsManager.instance.addChain(chains[i].name,chains[i].nameFull);
+    //         await WalletCoinsManager.instance.addAccount(chains[i].name,chains[i].nameFull, address, mnemonicAesEncode, signingKeyAesEncode,AccountType.MNEMONIC, false);
+    //         chains[i].isSelect = false;
+    //         createChain();
+    //       }, widget.mnemonic!);
+    //       return;
+    //     }
+    //   }
+    // }
+    // checkSuccess();
   }
 
 

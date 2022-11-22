@@ -410,40 +410,40 @@ class _SwapPageMyState extends State<AeSwapMyPage> with AutomaticKeepAliveClient
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.contractSwapCancel((data) {
-                    showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                        return new AlertDialog(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                          title: Text(S.of(context).dialog_hint),
-                          content: Text(S.of(context).dialog_dismiss_sucess),
-                          actions: <Widget>[
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_conform,
-                              ),
-                              onPressed: () {
-                                eventBus.fire(SwapEvent());
-                                swapModels!.data!.removeAt(index - 1);
-                                setState(() {});
-                                if (swapModels!.data!.length == 0) {
-                                  loadingType = LoadingType.no_data;
-                                  setState(() {});
-                                }
-
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ).then((val) {});
-                  } as Future<dynamic> Function(String), (error) {
-                    showErrorDialog(context, error);
-                    return;
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels!.data![index - 1].token!);
+                  // BoxApp.contractSwapCancel((data) {
+                  //   showDialog<bool>(
+                  //     context: context,
+                  //     barrierDismissible: false,
+                  //     builder: (BuildContext dialogContext) {
+                  //       return new AlertDialog(
+                  //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                  //         title: Text(S.of(context).dialog_hint),
+                  //         content: Text(S.of(context).dialog_dismiss_sucess),
+                  //         actions: <Widget>[
+                  //           TextButton(
+                  //             child: new Text(
+                  //               S.of(context).dialog_conform,
+                  //             ),
+                  //             onPressed: () {
+                  //               eventBus.fire(SwapEvent());
+                  //               swapModels!.data!.removeAt(index - 1);
+                  //               setState(() {});
+                  //               if (swapModels!.data!.length == 0) {
+                  //                 loadingType = LoadingType.no_data;
+                  //                 setState(() {});
+                  //               }
+                  //
+                  //               Navigator.of(context, rootNavigator: true).pop();
+                  //             },
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ).then((val) {});
+                  // } as Future<dynamic> Function(String), (error) {
+                  //   showErrorDialog(context, error);
+                  //   return;
+                  // }, aesDecode, address, BoxApp.SWAP_CONTRACT, swapModels!.data![index - 1].token!);
                   showChainLoading();
                 },
               ),

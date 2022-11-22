@@ -38,6 +38,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
 import 'ae_aens_page.dart';
@@ -69,7 +71,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   BlockTopModel? blockTopModel;
   SwapModel? swapModels;
   double? premium;
-  List<NameReverseModel>? namesModel;
+  String _aens = "";
 
   @override
   void initState() {
@@ -77,39 +79,36 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     super.initState();
 
     eventBus.on<LanguageEvent>().listen((event) {
-      getAddress();
-      netAccountInfo();
-      netContractBalance();
+      netData();
       setState(() {});
     });
     eventBus.on<AccountUpdateEvent>().listen((event) {
       priceModel = null;
       walletRecordModel = null;
       blockTopModel = null;
-      namesModel = null;
+      _aens = "";
       AeHomePage.token = "loading...";
       AeHomePage.tokenABC = "loading...";
       if (!mounted) return;
       setState(() {});
-      getAddress();
-      netAccountInfo();
-      netContractBalance();
+
+      netData();
     });
-    getAddress();
-    netAccountInfo();
-    netContractBalance();
+    netData();
   }
 
   void netNameReverseData() {
-    NameReverseDao.fetch().then((List<NameReverseModel> model) {
-      if (model.isNotEmpty) {
-        if (model.isNotEmpty) {
-          model.sort((left, right) => right.expiresAt!.compareTo(left.expiresAt!));
-        }
-        namesModel = model;
+    NameReverseDao.fetch().then((String aens) {
+      // if (model.isNotEmpty) {
+      //   if (model.isNotEmpty) {
+      //     model.sort((left, right) => right.expiresAt!.compareTo(left.expiresAt!));
+      //   }
+      _aens = aens;
+      //   print(namesModel);
         setState(() {});
-      } else {}
+      // } else {}
     }).catchError((e) {
+      print(e.toString());
 //      loadingType = LoadingType.error;
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
@@ -269,11 +268,17 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       }
       setState(() {});
     }
-    Response homeFunctionResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-home-function.json");
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String language = BoxApp.language;
+    String platform = Platform.isIOS?"iOS":"android";
+    String url = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/home-function/"+packageInfo.version.replaceAll(".", "")+"/$language-$platform.json";
+    print(url);
+    Response homeFunctionResponse = await Dio().get(url);
 
     var homeFunctionDecode = jsonDecode(homeFunctionResponse.toString());
 
-    CacheManager.instance.setAeHomeFunction(homeFunctionResponse.toString());
+    CacheManager.instance.setAeHomeFunction(url,homeFunctionResponse.toString());
     logger.info(homeFunctionDecode);
 
     var homeFunction = homeFunctionDecode["data"];
@@ -296,10 +301,13 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     } else {
       type = "usd";
     }
-    PriceDao.fetch("aeternity", type).then((PriceModel model) {
+    PriceDao.fetch().then((PriceModel model) {
       priceModel = model;
+      print("123123123123123"+priceModel.toString());
+      getAePrice();
       setState(() {});
     }).catchError((e) {
+      print("123123123123123"+e.toString());
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -551,9 +559,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                             ),
                                             Expanded(
                                               child: Container(
+                                                alignment: Alignment.centerRight,
                                                 margin: const EdgeInsets.only(left: 2, right: 20),
                                                 child: Text(
-                                                  namesModel == null ? "" : namesModel![0].name!,
+                                                  _aens,
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(fontSize: 13, color: Colors.white70, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                                 ),
@@ -619,7 +628,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.only(top: 5, bottom: 10),
+
       //边框设置
       decoration: new BoxDecoration(
         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
@@ -675,12 +684,22 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AeWetrueWebPage()));
                     return;
                   }
+                  if (event == "AeKnow") {
+                    _launchURL("https://aeknow.org");
+                    return;
+                  }
+                  if (event == "Explorer") {
+                    _launchURL("https://explorer.aeternity.io");
+                    return;
+                  }
+                  Fluttertoast.showToast(msg: BoxApp.language=="cn"?"开发中":"Developing", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+
                   // if (homeFunctionInfo["function" == "spend"]) {}
                 },
                 child: Container(
                   alignment: Alignment.topCenter,
+                  // margin: const EdgeInsets.only(top: 5, bottom: 10),
                   width: (MediaQuery.of(context).size.width - 32) / 4,
-                  // height: (MediaQuery.of(context).size.width - 32) / 4+37,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -702,7 +721,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                           BoxApp.language == "cn" ? homeFunctionInfo[position]["cn_name"] : homeFunctionInfo[position]["en_name"],
                           textAlign: TextAlign.center,
                           maxLines: 2,
-                          overflow: TextOverflow.fade,
+                          overflow: TextOverflow.ellipsis,
                           style: new TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black87),
                         ),
                       ),
@@ -718,6 +737,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           padding: const EdgeInsets.all(0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
+            childAspectRatio: 100 / 106,
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
           ),
@@ -737,10 +757,10 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
           fontWeight: FontWeight.w500,
           fontSize: 16,
           fontFamily: BoxApp.language == "cn"
-              ? "Ubuntu"
+              ? "Roboto"
               : BoxApp.language == "cn"
-                  ? "Ubuntu"
-                  : "Ubuntu",
+                  ? "Roboto"
+                  : "Roboto",
         ),
       ),
     );
@@ -886,6 +906,13 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         ),
       ),
     );
+  }
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Container getTokensContainer(BuildContext context) {
@@ -1207,9 +1234,15 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
   }
 
   Future<void> _onRefresh() async {
-    netAccountInfo();
+    netData();
+  }
+
+  void netData() {
+     netAccountInfo();
     netContractBalance();
     getAddress();
+    netNameReverseData();
+     netBaseData();
   }
 
   @override

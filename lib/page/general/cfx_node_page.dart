@@ -221,7 +221,7 @@ class _CfxNodePageState extends State<CfxNodePage> {
                     onPressed: () {
                       BoxApp.setCfxNodeUrl(_textEditingControllerNode.text);
 
-                      BoxApp.setCfxNodeCompilerUrl(_textEditingControllerNode.text);
+                      // BoxApp.setCfxNodeCompilerUrl(_textEditingControllerNode.text);
                       showDialog<bool>(
                         context: context,
                         barrierDismissible: false,

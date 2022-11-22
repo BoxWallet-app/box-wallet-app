@@ -49,14 +49,14 @@ class _TokenRecordState extends State<CfxTokenRecordPage> {
 
   Future<void> netTokenBalance() async {
     var address = await BoxApp.getAddress();
-    BoxApp.getErcBalanceCFX((balance, decimal) async {
-      balance = AmountDecimal.parseUnits(balance, decimal);
-      this.decimal = decimal;
-      coinCount = Utils.formatBalanceLength(double.parse(balance));
-      netTokenRecord();
-      setState(() {});
-      return;
-    }, address, widget.ctId!);
+    // BoxApp.getErcBalanceCFX((balance, decimal) async {
+    //   balance = AmountDecimal.parseUnits(balance, decimal);
+    //   this.decimal = decimal;
+    //   coinCount = Utils.formatBalanceLength(double.parse(balance));
+    //   netTokenRecord();
+    //   setState(() {});
+    //   return;
+    // }, address, widget.ctId!);
   }
 
   Future<void> netTokenRecord() async {

@@ -7,9 +7,10 @@ import 'package:box/model/aeternity/price_model.dart';
 import 'package:dio/dio.dart';
 
 class PriceDao {
-  static Future<PriceModel> fetch(String ids, String type) async {
-    Response response = await Dio().get(Host.PRICE + "?ids=" + ids + "&type=" + type);
-    print(Host.PRICE + "?ids=" + ids + "&vs_currencies=" + type);
+  static Future<PriceModel> fetch() async {
+    print(Host.PRICE);
+    Response response = await Dio().get(Host.PRICE);
+    print(Host.PRICE);
     if (response.statusCode == 200) {
       print(response.toString());
       var data = jsonDecode(response.toString());

@@ -288,18 +288,18 @@ class _CfxTokenSendOnePageState extends State<CfxTokenSendOnePage> {
       }
       EasyLoading.show();
 
-      BoxApp.getNameToAddressCFX((address) {
-        EasyLoading.dismiss(animation: true);
-        if ("ERROR" == address) {
-          Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-          return;
-        }
-        _textEditingController.text = address;
-        final length = address.length;
-        _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
-        _focus.unfocus();
-        return;
-      }, address);
+      // BoxApp.getNameToAddressCFX((address) {
+      //   EasyLoading.dismiss(animation: true);
+      //   if ("ERROR" == address) {
+      //     Fluttertoast.showToast(msg: S.of(context).hint_error_address, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      //     return;
+      //   }
+      //   _textEditingController.text = address;
+      //   final length = address.length;
+      //   _textEditingController.selection = TextSelection(baseOffset: length, extentOffset: length);
+      //   _focus.unfocus();
+      //   return;
+      // }, address);
       return;
     }
 

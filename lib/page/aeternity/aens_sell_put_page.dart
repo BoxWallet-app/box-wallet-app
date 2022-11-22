@@ -64,7 +64,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
   Future<void> aeAensMarketGetNameMaxPrice() async {
     var params = {
       "name": "aeAensMarketGetNameMaxPrice",
-      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name}
+      "params": {"ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": widget.name}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -99,8 +99,8 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketPutName",
-        // "params": {"secretKey": privateKey, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name, "amount": _amountControllerNode.text, "height": "3"}
-        "params": {"secretKey": privateKey, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": widget.name, "amount": _amountControllerNode.text, "height": height.toString()}
+        // "params": {"secretKey": privateKey, "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": widget.name, "amount": _amountControllerNode.text, "height": "3"}
+        "params": {"secretKey": privateKey, "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": widget.name, "amount": _amountControllerNode.text, "height": height.toString()}
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_contract_add);
@@ -491,7 +491,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     }
 
     if (amount > nameMaxPrice) {
-      return S.of(context).ae_aens_btn+"(" + (amount / 100).toString() + S.of(context).ae_aens_btn+")";
+      return S.of(context).ae_aens_btn+"(" + (amount / 100).toString() + "AE "+S.of(context).ae_aens_btn_fee+")";
     }
 
     return S.of(context).ae_aens_btn;

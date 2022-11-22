@@ -98,20 +98,20 @@ class _TokenListPathState extends State<EthSelectTokenListPage> {
     var maxLength =  cfxCtTokens!.length;
     for (int i = 0; i < cfxCtTokens!.length; i++) {
       if (cfxCtTokens![i].balance == null) {
-        BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
-          if(from != account!.address )return;
-          balance = AmountDecimal.parseUnits(balance, decimal);
-          print(balance);
-          for (int j = 0; j < cfxCtTokens!.length; j++) {
-            if (cfxCtTokens![j].ctId == address) {
-              cfxCtTokens![j].balance = Utils.formatBalanceLength(double.parse(balance));
-            }
-          }
-          if(i == maxLength-1){
-            // updatePrice();
-          }
-          setState(() {});
-        }, address!, cfxCtTokens![i].ctId!, account!.coin!, nodeUrl);
+        // BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
+        //   if(from != account!.address )return;
+        //   balance = AmountDecimal.parseUnits(balance, decimal);
+        //   print(balance);
+        //   for (int j = 0; j < cfxCtTokens!.length; j++) {
+        //     if (cfxCtTokens![j].ctId == address) {
+        //       cfxCtTokens![j].balance = Utils.formatBalanceLength(double.parse(balance));
+        //     }
+        //   }
+        //   if(i == maxLength-1){
+        //     // updatePrice();
+        //   }
+        //   setState(() {});
+        // }, address!, cfxCtTokens![i].ctId!, account!.coin!, nodeUrl);
       }
     }
 

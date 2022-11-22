@@ -106,35 +106,35 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
         var data = jsonDecode(methodCall.arguments.toString());
         cfxRpcModel = CfxRpcModel.fromJson(data);
 
-        await BoxApp.getGasCFX((data) async {
-          var split = data.split("#");
-          cfxRpcModel!.payload!.storageLimit = split[2].toString();
-          cfxRpcModel!.payload!.gasPrice = "1000000000";
-          cfxRpcModel!.payload!.gas = split[0].toString();
-          String value = "- 0 CFX";
-          var decimalBase = Decimal.parse('1000000000000000000');
-          if (cfxRpcModel!.payload!.value != null) {
-            value = "- " + (Decimal.parse(int.parse(cfxRpcModel!.payload!.value!).toString()) / decimalBase).toString() + " CFX";
-          }
-
-          var decimalGasPrice = Decimal.parse(int.parse(cfxRpcModel!.payload!.gasPrice!).toString());
-
-          var decimalGas = Decimal.parse(int.parse(cfxRpcModel!.payload!.gas!).toString());
-          var decimalGasBase = decimalGas / decimalBase;
-
-          var storageLimit = Decimal.parse((int.parse(cfxRpcModel!.payload!.storageLimit!).toString()));
-
-          var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
-          await PluginManager.cfxGetGas({
-            'type': methodCall.method,
-            'from': cfxRpcModel!.payload!.from,
-            'to': cfxRpcModel!.payload!.to,
-            'value': value,
-            'gas': "- " + formatGas.toStringAsFixed(10) + " CFX",
-            'data': cfxRpcModel!.payload!.data,
-          });
-          return;
-        }, cfxRpcModel!.payload!.from!, cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.data!);
+        // await BoxApp.getGasCFX((data) async {
+        //   var split = data.split("#");
+        //   cfxRpcModel!.payload!.storageLimit = split[2].toString();
+        //   cfxRpcModel!.payload!.gasPrice = "1000000000";
+        //   cfxRpcModel!.payload!.gas = split[0].toString();
+        //   String value = "- 0 CFX";
+        //   var decimalBase = Decimal.parse('1000000000000000000');
+        //   if (cfxRpcModel!.payload!.value != null) {
+        //     value = "- " + (Decimal.parse(int.parse(cfxRpcModel!.payload!.value!).toString()) / decimalBase).toString() + " CFX";
+        //   }
+        //
+        //   var decimalGasPrice = Decimal.parse(int.parse(cfxRpcModel!.payload!.gasPrice!).toString());
+        //
+        //   var decimalGas = Decimal.parse(int.parse(cfxRpcModel!.payload!.gas!).toString());
+        //   var decimalGasBase = decimalGas / decimalBase;
+        //
+        //   var storageLimit = Decimal.parse((int.parse(cfxRpcModel!.payload!.storageLimit!).toString()));
+        //
+        //   var formatGas = double.parse(decimalGasPrice.toString()) * double.parse(decimalGasBase.toString());
+        //   await PluginManager.cfxGetGas({
+        //     'type': methodCall.method,
+        //     'from': cfxRpcModel!.payload!.from,
+        //     'to': cfxRpcModel!.payload!.to,
+        //     'value': value,
+        //     'gas': "- " + formatGas.toStringAsFixed(10) + " CFX",
+        //     'data': cfxRpcModel!.payload!.data,
+        //   });
+        //   return;
+        // }, cfxRpcModel!.payload!.from!, cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.data!);
 
         return 'SUCCESS';
       case 'signTransaction':
@@ -164,16 +164,16 @@ class _AeTabPageState extends State<AeTabPage> with TickerProviderStateMixin {
           });
           return 'SUCCESS';
         }
-        BoxApp.signTransactionCFX((hash) async {
-          await PluginManager.cfxSignTransaction({
-            'type': methodCall.method,
-            'data': hash,
-          });
-          return 'SUCCESS';
-        }, (error) {
-          return;
-        }, aesDecode, cfxRpcModel!.payload!.storageLimit != null ? cfxRpcModel!.payload!.storageLimit! : "0", cfxRpcModel!.payload!.gas != null ? cfxRpcModel!.payload!.gas! : "0", cfxRpcModel!.payload!.gasPrice != null ? cfxRpcModel!.payload!.gasPrice! : "0",
-            cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.data!);
+        // BoxApp.signTransactionCFX((hash) async {
+        //   await PluginManager.cfxSignTransaction({
+        //     'type': methodCall.method,
+        //     'data': hash,
+        //   });
+        //   return 'SUCCESS';
+        // }, (error) {
+        //   return;
+        // }, aesDecode, cfxRpcModel!.payload!.storageLimit != null ? cfxRpcModel!.payload!.storageLimit! : "0", cfxRpcModel!.payload!.gas != null ? cfxRpcModel!.payload!.gas! : "0", cfxRpcModel!.payload!.gasPrice != null ? cfxRpcModel!.payload!.gasPrice! : "0",
+        //     cfxRpcModel!.payload!.value != null ? cfxRpcModel!.payload!.value! : "0", cfxRpcModel!.payload!.to!, cfxRpcModel!.payload!.data!);
 
         return 'SUCCESS';
 

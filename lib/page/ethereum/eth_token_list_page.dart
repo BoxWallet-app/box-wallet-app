@@ -162,21 +162,21 @@ class _TokenListPathState extends State<EthTokenListPage> with SingleTickerProvi
     var maxLength = cfxCtTokens!.length;
     for (int i = 0; i < cfxCtTokens!.length; i++) {
       if (cfxCtTokens![i].balance == null) {
-        BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
-          if(from != account!.address )return;
-          balance = AmountDecimal.parseUnits(balance, decimal);
-          for (int j = 0; j < cfxCtTokens!.length; j++) {
-            if (cfxCtTokens![j].ctId == address) {
-              cfxCtTokens![j].balance = Utils.formatBalanceLength(double.parse(balance));
-              CacheManager.instance.setTokenBalance(account!.address!, cfxCtTokens![j].ctId, account!.coin!, cfxCtTokens![j].balance!);
-            }
-          }
-          if (i == maxLength - 1) {
-            updatePrice();
-          }
-          if(!mounted)return;
-          setState(() {});
-        }, address!, cfxCtTokens![i].ctId!, account!.coin!, nodeUrl);
+        // BoxApp.getErcBalanceETH((balance, decimal, address,from, coin) async {
+        //   if(from != account!.address )return;
+        //   balance = AmountDecimal.parseUnits(balance, decimal);
+        //   for (int j = 0; j < cfxCtTokens!.length; j++) {
+        //     if (cfxCtTokens![j].ctId == address) {
+        //       cfxCtTokens![j].balance = Utils.formatBalanceLength(double.parse(balance));
+        //       CacheManager.instance.setTokenBalance(account!.address!, cfxCtTokens![j].ctId, account!.coin!, cfxCtTokens![j].balance!);
+        //     }
+        //   }
+        //   if (i == maxLength - 1) {
+        //     updatePrice();
+        //   }
+        //   if(!mounted)return;
+        //   setState(() {});
+        // }, address!, cfxCtTokens![i].ctId!, account!.coin!, nodeUrl);
       }
     }
   }

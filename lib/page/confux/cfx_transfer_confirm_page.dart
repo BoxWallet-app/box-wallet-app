@@ -48,12 +48,12 @@ class _CfxTransferConfirmPageState extends State<CfxTransferConfirmPage> {
       setData("0.0");
       setState(() {});
     } else {
-      BoxApp.toFormatCfx((amount) {
-        setData(amount);
-
-        setState(() {});
-        return;
-      }, widget.data!['value']);
+      // BoxApp.toFormatCfx((amount) {
+      //   setData(amount);
+      //
+      //   setState(() {});
+      //   return;
+      // }, widget.data!['value']);
     }
   }
 

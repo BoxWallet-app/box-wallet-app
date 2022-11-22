@@ -37,7 +37,7 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
   //服务
   Future<void> startService() async {
     //开启SDK 服务
-    await BoxApp.startAeService(context, () async {
+    await BoxApp.startAeService( () async {
       //初始化钱包相关代码
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
@@ -80,9 +80,10 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
   Future<void> goHome() async {
     Host.baseHost = await BoxApp.getBaseHost();
     String nodeUrl = await BoxApp.getNodeUrl();
-    if (nodeUrl != "") {
-      setSDKBaseUrl("https://node.aeasy.io");
-      // setSDKBaseUrl("https://mainnet.aeternity.io");
+    if (nodeUrl == "") {
+      setSDKBaseUrl("https://mainnet.aeternity.io");
+    }else{
+      setSDKBaseUrl(nodeUrl);
     }
     //获取当前的账号
     var account = await WalletCoinsManager.instance.getCurrentAccount();

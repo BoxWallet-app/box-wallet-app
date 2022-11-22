@@ -85,17 +85,17 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
     if (isReturn) return;
     isLoadBalance = true;
     if (token.balance == null) {
-      BoxApp.getErcBalanceCFX((balance,decimal) async {
-        balance = AmountDecimal.parseUnits(balance, decimal);
-        token.balance = Utils.formatBalanceLength(double.parse(balance));
-
-        if (!mounted) {
-          return;
-        }
-        setState(() {});
-        getBalance(address);
-        return;
-      }, address, token.ctId!);
+      // BoxApp.getErcBalanceCFX((balance,decimal) async {
+      //   balance = AmountDecimal.parseUnits(balance, decimal);
+      //   token.balance = Utils.formatBalanceLength(double.parse(balance));
+      //
+      //   if (!mounted) {
+      //     return;
+      //   }
+      //   setState(() {});
+      //   getBalance(address);
+      //   return;
+      // }, address, token.ctId!);
     }
     isLoadBalance = false;
   }
@@ -104,7 +104,7 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
   void initState() {
     // TODO: implement initState
     super.initState();
-    netTokenBaseData();
+    // netTokenBaseData();
     Future.delayed(Duration(milliseconds: 600), () {
       _onRefresh();
     });
@@ -120,15 +120,15 @@ class _TokenListPathState extends State<CfxTokenListPage> with SingleTickerProvi
     // });
   }
 
-  Future<void> netTokenBaseData() async {
-    var type = "usd";
-    if (BoxApp.language == "cn") {
-      type = "cny";
-    } else {
-      type = "usd";
-    }
-    priceModel = await PriceDao.fetch("tether", type);
-  }
+  // Future<void> netTokenBaseData() async {
+  //   var type = "usd";
+  //   if (BoxApp.language == "cn") {
+  //     type = "cny";
+  //   } else {
+  //     type = "usd";
+  //   }
+  //   priceModel = await PriceDao.fetch("tether", type);
+  // }
 
   String getTokenPrice(int index) {
 //     if (priceModel == null) {

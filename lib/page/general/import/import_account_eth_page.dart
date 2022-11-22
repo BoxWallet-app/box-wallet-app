@@ -375,59 +375,59 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
 
   Future<void> createTabPrivateKey(String privateKey) async {
     EasyLoading.show();
-    BoxApp.getSecretPrivateCFX((address, signingKey) async {
-      EasyLoading.dismiss();
-      if (signingKey.isEmpty && address.isEmpty) {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext dialogContext) {
-            return new AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              title: Text(S.of(context).dialog_hint),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    Text(S.of(context).ImportAccountPage_private_msg),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: new Text(S.of(context).dialog_conform),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((val) {});
-      } else {
-        if (widget.password!.isEmpty) {
-          if (Platform.isIOS) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SetPasswordPage(
-                          setPasswordPageCallBackFuture: (password) async {
-                            await createPrivateKeyAccount(password, privateKey);
-                            return;
-                          },
-                        )));
-          } else {
-            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
-              setPasswordPageCallBackFuture: (password) async {
-                await createPrivateKeyAccount(password, privateKey);
-                return;
-              },
-            )));
-          }
-        } else {
-          await createPrivateKeyAccount(widget.password, privateKey);
-        }
-      }
-    }, privateKey);
+    // BoxApp.getSecretPrivateCFX((address, signingKey) async {
+    //   EasyLoading.dismiss();
+    //   if (signingKey.isEmpty && address.isEmpty) {
+    //     showDialog<bool>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext dialogContext) {
+    //         return new AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //           title: Text(S.of(context).dialog_hint),
+    //           content: new SingleChildScrollView(
+    //             child: new ListBody(
+    //               children: <Widget>[
+    //                 Text(S.of(context).ImportAccountPage_private_msg),
+    //               ],
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: new Text(S.of(context).dialog_conform),
+    //               onPressed: () {
+    //                 Navigator.of(dialogContext).pop(false);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ).then((val) {});
+    //   } else {
+    //     if (widget.password!.isEmpty) {
+    //       if (Platform.isIOS) {
+    //         Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //                 builder: (context) => SetPasswordPage(
+    //                       setPasswordPageCallBackFuture: (password) async {
+    //                         await createPrivateKeyAccount(password, privateKey);
+    //                         return;
+    //                       },
+    //                     )));
+    //       } else {
+    //         Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
+    //           setPasswordPageCallBackFuture: (password) async {
+    //             await createPrivateKeyAccount(password, privateKey);
+    //             return;
+    //           },
+    //         )));
+    //       }
+    //     } else {
+    //       await createPrivateKeyAccount(widget.password, privateKey);
+    //     }
+    //   }
+    // }, privateKey);
   }
 
   Future<void> createTabAddress(String address) async {
@@ -485,89 +485,89 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
 
   Future<void> createTabMnemonic(String mnemonic) async {
     EasyLoading.show();
-    BoxApp.getValidationMnemonic((isSucess) {
-      EasyLoading.dismiss();
-      if (isSucess) {
-        if (widget.password!.isEmpty) {
-          if (Platform.isIOS) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SetPasswordPage(
-                          setPasswordPageCallBackFuture: (password) async {
-                            await createMnemonicAccount(password, mnemonic);
-                            return;
-                          },
-                        )));
-          } else {
-            Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
-              setPasswordPageCallBackFuture: (password) async {
-                await createMnemonicAccount(password, mnemonic);
-                return;
-              },
-            )));
-          }
-        } else {
-          createMnemonicAccount(widget.password, mnemonic);
-          return;
-        }
-      } else {
-        showDialog<bool>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext dialogContext) {
-            return new AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              title: Text(S.of(context).dialog_hint),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    Text(S.of(context).dialog_hint_mnemonic),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: new Text(S.of(context).dialog_conform),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((val) {});
-      }
-      return;
-    }, mnemonic);
+    // BoxApp.getValidationMnemonic((isSucess) {
+    //   EasyLoading.dismiss();
+    //   if (isSucess) {
+    //     if (widget.password!.isEmpty) {
+    //       if (Platform.isIOS) {
+    //         Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //                 builder: (context) => SetPasswordPage(
+    //                       setPasswordPageCallBackFuture: (password) async {
+    //                         await createMnemonicAccount(password, mnemonic);
+    //                         return;
+    //                       },
+    //                     )));
+    //       } else {
+    //         Navigator.push(navigatorKey.currentState!.overlay!.context, SlideRoute(SetPasswordPage(
+    //           setPasswordPageCallBackFuture: (password) async {
+    //             await createMnemonicAccount(password, mnemonic);
+    //             return;
+    //           },
+    //         )));
+    //       }
+    //     } else {
+    //       createMnemonicAccount(widget.password, mnemonic);
+    //       return;
+    //     }
+    //   } else {
+    //     showDialog<bool>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext dialogContext) {
+    //         return new AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+    //           title: Text(S.of(context).dialog_hint),
+    //           content: new SingleChildScrollView(
+    //             child: new ListBody(
+    //               children: <Widget>[
+    //                 Text(S.of(context).dialog_hint_mnemonic),
+    //               ],
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: new Text(S.of(context).dialog_conform),
+    //               onPressed: () {
+    //                 Navigator.of(dialogContext).pop(false);
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ).then((val) {});
+    //   }
+    //   return;
+    // }, mnemonic);
   }
 
   Future<void> createMnemonicAccount(String? password, String mnemonic) async {
     EasyLoading.show();
-    BoxApp.getSecretKeyETH((address, signingKey) async {
-      EasyLoading.dismiss();
-      if (!await checkAccount(address)) return;
-
-      final key = Utils.generateMd5Int(password! + address);
-      var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-      var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
-      await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
-      await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
-      switchAddType();
-    }, mnemonic);
+    // BoxApp.getSecretKeyETH((address, signingKey) async {
+    //   EasyLoading.dismiss();
+    //   if (!await checkAccount(address)) return;
+    //
+    //   final key = Utils.generateMd5Int(password! + address);
+    //   var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //   var mnemonicAesEncode = Utils.aesEncode(mnemonic, key);
+    //   await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
+    //   await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, mnemonicAesEncode, signingKeyAesEncode, AccountType.MNEMONIC, false);
+    //   switchAddType();
+    // }, mnemonic);
   }
 
   Future<void> createPrivateKeyAccount(String? password, String privateKey) async {
     EasyLoading.show();
-    BoxApp.getSecretPrivateETH((address, signingKey) async {
-      EasyLoading.dismiss();
-      if (!await checkAccount(address)) return;
-      final key = Utils.generateMd5Int(password! + address);
-      var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
-      await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
-      await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, "", signingKeyAesEncode, AccountType.PRIVATE_KEY, false);
-      switchAddType();
-    }, privateKey);
+    // BoxApp.getSecretPrivateETH((address, signingKey) async {
+    //   EasyLoading.dismiss();
+    //   if (!await checkAccount(address)) return;
+    //   final key = Utils.generateMd5Int(password! + address);
+    //   var signingKeyAesEncode = Utils.aesEncode(signingKey, key);
+    //   await WalletCoinsManager.instance.addChain(widget.coinName, widget.fullName);
+    //   await WalletCoinsManager.instance.addAccount(widget.coinName, widget.fullName, address, "", signingKeyAesEncode, AccountType.PRIVATE_KEY, false);
+    //   switchAddType();
+    // }, privateKey);
   }
 
   Future<void> createAddressAccount(String? password, String address) async {

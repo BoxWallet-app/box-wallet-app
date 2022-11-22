@@ -304,45 +304,45 @@ class _AeSwapBuySellPageState extends State<AeSwapBuySellPage> with AutomaticKee
                     return;
                   }
                   // ignore: missing_return
-                  BoxApp.contractSwapCancel((data) {
-
-
-
-
-                    showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                        return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                          title: Text(S.of(context).dialog_hint),
-                          content:  Text(
-                            S.of(context).dialog_dismiss_sucess,
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_conform,
-                              ),
-                              onPressed: () {
-                                eventBus.fire(SwapEvent());
-                                swapModels!.data!.removeAt(index - 1);
-                                setState(() {});
-                                loadingType = LoadingType.loading;
-                                setState(() {});
-                                _onRefresh();
-                                Navigator.of(context, rootNavigator: true).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ).then((val) {});
-                  } as Future<dynamic> Function(String), (error) {
-                    showErrorDialog(context, error);
-                    return;
-                  }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
+                  // BoxApp.contractSwapCancel((data) {
+                  //
+                  //
+                  //
+                  //
+                  //   showDialog<bool>(
+                  //     context: context,
+                  //     barrierDismissible: false,
+                  //     builder: (BuildContext dialogContext) {
+                  //       return new AlertDialog(shape: RoundedRectangleBorder(
+                  //                           borderRadius: BorderRadius.all(Radius.circular(10))
+                  //                       ),
+                  //         title: Text(S.of(context).dialog_hint),
+                  //         content:  Text(
+                  //           S.of(context).dialog_dismiss_sucess,
+                  //         ),
+                  //         actions: <Widget>[
+                  //           TextButton(
+                  //             child: new Text(
+                  //               S.of(context).dialog_conform,
+                  //             ),
+                  //             onPressed: () {
+                  //               eventBus.fire(SwapEvent());
+                  //               swapModels!.data!.removeAt(index - 1);
+                  //               setState(() {});
+                  //               loadingType = LoadingType.loading;
+                  //               setState(() {});
+                  //               _onRefresh();
+                  //               Navigator.of(context, rootNavigator: true).pop();
+                  //             },
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ).then((val) {});
+                  // } as Future<dynamic> Function(String), (error) {
+                  //   showErrorDialog(context, error);
+                  //   return;
+                  // }, aesDecode, address, BoxApp.SWAP_CONTRACT, BoxApp.SWAP_CONTRACT_ABC);
                   showChainLoading();
                 },
               ),

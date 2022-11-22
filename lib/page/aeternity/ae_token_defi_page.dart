@@ -66,13 +66,13 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
 
   Future<void> netAccountInfo() async {
     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
-    BoxApp.getBalanceAE((balance,decimal) async {
-      if(!mounted)return;
-      AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
-      setState(() {});
-      return;
-    }, account.address!);
+    // BoxApp.getBalanceAE((balance,decimal) async {
+    //   if(!mounted)return;
+    //   AeHomePage.token =  Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+    //   CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
+    //   setState(() {});
+    //   return;
+    // }, account.address!);
   }
 
   void netContractBalance() {
@@ -592,69 +592,69 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                           return;
                         }
                         // ignore: missing_return
-                        BoxApp.contractDefiV2Benefits((tx) {
-                          netContractBalance();
-                          eventBus.fire(DefiEvent());
-                          if ("-1" == tx) {
-
-                            showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                                return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                                  title: Text(S.of(context).dialog_hint),
-                                  content: Text(S.of(context).dialog_defi_blacklist),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: new Text(
-                                        S.of(context).dialog_conform,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context, rootNavigator: true).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            ).then((val) {});
-                            return;
-                          }
-
-
-                          showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                              return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                                title: Text(S.of(context).dialog_defi_get),
-                                content: Text(S.of(context).dialog_defi_get_msg +" "+ (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: new Text(
-                                      S.of(context).dialog_conform,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {});
-
-
-
-
-
-
-                          // ignore: missing_return
-                        }, (error) {
-                         showErrorDialog(context, error);
-                        }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3);
+                      //   BoxApp.contractDefiV2Benefits((tx) {
+                      //     netContractBalance();
+                      //     eventBus.fire(DefiEvent());
+                      //     if ("-1" == tx) {
+                      //
+                      //       showDialog<bool>(
+                      // context: context,
+                      // barrierDismissible: false,
+                      // builder: (BuildContext dialogContext) {
+                      //           return new AlertDialog(shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.all(Radius.circular(10))
+                      //                   ),
+                      //             title: Text(S.of(context).dialog_hint),
+                      //             content: Text(S.of(context).dialog_defi_blacklist),
+                      //             actions: <Widget>[
+                      //               TextButton(
+                      //                 child: new Text(
+                      //                   S.of(context).dialog_conform,
+                      //                 ),
+                      //                 onPressed: () {
+                      //                   Navigator.of(context, rootNavigator: true).pop();
+                      //                 },
+                      //               ),
+                      //             ],
+                      //           );
+                      //         },
+                      //       ).then((val) {});
+                      //       return;
+                      //     }
+                      //
+                      //
+                      //     showDialog<bool>(
+                      // context: context,
+                      // barrierDismissible: false,
+                      // builder: (BuildContext dialogContext) {
+                      //         return new AlertDialog(shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.all(Radius.circular(10))
+                      //                   ),
+                      //           title: Text(S.of(context).dialog_defi_get),
+                      //           content: Text(S.of(context).dialog_defi_get_msg +" "+ (double.parse(tx) / 1000000000000000000).toString() + "ABC"),
+                      //           actions: <Widget>[
+                      //             TextButton(
+                      //               child: new Text(
+                      //                 S.of(context).dialog_conform,
+                      //               ),
+                      //               onPressed: () {
+                      //                 Navigator.of(context, rootNavigator: true).pop();
+                      //               },
+                      //             ),
+                      //           ],
+                      //         );
+                      //       },
+                      //     ).then((val) {});
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //     // ignore: missing_return
+                      //   }, (error) {
+                      //    showErrorDialog(context, error);
+                      //   }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3);
 
                         showChainLoading();
                       },
@@ -772,38 +772,38 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                                         return;
                                       }
                                       // ignore: missing_return
-                                      BoxApp.contractDefiV2UnLock((tx) {
-                                        netContractBalance();
-                                        eventBus.fire(DefiEvent());
-
-                                        showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                                            return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                                              title: Text(S.of(context).dialog_unlock_sucess),
-                                              content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: new Text(
-                                                    S.of(context).dialog_conform,
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.of(context, rootNavigator: true).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        ).then((val) {});
-
-
-                                        // ignore: missing_return
-                                      }, (error) {
-                                        showErrorDialog(context, error);
-                                      }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
+                      //                 BoxApp.contractDefiV2UnLock((tx) {
+                      //                   netContractBalance();
+                      //                   eventBus.fire(DefiEvent());
+                      //
+                      //                   showDialog<bool>(
+                      // context: context,
+                      // barrierDismissible: false,
+                      // builder: (BuildContext dialogContext) {
+                      //                       return new AlertDialog(shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.all(Radius.circular(10))
+                      //                   ),
+                      //                         title: Text(S.of(context).dialog_unlock_sucess),
+                      //                         content: Text(S.of(context).dialog_unlock_sucess_msg + (double.parse(tx) / 1000000000000000000).toString() + "AE"),
+                      //                         actions: <Widget>[
+                      //                           TextButton(
+                      //                             child: new Text(
+                      //                               S.of(context).dialog_conform,
+                      //                             ),
+                      //                             onPressed: () {
+                      //                               Navigator.of(context, rootNavigator: true).pop();
+                      //                             },
+                      //                           ),
+                      //                         ],
+                      //                       );
+                      //                     },
+                      //                   ).then((val) {});
+                      //
+                      //
+                      //                   // ignore: missing_return
+                      //                 }, (error) {
+                      //                   showErrorDialog(context, error);
+                      //                 }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
 
                                       showChainLoading();
                                     },
@@ -850,38 +850,38 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
                             return;
                           }
                           // ignore: missing_return
-                          BoxApp.contractDefiV2UnLock((tx) {
-                            netContractBalance();
-                            eventBus.fire(DefiEvent());
-
-                            showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                                return new AlertDialog(shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10))
-                                        ),
-                                  title: Text(S.of(context).dialog_hint),
-                                  content: Text(S.of(context).dialog_unlock_sucess),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: new Text(
-                                        S.of(context).dialog_conform,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context, rootNavigator: true).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            ).then((val) {});
-
-                            return;
-                            // ignore: missing_return
-                          }, (error) {
-                            showErrorDialog(context, error);
-                          }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
+                      //     BoxApp.contractDefiV2UnLock((tx) {
+                      //       netContractBalance();
+                      //       eventBus.fire(DefiEvent());
+                      //
+                      //       showDialog<bool>(
+                      // context: context,
+                      // barrierDismissible: false,
+                      // builder: (BuildContext dialogContext) {
+                      //           return new AlertDialog(shape: RoundedRectangleBorder(
+                      //                       borderRadius: BorderRadius.all(Radius.circular(10))
+                      //                   ),
+                      //             title: Text(S.of(context).dialog_hint),
+                      //             content: Text(S.of(context).dialog_unlock_sucess),
+                      //             actions: <Widget>[
+                      //               TextButton(
+                      //                 child: new Text(
+                      //                   S.of(context).dialog_conform,
+                      //                 ),
+                      //                 onPressed: () {
+                      //                   Navigator.of(context, rootNavigator: true).pop();
+                      //                 },
+                      //               ),
+                      //             ],
+                      //           );
+                      //         },
+                      //       ).then((val) {});
+                      //
+                      //       return;
+                      //       // ignore: missing_return
+                      //     }, (error) {
+                      //       showErrorDialog(context, error);
+                      //     }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, "0");
 
                           showChainLoading();
                         },

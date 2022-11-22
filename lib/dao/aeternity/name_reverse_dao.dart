@@ -8,18 +8,16 @@ import 'package:box/model/aeternity/swap_model.dart';
 import 'package:dio/dio.dart';
 
 class NameReverseDao {
-  static Future< List<NameReverseModel>> fetch() async {
+  static Future< String> fetch() async {
     var address = await BoxApp.getAddress();
-    Response response = await Dio().get(Host.NAME + address);
+    print("--------------------------");
+    Response response = await Dio().get("https://raendom-backend.z52da5wt.xyz/cache/chainnames");
     if (response.statusCode == 200) {
-      List responseJson = json.decode(json.encode(response.data));
-      List<NameReverseModel> data = <NameReverseModel>[];
-      responseJson.forEach((v) {
-        data.add(new NameReverseModel.fromJson(v));
-      });
-//      List<NameReverseModel> list = data.map((m) => new NameReverseModel.fromJson(m)).toList();
-      return data;
+      Map responseJson = json.decode(response.toString());
+      String aens = responseJson[address];
+      return aens;
     } else {
+      print("======================");
       throw Exception('Failed to load NameReverseModel.json');
     }
   }

@@ -111,7 +111,7 @@ class Host {
 
 //价格
 // const PRICE = 'https://api.coingecko.com/api/v3/simple/price';
-  static var PRICE = 'https://boxwallet.app/api/price';
+  static var PRICE = 'https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-price.json';
 
 //绑定的域名
   static var NAME = 'https://mainnet.aeternity.io/middleware/names/reverse/';

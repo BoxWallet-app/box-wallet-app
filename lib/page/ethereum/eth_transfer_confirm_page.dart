@@ -67,12 +67,12 @@ class _EthTransferConfirmPageState extends State<EthTransferConfirmPage> {
     if (widget.data!['value'] == null) {
       setState(() {});
     } else {
-      BoxApp.toFormatCfx((amount) {
-        this.amount = amount;
-
-        setState(() {});
-        return;
-      }, widget.data!['value']);
+      // BoxApp.toFormatCfx((amount) {
+      //   this.amount = amount;
+      //
+      //   setState(() {});
+      //   return;
+      // }, widget.data!['value']);
     }
     netCfxBalance();
     getEthFee();
@@ -116,19 +116,19 @@ amountAll = double.parse(amountFee) + double.parse(amount);
     //   });
     // }
     var nodeUrl = await EthManager.instance.getNodeUrl(account);
-    BoxApp.getBalanceETH((balance, coin) async {
-      if (!mounted) return;
-      if (account.coin != coin) return;
-      if (balance == "account error") {
-        this.balance = 0.0000;
-      } else {
-       this. balance = double.parse(Utils.formatBalanceLength(double.parse(balance)));
-        CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
-      }
-      if (!mounted) return;
-      setState(() {});
-      return;
-    }, account.address!, account.coin!, nodeUrl);
+    // BoxApp.getBalanceETH((balance, coin) async {
+    //   if (!mounted) return;
+    //   if (account.coin != coin) return;
+    //   if (balance == "account error") {
+    //     this.balance = 0.0000;
+    //   } else {
+    //    this. balance = double.parse(Utils.formatBalanceLength(double.parse(balance)));
+    //     CacheManager.instance.setBalance(account.address!, account.coin!, EthHomePage.token);
+    //   }
+    //   if (!mounted) return;
+    //   setState(() {});
+    //   return;
+    // }, account.address!, account.coin!, nodeUrl);
   }
   // Future<void> setData(String amount) async {
   //   this.amount = amount;

@@ -88,7 +88,13 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     netNodeHeight();
 
     Future.delayed(const Duration(milliseconds: 3000), () {
-      Timer.periodic(Duration(milliseconds: 600000), (timer) {
+      Timer.periodic(Duration(milliseconds: 10000), (timer) async {
+        String nodeUrl = await BoxApp.getNodeUrl();
+        if (nodeUrl == "") {
+          setSDKBaseUrl("https://mainnet.aeternity.io");
+        }else{
+          setSDKBaseUrl(nodeUrl);
+        }
         netNodeHeight();
       });
     });
@@ -102,6 +108,18 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
       if (!mounted) return;
       setState(() {});
     });
+  }
+
+  //设置SDK Url
+  void setSDKBaseUrl(String nodeUrl) {
+    var jsonData = {
+      "name": "aeSetNodeUrl",
+      "params": {"url": nodeUrl}
+    };
+    var channelJson = json.encode(jsonData);
+    BoxApp.sdkChannelCall((result) {
+      return;
+    }, channelJson);
   }
 
   void netNodeHeight() {
@@ -265,12 +283,12 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
           if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
             lastPopTime = DateTime.now();
             Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+            return false;
           } else {
             lastPopTime = DateTime.now();
             // 退出app
             exit(0);
           }
-          return true;
         },
 
         child: Scaffold(

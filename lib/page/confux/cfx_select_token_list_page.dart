@@ -71,15 +71,15 @@ class _TokenListPathState extends State<CfxSelectTokenListPage> {
     if (isReturn) return;
     isLoadBalance = true;
     if (token.balance == null) {
-      BoxApp.getErcBalanceCFX((balance, decimal) async {
-        balance = AmountDecimal.parseUnits(balance, decimal);
-        token.balance = Utils.formatBalanceLength(double.parse(balance));
-
-        if (!mounted) return;
-        setState(() {});
-        getBalance(address);
-        return;
-      }, address, token.ctId!);
+      // BoxApp.getErcBalanceCFX((balance, decimal) async {
+      //   balance = AmountDecimal.parseUnits(balance, decimal);
+      //   token.balance = Utils.formatBalanceLength(double.parse(balance));
+      //
+      //   if (!mounted) return;
+      //   setState(() {});
+      //   getBalance(address);
+      //   return;
+      // }, address, token.ctId!);
     }
     isLoadBalance = false;
   }

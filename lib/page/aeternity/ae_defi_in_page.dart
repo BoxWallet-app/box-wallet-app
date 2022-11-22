@@ -59,13 +59,13 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
   Future<void> netAccountInfo() async {
 
     Account account = await (WalletCoinsManager.instance.getCurrentAccount() as FutureOr<Account>);
-    BoxApp.getBalanceAE((balance,decimal) async {
-      if(!mounted)return;
-      AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
-      CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
-      setState(() {});
-      return;
-    }, account.address!);
+    // BoxApp.getBalanceAE((balance,decimal) async {
+    //   if(!mounted)return;
+    //   AeHomePage.token = Utils.formatBalanceLength(double.parse(AmountDecimal.parseUnits(balance, decimal)));
+    //   CacheManager.instance.setBalance(account.address!, account.coin!, AeHomePage.token);
+    //   setState(() {});
+    //   return;
+    // }, account.address!);
 
     // AccountInfoDao.fetch().then((AccountInfoModel model) {
     //   if (model.code == 200) {
@@ -498,15 +498,15 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                       return;
                     }
                     // ignore: missing_return
-                    BoxApp.contractDefiV2Lock((tx) {
-                      eventBus.fire(DefiEvent());
-                      showFlushSucess(context);
-
-                      // ignore: missing_return
-                    } as Future<dynamic> Function(String), (error) {
-                    showErrorDialog(context, error);
-
-                    }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, _textEditingController.text);
+                    // BoxApp.contractDefiV2Lock((tx) {
+                    //   eventBus.fire(DefiEvent());
+                    //   showFlushSucess(context);
+                    //
+                    //   // ignore: missing_return
+                    // } as Future<dynamic> Function(String), (error) {
+                    // showErrorDialog(context, error);
+                    //
+                    // }, aesDecode, address, BoxApp.DEFI_CONTRACT_V3, _textEditingController.text);
                     showChainLoading();
                   },
                 ),

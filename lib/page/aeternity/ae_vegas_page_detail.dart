@@ -336,16 +336,16 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
           },
         ),
 
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.ios_share_outlined,
-              color: Color(0xFFFFFFFF),
-              size: 20,
-            ),
-            onPressed: () {},
-          ),
-        ],
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.ios_share_outlined,
+        //       color: Color(0xFFFFFFFF),
+        //       size: 20,
+        //     ),
+        //     onPressed: () {},
+        //   ),
+        // ],
       ),
       body: LoadingWidget(
         type: loadingType,
@@ -396,7 +396,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 2),
                                         child: Text(
-                                          "Safe",
+                                          "",
                                           style: new TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                                         ),
                                       ),

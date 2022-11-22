@@ -214,7 +214,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     address = account!.address!;
     var params = {
       "name": "aeAensMarketGetNameNextRaisePrice",
-      "params": {"ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "address": account.address, "leftAmount": aensDetail["left_amount"]}
+      "params": {"ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "address": account.address, "leftAmount": aensDetail["left_amount"]}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -238,7 +238,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketDealName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": "$name"}
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_contract);
@@ -279,7 +279,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRaiseName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name", "amount": nextRaisePrice}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": "$name", "amount": nextRaisePrice}
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_contract);
@@ -313,7 +313,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     if (!mounted) return;
     var params = {
       "name": "aeAensMarketGetNameOrder",
-      "params": {"address": address, "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
+      "params": {"address": address, "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": "$name"}
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) async {
@@ -347,7 +347,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       if (!mounted) return;
       var params = {
         "name": "aeAensMarketRevokedName",
-        "params": {"secretKey": "$privateKey", "ctAddress": "ct_dGbHmpu7XsfjFtBCEbM2CdgPP5gAW3MvCTBZwaX7YjLgj87jE", "name": "$name"}
+        "params": {"secretKey": "$privateKey", "ctAddress": "ct_vQz54zLcjuiRKLvn2iTakidNVnfJaDV7jDyBrLhVfoziHSWU6", "name": "$name"}
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_contract_get);
