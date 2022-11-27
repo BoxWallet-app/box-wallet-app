@@ -14,6 +14,7 @@ import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -151,27 +152,48 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
             //   alignment: Alignment.topLeft,
             //   child: Text(
             //     "Welcome Back to AEVegas!",
-            //     style: new TextStyle(fontSize: 28, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+            //     style: new TextStyle(fontSize: 20, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
             //   ),
             // ),
             Container(
               margin: const EdgeInsets.only(left: 18, right: 18, bottom: 12, top: 12),
-              child: Image(
-                image: AssetImage("images/vegas_header_market.png"),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/images/veags_header.jpg",
+                fadeOutDuration: const Duration(seconds: 0),
+                fadeInDuration: const Duration(seconds: 0),
+                fit: BoxFit.cover,
               ),
             ),
-            Expanded(
-              child: EasyRefresh(
-                header: BoxHeader(),
-                onRefresh: _onRefresh,
-                child: ListView.builder(
-                  itemCount: loadingType == LoadingType.finish ? vegasMarkets.length : 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    return itemListView(context, index);
-                  },
-                ),
-              ),
-            ),
+            loadingType == LoadingType.finish && vegasMarkets.length == 0
+                ? Expanded(
+                    child: Center(
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          bottom: 100,
+                        ),
+                        child: Text(
+                          "There is no game in progress",
+                          style: new TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                        ),
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: EasyRefresh(
+                      header: BoxHeader(),
+                      onRefresh: _onRefresh,
+                      child: ListView.builder(
+                        itemCount: loadingType == LoadingType.finish ? vegasMarkets.length : 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          return itemListView(context, index);
+                        },
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
@@ -309,7 +331,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         children: [
                           Container(
                             margin: EdgeInsets.all(1),
-                            padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
+                            padding: EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 2),
                             decoration: new BoxDecoration(
                               // border: new Border.all(color: Color.fromARGB(255, 255, 255, 255), width: 1),
                               //设置四周圆角 角度
@@ -339,7 +361,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 5,right: 5),
+                            margin: EdgeInsets.only(left: 5, right: 5),
                             child: Text(
                               AmountDecimal.parseUnits(vegasMarkets[index]["value"]["min_amount"], 18) + "/AE",
                               style: new TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
