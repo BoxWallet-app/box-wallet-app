@@ -10,6 +10,7 @@ import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/dao/urls.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/plugin_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/host_model.dart';
@@ -29,6 +30,7 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -87,20 +89,25 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
     netVersion();
     getAddress();
     netNodeHeight();
+    netConfig();
 
     Future.delayed(const Duration(milliseconds: 3000), () {
       Timer.periodic(Duration(milliseconds: 10000), (timer) async {
-        String nodeUrl = await BoxApp.getNodeUrl();
-        if (nodeUrl == "") {
-          setSDKBaseUrl("https://mainnet.aeternity.io");
-        }else{
-          setSDKBaseUrl(nodeUrl);
-        }
+        // String nodeUrl = await BoxApp.getNodeUrl();
+        // if (nodeUrl == "") {
+        //   setSDKBaseUrl("https://mainnet.aeternity.io");
+        // }else{
+        //   setSDKBaseUrl(nodeUrl);
+        // }
         netNodeHeight();
       });
     });
-
     DataCenterManager.instance.start();
+  }
+
+  netConfig() async {
+   Response configResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/config.json");
+   CacheManager.instance.setConfig(configResponse.toString());
   }
 
   getAddress() {
@@ -278,147 +285,150 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   @override
   Widget build(BuildContext context) {
     buildContext = context;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
-      child: WillPopScope(
-        // ignore: missing_return
-        onWillPop: () async {
-          // 点击返回键的操作
-          if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
-            lastPopTime = DateTime.now();
-            Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
-            return false;
-          } else {
-            lastPopTime = DateTime.now();
-            // 退出app
-            exit(0);
-          }
-        },
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(Color(int.parse(BoxApp.config["theme_color"])), BlendMode.color),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: WillPopScope(
+          // ignore: missing_return
+          onWillPop: () async {
+            // 点击返回键的操作
+            if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
+              lastPopTime = DateTime.now();
+              Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+              return false;
+            } else {
+              lastPopTime = DateTime.now();
+              // 退出app
+              exit(0);
+            }
+          },
 
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    Container(
-                      color: Color(0xFFfafbfc),
-                      height: MediaQueryData.fromWindow(window).padding.top,
-                    ),
-                    Container(
-                      color: Color(0xFFfafbfc),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Color(0xFFfafbfc),
+                        height: MediaQueryData.fromWindow(window).padding.top,
+                      ),
+                      Container(
+                        color: Color(0xFFfafbfc),
 //              color: Colors.blue,
-                      width: MediaQuery.of(context).size.width,
-                      height: 52,
-                      child: Stack(
-                        children: [
-                          buildTitleAccount(),
-                          buildTitleRecord(),
-                          buildTitleSettings(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: getBody(),
+                        height: 52,
+                        child: Stack(
+                          children: [
+                            buildTitleAccount(),
+                            buildTitleRecord(),
+                            buildTitleSettings(),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: getBody(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              if (isNodeLoading || isNodeError)
-                Positioned(
-                    bottom: MediaQueryData.fromWindow(window).padding.bottom + 20,
-                    right: 0,
-                    child: Container(
+                if (isNodeLoading || isNodeError)
+                  Positioned(
+                      bottom: MediaQueryData.fromWindow(window).padding.bottom + 20,
+                      right: 0,
                       child: Container(
                         child: Container(
-                          clipBehavior: Clip.hardEdge,
-                          // padding: const EdgeInsets.only(bottom: 6, top: 6),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
-                            color: Color.fromARGB(255, 223, 223, 223),
-                          ),
-                          child: Material(
-                            color: isNodeError ? Color(0xFFFC2365) : Color(0xFFFC2365),
-                            child: InkWell(
-                              onTap: () async {
-                                isNodeLoading = true;
-                                setState(() {});
-                                netNodeHeight();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    isNodeLoading
-                                        ? Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 15,
-                                                height: 15,
-                                                child: Center(
-                                                  child: CircularProgressIndicator(
-                                                    color: Color(0xffffffff),
-                                                    strokeWidth: 2,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(left: 7),
-                                                child: Text(
-                                                  S.of(context).node_connect,
-                                                  maxLines: 1,
-                                                  style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : isNodeError
-                                            ? Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.error_outline_outlined,
-                                                    color: Color.fromARGB(255, 255, 255, 255),
-                                                    size: 15,
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: 7),
-                                                    child: Text(
-                                                      S.of(context).node_connect_error,
-                                                      maxLines: 1,
-                                                      style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            // padding: const EdgeInsets.only(bottom: 6, top: 6),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+                              color: Color.fromARGB(255, 223, 223, 223),
+                            ),
+                            child: Material(
+                              color: isNodeError ? Color(0xFFFC2365) : Color(0xFFFC2365),
+                              child: InkWell(
+                                onTap: () async {
+                                  isNodeLoading = true;
+                                  setState(() {});
+                                  netNodeHeight();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => NodePage()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      isNodeLoading
+                                          ? Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 15,
+                                                  height: 15,
+                                                  child: Center(
+                                                    child: CircularProgressIndicator(
+                                                      color: Color(0xffffffff),
+                                                      strokeWidth: 2,
                                                     ),
                                                   ),
-                                                ],
-                                              )
-                                            : Container(),
-                                  ],
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 7),
+                                                  child: Text(
+                                                    S.of(context).node_connect,
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : isNodeError
+                                              ? Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.error_outline_outlined,
+                                                      color: Color.fromARGB(255, 255, 255, 255),
+                                                      size: 15,
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 7),
+                                                      child: Text(
+                                                        S.of(context).node_connect_error,
+                                                        maxLines: 1,
+                                                        style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color.fromARGB(255, 255, 255, 255)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ))
-            ],
-          ),
-
-          drawer: ClipRRect(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
-            child: Container(
-              width: MediaQuery.of(context).size.width - 60,
-              child: WalletSelectPageNew(),
+                      ))
+              ],
             ),
-          ),
-          // 右侧抽屉
-          endDrawer: ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
-            child: Container(width: MediaQuery.of(context).size.width - 60, child: SettingPage()),
+
+            drawer: ClipRRect(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+              child: Container(
+                width: MediaQuery.of(context).size.width - 60,
+                child: WalletSelectPageNew(),
+              ),
+            ),
+            // 右侧抽屉
+            endDrawer: ClipRRect(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+              child: Container(width: MediaQuery.of(context).size.width - 60, child: SettingPage()),
+            ),
           ),
         ),
       ),

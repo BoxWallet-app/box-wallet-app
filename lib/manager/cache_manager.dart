@@ -48,6 +48,18 @@ class CacheManager {
     return data;
   }
 
+  Future<bool> setConfig(String value) async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.setString('config', value);
+  }
+
+  Future<String> getConfig() async {
+    var prefs = await SharedPreferences.getInstance();
+    var data = prefs.getString('config');
+    if (data == null || data == "") return "{\"theme_color\":\"0x00000000\"}";
+    return data;
+  }
+
   Future<bool> setEthRecord(String address, String coin, EthTransferModel? ethTransferModel) async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.setString('eth_record_' + address + "_" + coin, jsonEncode(ethTransferModel));
@@ -139,4 +151,5 @@ class CacheManager {
     if (data == null) return false;
     return data;
   }
+
 }

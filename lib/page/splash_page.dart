@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:box/dao/urls.dart';
 import 'package:box/generated/l10n.dart';
+import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/page/base_page.dart';
@@ -36,7 +37,10 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
 
   //服务
   Future<void> startService() async {
-    //开启SDK 服务
+
+   var configString = await CacheManager.instance.getConfig();
+   BoxApp.config = jsonDecode(configString);
+   //开启SDK 服务
     await BoxApp.startAeService( () async {
       //初始化钱包相关代码
       await WalletCoinsManager.instance.init();

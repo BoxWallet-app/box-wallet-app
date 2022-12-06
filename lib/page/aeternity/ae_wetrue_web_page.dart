@@ -107,7 +107,7 @@ class _AeWetrueWebPageState extends BaseWidgetState<AeWetrueWebPage> {
                     size: 20,
                   ),
                   onPressed: () {
-                    _webViewController.loadUrl("https://wetrue.cc/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!);
+                    _webViewController.loadUrl(BoxApp.language == "en"?"https://wetrue.io/#/?language=":"https://wetrue.cc/#/?language=" + BoxApp.language + "&source=box&userAddress=" + AeHomePage.address!);
                   },
                 ),
               ),
