@@ -49,7 +49,7 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       AeHomePage.address = account!.address;
 
-      aensResponse = await Dio().get("http://47.52.111.71:8000/aens/my/over?address=" + AeHomePage.address!);
+      aensResponse = await Dio().get("https://boxwallet.app/aens/my/over?address=" + AeHomePage.address!);
 
       print(aensResponse.toString());
 
