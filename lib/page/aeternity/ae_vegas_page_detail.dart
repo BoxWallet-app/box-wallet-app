@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
@@ -16,8 +11,6 @@ import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
@@ -99,7 +92,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                   margin: EdgeInsets.only(left: 10),
                   width: (MediaQuery.of(context).size.width - 32) * 0.85,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
                     child: Stack(
                       children: [
                         new LinearProgressIndicator(
@@ -174,7 +167,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
               decoration: new BoxDecoration(
                 color: Colors.grey.withAlpha(100),
                 //设置四周圆角 角度
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               child: Text(
                 name + " > " + answer,
@@ -397,7 +390,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                       decoration: new BoxDecoration(
                         color: Color(0xff1B1B23),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       margin: const EdgeInsets.only(bottom: 12, left: 19, right: 18),
                       child: Column(
@@ -417,7 +410,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                     border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                     color: Color(0xff315bf7),
                                     //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
                                   ),
                                   child: Row(
                                     children: [
@@ -492,7 +485,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                               border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                               color: Color(0xFF000000),
                               //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
                             ),
                             child: Row(
                               children: [
@@ -550,7 +543,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                     decoration: new BoxDecoration(
                                       border: new Border.all(color: Color.fromARGB(152, 255, 255, 255), width: 1),
                                       //设置四周圆角 角度
-                                      borderRadius: BorderRadius.all(Radius.circular(7)),
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
                                     ),
                                     child: Row(
                                       children: [
@@ -604,7 +597,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                             decoration: new BoxDecoration(
                               color: Colors.green,
                               //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             ),
                           ),
                         ],
@@ -616,7 +609,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                       decoration: new BoxDecoration(
                         color: Color(0xff1B1B23),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
                       padding: EdgeInsets.only(top: 14, left: 14, right: 14, bottom: 20),
@@ -631,7 +624,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                   decoration: new BoxDecoration(
                                     color: Color(0xff315bf7),
                                     //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                    borderRadius: BorderRadius.all(Radius.circular(2.0)),
                                   ),
                                 ),
                                 Container(
@@ -656,7 +649,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                       decoration: new BoxDecoration(
                         color: Color(0xff1B1B23),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
                       padding: EdgeInsets.all(14),
@@ -671,7 +664,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                   decoration: new BoxDecoration(
                                     color: Color(0xff315bf7),
                                     //设置四周圆角 角度
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                    borderRadius: BorderRadius.all(Radius.circular(2.0)),
                                   ),
                                 ),
                                 Container(
@@ -708,7 +701,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                 Container(
                                   height: 40,
                                   margin: EdgeInsets.only(left: 10, top: 20, bottom: 14, right: 10),
-                                  child: FlatButton(
+                                  child: TextButton(
                                     onPressed: () {
                                       if (getIsReceive()) aeVegasReceiveReward();
                                     },
@@ -717,9 +710,6 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                       maxLines: 1,
                                       style: TextStyle(fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                     ),
-                                    color: getReceiveBtnColor(),
-                                    textColor: Colors.black,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                   ),
                                 ),
                               ],

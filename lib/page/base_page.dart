@@ -1,12 +1,7 @@
-import 'dart:io';
-
 import 'package:another_flushbar/flushbar.dart';
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../generated/l10n.dart';
 import '../main.dart';
@@ -42,7 +37,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
           title: Text(title),
           content: Text(content),
           actions: <Widget>[
@@ -79,7 +74,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                 color: Color(0xffffffff),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+                    Radius.circular(5.0),
                   ),
                 ),
               ),
@@ -133,7 +128,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
                         width: 120,
                         margin: const EdgeInsets.only(top: 30, bottom: 30),
                         child: TextButton(
-                          style: ButtonStyle(shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                          style: ButtonStyle(shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                           child: new Text(
                             S.of(context).dialog_conform,
                             style: TextStyle(
@@ -167,7 +162,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
           title: Text(
             title,
             style: TextStyle(
@@ -213,7 +208,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return new AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
           title: Text(S.current.dialog_hint_hash),
           content: Text(hash),
           actions: <Widget>[
@@ -275,7 +270,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
       ),
       flushbarPosition: FlushbarPosition.BOTTOM,
       margin: EdgeInsets.all(18),
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(5),
       boxShadows: [
         // BoxShadow(
         //   color: Colors.black.withAlpha(80),
@@ -352,6 +347,7 @@ abstract class BaseWidgetState<T extends BaseWidget> extends State<T> {
   }
 
   bool isChainShow = false;
+
   //显示链上操作框
   void showChainLoading(String content) {
     if (!isChainShow) {

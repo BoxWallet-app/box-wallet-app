@@ -1,19 +1,16 @@
 import 'dart:async';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/config.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:local_auth/local_auth.dart';
+
 import '../page/base_page.dart';
-import 'numeric_keyboard.dart';
 
 //第一种自定义回调方法
 typedef PayPasswordCallBackFuture = Future? Function(String password);
@@ -157,7 +154,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                         color: Color(0xffffffff),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
+                            Radius.circular(5.0),
                           ),
                         ),
                       ),
@@ -169,7 +166,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(60)),
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
                                 onTap: () {
                                   // ignore: unnecessary_statements
                                   if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
@@ -196,7 +193,8 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             child: Container(
                               height: 40,
                               width: 120,
-                              child: FlatButton(
+                              child: TextButton(
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                                 onPressed: () {
                                   Navigator.of(context).pop(); //关闭对话框
                                   if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
@@ -206,9 +204,6 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                                   maxLines: 1,
                                   style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                                 ),
-                                color: Color(0xFFFC2365),
-                                textColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                               ),
                             ),
                           ),
@@ -236,7 +231,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                       color: Color(0xffffffff),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
+                          Radius.circular(5.0),
                         ),
                       ),
                     ),
@@ -248,7 +243,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
                               onTap: () {
                                 // ignore: unnecessary_statements
                                 if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
@@ -278,7 +273,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                           decoration: new BoxDecoration(
                             color: Color(0xFFedf3f7),
                             //设置四周圆角 角度
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           ),
                           child: TextField(
                             controller: _textEditingController,
@@ -294,17 +289,17 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(left: 10.0),
                               enabledBorder: new OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(
                                   color: Color(0xFFeeeeee),
                                 ),
                               ),
                               focusedBorder: new OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(color: Color(0xFFFC2365)),
                               ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(5.0),
                               ),
                               hintText: "",
                               hintStyle: TextStyle(
@@ -322,7 +317,8 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                           child: Container(
                             height: 40,
                             width: 120,
-                            child: FlatButton(
+                            child: TextButton(
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                               onPressed: () {
                                 Navigator.of(context).pop(); //关闭对话框
                                 if (widget.isSignOld) {
@@ -336,9 +332,6 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                                 maxLines: 1,
                                 style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                               ),
-                              color: Color(0xFFFC2365),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                             ),
                           ),
                         ),

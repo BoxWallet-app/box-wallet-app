@@ -3,17 +3,13 @@ import 'dart:convert';
 
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/aens_page_model.dart';
 import 'package:box/page/aeternity/ae_aens_detail_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
@@ -125,10 +121,10 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
     return Column(
       children: <Widget>[
         Material(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           color: Colors.white,
           child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             onTap: () {
               print(aensModel['data']['currentHeight']);
               print(aensModel['data']['aens'][position]);

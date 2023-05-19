@@ -68,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "CfxWebPage_dismiss_tab1": MessageLookupByLibrary.simpleMessage("热门搜索"),
         "CfxWebPage_dismiss_tab2": MessageLookupByLibrary.simpleMessage("历史记录"),
         "CreateMnemonicCopyPage_tips": MessageLookupByLibrary.simpleMessage(
-            "注意\n· 请勿将助记词透漏给任何人\n· 助记词一旦丢失，资产将无法恢复\n· 请勿通过任何截屏，网络传输的方式进行备份\n· 遇到任何情况，请不要轻易卸载钱包APP"),
+            "  注意\n· 请勿将助记词透漏给任何人\n· 助记词一旦丢失，资产将无法恢复\n· 请勿通过任何截屏，网络传输的方式进行备份\n· 遇到任何情况，请不要轻易卸载钱包APP"),
         "CreateMnemonicCopyPage_title":
             MessageLookupByLibrary.simpleMessage("备份助记词"),
         "ImportAccountPage_account_re_error_content":

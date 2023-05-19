@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:box/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 
 import '../main.dart';
@@ -94,7 +93,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
             height: 35,
             width: 120,
             margin: EdgeInsets.only(top: 20, bottom: MediaQueryData.fromWindow(window).padding.bottom + 50),
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {
                 onPressedError.call();
               },
@@ -103,9 +102,6 @@ class _LoadingWidgetState extends State<LoadingWidget> with TickerProviderStateM
                 maxLines: 1,
                 style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xFFF22B79)),
               ),
-              color: Color(0xFFE61665).withAlpha(16),
-              textColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             ),
           ),
         ],

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -18,16 +17,14 @@ import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'general/create/create_mnemonic_copy_page.dart';
 import 'general/import/import_account_ae_page.dart';
 import 'general/import/import_account_cfx_page.dart';
-import 'general/import/import_account_common_page.dart';
-import 'general/create/create_mnemonic_copy_page.dart';
 
 typedef AddAccountCallBackFuture = Future? Function();
 
@@ -175,10 +172,10 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                         Container(
                           margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                           child: Material(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             color: Colors.white,
                             child: InkWell(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               onTap: () {
                                 EasyLoading.show();
                                 var params = {
@@ -269,10 +266,10 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                         Container(
                           margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                           child: Material(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             color: Colors.white,
                             child: InkWell(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               onTap: () {
                                 // setState(() {
                                 //   chains[index].isSelect = !chains[index].isSelect;
@@ -440,10 +437,10 @@ class _SelectChainCreatePathState extends BaseWidgetState<AddAccountPage> {
                           Container(
                             margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                             child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               color: Colors.white,
                               child: InkWell(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                 onTap: () {
                                   // setState(() {
                                   //   chains[index].isSelect = !chains[index].isSelect;

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/block_top_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
@@ -8,8 +9,6 @@ import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -61,7 +60,7 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
             decoration: new BoxDecoration(
               color:Colors.green,
               //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
 
               //设置四周边框
             ),
@@ -272,9 +271,9 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
       padding: const EdgeInsets.only(top:12.0),
       child: Material(
         color: Color(0xFFffffff),
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             Clipboard.setData(ClipboardData(text: value));
 
@@ -336,9 +335,9 @@ class _AeTxDetailPageState extends State<AeTxDetailPage> {
       padding: const EdgeInsets.only(top:12.0),
       child: Material(
         color: Color(0xFFffffff),
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           child: Container(
             padding: EdgeInsets.all(18),
             child: Row(

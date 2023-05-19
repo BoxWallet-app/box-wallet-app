@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/cache_manager.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
@@ -18,14 +13,10 @@ import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
 import 'ae_aens_page.dart';
-import 'ae_home_page.dart';
-import 'ae_vegas_page_detail.dart';
 import 'aens_market_detail_page.dart';
 import 'aens_my_sell_list_page.dart';
 
@@ -209,9 +200,9 @@ class _AensMarketOrdersPathState extends BaseWidgetState<AensMarketOrdersPage> {
       margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AensMarketDetailPage(currentHeight: currentHeight, name: aensOrders[index]["value"]["name"])));
           },

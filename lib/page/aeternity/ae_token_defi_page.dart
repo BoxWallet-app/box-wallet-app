@@ -2,25 +2,20 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/dao/aeternity/account_info_dao.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/contract_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/contract_info_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
-import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../main.dart';
@@ -386,7 +381,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           color: Color(0xFFFFFFFF),
 //          color: Color(0xE6FFFFFF),
           //设置四周圆角 角度
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           boxShadow: []),
       child: Column(
         children: [
@@ -529,7 +524,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
     return Container(
       height: 30,
       margin: const EdgeInsets.only(right: 20, top: 5),
-      child: FlatButton(
+      child: TextButton(
         onPressed: () {
           if (AeTokenDefiPage.model!.data!.token == null) {
             return;
@@ -668,9 +663,6 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           maxLines: 1,
           style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
         ),
-        color: Color(0xff3460ee).withAlpha(40),
-        textColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     );
   }
@@ -683,7 +675,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       height: 48,
       width: 260,
       margin: EdgeInsets.only(top: 40),
-      child: FlatButton(
+      child: TextButton(
         onPressed: () {
           if (Platform.isIOS) {
             Navigator.push(context, MaterialPageRoute(builder: (context) =>AeDefiInPage()));
@@ -697,9 +689,6 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           maxLines: 1,
           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
         ),
-        color: Color(0xff3460ee),
-        textColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     );
   }
@@ -713,7 +702,7 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
       height: 48,
       width: 260,
       margin: EdgeInsets.only(top: 40),
-      child: FlatButton(
+      child: TextButton(
         onPressed: () {
           if (AeTokenDefiPage.model!.data!.afterHeight! > AeTokenDefiPage.model!.data!.minHeight!) {
 
@@ -896,9 +885,6 @@ class _AeTokenDefiPageState extends State<AeTokenDefiPage> {
           maxLines: 1,
           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xff3460ee)),
         ),
-        color: Color(0xff3460ee).withAlpha(40),
-        textColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     );
   }

@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/dao/aeternity/node_test_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NodePage extends StatefulWidget {
   @override
@@ -19,23 +16,19 @@ class _NodePageState extends State<NodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     BoxApp.getNodeUrl().then((nodeUrl) {
-      BoxApp.getCompilerUrl().then((compilerUrl) {
-        if (nodeUrl == "") {
-          _textEditingControllerNode.text = "https://mainnet.aeternity.io";
-        } else {
-          _textEditingControllerNode.text = nodeUrl;
-        }
-        setState(() {});
-      });
+      if (nodeUrl == "") {
+        _textEditingControllerNode.text = "https://mainnet.aeternity.io";
+      } else {
+        _textEditingControllerNode.text = nodeUrl;
+      }
+      setState(() {});
     });
-
   }
 
   @override
@@ -49,7 +42,7 @@ class _NodePageState extends State<NodePage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-           color: Colors.black,
+            color: Colors.black,
             size: 17,
           ),
           onPressed: () => Navigator.pop(context),
@@ -59,7 +52,7 @@ class _NodePageState extends State<NodePage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+            fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
           ),
         ),
         centerTitle: true,
@@ -69,7 +62,7 @@ class _NodePageState extends State<NodePage> {
             child: new Text(
               S.of(context).setting_page_node_reset,
               style: TextStyle(
-                fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
               ),
             ),
             onPressed: () {
@@ -89,8 +82,6 @@ class _NodePageState extends State<NodePage> {
           // color: Color(0xFFFFFFFF),
           child: Column(
             children: [
-
-
               Stack(
                 children: [
                   Container(
@@ -107,9 +98,12 @@ class _NodePageState extends State<NodePage> {
                   ),
                 ],
               ),
-
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15,top: 10,),
+                margin: EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  top: 10,
+                ),
                 child: Stack(
                   children: [
                     Container(
@@ -148,7 +142,7 @@ class _NodePageState extends State<NodePage> {
                             borderSide: BorderSide(color: Color(0xFFFC2365)),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(5.0),
                           ),
                           hintStyle: TextStyle(
                             fontSize: 14,
@@ -159,18 +153,15 @@ class _NodePageState extends State<NodePage> {
                         cursorWidth: 2,
                       ),
                     ),
-
                   ],
                 ),
               ),
-
-
               Container(
                 margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
                 child: Container(
                   height: 50,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: FlatButton(
+                  width: MediaQuery.of(context).size.width ,
+                  child: TextButton(
                     onPressed: () {
                       EasyLoading.show();
                       NodeTestDao.fetch(_textEditingControllerNode.text).then((isSucess) {
@@ -182,9 +173,8 @@ class _NodePageState extends State<NodePage> {
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext dialogContext) {
-                              return new AlertDialog(shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
-                              ),
+                              return new AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                 title: Text(S.of(context).dialog_hint),
                                 content: Text(
                                   S.of(context).dialog_node_set_sucess,
@@ -210,9 +200,8 @@ class _NodePageState extends State<NodePage> {
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext dialogContext) {
-                              return new AlertDialog(shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
-                              ),
+                              return new AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                                 title: Text(S.of(context).dialog_hint),
                                 content: Text(
                                   S.of(context).dialog_node_set_error,
@@ -234,17 +223,14 @@ class _NodePageState extends State<NodePage> {
                             },
                           ).then((val) {});
                         }
-
-
                       }).catchError((e) {
                         EasyLoading.dismiss();
                         showDialog<bool>(
                           context: context,
                           barrierDismissible: false,
                           builder: (BuildContext dialogContext) {
-                            return new AlertDialog(shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
+                            return new AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                               title: Text(S.of(context).dialog_hint),
                               content: Text(
                                 S.of(context).dialog_node_set_error,
@@ -274,13 +260,9 @@ class _NodePageState extends State<NodePage> {
                       maxLines: 1,
                       style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
-                    color: Color(0xFFFC2365),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -299,7 +281,6 @@ class _NodePageState extends State<NodePage> {
       return;
     }, channelJson);
   }
-
 
   Material buildItem(String key, bool isSelect, GestureTapCallback tab) {
     return Material(
@@ -320,7 +301,7 @@ class _NodePageState extends State<NodePage> {
                       key,
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu",
+                        fontFamily: BoxApp.language == "cn" ? "Ubuntu" : "Ubuntu",
                       ),
                     ),
                   ),

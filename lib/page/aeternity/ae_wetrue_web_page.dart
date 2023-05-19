@@ -7,11 +7,7 @@ import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/chain_loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

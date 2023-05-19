@@ -1,7 +1,5 @@
-import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 
 typedef ConformCallBackFuture = Future Function();
@@ -57,10 +55,10 @@ class _ChainLoadingWidgetState extends State<ChainLoadingWidget> with TickerProv
                 color: Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0),
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0),
+                    topLeft: Radius.circular(5.0),
+                    topRight: Radius.circular(5.0),
+                    bottomLeft: Radius.circular(5.0),
+                    bottomRight: Radius.circular(5.0),
                   ),
                 ),
               ),

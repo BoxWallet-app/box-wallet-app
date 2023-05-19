@@ -1,26 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:box/dao/aeternity/account_info_dao.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/amount_text_field_formatter.dart';
-import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../main.dart';
@@ -274,7 +264,7 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                   boxShadow: []
                                   //设置四周边框
                                   ),
@@ -342,18 +332,16 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                                           child: Container(
                                             height: 30,
                                             margin: const EdgeInsets.only(top: 0),
-                                            child: FlatButton(
+                                            child: TextButton(
+                                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFFFFFF))),
                                               onPressed: () {
                                                 clickAllCount();
                                               },
                                               child: Text(
                                                 S.of(context).token_send_two_page_all,
                                                 maxLines: 1,
-                                                style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
+                                                style: TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                                               ),
-                                              color: Color(0xFFFC2365).withAlpha(16),
-                                              textColor: Colors.black,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
                                           ),
                                         ),
@@ -528,12 +516,12 @@ class _AeTokenSendTwoPageState extends BaseWidgetState<AeTokenSendTwoPage> {
                   Container(
                     child: Container(
                       height: 50,
-                      margin: const EdgeInsets.only(top: 10, bottom: 30),
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      margin: const EdgeInsets.only(top: 10, bottom: 30, left: 30, right: 30),
+                      width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       // padding: const EdgeInsets.only(bottom: 6, top: 6),
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         color: Color(0xFFFC2365),
                       ),
                       child: Material(

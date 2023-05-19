@@ -1,25 +1,18 @@
 
 import 'dart:async';
 
-import 'package:box/dao/aeternity/account_info_dao.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
-import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../main.dart';
 
@@ -208,7 +201,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                   boxShadow: [
 //                                    BoxShadow(
 //                                        color: Colors.black12,
@@ -282,7 +275,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                                           child: Container(
                                             height: 30,
                                             margin: const EdgeInsets.only(right: 0),
-                                            child: FlatButton(
+                                            child: TextButton(
                                               onPressed: () {
                                                 clickAllCount();
                                               },
@@ -291,9 +284,6 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                                                 maxLines: 1,
                                                 style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xff3460ee)),
                                               ),
-                                              color: Color(0xff3460ee).withAlpha(40),
-                                              textColor: Colors.black,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                             ),
                                           ),
                                         ),
@@ -376,8 +366,8 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                     margin: const EdgeInsets.only(top: 0),
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
+                      width: MediaQuery.of(context).size.width ,
+                      child: TextButton(
                         onPressed: () {
                           netSendV2(context);
                         },
@@ -386,9 +376,6 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Ubuntu":"Ubuntu", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xff3460ee),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),
@@ -581,7 +568,7 @@ class _AeDefiInPageState extends State<AeDefiInPage> {
       flushbarPosition: FlushbarPosition.BOTTOM,
       //                        flushbarStyle: FlushbarStyle.GROUNDED,
 
-      mainButton: FlatButton(
+      mainButton: TextButton(
         onPressed: () {
           flush.dismiss(true); // result = true
         },

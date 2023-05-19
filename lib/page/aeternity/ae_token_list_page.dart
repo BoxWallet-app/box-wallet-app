@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
 import 'package:box/generated/l10n.dart';
@@ -11,12 +10,10 @@ import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
-import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
@@ -166,10 +163,10 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 18, right: 18),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             Navigator.push(
                 context,
@@ -185,7 +182,7 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
             child: Row(
               children: [
                 Container(
-                  height: 90,
+                  height: 70,
                   width: MediaQuery.of(context).size.width - 36,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,8 +195,8 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
 //                            buildTypewriterAnimatedTextKit(),
 
                             Container(
-                              width: 36.0,
-                              height: 36.0,
+                              width: 35.0,
+                              height: 35.0,
                               decoration: BoxDecoration(
                                 border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
@@ -239,26 +236,26 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
                                   child: Text(
                                     tokenListModel!.data![index].name!,
                                     style: new TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
                                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 4),
-                                  padding: const EdgeInsets.only(left: 15, right: 15),
-                                  child: Text(
-                                    tokenListModel!.data![index].nameFull!,
-                                    style: new TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xff666666),
-//                                            fontWeight: FontWeight.w600,
-                                      fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                    ),
-                                  ),
-                                ),
+//                                 Container(
+//                                   margin: EdgeInsets.only(top: 4),
+//                                   padding: const EdgeInsets.only(left: 15, right: 15),
+//                                   child: Text(
+//                                     tokenListModel!.data![index].nameFull!,
+//                                     style: new TextStyle(
+//                                       fontSize: 12,
+//                                       color: Color(0xff666666),
+// //                                            fontWeight: FontWeight.w600,
+//                                       fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+//                                     ),
+//                                   ),
+//                                 ),
                               ],
                             ),
                             Expanded(child: Container()),
@@ -274,10 +271,16 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      AutoSizeText(
-                                        tokenListModel!.data![index].countStr!,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width / 2,
+                                        alignment: Alignment.centerRight,
+                                        height: 70,
+                                        padding: EdgeInsets.only(top: 8, right: 8),
+                                        child: AutoSizeText(
+                                          tokenListModel!.data![index].countStr!,
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -1,14 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
-import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
@@ -16,8 +10,6 @@ import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
@@ -194,10 +186,10 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(bottom: 12, left: 18, right: 18),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Color(0xff1B1B23),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: veagsMarkets[index]["market_id"], owner: veagsMarkets[index]["owner"])));
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
@@ -319,7 +311,7 @@ class _VegasRecordPagePathState extends BaseWidgetState<AeVegasRecordPage> {
                 decoration: new BoxDecoration(
                   color: Colors.green,
                   //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 ),
               ),
             ],

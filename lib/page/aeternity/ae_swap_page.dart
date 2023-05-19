@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/base_page.dart';
@@ -12,9 +10,7 @@ import 'package:box/widget/box_header.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -672,7 +668,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                   decoration: new BoxDecoration(
                     // color: Color.fromARGB(230, 255, 255, 255),
                     //设置四周圆角 角度
-                    // borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    // borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: Column(
                     children: <Widget>[
@@ -681,7 +677,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         decoration: new BoxDecoration(
                           color: Colors.white,
                           //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: Column(
                           children: [
@@ -959,7 +955,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                                   color: Color(0xFFF22B79).withAlpha(16),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                 ),
                                 child: Image(
                                   width: 30,
@@ -985,7 +981,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         decoration: new BoxDecoration(
                           color: Colors.white,
                           //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: Column(
                           children: [
@@ -1230,7 +1226,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   height: 50,
                                   child: TextButton(
                                     style: ButtonStyle(
-                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                         backgroundColor: MaterialStateProperty.all(
                                           Color(0xFFE61665).withAlpha(16),
                                         )),
@@ -1259,7 +1255,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                   margin: const EdgeInsets.only(left: 18, right: 18),
                                   height: 50,
                                   child: TextButton(
-                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                                     onPressed: () {
                                       if (typeAllowance == 1) {
                                         if(buyTextControllerNode.text == ""){
@@ -1365,7 +1361,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         // Container(
                                         //   child: TextButton(
                                         //     style: ButtonStyle(
-                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                         //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
                                         //         visualDensity: VisualDensity.compact,
                                         //         padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -1420,7 +1416,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         // Container(
                                         //   child: TextButton(
                                         //     style: ButtonStyle(
-                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                         //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
                                         //         visualDensity: VisualDensity.compact,
                                         //         padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -1475,7 +1471,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         // Container(
                                         //   child: TextButton(
                                         //     style: ButtonStyle(
-                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
+                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                         //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
                                         //         visualDensity: VisualDensity.compact,
                                         //         padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -1506,7 +1502,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         decoration: new BoxDecoration(
                           // color: Color.fromARGB(255, 246, 247, 249),
                           //设置四周圆角 角度
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5.0), bottomRight: Radius.circular(5.0)),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

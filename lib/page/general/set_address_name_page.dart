@@ -3,12 +3,8 @@ import 'dart:ui';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/page/general/select_chain_create_page.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -184,8 +180,8 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                   margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
                   child: Container(
                     height: 50,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: FlatButton(
+                    width: MediaQuery.of(context).size.width ,
+                    child: TextButton(
                       onPressed: () {
                         if (_textEditingControllerNode.text == "") {
                           if(widget.setAddressNamePageCallBackFuture!=null){
@@ -221,9 +217,6 @@ class _SetAddressNamePageState extends State<SetAddressNamePage> {
                         maxLines: 1,
                         style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                       ),
-                      color: Color(0xFFFC2365),
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                 ),

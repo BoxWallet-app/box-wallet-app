@@ -1,9 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -43,7 +42,8 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
           title: Text(
             '',
             style: TextStyle(color: Colors.white),
-          ), systemOverlayStyle: SystemUiOverlayStyle.light,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -98,7 +98,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                   boxShadow: [
 //                                    BoxShadow(
 //                                        color: Colors.black12,
@@ -113,7 +113,7 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(top: 40),
-                                    child: QrImage(
+                                    child: QrImageView(
                                       data: address,
                                       version: QrVersions.auto,
                                       size: 200.0,
@@ -125,13 +125,13 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                     child: Text(
                                       address,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3,  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                      style: TextStyle(fontSize: 15, color: Colors.black.withAlpha(200), height: 1.3, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                     ),
                                   ),
                                   Container(
                                     height: 30,
                                     margin: const EdgeInsets.only(top: 20, bottom: 40),
-                                    child: FlatButton(
+                                    child: TextButton(
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(text: address));
                                         setState(() {
@@ -143,14 +143,11 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                         contentText == "" ? S.of(context).token_receive_page_copy : S.of(context).token_receive_page_copy_sucess,
                                         maxLines: 1,
                                         style: TextStyle(
-                                          fontSize: 13,
+                                          fontSize: 12,
                                           color: Color(0xFFF22B79),
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
                                       ),
-                                      color: Color(0xFFE61665).withAlpha(16),
-                                      textColor: Colors.black,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                     ),
                                   ),
                                 ],

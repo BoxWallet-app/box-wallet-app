@@ -2,17 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
-import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/chain_loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 
@@ -116,7 +111,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                               decoration: new BoxDecoration(
                                   color: Color(0xE6FFFFFF),
                                   //设置四周圆角 角度
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                   boxShadow: []
                                   //设置四周边框
                                   ),
@@ -168,7 +163,7 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                                               color: Colors.black.withAlpha(80),
                                             ),
                                           ),
-                                          cursorColor: Color(0xff6F53A1),
+                                          cursorColor: Color(0xff000000),
                                           cursorWidth: 2,
 //                                cursorRadius: Radius.elliptical(20, 8),
                                         ),
@@ -184,11 +179,12 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 0),
+                    margin: const EdgeInsets.only(top: 0, left: 30, right: 30),
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextButton(
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xff000000)),),
                         onPressed: () {
                           netUpdateV2(context);
                         },
@@ -197,9 +193,6 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xff000000),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),

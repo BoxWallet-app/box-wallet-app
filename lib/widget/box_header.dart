@@ -1,5 +1,3 @@
-import 'package:flutter/src/painting/basic_types.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:lottie/lottie.dart';

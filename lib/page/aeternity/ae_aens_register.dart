@@ -2,21 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
-import 'package:box/dao/aeternity/aens_info_dao.dart';
 import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/aens_info_model.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/chain_loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -199,7 +193,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                           decoration: new BoxDecoration(
                               color: Color(0xE6FFFFFF),
                               //设置四周圆角 角度
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black12,
@@ -292,11 +286,12 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 30, bottom: 30),
+                margin: const EdgeInsets.only(top: 30, bottom: 30,left: 30,right: 30),
                 child: Container(
                   height: 50,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: FlatButton(
+                  width: MediaQuery.of(context).size.width ,
+                  child: TextButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                     onPressed: () {
                       netPreclaimV2(context);
                     },
@@ -305,9 +300,6 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
                       maxLines: 1,
                       style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                     ),
-                    color: Color(0xFFFC2365),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
               ),
@@ -420,7 +412,7 @@ class _AeAensRegisterState extends BaseWidgetState<AeAensRegister> {
       return;
     }
     if (double.parse(AeHomePage.token) < price) {
-      Fluttertoast.showToast(msg: "钱包余额不足", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg: S.of(context).msg_name_balance_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
     if (_textEditingController.text == "") {

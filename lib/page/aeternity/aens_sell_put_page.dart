@@ -1,33 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:another_flushbar/flushbar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/aens_info_dao.dart';
-import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/manager/cache_manager.dart';
-import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/aens_info_model.dart';
-import 'package:box/model/aeternity/name_owner_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_aens_point_page.dart';
-import 'package:box/page/aeternity/ae_aens_transfer_page.dart';
-import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/utils/amount_decimal.dart';
-import 'package:box/utils/utils.dart';
 import 'package:box/widget/amount_text_field_formatter.dart';
-import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AensSellPutPage extends BaseWidget {
@@ -84,7 +66,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     FocusScope.of(context).requestFocus(FocusNode());
     var amount = _amountControllerNode.text.toString();
     if (amount == "") {
-      Fluttertoast.showToast(msg:  S.of(context).ae_aens_put_amount_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg: S.of(context).ae_aens_put_amount_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
     var day = _dayControllerNode.text.toString();
@@ -93,7 +75,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
       return;
     }
     var height = double.parse(day) * 480;
-
 
     showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
       if (!mounted) return;
@@ -124,7 +105,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
           showConfirmDialog(S.of(context).dialog_hint, message);
           return;
         }
-        showFlushSucess(context, title: S.of(context).ae_aens_put_add_success, message:  S.of(context).ae_aens_put_add_success_2 + widget.name);
+        showFlushSucess(context, title: S.of(context).ae_aens_put_add_success, message: S.of(context).ae_aens_put_add_success_2 + widget.name);
         eventBus.fire(AensUpdateEvent());
         return;
       }, channelJson);
@@ -180,10 +161,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                     Container(
                       margin: EdgeInsets.only(left: 15, right: 15, top: 12),
                       child: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         color: Colors.white,
                         child: InkWell(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           onTap: () {},
                           child: Container(
                             padding: const EdgeInsets.all(18),
@@ -285,7 +266,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                               maxLines: 1,
                                               style: TextStyle(
                                                 textBaseline: TextBaseline.alphabetic,
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                 color: Colors.black,
                                               ),
@@ -307,7 +288,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                                   borderRadius: BorderRadius.circular(10.0),
                                                 ),
                                                 hintStyle: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 14,
                                                   color: Color(0x00000000).withAlpha(85),
                                                 ),
                                               ),
@@ -397,7 +378,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                               maxLines: 1,
                                               style: TextStyle(
                                                 textBaseline: TextBaseline.alphabetic,
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                                 color: Colors.black,
                                               ),
@@ -419,7 +400,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                                                   borderRadius: BorderRadius.circular(10.0),
                                                 ),
                                                 hintStyle: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 14,
                                                   color: Color(0x00000000).withAlpha(85),
                                                 ),
                                               ),
@@ -451,11 +432,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 40, bottom: 30),
+                      margin: const EdgeInsets.only(top: 40, bottom: 30, left: 30, right: 30),
                       child: Container(
                         height: 50,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: FlatButton(
+                        width: MediaQuery.of(context).size.width,
+                        child: TextButton(
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                           onPressed: () {
                             aeAensMarketPutName();
                           },
@@ -464,9 +446,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
                             maxLines: 1,
                             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                           ),
-                          color: Color(0xFFFC2365),
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                       ),
                     ),
@@ -480,8 +459,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     );
   }
 
-
-
   String getConfirmText() {
     var amount;
     try {
@@ -491,7 +468,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
     }
 
     if (amount > nameMaxPrice) {
-      return S.of(context).ae_aens_btn+"(" + (amount / 100).toString() + "AE "+S.of(context).ae_aens_btn_fee+")";
+      return S.of(context).ae_aens_btn + "(" + (amount / 100).toString() + "AE " + S.of(context).ae_aens_btn_fee + ")";
     }
 
     return S.of(context).ae_aens_btn;

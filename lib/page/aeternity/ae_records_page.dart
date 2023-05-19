@@ -1,27 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/data_center_manager.dart';
-import 'package:box/model/aeternity/wallet_record_model.dart';
-import 'package:box/page/aeternity/ae_tx_detail_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../main.dart';
-import '../../manager/wallet_coins_manager.dart';
-import '../../model/aeternity/wallet_coins_model.dart';
 import 'ae_home_page.dart';
 
 class AeRecordsPage extends StatefulWidget {
@@ -360,10 +350,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (BoxApp.language == "cn") {
               _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
@@ -444,10 +434,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (BoxApp.language == "cn") {
               _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
@@ -533,10 +523,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (BoxApp.language == "cn") {
               _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
@@ -622,10 +612,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (BoxApp.language == "cn") {
               _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");
@@ -711,10 +701,10 @@ class _AeRecordsPageState extends State<AeRecordsPage> with AutomaticKeepAliveCl
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (BoxApp.language == "cn") {
               _launchURL("https://www.aeknow.org/block/transaction/" + hash + "/380");

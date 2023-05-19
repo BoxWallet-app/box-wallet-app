@@ -5,7 +5,6 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/model/aeternity/contract_ranking_model.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -163,7 +162,7 @@ class _AeDefiRankingPageState extends State<AeDefiRankingPage> {
                 decoration: new BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black12,

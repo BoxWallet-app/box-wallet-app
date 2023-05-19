@@ -4,16 +4,11 @@ import 'dart:typed_data';
 import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:crypto/crypto.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
-import 'dart:convert' as convert;
-
-import 'package:flutter/material.dart';
-import 'package:date_time_format/date_time_format.dart';
-
-import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:date_time_format/date_time_format.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:flutter/material.dart';
 
 class Utils {
   // md5 加密

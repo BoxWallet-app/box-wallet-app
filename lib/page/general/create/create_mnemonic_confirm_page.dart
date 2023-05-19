@@ -1,22 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/page/general/set_password_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/custom_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'create_mnemonic_copy_page.dart';
@@ -95,7 +88,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                 children: [
                   Container(
                     alignment: Alignment.topLeft,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
                     child: Text(
                       S.of(context).mnemonic_confirm_content,
                       style: TextStyle(
@@ -109,9 +102,9 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                     child: Container(
                       height: 210,
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                      margin: EdgeInsets.only(left: 18, right: 18, top: 10, bottom: 10),
                       padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(12))),
+                      decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: SingleChildScrollView(
                         child: Wrap(
                           spacing: 10, //主轴上子控件的间距
@@ -131,12 +124,12 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 30),
+                    margin: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width,
                       child: TextButton(
-                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                         onPressed: () {
                           if (childrenWordTrue.toString() == widget.mnemonic!.split(" ").toString()) {
                             if (widget.type == CreateMnemonicCopyPage.login) {
@@ -157,27 +150,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
                             return;
                           }
 
-                          showDialog<bool>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext dialogContext) {
-                              return new AlertDialog(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                title: Text(S.of(context).dialog_save_error),
-                                content: Text(S.of(context).dialog_save_error_hint),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: new Text(
-                                      S.of(context).dialog_conform,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {});
+                          showConfirmDialog(S.of(context).dialog_save_error, S.of(context).dialog_save_error_hint);
 
                           return;
                         },
@@ -195,6 +168,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
           ),
         ));
   }
+
 
   void aeRestoreAccountMnemonic(mnemonic, password) {
     EasyLoading.show();
@@ -246,7 +220,7 @@ class _AccountRegisterPageState extends BaseWidgetState<CreateMnemonicConfirmPag
       child: Material(
         color: Color(0x00000000),
         child: Ink(
-          decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(8))),
+          decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Color(0xFFCCCCCC)), borderRadius: BorderRadius.all(Radius.circular(5))),
           child: InkWell(
             onTap: () {
               if (!isSelect) {

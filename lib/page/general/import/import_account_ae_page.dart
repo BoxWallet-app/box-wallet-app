@@ -1,28 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:box/config.dart';
-import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/page/general/scan_page.dart';
 import 'package:box/page/general/set_password_page.dart';
-import 'package:box/utils/permission_helper.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ImportAccountAePage extends BaseWidget {
@@ -114,10 +105,10 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                       indicator: MaterialIndicator(
                         color: Color(0xFFFC2365),
                         height: 3,
-                        topLeftRadius: 8,
-                        topRightRadius: 8,
-                        bottomLeftRadius: 8,
-                        bottomRightRadius: 8,
+                        topLeftRadius: 2,
+                        topRightRadius: 2,
+                        bottomLeftRadius: 2,
+                        bottomRightRadius: 2,
                         horizontalPadding: 80,
                         tabPosition: TabPosition.bottom,
                       ),
@@ -125,7 +116,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 18),
                     child: Text(
                       getTitleContent(),
                       style: TextStyle(
@@ -143,9 +134,9 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                           child: Container(
                             height: getInputHeight(),
                             width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                            margin: EdgeInsets.only(left: 18, right: 18, top: 18, bottom: 10),
                             padding: EdgeInsets.only(left: 16, right: 16),
-                            decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                            decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                             child: TextField(
                               controller: inputController,
                               style: TextStyle(
@@ -182,7 +173,8 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                                 Container(
                                   height: 30,
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
-                                  child: FlatButton(
+                                  child: TextButton(
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFFFFFF))),
                                     onPressed: () async {
                                       ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
                                       inputController.text = data!.text!;
@@ -190,11 +182,8 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                                     },
                                     child: Text(
                                       S.of(context).ImportAccountPage_copy,
-                                      style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFC2365)),
+                                      style: TextStyle(fontSize: 12, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFC2365)),
                                     ),
-                                    color: Color(0xFFFC2365).withAlpha(16),
-                                    textColor: Colors.black,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                   ),
                                 ),
                               ],
@@ -205,11 +194,12 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 50),
+                    margin: const EdgeInsets.only(top: 30, bottom: 50, left: 30, right: 30),
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextButton(
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                         onPressed: () {
                           switchLogin();
                         },
@@ -218,9 +208,6 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFFFC2365),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),

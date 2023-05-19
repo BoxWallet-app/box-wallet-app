@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:box/dao/aeternity/aens_page_dao.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/widget/custom_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:underline_indicator/underline_indicator.dart';

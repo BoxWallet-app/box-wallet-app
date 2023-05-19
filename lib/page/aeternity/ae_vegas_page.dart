@@ -1,14 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/token_list_dao.dart';
-import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_token_record_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
@@ -17,8 +11,6 @@ import 'package:box/widget/loading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../main.dart';
 import '../../manager/wallet_coins_manager.dart';
@@ -159,7 +151,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
               margin: const EdgeInsets.only(left: 18, right: 18, bottom: 12, top: 12),
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
               ),
               child: CachedNetworkImage(
                 imageUrl: "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/images/veags_header.jpg",
@@ -205,10 +197,10 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(bottom: 12, left: 18, right: 19),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Color(0xff1B1B23),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => AeVegasDetailPage(marketId: vegasMarkets[index]["value"]["market_id"], owner: vegasMarkets[index]["value"]["owner"])));
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeOracleDetailPage(id: problemModel.data[index].index - 1)));
@@ -231,7 +223,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                         color: Color(0xff315bf7),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Row(
                         children: [
@@ -306,7 +298,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                   border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                   color: Color(0xFF000000),
                   //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 child: Row(
                   children: [
@@ -325,7 +317,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                       decoration: new BoxDecoration(
                         border: new Border.all(color: Color.fromARGB(152, 255, 255, 255), width: 1),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Row(
                         children: [
@@ -379,7 +371,7 @@ class _VegasPagePathState extends BaseWidgetState<AeVegasPage> {
                 decoration: new BoxDecoration(
                   color: Colors.green,
                   //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 ),
               ),
             ],

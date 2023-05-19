@@ -3,40 +3,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:box/config.dart';
-import 'package:box/dao/aeternity/ae_account_error_list_dao.dart';
 import 'package:box/dao/aeternity/host_dao.dart';
 import 'package:box/dao/aeternity/version_dao.dart';
 import 'package:box/dao/urls.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
-import 'package:box/manager/plugin_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/host_model.dart';
 import 'package:box/model/aeternity/version_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/conflux/cfx_rpc_model.dart';
-import 'package:box/page/aeternity/ae_aepps_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/page/confux/cfx_dapps_page.dart';
-import 'package:box/page/confux/cfx_home_page.dart';
-import 'package:box/page/ethereum/eth_dapps_page.dart';
-import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/page/setting_page.dart';
-import 'package:box/page/general/wallet_select_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -44,7 +29,6 @@ import '../../main.dart';
 import '../../manager/data_center_manager.dart';
 import '../general/node_page.dart';
 import '../general/wallet_select_page_new.dart';
-import '../mnemonic_copy_page.dart';
 import 'ae_records_page.dart';
 
 class NewHomePage extends BaseWidget {
@@ -59,8 +43,6 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   CfxRpcModel? cfxRpcModel;
 
   List<Widget> aeWidget = [];
-  List<Widget> cfxWidget = [];
-  List<Widget> ethWidget = [];
   var _currentIndex = 0;
 
   bool isNodeError = false;
@@ -106,8 +88,8 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   }
 
   netConfig() async {
-   Response configResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/config.json");
-   CacheManager.instance.setConfig(configResponse.toString());
+    Response configResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/config.json");
+    CacheManager.instance.setConfig(configResponse.toString());
   }
 
   getAddress() {
@@ -172,12 +154,8 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
   }
 
   void netVersion() {
-    // if (BoxApp.isDev()) {
-    //   return;
-    // }
     VersionDao.fetch().then((VersionModel model) {
       if (model.code == 200) {
-        print("============================"+model.toString());
         PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
           var newVersion = 0;
           if (Platform.isIOS) {
@@ -196,81 +174,37 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
             if (model.data!.msgEN == null) {
               model.data!.msgEN = "Discover a new version";
             }
+
+            showCommonDialog(context, S.of(context).dialog_update_title, BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!, S.of(context).dialog_cancel, S.of(context).dialog_conform, (val) async {
+              if (val) {
+              } else {}
+              if (Platform.isIOS) {
+                _launchURL(model.data!.urlIos!);
+              } else if (Platform.isAndroid) {
+                _launchURL(model.data!.urlAndroid!);
+              }
+            });
+
             Future.delayed(Duration.zero, () {
               model.data!.isMandatory == "1"
-                  ? showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                        return WillPopScope(
-                          onWillPop: () async {
-                            return Future.value(false);
-                          },
-                          child: new AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                            title: Text(
-                              S.of(context).dialog_update_title,
-                            ),
-                            content: Text(
-                              BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!,
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: new Text(
-                                  S.of(context).dialog_conform,
-                                ),
-                                onPressed: () {
-                                  if (Platform.isIOS) {
-                                    _launchURL(model.data!.urlIos!);
-                                  } else if (Platform.isAndroid) {
-                                    _launchURL(model.data!.urlAndroid!);
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ).then((value) {
-                      if (value!) {}
+                  ? showCommonDialog(context, S.of(context).dialog_update_title, BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!, S.of(context).dialog_cancel, S.of(context).dialog_conform, (val) async {
+                      if (val) {
+                      } else {}
+                      if (Platform.isIOS) {
+                        _launchURL(model.data!.urlIos!);
+                      } else if (Platform.isAndroid) {
+                        _launchURL(model.data!.urlAndroid!);
+                      }
                     })
-                  : showDialog<bool>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) {
-                        return new AlertDialog(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                          title: Text(
-                            S.of(context).dialog_update_title,
-                          ),
-                          content: Text(
-                            BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!,
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_cancel,
-                              ),
-                              onPressed: () {
-                                Navigator.of(dialogContext).pop(false);
-                              },
-                            ),
-                            TextButton(
-                              child: new Text(
-                                S.of(context).dialog_conform,
-                              ),
-                              onPressed: () {
-                                if (Platform.isIOS) {
-                                  _launchURL(model.data!.urlIos!);
-                                } else if (Platform.isAndroid) {
-                                  _launchURL(model.data!.urlAndroid!);
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ).then((value) {});
+                  : showCommonDialog(context, S.of(context).dialog_update_title, BoxApp.language == "cn" ? model.data!.msgCN! : model.data!.msgEN!, S.of(context).dialog_cancel, S.of(context).dialog_conform, (val) async {
+                      if (val) {
+                        if (Platform.isIOS) {
+                          _launchURL(model.data!.urlIos!);
+                        } else if (Platform.isAndroid) {
+                          _launchURL(model.data!.urlAndroid!);
+                        } else {}
+                      }
+                    });
             });
           }
         });
@@ -295,7 +229,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
             // 点击返回键的操作
             if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
               lastPopTime = DateTime.now();
-              Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+              Fluttertoast.showToast(msg: "再按一次退出程序/Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
               return false;
             } else {
               lastPopTime = DateTime.now();
@@ -418,15 +352,16 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
             ),
 
             drawer: ClipRRect(
-              borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+              borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
               child: Container(
                 width: MediaQuery.of(context).size.width - 60,
                 child: WalletSelectPageNew(),
               ),
             ),
+
             // 右侧抽屉
             endDrawer: ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
               child: Container(width: MediaQuery.of(context).size.width - 60, child: SettingPage()),
             ),
           ),
@@ -452,9 +387,9 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
           alignment: Alignment.center,
           child: Material(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               onTap: () {
                 // showMaterialModalBottomSheet(
                 //     expand: false,
@@ -469,7 +404,7 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
               child: Container(
                 height: 35,
                 decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   border: new Border.all(width: 1, color: Color(0xFFedf3f7)),
                 ),
                 padding: EdgeInsets.only(left: 4, right: 4),
@@ -541,9 +476,9 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
           width: 52,
           alignment: Alignment.center,
           child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               onTap: () {
                 Scaffold.of(context).openEndDrawer(); //打开右边抽屉
               },
@@ -578,9 +513,9 @@ class _NewHomePageState extends BaseWidgetState<NewHomePage> with TickerProvider
           width: 52,
           alignment: Alignment.center,
           child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
                 // var signingKey = "A6gH0/HB2O5mDLazE38sLMoFMJyY24hTe8GwC83hfWHot9AHajg6aKqnfAq/MjBjPAemVhv3Q/jzut4PvGV6WwsC5QKxVT39VXnmcyicJWLFzTv2GZSBkmKCgkLepYc5EuVi9T7xgqupCO+t4in9dSy22K+VW02HNyIqaXpIvuZc3W4RLCVw1EiaAbx7Oe4F";

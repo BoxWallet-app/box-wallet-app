@@ -1,15 +1,10 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/config.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/page/general/select_chain_create_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -96,7 +91,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 12, left: 15, right: 15),
+                  margin: EdgeInsets.only(top: 12, left: 18, right: 18),
                   child: Stack(
                     children: [
                       Container(
@@ -106,7 +101,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                         decoration: new BoxDecoration(
                           color: Color(0xFFedf3f7),
                           //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         width: MediaQuery.of(context).size.width,
                         child: TextField(
@@ -130,17 +125,17 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                             // contentPadding: EdgeInsets.only(left: 10.0),
                             contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
                             enabledBorder: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(
                                 color: Color(0xFFFFFFFF),
                               ),
                             ),
                             focusedBorder: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(color: Color(0xFFFC2365)),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(5.0),
                             ),
                             hintStyle: TextStyle(
                               fontSize: 14,
@@ -168,7 +163,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 12, left: 15, right: 15),
+                  margin: EdgeInsets.only(top: 12, left: 18, right: 18),
                   child: Stack(
                     children: [
                       Container(
@@ -178,7 +173,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                         decoration: new BoxDecoration(
                           color: Color(0xFFedf3f7),
                           //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         width: MediaQuery.of(context).size.width,
                         child: TextField(
@@ -202,17 +197,17 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                             // contentPadding: EdgeInsets.only(left: 10.0),
                             contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
                             enabledBorder: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(
                                 color: Color(0xFFFFFFFF),
                               ),
                             ),
                             focusedBorder: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               borderSide: BorderSide(color: Color(0xFFFC2365)),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(5.0),
                             ),
                             hintStyle: TextStyle(
                               fontSize: 14,
@@ -240,12 +235,12 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
+                  margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20, left: 30, right: 30),
                   child: Container(
                     height: 50,
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width,
                     child: TextButton(
-                      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                       onPressed: () {
                         if (!BoxApp.isDev()) {
                           if (_textEditingControllerNode.text.length < 7) {

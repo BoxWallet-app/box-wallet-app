@@ -2,31 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:box/dao/aeternity/aens_info_dao.dart';
-import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
-import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/aens_info_model.dart';
-import 'package:box/model/aeternity/name_owner_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/page/aeternity/ae_aens_point_page.dart';
-import 'package:box/page/aeternity/ae_aens_transfer_page.dart';
-import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -98,12 +85,21 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
         child: isOrderLoading
             ? Container()
             : EasyRefresh(
-              child: SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: Column(
-                    children: [buildItem("AENS", aensDetail["name"]), buildItem(S.of(context).ae_aens_detail_item_1, AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_2, AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"), buildItem(S.of(context).ae_aens_detail_item_3, Utils.formatAddress(aensDetail["old_owner"])), buildItem(S.of(context).ae_aens_detail_item_4, Utils.formatAddress(aensDetail["new_owner"])), buildItem(S.of(context).ae_aens_detail_item_5, Utils.formatHeight(context, widget.currentHeight, int.parse(aensDetail["over_height"]))), buildItem(S.of(context).ae_aens_detail_item_6, aensDetail["premium_count"] + S.of(context).ae_aens_detail_item_6_1), getTypeButton(context)],
+                    children: [
+                      buildItem("AENS", aensDetail["name"]),
+                      buildItem(S.of(context).ae_aens_detail_item_1, AmountDecimal.parseUnits(aensDetail["start_amount"], 18) + " AE"),
+                      buildItem(S.of(context).ae_aens_detail_item_2, AmountDecimal.parseUnits(aensDetail["current_amount"], 18) + " AE"),
+                      buildItem(S.of(context).ae_aens_detail_item_3, Utils.formatAddress(aensDetail["old_owner"])),
+                      buildItem(S.of(context).ae_aens_detail_item_4, Utils.formatAddress(aensDetail["new_owner"])),
+                      buildItem(S.of(context).ae_aens_detail_item_5, Utils.formatHeight(context, widget.currentHeight, int.parse(aensDetail["over_height"]))),
+                      buildItem(S.of(context).ae_aens_detail_item_6, aensDetail["premium_count"] + S.of(context).ae_aens_detail_item_6_1),
+                      getTypeButton(context)
+                    ],
                   ),
                 ),
-            ),
+              ),
       ),
     );
   }
@@ -111,11 +107,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
   Container getTypeButton(BuildContext context) {
     if (aensDetail["new_owner"] == address && int.parse(aensDetail["premium_count"]) == 0) {
       return Container(
-        margin: const EdgeInsets.only(top: 40, bottom: 30),
+        margin: const EdgeInsets.only(top: 40, bottom: 30, left: 30, right: 30),
         child: Container(
           height: 50,
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: FlatButton(
+          width: MediaQuery.of(context).size.width,
+          child: TextButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
             onPressed: () {
               aeAensMarketRevokedName(context);
             },
@@ -124,9 +121,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
               maxLines: 1,
               style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
             ),
-            color: Color(0xff6F53A1),
-            textColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
         ),
       );
@@ -135,11 +129,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     if (widget.currentHeight >= int.parse(aensDetail["over_height"])) {
       //可取
       return Container(
-        margin: const EdgeInsets.only(top: 40, bottom: 30),
+        margin: const EdgeInsets.only(top: 40, bottom: 30, left: 30, right: 30),
         child: Container(
           height: 50,
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: FlatButton(
+          width: MediaQuery.of(context).size.width,
+          child: TextButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
             onPressed: () {
               aeAensMarketDealName(context);
             },
@@ -148,22 +143,19 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
               maxLines: 1,
               style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
             ),
-            color: Color(0xFFFC2365),
-            textColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
         ),
       );
     }
 
     return Container(
-      margin: const EdgeInsets.only(left: 36, right: 36, top: 48),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 48),
       child: Container(
         height: 50,
         clipBehavior: Clip.hardEdge,
         // padding: const EdgeInsets.only(bottom: 6, top: 6),
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(40)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           color: Color(0xFFFC2365),
         ),
         child: Material(
@@ -388,8 +380,8 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       margin: const EdgeInsets.only(top: 40, bottom: 30),
       child: Container(
         height: 50,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: FlatButton(
+        width: MediaQuery.of(context).size.width,
+        child: TextButton(
           onPressed: () {
             aeAensMarketDealName(context);
           },
@@ -398,9 +390,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
-          color: Color(0xFFFC2365),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
@@ -410,10 +399,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 12),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             Clipboard.setData(ClipboardData(text: value));
             Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);

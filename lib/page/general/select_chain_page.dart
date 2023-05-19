@@ -1,11 +1,7 @@
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/chains_model.dart';
-import 'package:box/model/aeternity/wallet_coins_model.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 
@@ -165,7 +161,7 @@ class _SelectChainPageState extends State<SelectChainPage> {
                     //   child: Container(
                     //     height: 40,
                     //     width: MediaQuery.of(context).size.width - 32,
-                    //     child: FlatButton(
+                    //     child: TextButton(
                     //       onPressed: () {
                     //         Navigator.pop(context); //关闭对话框
                     //       },
@@ -203,9 +199,9 @@ class _SelectChainPageState extends State<SelectChainPage> {
     return Container(
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             switch (widget.type) {
               case 0:

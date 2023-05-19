@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
@@ -12,18 +10,14 @@ import 'package:box/page/general/select_chain_page.dart';
 import 'package:box/page/general/set_address_name_page.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../main.dart';
-import '../aeternity/ae_home_page.dart';
 
 class WalletSelectPageNew extends BaseWidget {
   WalletSelectPageNew({Key? key});
@@ -320,7 +314,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
             onTap: () {
               createImportAccount(context);
             },
@@ -329,7 +323,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
               alignment: Alignment.center,
               decoration: new BoxDecoration(
                 //设置四周圆角 角度
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
                 //设置四周边框
                 border: new Border.all(
                   width: 1,
@@ -439,7 +433,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
               child: Row(
                 children: [
                   InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -502,7 +496,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: walletCoinsModel!.coins![coinIndex!].accounts![index].address));
                       Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess + ":\n" + walletCoinsModel!.coins![coinIndex!].accounts![index].address!, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
@@ -760,7 +754,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFFE51363),
             Color(0xFFFF428F),
@@ -773,7 +767,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFF3292C7),
             Color(0xFF37A1DB),
@@ -786,7 +780,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFFE1A200),
             Color(0xFFE6A700),
@@ -799,7 +793,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFFE1A200),
             Color(0xFFE6A700),
@@ -812,7 +806,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFF0062DB),
             Color(0xFF1F94FF),
@@ -825,7 +819,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFF112FD0),
             Color(0xFF112FD0),
@@ -838,7 +832,7 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
         width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
             Color(0xFF5F66A3),
             Color(0xFF5F66A3),

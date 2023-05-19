@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:box/dao/urls.dart';
 import 'package:box/main.dart';
-import 'package:box/model/aeternity/aens_page_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:dio/dio.dart';
 

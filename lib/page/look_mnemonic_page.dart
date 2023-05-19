@@ -1,20 +1,11 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/model/aeternity/price_model.dart';
-import 'package:box/utils/utils.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'box_code_mnemonic_page.dart';
 
 class LookMnemonicPage extends StatefulWidget {
   final String? mnemonic;
@@ -101,10 +92,10 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                 Container(
                   margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                   child: Material(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     color: Color(0xFFedf3f7),
                     child: InkWell(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: widget.mnemonic));
                         Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
@@ -114,7 +105,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width - 36,
-                              decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                              decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -167,10 +158,10 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
               Container(
                 margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
                 child: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   color: Color(0xFFedf3f7),
                   child: InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: widget.privateKey));
                       Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
@@ -180,7 +171,7 @@ class _SelectMnemonicPathState extends State<LookMnemonicPage> {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width - 36,
-                            decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                            decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,

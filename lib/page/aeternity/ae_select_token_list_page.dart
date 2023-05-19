@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/token_list_dao.dart';
@@ -11,7 +12,6 @@ import 'package:box/model/aeternity/token_list_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/amount_decimal.dart';
-import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
     for (int i = 0; i < tokenListModel!.data!.length; i++) {
       var params = {
         "name": "aeAex9TokenBalance",
-        "params": {"ctAddress":  tokenListModel!.data![i].ctAddress!, "address": account!.address}
+        "params": {"ctAddress": tokenListModel!.data![i].ctAddress!, "address": account!.address}
       };
       var channelJson = json.encode(params);
       BoxApp.sdkChannelCall((result) {
@@ -88,11 +88,10 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
 
         if (!mounted) return;
         for (int j = 0; j < tokenListModel!.data!.length; j++) {
-          if( tokenListModel!.data![j].ctAddress == ctAddress){
+          if (tokenListModel!.data![j].ctAddress == ctAddress) {
             tokenListModel!.data![j].countStr = AmountDecimal.parseDecimal(balance);
             CacheManager.instance.setTokenBalance(address, ctAddress, account.coin!, AmountDecimal.parseDecimal(balance));
           }
-
         }
         setState(() {});
         return;
@@ -137,8 +136,8 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                 color: Color(0xFFfafbfc),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
                   ),
                 ),
               ),
@@ -192,6 +191,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.75 - 52,
+
                     child: LoadingWidget(
                       type: loadingType,
                       onPressedError: () {
@@ -201,6 +201,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                         header: BoxHeader(),
                         onRefresh: _onRefresh,
                         child: ListView.builder(
+                          padding: EdgeInsets.only(bottom: MediaQueryData.fromWindow(window).padding.bottom + 30),
                           itemCount: tokenListModel == null ? 0 : tokenListModel!.data!.length + 1,
                           itemBuilder: (BuildContext context, int index) {
                             return itemListView(context, index);
@@ -233,10 +234,10 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
       return Container(
         margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
         child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           color: Colors.white,
           child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             onTap: () {
               if (widget.aeSelectTokenListCallBackFuture != null) {
                 widget.aeSelectTokenListCallBackFuture!("AE", widget.aeCount, "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/token/ae-ae.png", "");
@@ -247,7 +248,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
               child: Row(
                 children: [
                   Container(
-                    height: 90,
+                    height: 70,
                     width: MediaQuery.of(context).size.width - 36,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -258,8 +259,8 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                           child: Row(
                             children: <Widget>[
                               Container(
-                                width: 40.0,
-                                height: 40.0,
+                                width: 35.0,
+                                height: 35.0,
                                 decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
                                   borderRadius: BorderRadius.circular(30.0),
@@ -285,7 +286,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                                 child: Text(
                                   "AE",
                                   style: new TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
                                     fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -300,7 +301,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                                   Text(
                                     widget.aeCount!,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                    style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                   ),
                                 ],
                               ),
@@ -324,10 +325,10 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             if (tokenListModel!.data![index].countStr == null) {
               EasyLoading.showToast('正在获取数量，请稍后', duration: Duration(seconds: 2));
@@ -342,7 +343,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
             child: Row(
               children: [
                 Container(
-                  height: 90,
+                  height: 70,
                   width: MediaQuery.of(context).size.width - 36,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -353,8 +354,8 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                         child: Row(
                           children: <Widget>[
                             Container(
-                              width: 40.0,
-                              height: 40.0,
+                              width: 35.0,
+                              height: 35.0,
                               decoration: BoxDecoration(
                                 border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
@@ -381,7 +382,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                               child: Text(
                                 tokenListModel!.data![index].name!,
                                 style: new TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
                                   fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -404,7 +405,7 @@ class _TokenListPathState extends BaseWidgetState<AeSelectTokenListPage> {
                                       Text(
                                         tokenListModel!.data![index].countStr!,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                     ],
                                   ),

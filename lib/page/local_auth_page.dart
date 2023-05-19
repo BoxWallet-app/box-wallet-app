@@ -11,7 +11,6 @@ import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -105,7 +104,7 @@ class _AuthPageState extends BaseWidgetState<AuthPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Material(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   color: Colors.white,
                   child: Container(
                     padding: const EdgeInsets.all(18),

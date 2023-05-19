@@ -13,7 +13,6 @@ import 'package:box/utils/permission_helper.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/pay_password_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -192,7 +191,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                             padding: EdgeInsets.only(left: 16, right: 16),
-                            decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                            decoration: BoxDecoration(color: Color(0xFFedf3f7), border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                             child: TextField(
                               controller: _textEditingController,
                               style: TextStyle(
@@ -229,7 +228,7 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                                 Container(
                                   height: 30,
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
-                                  child: FlatButton(
+                                  child: TextButton(
                                     onPressed: () async {
                                       ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain) as FutureOr<ClipboardData>);
                                       _textEditingController.text = data.text!;
@@ -239,9 +238,6 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                                       S.of(context).ImportAccountPage_copy,
                                       style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFC2365)),
                                     ),
-                                    color: Color(0xFFFC2365).withAlpha(16),
-                                    textColor: Colors.black,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                   ),
                                 ),
                               ],
@@ -255,8 +251,8 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                     margin: const EdgeInsets.only(top: 30, bottom: 50),
                     child: Container(
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: FlatButton(
+                      width: MediaQuery.of(context).size.width ,
+                      child: TextButton(
                         onPressed: () {
                           clickLogin();
                         },
@@ -265,9 +261,6 @@ class _ImportAccountEthPageState extends State<ImportAccountEthPage> {
                           maxLines: 1,
                           style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
                         ),
-                        color: Color(0xFFFC2365),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                     ),
                   ),

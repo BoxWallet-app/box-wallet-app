@@ -1,40 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:box/dao/aeternity/account_info_dao.dart';
 import 'package:box/dao/aeternity/block_top_dao.dart';
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
 import 'package:box/dao/aeternity/name_reverse_dao.dart';
 import 'package:box/dao/aeternity/price_model.dart';
-import 'package:box/dao/aeternity/swap_dao.dart';
 import 'package:box/dao/aeternity/wallet_record_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/account_info_model.dart';
 import 'package:box/model/aeternity/block_top_model.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
-import 'package:box/model/aeternity/name_reverse_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:box/model/aeternity/swap_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/model/aeternity/wallet_record_model.dart';
 import 'package:box/page/aeternity/ae_records_page.dart';
-import 'package:box/page/aeternity/ae_select_token_list_page.dart';
 import 'package:box/page/aeternity/ae_vegas_page.dart';
-import 'package:box/utils/amount_decimal.dart';
 import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/marquee_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,8 +37,6 @@ import 'ae_token_list_page.dart';
 import 'ae_token_receive_page.dart';
 import 'ae_token_send_one_page.dart';
 import 'ae_tx_detail_page.dart';
-import 'ae_vegas_page_detail.dart';
-import 'ae_wetrue_page.dart';
 import 'ae_wetrue_web_page.dart';
 import 'aens_market_orders_page.dart';
 
@@ -105,7 +92,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
       //   }
       _aens = aens;
       //   print(namesModel);
-        setState(() {});
+      setState(() {});
       // } else {}
     }).catchError((e) {
       print(e.toString());
@@ -271,14 +258,14 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String language = BoxApp.language;
-    String platform = Platform.isIOS?"iOS":"android";
-    String url = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/home-function/"+packageInfo.version.replaceAll(".", "")+"/$language-$platform.json";
+    String platform = Platform.isIOS ? "iOS" : "android";
+    String url = "https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/home-function/" + packageInfo.version.replaceAll(".", "") + "/$language-$platform.json";
     print(url);
     Response homeFunctionResponse = await Dio().get(url);
 
     var homeFunctionDecode = jsonDecode(homeFunctionResponse.toString());
 
-    CacheManager.instance.setAeHomeFunction(url,homeFunctionResponse.toString());
+    CacheManager.instance.setAeHomeFunction(url, homeFunctionResponse.toString());
     logger.info(homeFunctionDecode);
 
     var homeFunction = homeFunctionDecode["data"];
@@ -303,11 +290,11 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     }
     PriceDao.fetch().then((PriceModel model) {
       priceModel = model;
-      print("123123123123123"+priceModel.toString());
+      print("123123123123123" + priceModel.toString());
       getAePrice();
       setState(() {});
     }).catchError((e) {
-      print("123123123123123"+e.toString());
+      print("123123123123123" + e.toString());
 //      Fluttertoast.showToast(msg: "error" + e.toString(), toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
     });
   }
@@ -355,7 +342,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     child: Container(
 //                      height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(80.0),
+                        borderRadius: BorderRadius.circular(5.0),
                         boxShadow: [
 //                                BoxShadow(
 //                                    color: Color(0xFFFC2365).withAlpha(20),
@@ -420,7 +407,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                   width: MediaQuery.of(context).size.width,
                                   height: 160,
                                   decoration: new BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                     gradient: const LinearGradient(begin: Alignment.centerLeft, colors: [
                                       Color(0xFFE51363),
                                       Color(0xFFFF428F),
@@ -433,7 +420,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                                     width: MediaQuery.of(context).size.width - 32,
                                     height: 35,
                                     decoration: new BoxDecoration(
-                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
+                                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(5.0), bottomLeft: Radius.circular(5.0)),
                                       color: Color(0xffd12869),
                                     ),
                                   ),
@@ -634,17 +621,17 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
         border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
         color: Color(0xE6FFFFFF),
         //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
 
       child: Container(
         child: GridView.builder(
           itemBuilder: (BuildContext context, int position) {
             return Material(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
               color: Colors.white,
               child: InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
                 onTap: () {
                   var event = homeFunctionInfo[position]['event'];
                   logger.info(event);
@@ -692,7 +679,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
                     _launchURL("https://explorer.aeternity.io");
                     return;
                   }
-                  Fluttertoast.showToast(msg: BoxApp.language=="cn"?"开发中":"Developing", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+                  Fluttertoast.showToast(msg: BoxApp.language == "cn" ? "开发中" : "Developing", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
 
                   // if (homeFunctionInfo["function" == "spend"]) {}
                 },
@@ -766,147 +753,7 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     );
   }
 
-  Container getRecordContainer(BuildContext context) {
-//    if (walletRecordModel == null) {
-//      return Container(
-//        width: MediaQuery.of(context).size.width,
-//        height: 50,
-//      );
-//    }
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 12, bottom: MediaQuery.of(context).padding.bottom),
-      //边框设置
-      decoration: new BoxDecoration(
-        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-        color: Color(0xE6FFFFFF),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-      ),
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Colors.white,
-        child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          splashColor: Colors.white,
-          onTap: () {
-            if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
-            } else {
-              Navigator.push(context, SlideRoute(AeRecordsPage()));
-            }
-          },
-          child: Column(
-            children: [
-              Container(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topCenter,
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            child: Image(
-                              width: 56,
-                              height: 56,
-                              image: AssetImage("images/home_record.png"),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(
-                              S.of(context).home_page_transaction,
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 23,
-                      child: Container(
-                        width: 25,
-                        height: 25,
-                        margin: const EdgeInsets.only(top: 23),
-                        padding: const EdgeInsets.only(left: 0),
-                        //边框设置
-                        decoration: new BoxDecoration(
-                          color: Color(0xFFfafbfc),
-                          //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 15,
-                          color: Color(0xFFCCCCCC),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (walletRecordModel != null)
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 15, top: 0),
-                  child: Text(
-                    S.of(context).home_page_transaction_conform,
-                    style: TextStyle(fontSize: 14, color: Color(0xFF666666), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                  ),
-                  height: 23,
-                ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Column(
-                  children: [
-                    if (walletRecordModel == null)
-                      Container(
-                        height: 150,
-                        child: new Center(
-                          child: new CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF22B79)),
-                          ),
-                        ),
-                      ),
-                    if (walletRecordModel != null && walletRecordModel!.data!.length == 0)
-                      Container(
-                          child: Center(
-                              child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.white,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image(
-                              width: 198,
-                              height: 164,
-                              image: AssetImage('images/no_record.png'),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 20),
-                              padding: EdgeInsets.only(bottom: 20),
-                              child: Text(
-                                S.of(context).home_no_record,
-                                style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFF000000)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ))),
-                    getItem(context, 0),
-                    getItem(context, 1),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -915,334 +762,16 @@ class _AeHomePageState extends State<AeHomePage> with AutomaticKeepAliveClientMi
     }
   }
 
-  Container getTokensContainer(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 12),
-      //边框设置
-      decoration: new BoxDecoration(
-        color: Color(0xE6FFFFFF),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-      ),
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Colors.white,
-        child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          onTap: () {
-            if (Platform.isIOS) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AeRecordsPage()));
-            } else {
-              Navigator.push(context, SlideRoute(AeRecordsPage()));
-            }
-          },
-          child: Column(
-            children: [
-              Container(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topCenter,
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            child: Image(
-                              width: 56,
-                              height: 56,
-                              image: AssetImage("images/home_financial.png"),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(
-                              "AEX9 Tokens",
-                              style: new TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Colors.black),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 23,
-                      child: Container(
-                        width: 25,
-                        height: 25,
-                        margin: const EdgeInsets.only(top: 23),
-                        padding: const EdgeInsets.only(left: 0),
-                        //边框设置
-                        decoration: new BoxDecoration(
-                          color: Color(0xFFfafbfc),
-                          //设置四周圆角 角度
-                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 15,
-                          color: Color(0xFFCCCCCC),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Column(
-                  children: [
-                    getTokensItem(context, 0),
-                    getTokensItem(context, 1),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getTokensItem(BuildContext context, int index) {
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          if (Platform.isIOS) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-          } else {
-            Navigator.push(context, SlideRoute(AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-          }
-        },
-        child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width - 75,
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              child: Text(
-                                "USDT",
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              "100000000.00",
-                              style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
-              ),
-              Expanded(
-                child: Text(""),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getItem(BuildContext context, int index) {
-    if (walletRecordModel == null || walletRecordModel!.data!.length <= index) {
-      return Container();
-    }
-    if (index == 0) {}
-
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-        onTap: () {
-          if (Platform.isIOS) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-          } else {
-            Navigator.push(context, SlideRoute(AeTxDetailPage(recordData: walletRecordModel!.data![index])));
-          }
-        },
-        child: Container(
-          margin: EdgeInsets.only(left: 15, right: 10, bottom: 20, top: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                //边框设置
-
-                child: Text(
-                  getConfirmHeight(index),
-                  style: TextStyle(color: Color(0xFFFC2365), fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                ),
-                alignment: Alignment.center,
-                height: 23,
-                width: 40,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 18),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              child: Text(
-                                getTxType(index),
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: getFeeWidget(index),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8),
-                      child: Text(
-                        walletRecordModel!.data![index].hash!,
-                        strutStyle: StrutStyle(forceStrutHeight: true, height: 0.8, leading: 1, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                      ),
-                      width: MediaQuery.of(context).size.width - 65 - 18 - 40 - 5,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 6),
-                      child: Text(
-                        DateTime.fromMicrosecondsSinceEpoch(walletRecordModel!.data![index].time! * 1000).toLocal().toString(),
-                        style: TextStyle(color: Colors.black.withAlpha(56), fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-                      ),
-                    ),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
-              ),
-              Expanded(
-                child: Text(""),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String getConfirmHeight(int index) {
-    var height = AeHomePage.height! - walletRecordModel!.data![index].blockHeight!;
-    if (height > 1000) {
-      return (height / 1000).toStringAsFixed(0) + "K";
-    }
-
-    return (AeHomePage.height! - walletRecordModel!.data![index].blockHeight!).toString();
-  }
-
-  getTxType(int index) {
-    if (BoxApp.language == "cn") {
-      switch (walletRecordModel!.data![index].tx!['type']) {
-        case "SpendTx":
-          if ("ak_dMyzpooJ4oGnBVX35SCvHspJrq55HAAupCwPQTDZmRDT5SSSW" == walletRecordModel!.data![index].tx!['recipient_id']) {
-            return "WeTrue调用";
-          }
-          return "转账";
-        case "OracleRegisterTx":
-          return "预言机注册";
-        case "OracleExtendTx":
-          return "预言机扩展";
-        case "OracleQueryTx":
-          return "预言机查询";
-        case "OracleResponseTx":
-          return "预言机响应";
-        case "NamePreclaimTx":
-          return "域名声明";
-        case "NameClaimTx":
-          return "域名注册";
-        case "NameUpdateTx":
-          return "域名更新";
-        case "NameTransferTx":
-          return "域名转移";
-        case "NameRevokeTx":
-          return "域名销毁";
-        case "GAAttachTx":
-          return "GA账户附加";
-        case "GAMetaTx":
-          return "GA账户变换";
-        case "ContractCallTx":
-          return "合约调用";
-        case "ContractCreateTx":
-          return "合约创建";
-        case "ChannelCreateTx":
-          return "状态通道创建";
-        case "ChannelDepositTx":
-          return "状态通道存款";
-        case "ChannelDepositTx":
-          return "状态通道撤销";
-        case "ChannelCloseMutualTx":
-          return "状态通道关闭";
-        case "ChannelSnapshotSoloTx":
-          return "状态通道Settle";
-      }
-      return walletRecordModel!.data![index].tx!['type'];
-    }
-    return walletRecordModel!.data![index].tx!['type'];
-  }
-
-  Text getFeeWidget(int index) {
-    if (walletRecordModel!.data![index].tx!['type'].toString() == "SpendTx") {
-      // ignore: unrelated_type_equality_checks
-
-      if (walletRecordModel!.data![index].tx!['recipient_id'].toString() == AeHomePage.address) {
-        return Text(
-          "+" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-        );
-      } else {
-        return Text(
-          "-" + double.parse(((walletRecordModel!.data![index].tx!['amount'].toDouble() + walletRecordModel!.data![index].tx!['fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-        );
-      }
-    } else {
-      if (walletRecordModel!.data![index].tx!['type'].toString() == "NameClaimTx") {
-        return Text(
-          "-" + double.parse(((walletRecordModel!.data![index].tx!['fee'].toDouble() + walletRecordModel!.data![index].tx!['name_fee'].toDouble()) / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-          style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-        );
-      }
-
-      return Text(
-        "-" + double.parse((walletRecordModel!.data![index].tx!['fee'].toDouble() / 1000000000000000000).toString()).toStringAsFixed(8) + " AE",
-        style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
-      );
-    }
-  }
-
   Future<void> _onRefresh() async {
     netData();
   }
 
   void netData() {
-     netAccountInfo();
+    netAccountInfo();
     netContractBalance();
     getAddress();
     netNameReverseData();
-     netBaseData();
+    netBaseData();
   }
 
   @override

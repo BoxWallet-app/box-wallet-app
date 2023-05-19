@@ -2,14 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/token_list_model.dart';
-import 'package:box/model/aeternity/wallet_record_model.dart';
-import 'package:box/model/conflux/cfx_transfer_model.dart';
-import 'package:box/model/ethereum/eth_transfer_model.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
 import '../model/aeternity/wallet_coins_model.dart';
 import '../page/aeternity/ae_home_page.dart';
 

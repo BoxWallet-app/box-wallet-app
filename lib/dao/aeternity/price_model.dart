@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:box/dao/urls.dart';
-import 'package:box/model/aeternity/base_data_model.dart';
-import 'package:box/model/aeternity/block_top_model.dart';
 import 'package:box/model/aeternity/price_model.dart';
 import 'package:dio/dio.dart';
 

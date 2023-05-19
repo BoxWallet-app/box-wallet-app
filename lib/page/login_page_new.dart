@@ -3,22 +3,16 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/widget/custom_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'general/import/import_account_ae_page.dart';
-import 'general/import/import_account_common_page.dart';
 import 'general/create/create_mnemonic_copy_page.dart';
-import 'general/import/import_chain_select_page.dart';
+import 'general/import/import_account_ae_page.dart';
 
 class LoginPageNew extends BaseWidget {
   @override
@@ -52,7 +46,7 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
       onWillPop: () async {
         if (lastPopTime == null || DateTime.now().difference(lastPopTime!) > Duration(seconds: 2)) {
           lastPopTime = DateTime.now();
-          Fluttertoast.showToast(msg: "Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+          Fluttertoast.showToast(msg: "再按一次退出程序/Press exit again", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
         } else {
           lastPopTime = DateTime.now();
           exit(0);
@@ -113,10 +107,10 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Aeternity Box",
-                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                           )),
                       Container(
-                        height: 30,
+                        height: 20,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -131,22 +125,20 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                               TypewriterAnimatedText(
                                 S.of(context).login_sg1,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 S.of(context).login_sg2,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                               TypewriterAnimatedText(
                                 S.of(context).login_sg3,
                                 speed: const Duration(milliseconds: 80),
-                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
+                                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.w400, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFFFFFFF)),
                               ),
                             ],
-                            onTap: () {
-                              print("Tap Event");
-                            },
+                            onTap: () {},
                           ),
                         ),
                       ),
@@ -154,17 +146,17 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                   )),
               Positioned(
                 bottom: MediaQueryData.fromWindow(window).padding.bottom + 20,
-                right: 20,
-                left: 20,
+                right: 30,
+                left: 30,
                 child: Column(
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 10, bottom: 0),
                       child: Container(
                         height: 50,
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: MediaQuery.of(context).size.width,
                         child: TextButton(
-                          style: ButtonStyle(shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))), backgroundColor: MaterialStateProperty.all(Colors.white)),
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
                           onPressed: () {
                             sdkAeGenerateAccount(context);
                           },
@@ -183,10 +175,9 @@ class _LoginPageNewState extends BaseWidgetState<LoginPageNew> {
                       margin: const EdgeInsets.only(top: 10, bottom: 0),
                       child: Container(
                         height: 50,
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: MediaQuery.of(context).size.width,
                         child: TextButton(
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
                             overlayColor: MaterialStateProperty.all(Colors.black12),
                           ),
                           onPressed: () {

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
@@ -9,7 +7,6 @@ import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,10 +152,10 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
     return Container(
       margin: const EdgeInsets.only(top: 12, left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Color(0xFFedf3f7),
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             Navigator.of(context).pop();
             if (widget.selectMnemonicCallBackFuture != null) {
@@ -170,7 +167,7 @@ class _SelectMnemonicPathState extends State<SelectMnemonicPage> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width - 36,
-                  decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(15))),
+                  decoration: BoxDecoration(border: Border.all(color: Color(0xFFEEEEEE)), borderRadius: BorderRadius.all(Radius.circular(5))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -1,24 +1,17 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/manager/ct_token_manager.dart';
-import 'package:box/manager/eth_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_token_defi_page.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/page/ethereum/eth_home_page.dart';
 import 'package:box/page/login_page_new.dart';
-import 'package:box/utils/utils.dart';
 import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
-import 'package:box/widget/pay_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:local_auth/local_auth.dart';
@@ -29,11 +22,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'aeternity/ae_home_page.dart';
-import 'confux/node_select_page.dart';
+import 'general/node_page.dart';
 import 'language_page.dart';
 import 'local_auth_page.dart';
 import 'look_mnemonic_page.dart';
-import 'general/node_page.dart';
 
 class SettingPage extends BaseWidget {
   @override
@@ -168,13 +160,13 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                       border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                       color: Color(0xE6FFFFFF),
                       //设置四周圆角 角度
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
                     child: Material(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       color: Colors.white,
                       child: InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         onTap: () {
                           showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
                             Navigator.push(
@@ -253,13 +245,13 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                     border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                     color: Color(0xE6FFFFFF),
                     //设置四周圆角 角度
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: Material(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     child: InkWell(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       child: Container(
                         height: 60,
                         child: Stack(
@@ -302,13 +294,13 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                     border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                     color: Color(0xE6FFFFFF),
                     //设置四周圆角 角度
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: Material(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     child: InkWell(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       onTap: () {
                         // Navigator.push(context, SlideRoute(MyApp()));
                         if (BoxApp.language == "cn") {
@@ -355,13 +347,13 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                   decoration: new BoxDecoration(
                     border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
                     color: Color(0xE6FFFFFF),
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: Material(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     child: InkWell(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       onTap: () {
                         showDialog<bool>(
                           context: context,
@@ -398,10 +390,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                             AeHomePage.token = "loading...";
                             AeHomePage.tokenABC = "loading...";
                             AeTokenDefiPage.model = null;
-                            EthHomePage.account = null;
-                            EthHomePage.token = "loading...";
-                            EthHomePage.tokenABC = "0.000000";
-                            EthHomePage.address = "";
+
 
                             var prefs = await SharedPreferences.getInstance();
 
@@ -538,17 +527,17 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: tab,
           child: Container(
             decoration: new BoxDecoration(
               border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
               color: Color(0xE6FFFFFF),
               //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
             height: 60,
             child: Stack(

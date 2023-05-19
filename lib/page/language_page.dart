@@ -2,7 +2,6 @@ import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LanguagePage extends StatefulWidget {
   @override
@@ -145,10 +144,10 @@ class _LanguagePageState extends State<LanguagePage> {
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15),
         child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           color: Colors.white,
           child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             onTap: tab,
             child: Container(
               padding: const EdgeInsets.only(left: 18, right: 21, top: 20, bottom: 20),

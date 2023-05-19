@@ -1,11 +1,6 @@
 import 'dart:convert';
 
-import 'package:box/dao/urls.dart';
-import 'package:box/main.dart';
-import 'package:box/model/aeternity/aens_info_model.dart';
-import 'package:box/model/aeternity/app_store_model.dart';
 import 'package:box/model/aeternity/host_model.dart';
-import 'package:box/model/aeternity/swap_model.dart';
 import 'package:dio/dio.dart';
 
 class HostDao {

@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
-import 'package:box/dao/aeternity/aens_info_dao.dart';
 import 'package:box/dao/aeternity/name_owner_dao.dart';
 import 'package:box/event/language_event.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/model/aeternity/aens_info_model.dart';
 import 'package:box/model/aeternity/name_owner_model.dart';
 import 'package:box/model/aeternity/wallet_coins_model.dart';
 import 'package:box/page/aeternity/ae_aens_point_page.dart';
@@ -16,10 +14,7 @@ import 'package:box/page/aeternity/ae_aens_transfer_page.dart';
 import 'package:box/page/aeternity/ae_home_page.dart';
 import 'package:box/page/base_page.dart';
 import 'package:box/utils/utils.dart';
-import 'package:box/widget/chain_loading_widget.dart';
 import 'package:box/widget/loading_widget.dart';
-import 'package:box/widget/pay_password_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -105,7 +100,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -131,7 +126,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -217,11 +212,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       return Container();
     }
     return Container(
-      margin: const EdgeInsets.only(top: 40, bottom: 20),
+      margin: const EdgeInsets.only(top: 40, bottom: 20,left: 30,right: 30),
       child: Container(
         height: 50,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: FlatButton(
+        width: MediaQuery.of(context).size.width,
+        child: TextButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
           onPressed: () {
             netUpdateV2(context);
           },
@@ -230,9 +226,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
-          color: Color(0xff6F53A1),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
@@ -286,7 +279,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
   Future<void> netPreclaimV2(BuildContext context) async {
     var name = widget.aensDetail['name'];
     if (double.parse(AeHomePage.token) < (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.1)) {
-      Fluttertoast.showToast(msg: "钱包余额不足", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
+      Fluttertoast.showToast(msg: S.of(context).msg_name_balance_error, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);
       return;
     }
     EasyLoading.show();
@@ -334,11 +327,12 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       return Container();
     }
     return Container(
-      margin: const EdgeInsets.only(top: 40, bottom: 30),
+      margin: const EdgeInsets.only(top: 40, bottom: 30, left: 30, right: 30),
       child: Container(
         height: 50,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: FlatButton(
+        width: MediaQuery.of(context).size.width,
+        child: TextButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
           onPressed: () {
             netPreclaimV2(context);
           },
@@ -347,9 +341,6 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),
-          color: Color(0xFFFC2365),
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
@@ -359,10 +350,10 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 12),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             Clipboard.setData(ClipboardData(text: value));
             Fluttertoast.showToast(msg: S.of(context).token_receive_page_copy_sucess, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.black, textColor: Colors.white, fontSize: 16.0);

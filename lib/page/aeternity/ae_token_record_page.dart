@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:box/dao/aeternity/contract_balance_dao.dart';
-import 'package:box/dao/aeternity/token_record_dao.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:box/generated/l10n.dart';
-import 'package:box/model/aeternity/contract_balance_model.dart';
 import 'package:box/model/aeternity/token_record_model.dart';
 import 'package:box/page/aeternity/ae_token_receive_page.dart';
 import 'package:box/page/aeternity/ae_token_send_one_page.dart';
@@ -15,7 +13,6 @@ import 'package:box/widget/box_header.dart';
 import 'package:box/widget/custom_route.dart';
 import 'package:box/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -47,6 +44,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
 
   late Map tokenInfos;
   bool isTokenInfosLoading = true;
+
   Future<void> getTokenInfo() async {
     tokenInfos = DataCenterManager.tokenInfos;
     if (tokenInfos.isEmpty) {
@@ -155,10 +153,10 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             color: Colors.white,
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
               onTap: () {},
               child: Column(
                 children: [
@@ -173,14 +171,14 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                margin: const EdgeInsets.only(top: 0, left: 15),
+                                margin: const EdgeInsets.only(top: 0, left: 18),
                                 child: Row(
                                   children: <Widget>[
 //                            buildTypewriterAnimatedTextKit(),
 
                                     Container(
-                                      width: 36.0,
-                                      height: 36.0,
+                                      width: 35.0,
+                                      height: 35.0,
                                       decoration: BoxDecoration(
                                         border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), top: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), left: BorderSide(color: Color(0xFFEEEEEE), width: 1.0), right: BorderSide(color: Color(0xFFEEEEEE), width: 1.0)),
 //                                                      shape: BoxShape.rectangle,
@@ -207,7 +205,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       child: Text(
                                         widget.coinName!,
                                         style: new TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 16,
                                           color: Color(0xff333333),
 //                                            fontWeight: FontWeight.w600,
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
@@ -225,10 +223,16 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
 //              'images/animation_khzuiqgg.json',
                                             ),
                                           )
-                                        : Text(
-                                            count!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 20, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        : Container(
+                                            width: MediaQuery.of(context).size.width / 2,
+                                            alignment: Alignment.centerRight,
+                                            height: 70,
+                                            padding: EdgeInsets.only(top: 8, right: 8),
+                                            child: AutoSizeText(
+                                              count!,
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                            ),
                                           ),
                                     Container(
                                       width: 20,
@@ -249,7 +253,8 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                         height: 40,
                         width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                         margin: const EdgeInsets.only(top: 0),
-                        child: FlatButton(
+                        child: TextButton(
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(30))),
                           onPressed: () {
                             if (Platform.isIOS) {
                               Navigator.push(
@@ -277,9 +282,6 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                             maxLines: 1,
                             style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                           ),
-                          color: Color(0xFFF22B79).withAlpha(16),
-                          textColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                       ),
                       Container(
@@ -289,7 +291,8 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                         height: 40,
                         width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                         margin: const EdgeInsets.only(top: 0),
-                        child: FlatButton(
+                        child: TextButton(
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(30))),
                           onPressed: () {
 //                  goDefi(context);
                             if (Platform.isIOS) {
@@ -303,9 +306,6 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                             maxLines: 1,
                             style: TextStyle(fontSize: 15, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
                           ),
-                          color: Color(0xFFF22B79).withAlpha(16),
-                          textColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                       ),
                     ],
@@ -327,7 +327,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
             style: TextStyle(
               color: Color(0xFF000000),
               fontWeight: FontWeight.w500,
-              fontSize: 16,
+              fontSize: 14,
               fontFamily: BoxApp.language == "cn"
                   ? "Ubuntu"
                   : BoxApp.language == "cn"
@@ -337,13 +337,13 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 12),
+          margin: EdgeInsets.only(left: 10, right: 10, top: 12),
           padding: EdgeInsets.only(bottom: 18),
           child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             color: Colors.white,
             child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
               onTap: () {},
               child: Column(
                 children: [
@@ -365,7 +365,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       child: Text(
                                         "ContractId",
                                         style: new TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xff333333),
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
@@ -379,7 +379,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.right,
                                           maxLines: 2,
-                                          style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                          style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
                                       ),
                                     ),
@@ -394,7 +394,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       child: Text(
                                         "Name",
                                         style: new TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xff333333),
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
@@ -405,7 +405,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['name'],
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -418,7 +418,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       child: Text(
                                         "Symbol",
                                         style: new TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xff333333),
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
@@ -429,7 +429,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['symbol'],
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -442,7 +442,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       child: Text(
                                         "Decimals",
                                         style: new TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xff333333),
                                           fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                                         ),
@@ -453,7 +453,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                       Text(
                                         tokenInfos[widget.ctId.toString()]['decimals'].toString(),
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
+                                        style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                       ),
                                   ],
                                 ),
@@ -485,10 +485,10 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, bottom: 12),
       child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
           onTap: () {
             _launchURL("https://www.aeknow.org/block/transaction/" + tokenListModel!.data![index - 1].hash!);
           },

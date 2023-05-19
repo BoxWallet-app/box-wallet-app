@@ -1,22 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/urls.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/manager/cache_manager.dart';
 import 'package:box/manager/wallet_coins_manager.dart';
-import 'package:box/page/aeternity/ae_tab_page.dart';
 import 'package:box/page/base_page.dart';
-import 'package:box/widget/custom_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:umeng_common_sdk/umeng_common_sdk.dart';
 
 import '../main.dart';
-import 'aeternity/ae_home_page.dart';
 import 'aeternity/new_home_page.dart';
 import 'login_page_new.dart';
 
@@ -37,11 +32,10 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
 
   //服务
   Future<void> startService() async {
-
-   var configString = await CacheManager.instance.getConfig();
-   BoxApp.config = jsonDecode(configString);
-   //开启SDK 服务
-    await BoxApp.startAeService( () async {
+    var configString = await CacheManager.instance.getConfig();
+    BoxApp.config = jsonDecode(configString);
+    //开启SDK 服务
+    await BoxApp.startAeService(() async {
       //初始化钱包相关代码
       await WalletCoinsManager.instance.init();
       var sharedPreferences = await SharedPreferences.getInstance();
@@ -86,7 +80,7 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
     String nodeUrl = await BoxApp.getNodeUrl();
     if (nodeUrl == "") {
       setSDKBaseUrl("https://mainnet.aeternity.io");
-    }else{
+    } else {
       setSDKBaseUrl(nodeUrl);
     }
     //获取当前的账号
