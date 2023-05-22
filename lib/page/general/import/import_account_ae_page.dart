@@ -171,10 +171,9 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  height: 30,
                                   margin: const EdgeInsets.only(left: 18, right: 25, bottom: 18),
                                   child: TextButton(
-                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFFFFFF))),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(20))),
                                     onPressed: () async {
                                       ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
                                       inputController.text = data!.text!;
@@ -199,7 +198,7 @@ class _ImportAccountAePageState extends BaseWidgetState<ImportAccountAePage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width,
                       child: TextButton(
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                         onPressed: () {
                           switchLogin();
                         },

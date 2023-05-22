@@ -506,6 +506,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "The wallet already exists, please create an account directly"),
         "dialog_ae_no_get": MessageLookupByLibrary.simpleMessage(
             "There are benefits that have not been received. Do you want to continue to cancel?"),
+        "dialog_aens_renew_btn":
+            MessageLookupByLibrary.simpleMessage("Start Update"),
+        "dialog_aens_renew_ing":
+            MessageLookupByLibrary.simpleMessage("Progress"),
+        "dialog_aens_renew_success":
+            MessageLookupByLibrary.simpleMessage("Success"),
+        "dialog_aens_renew_title":
+            MessageLookupByLibrary.simpleMessage("IObit Update"),
         "dialog_amount_null":
             MessageLookupByLibrary.simpleMessage("Please enter the quantity"),
         "dialog_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),

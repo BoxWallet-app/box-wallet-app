@@ -227,7 +227,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                                             width: MediaQuery.of(context).size.width / 2,
                                             alignment: Alignment.centerRight,
                                             height: 70,
-                                            padding: EdgeInsets.only(top: 8, right: 8),
+                                            padding: EdgeInsets.only(right: 8),
                                             child: AutoSizeText(
                                               count!,
                                               textAlign: TextAlign.right,
@@ -254,7 +254,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                         width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                         margin: const EdgeInsets.only(top: 0),
                         child: TextButton(
-                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(30))),
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(20))),
                           onPressed: () {
                             if (Platform.isIOS) {
                               Navigator.push(
@@ -292,7 +292,7 @@ class _TokenRecordState extends BaseWidgetState<AeTokenRecordPage> {
                         width: MediaQuery.of(context).size.width / 2 - 25 - 18,
                         margin: const EdgeInsets.only(top: 0),
                         child: TextButton(
-                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(30))),
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(20))),
                           onPressed: () {
 //                  goDefi(context);
                             if (Platform.isIOS) {

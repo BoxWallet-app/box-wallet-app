@@ -129,9 +129,9 @@ class _TokenReceivePageState extends State<TokenReceivePage> {
                                     ),
                                   ),
                                   Container(
-                                    height: 30,
                                     margin: const EdgeInsets.only(top: 20, bottom: 40),
                                     child: TextButton(
+                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365).withAlpha(20))),
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(text: address));
                                         setState(() {

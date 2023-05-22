@@ -414,6 +414,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("已存在该钱包，请直接创建账户即可"),
         "dialog_ae_no_get":
             MessageLookupByLibrary.simpleMessage("有收益未领取，是否继续解除？"),
+        "dialog_aens_renew_btn": MessageLookupByLibrary.simpleMessage("开始一键更新"),
+        "dialog_aens_renew_ing": MessageLookupByLibrary.simpleMessage("进行中"),
+        "dialog_aens_renew_success": MessageLookupByLibrary.simpleMessage("成功"),
+        "dialog_aens_renew_title": MessageLookupByLibrary.simpleMessage("一键更新"),
         "dialog_amount_null": MessageLookupByLibrary.simpleMessage("请输入数量"),
         "dialog_cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "dialog_conform": MessageLookupByLibrary.simpleMessage("确认"),

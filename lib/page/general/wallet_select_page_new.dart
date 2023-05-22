@@ -78,6 +78,9 @@ class _WalletSelectPageNewState extends BaseWidgetState<WalletSelectPageNew> {
             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
         ),
+        leading: Container(
+
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(

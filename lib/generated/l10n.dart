@@ -4799,6 +4799,46 @@ class S {
       args: [],
     );
   }
+
+  /// `IObit Update`
+  String get dialog_aens_renew_title {
+    return Intl.message(
+      'IObit Update',
+      name: 'dialog_aens_renew_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Progress`
+  String get dialog_aens_renew_ing {
+    return Intl.message(
+      'Progress',
+      name: 'dialog_aens_renew_ing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Update`
+  String get dialog_aens_renew_btn {
+    return Intl.message(
+      'Start Update',
+      name: 'dialog_aens_renew_btn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get dialog_aens_renew_success {
+    return Intl.message(
+      'Success',
+      name: 'dialog_aens_renew_success',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

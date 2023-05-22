@@ -184,6 +184,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
   }
 
   String getItemContent(int index) {
+    print(vegasResult["get_user_markets_record_result"].toString());
     if (vegasResult["is_user_markets_record"]) {
       if (int.parse(vegasResult["get_user_markets_record_result"].toString()) == index) {
         return vegasMarket["answers"][index]["content"] + " " + (double.parse(vegasMarket["answers"][index]["count"]) / double.parse(vegasMarket["put_count"]) * 100).toStringAsFixed(2) + "%" + " (My)";
@@ -702,6 +703,7 @@ class _VegasDetailPagePathState extends BaseWidgetState<AeVegasDetailPage> {
                                   height: 40,
                                   margin: EdgeInsets.only(left: 10, top: 20, bottom: 14, right: 10),
                                   child: TextButton(
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(getReceiveBtnColor())),
                                     onPressed: () {
                                       if (getIsReceive()) aeVegasReceiveReward();
                                     },

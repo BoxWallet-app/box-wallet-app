@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:box/dao/aeternity/node_test_dao.dart';
 import 'package:box/generated/l10n.dart';
 import 'package:box/main.dart';
+import 'package:box/page/base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class NodePage extends StatefulWidget {
+class NodePage extends BaseWidget {
   @override
   _NodePageState createState() => _NodePageState();
 }
 
-class _NodePageState extends State<NodePage> {
+class _NodePageState extends BaseWidgetState<NodePage> {
   TextEditingController _textEditingControllerNode = TextEditingController();
   final FocusNode focusNodeNode = FocusNode();
 
@@ -110,7 +112,7 @@ class _NodePageState extends State<NodePage> {
                       decoration: new BoxDecoration(
                         color: Color(0xFFedf3f7),
                         //设置四周圆角 角度
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       width: MediaQuery.of(context).size.width,
                       child: TextField(
@@ -132,13 +134,13 @@ class _NodePageState extends State<NodePage> {
                           // contentPadding: EdgeInsets.only(left: 10.0),
                           contentPadding: EdgeInsets.only(top: 0, bottom: 0, left: 10),
                           enabledBorder: new OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
                               color: Color(0xFFFFFFFF),
                             ),
                           ),
                           focusedBorder: new OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(color: Color(0xFFFC2365)),
                           ),
                           border: OutlineInputBorder(
@@ -157,11 +159,12 @@ class _NodePageState extends State<NodePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20),
+                margin: EdgeInsets.only(top: 30, bottom: MediaQueryData.fromWindow(window).padding.bottom + 20, left: 30, right: 30),
                 child: Container(
                   height: 50,
-                  width: MediaQuery.of(context).size.width ,
+                  width: MediaQuery.of(context).size.width,
                   child: TextButton(
+                    style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                     onPressed: () {
                       EasyLoading.show();
                       NodeTestDao.fetch(_textEditingControllerNode.text).then((isSucess) {
@@ -169,90 +172,14 @@ class _NodePageState extends State<NodePage> {
                         if (isSucess) {
                           BoxApp.setNodeUrl(_textEditingControllerNode.text);
                           setSDKBaseUrl(_textEditingControllerNode.text);
-                          showDialog<bool>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext dialogContext) {
-                              return new AlertDialog(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                title: Text(S.of(context).dialog_hint),
-                                content: Text(
-                                  S.of(context).dialog_node_set_sucess,
-                                  style: TextStyle(
-                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: new Text(
-                                      S.of(context).dialog_conform,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {});
+                          showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_node_set_sucess);
                         } else {
-                          showDialog<bool>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext dialogContext) {
-                              return new AlertDialog(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                                title: Text(S.of(context).dialog_hint),
-                                content: Text(
-                                  S.of(context).dialog_node_set_error,
-                                  style: TextStyle(
-                                    fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: new Text(
-                                      S.of(context).dialog_conform,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context, rootNavigator: true).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ).then((val) {});
+                          showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_node_set_error);
                         }
                       }).catchError((e) {
                         EasyLoading.dismiss();
-                        showDialog<bool>(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext dialogContext) {
-                            return new AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                              title: Text(S.of(context).dialog_hint),
-                              content: Text(
-                                S.of(context).dialog_node_set_error,
-                                style: TextStyle(
-                                  fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: new Text(
-                                    S.of(context).dialog_conform,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ).then((val) {});
+                        showConfirmDialog(S.of(context).dialog_hint, S.of(context).dialog_node_set_error);
                       });
-
                       return;
                     },
                     child: Text(

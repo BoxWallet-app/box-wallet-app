@@ -275,7 +275,7 @@ class _TokenListPathState extends BaseWidgetState<AeTokenListPage> {
                                         width: MediaQuery.of(context).size.width / 2,
                                         alignment: Alignment.centerRight,
                                         height: 70,
-                                        padding: EdgeInsets.only(top: 8, right: 8),
+                                        padding: EdgeInsets.only(right: 8),
                                         child: AutoSizeText(
                                           tokenListModel!.data![index].countStr!,
                                           textAlign: TextAlign.right,

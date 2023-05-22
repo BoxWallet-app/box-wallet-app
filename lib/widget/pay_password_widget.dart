@@ -194,7 +194,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                               height: 40,
                               width: 120,
                               child: TextButton(
-                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                                style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                                 onPressed: () {
                                   Navigator.of(context).pop(); //关闭对话框
                                   if (widget.dismissCallBackFuture != null) widget.dismissCallBackFuture!("");
@@ -318,7 +318,7 @@ class _PayPasswordWidgetState extends BaseWidgetState<PayPasswordWidget> {
                             height: 40,
                             width: 120,
                             child: TextButton(
-                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+                              style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                               onPressed: () {
                                 Navigator.of(context).pop(); //关闭对话框
                                 if (widget.isSignOld) {

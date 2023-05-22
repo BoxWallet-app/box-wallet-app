@@ -112,7 +112,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           height: 50,
           width: MediaQuery.of(context).size.width,
           child: TextButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
             onPressed: () {
               aeAensMarketRevokedName(context);
             },
@@ -134,7 +134,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
           height: 50,
           width: MediaQuery.of(context).size.width,
           child: TextButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
+            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
             onPressed: () {
               aeAensMarketDealName(context);
             },

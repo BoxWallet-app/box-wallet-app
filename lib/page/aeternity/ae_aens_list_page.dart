@@ -117,7 +117,6 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
   }
 
   Column buildColumn(BuildContext context, int position) {
-    print(aensModel['data']['aens'][position]['name']);
     return Column(
       children: <Widget>[
         Material(

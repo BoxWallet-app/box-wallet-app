@@ -157,7 +157,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                   Container(
                     margin: EdgeInsets.only(left: 15, right: 15),
                     decoration: new BoxDecoration(
-                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
+                      border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 0),
                       color: Color(0xE6FFFFFF),
                       //设置四周圆角 角度
                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -360,7 +360,7 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                           barrierDismissible: false,
                           builder: (BuildContext dialogContext) {
                             return new AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                               title: new Text(S.of(context).setting_clear_data_title),
                               content: new SingleChildScrollView(
                                 child: new ListBody(
@@ -526,19 +526,19 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
   Widget buildItem(BuildContext context, String content, String assetImage, GestureTapCallback tab, {bool isLine = true}) {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15),
+      decoration: new BoxDecoration(
+        border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 0),
+        color: Color(0xE6FFFFFF),
+        //设置四周圆角 角度
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      ),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          onTap: tab,
+          onTap:tab,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(color: Color(0xFF000000).withAlpha(0), width: 1),
-              color: Color(0xE6FFFFFF),
-              //设置四周圆角 角度
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            ),
             height: 60,
             child: Stack(
               alignment: Alignment.center,
@@ -547,11 +547,6 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                   padding: const EdgeInsets.only(left: 15),
                   child: Row(
                     children: <Widget>[
-//                    Image(
-//                      width: 30,
-//                      height: 30,
-//                      image: AssetImage(assetImage),
-//                    ),
                       Container(
                         padding: const EdgeInsets.only(left: 7),
                         child: Text(
@@ -574,12 +569,6 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                     color: Color(0xFFe0e0e0),
                   ),
                 ),
-                if (isLine)
-                  Positioned(
-                    bottom: 0,
-                    left: 20,
-                    child: Container(height: 1.0, width: MediaQuery.of(context).size.width - 30, color: Color(0xFFfafbfc)),
-                  )
               ],
             ),
           ),

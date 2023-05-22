@@ -83,6 +83,7 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    ndkVersion '21.2.6472646'
 
     applicationVariants.all { variant ->
         variant.outputs.all {
