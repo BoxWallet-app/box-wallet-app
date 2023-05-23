@@ -407,7 +407,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 4.0.4;
+				MARKETING_VERSION = 4.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hebeblock.box;
 				PRODUCT_NAME = BoxWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -555,7 +555,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 4.0.4;
+				MARKETING_VERSION = 4.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hebeblock.box;
 				PRODUCT_NAME = BoxWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -597,7 +597,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 4.0.4;
+				MARKETING_VERSION = 4.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hebeblock.box;
 				PRODUCT_NAME = BoxWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";

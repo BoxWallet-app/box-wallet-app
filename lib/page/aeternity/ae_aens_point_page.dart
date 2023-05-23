@@ -184,7 +184,9 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
                       height: 50,
                       width: MediaQuery.of(context).size.width,
                       child: TextButton(
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xff000000)),),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Color(0xff000000)),
+                        ),
                         onPressed: () {
                           netUpdateV2(context);
                         },
@@ -213,7 +215,13 @@ class _AeAensPointPageState extends BaseWidgetState<AeAensPointPage> {
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       var params = {
         "name": "aeAensUpdate",
-        "params": {"secretKey": "$privateKey", "name": "$name", "address": pointAddress}
+        "params": {
+          "secretKey": "$privateKey",
+          "name": "$name",
+          "address": address,
+          "pointers": {"account_pubkey": pointAddress},
+          "isPointers": "true"
+        }
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_update_aens);

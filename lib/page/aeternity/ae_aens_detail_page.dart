@@ -212,7 +212,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       return Container();
     }
     return Container(
-      margin: const EdgeInsets.only(top: 40, bottom: 20,left: 30,right: 30),
+      margin: const EdgeInsets.only(top: 40, bottom: 20, left: 30, right: 30),
       child: Container(
         height: 50,
         width: MediaQuery.of(context).size.width,
@@ -249,7 +249,13 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       var params = {
         "name": "aeAensUpdate",
-        "params": {"secretKey": "$privateKey", "name": "$name", "address": address}
+        "params": {
+          "secretKey": "$privateKey",
+          "name": "$name",
+          "address": address,
+          "pointers": {"account_pubkey": address},
+          "isPointers": "false"
+        }
       };
       var channelJson = json.encode(params);
       showChainLoading(S.of(context).show_loading_update_aens);

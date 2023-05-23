@@ -511,7 +511,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dialog_aens_renew_ing":
             MessageLookupByLibrary.simpleMessage("Progress"),
         "dialog_aens_renew_success":
-            MessageLookupByLibrary.simpleMessage("Success"),
+            MessageLookupByLibrary.simpleMessage("SUCCESS"),
         "dialog_aens_renew_title":
             MessageLookupByLibrary.simpleMessage("IObit Update"),
         "dialog_amount_null":

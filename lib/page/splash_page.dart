@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:box/dao/urls.dart';
@@ -25,7 +26,7 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
   void initState() {
     super.initState();
     //友盟统计
-    UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603dd6d86ee47d382b6cecb0', '');
+    if (Platform.isAndroid || Platform.isIOS) UmengCommonSdk.initCommon('603de7826ee47d382b6d2a8b', '603dd6d86ee47d382b6cecb0', '');
     //启动服务
     startService();
   }

@@ -4830,10 +4830,10 @@ class S {
     );
   }
 
-  /// `Success`
+  /// `SUCCESS`
   String get dialog_aens_renew_success {
     return Intl.message(
-      'Success',
+      'SUCCESS',
       name: 'dialog_aens_renew_success',
       desc: '',
       args: [],

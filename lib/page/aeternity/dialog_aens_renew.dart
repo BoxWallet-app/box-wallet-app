@@ -66,7 +66,7 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomRight: Radius.circular(5), bottomLeft: Radius.circular(5)),
-              color: Color(0xffffffff),
+              color: Color(0xFFfafbfc),
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -105,32 +105,33 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
                       },
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
-                    child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: TextButton(
-                        style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(isUpdate ? Colors.grey.withAlpha(100) : Color(0xFFFC2365))),
-                        onPressed: () {
-                          if (isUpdate) return;
-                          showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
-                            if (!mounted) return;
-                            currentIndex = 0;
-                            for (var i = 0; i < aensModel['data']['aens'].length; i++) {
-                              aensSuccess[aensModel['data']['aens'][i]['name']] = false;
-                            }
-                            await updateAens(privateKey, address, context);
-                          });
-                        },
-                        child: Text(
-                          isUpdate ? S.of(context).dialog_aens_renew_ing +" "+ (currentIndex + 1).toString() + "/" + aensModel['data']['aens'].length.toString() : S.of(context).dialog_aens_renew_btn,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                  if (_loadingType != LoadingType.loading)
+                    Container(
+                      margin: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: TextButton(
+                          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(isUpdate ? Colors.grey.withAlpha(100) : Color(0xFFFC2365))),
+                          onPressed: () {
+                            if (isUpdate) return;
+                            showPasswordDialog(context, (address, privateKey, mnemonic, password) async {
+                              if (!mounted) return;
+                              currentIndex = 0;
+                              for (var i = 0; i < aensModel['data']['aens'].length; i++) {
+                                aensSuccess[aensModel['data']['aens'][i]['name']] = false;
+                              }
+                              await updateAens(privateKey, address, context);
+                            });
+                          },
+                          child: Text(
+                            isUpdate ? S.of(context).dialog_aens_renew_ing + " " + (currentIndex + 1).toString() + "/" + aensModel['data']['aens'].length.toString() : S.of(context).dialog_aens_renew_btn,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -153,7 +154,13 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
     var name = aensModel['data']['aens'][currentIndex]['name'];
     var params = {
       "name": "aeAensUpdate",
-      "params": {"secretKey": "$privateKey", "name": "$name", "address": address}
+      "params": {
+        "secretKey": "$privateKey",
+        "name": "$name",
+        "address": address,
+        "pointers": {"account_pubkey": address},
+        "isPointers": "false"
+      }
     };
     var channelJson = json.encode(params);
     BoxApp.sdkChannelCall((result) {
@@ -227,63 +234,58 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
     return Column(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomRight: Radius.circular(5), bottomLeft: Radius.circular(5)), color: getItemColor(position)),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: [
-                  Expanded(
-                    /*1*/
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /*2*/
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            aensModel['data']['aens'][position]['name'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
+          height: 50,
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 10, right: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomRight: Radius.circular(5), bottomLeft: Radius.circular(5)),
+            color: getItemColor(position),
+          ),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  /*1*/
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      aensModel['data']['aens'][position]['name'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
 //                                  fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                  if (currentIndex == position)
-                    Container(
-                      width: 40,
-                      height: 40,
-                      child: Lottie.asset(
-                        'images/loading.json',
+                ),
+                if (currentIndex == position)
+                  Container(
+                    width: 40,
+                    height: 40,
+                    child: Lottie.asset(
+                      'images/loading.json',
+                    ),
+                  ),
+                if (aensSuccess[aensModel['data']['aens'][position]['name']])
+                  new Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      S.of(context).dialog_aens_renew_success,
+                      style: TextStyle(
+                        color: Color(0xFFFC2365),
+                        fontSize: 14,
+                        fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
                       ),
                     ),
-                  if (aensSuccess[aensModel['data']['aens'][position]['name']])
-                    new Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            S.of(context).dialog_aens_renew_success,
-                            style: TextStyle(
-                              color: Color(0xFFFC2365),
-                              fontSize: 14,
-                              fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.only(left: 2.0),
-                    ),
-                  /*3*/
-                ],
-              ),
-            ],
+                    margin: const EdgeInsets.only(left: 10.0),
+                  ),
+                /*3*/
+              ],
+            ),
           ),
         ),
       ],
@@ -294,7 +296,7 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
     if (currentIndex == position) {
       return Color(0xFFFC2365).withAlpha(10);
     } else {
-      return Color(0x000000).withAlpha(0);
+      return Color(0xffffffff);
     }
   }
 }
