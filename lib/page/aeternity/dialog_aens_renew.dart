@@ -159,7 +159,7 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
         "name": "$name",
         "address": address,
         "pointers": {"account_pubkey": address},
-        "isPointers": "false"
+        "isPointers": false
       }
     };
     var channelJson = json.encode(params);

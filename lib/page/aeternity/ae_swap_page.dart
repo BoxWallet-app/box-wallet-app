@@ -56,11 +56,13 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
   var tokenBParseUnits = "";
 
   var maxSellAmount = 0.0;
+  var slipPoint = 0.2;
 
   //0没有授权,1已授权
   var typeAllowance = 0;
 
   late Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -181,7 +183,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
             buttonText = S.of(context).ae_swap_pair_error;
             tokenRate = "0";
           } else {
-            maxSellAmount = double.parse(tokenAParseUnits) * 0.05;
+            maxSellAmount = double.parse(tokenAParseUnits) * slipPoint;
 
             tokenRate = Utils.formatBalanceLength((double.parse(tokenBParseUnits) / double.parse(tokenAParseUnits)));
             isPairsLoading = false;
@@ -257,7 +259,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var amountAe = sellTextControllerNode.text;
-      var amountOutTokenMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
+      var amountOutTokenMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * (1 - slipPoint)).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -280,7 +282,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         }
       };
       var channelJson = json.encode(params);
-      showChainLoading( S.of(context).show_loading_swap);
+      showChainLoading(S.of(context).show_loading_swap);
       setState(() {});
       BoxApp.sdkChannelCall((result) {
         dismissChainLoading();
@@ -311,7 +313,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
   }
 
   void swapSucess(String tokenReturnAmountA, String tokenReturnAmountB) {
-    showFlushSucess(context, title: S.of(context).ae_swap_success_1, message:  S.of(context).ae_swap_success_2+"$tokenReturnAmountA$sellTokenName"+S.of(context).ae_swap_success_3+"$tokenReturnAmountB$buyTokenName", isDismiss: false);
+    showFlushSucess(context, title: S.of(context).ae_swap_success_1, message: S.of(context).ae_swap_success_2 + "$tokenReturnAmountA$sellTokenName" + S.of(context).ae_swap_success_3 + "$tokenReturnAmountB$buyTokenName", isDismiss: false);
     sellTextControllerNode.text = "";
     buyTextControllerNode.text = "";
     buyTokenAmount = "";
@@ -332,7 +334,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var sellAmount = sellTextControllerNode.text;
-      var amountOutAeMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
+      var amountOutAeMin = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * (1 - slipPoint)).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -395,7 +397,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
         setState(() {});
       }
       var sellAmount = sellTextControllerNode.text;
-      var buyAmount = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString());
+      var buyAmount = AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * (1.00 - slipPoint)).toString());
 
       var tokenA = sellTokenAddress;
       var tokenB = buyTokenAddress;
@@ -666,14 +668,14 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                 margin: const EdgeInsets.only(top: 18, left: 18, right: 18),
                 child: Container(
                   decoration: new BoxDecoration(
-                    // color: Color.fromARGB(230, 255, 255, 255),
-                    //设置四周圆角 角度
-                    // borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
+                      // color: Color.fromARGB(230, 255, 255, 255),
+                      //设置四周圆角 角度
+                      // borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
                   child: Column(
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.only(top: 12, bottom:12,left: 18, right: 18),
+                        padding: const EdgeInsets.only(top: 12, bottom: 12, left: 18, right: 18),
                         decoration: new BoxDecoration(
                           color: Colors.white,
                           //设置四周圆角 角度
@@ -682,8 +684,6 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                         child: Column(
                           children: [
                             Container(
-
-
                               child: Row(
                                 children: [
                                   Container(
@@ -709,7 +709,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     Container(
                                       height: 20,
                                       child: Text(
-                                        S.of(context).ae_swap_price+": " + sellTokenAmount,
+                                        S.of(context).ae_swap_price + ": " + sellTokenAmount,
                                         style: new TextStyle(
                                           fontSize: 14,
                                           color: Color(0xff333333),
@@ -750,31 +750,31 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     enableDrag: false,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => AeSelectTokenListPage(
-                                      aeCount: AeHomePage.token,
-                                      aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
-                                        if (tokenContract == this.buyTokenAddress) {
-                                          showToast( S.of(context).ae_swap_select_same_error);
-                                          return;
-                                        }
-                                        this.sellTokenName = tokenName!;
-                                        this.sellTokenImage = tokenImage!;
-                                        this.sellTokenAddress = tokenContract!;
-                                        this.sellTokenAmount = "";
-                                        this.sellTextControllerNode.text = "";
-                                        this.buyTextControllerNode.text = "";
-                                        buttonText = S.of(context).ae_swap_loading;
-                                        isPairsLoading = true;
-                                        setState(() {});
-                                        aeAex9TokenAllowance();
-                                        updateSellAmount();
-                                        tokenRate = "";
-                                        setState(() {});
-                                        netSwapRoutes();
-                                        return;
-                                      },
-                                    )
+                                          aeCount: AeHomePage.token,
+                                          aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                            if (tokenContract == this.buyTokenAddress) {
+                                              showToast(S.of(context).ae_swap_select_same_error);
+                                              return;
+                                            }
+                                            this.sellTokenName = tokenName!;
+                                            this.sellTokenImage = tokenImage!;
+                                            this.sellTokenAddress = tokenContract!;
+                                            this.sellTokenAmount = "";
+                                            this.sellTextControllerNode.text = "";
+                                            this.buyTextControllerNode.text = "";
+                                            buttonText = S.of(context).ae_swap_loading;
+                                            isPairsLoading = true;
+                                            setState(() {});
+                                            aeAex9TokenAllowance();
+                                            updateSellAmount();
+                                            tokenRate = "";
+                                            setState(() {});
+                                            netSwapRoutes();
+                                            return;
+                                          },
+                                        )
 //
-                                );
+                                    );
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(top: 12),
@@ -791,10 +791,10 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         child: Image.network(
                                           sellTokenImage,
                                           errorBuilder: (
-                                              BuildContext context,
-                                              Object error,
-                                              StackTrace? stackTrace,
-                                              ) {
+                                            BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace,
+                                          ) {
                                             return Container(
                                               color: Colors.grey.shade200,
                                             );
@@ -880,8 +880,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                               borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
                                             ),
                                             border: OutlineInputBorder(
-                                              // borderRadius: BorderRadius.circular(10.0),
-                                            ),
+                                                // borderRadius: BorderRadius.circular(10.0),
+                                                ),
                                             hintStyle: TextStyle(
                                               fontSize: 26,
                                               color: Color(0xFF666666).withAlpha(85),
@@ -900,10 +900,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(left: 18,top: 5,bottom: 5, right: 18),
+                        margin: const EdgeInsets.only(left: 18, top: 5, bottom: 5, right: 18),
                         height: 35,
                         child: Row(
                           children: [
@@ -974,10 +973,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-
-
                       Container(
-                        padding: const EdgeInsets.only(top: 12, bottom:12,left: 18, right: 18),
+                        padding: const EdgeInsets.only(top: 12, bottom: 12, left: 18, right: 18),
                         decoration: new BoxDecoration(
                           color: Colors.white,
                           //设置四周圆角 角度
@@ -990,7 +987,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                 children: [
                                   Container(
                                     child: Text(
-                                  S.of(context).ae_swap_buy_text,
+                                      S.of(context).ae_swap_buy_text,
                                       style: new TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -1011,7 +1008,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     Container(
                                       height: 20,
                                       child: Text(
-                                        S.of(context).token_send_two_page_balance+": " + buyTokenAmount,
+                                        S.of(context).token_send_two_page_balance + ": " + buyTokenAmount,
                                         style: new TextStyle(
                                           fontSize: 14,
                                           color: Color(0xff333333),
@@ -1033,34 +1030,34 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     enableDrag: false,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => AeSelectTokenListPage(
-                                      aeCount: AeHomePage.token,
-                                      aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
-                                        if (tokenContract == this.sellTokenAddress) {
-                                          showToast(  S.of(context).ae_swap_select_same_error);
-                                          return;
-                                        }
-                                        this.buyTokenName = tokenName!;
-                                        this.buyTokenImage = tokenImage!;
-                                        this.buyTokenAddress = tokenContract!;
+                                          aeCount: AeHomePage.token,
+                                          aeSelectTokenListCallBackFuture: (String? tokenName, String? tokenCount, String? tokenImage, String? tokenContract) {
+                                            if (tokenContract == this.sellTokenAddress) {
+                                              showToast(S.of(context).ae_swap_select_same_error);
+                                              return;
+                                            }
+                                            this.buyTokenName = tokenName!;
+                                            this.buyTokenImage = tokenImage!;
+                                            this.buyTokenAddress = tokenContract!;
 
-                                        this.buyTokenAmount = "";
-                                        this.sellTextControllerNode.text = "";
-                                        this.buyTextControllerNode.text = "";
+                                            this.buyTokenAmount = "";
+                                            this.sellTextControllerNode.text = "";
+                                            this.buyTextControllerNode.text = "";
 
-                                        buttonText =  S.of(context).ae_swap_loading;
-                                        isPairsLoading = true;
-                                        setState(() {});
+                                            buttonText = S.of(context).ae_swap_loading;
+                                            isPairsLoading = true;
+                                            setState(() {});
 
-                                        updateBuyAmount();
-                                        tokenRate = "";
-                                        setState(() {});
-                                        netSwapRoutes();
+                                            updateBuyAmount();
+                                            tokenRate = "";
+                                            setState(() {});
+                                            netSwapRoutes();
 
-                                        return;
-                                      },
-                                    )
+                                            return;
+                                          },
+                                        )
 //
-                                );
+                                    );
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(top: 12),
@@ -1077,10 +1074,10 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                         child: Image.network(
                                           buyTokenImage,
                                           errorBuilder: (
-                                              BuildContext context,
-                                              Object error,
-                                              StackTrace? stackTrace,
-                                              ) {
+                                            BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace,
+                                          ) {
                                             return Container(
                                               color: Colors.grey.shade200,
                                             );
@@ -1166,8 +1163,8 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                               borderSide: BorderSide(color: Color.fromARGB(0, 255, 255, 255)),
                                             ),
                                             border: OutlineInputBorder(
-                                              // borderRadius: BorderRadius.circular(10.0),
-                                            ),
+                                                // borderRadius: BorderRadius.circular(10.0),
+                                                ),
                                             hintStyle: TextStyle(
                                               fontSize: 26,
                                               color: Color(0xFF666666).withAlpha(85),
@@ -1186,7 +1183,6 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                           ],
                         ),
                       ),
-
                       Container(
                         height: 15,
                         margin: const EdgeInsets.only(left: 18, right: 18),
@@ -1258,8 +1254,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.white24), shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))), backgroundColor: MaterialStateProperty.all(Color(0xFFFC2365))),
                                     onPressed: () {
                                       if (typeAllowance == 1) {
-                                        if(buyTextControllerNode.text == ""){
-
+                                        if (buyTextControllerNode.text == "") {
                                           return;
                                         }
                                         if (sellTokenAddress.isEmpty) {
@@ -1354,7 +1349,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     child: Row(
                                       children: [
                                         Text(
-                                          "5%",
+                                          "20%",
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
@@ -1409,7 +1404,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                     child: Row(
                                       children: [
                                         Text(
-                                          "30"+S.of(context).ae_swap_text_over_time_value,
+                                          "30" + S.of(context).ae_swap_text_over_time_value,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
@@ -1551,7 +1546,7 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
     if (buyTextControllerNode.text.isEmpty) {
       return "";
     }
-    return S.of(context).ae_swap_min_value+": " + AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * 0.95).toString()) + buyTokenName;
+    return S.of(context).ae_swap_min_value + ": " + AmountDecimal.parseDecimal((double.parse(buyTextControllerNode.text) * (1 - slipPoint)).toString()) + buyTokenName;
   }
 
   @override

@@ -254,7 +254,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
           "name": "$name",
           "address": address,
           "pointers": {"account_pubkey": address},
-          "isPointers": "false"
+          "isPointers": false
         }
       };
       var channelJson = json.encode(params);
