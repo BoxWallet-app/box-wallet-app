@@ -1353,26 +1353,6 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 14, color: Color(0xff333333), fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto"),
                                         ),
-                                        // Container(
-                                        //   child: TextButton(
-                                        //     style: ButtonStyle(
-                                        //         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                                        //         minimumSize: MaterialStateProperty.all(Size(50, 32)),
-                                        //         visualDensity: VisualDensity.compact,
-                                        //         padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                        //         backgroundColor: MaterialStateProperty.all(
-                                        //           Color(0xFFE61665).withAlpha(16),
-                                        //         )),
-                                        //     onPressed: () {},
-                                        //     child: Container(
-                                        //       child: Text(
-                                        //         "5%",
-                                        //         maxLines: 1,
-                                        //         style: TextStyle(fontSize: 13, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xFFF22B79)),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
                                       ],
                                     ),
                                   ),
