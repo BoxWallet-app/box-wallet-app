@@ -164,17 +164,30 @@ class _AeTokenSendOnePageState extends State<AeTokenSendOnePage> {
                                             child: InkWell(
                                                 borderRadius: BorderRadius.all(Radius.circular(30)),
                                                 onTap: () async {
-                                                  List<Permission> permissions = [
-                                                    Permission.camera,
-                                                  ];
-                                                  PermissionHelper.check(permissions, onSuccess: () async {
+                                                  // var status = await Permission.camera.status;
+                                                  // if (status.isDenied) {
+                                                  //   // We didn't ask for permission yet or the permission has been denied before but not permanently.
+                                                  // }
+
+                                                  if (await Permission.location.isRestricted || await Permission.contacts.request().isGranted) {
+                                                    // Either the permission was already granted before or the user just granted it.
                                                     final data = await Navigator.push(context, SlideRoute(ScanPage()));
                                                     _textEditingController.text = data;
-                                                  }, onFailed: () {
-                                                    EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
-                                                  }, onOpenSetting: () {
+                                                  } else {
                                                     openAppSettings();
-                                                  });
+                                                  }
+                                                  //
+                                                  // List<Permission> permissions = [
+                                                  //   Permission.camera,
+                                                  // ];
+                                                  // PermissionHelper.check(permissions, onSuccess: () async {
+                                                  //   final data = await Navigator.push(context, SlideRoute(ScanPage()));
+                                                  //   _textEditingController.text = data;
+                                                  // }, onFailed: () {
+                                                  //   EasyLoading.showToast(S.of(context).hint_error_camera_permissions);
+                                                  // }, onOpenSetting: () {
+                                                  //   openAppSettings();
+                                                  // });
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.only(left: 10, right: 10),

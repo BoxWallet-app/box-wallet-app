@@ -151,8 +151,9 @@ class _AeSwapPageState extends BaseWidgetState<AeSwapPage> with AutomaticKeepAli
 
     print(tokenA);
     print(tokenB);
-    print("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB");
-    Response swapRoutesResponse = await Dio().get("https://dex-backend-mainnet.prd.aepps.com/pairs/swap-routes/$tokenA/$tokenB", options: Options(responseType: ResponseType.json));
+    // https://dex-backend-mainnet.prd.service.aepps.com/pairs/swap-routes/ct_7UfopTwsRuLGFEcsScbYgQ6YnySXuyMxQWhw6fjycnzS5Nyzq/ct_J3zBY8xxjsRr3QojETNw48Eb38fjvEuJKkQ6KzECvubvEcvCa
+    print("https://dex-backend-mainnet.prd.service.aepps.com/pairs/swap-routes/$tokenA/$tokenB");
+    Response swapRoutesResponse = await Dio().get("https://dex-backend-mainnet.prd.service.aepps.com/pairs/swap-routes/$tokenA/$tokenB", options: Options(responseType: ResponseType.json));
 
     var swapRoutes = swapRoutesResponse.data as List<dynamic>;
     if (swapRoutes.isEmpty) {
