@@ -343,7 +343,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AeAensDetailPage> {
             netPreclaimV2(context);
           },
           child: Text(
-            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.1).toStringAsFixed(2) + " AE",
+            S.of(context).aens_detail_page_add + " ≈ " + (double.parse(widget.aensDetail['price']) + double.parse(widget.aensDetail['price']) * 0.2).toStringAsFixed(2) + " AE",
             maxLines: 1,
             style: TextStyle(fontSize: 16, fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto", color: Color(0xffffffff)),
           ),

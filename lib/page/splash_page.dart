@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:box/dao/urls.dart';
@@ -34,6 +35,7 @@ class _SplashPageState extends BaseWidgetState<SplashPage> {
   //服务
   Future<void> startService() async {
     var configString = await CacheManager.instance.getConfig();
+    logger.info("APP CONFIG : " + configString);
     BoxApp.config = jsonDecode(configString);
     //开启SDK 服务
     await BoxApp.startAeService(() async {

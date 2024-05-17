@@ -56,7 +56,9 @@ class CacheManager {
   Future<String> getConfig() async {
     var prefs = await SharedPreferences.getInstance();
     var data = prefs.getString('config');
-    if (data == null || data == "") return "{\"theme_color\":\"0x00000000\"}";
+    if (data == null || data == "") {
+     return "{\"theme_color\":\"0x00000000\",\"ios_hint_auth\":\"0\"}";
+    }
     return data;
   }
 

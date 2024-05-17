@@ -136,12 +136,12 @@ class _SettingPageState extends BaseWidgetState<SettingPage> with AutomaticKeepA
                 ),
               ),
               children: [
-                if (authTitle != "")
+                if (authTitle != "" && BoxApp.config["ios_hint_auth"] == "1")
                   Container(
 //              color: Colors.white,
                     height: 12,
                   ),
-                if (authTitle != "")
+                if (authTitle != "" && BoxApp.config["ios_hint_auth"] == "1")
                   buildItem(context, authTitle, "images/setting_node.png", () {
                     if (Platform.isIOS) {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
