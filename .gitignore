@@ -63,3 +63,6 @@ assets/sdk/js/chunk-vendors.7f48f3fa.js
 assets/sdk/js/chunk-vendors.7f48f3fa.js.map
 assets/sdk/favicon.ico
 assets/sdk/index.html
+
+# FVM Version Cache
+.fvm/

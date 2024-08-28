@@ -1,3 +1,4 @@
 {
-    "notebook.output.textLineLimit": 300
+  "notebook.output.textLineLimit": 300,
+  "dart.flutterSdkPath": ".fvm/versions/3.7.12"
 }
