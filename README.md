@@ -4,7 +4,7 @@
 
 ## BoxWallet
 
-website：https://boxwallet.app
+website：https://aebox.io
 
 Open the magic door of blockchain with infinite possibilities.
 

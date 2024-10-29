@@ -16,7 +16,6 @@ import 'ae_home_page.dart';
 import 'aens_sell_put_page.dart';
 
 class MySellAeAensListPage extends StatefulWidget {
-
   const MySellAeAensListPage({Key? key}) : super(key: key);
 
   @override
@@ -42,7 +41,7 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       AeHomePage.address = account!.address;
 
-      aensResponse = await Dio().get("https://boxwallet.app/aens/my/over?address=" + AeHomePage.address!);
+      aensResponse = await Dio().get("https://aebox.io/aens/my/over?address=" + AeHomePage.address!);
 
       print(aensResponse.toString());
 
@@ -87,7 +86,6 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
             color: Colors.black,
             fontFamily: BoxApp.language == "cn" ? "Roboto" : "Roboto",
           ),
-
         ),
         centerTitle: true,
         leading: IconButton(
@@ -105,7 +103,6 @@ class _MySellAeAensListPageState extends State<MySellAeAensListPage> with Automa
       body: LoadingWidget(
         child: Column(
           children: [
-
             Expanded(
               child: EasyRefresh(
                 onRefresh: _onRefresh,

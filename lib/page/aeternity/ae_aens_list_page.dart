@@ -52,11 +52,11 @@ class _AeAensListPageState extends State<AeAensListPage> with AutomaticKeepAlive
         aensResponse = await Dio().get("https://oss-box-files.oss-cn-hangzhou.aliyuncs.com/api/ae-aens-over.json");
       }
       if (widget.aensPageType == AensPageType.my_auction) {
-        aensResponse = await Dio().get("https://boxwallet.app/aens/my/activity?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("https://aebox.io/aens/my/activity?address=" + AeHomePage.address!);
         // aensResponse = await Dio().get("http://127.0.0.1:8000/aens/my/activity?address=" + AeHomePage.address!);
       }
       if (widget.aensPageType == AensPageType.my_over) {
-        aensResponse = await Dio().get("https://boxwallet.app/aens/my/over?address=" + AeHomePage.address!);
+        aensResponse = await Dio().get("https://aebox.io/aens/my/over?address=" + AeHomePage.address!);
         // aensResponse = await Dio().get("http://127.0.0.1:8000/aens/my/over?address=" + AeHomePage.address!);
       }
 

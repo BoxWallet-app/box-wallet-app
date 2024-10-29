@@ -237,7 +237,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       BoxApp.sdkChannelCall((result) async {
         if (!mounted) return;
         try {
-          await Dio().get("https://boxwallet.app/aens/update?name=" + name);
+          await Dio().get("https://aebox.io/aens/update?name=" + name);
         } catch (e) {
           print(e.toString());
         }
@@ -346,7 +346,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensMarketDetailPage> {
       BoxApp.sdkChannelCall((result) async {
         if (!mounted) return;
         try {
-          await Dio().get("https://boxwallet.app/aens/update?name=" + name);
+          await Dio().get("https://aebox.io/aens/update?name=" + name);
         } catch (e) {
           print(e.toString());
         }

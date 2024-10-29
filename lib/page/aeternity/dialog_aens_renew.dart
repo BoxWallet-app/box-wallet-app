@@ -194,7 +194,7 @@ class _DialogAensRenewState extends BaseWidgetState<DialogAensRenew> {
       Account? account = await WalletCoinsManager.instance.getCurrentAccount();
       AeHomePage.address = account!.address;
 
-      aensResponse = await Dio().get("https://boxwallet.app/aens/my/over?address=" + AeHomePage.address!);
+      aensResponse = await Dio().get("https://aebox.io/aens/my/over?address=" + AeHomePage.address!);
 
       if (aensResponse.statusCode != 200) {
         _loadingType = LoadingType.error;

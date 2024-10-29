@@ -7,7 +7,7 @@ const ETH_TOKEN_PRICE = 'https://preserver.mytokenpocket.vip/v1/wallet/token_pri
 const ETH_TOKEN_PRICE_RATE = 'https://preserver.mytokenpocket.vip/v1/currency_rate_list_new';
 
 class Host {
-  static String? baseHost = 'https://boxwallet.app';
+  static String? baseHost = 'https://aebox.io';
   static String? ossHost = 'https://oss-box-files.oss-cn-hangzhou.aliyuncs.com';
 
   //获取区块高度

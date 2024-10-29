@@ -88,7 +88,7 @@ class _AeAensDetailPageState extends BaseWidgetState<AensSellPutPage> {
       setState(() {});
       BoxApp.sdkChannelCall((result) async {
         try {
-          await Dio().get("https://boxwallet.app/aens/update?name=" + widget.name);
+          await Dio().get("https://aebox.io/aens/update?name=" + widget.name);
         } catch (e) {}
 
         dismissChainLoading();
